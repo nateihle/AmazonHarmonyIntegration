@@ -12,7 +12,12 @@ config APP_INSTANCES
     default 1
     range 1 10  # Must limit to 10 or application templates will need to be updated.
 
-source "$HARMONY_VERSION_PATH/utilities/mhc/config/app_name_idx.ftl" 10 instances
+config APP_AUTO_GENERATE_CODE  # Used by MHC internally to selectively auto-generate app.h, app.c, and main.c
+    bool 
+    default n
+    
+source "$HARMONY_VERSION_PATH/utilities/mhc/config/gencode/framework/global_event/config/global_event_gencode.hconfig"
+source "$HARMONY_VERSION_PATH/utilities/mhc/config/app_name_idx_gencode.ftl" 10 instances
 
 menu "Exception Handling"
 
