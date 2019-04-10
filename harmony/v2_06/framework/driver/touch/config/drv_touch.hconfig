@@ -1,0 +1,24 @@
+enum DRV_TOUCH_INT_SOURCE_EXTERNAL
+    "INT_SOURCE_EXTERNAL_0" ||
+    "INT_SOURCE_EXTERNAL_1" ||
+    "INT_SOURCE_EXTERNAL_2" ||
+    "INT_SOURCE_EXTERNAL_3" ||
+    "INT_SOURCE_EXTERNAL_4"
+
+menu "Touch Drivers"
+---help---
+	IDH_HTML_HARMONY_Touch_Driver_Libraries_Help
+---endhelp---
+
+
+source "$HARMONY_VERSION_PATH/framework/driver/touch/touch_adc/config/drv_touch_adc.hconfig"
+source "$HARMONY_VERSION_PATH/framework/driver/touch/mxt336t/config/drv_mxt336t.hconfig"
+source "$HARMONY_VERSION_PATH/framework/driver/touch/generic/config/drv_touch_generic.hconfig"
+menu "Touch (Deprecated)"
+source "$HARMONY_VERSION_PATH/framework/driver/touch/adc10bit/config/drv_adc10bit.hconfig"
+source "$HARMONY_VERSION_PATH/framework/driver/touch/ar1021/config/drv_ar1021.hconfig"
+source "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6301/config/drv_mtch6301.hconfig"
+source "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/config/drv_mtch6303.hconfig"
+source "$HARMONY_VERSION_PATH/framework/driver/touch/mxt336t_legacy/config/drv_mxt336t.hconfig"
+endmenu
+endmenu

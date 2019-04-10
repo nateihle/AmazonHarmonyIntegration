@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16635.html">Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL)</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16636.html">Previous</a> | <a href="16636.html">Up</a> | <a href="16667.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL) Topic Title: Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL)</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The architecture of the MPLAB Harmony Graphics Stack is shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="Graphics_stack.png" border="0" alt="" title=""></p><div class="Element15">
+Hardware Abstraction Layer (HAL)</div>
+<p class="Element10">
+The HAL is a software layer that serves as a gatekeeper for all graphics controller and accelerator drivers. This layer is configured at initialization by the underlying graphics drivers and provides functionality such as buffer management, primitive shape drawing, hardware abstraction, and draw state management. This layer serves as a means of protection for the drivers, frame buffers, and draw state in order to prevent state mismanagement by the application.</p><div class="Element15">
+Third-Party Graphics Library</div>
+<p class="Element10">
+The third-party graphics library can be used with the MPLAB Harmony framework to perform the graphics operations desired by the application. The third-party library has access to the HAL, which has been configured to service the frame buffer which is filled by the third-party graphics library.&nbsp;</p>
+<p class="Element10">
+The third-party graphics library can access the MPLAB Harmony framework drivers such as touch drivers, graphics controller driver, and display driver through the HAL. The draw pipeline and the user interface (UI) design files come from the third-party graphics library. The third-party graphics library needs the frame buffer location to fill the frame buffer with the pixel values. Or, in case of external controllers, it would need a function to access the controller drivers to output pixels on the display. The HAL provides the third-party graphics library with the frame buffer location or the API to communicate the pixel values to the external controllers.&nbsp;</p>
+<p class="Element10">
+The following figure from the MPLAB Harmony Configurator (MHC), shows the selections made in the Graphics Stack to enable the needed graphics display and controller features. Note that the Draw Pipeline for the MPLAB Harmony Graphics Stack has been disabled to assure that the third-party graphics alone is taking effect. The MPLAB Harmony Graphics Configurator (MHGC) is also not enabled, as the design tools from the third-party graphics library are used to generate the UI graphics. The <span class="Element146">LCDConf.c</span> file has appropriate APIs for the third-party graphics library to communicate through the HAL with the display drivers and the framebuffer. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG MHC Example.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Example Demonstration Project</div>
+<p class="Element10">
+The Aria demonstration project, <a href="03744.html">emwin_quickstart</a>, has three configurations. Each configuration has an API named LCD_X_Config, which is generated with the relevant calls for SEGGER emWin to communicate with the display driver and obtain the frame buffer location pointer to write the pixel data to it. For PIC32MZ DA and PIC32MZ EF configurations, the frame buffer pointer address is provided to SEGGER emWin by the HAL. For the S1D controller on PIC32MX devices (pic32mx_usb_sk2_s1d_pictail_wqvga), The pixel write function pointers are assigned to the appropriate S1D driver APIs, which allow SEGGER emWin to write to the display controller.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16635.html">Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL)</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL) Topic Title: Adding Third-Party Graphics Products Using the Hardware Abstsraction Layer (HAL))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

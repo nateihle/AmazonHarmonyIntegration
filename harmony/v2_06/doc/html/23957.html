@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SYS_INT_SourceStatusSet Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="14396.html">Interrupt System Service Library</a> &gt; <a href="24329.html">Library Interface</a> &gt; c) Interrupt Source Management Functions &gt; <a href="23957.html">SYS_INT_SourceStatusSet Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="23956.html">Previous</a> | <a href="24329.html">Up</a> | <a href="23961.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_INT_SourceStatusSet@INT_SOURCE Topic Title: SYS_INT_SourceStatusSet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SYS_INT_SourceStatusSet Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">SYS_INT_SourceStatusSet</span></strong>(
+    <a href="14033.html">INT_SOURCE</a> <strong><span style="color: #000000">source</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function sets the specified interrupt source, causing the processor to be interrupted if interrupts are enabled, the source has been enabled, and the priority is higher than the current priority.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<a href="23947.html">SYS_INT_Initialize</a> must have been called and an ISR must have been registered for the source (if interrupts and the source are enabled).</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+source&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the desired interrupt source&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Not supported for all interrupt sources. Check the specific data sheet for software clear only interrupt sources.&nbsp;</p>
+<p class="Element10">
+The driver, middleware, or application's interrupt-handling &quot;Tasks&quot; routine must do two things at a minimum, in the following order.
+<ol class="Element630">
+<li value="1" class="Element600">Remove the cause of the interrupt</li>
+<li value="2" class="Element600">Clear the interrupt source by calling the function <a href="23955.html">SYS_INT_SourceStatusClear</a></li>
+</ol>Exactly what actions are necessary to remove the cause of an interrupt is completely dependent on the source of the interrupt. This is normally the main purpose of the driver itself and is beyond the scope of this section. Refer to the documentation for the peripheral being managed.&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><strong>WARNING!</strong> The cause of the interrupt must be removed before clearing the interrupt source or the interrupt may re-occur immediately after the source is cleared potentially causing an infinite loop. An infinite loop may also occur if the source is not cleared before the interrupt-handler returns.</span>&nbsp;</p>
+<p class="Element10">
+<strong>Example: Handling Interrupts</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04033');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04033"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> DRV_MYDEV_Tasks( <a href="23975.html">SYS_MODULE_OBJ</a> object )
+{
+    <i><span style="color: #008000">// Remove the cause of the interrupt</span></i>
+    <i><span style="color: #008000">//...</span></i>
+
+    <i><span style="color: #008000">// Clear Interrupt source</span></i>
+    <a href="23955.html">SYS_INT_SourceStatusClear</a>(myIntSourceID);
+}</pre></div></div>
+<p class="Element10">
+<strong>Note</strong>: the value of &quot;myIntSourceID&quot; is usually either a static or dynamic configuration option. Refer to the documentation for the specific device driver to identify how to define the interrupt source ID.&nbsp;</p>
+<p class="Element10">
+<strong>Testing Interrupt</strong>&nbsp;</p>
+<p class="Element10">
+Some times it is necessary to cause an interrupt in software, possibly for testing purposes. To support this, the function SYS_INT_SourceStatusSet is provided.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Causing an Interrupt in Software</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04034');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04034"><pre class="Element12">SYS_INT_SourceStatusSet(MY_DRIVER_INTERRUPT_SOURCE);</pre></div></div>
+<p class="Element10">
+<strong>Note</strong>: This feature is not available for all interrupt sources on all Microchip microcontrollers. Refer to the data sheet for the microcontroller being used to determine if it is possible for software to set a specific interrupt source.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04035');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04035"><pre class="Element12"><i><span style="color: #008000">// Initialize the interrupt system. This needs to done in the initialization</span></i>
+<i><span style="color: #008000">// code.</span></i>
+<a href="23947.html">SYS_INT_Initialize</a>();
+<i><span style="color: #008000">// Check if interrupt source flag is set</span></i>
+<strong><span style="color: #000080">if</span></strong> ( !<a href="23956.html">SYS_INT_SourceStatusGet</a>(INT_SOURCE_PARALLEL_PORT) )
+{
+    <i><span style="color: #008000">// Set the interrupt source flag</span></i>
+    SYS_INT_SourceStatusSet(INT_SOURCE_PARALLEL_PORT);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="14396.html">Interrupt System Service Library</a> &gt; <a href="24329.html">Library Interface</a> &gt; c) Interrupt Source Management Functions &gt; <a href="23957.html">SYS_INT_SourceStatusSet Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_INT_SourceStatusSet@INT_SOURCE Topic Title: SYS_INT_SourceStatusSet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

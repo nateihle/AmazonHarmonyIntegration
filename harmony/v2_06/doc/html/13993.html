@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Input System Service mXT336T Touch Driver Library</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13984.html">Input System Service Touch Driver Library</a> &gt; <a href="13993.html">Input System Service mXT336T Touch Driver Library</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11316.html">Previous</a> | <a href="13984.html">Up</a> | <a href="13998.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: Input_sys_Serve_MXT_touch_lib Topic Title: Input System Service mXT336T Touch Driver Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Input System Service mXT336T Touch Driver Library</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MPLAB Harmony mXT336T Touch Driver provides a high-level interface to the mXT336T Capacitive Touch Controller. This driver provides application routines to read the touch input data from the touch screen. Currently, the mXT336T Touch Driver supports non-gestural single-fingered and gestural two-finger touch inputs.&nbsp;</p>
+<p class="Element10">
+The mXT336T Capacitive Touch Controller notifies the host of the availability of touch input data through an external interrupt on the host. The mXT336T driver allows the application to map a controller pin as the external interrupt pin used by the mXT336T.&nbsp;</p>
+<p class="Element10">
+The driver contains the standard MPLAB Harmony driver interfaces including: initialization, destruction, status, tasks, open, close, and interrupt-driven read.&nbsp;</p>
+<p class="Element10">
+The driver contains no direct access to input events. All driver output is directed towards the MPLAB Harmony Input System Service and applications desiring to listen to input events must register with that service.&nbsp;</p>
+<p class="Element10">
+The <a href="03698.html">aria_quickstart</a> demonstration interfaces with the mXT336T Touch Driver Library. Please refer to the <a href="04298.html">What is MPLAB Harmony?</a> section in Volume I of MPLAB Harmony’s built-in documentation for how the driver interacts with the framework.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="13998.html">Using the Library</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This topic describes the basis architecture of the mXT336T Touch Driver Library that supports the Input System Service and provides information and examples on its use.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="13994.html">Abstraction Model</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This library provides a low-level abstraction of the mXT336T Touch Driver Library on the Microchip family microcontrollers. This topic describes how that abstraction is modeled in software and introduces the library's interface.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="13997.html">Library Overview</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section contains information about how the Touch Driver operates in a system.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="13999.html">How the Library Works</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the workings of this Touch Driver library.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="13995.html">Configuring in MPLAB Harmony Configurator</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The graphics demo aria_quickstart has several target configurations that provide examples of driver setup. Any configuration ending in meb2 or _meb2_wvga can be used.<br>The MPLAB Harmony Configurator Pin Settings tab should be configured to select the correct pin for the external interrupt. For example,<br><br><strong>pic32mk_gp_db:</strong> &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="13996.html">Library Interface</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+ &nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13984.html">Input System Service Touch Driver Library</a> &gt; <a href="13993.html">Input System Service mXT336T Touch Driver Library</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: Input_sys_Serve_MXT_touch_lib Topic Title: Input System Service mXT336T Touch Driver Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

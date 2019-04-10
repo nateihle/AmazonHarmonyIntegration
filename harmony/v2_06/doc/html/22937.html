@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>LCD Integration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22952.html">Using SEGGER emWin with MPLAB Harmony</a> &gt; <a href="22934.html">Integrating SEGGER emWin and MPLAB Harmony</a> &gt; <a href="22937.html">LCD Integration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22941.html">Previous</a> | <a href="22934.html">Up</a> | <a href="22951.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN LCD Integration Topic Title: LCD Integration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+LCD Integration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+LCD integration requires the SEGGER emWin Graphics Library to interact with the display controller driver driving the LCD. Generally, there are two types of display controllers:
+<ul class="Element630">
+<li class="Element600">Display controller with direct interface</li>
+<li class="Element600">Display controller with indirect interface</li>
+</ul>In both cases, the display controller driver is integrated with the SEGGER emWin Graphics Library through the <span class="Element146">LCDConf.c</span> C file and the <span class="Element146">LCDConf.h</span> header file. The method of integrating the display controller driver varies with the type of display controller driver.&nbsp;</p>
+<p class="Element10">
+For a display controller with a direct interface, the SEGGER emWin Graphics Library can directly write to and read from the video memory. The video memory can be within the system memory or within the display controller (CPU addressable using address bus). The information required when configuring the direct interface type display controller is about the address range and bus width to the display controller. The interface of the direct interface drivers needs to be created and linked with the SEGGER emWin Graphics Library using the GUI_DEVICE_CreateAndLink function. Further configured is needed by specifying the address of the video memory using the LCD_SetVRAMAddrEx function. If the driver supports more operations, these operations can be registered using the GUI_DEVICE_CreateAndLink function. To achieve this, pass the supported operations through the GUI_DEVICE_API parameter of the GUI_DEVICE_CreateAndLine function.&nbsp;</p>
+<p class="Element10">
+The LCDConf.c code shows a simple example of the configuration of Microchip’s Low-Cost Controllerless (LCC) driver from MPLAB Harmony for PIC32 devices. The code example also shows that GUIDRV_LIN_16 driver functions and GUICC_M565 color conversion functions are registered using the GUI_DEVICE_CreateAndLink function. The GUIDRV_LIN_16 driver API structure is used as the MPLAB Harmony LCC driver structure, which is different from the driver structure required by the SEGGER emWin Graphics Library. The LCC driver returns the video memory address, which is further passed to the SEGGER emWin Graphics Library using the LCD_SetVRAMAddrEx function. Other functions, such as LCD_SetSizeEx and LCD_SetVSizeEx, are used to configure the size of the visible area and virtual area in the vertical and horizontal direction.&nbsp;</p>
+<p class="Element10">
+Configuring the display controller with indirect interface is more complex than with the direct interface. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04498');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04498"><pre class="Element12"><i><span style="color: #008000">/*********************************************************************
+*
+*       LCD_X_Config
+*
+* Purpose:
+*   Called during the initialization process in order to set up the
+*   display driver configuration.
+*
+*/</span></i>
+<strong><span style="color: #000080">void</span></strong> LCD_X_Config(<strong><span style="color: #000080">void</span></strong>)
+{
+    uintptr_t bufferAddr;
+
+    GUI_DEVICE_CreateAndLink( GUIDRV_LIN_16, GUICC_M565, 0, 0);
+
+    <strong><span style="color: #000080">if</span></strong> (LCD_GetSwapXY())
+    {
+        LCD_SetSizeEx (0, DISP_VER_RESOLUTION, DISP_HOR_RESOLUTION);
+        LCD_SetVSizeEx(0, DISP_VER_RESOLUTION, DISP_HOR_RESOLUTION);
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        LCD_SetSizeEx (0, DISP_HOR_RESOLUTION, DISP_VER_RESOLUTION);
+        LCD_SetVSizeEx(0, DISP_HOR_RESOLUTION, DISP_VER_RESOLUTION);
+    }
+
+    bufferAddr = (uintptr_t) DRV_GFX_LCC_GetBuffer();
+    LCD_SetVRAMAddrEx( 0, ( <strong><span style="color: #000080">void</span></strong> * )bufferAddr );
+
+    <strong><span style="color: #000080">return</span></strong>;
+}
+
+<i><span style="color: #008000">/*********************************************************************
+*
+*       LCD_X_DisplayDriver
+*
+* Purpose:
+*   To support the according task the routine needs to be adapted to
+*   the display controller.
+*
+* Parameter:
+*   LayerIndex - Index of layer to be configured
+*   Cmd        - Please refer to the details in the switch statement below
+*   pData      - Pointer to a LCD_X_DATA structure
+*
+* Return Value:
+*   &lt; -1 - Error
+*     -1 - Command not handled
+*      0 - Ok
+*/</span></i>
+<strong><span style="color: #000080">int</span></strong> LCD_X_DisplayDriver(<strong><span style="color: #000080">unsigned</span></strong> LayerIndex, <strong><span style="color: #000080">unsigned</span></strong> Cmd, <strong><span style="color: #000080">void</span></strong> * pData)
+{
+    <strong><span style="color: #000080">int</span></strong> retVal = -1;
+
+    <strong><span style="color: #000080">switch</span></strong>( Cmd )
+    {
+        <strong><span style="color: #000080">case</span></strong> LCD_X_INITCONTROLLER:
+        {
+            retVal = 0;
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">default</span></strong>:
+        {
+            retVal = -1;
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+    }
+
+    <strong><span style="color: #000080">return</span></strong> retVal;
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22952.html">Using SEGGER emWin with MPLAB Harmony</a> &gt; <a href="22934.html">Integrating SEGGER emWin and MPLAB Harmony</a> &gt; <a href="22937.html">LCD Integration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN LCD Integration Topic Title: LCD Integration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

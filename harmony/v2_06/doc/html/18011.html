@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Slave Mode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23143.html">SPI Peripheral Library</a> &gt; <a href="18024.html">Using the Library</a> &gt; <a href="18002.html">How the Library Works</a> &gt; <a href="17988.html">Audio Protocol Interface Mode</a> &gt; <a href="18011.html">Slave Mode</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18007.html">Previous</a> | <a href="17988.html">Up</a> | <a href="18008.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SPI Slave Mode Topic Title: Slave Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Slave Mode</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A few characteristics of Slave mode are:
+<ul class="Element630">
+<li class="Element600">This mode enables the device to receive SCK and LRCK pulses as long as slave mode is enabled</li>
+<li class="Element600">The SPI module drives zeros out of SDO, but does not shift data out or in (SDI) until the module receives the LRCK (i.e., the edge that precedes the left channel)</li>
+<li class="Element600">Once the module receives the leading edge of LRCK, it starts receiving data if <a href="20795.html">PLIB_SPI_PinEnable</a> (enables data in) is selected and the serial data shifts out continuously even when the TX FIFO is empty</li>
+</ul>The following figure shows the interface between a SPI module in Audio Slave Interface mode to a codec master device. </p><p class="Element10" style="text-align: center;">
+<img src="Slave_Audio.png" border="0" alt="" title=""></p><div class="Element15">
+Setup</div>
+<p class="Element10">
+The SPI module can be configured in Audio Protocol Slave mode by setting <a href="20801.html">PLIB_SPI_SlaveEnable</a> and enabling the audio protocol through <a href="20718.html">PLIB_SPI_AudioProtocolEnable</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Slave Mode communication Setup</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03282');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03282"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_SPI_ID            SPI_ID_1
+<strong><span style="color: #000080">#define</span></strong> PERIPHERAL_BUS_CLK   80000000
+<strong><span style="color: #000080">#define</span></strong> SPI_BAUD_RATE        10000000
+
+<i><span style="color: #008000">//Disable SPI</span></i>
+PLIB_SPI_Disable(MY_SPI_ID);
+
+<i><span style="color: #008000">// Optional:  Clear SPI interrupts and status flag.</span></i>
+
+<i><span style="color: #008000">//clear SPI buffer</span></i>
+PLIB_SPI_BufferClear(MY_SPI_ID);
+
+<i><span style="color: #008000">// Configure General SPI Options</span></i>
+<i><span style="color: #008000">// Configure General SPI Options</span></i>
+PLIB_SPI_StopInIdleDisable(MY_SPI_ID);
+PLIB_SPI_PinEnable(MY_SPI_ID,SPI_PIN_DATA_OUT|SPI_PIN_SLAVE_SELECT);
+PLIB_SPI_CommunicationWidthSelect(MY_SPI_ID, SPI_COMMUNICATION_WIDTH_16BITS);
+
+<i><span style="color: #008000">// SMP must be cleared when SPI is used in Slave mode</span></i>
+PLIB_SPI_InputSamplePhaseSelect(MY_SPI_ID,SPI_INPUT_SAMPLING_PHASE_IN_MIDDLE);
+PLIB_SPI_ClockPolaritySelect(MY_SPI_ID, SPI_CLOCK_POLARITY_IDLE_HIGH);<i><span style="color: #008000">//clock polarity and edge is subject to change ...</span></i>
+PLIB_SPI_OutputDataPhaseSelect(MY_SPI_ID, SPI_OUTPUT_DATA_PHASE_ON_ACTIVE_TO_IDLE_CLOCK);<i><span style="color: #008000">// ... based on your communication mode.</span></i>
+
+PLIB_SPI_BaudRateSet(MY_SPI_ID,PERIPHERAL_BUS_CLK,SPI_BAUD_RATE);
+PLIB_SPI_SlaveEnable(MY_SPI_ID);
+PLIB_SPI_AudioProtocolModeSelect(MY_SPI_ID,SPI_AUDIO_PROTOCOL_RIGHT_JUSTIFIED );
+
+PLIB_SPI_FramedCommunicationDisable(MY_SPI_ID);
+PLIB_SPI_AudioProtocolEnable(MY_SPI_ID);
+
+<i><span style="color: #008000">// Optional:  Enable interrupts.</span></i>
+
+<i><span style="color: #008000">// Enable the module</span></i>
+PLIB_SPI_Enable(MY_SPI_ID);</pre></div></div>
+<div class="Element15">
+Transmission and Receive</div>
+<p class="Element10">
+Both data to be transmitted and data that is received are respectively written into, or read from, the SPI buffer (<a href="20728.html">PLIB_SPI_BufferWrite</a>/ <a href="20725.html">PLIB_SPI_BufferRead</a>).&nbsp;</p>
+<p class="Element10">
+<strong>Example: Slave Mode communication Receive</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03283');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03283"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_SPI_ID   SPI_ID_1
+
+uint16_t data;
+
+<strong><span style="color: #000080">if</span></strong>(PLIB_SPI_ReceiverHasOverflowed(MY_SPI_ID))
+{
+  <i><span style="color: #008000">// error</span></i>
+  PLIB_SPI_ReceiverOverflowClear(MY_SPI_ID);<i><span style="color: #008000">// clear overflow</span></i>
+  data = PLIB_SPI_BufferRead (MY_SPI_ID);
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (!PLIB_SPI_ReceiverBufferIsFull(MY_SPI_ID))
+{
+   <i><span style="color: #008000">// error</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+   data = PLIB_SPI_BufferRead (MY_SPI_ID);       <i><span style="color: #008000">// read data</span></i>
+   <strong><span style="color: #000080">while</span></strong>(PLIB_SPI_TransmitBufferIsFull(MY_SPI_ID));
+   PLIB_SPI_BufferWrite(MY_SPI_ID, data);                <i><span style="color: #008000">// send back</span></i>
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element630">
+<li value="1" class="Element600">Refer to the <strong>&quot;Interrupts&quot;</strong> chapter in the specific device data sheet or the family reference manual section specified in that chapter for details on how to clear and enable the SPI module interrupts and flags.</li>
+<li value="2" class="Element600">MY_SPI_ID is the SPI instance selected for use by the application developer.</li>
+<li value="3" class="Element600">Not all features are available on all devices. Refer to the <strong>&quot;Serial Peripheral Interface (SPI)&quot;</strong> chapter in the specific device data sheet for availability.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23143.html">SPI Peripheral Library</a> &gt; <a href="18024.html">Using the Library</a> &gt; <a href="18002.html">How the Library Works</a> &gt; <a href="17988.html">Audio Protocol Interface Mode</a> &gt; <a href="18011.html">Slave Mode</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SPI Slave Mode Topic Title: Slave Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

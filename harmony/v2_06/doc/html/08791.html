@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>System Initialization and Deinitialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23142.html">SPI Flash Driver Library</a> &gt; <a href="08792.html">Using the Library</a> &gt; <a href="08778.html">How the Library Works</a> &gt; <a href="08791.html">System Initialization and Deinitialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08778.html">Previous</a> | <a href="08778.html">Up</a> | <a href="08783.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI FLASH System Initialization and Deinitialization Topic Title: System Initialization and Deinitialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+System Initialization and Deinitialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>System Initialization and Deinitialization</strong>&nbsp;</p>
+<p class="Element10">
+The system performs the initialization of the device driver with settings that affect only the instance of the device that is being initialized. During system initialization each instance of the SST Flash module would be initialized with the following configuration settings (either passed dynamically at run-time using <a href="11136.html">DRV_SST25VF020B_INIT</a>, <a href="11085.html">DRV_SST25VF016B_INIT</a>, or <a href="11186.html">DRV_SST25VF064C_INIT</a>, or by using Initialization Overrides) that are supported or used by the specific SST Flash device hardware:
+<ul class="Element636">
+<li class="Element606">Device requested power state: one of the System Module Power States. For specific details please refer to <strong>Data Types and Constants</strong> in the <a href="08780.html">Library Interface</a> section</li>
+<li class="Element606">The SPI Driver Module Index which is intended to be used to communicate with SST Flash (e.g., DRV_SPI_INDEX_0)</li>
+<li class="Element606">Port Pins of the microcontroller to be used for Chip Select, Write Protection, and Hold operations on the SST Flash device</li>
+<li class="Element606">Maximum Buffer Queue Size for that instance of the SST Flash Driver</li>
+</ul>Using the SST25VF020B as an example, the <a href="11146.html">DRV_SST25VF020B_Initialize</a> function returns an object handle of the type <a href="23975.html">SYS_MODULE_OBJ</a>. After this, the object handle returned by the Initialize interface would be used by the other system interfaces like <a href="11129.html">DRV_SST25VF020B_Deinitialize</a>, <a href="11152.html">DRV_SST25VF020B_Status</a>, and <a href="11153.html">DRV_SST25VF020B_Tasks</a>. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The system initialization and the deinitialization settings, only affect the instance of the peripheral that is being initialized or deinitialized.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00778');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00778"><pre class="Element12"><i><span style="color: #008000">// This code example shows the initialization of the SST25VF020B SPI Flash</span></i>
+<i><span style="color: #008000">// Driver. SPI driver index 0 is used for the purpose. Pin numbers 1, 2,</span></i>
+<i><span style="color: #008000">// and 3 of PORTB are configured for the Hold pin, Write Protection pin, and</span></i>
+<i><span style="color: #008000">// the Chip Select pin, respectively. The maximum buffer queue size is set to 5.</span></i>
+
+   DRV_SST25VF020B_INIT   SST25VF020BInitData;
+   SYS_MODULE_OBJ      objectHandle;
+
+   SST25VF020BInitData.moduleInit.value        = SYS_MODULE_POWER_RUN_FULL;
+   SST25VF020BInitData.spiDriverModuleIndex    = DRV_SPI_INDEX_0;
+   SST25VF020BInitData.holdPortChannel         = PORT_CHANNEL_B;
+   SST25VF020BInitData.holdBitPosition         = PORTS_BIT_POS_1;
+   SST25VF020BInitData.writeProtectPortChannel = PORT_CHANNEL_B;
+   SST25VF020BInitData.writeProtectBitPosition = PORTS_BIT_POS_2;
+   SST25VF020BInitData.chipSelectPortChannel   = PORT_CHANNEL_F;
+   SST25VF020BInitData.chipSelectBitPosition   = PORTS_BIT_POS_2;
+   SST25VF020BInitData.queueSize               = 5;
+
+   objectHandle = DRV_SST25VF020B_Initialize(DRV_SST25VF020B_INDEX_0,
+                                   (SYS_MODULE_INIT*)SST25VF020BInitData);
+   <strong><span style="color: #000080">if</span></strong> (SYS_MODULE_OBJ_INVALID == objectHandle)
+   {
+       <i><span style="color: #008000">// Handle error</span></i>
+   }</pre></div></div>
+<p class="Element10">
+<strong>Tasks Routine</strong>&nbsp;</p>
+<p class="Element10">
+The system will either call <a href="11153.html">DRV_SST25VF020B_Tasks</a>, from <a href="24151.html">SYS_Tasks</a> (in a polled environment) or <a href="11153.html">DRV_SST25VF020B_Tasks</a> will be called from the ISR of the SPI module in use.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23142.html">SPI Flash Driver Library</a> &gt; <a href="08792.html">Using the Library</a> &gt; <a href="08778.html">How the Library Works</a> &gt; <a href="08791.html">System Initialization and Deinitialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI FLASH System Initialization and Deinitialization Topic Title: System Initialization and Deinitialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

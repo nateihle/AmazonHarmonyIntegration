@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ1024ECM100_USB
+	bool
+	select HAVE_USB
+	default n
+
+config USB_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_USB_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/processor/usb_p32mz1024ecm100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/processor/usb_p32mz1024ecm100.h"
+
+endif

@@ -1,0 +1,251 @@
+menu "I2S"
+	depends on HAVE_I2S
+
+enum DRV_I2S_IMPLEMENTATION
+    "DYNAMIC"
+
+enum DRV_I2S_INDEX
+    "DRV_I2S_INDEX_0"
+    || "DRV_I2S_INDEX_1"
+    || "DRV_I2S_INDEX_2"
+    || "DRV_I2S_INDEX_3"
+    || "DRV_I2S_INDEX_4"
+    || "DRV_I2S_INDEX_5"
+
+	
+enum DRV_I2S_USAGE_MODE
+	"DRV_I2S_MODE_SLAVE"
+	|| "DRV_I2S_MODE_MASTER"
+	
+enum DRV_I2S_CLOCK_MODE
+	"DRV_I2S_CLOCK_MODE_IDLE_LOW_EDGE_RISE"
+	|| "DRV_I2S_CLOCK_MODE_IDLE_LOW_EDGE_FALL"
+	|| "DRV_I2S_CLOCK_MODE_IDLE_HIGH_EDGE_FALL"
+	|| "DRV_I2S_CLOCK_MODE_IDLE_HIGH_EDGE_RISE"
+	
+enum DRV_I2S_AUDIO_PROTOCOL_MODE
+	"DRV_I2S_AUDIO_I2S"
+	|| "DRV_I2S_AUDIO_LFET_JUSTIFIED"
+	|| "DRV_I2S_AUDIO_RIGHT_JUSTIFIED"
+	|| "DRV_I2S_AUDIO_PCM_DSP"
+
+config USE_DRV_I2S_NEEDED
+    bool
+    
+config USE_DRV_I2S
+    bool "Use I2S Driver?"
+    default n if !USE_DRV_I2S_NEEDED
+    default y if USE_DRV_I2S_NEEDED
+	select DRIVER
+    ---help---
+    IDH_HTML_I2S_Driver_Library
+    ---endhelp---
+
+
+config DRV_I2S_IMPL
+    string "Driver Implementation"
+    depends on USE_DRV_I2S
+    range DRV_I2S_IMPLEMENTATION
+    default "DYNAMIC"
+    persistent
+    ---help---
+    IDH_HTML_I2S_Driver_Library
+    ---endhelp---
+  
+ifblock DRV_I2S_ENABLE_DMA=n
+config DRV_I2S_INTERRUPT_MODE
+    bool "Interrupt Mode"
+    depends on USE_DRV_I2S
+    select USE_SYS_INT_NEEDED
+    default n
+    ---help---
+    IDH_HTML_DRV_I2S_INTERRUPT_MODE
+    ---endhelp---
+endif	
+    
+ifblock DRV_I2S_INTERRUPT_MODE=n
+config DRV_I2S_ENABLE_DMA
+    bool "DMA Mode"
+    depends on USE_DRV_I2S
+    default n
+    ---help---
+    IDH_HTML_DRV_I2S_INTERRUPT_MODE
+    ---endhelp---
+endif
+
+config DRV_I2S_SUPPORT_TRANSMIT_DMA
+	bool "Transmit DMA Support"
+	depends on DRV_I2S_ENABLE_DMA	
+	depends on USE_DRV_I2S
+	select USE_SYS_DMA_NEEDED	
+	default n
+    ---help---
+    IDH_HTML_DRV_I2S_INIT
+    ---endhelp---
+
+config DRV_I2S_SUPPORT_RECEIVE_DMA
+	bool "Receive DMA Support"
+	depends on DRV_I2S_ENABLE_DMA	
+	depends on USE_DRV_I2S
+	select USE_SYS_DMA_NEEDED	
+	default n
+    ---help---
+    IDH_HTML_DRV_I2S_INIT
+    ---endhelp---
+
+config DRV_I2S_DMA_USE_CHANNEL_CHAINING
+	bool "Use DMA Channel Chaining?"
+	depends on DRV_I2S_ENABLE_DMA	
+	depends on USE_DRV_I2S
+    	select USE_SYS_INT_NEEDED	
+	default n
+    ---help---
+    IDH_HTML_DRV_I2S_INIT
+    ---endhelp---
+
+config DRV_I2S_DMA_INTERRUPTS_ENABLE
+	bool "Enable DMA Channel Interrupts?"
+	depends on DRV_I2S_ENABLE_DMA	
+	depends on USE_DRV_I2S
+    	select USE_SYS_INT_NEEDED	
+	default y
+    ---help---
+    IDH_HTML_DRV_I2S_INIT
+    ---endhelp---
+
+
+    
+config DRV_I2S_STOP_IN_IDLE
+	bool "Stop in Idle Mode"
+	depends on USE_DRV_I2S
+	default n
+    ---help---
+    IDH_HTML_DRV_I2S_STOP_IN_IDLE
+    ---endhelp---
+
+config DRV_I2S_BAUD_RATE
+	int "Sampling Rate"
+	depends on USE_DRV_I2S
+	default 48000
+    ---help---
+    IDH_HTML_DRV_I2S_INIT
+    ---endhelp---
+
+config USE_DRV_I2S_CUSTOM_MULTIPLIER
+    bool
+    default n
+
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_64
+    bool
+
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_128
+    bool
+    
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_192
+    bool
+
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_256
+    bool
+
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_384
+    bool
+
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_512
+    bool
+
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_768
+    bool
+
+config USE_DRV_I2S_BAUD_RATE_MULTIPLIER_1152
+    bool
+
+config DRV_I2S_BAUD_RATE_CUSTOM_MULTIPLIER
+    string
+	depends on USE_DRV_I2S
+    default "64"  if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_64 = y
+    default "128" if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_128 = y
+    default "192" if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_192 = y
+    default "256" if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_256 = y
+    default "384" if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_384 = y
+    default "512" if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_512 = y
+    default "768" if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_768 = y
+    default "1152" if USE_DRV_I2S_BAUD_RATE_MULTIPLIER_1152 = y
+    default "256"
+	
+config DRV_I2S_BAUD_RATE_MULTIPLIER
+    string "MCLK Sampling Rate Multiplier"
+	depends on USE_DRV_I2S
+    default DRV_I2S_BAUD_RATE_CUSTOM_MULTIPLIER if USE_DRV_I2S_CUSTOM_MULTIPLIER = y
+    default "256"
+    ---help---
+    IDH_HTML_DRV_I2S_BAUD_RATE_MULTIPLIER
+    ---endhelp---
+
+enum DRV_I2S_BCLK_BIT_CLK_DIVISOR_VALUE
+	 "1"
+	|| "2"
+	|| "4"
+	|| "8"
+
+config DRV_I2S_BCLK_BIT_CLK_DIVISOR
+	depends on USE_DRV_I2S
+	string "Master Clock/Bit Clock Ratio"		
+	range DRV_I2S_BCLK_BIT_CLK_DIVISOR_VALUE
+	default "4"
+    	---help---
+    	IDH_HTML_DRV_I2S_BCLK_BIT_CLK_DIVISOR
+    	---endhelp---
+	
+config DRV_I2S_INSTANCES_NUMBER
+    int "Number of I2S Driver Instances"
+    depends on USE_DRV_I2S
+	range 1 SPI_NUMBER_OF_MODULES
+    default 1
+    ---help---
+    IDH_HTML_DRV_I2S_INSTANCES_NUMBER
+    ---endhelp---
+
+config DRV_I2S_CLIENTS_NUMBER
+    int "Number of I2S Driver Clients"
+    depends on USE_DRV_I2S
+    default 1
+    ---help---
+    IDH_HTML_DRV_I2S_CLIENTS_NUMBER
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/i2s/config/drv_i2s_idx.ftl" 6 instances
+
+endmenu
+
+ifblock USE_DRV_I2S
+
+add "<#include \"/framework/driver/i2s/templates/drv_i2s.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/i2s/templates/drv_i2s_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DEPENDENT_DRIVERS
+add "<#include \"/framework/driver/i2s/templates/drv_i2s_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/i2s/templates/drv_i2s.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_I2S_H "$HARMONY_VERSION_PATH/framework/driver/i2s/drv_i2s.h" to "$PROJECT_HEADER_FILES/framework/driver/i2s/drv_i2s.h"
+file DRV_I2S_VAR_H "$HARMONY_VERSION_PATH/framework/driver/i2s/src/drv_i2s_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/i2s/src/drv_i2s_variant_mapping.h" 
+file DRV_I2S_PIC32M_DEFINITIONS_H "$HARMONY_VERSION_PATH/framework/driver/i2s/drv_i2s_pic32m_definitions.h" to "$PROJECT_HEADER_FILES/framework/driver/i2s/drv_i2s_pic32m_definitions.h" 
+
+endif
+
+ifblock USE_DRV_I2S
+ifblock DRV_I2S_SUPPORT_TRANSMIT_DMA=n
+ifblock DRV_I2S_SUPPORT_RECEIVE_DMA=n
+file DRV_I2S_C "$HARMONY_VERSION_PATH/framework/driver/i2s/src/dynamic/drv_i2s.c" to "$PROJECT_SOURCE_FILES/framework/driver/i2s/src/dynamic/drv_i2s.c"
+file DRV_I2S_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/i2s/src/drv_i2s_local.h" to "$PROJECT_HEADER_FILES/framework/driver/i2s/src/drv_i2s_local.h"
+endif
+endif
+endif
+
+ifblock DRV_I2S_DMA_USE_CHANNEL_CHAINING=n && (DRV_I2S_SUPPORT_TRANSMIT_DMA=y || DRV_I2S_SUPPORT_RECEIVE_DMA=y)
+file DRV_I2S_DMA_C "$HARMONY_VERSION_PATH/framework/driver/i2s/src/dynamic/drv_i2s_dma.c" to "$PROJECT_SOURCE_FILES/framework/driver/i2s/src/dynamic/drv_i2s_dma.c"
+file DRV_I2S_DMA_H "$HARMONY_VERSION_PATH/framework/driver/i2s/src/drv_i2s_dma_local.h" to "$PROJECT_HEADER_FILES/framework/driver/i2s/src/drv_i2s_dma_local.h"
+endif	
+
+ifblock DRV_I2S_DMA_USE_CHANNEL_CHAINING=y && (DRV_I2S_SUPPORT_TRANSMIT_DMA=y || DRV_I2S_SUPPORT_RECEIVE_DMA=y)
+file DRV_I2S_DMA_CHAINING_C "$HARMONY_VERSION_PATH/framework/driver/i2s/src/dynamic/drv_i2s_dma_advanced.c" to "$PROJECT_SOURCE_FILES/framework/driver/i2s/src/dynamic/drv_i2s_dma_advanced.c"
+file DRV_I2S_DMA_CHAINING_H "$HARMONY_VERSION_PATH/framework/driver/i2s/src/drv_i2s_dma_advanced_local.h" to "$PROJECT_HEADER_FILES/framework/driver/i2s/src/drv_i2s_dma_advanced_local.h"
+endif	
+	

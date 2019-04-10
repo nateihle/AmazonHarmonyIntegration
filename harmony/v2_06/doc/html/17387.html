@@ -1,0 +1,427 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Conversion Sequence Examples</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17395.html">How the Library Works</a> &gt; <a href="17387.html">Conversion Sequence Examples</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17401.html">Previous</a> | <a href="17395.html">Up</a> | <a href="17383.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Conversion Sequence Examples Topic Title: Conversion Sequence Examples)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Conversion Sequence Examples</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>Converting Single Channel, Manual Sample Start, Manual Conversion Start</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01418');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01418"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+int16_t ADCValue;
+
+<i><span style="color: #008000">// Enabling the sampling manually</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_SAMP_CLEAR);
+
+<i><span style="color: #008000">// Disabling ADC Input channels for Scan</span></i>
+PLIB_ADC_InputScanMaskRemove(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+
+<i><span style="color: #008000">// Connect AN2 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN2);
+
+<i><span style="color: #008000">// Manual Sample and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 2);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+   <i><span style="color: #008000">// Start Sampling</span></i>
+   PLIB_ADC_SamplingStart(MY_ADC_INSTANCE);
+
+   Delay(); <i><span style="color: #008000">// Ensure, correct sampling time has elapsed before starting conversion.</span></i>
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   ADCValue = PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, 0);
+
+}</pre></div></div>
+<p class="Element10">
+<strong>Converting Single Channel, Manual Sample Start, TAD-based Conversion Start</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01419');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01419"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+int16_t ADCValue;
+
+<i><span style="color: #008000">// Internal Counter triggers conversion</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_INTERNAL_COUNT);
+
+<i><span style="color: #008000">// Connect AN12 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN12);
+<i><span style="color: #008000">// Disabling ADC Input channels for Scan</span></i>
+PLIB_ADC_InputScanMaskRemove(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+<i><span style="color: #008000">// Sample Time = 31TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 30);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+   <i><span style="color: #008000">// Start Sampling</span></i>
+   PLIB_ADC_SamplingStart(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   ADCValue = PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, 0);
+
+}</pre></div></div>
+<p class="Element10">
+<strong>Converting Single Channel, Automatic Sample Start, TAD-based Conversion Start</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01420');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01420"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+int16_t ADCValue;
+uint8_t index;
+
+<i><span style="color: #008000">// Internal Counter triggers conversion</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_INTERNAL_COUNT);
+
+<i><span style="color: #008000">// Connect AN12 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN12);
+<i><span style="color: #008000">// Disabling ADC Input channels for Scan</span></i>
+PLIB_ADC_InputScanMaskRemove(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+
+<i><span style="color: #008000">// Sample Time = 31TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 30);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000,20000000);
+
+<i><span style="color: #008000">// Set the interrupt every 3 samples</span></i>
+PLIB_ADC_SamplesPerInterruptSelect(MY_ADC_INSTANCE, ADC_3SAMPLES_PER_INTERRUPT);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+    ADCValue = 0;
+
+   <i><span style="color: #008000">// Auto Start Sampling and then go to conversion</span></i>
+   PLIB_ADC_SampleAutoStartEnable(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   <i><span style="color: #008000">// Yes, stop sample/convert</span></i>
+   PLIB_ADC_SampleAutoStartDisable(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Average the 2 ADC values</span></i>
+   <strong><span style="color: #000080">for</span></strong>(index = 0; index &lt; 2; index++)
+   {
+      ADCValue = ADCValue + PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, index);
+   }
+
+   ADCValue = ADCValue &gt;&gt; 1;
+} <i><span style="color: #008000">// Repeat</span></i></pre></div></div>
+<p class="Element10">
+<strong>Converting Single Channel, Automatic Sample Start, Conversion Trigger-based Conversion Start</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01421');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01421"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+int16_t ADCValue;
+
+<i><span style="color: #008000">// General Purpose Timer 3 compare match ends sampling and starts conversion</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_TMR3_COMPARE_MATCH);
+
+<i><span style="color: #008000">// Connect AN12 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN12);
+<i><span style="color: #008000">// Disabling ADC Input channels for Scan</span></i>
+PLIB_ADC_InputScanMaskRemove(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+
+<i><span style="color: #008000">// Sample Time = 31TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSelect(MY_ADC_INSTANCE, 30);
+PLIB_ADC_ConversionClockSelect(MY_ADC_INSTANCE, 1);
+
+<i><span style="color: #008000">// Configure the timer to generate period match as per the acquisition requirements</span></i>
+TMR3  = 0x0000; <i><span style="color: #008000">// set TMR3 to time out every 125 ms</span></i>
+PR3   = 0x3FFF;
+T3CON = 0x8010;
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+   <i><span style="color: #008000">// Auto Start Sampling and then go to conversion</span></i>
+   PLIB_ADC_SampleAutoStartEnable(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   <i><span style="color: #008000">// Yes, stop sample/convert</span></i>
+   PLIB_ADC_SampleAutoStartDisable(MY_ADC_INSTANCE);
+
+   ADCValue += PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, 0);
+}</pre></div></div>
+<p class="Element10">
+<strong>Sampling and Converting a Single Channel Multiple Times</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01422');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01422"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+int16_t ADCValue;
+uint8_t index;
+
+<i><span style="color: #008000">// Internal Counter triggers conversion</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_INTERNAL_COUNT);
+
+<i><span style="color: #008000">// Connect AN12 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN12);
+<i><span style="color: #008000">// Disabling ADC Input channels for Scan</span></i>
+PLIB_ADC_InputScanMaskRemove(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+
+<i><span style="color: #008000">// Sample Time = 31TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 30);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Set the interrupt every 16 samples</span></i>
+PLIB_ADC_SamplesPerInterruptSelect(MY_ADC_INSTANCE, ADC_16SAMPLES_PER_INTERRUPT);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+    ADCValue = 0;
+
+   <i><span style="color: #008000">// Auto Start Sampling and then go to conversion</span></i>
+   PLIB_ADC_SampleAutoStartEnable(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   <i><span style="color: #008000">// Yes, stop sample/convert</span></i>
+   PLIB_ADC_SampleAutoStartDisable(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Average the 16 ADC value</span></i>
+   <strong><span style="color: #000080">for</span></strong>(index = 0; index &lt; 16; index++)
+   {
+      ADCValue = ADCValue  + PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, index);
+   }
+
+   ADCValue = ADCValue &gt;&gt; 4;
+} <i><span style="color: #008000">// Repeat</span></i></pre></div></div>
+<p class="Element10">
+<strong>Sampling and Converting all Channels</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01423');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01423"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+<strong><span style="color: #000080">int</span></strong> ADCValue, index;
+
+<i><span style="color: #008000">// Include all channels in scan</span></i>
+PLIB_ADC_InputScanMaskAdd(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+
+<i><span style="color: #008000">// Internal Counter triggers conversion</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_INTERNAL_COUNT);
+
+<i><span style="color: #008000">// Sample Time = 31TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 30);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Set the interrupt every 16 samples</span></i>
+PLIB_ADC_SamplesPerInterruptSelect(MY_ADC_INSTANCE, ADC_16SAMPLES_PER_INTERRUPT);
+
+<i><span style="color: #008000">// Enable scanning of channels</span></i>
+PLIB_ADC_MuxAInputScanEnable(MY_ADC_INSTANCE);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+    ADCValue = 0;
+
+   <i><span style="color: #008000">// Auto Start Sampling and then go to conversion</span></i>
+   PLIB_ADC_SampleAutoStartEnable(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   <i><span style="color: #008000">// Yes, stop sample/convert</span></i>
+   PLIB_ADC_SampleAutoStartDisable(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Average the 16 ADC value</span></i>
+   <strong><span style="color: #000080">for</span></strong>(index = 0; index &lt; 16; index++)
+   {
+      ADCValue = ADCValue + PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, index);
+   }
+
+   ADCValue = ADCValue &gt;&gt; 4;
+} <i><span style="color: #008000">// Repeat</span></i></pre></div></div>
+<p class="Element10">
+<strong>Wait for Sample, Manual Conversion Start</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01424');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01424"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+uint8_t ADCValue;
+
+<i><span style="color: #008000">// Internal Counter triggers conversion</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_INTERNAL_COUNT);
+
+<i><span style="color: #008000">// Connect AN12 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN12);
+
+<i><span style="color: #008000">// Disabling ADC Input channels for Scan</span></i>
+PLIB_ADC_InputScanMaskRemove(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+
+<i><span style="color: #008000">// Sample Time = 31TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 30);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+   Delay(); <i><span style="color: #008000">// Ensure, correct sampling time has elapsed before starting conversion.</span></i>
+
+   <i><span style="color: #008000">// Start Sampling</span></i>
+   PLIB_ADC_SamplingStop(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   ADCValue = PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, 0);
+
+}</pre></div></div>
+<p class="Element10">
+<strong>Wait for Sample, Triggered Conversion Start</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01425');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01425"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+uint8_t ADCValue;
+
+<i><span style="color: #008000">// Connect AN12 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN12);
+
+<i><span style="color: #008000">// Manual Sample and Conversion Clock</span></i>
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+  Delay(); <i><span style="color: #008000">// Ensure, correct sampling time has elapsed</span></i>
+
+  PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_INT0_TRANSITION);
+
+  <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+  ADCValue = PLIB_ADC_ResultGetByIndex(MY_ADC_INSTANCE, 0);
+}</pre></div></div>
+<p class="Element10">
+<strong>Manual Sample Start, TAD-based Conversion Start</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01426');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01426"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADC_INSTANCE, is the instance of ADC that the application is using. It is one of the possible values</span></i>
+<i><span style="color: #008000">// from ADC_MODULE_ID</span></i>
+
+uint8_t ADCValue;
+
+<i><span style="color: #008000">// Connect AN12 as Positive Input</span></i>
+PLIB_ADC_MuxChannel0InputPositiveSelect(ADC_ID_1, ADC_MUX_A, ADC_INPUT_POSITIVE_AN12);
+
+<i><span style="color: #008000">// Sample Time = 1TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 0);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+   <i><span style="color: #008000">// Start Sampling</span></i>
+   PLIB_ADC_SamplingStart(MY_ADC_INSTANCE);
+
+   <i><span style="color: #008000">// Is Conversion Done ??</span></i>
+   <strong><span style="color: #000080">while</span></strong>(!PLIB_ADC_ConversionHasCompleted(MY_ADC_INSTANCE));
+
+   ADCValue = PLIB_ADC_ResultGet(MY_ADC_INSTANCE);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17395.html">How the Library Works</a> &gt; <a href="17387.html">Conversion Sequence Examples</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Conversion Sequence Examples Topic Title: Conversion Sequence Examples)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

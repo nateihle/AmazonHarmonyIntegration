@@ -1,0 +1,113 @@
+enum EMBOS_MIPSMODEMZ
+	 "MIPS32"
+	 || "MICROMIPS"
+
+
+enum EMBOS_MIPSMODEMX
+	 "MIPS32"
+	 || "MIPS16"
+
+	 
+menu "RTOS Configuration"
+menu "embOS Features"
+    ---help---
+    <p><strong>embOS - Features</strong></p>
+<p>The user can define a relatively minimal set of configuration options when building embOS applications.</p>
+<p>For more information, refer to two documents that are supplied with the embOS installation --
+ "CPU-independent User & Reference Guide" (UM01001_EMBOS_Generic.pdf) and 
+ "CPU & Compiler specifics for PIC32 using XC32 compiler" (UM01058_EMBOS_PIC32_XC32.pdf)</p>
+    ---endhelp---
+    
+config EMBOS_OS_FSYS
+    string "CPU clock speed (Hz)"
+    default SYS_CLK_FREQ if USE_SYS_CLK
+    default "200000000" if PIC32MZ && !USE_SYS_CLK
+    default "80000000"  if PIC32MX && !USE_SYS_CLK
+    persistent if USE_SYS_CLK
+        
+    ---help---
+<p><strong>embOS - CPU clock speed (Hz)</strong></p>
+<p>This is the CPU clock speed (SYSCLK), typically obtained from the Clock System Service configuration.</p>
+<p>MHC sets the embOS system frequency preprocessor variable OS_FSYS.</p>
+    ---endhelp---
+
+config EMBOS_OS_PCLK_TIMER
+    string "Peripheral clock speed (Hz)"
+    default SYS_CLK_PBCLK_FREQ if USE_SYS_CLK && PIC32MX
+    default SYS_CLK_PBCLK2_FREQ if USE_SYS_CLK && PIC32MZ
+    default "40000000" if !USE_SYS_CLK
+    persistent if USE_SYS_CLK
+    ---help---
+<p>	<strong>embOS - Peripheral clock speed (Hz)</strong></p>
+<p>	This is the frequency in Hz at which the Timer peripherals are clocked (PBCLK), obtained from the Clock System Service configuration.</p>
+<p>	MHC sets the FreeRTOS preprocessor variable OS_PCLK_TIMER.</p>
+    ---endhelp---
+
+config EMBOS_OS_TICK_FREQ
+    int "Tick rate (Hz)"
+	default 1000
+
+    ---help---
+<p>	<strong>embOS - Tick rate (Hz)</strong></p>
+<p>	The frequency of the system tick interrupt. </p>
+<p>	MHC sets the embOS preprocessor variable OS_TICK_FREQ.</p>
+    ---endhelp---
+config MIPSMODEMZ
+	string "MIPS mode"
+	depends on PIC32MZ
+	range  EMBOS_MIPSMODEMZ
+	default "MIPS32"
+
+config MIPSMODEMX
+	string "MIPS mode"
+	depends on PIC32MX
+	range  EMBOS_MIPSMODEMX
+	default "MIPS32"
+
+endmenu # embOS Features 	
+	
+
+ifblock PIC32MX
+    file EMBOS_PIC32MX_OS_ERR_C "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MX/OS_Error.c" to "$PROJECT_SOURCE_FILES/embOS/PIC32MX/OS_Error.c"
+    file EMBOS_PIC32MX_RTOS_INIT_C "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MX/RTOSInit.c" to "$PROJECT_SOURCE_FILES/embOS/PIC32MX/RTOSInit.c"
+	file EMBOS_PIC32MX_RTOS_H "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MX/RTOS.h" to "$PROJECT_HEADER_FILES/embOS/PIC32MX/RTOS.h"
+	compiler EMBOS_PIC32MX_COMPILER_INCLUDEPATH      includepath "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MX/"
+endif
+
+ifblock PIC32MZ
+    file EMBOS_PIC32MZ_OS_ERR_C "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MZ/OS_Error.c" to "$PROJECT_SOURCE_FILES/embOS/PIC32MZ/OS_Error.c"
+    file EMBOS_PIC32MZ_RTOS_INIT_C "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MZ/RTOSInit.c" to "$PROJECT_SOURCE_FILES/embOS/PIC32MZ/RTOSInit.c"
+	file EMBOS_PIC32MZ_RTOS_H "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MZ/RTOS.h" to "$PROJECT_HEADER_FILES/embOS/PIC32MZ/RTOS.h"
+	compiler EMBOS_PIC32MZ_COMPILER_INCLUDEPATH      includepath "$HARMONY_VERSION_PATH/third_party/rtos/embOS/arch/PIC32MZ/"
+endif
+
+endmenu # embOS RTOS Configuration
+
+
+ifblock (PIC32MX || PIC32MZ )
+	ifblock DS60001320 
+		ifblock ( MIPSMODEMZ = "MIPS32")
+			library EMBOS_LIB_RTOSMIPS32FPUDP_A     "$HARMONY_VERSION_PATH/third_party/rtos/embOS/Lib/PIC32/RtosMips32fpuDP.a" 
+		endif
+		ifblock (MIPSMODEMZ = "MICROMIPS")
+			library EMBOS_LIB_RTOSMICROMIPSFPUDP_A     "$HARMONY_VERSION_PATH/third_party/rtos/embOS/Lib/PIC32/RtosMicroMipsfpuDP.a"
+		endif
+	endif
+	ifblock !DS60001320 
+		ifblock ( PIC32MX && MIPSMODEMX = "MIPS32")
+			library EMBOS_LIB_RTOSMXMIPS32DP_A     "$HARMONY_VERSION_PATH/third_party/rtos/embOS/Lib/PIC32/RtosMips32DP.a"
+		endif
+		ifblock (PIC32MX && MIPSMODEMX = "MIPS16")
+			library EMBOS_LIB_RTOSMIPS16DP_A     "$HARMONY_VERSION_PATH/third_party/rtos/embOS/Lib/PIC32/RtosMips16DP.a" 	
+		endif
+		ifblock ( PIC32MZ && MIPSMODEMZ = "MIPS32")
+			library EMBOS_LIB_RTOSMZMIPS32DP_A     "$HARMONY_VERSION_PATH/third_party/rtos/embOS/Lib/PIC32/RtosMips32DP.a"
+		endif
+		ifblock ( PIC32MZ && MIPSMODEMZ = "MICROMIPS")
+			library EMBOS_LIB_RTOSMICROMIPSDP_A     "$HARMONY_VERSION_PATH/third_party/rtos/embOS/Lib/PIC32/RtosMicroMipsDP.a" 
+		endif
+	endif
+endif
+
+
+template EMBOS_CONFIG_H "$HARMONY_VERSION_PATH/third_party/rtos/embOS/templates/embOSConfig.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/embOSConfig.h"

@@ -1,0 +1,355 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Asynchronous USART Mode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18072.html">Asynchronous USART Mode</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18086.html">Previous</a> | <a href="18080.html">Up</a> | <a href="18087.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Asynchronous USART Mode Topic Title: Asynchronous USART Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Asynchronous USART Mode</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Asynchronous Transmission</div>
+<p class="Element10">
+<strong>Setup</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Set the desired baud rate using either <a href="21060.html">PLIB_USART_BaudRateHighSet</a> or <a href="21061.html">PLIB_USART_BaudRateSet</a>.</li>
+<li value="2" class="Element600">Set the appropriate I/O direction and corresponding RX and TX I/O pins.</li>
+<li value="3" class="Element600"><i>If available on the device,</i> enable the asynchronous serial port using PLIB_USART_SyncModeSelect.</li>
+<li value="4" class="Element600">Set the number of data bits (8 or 9) and other line control modes using <a href="21111.html">PLIB_USART_LineControlModeSelect</a>.</li>
+<li value="5" class="Element600"><i>Optional (if available on the device): </i>If desired, enable the transmit interrupt.
+<ul class="Element630">
+<li class="Element600">Ensure that the interrupts are enabled for the system and the peripherals</li>
+<li class="Element600">Select the interrupt priority</li>
+<li class="Element600">Set up the transmit FIFO interrupt mode using <a href="21153.html">PLIB_USART_TransmitterInterruptModeSelect</a>. Refer to <a href="27205.html">USART_TRANSMIT_INTR_MODE</a> for a list of possible values.</li>
+</ul></li>
+<li value="6" class="Element600">Enable the USART module using the function <a href="21066.html">PLIB_USART_Enable</a></li>
+</ol><strong>Example: Asynchronous Transmission Setup</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03499');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03499"><pre class="Element12"><i><span style="color: #008000">// Set the desired baud rate</span></i>
+uint32_t baudRate = 9600;
+
+<i><span style="color: #008000">// where, MY_USART_INSTANCE - is a specific instance of the hardware peripheral.</span></i>
+<i><span style="color: #008000">// where, MY_CLOCK_FREQUENCY - is hardware clock frequency which is currently</span></i>
+<i><span style="color: #008000">//being used by the system.</span></i>
+PLIB_USART_BaudRateSet(MY_USART_INSTANCE, MY_CLOCK_FREQUENCY, baudRate);
+
+<i><span style="color: #008000">// Enable the asynchronous serial port.</span></i>
+<i><span style="color: #008000">// enable asynchronous mode if the part supports it</span></i>
+PLIB_USART_SyncModeSelect(MY_USART_INSTANCE, USART_ASYNC_MODE);
+
+<i><span style="color: #008000">/* Select 8 data bits, No parity and one stop bit */</span></i>
+PLIB_USART_LineControlModeSelect(MY_USART_INSTANCE, USART_8N1);
+<i><span style="color: #008000">// enable USART</span></i>
+PLIB_USART_Enable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Set the appropriate IO direction for USART pins</span></i>
+<i><span style="color: #008000">// TODO - Call the appropriate function.</span></i>
+</pre></div></div>
+<p class="Element10">
+<strong>Enable Transmission</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Enable the transmission using <a href="21150.html">PLIB_USART_TransmitterEnable</a>.</li>
+<li value="2" class="Element600">Ensure that the transmit buffer is not full, before attempting to write into the transmit buffer. Either poll using <a href="21147.html">PLIB_USART_TransmitterBufferIsFull</a> or wait for the transmit interrupt.</li>
+<li value="3" class="Element600">Start the transmission using <a href="21148.html">PLIB_USART_TransmitterByteSend</a> (if transmitting 8-bit data) or <a href="21143.html">PLIB_USART_Transmitter9BitsSend</a> (if transmitting an address or if transmitting a byte with parity).</li>
+<li value="4" class="Element600">After the transmission is complete, disable the transmitter.</li>
+</ol><strong>Example: Asynchronous Transmission</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03500');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03500"><pre class="Element12"><i><span style="color: #008000">// Enable the transmission</span></i>
+PLIB_USART_TransmitterEnable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// TODO - Either wait for Transmit buffer to be not full or wait for</span></i>
+<i><span style="color: #008000">//an transmit interrupt.</span></i>
+
+<i><span style="color: #008000">// Transmit the byte when Transmit buffer is empty.</span></i>
+<i><span style="color: #008000">// where, my_byte is the 8 bit data to be transmitted</span></i>
+PLIB_USART_TransmitterByteSend(MY_USART_INSTANCE, my_byte);
+</pre></div></div>
+<div class="Element15">
+Asynchronous Transmission of Break Characters</div>
+<p class="Element10">
+A break characters consists of a <strong>Start Bit</strong> followed by twelve bits of &quot;0&quot; and a <strong>Stop Bit.</strong>&nbsp;</p>
+<p class="Element10">
+<strong>Setup and Transmission</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Configure the desired mode, using the previous steps described.</li>
+<li value="2" class="Element600">Enable the transmitter using <a href="21150.html">PLIB_USART_TransmitterEnable</a>.</li>
+<li value="3" class="Element600">Transmit the break character using <a href="21145.html">PLIB_USART_TransmitterBreakSend</a> function.</li>
+<li value="4" class="Element600">Check if the break transmission is complete using <a href="21146.html">PLIB_USART_TransmitterBreakSendIsComplete</a>.</li>
+<li value="5" class="Element600">Transmission of the next bytes can start.</li>
+</ol><strong>Example: USART Break and Sync Transmission</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03501');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03501"><pre class="Element12"><i><span style="color: #008000">// Set the desired baud rate</span></i>
+uint32_t baudRate = 9600;
+
+<i><span style="color: #008000">// where, MY_USART_INSTANCE - is a specific instance of the hardware peripheral</span></i>
+<i><span style="color: #008000">// where, MY_CLOCK_FREQUENCY - is hardware clock frequency which is currently</span></i>
+<i><span style="color: #008000">//being used by the system.</span></i>
+PLIB_USART_BaudRateSet(MY_USART_INSTANCE, baudRate, MY_CLOCK_FREQUENCY);
+
+<i><span style="color: #008000">// Enable the asynchronous serial port.</span></i>
+<i><span style="color: #008000">// enable asynchronous mode if the part supports it</span></i>
+PLIB_USART_SyncModeSelect(MY_USART_INSTANCE, USART_ASYNC_MODE);
+
+<i><span style="color: #008000">/* Select 8 data bits, No parity and one stop bit */</span></i>
+PLIB_USART_LineControlModeSelect(MY_USART_INSTANCE, USART_8N1);
+
+<i><span style="color: #008000">// enable USART</span></i>
+PLIB_USART_Enable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Set the appropriate IO direction for USART pins</span></i>
+<i><span style="color: #008000">// TODO - Call the appropriate function.</span></i>
+
+<i><span style="color: #008000">// Enable the transmission</span></i>
+PLIB_USART_TransmitterEnable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Start the transmission</span></i>
+<i><span style="color: #008000">// Transmit the break character</span></i>
+PLIB_USART_TransmitterBreakSend(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Transmit the byte</span></i>
+<strong><span style="color: #000080">while</span></strong>(PLIB_USART_TransmitterBreakSendIsComplete(MY_USART_INSTANCE));
+
+PLIB_USART_TransmitterByteSend(MY_USART_INSTANCE, 0x55);
+</pre></div></div>
+<p class="Element10">
+Refer to the following steps for setting up asynchronous receptions and how to receive data.</p><div class="Element15">
+Asynchronous Reception</div>
+<p class="Element10">
+<strong>Setup</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Set the desired baud rate using <a href="21060.html">PLIB_USART_BaudRateHighSet</a> or <a href="21061.html">PLIB_USART_BaudRateSet</a>.</li>
+<li value="2" class="Element600">Set the appropriate I/O direction and corresponding RX and TX I/O pins.</li>
+<li value="3" class="Element600"><i>If available on the device</i>, enable the asynchronous serial port using PLIB_USART_SyncModeSelect.</li>
+<li value="4" class="Element600">Set the number of data bits (8 or 9) and other line control modes using <a href="21111.html">PLIB_USART_LineControlModeSelect</a>.</li>
+<li value="5" class="Element600"><i>Optional (if available on the device):</i> If desired, enable the receive interrupt.
+<ul class="Element630">
+<li class="Element600">Ensure that the interrupts are enabled for the system and the peripherals</li>
+<li class="Element600">Select the interrupt priority</li>
+<li class="Element600">Set up the receive FIFO interrupt mode using <a href="21130.html">PLIB_USART_ReceiverInterruptModeSelect</a>. Refer to <a href="27201.html">USART_RECEIVE_INTR_MODE</a> for a list of possible values.</li>
+</ul></li>
+<li value="6" class="Element600"><i>Optional: </i>If inverted receive polarity is desired, use <a href="21129.html">PLIB_USART_ReceiverIdleStateLowEnable</a>.</li>
+<li value="7" class="Element600"><i>If available on the device</i>, enable the reception using <a href="21126.html">PLIB_USART_ReceiverEnable</a>.</li>
+<li value="8" class="Element600">Enable the USART module using <a href="21066.html">PLIB_USART_Enable</a>.</li>
+</ol><strong>Example: Asynchronous Reception Setup</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03502');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03502"><pre class="Element12"><i><span style="color: #008000">// Set the desired baud rate</span></i>
+uint32_t baudRate = 9600;
+
+<i><span style="color: #008000">// where, MY_USART_INSTANCE - is a specific instance of the hardware peripheral.</span></i>
+<i><span style="color: #008000">// where, MY_CLOCK_FREQUENCY - is hardware clock frequency which is currently being</span></i>
+<i><span style="color: #008000">// used by the system.</span></i>
+PLIB_USART_BaudRateHighSet(MY_USART_INSTANCE, baudRate, MY_CLOCK_FREQUENCY);
+
+<i><span style="color: #008000">// Enable the synchronous slave serial port.</span></i>
+<i><span style="color: #008000">// enable asynchronous mode if the part supports it</span></i>
+PLIB_USART_SyncModeSelect(MY_USART_INSTANCE, USART_ASYNC_MODE);
+<i><span style="color: #008000">// enable USART</span></i>
+PLIB_USART_Enable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Set the appropriate IO direction for USART pins</span></i>
+<i><span style="color: #008000">// TODO - Call the appropriate function.</span></i>
+
+<i><span style="color: #008000">// Start the reception</span></i>
+<i><span style="color: #008000">// Enable the continuous reception</span></i>
+PLIB_USART_ReceiverEnable(MY_USART_INSTANCE);
+</pre></div></div>
+<p class="Element10">
+<strong>Reception</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Either wait for an interrupt, which will be generated when the reception is completed, or poll using <a href="21124.html">PLIB_USART_ReceiverDataIsAvailable</a>.</li>
+<li value="2" class="Element600">Read the status of the device using <a href="21133.html">PLIB_USART_ReceiverOverrunHasOccurred</a>, <a href="21134.html">PLIB_USART_ReceiverParityErrorHasOccurred</a>, and <a href="21127.html">PLIB_USART_ReceiverFramingErrorHasOccurred</a>.</li>
+<li value="3" class="Element600">Read the data using <a href="21123.html">PLIB_USART_ReceiverByteReceive</a>.</li>
+<li value="4" class="Element600">If an overrun error occurred, clear the error using <a href="21132.html">PLIB_USART_ReceiverOverrunErrorClear</a>.</li>
+</ol><strong>Example: Asynchronous Reception</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03503');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03503"><pre class="Element12"><i><span style="color: #008000">// TODO - Either wait for Receive buffer to have data or wait for</span></i>
+<i><span style="color: #008000">// a receive interrupt.</span></i>
+<i><span style="color: #008000">// read the data</span></i>
+my_byte = PLIB_USART_ReceiverByteReceive(MY_USART_INSTANCE);
+<i><span style="color: #008000">// where, my_byte is the 8 bit data received</span></i>
+
+<i><span style="color: #008000">// If overrun error clear the error.</span></i>
+<strong><span style="color: #000080">if</span></strong>(PLIB_USART_ReceiverOverrunHasOccurred(MY_USART_INSTANCE))
+{
+    PLIB_USART_ReceiverOverrunErrorClear(MY_USART_INSTANCE);
+}</pre></div></div>
+<div class="Element15">
+Asynchronous Reception with Address Detection Mode</div>
+<p class="Element10">
+A typical multi-processor communication protocol will differentiate between data bytes and address/control bytes. A common method is to use a 9th data bit to identify whether a data byte is address or data information. If the 9th bit is set, the data is processed as address or control information. If the 9th bit is cleared, the received data word is processed as data associated with the previous address/control byte.&nbsp;</p>
+<p class="Element10">
+The protocol operates as follows:
+<ul class="Element630">
+<li class="Element600">The master device transmits a data word with 9th bit set. The data word contains the address of a slave device.</li>
+<li class="Element600">All slave devices in the communication chain receive the address word and check the slave address.</li>
+<li class="Element600">The slave device that was addressed will receive and process subsequent data bytes sent by the master device. All other slave devices will discard subsequent data bytes until a new address word(9th bit set) is received.</li>
+</ul>This mode will typically be used in RS-485 systems.&nbsp;</p>
+<p class="Element10">
+<strong>Setup</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Set the desired baud rate using <a href="21060.html">PLIB_USART_BaudRateHighSet</a> or <a href="21061.html">PLIB_USART_BaudRateSet</a>.</li>
+<li value="2" class="Element600">Set the appropriate I/O direction and corresponding RX and TX I/O pins.</li>
+<li value="3" class="Element600"><i>If available on the device</i>, enable the asynchronous serial port using PLIB_USART_SyncModeSelect.</li>
+<li value="4" class="Element600">Set the number of data bits (8 or 9) and other line control modes using <a href="21111.html">PLIB_USART_LineControlModeSelect</a>.</li>
+<li value="5" class="Element600"><i>Optional (if available on the device):</i> If desired, enable the receive interrupt.
+<ul class="Element630">
+<li class="Element600">Ensure that the interrupts are enabled for the system and the peripherals. Also select the interrupt priority.</li>
+<li class="Element600">Set up the receive FIFO interrupt mode by using the function <a href="21130.html">PLIB_USART_ReceiverInterruptModeSelect</a>. Refer to <a href="27201.html">USART_RECEIVE_INTR_MODE</a> for a list of possible values.</li>
+<li class="Element600">For Address Detect mode, configure <a href="21130.html">PLIB_USART_ReceiverInterruptModeSelect</a> with the receive FIFO interrupt mode as USART_RECEIVE_FIFO_ONE_CHAR.</li>
+</ul></li>
+<li value="6" class="Element600"><i>Optional:</i> If inverted receive polarity is desired, use <a href="21129.html">PLIB_USART_ReceiverIdleStateLowEnable</a>.</li>
+<li value="7" class="Element600"><i>If available on the device</i>, enable the reception using <a href="21126.html">PLIB_USART_ReceiverEnable</a>.</li>
+<li value="8" class="Element600">Enable address detection using <a href="21120.html">PLIB_USART_ReceiverAddressDetectEnable</a>.</li>
+<li value="9" class="Element600">Enable the USART module using <a href="21066.html">PLIB_USART_Enable</a>.</li>
+</ol>&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This feature is not available on all devices. On devices where automatic address detection is available, configure automatic address detection using <a href="21118.html">PLIB_USART_ReceiverAddressAutoDetectEnable</a>. Skip steps 2-6 in the following Reception section during the reception phase.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example: Asynchronous Reception Setup ( with address detect enable)</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03504');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03504"><pre class="Element12"><i><span style="color: #008000">// Set the desired baud rate</span></i>
+uint32_t baudRate = 9600;
+
+<i><span style="color: #008000">// where, MY_USART_INSTANCE - is a specific instance of the hardware peripheral.</span></i>
+<i><span style="color: #008000">// where, MY_CLOCK_FREQUENCY - is hardware clock frequency which is currently</span></i>
+<i><span style="color: #008000">// being used by the system.</span></i>
+PLIB_USART_BaudRateHighSet(MY_USART_INSTANCE, baudRate, MY_CLOCK_FREQUENCY);
+
+<i><span style="color: #008000">// Enable the synchronous slave serial port.</span></i>
+<i><span style="color: #008000">// enable sync mode</span></i>
+PLIB_USART_SyncModeSelect(MY_USART_INSTANCE, USART_ASYNC_MODE);
+<i><span style="color: #008000">// enable USART</span></i>
+PLIB_USART_Enable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Set the appropriate IO direction for USART pins</span></i>
+<i><span style="color: #008000">// TODO - Call the appropriate function.</span></i>
+
+<i><span style="color: #008000">// Set the reception to 9 bits to enable address byte.</span></i>
+PLIB_USART_LineControlModeSelect(MY_USART_INSTANCE, USART_9N1);
+
+<i><span style="color: #008000">// Enable address detection.</span></i>
+PLIB_USART_ReceiverAddressDetectEnable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Start the reception</span></i>
+<i><span style="color: #008000">// Enable the continuous reception</span></i>
+PLIB_USART_ReceiverEnable(MY_USART_INSTANCE);
+</pre></div></div>
+<p class="Element10">
+<strong>Reception</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Either wait for an interrupt, which will be generated when the reception is completed or poll using <a href="21124.html">PLIB_USART_ReceiverDataIsAvailable</a>.</li>
+<li value="2" class="Element600">Read the address using <a href="21123.html">PLIB_USART_ReceiverByteReceive</a>.</li>
+<li value="3" class="Element600">The application determines if this is the device address. If the device is addressed, disable address detect using <a href="21119.html">PLIB_USART_ReceiverAddressDetectDisable</a> to allow subsequent data bytes to be received; otherwise, discard the received word.</li>
+<li value="4" class="Element600">Read the status of the device using <a href="21133.html">PLIB_USART_ReceiverOverrunHasOccurred</a>, <a href="21134.html">PLIB_USART_ReceiverParityErrorHasOccurred</a>, and <a href="21127.html">PLIB_USART_ReceiverFramingErrorHasOccurred</a>.</li>
+<li value="5" class="Element600">If an overrun error occurred, clear the error using <a href="21132.html">PLIB_USART_ReceiverOverrunErrorClear</a>.</li>
+<li value="6" class="Element600">If the device has been addressed, disable the address detection using <a href="21119.html">PLIB_USART_ReceiverAddressDetectDisable</a>, which will allow all received data into the receive buffer and generate interrupts if desired.</li>
+<li value="7" class="Element600"><i>Optional (if available on the device): </i>If a long packet is expected, the receive interrupt mode could be changed to buffer more than one data word between interrupts. Use <a href="21130.html">PLIB_USART_ReceiverInterruptModeSelect</a> with USART_RECEIVE_FIFO_HALF_FULL or USART_RECEIVE_FIFO_3B4FULL.</li>
+<li value="8" class="Element600">When the last data byte has been received, enable the address detect using <a href="21120.html">PLIB_USART_ReceiverAddressDetectEnable</a>, so that only address bytes will be received.</li>
+<li value="9" class="Element600"><i>Optional (if available on the device): </i>Ensure that the receive interrupt is configured to be triggered after each received word using <a href="21130.html">PLIB_USART_ReceiverInterruptModeSelect</a> with USART_RECEIVE_FIFO_ONE_CHAR.</li>
+</ol><strong>Example: Asynchronous Reception (with Address Detect)</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03505');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03505"><pre class="Element12"><i><span style="color: #008000">// Either wait for Receive buffer to have data or wait for a receive interrupt.</span></i>
+int8_t my_address;
+
+<i><span style="color: #008000">// Receive the address</span></i>
+<strong><span style="color: #000080">if</span></strong>(PLIB_USART_ReceiverDataIsAvailable(MY_USART_INSTANCE))
+{
+    my_address = PLIB_USART_ReceiverByteReceive(MY_USART_INSTANCE);
+    <i><span style="color: #008000">// where, my_address is the address received</span></i>
+}
+
+<i><span style="color: #008000">// If overrun error clear the error.</span></i>
+<strong><span style="color: #000080">if</span></strong>(PLIB_USART_ReceiverOverrunHasOccurred(MY_USART_INSTANCE))
+{
+    PLIB_USART_ReceiverOverrunErrorClear(MY_USART_INSTANCE);
+}
+
+<strong><span style="color: #000080">if</span></strong>(my_address == MY_DEVICE_ADDRESS)
+{
+    <i><span style="color: #008000">// The device has been addressed.</span></i>
+    PLIB_USART_ReceiverAddressDetectDisable(MY_USART_INSTANCE);
+}
+
+<i><span style="color: #008000">// TODO - Receive the data bytes for the packet. Either wait for RX buffer</span></i>
+<i><span style="color: #008000">//to have data or wait for a receive interrupt.</span></i>
+
+<i><span style="color: #008000">// When all the bytes for the packet are received.</span></i>
+
+<i><span style="color: #008000">// Enable address detection mode</span></i>
+PLIB_USART_ReceiverAddressDetectEnable(MY_USART_INSTANCE);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18072.html">Asynchronous USART Mode</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Asynchronous USART Mode Topic Title: Asynchronous USART Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

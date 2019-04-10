@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Accessing the Result Buffers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17395.html">How the Library Works</a> &gt; <a href="17381.html">Accessing the Result Buffers</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17384.html">Previous</a> | <a href="17395.html">Up</a> | <a href="17401.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Accessing the Result Buffers Topic Title: Accessing the Result Buffers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Accessing the Result Buffers</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10" style="text-align: justify;">
+As the analog-to-digital conversions are completed, the ADC module writes the results of the conversions into the ADC result buffer. This buffer is a RAM array of 16 words, accessed through the Special Function Register (SFR) space.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+User software may attempt to read each ADC conversion result as it is generated; however, this might consume too much CPU time. Generally, to minimize software overhead, the ADC module will fill the buffer with results, and then generate an interrupt when the buffer is filled. There are two different modes for accessing the result buffers.</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Refer to the <strong>&quot;Analog-to-Digital Converter (ADC)&quot;</strong> chapter in the specific device data sheet to determine the correct mode for accessing the result buffer for your device.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Single Buffer Mode</div>
+<p class="Element10">
+Conversion results are automatically stored in a dedicated buffer. The module sets its interrupt flag after the conversion is complete, it also marks the conversion status as complete. After the interrupt, the conversion sequence can restart. The converted values are available through <a href="18195.html">PLIB_ADC_ResultGetByIndex</a>.</p><div class="Element15">
+Multiple Buffer Mode</div>
+<p class="Element10">
+Conversion results are automatically stored in a dedicated position in the result buffer comprising an array of 16 words, allowing for multiple successive readings to be taken before software service is needed. Successive conversions are placed into sequential buffer positions. Alternatively, the buffer can be split into two arrays of 8 words for simultaneous conversion and read operations. The ADC module sets its interrupt flag after a selectable number of conversions, from 1 to 16, when the all buffer positions can be read. After the interrupt, the sequence restarts at the beginning of the buffer. When the interrupt flag is set, scan selections and the output buffer pointer return to their starting positions. The ADC result buffer is a set of 16 words, accessed through <a href="18195.html">PLIB_ADC_ResultGetByIndex</a> , where buffer index can be can be any value ranging from 0 to 15.&nbsp;</p>
+<p class="Element10">
+<a href="18199.html">PLIB_ADC_SamplesPerInterruptSelect</a> selects how many analog-to-digital conversions will take place before the CPU is interrupted.&nbsp;</p>
+<p class="Element10">
+The buffer fill mode can be selected using <a href="18192.html">PLIB_ADC_ResultBufferModeSelect</a> with the parameter of the type <a href="02685.html">ADC_BUFFER_MODE</a>.&nbsp;</p>
+<p class="Element10">
+When the conversion result buffer is split (ADC_BUFFER_MODE_TWO_8WORD_BUFFERS used as the parameter for <a href="18192.html">PLIB_ADC_ResultBufferModeSelect</a>), <a href="18193.html">PLIB_ADC_ResultBufferStatusGet</a> indicates which half of the buffer is being currently written by the ADC module. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all functionality is available on all devices. Refer to the <strong>&quot;Analog-to-Digital Converter (ADC)&quot;</strong> chapter in the specific device data sheet for availability.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17395.html">How the Library Works</a> &gt; <a href="17381.html">Accessing the Result Buffers</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Accessing the Result Buffers Topic Title: Accessing the Result Buffers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

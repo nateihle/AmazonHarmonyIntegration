@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22214.html">Power Peripheral Library</a> &gt; <a href="17939.html">Using the Library</a> &gt; <a href="17931.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17939.html">Previous</a> | <a href="17939.html">Up</a> | <a href="17937.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB POWER Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10" style="text-align: center;">
+<strong>Hardware Abstraction Block Diagram</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="power abstraction model.png" border="0" alt="" title=""></p><p class="Element10">
+This section discusses the various power-saving features implemented in hardware. Combinations of these methods can be used to selectively tailor an application’s power consumption, while still maintaining critical or timing-sensitive application features. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+<span style="color: #000000">Not all devices support all of the features discussed in this section. Please refer to specific device data sheet to determine the supported features for your device.</span>&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Instruction-based Power-Saving Modes</div>
+<p class="Element10">
+In addition to full-power operation, otherwise known as Run mode, PIC microcontrollers also provide other instruction-based power-saving modes. By powering down to different modes, different functional areas of the microcontroller allow progressive reductions of operating and idle power consumption. In addition, these modes can be tailored for more power reduction, but at a trade-off of some operating features.
+<ul class="Element630">
+<li class="Element600"><strong>Idle Mode:</strong> In Idle mode, the CPU is halted, but the System Clock (SYSCLK) source is still enabled. This allows peripherals to continue to operate when the CPU is halted. Peripherals can be individually configured to halt when entering Idle mode by setting their respective SIDL bit. Latency when exiting Idle mode is very low due to the CPU oscillator source remaining active.</li>
+<li class="Element600"><strong>Sleep Mode:</strong> The CPU, SYSCLK source and any peripherals that operate on the system clock source are disabled</li>
+<li class="Element600"><strong>Deep Sleep Mode:</strong> The CPU SYSCLK source, and all the peripherals, with the exception of the Real-Time Clock and Calendar (RTCC) and the Deep Sleep Watchdog Timer (DSWDT), are disabled. This is the lowest power mode for the device. The power to RAM and Flash is also disabled. Deep Sleep mode represents the lowest power mode available without removing power from the application.</li>
+</ul>The instruction-based power-saving modes are exited as a result of several different hardware triggers. When the device exits one of these three operating modes, it is said to ‘wake-up'.</p><div class="Element15">
+Hardware-based Power-Saving Mode</div>
+<p class="Element10">
+<span style="color: #000000">VBAT mode is a hardware-based power-saving mode that maintains only the most critical operations when a power loss occurs on VDD. The mode does this by powering the systems from a back-up power source connected to the VBAT pin. In this mode, the RTCC can run even when there is no power on VDD.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">VBAT mode is entered whenever power is removed from VDD. An on-chip power switch detects the power loss from VDD and connects the VBAT pin to the low-voltage regulator. Entering VBAT mode requires that a power source, distinct from the main VDD power source, be available on the VBAT pin and that VDD be completely removed from the VDD pin(s). Removing VDD can be either unintentional, as in a power failure, or as part of a deliberate power reduction strategy.</span> </p><p class="Element10" style="text-align: center;">
+<img src="Vbat power topology.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+<span style="color: #000000">Not all devices support all of the features discussed in this section. Please refer to specific device data sheet to determine the supported features for your device.</span>&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Selective Peripheral Power Control</div>
+<p class="Element10">
+Sleep and Idle modes allow users to substantially reduce power consumption by slowing or stopping the CPU clock. Even so, peripheral modules may still remain clocked, and thus, consume some amount of power. There may be cases where the application needs what these modes do not provide: the ability to allocate limited power resources to the CPU while eliminating power consumption from the peripherals. PIC microcontrollers address this requirement by allowing peripheral modules to be selectively enabled or disabled, reducing or eliminating their power consumption.&nbsp;</p>
+<p class="Element10">
+In addition to the selective peripheral power control implemented as part of this library, devices will also include power saving features that are implemented in their specific libraries. These features include the ability to stop (shutdown) automatically when entering idle mode. On some peripherals the ability to continue operation in Sleep mode is available. Always review the libraries for the peripherals used by your application for specific and unique features that will help minimize power consumption.</p><div class="Element15">
+Disabling Peripheral Modules</div>
+<p class="Element10">
+Most of the peripheral modules in the PIC microcontroller family architecture can be selectively disabled, reducing or essentially eliminating their power consumption during all operating modes.&nbsp;</p>
+<p class="Element10">
+All peripheral modules (except for I/O ports) also have a Control bit that can disable their functionality. These bits, known as the Peripheral Module Disable (PMD) bits, are generically named: 'xxMD'. These bits are located in the PMDx Special Function Registers (SFRs). In contrast to the module enable bits, the xxMD bit must be set to a '1' to disable the module.&nbsp;</p>
+<p class="Element10">
+While the PMD and module enable bits both disable a peripheral’s functionality, the PMD bit completely shuts down the peripheral, effectively powering down all circuits and removing all clock sources. This has the additional effect of making any of the module’s control and buffer registers, mapped in the SFR space, unavailable for operations. In other words, when the PMD bit is used to disable a module, the peripheral ceases to exist until the PMD bit is cleared.&nbsp;</p>
+<p class="Element10">
+The PMD bit is most useful in highly power-sensitive applications, where even tiny savings in power consumption can determine the ability of an application to function. In these cases, the bits can be set before the main body of the application to remove those peripherals that will not be needed.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22214.html">Power Peripheral Library</a> &gt; <a href="17939.html">Using the Library</a> &gt; <a href="17931.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB POWER Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

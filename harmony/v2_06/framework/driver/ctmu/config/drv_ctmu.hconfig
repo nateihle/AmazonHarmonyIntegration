@@ -1,0 +1,30 @@
+menu "CTMU"
+    depends on HAVE_CTMU
+
+enum DRV_CTMU_MODE
+    "STATIC"
+    
+config USE_DRV_CTMU
+    bool "Use CTMU Driver?"
+	select DRIVER
+    default n
+
+comment "**** Warning: Driver implementation is not available. Only pin management functionality is enabled in this release. ****"
+	depends on USE_DRV_CTMU 
+
+config DRV_CTMU_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_CTMU
+    range DRV_CTMU_MODE
+    default "STATIC"
+    persistent
+
+endmenu
+
+config DRV_CTMU_DUMMY
+	bool
+	default n
+
+ifblock DRV_CTMU_DUMMY=y
+file DRV_CTMU_H "$HARMONY_VERSION_PATH/framework/driver/ctmu/drv_ctmu.h" to "$PROJECT_HEADER_FILES/framework/driver/ctmu/drv_ctmu.h"
+endif

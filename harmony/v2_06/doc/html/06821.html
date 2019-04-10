@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>CLASSB_RAMCheckerBoardTest Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="06802.html">Class B Library Help</a> &gt; <a href="06811.html">Library Interface</a> &gt; a) Functions &gt; <a href="06821.html">CLASSB_RAMCheckerBoardTest Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="06819.html">Previous</a> | <a href="06811.html">Up</a> | <a href="06822.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CLASSB_RAMCheckerBoardTest@unsigned int *@unsigned int Topic Title: CLASSB_RAMCheckerBoardTest Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+CLASSB_RAMCheckerBoardTest Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="06825.html">CLASSBRESULT</a> <strong><span style="color: #000000">CLASSB_RAMCheckerBoardTest</span></strong>(
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> * <strong><span style="color: #000000">startAddress</span></strong>, 
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">length</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine detects single bit Faults in the variable memory. This ensures that the bits in the tested RAM are not stuck at a value ?0? or ?1?.&nbsp;</p>
+<p class="Element10">
+The test writes the checkerboard pattern (0x55555555 followed by 0xaaaaaaaa) to adjacent memory locations starting at ramStartAddress. It performs the following steps:
+<ol class="Element635">
+<li value="1" class="Element605">A temporary memory buffer (stack) is tested for reliability.</li>
+<li value="1" class="Element605">The content of a 64 bytes memory chunk to be tested is saved in temporary memory buffer.</li>
+<li value="2" class="Element605">Writes the pattern 0x55555555 followed by 0xaaaaaaaa to adjacent memory locations filling up the 64 bytes memory chunk. </li>
+<li value="3" class="Element605">It reads the memory chunk adjacent locations and checks that the read-back values match the written pattern. If the values match set the success result and go to step 4. Else set the error result and go to step 6.</li>
+<li value="4" class="Element605">Writes the inverted pattern 0xaaaaaaaa followed by 0x55555555 to adjacent memory locations filling up the 64 bytes memory chunk.</li>
+<li value="5" class="Element605">It reads the memory chunk adjacent locations and checks that the read-back values match the written pattern. If the values match set the success result. Else set the error result.</li>
+<li value="6" class="Element605">The content of the tested 64 bytes memory chunk is restored from the temporary memory buffer.</li>
+<li value="7" class="Element605">If the result shows error the test is done and returns.</li>
+<li value="8" class="Element605">The address pointer is incremented to point to the next sequential 64 bytes memory chunk and the test is repeated from step 1 until all the number of requested memory locations is tested.</li>
+</ol></p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+ramStartAddress&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+start Address from which the checker Board test is to be performed Must be properly 32 bit aligned.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+ramSize&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+number of consecutive byte locations for which the test is to be performed The size must be a number multiple of 64.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Result identifying the pass/fail status of the test: CLASSB_TEST_PASS - The test passed. RAM area tested has not been detected to have stuck bits.&nbsp;</p>
+<p class="Element10">
+CLASSB_TEST_FAIL - The test failed. Some RAM area location has been detected to have stuck bits.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This is a non-destructive memory test. The content of the tested memory area is saved and restored. The test operates in 64 bytes long memory chunks at a time.&nbsp;</p>
+<p class="Element10">
+At least 32 bytes should be available for stack for executing the RAM Checker Board test. The tested RAM area must not overlap the stack.&nbsp;</p>
+<p class="Element10">
+The Start Address from which the Checker Board test is to be performed is PIC32 variant and application dependent. It is a run-time parameter.&nbsp;</p>
+<p class="Element10">
+The routine accesses one 4 byte RAM word at a time.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00197');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00197"><pre class="Element12"><strong><span style="color: #000080">int</span></strong> testRes=CLASSB_RAMCheckerBoardTest(startAddress, size);
+<strong><span style="color: #000080">if</span></strong>(testRes==CLASSB_TEST_PASS)
+{
+    <i><span style="color: #008000">// process test success</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+    <i><span style="color: #008000">// process tests failure</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="06802.html">Class B Library Help</a> &gt; <a href="06811.html">Library Interface</a> &gt; a) Functions &gt; <a href="06821.html">CLASSB_RAMCheckerBoardTest Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CLASSB_RAMCheckerBoardTest@unsigned int *@unsigned int Topic Title: CLASSB_RAMCheckerBoardTest Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

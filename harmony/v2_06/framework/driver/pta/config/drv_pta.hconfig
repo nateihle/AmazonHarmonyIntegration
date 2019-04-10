@@ -1,0 +1,13 @@
+menu "PTA"
+    depends on PIC32WK
+
+config USE_DRV_PTA
+    depends on PIC32WK
+    bool "Use PTA Driver?"
+	select DRIVER
+    default n
+
+comment "**** Warning: Driver implementation is not available. Only pin management functionality is enabled in this release. ****"
+	depends on USE_DRV_PTA
+	
+endmenu

@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Other Features</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18084.html">Other Features</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18088.html">Previous</a> | <a href="18080.html">Up</a> | <a href="18074.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Other Features Topic Title: Other Features)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Other Features</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+IrDA Support</div>
+<p class="Element10">
+Support for IrDA is available in some microcontrollers.
+<ol class="Element630">
+<li value="1" class="Element600">Enable IrDA support using <a href="21110.html">PLIB_USART_IrDAEnable</a>. IrDA support can be disabled using <a href="21109.html">PLIB_USART_IrDADisable</a>.</li>
+<li value="2" class="Element600"><i>Optional: </i>If using the external IrDA encoder and decoder, use the function <a href="21115.html">PLIB_USART_OperationModeSelect</a> with USART_ENABLE_TX_RX_BCLK_USED to output the 16x baud clock.</li>
+<li value="3" class="Element600"><i>Optional: </i>IrDA Transmit Polarity can be inverted using <a href="21152.html">PLIB_USART_TransmitterIdleIsLowEnable</a>.</li>
+<li value="4" class="Element600"><i>Optional: </i>IrDA Receive Polarity can be inverted using <a href="21129.html">PLIB_USART_ReceiverIdleStateLowEnable</a>.</li>
+<li value="5" class="Element600">Enable the USART using <a href="21066.html">PLIB_USART_Enable</a>.</li>
+</ol></p><div class="Element15">
+Loopback Support</div>
+<p class="Element10">
+This is the mode in which the transmission is internally connected to reception.
+<ol class="Element630">
+<li value="1" class="Element600">Set the desired baud rate using <a href="21061.html">PLIB_USART_BaudRateSet</a> or <a href="21060.html">PLIB_USART_BaudRateHighSet</a>.</li>
+<li value="2" class="Element600">Set up the line control parameters (data bits, stop bits, parity, flow control) using <a href="21111.html">PLIB_USART_LineControlModeSelect</a>. Refer to <a href="27179.html">USART_LINECONTROL_MODE</a> for a list of possible values.</li>
+<li value="3" class="Element600">Set the appropriate I/O direction and corresponding RX and TX I/O pins.</li>
+<li value="4" class="Element600"><i>Optional: </i>If desired, enable the transmit interrupt, also make sure that the interrupts are enabled for the system and the peripherals.</li>
+<li value="5" class="Element600"><i>Optional:</i> Also select the interrupt priority.</li>
+<li value="6" class="Element600"><i>Optional:</i> Also, set up the transmit FIFO interrupt mode using <a href="21153.html">PLIB_USART_TransmitterInterruptModeSelect</a>. Refer to <a href="27205.html">USART_TRANSMIT_INTR_MODE</a> for a list of possible values.</li>
+<li value="7" class="Element600">Enable the USART module using <a href="21066.html">PLIB_USART_Enable</a> and enable the transmission using <a href="21150.html">PLIB_USART_TransmitterEnable</a>.</li>
+<li value="8" class="Element600">Enable loopback using <a href="21113.html">PLIB_USART_LoopbackEnable</a>. Loopback can be disabled at any time using <a href="21112.html">PLIB_USART_LoopbackDisable</a></li>
+<li value="9" class="Element600">Continue with transmission and/or reception using the same steps as for asynchronous transmission/reception.</li>
+</ol></p><div class="Element15">
+Auto Baud Support</div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Enable the auto baud detection using the function <a href="21055.html">PLIB_USART_BaudRateAutoDetectEnable</a>, which requires a reception of the Sync character (0x55).</li>
+<li value="2" class="Element600"><i>Optional: </i>Poll <a href="21056.html">PLIB_USART_BaudRateAutoDetectIsComplete</a> to check if the baud rate is detected<i>.</i></li>
+<li value="3" class="Element600"><i>Optional: </i>Call <a href="21057.html">PLIB_USART_BaudRateGet</a> to get the baud rate that was detected.</li>
+<li value="4" class="Element600">Clear the receive interrupt.</li>
+<li value="5" class="Element600">On some microcontrollers, reading the data using <a href="21123.html">PLIB_USART_ReceiverByteReceive</a> may be required.</li>
+</ol></p><div class="Element15">
+Flow Control Support</div>
+<p class="Element10">
+The USART can use Simplex or Flow Control modes:
+<ul class="Element630">
+<li class="Element600">Use <a href="21105.html">PLIB_USART_HandshakeModeSelect</a> to enable flow control (USART_HANDSHAKE_MODE_FLOW_CONTROL) or use simplex mode (USART_HANDSHAKE_MODE_SIMPLEX) selected from <a href="27176.html">USART_HANDSHAKE_MODE</a>.</li>
+<li class="Element600">To configure the USART line control features, use <a href="21111.html">PLIB_USART_LineControlModeSelect</a> selected from <a href="27179.html">USART_LINECONTROL_MODE</a>.</li>
+<li class="Element600">Additionally, the USART pins may need to be configured using <a href="21115.html">PLIB_USART_OperationModeSelect</a> and the appropriate values from <a href="27196.html">USART_OPERATION_MODE</a>.</li>
+</ul></p><div class="Element15">
+Operation During Sleep Mode</div>
+<p class="Element10">
+When the device enters Sleep mode, all clock sources supplied to the USART modules are shut down. If the device enters Sleep mode in the middle of a USART transmission or reception operation, the operation is aborted and the USART pins are driven to default state.&nbsp;</p>
+<p class="Element10">
+A Start bit, when detected, can wake up the device.
+<ul class="Element630">
+<li class="Element600">The application needs to enable the wake-up on start bit using <a href="21156.html">PLIB_USART_WakeOnStartEnable</a> just before entering Sleep mode, to wake-up the device</li>
+<li class="Element600">For the device to wake-up from sleep, reception of the Sync character or Wake-up Signal character is required</li>
+<li class="Element600"><i>Optional: </i>If using interrupts, a receive interrupt is generated</li>
+</ul></p><div class="Element15">
+Operation During Idle Mode</div>
+<p class="Element10">
+When the device enters Idle mode, the system clock sources remain functional and the CPU stops code execution.
+<ul class="Element630">
+<li class="Element600">USART operation during Idle mode can be stopped using <a href="21142.html">PLIB_USART_StopInIdleEnable</a>. When the device enters Idle mode, the USART module operation is similar to that as in Sleep mode(Refer to Operation in Sleep Mode).</li>
+<li class="Element600">By default, the USART module continues to operate in Idle mode and provide full functionality</li>
+</ul></p><div class="Element15">
+USART Operation With DMA</div>
+<p class="Element10">
+The DMA module can be used to transfer data between the USART and the CPU, without CPU assistance.
+<ol class="Element630">
+<li value="1" class="Element600">Set the desired baud rate using the function <a href="21061.html">PLIB_USART_BaudRateSet</a> or <a href="21060.html">PLIB_USART_BaudRateHighSet</a>.</li>
+<li value="2" class="Element600">Set up the line control parameters (data bits, stop bits, parity, flow control) using the function <a href="21111.html">PLIB_USART_LineControlModeSelect</a>. Refer to <a href="27179.html">USART_LINECONTROL_MODE</a> for a list of possible values.</li>
+<li value="3" class="Element600">Set the appropriate I/O direction and corresponding RX and TX I/O pins.</li>
+<li value="4" class="Element600">Enable the USART module using <a href="21066.html">PLIB_USART_Enable</a> and enable the transmission using <a href="21150.html">PLIB_USART_TransmitterEnable</a>.</li>
+<li value="5" class="Element600">Enable the Transmit, Receive, and Error interrupts, ensuring that the interrupts are enabled for the system and the peripherals.</li>
+<li value="6" class="Element600">Select the interrupt priority.</li>
+<li value="7" class="Element600">Set up the Transmit FIFO Interrupt mode and Receive FIFO Interrupt mode using the <a href="21153.html">PLIB_USART_TransmitterInterruptModeSelect</a> and <a href="21130.html">PLIB_USART_ReceiverInterruptModeSelect</a> functions. To generate interrupts for every character received, use USART_RECEIVE_FIFO_ONE_CHAR from <a href="27201.html">USART_RECEIVE_INTR_MODE</a>.</li>
+<li value="8" class="Element600">Configure the DMA to be used with the USART receiver and transmitter.</li>
+</ol></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18084.html">Other Features</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Other Features Topic Title: Other Features)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

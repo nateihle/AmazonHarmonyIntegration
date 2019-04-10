@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PWM Generation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17786.html">PWM Generation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17777.html">Previous</a> | <a href="17777.html">Up</a> | <a href="17767.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM PWM Generation Topic Title: PWM Generation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PWM Generation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Use the following steps to configure the MCPWM module for generating PWM signals:
+<ol class="Element630">
+<li value="1" class="Element600">Disable the MCPWM module using <a href="19791.html">PLIB_MCPWM_Disable</a>.</li>
+<li value="2" class="Element600">Configure Primary/Secondary time base by setting the PWM primary/secondary master clock prescaler and PWM primary/secondary master period by configuring the Primary/Secondary Master Time Bases using <a href="19820.html">PLIB_MCPWM_PrimaryTimerSetup</a> / <a href="19826.html">PLIB_MCPWM_SecondaryTimerSetup</a>, respectively.</li>
+<li value="3" class="Element600">Configure the desired PWM Channel by setting the master time base source, time base mode, alignment mode, output mode, PWM output polarity, dead-time mode and dead-time compensation input polarity of the desired PWM Channel using <a href="19778.html">PLIB_MCPWM_ChannelSetup</a>.</li>
+</ol></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="12%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="88%" style="border:none;">
+<div class="Element68">
+Refer to <strong>Section 44. &quot;Motor Control PWM (MCPWM)&quot;</strong> (DS60001393), which is available on the Microchip website for additional details on operational behavior of PWM channelw in different modes selected using <a href="19778.html">PLIB_MCPWM_ChannelSetup</a>.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="4" class="Element600">Set the duty cycle:
+<ul class="Element630">
+<li class="Element600">For PWM alignment mode = MCPWM_ASYMMETRIC_CENTER_ALIGNED or MCPWM_ASYMMETRIC_CENTER_ALIGNED_WITH_SIMULTANEOUS_UPDATE, set the primary duty cycle using <a href="19764.html">PLIB_MCPWM_ChannelPrimaryDutyCycleSet</a> and secondary duty cycle using <a href="19776.html">PLIB_MCPWM_ChannelSecondaryDutyCycleSet</a></li>
+<li class="Element600">If the PWM alignment mode = MCPWM_EDGE_ALIGNED or MCPWM_SYMMETRIC_CENTER_ALIGNED, set the duty cycle using <a href="19764.html">PLIB_MCPWM_ChannelPrimaryDutyCycleSet</a></li>
+</ul></li>
+<li value="5" class="Element600">Set the PWM Period/Phase shift:
+<ul class="Element630">
+<li class="Element600">For PWM time base mode = MCPWM_TIME_BASE_SYNCHRONIZED, the PWM period is equal to the period of the master time base source and PWM Phase shift is set using <a href="19763.html">PLIB_MCPWM_ChannelPhaseSet</a>.</li>
+<li class="Element600">For PWM time base mode = MCPWM_TIME_BASE_INDEPENDENT, the PWM period is set using <a href="19763.html">PLIB_MCPWM_ChannelPhaseSet</a>.</li>
+</ul></li>
+<li value="6" class="Element600">For dead-time mode != MCPWM_DEADTIME_DISABLE, set the dead-time:
+<ul class="Element630">
+<li class="Element600">PWMxH dead-time (i.e., rising edge dead-time) is set using <a href="19766.html">PLIB_MCPWM_ChannelPWMxHDeadtimeSet</a>.</li>
+<li class="Element600">PWMxL dead-time (i.e., falling edge dead-time) is set using <a href="19771.html">PLIB_MCPWM_ChannelPWMxLDeadtimeSet</a>.</li>
+</ul></li>
+<li value="7" class="Element600">For dead-time mode = MCPWM_DEADTIME_COMPENSATION, set the dead-time compensation value using <a href="19734.html">PLIB_MCPWM_ChannelDeadtimeCompSet</a>.</li>
+<li value="8" class="Element600">Enable PWM Chopping (if desired in the application).
+<ul class="Element630">
+<li class="Element600">PWM Output chopping can be enabled by selecting the chop clock source and selecting the PWM outputs which needs to be chopped using <a href="19725.html">PLIB_MCPWM_ChannelChopSetup</a>.</li>
+<li class="Element600">If the chop clock source = MCPWM_CHOP_CLOCK_SOURCE_IS_CHOP_CLOCK_GENERATOR then Chop Clock Frequency can be set using <a href="19790.html">PLIB_MCPWM_ChopClockSetup</a>.</li>
+</ul></li>
+<li value="9" class="Element600">Enable PWM outputs using <a href="19768.html">PLIB_MCPWM_ChannelPWMxHEnable</a> and <a href="19773.html">PLIB_MCPWM_ChannelPWMxLEnable</a>.</li>
+<li value="10" class="Element600">Repeat steps 3-10 for all the PWM Channels utilized in the application.</li>
+<li value="11" class="Element600">Enable the MCPWM module using <a href="19792.html">PLIB_MCPWM_Enable</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02628');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02628"><pre class="Element12"><i><span style="color: #008000">/* Configure Primary MCPWM Master Timer */</span></i>
+<i><span style="color: #008000">/* PWM Clock Frequency = SYSCLK/1*/</span></i>
+<i><span style="color: #008000">/*Primary MCPWM Master Timer Period = 2999 counts*/</span></i>
+PLIB_MCPWM_PrimaryTimerSetup (MCPWM_ID_0 , MCPWM_CLOCK_DIVIDE_BY_1 , 2999);
+
+<i><span style="color: #008000">/* Configure MCPWM Channel 1 */</span></i>
+<i><span style="color: #008000">/*Time Base Source = Primary MCPWM Master Timer*/</span></i>
+<i><span style="color: #008000">/*Time Base Mode = Synchronized Time base mode*/</span></i>
+<i><span style="color: #008000">/*Alignment Mode = Symmetric Center Aligned mode*/</span></i>
+<i><span style="color: #008000">/*Output Mode = Complimentary mode*/</span></i>
+<i><span style="color: #008000">/*Time Base Source = Primary MCPWM Master Timer*/</span></i>
+<i><span style="color: #008000">/*Time Base Source = Primary MCPWM Master Timer*/</span></i>
+<i><span style="color: #008000">/*PWMxH Polarity = Active High, PWMxL Polarity = Active High*/</span></i>
+<i><span style="color: #008000">/*Dead-time Mode = Positive Dead-time mode*/</span></i>
+<i><span style="color: #008000">/*Dead-time Compensation Input Polarity = Active High*/</span></i>
+
+PLIB_MCPWM_ChannelSetup (MCPWM_ID_0 , MCPWM_CHANNEL1, MCPWM_TIME_BASE_SOURCE_PRIMARY ,
+                         MCPWM_TIME_BASE_SYNCHRONIZED , MCPWM_SYMMETRIC_CENTER_ALIGNED,
+                         MCPWM_OUTPUT_COMPLIMENTARY_MODE, MCPWM_PWMxH_ACTIVEHIGH ,
+                         MCPWM_PWMxL_ACTIVEHIGH , MCPWM_DEADTIME_POSITIVE,
+                         MCPWM_DEADTIME_COMPENSATION_POLARITY_ACTIVE_HIGH );
+
+<i><span style="color: #008000">/* Since Alignment mode = MCPWM_SYMMETRIC_CENTER_ALIGNED, set Duty Cycle = 500 counts */</span></i>
+<i><span style="color: #008000">/* using PLIB_MCPWM_ChannelPrimaryDutyCycleSet*/</span></i>
+PLIB_MCPWM_ChannelPrimaryDutyCycleSet (MCPWM_ID_0 , MCPWM_CHANNEL1 ,500);
+
+<i><span style="color: #008000">/* Since time base mode = MCPWM_TIME_BASE_SYNCHRONIZED, Phase Shifted PWM can be generated. */</span></i>
+<i><span style="color: #008000">/* In this example, a PWM phase shift of 100 counts is asserted*/</span></i>
+PLIB_MCPWM_ChannelPhaseSet (MCPWM_ID_0 , MCPWM_CHANNEL1 , 100);
+
+<i><span style="color: #008000">/*Since dead-time mode = MCPWM_DEADTIME_POSITIVE , Set PWMxH Dead-time = PWMxL Dead-time = 120 counts*/</span></i>
+PLIB_MCPWM_ChannelPWMxHDeadtimeSet (MCPWM_ID_0 , MCPWM_CHANNEL1 , 120);
+PLIB_MCPWM_ChannelPWMxLDeadtimeSet (MCPWM_ID_0 , MCPWM_CHANNEL1 , 120);
+
+<i><span style="color: #008000">/*PWM outputs are not Chopped*/</span></i>
+PLIB_MCPWM_ChannelChopSetup (MCPWM_ID_0 , MCPWM_CHANNEL1 , MCPWM_CHOP_CLOCK_SOURCE_IS_CHOP_CLOCK_GENERATOR,
+                             MCPWM_PWMxH_CHOP_DISABLED, MCPWM_PWMxL_CHOP_DISABLED);
+
+<i><span style="color: #008000">/*Enable PWMxH, PWMxL Outputs*/</span></i>
+PLIB_MCPWM_ChannelPWMxHEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+PLIB_MCPWM_ChannelPWMxLEnable (MCPWM_ID_0 ,MCPWM_CHANNEL1);
+
+<i><span style="color: #008000">/*Enable MCPWM Module*/</span></i>
+PLIB_MCPWM_Enable (MCPWM_ID_0);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17786.html">PWM Generation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM PWM Generation Topic Title: PWM Generation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

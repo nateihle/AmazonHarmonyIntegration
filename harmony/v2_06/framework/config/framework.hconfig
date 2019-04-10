@@ -1,0 +1,257 @@
+# file: framework/config/framework.hconfig
+
+menu "Harmony Framework Configuration"
+
+    # Define various processor and BSP capabilities.  Selected by BSP- and part-specific files.
+    config HAVE_ADC
+        bool
+    config HAVE_ADC_ESCAN
+        bool
+    config HAVE_ADCP
+        bool
+    config HAVE_ADCHS
+        bool
+    config HAVE_APPIO
+        bool
+    config HAVE_BMX
+        bool
+    config HAVE_CAN
+        bool
+    config HAVE_CDAC
+        bool
+    config HAVE_CLK
+        bool
+    config HAVE_CMP
+        bool
+    config HAVE_CTMU
+        bool
+    config HAVE_CTR
+        bool
+    config HAVE_DEVCON
+        bool
+    config HAVE_DMA
+        bool
+    config HAVE_DDR
+        bool
+    config HAVE_DMT
+        bool
+    config HAVE_EBI
+        bool
+    config HAVE_EEPROM
+        bool
+        default y if DS60001402
+        default n
+    config HAVE_FPU
+        bool
+        default y if DS60001320 || DS60001402
+        default n
+    config HAVE_ETH
+        bool
+    config HAVE_NANO2D
+        bool
+        default y if DS60001361
+        default n
+    config HAVE_GLCD
+        bool
+        default y if DS60001361
+        default n
+    config HAVE_I2C
+        bool
+    config HAVE_IC
+        bool
+    config HAVE_INT
+        bool
+    config HAVE_JTAG
+        bool
+    config HAVE_SWD
+        bool
+    config HAVE_MPLL
+        bool
+        default n
+    config HAVE_NVM
+        bool
+    config HAVE_OC
+        bool
+    config HAVE_OSC
+        bool
+    config HAVE_PCACHE
+        bool
+    config HAVE_PMP
+        bool
+    config HAVE_PORTS
+        bool
+    config HAVE_PPS
+        bool
+        default n if DS60001143 || DS60001156
+        default y
+    config HAVE_POWER
+        bool
+    config HAVE_PTG
+        bool
+    config HAVE_REFCLOCK
+        bool
+        default n if DS60001143 || DS60001156
+        default y
+    config HAVE_REFCLOCK5
+        bool
+        default y if DS60001361
+        default n
+    config HAVE_LVD
+        bool
+        default y if DS60001361
+        default n
+    config HAVE_QEI
+        bool
+    config HAVE_RESET
+        bool
+    config HAVE_RTCC
+        bool
+    config HAVE_RTCC_WITH_CLOCKSELECT
+        bool
+        default y if !PIC32MX || DS60001404
+        default n
+    config HAVE_TRACE
+        bool
+    config HAVE_SDHC
+        bool
+        default y if DS60001361
+        default n
+    config HAVE_SB
+        bool
+    config HAVE_SPI
+        bool
+    config HAVE_SQI
+        bool
+    config HAVE_TMR
+        bool
+    config HAVE_USART
+        bool
+    config HAVE_USB
+        bool
+    config HAVE_USBHS
+        bool
+    config HAVE_WDT
+        bool
+    config HAVE_RSWDT
+        bool
+    config HAVE_WIFI
+        bool
+    config HAVE_MCPWM
+        bool
+    config HAVE_SMC
+        bool
+    config HAVE_SDRAMC
+        bool
+
+    # Define device families/series.  Selected by part-specific files.
+    config PIC32MX
+        bool
+    config PIC32MZ
+        bool
+    config PIC32WK
+        bool
+    config PIC32MK
+        bool
+
+    config CRYPTO
+        bool
+
+    config NO_CRYPTO
+        bool
+    config ENHANCED_BUFFER_MODE_SUPPORT
+        bool
+    config NO_ENHANCED_BUFFER_MODE_SUPPORT
+        bool
+    config AUDIO_CODEC_SUPPORT
+        bool
+    config NO_AUDIO_CODEC_SUPPORT
+        bool
+    config HAVE_DECODER_SUPPORT
+        bool
+
+    config PMP_DUAL_MODE
+        bool
+
+    config HAVE_I2S
+        bool
+        default n if DS60001143 || DS60001156
+        default y
+
+    # Define groups of part families.  Selected by Device-files, used by BSP and library files.
+    config DS60001143
+        bool
+
+    config DS60001156
+        bool
+
+    config DS60001168
+        bool
+
+    config DS60001185
+        bool
+
+    config DS60001191
+        bool
+
+    config DS60001290
+        bool
+
+    config DS60001320
+        bool
+
+    config DS60001361
+        bool
+
+    config DS60001402
+        bool
+
+    config DS60001404
+        bool
+
+    config DSTBD_IMOLA
+        bool
+
+    menu "RTOS Configuration"
+        depends on USE_3RDPARTY_RTOS
+
+        config FW_USE_SYS_TASK
+            bool "Use System Task?"
+            default y
+            persistent
+
+        config FW_SYS_TASK_SIZE
+            int "System Task Size"
+            default 1024
+
+        config FW_SYS_TASK_PRIORITY
+            int "System Task Priority"
+            default 1
+
+        config FW_SYS_TASK_USE_DELAY
+            bool "Use System Task Delay?"
+            default y
+
+        config FW_SYS_TASK_DELAY
+            int "System Task Delay"
+            depends on FW_SYS_TASK_USE_DELAY
+            default 1000
+    endmenu
+
+    source "$HARMONY_VERSION_PATH/framework/bluetooth/config/bluetooth.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/bootloader/config/bootloader.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/classb/config/classb.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/crypto/config/crypto.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/decoder/config/decoder.hconfig"
+	source "$HARMONY_VERSION_PATH/framework/encoder/config/encoder.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/driver/config/driver.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/gfx/config/gfx.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/math/config/math.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/net/config/net.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/osal/config/osal.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/peripheral/config/peripheral.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/sample/config/sample_module.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/system/config/system.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/test/config/test.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/tcpip/config/tcpip_stack.hconfig"
+    source "$HARMONY_VERSION_PATH/framework/usb/config/usb.hconfig"
+endmenu

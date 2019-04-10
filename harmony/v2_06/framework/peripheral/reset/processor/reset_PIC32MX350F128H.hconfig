@@ -1,0 +1,41 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX350F128H_RESET
+	bool
+	select HAVE_RESET
+	default y
+
+config RESET_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum RESET_MODULE_ID exclusive
+	"RESET_ID_0"
+
+enum RESET_REASON
+	"RESET_REASON_NONE"
+	|| "RESET_REASON_POWERON"
+	|| "RESET_REASON_BROWNOUT"
+	|| "RESET_REASON_WDT_TIMEOUT"
+	|| "RESET_REASON_SOFTWARE"
+	|| "RESET_REASON_MCLR"
+	|| "RESET_REASON_CONFIG_MISMATCH"
+	|| "RESET_REASON_HIGH_VOLTAGE_DETECT"
+	|| "RESET_REASON_ALL"
+
+enum RESET_CONFIG_REG_READ_ERROR
+	"RESET_CONFIG_REG_READ_ERROR_NONE"
+
+enum RESET_NMI_REASON
+	"RESET_NMI_REASON_NONE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_RESET_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/reset/processor/reset_p32mx350f128h.h" to "$PROJECT_HEADER_FILES/framework/peripheral/reset/processor/reset_p32mx350f128h.h"
+
+file PLIB_RESET_RESETREASONSTATUS_MX_1_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/reset/templates/reset_ResetReasonStatus_MX_1.h" to "$PROJECT_HEADER_FILES/framework/peripheral/reset/templates/reset_ResetReasonStatus_MX_1.h"
+file PLIB_RESET_SOFTWARERESETTRIGGER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/reset/templates/reset_SoftwareResetTrigger_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/reset/templates/reset_SoftwareResetTrigger_Default.h"
+file PLIB_RESET_CONFIGREGREADERROR_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/reset/templates/reset_ConfigRegReadError_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/reset/templates/reset_ConfigRegReadError_Unsupported.h"
+file PLIB_RESET_NMICONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/reset/templates/reset_NmiControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/reset/templates/reset_NmiControl_Unsupported.h"
+file PLIB_RESET_WDTOINSLEEP_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/reset/templates/reset_WdtoInSleep_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/reset/templates/reset_WdtoInSleep_Unsupported.h"
+file PLIB_RESET_NMICOUNTER_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/reset/templates/reset_NmiCounter_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/reset/templates/reset_NmiCounter_Unsupported.h"
+endif

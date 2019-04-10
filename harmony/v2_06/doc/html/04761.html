@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>AVRCP_ALLOCATE_BUFFERS_VARS Macro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06288.html">Bluetooth Stack Library Configuration Profile Macros</a> &gt; AVRCP Configuration Macros &gt; <a href="04761.html">AVRCP_ALLOCATE_BUFFERS_VARS Macro</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04760.html">Previous</a> | <a href="06288.html">Up</a> | <a href="04772.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: AVRCP_ALLOCATE_BUFFERS_VARS Topic Title: AVRCP_ALLOCATE_BUFFERS_VARS Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+AVRCP_ALLOCATE_BUFFERS_VARS Macro</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">#define</span></strong> <strong><span style="color: #000000">AVRCP_ALLOCATE_BUFFERS_VARS</span></strong> \
+    <a href="05378.html">bt_avrcp_channel_t</a>  <a href="00068.html">_avrcp_channels</a>[<a href="04827.html">AVRCP_MAX_CHANNELS</a>];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="00075.html">_avrcp_max_channels</a> = <a href="04827.html">AVRCP_MAX_CHANNELS</a>; \
+    \
+    <a href="05589.html">bt_buffer_header_t</a>  <a href="00069.html">_avrcp_cmd_buffer_headers</a>[(<a href="04828.html">AVRCP_MAX_CMD_BUFFERS</a>) * (<a href="04827.html">AVRCP_MAX_CHANNELS</a>)];    \
+    <a href="05173.html">bt_av_command_t</a>     <a href="00070.html">_avrcp_cmd_buffers</a>[(<a href="04828.html">AVRCP_MAX_CMD_BUFFERS</a>) * (<a href="04827.html">AVRCP_MAX_CHANNELS</a>)];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="00076.html">_avrcp_max_cmd_buffers</a> = <a href="04828.html">AVRCP_MAX_CMD_BUFFERS</a>; \
+    <a href="05592.html">bt_byte</a>             <a href="00071.html">_avrcp_cmd_param_buffers</a>[(<a href="04828.html">AVRCP_MAX_CMD_BUFFERS</a>) * (<a href="04829.html">AVRCP_MAX_CMD_PARAM_LEN</a>) * (<a href="04827.html">AVRCP_MAX_CHANNELS</a>)];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05921.html">bt_int</a>        <a href="00077.html">_avrcp_max_cmd_param_len</a> = <a href="04829.html">AVRCP_MAX_CMD_PARAM_LEN</a>;    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="00079.html">_avrcp_max_search_results</a> = <a href="04832.html">AVRCP_MAX_SEARCH_RESULTS</a>;    \
+    <a href="05392.html">bt_avrcp_device_t</a>   <a href="00074.html">_avrcp_devices_buffer</a>[<a href="04832.html">AVRCP_MAX_SEARCH_RESULTS</a>];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="00078.html">_avrcp_max_device_name_len</a> = <a href="04830.html">AVRCP_MAX_DEVICE_NAME_LEN</a>;    \
+    <a href="05592.html">bt_byte</a>             <a href="00073.html">_avrcp_device_name_buffers</a>[(<a href="04832.html">AVRCP_MAX_SEARCH_RESULTS</a>) * (<a href="04830.html">AVRCP_MAX_DEVICE_NAME_LEN</a> + 1)];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="00072.html">_avrcp_cmd_timeout</a> = (<a href="04772.html">AVRCP_CMD_TIMEOUT</a>) / 100;    \
+    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="00848.html">_bt_avrcp_response_sent_handler</a>)(<a href="05497.html">bt_avrcp_mgr_t</a>* mgr, <a href="05219.html">bt_avctp_evt_response_sent_t</a>* evt_param) = <a href="04835.html">AVRCP_RESPONSE_SENT_HANDLER</a>;    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="00738.html">_bt_avrcp_command_handler</a>)(<a href="05497.html">bt_avrcp_mgr_t</a>* mgr, <a href="05214.html">bt_avctp_evt_command_received_t</a>* evt_param) = <a href="04774.html">AVRCP_COMMAND_HANDLER</a>;    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="00739.html">_bt_avrcp_command_sent_handler</a>)(<a href="05497.html">bt_avrcp_mgr_t</a>* mgr, <a href="05215.html">bt_avctp_evt_command_sent_t</a>* evt_param) = <a href="04775.html">AVRCP_COMMAND_SENT_HANDLER</a>;    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="00847.html">_bt_avrcp_response_handler</a>)(<a href="05497.html">bt_avrcp_mgr_t</a>* mgr, <a href="05218.html">bt_avctp_evt_response_received_t</a>* evt_param) = <a href="04834.html">AVRCP_RESPONSE_HANDLER</a>;    \
+    \
+    <a href="04760.html">AVRCP_ALLOCATE_BUFFERS_RAM_SIZE_VAR</a>    \</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This is macro AVRCP_ALLOCATE_BUFFERS_VARS.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06288.html">Bluetooth Stack Library Configuration Profile Macros</a> &gt; AVRCP Configuration Macros &gt; <a href="04761.html">AVRCP_ALLOCATE_BUFFERS_VARS Macro</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: AVRCP_ALLOCATE_BUFFERS_VARS Topic Title: AVRCP_ALLOCATE_BUFFERS_VARS Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

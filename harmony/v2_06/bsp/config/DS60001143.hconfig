@@ -1,0 +1,42 @@
+choice
+    prompt "Select BSP To Use For $DEVICE Device"
+    depends on USE_BSP
+    default BSP_PIC32MX460_PIM_E16
+    ---help---
+    IDH_HTML_BSP_Board_Support_Packages
+    ---endhelp---
+	
+config BSP_PIC32MX460_PIM_E16
+    depends on USE_BSP
+	select BSP_TRIGGER
+	select BSP_POSC_8MHz
+    bool "PIC32MX460F512L PIM w/ Explorer16"
+    ---help---
+    IDH_HTML_BSP_pic32mx460_pim_e16
+    ---endhelp---
+
+config BSP_CUSTOM
+    depends on USE_BSP
+    bool "Custom"
+
+endchoice	
+
+source "$HARMONY_VERSION_PATH/bsp/pic32mx460_pim+e16/config/bsp.hconfig"
+
+config BSP_DS60001143_COMMON
+    set DEBUG optionally to "ON"
+    set FNOSC optionally to "PRIPLL" if USE_BSP
+    set FNOSC optionally to "FRCPLL" if !USE_BSP
+	set POSCMOD optionally to "XT" if USE_BSP
+	set POSCMOD optionally to "OFF" if !USE_BSP
+    set FPLLIDIV optionally to "DIV_2"
+	set FPLLMUL optionally to "MUL_20"
+    set FPLLODIV optionally to "DIV_1"
+	set FPBDIV optionally to "DIV_1"
+	set FCKSM optionally to "CSECMD"
+    set FWDTEN optionally to "OFF"
+	set UPLLIDIV optionally to "DIV_2"
+    set UPLLEN optionally to "ON" if USE_BSP
+    bool
+    default y if USE_BSP
+

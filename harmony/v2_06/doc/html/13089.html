@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Tips and Tricks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="13089.html">Tips and Tricks</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27042.html">Previous</a> | <a href="13064.html">Up</a> | <a href="16811.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HARMONY Tips and Tricks Topic Title: Tips and Tricks)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Tips and Tricks</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Tip 1: Using Example and Demonstration Projects</div>
+<p class="Element10">
+You can use MPLAB Harmony example and demonstration projects to put together a &quot;first approximation&quot; of your application:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Copy the source files from the various example or demonstration applications to your project.</li>
+<li value="2" class="Element600">Rename the APP_Initialize and APP_Tasks functions so that they are all different and will build in your application by simply appending a descriptive name to the end of the existing function names.</li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+You may also need to rename any global data &quot;objects&quot; that conflict with each other from the examples.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="3" class="Element600">Call the individual APP_Initialize&lt;new_name&gt; and APP_Tasks&lt;new_name&gt; functions from the <a href="23925.html">SYS_Initialize</a> and <a href="24151.html">SYS_Tasks</a> functions in your application's configuration files.</li>
+<li value="4" class="Element600">Use the MHC to add any required drivers, services, or middleware, as described in <strong>Tip 2</strong>.</li>
+<li value="5" class="Element600">At this point, your application consists of several independent state machines. Now, you can begin to develop your own custom application code and modify any of the code copied from the provided applications to behave as you desire.</li>
+</ol><div class="Element15">
+Tip 2: Adding Additional Configurations</div>
+<p class="Element10">
+To most easily create a new configuration, copy an existing one using these steps.</p>
+<ol class="Element630">
+<li value="1" class="Element600">Duplicate the configuration using the normal MPLAB X IDE method.
+<ul class="Element631">
+<li class="Element601">Right-click the project and choose <strong>Properties</strong></li>
+<li class="Element601">Click <strong>Manage Configurations</strong> to open a dialog box that allows you do duplicate configurations</li>
+</ul></li>
+<li value="2" class="Element600">Rename the new configuration copy and set it as the active configuration.</li>
+<li value="3" class="Element600">Open the MHC, click <strong>Configuration</strong> and save the current configuration using the default name.</li>
+<li value="4" class="Element600">Click <strong>Configuration</strong> again and browse to and open the previous configuration’s .mhc file.</li>
+<li value="5" class="Element600">Using the MHC, select any new configuration items that should be changed for the new configuration.</li>
+<li value="6" class="Element600">Save the modified configuration to the new configuration’s .mhc file. You will need to issue a <strong>Save As</strong> command because the MHC remembers the file you opened last. Be careful to not overwrite the original configuration file.</li>
+<li value="7" class="Element600">Generate the new configuration.</li>
+<li value="8" class="Element600">Add any new files required and/or use a &quot;diff/merge&quot; utility to merge any required manually-edited code from the previous configuration to the new one.</li>
+<li value="9" class="Element600">Be sure to update the compiler’s include file search paths to use the new configuration folder before building the new configuration or the build will use the previous configuration header files and cause errors or incorrect behavior.</li>
+</ol><p class="Element10">
+Individual configurations have to be built, debugged, executed, and evaluated individually.</p><div class="Element15">
+Tip 3: Operating System Abstraction Layer (OSAL)</div>
+<p class="Element10">
+By design, the OSAL is a minimal API intended only to enable thread-safe operation for MPLAB Harmony libraries. It only exposes a very small subset of the capabilities of an operating system so that MPLAB Harmony libraries can use semaphores, mutexes, and critical sections (and a few other things) necessary to protect shared resources (data structures, peripheral registers, and other memory objects) from corruption by unsynchronized access by multiple threads. This is done to allow MPLAB Harmony libraries to be made compatible with the largest variety of operating systems, by using a minimal subset of the some of the most common OS features. The OSAL is not intended to provide a complete abstraction of an RTOS, which is what you will require to implement a complete application. Abstracting an entire operating system is a much more complex task that is roughly equivalent to defining your own RTOS. It is important to understand that the OSAL has not done that.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="13089.html">Tips and Tricks</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HARMONY Tips and Tricks Topic Title: Tips and Tricks)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

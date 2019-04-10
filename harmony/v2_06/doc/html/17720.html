@@ -1,0 +1,394 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Interrupt State Machine</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17720.html">Interrupt State Machine</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17726.html">Previous</a> | <a href="17718.html">Up</a> | <a href="17724.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Interrupt State Machine Topic Title: Interrupt State Machine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Interrupt State Machine</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The I2C state machine can be used in either a polled or an interrupt-driven manner. However, even when polled, software must check the state of the master, slave, and error interrupt flags to identify when a state transition occurs.&nbsp;</p>
+<p class="Element10">
+The I2C module can cause three different interrupts:
+<ul class="Element630">
+<li class="Element600">Slave Interrupt - A byte was sent or received in Slave mode</li>
+<li class="Element600">Master Interrupt - A bus action has completed in Master mode</li>
+<li class="Element600">Error Interrupt - An error has occurred in any mode (see <a href="17716.html">Handling Errors</a>)</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Refer to the <strong>&quot;Interrupts&quot;</strong> chapter in the specific device data sheet or the family reference manual section specified in that chapter for more information.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The I2C module will not start generating interrupts (setting the I2C interrupt flags, even if interrupts are disabled) until it is properly configured and enabled. After that, interrupts are generated as described in the following section. Software has to respond appropriately once the interrupt has occurred (the flag has been set) to allow the state machine to advance to the next state. These actions are described following the state machine diagram to which they refer. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element630">
+<li value="1" class="Element600">These state machine diagrams show the normal operations. Error and exception cases are explained in the <a href="17716.html">Handling Errors</a> section and are not shown in the diagrams.</li>
+<li value="2" class="Element600">The transition labels sometimes represent hardware interrupts (or the setting of an interrupt flag) and sometimes represent software actions. Refer to the transition tables to understand the transitions.</li>
+<li value="3" class="Element600">The Wait state is shared between all state machines (i.e., while in the Wait state, the I2C module can start a new master-mode transfer or be addressed by an external master).</li>
+<li value="4" class="Element600">The Start state is shared between both read and write master transfer state machines (i.e., when starting a new transfer, software can choose start either a read or a write transfer).</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<strong>Slave Mode State Machine</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="Slave State Machine.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>Slave Mode State Transitions</strong>&nbsp;</p>
+<p class="Element10">
+In Slave mode, state transitions occur under hardware control automatically or in response to an interrupt. Software must respond appropriately to ensure that the module continues to operate correctly. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="6%">
+<div class="Element66">
+Transition&nbsp;</div></td><td class="Element65" valign="top" width="2%">
+<div class="Element66">
+From State&nbsp;</div></td><td class="Element65" valign="top" width="2%">
+<div class="Element66">
+To State&nbsp;</div></td><td class="Element65" valign="top" width="90%">
+<div class="Element66">
+Software Actions&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Enable&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Initialize&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+Enable the module, using the <a href="19536.html">PLIB_I2C_Enable</a> function&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Slave Interrupt, 7-bit<br>Address Match, Write&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive mode&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+Software should call the <a href="19593.html">PLIB_I2C_ReceivedByteIsAvailable</a> function to verify that a byte has been received and the PLIB_I2C_SlaveAddressWasDetected function to verify that a 7-bit address (or the first byte of a 10-bit address) has been received. Then, software must get the address byte from the receiver buffer (the byte is automatically ACKed), using the <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function. Software must also release the clock by calling <a href="19614.html">PLIB_I2C_SlaveClockRelease</a> function to allow reception of the next byte.<br><strong>Note:</strong> This transition occurs on a write transfer with either a 7-bit or 10-bit address (for the first of two address bytes).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Slave Interrupt,<br>Byte Received&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive mode&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive mode&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+Software should call the <a href="19593.html">PLIB_I2C_ReceivedByteIsAvailable</a> function to verify that a byte has been received and, if one has, get the byte from the receiver buffer by calling <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function. Then, software must release the clock by calling <a href="19614.html">PLIB_I2C_SlaveClockRelease</a> function to allow reception of the next byte.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Slave Interrupt, 10-bit<br>Address Match&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive mode&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive mode&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+Software should call the <a href="19593.html">PLIB_I2C_ReceivedByteIsAvailable</a> function to verify that a byte has been received and (if 10-bit addressing is being used) call the <a href="19601.html">PLIB_I2C_SlaveAddress10BitWasDetected</a> function to verify that the second byte of the 10-bit address matched the low-order 8-bits of the local-slave 10-bit address. Next, software must get the address byte received from the receiver buffer (the byte is automatically ACKed), using the <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function.<br><strong>Note:</strong> This transition occurs on write transfer when using 10-bit (2-byte) addressing when the second address byte is received.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+End Receive&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive mode&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+None. Software is not aware of this transition.<br>A receive transfer can end with a stop condition, a repeated start, or if the second-half of a 10-bit slave address does not match the programmed local slave address (and possibly the optional mask).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Slave Interrupt, 7-bit<br>Address Match, Read&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Transmit mode&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+Software should call the <a href="19593.html">PLIB_I2C_ReceivedByteIsAvailable</a> function to verify that a byte has been received and the PLIB_I2C_SlaveAddressWasDetected function to verify that an address has been received. Then, software must get the address byte from the receiver buffer (the byte is automatically ACKed), using the <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function.<br><strong>Notes:</strong>
+<ol class="Element630">
+<li value="1" class="Element600">This transition occurs on a read transfer with a 7-bit (1-byte) address or after a repeated-start with a 10-bit slave address.</li>
+<li value="2" class="Element600">The second byte of a 10-bit address is not sent after a repeated-start condition, only the first byte. The 10-bit slave device must remember if it was addressed at the beginning of this transfer.</li>
+<li value="3" class="Element600">After handling the address byte received, software should call the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function to make sure that the transmitter buffer is able to<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>a byte and, if it is, call the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function to send the requested byte.</li>
+</ol>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Slave Interrupt,<br>Byte Completed&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Transmit mode&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Transmit mode&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+Software must call the <a href="19639.html">PLIB_I2C_TransmitterByteWasAcknowledged</a> function to check to see if the byte was ACKed or NAKed. If the byte was ACKed, software must send the next byte by calling the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function to make sure that the transmitter buffer is able to<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>a byte and, if it is, call the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function to send the next byte.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="6%">
+<div class="Element68">
+NAK&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Transmit mode&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+Software must call the <a href="19639.html">PLIB_I2C_TransmitterByteWasAcknowledged</a> function to check to see if the byte was ACKed or NAKed. The master will NAK the last byte it wants to receive. At that point, the transfer is effectively over and software must not attempt to send any more bytes. The module automatically transitions back to the Wait state when the Stop condition occurs, but software does not receive an interrupt at that point.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<strong>Master Mode Write Transfer State Machine</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="Master Transmit State Machine.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>Master-Mode Write-Transfer State Transitions</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="7%">
+<div class="Element66">
+Transition&nbsp;</div></td><td class="Element65" valign="top" width="3%">
+<div class="Element66">
+From State&nbsp;</div></td><td class="Element65" valign="top" width="3%">
+<div class="Element66">
+To State&nbsp;</div></td><td class="Element65" valign="top" width="87%">
+<div class="Element66">
+Software Actions&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Begin Master Transfer&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Start&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+This state transition occurs when software initiates transmission of the start condition. Software should call the <a href="19533.html">PLIB_I2C_BusIsIdle</a> function to verify that the bus is not currently in use by another master. Then it must call the <a href="19588.html">PLIB_I2C_MasterStart</a> function (or <a href="19589.html">PLIB_I2C_MasterStartRepeat</a> function) to send the start (or repeated start) condition.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Start Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Start&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+7-Bit Address, Write&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+After the start condition has completed, software should check for a possible collision by calling the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function. Then, it must send an appropriately formatted 7-bit address byte (or the first byte of the 10-bit address) to the I<sup>2</sup>C bus to address a slave target. To do this, it should first call the PLIB_I2C_TransmitterIsReadyfunction to verify that the transmitter buffer is ready to<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>a byte and then call the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function to send the byte.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Byte Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+7-bit Address, Write&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Transmit&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+When the master interrupt occurs (or the <a href="19637.html">PLIB_I2C_TransmitterByteHasCompleted</a> function returns true) to indicate that the last byte sent has completed, software must check to ensure that the slave device ACKed the byte by calling the <a href="19639.html">PLIB_I2C_TransmitterByteWasAcknowledged</a> function. Software should also call the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function to determine if a collision occurred. If all is well, software may then send another byte to the slave using the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function and the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function.<br>If 10-bit addressing is being used for this transfer, the start condition and first byte of the 10-bit address must be followed by the second byte of the 10-bit address. Multiple slaves may respond to the first byte of the 10-bit address. It requires the second byte to uniquely identify the 10-bit slave. However, this is sent using the same process as if it were a data byte.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Byte Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Transmit&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Transmit&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Software must call the <a href="19639.html">PLIB_I2C_TransmitterByteWasAcknowledged</a> function check to ensure that the slave device ACKed the byte and the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function to determine if a collision occurred. If all is well, software may call the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function and PLIB_I2C_TransmitterByteSendfunction to send another byte to the slave and remain in the Transmit state. If not, software should abort the transfer by sending a Stop condition and transition to the Stop, repeated Start state.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Byte Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+7-bit Address, Write&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Stop, repeated Start&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+If the slave NAKed any byte sent or if software wants to end or restart the transfer (perhaps to change direction) it can do so by sending a stop condition (using the <a href="19590.html">PLIB_I2C_MasterStop</a> function) or repeated Start condition (using the <a href="19589.html">PLIB_I2C_MasterStartRepeat</a> function).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Byte Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Transmit&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Stop, repeated Start&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Software must call the <a href="19639.html">PLIB_I2C_TransmitterByteWasAcknowledged</a> function check to check to see if the slave ACKed or NAKed the byte. If the slave NAKed the byte or if software wants to end or restart the transfer (perhaps to change direction) it can do so by sending a Stop condition (using the <a href="19590.html">PLIB_I2C_MasterStop</a> function) or repeated Start condition (using the <a href="19589.html">PLIB_I2C_MasterStartRepeat</a> function).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Restart&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Stop, repeated Start&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Start&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Immediately after initiating the repeated Start condition, software transitions back to the Start state where it must decide what sort of transfer it will start next.<br><strong>Note:</strong> Read transfers will transition to the Start state in the Master Mode Read Transfer state machine.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Stop Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Stop, repeated Start&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+When the master interrupt occurs, indicating that the Stop condition has completed, software transitions back to the Wait state (which is actually part of the Slave Mode state machine).&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<strong>Master-Mode Read-Transfer State Machine</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="Master Receive State Machine.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>Master Mode Read Transfer State Transitions</strong>&nbsp;</p>
+<p class="Element10">
+In Master mode, transitions are initiated under software control and interrupts occur (the master interrupt flag is set, even when interrupts are disabled) when the action initiated has completed.&nbsp;</p>
+<p class="Element10">
+If at any point, an address or data byte is NAKed by the slave or an error occurs, usually the safest thing for the master to do is to end the transfer with a Stop condition and release the bus. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="7%">
+<div class="Element66">
+Transition&nbsp;</div></td><td class="Element65" valign="top" width="3%">
+<div class="Element66">
+From State&nbsp;</div></td><td class="Element65" valign="top" width="2%">
+<div class="Element66">
+To State&nbsp;</div></td><td class="Element65" valign="top" width="88%">
+<div class="Element66">
+Software Actions&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Begin Master Transfer&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Start&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+This state transition occurs when software initiates transmission of the start condition. Software should call the <a href="19533.html">PLIB_I2C_BusIsIdle</a> function to verify that the bus is not currently in use by another master. Then it must call the <a href="19588.html">PLIB_I2C_MasterStart</a> function (or <a href="19589.html">PLIB_I2C_MasterStartRepeat</a> function) to send the start (or repeated Start) condition.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Start Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Start&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+7-Bit Address, Read&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+After the start condition has completed, software should check for a possible collision by calling the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function. Then, it must send an appropriately formatted 7-bit address byte (or the first byte of the 10-bit address) to the I2C bus to address a slave target. To do this, it should first call the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function to verify that the transmitter buffer is ready to<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>a byte and then call the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function to send the byte.<br><strong>Note:</strong> If using 10-bit addressing, this is a repeated transmission of the first byte of the 10-bit address since all 10-bit transfers must start off as write transfers (so both address bytes can be sent) then be restarted to become read transfers.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Byte Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+7-Bit Address, Read&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Software must initiate the &quot;Clock1Byte&quot; operation (using the <a href="19586.html">PLIB_I2C_MasterReceiverClock1Byte</a> function) so that the I2C module will cycle the SCL line eight times causing the slave to send the requested byte of data.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Byte Available&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Receive&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+ACK<br>NAK&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+When a byte has been received (which software can verify using the <a href="19593.html">PLIB_I2C_ReceivedByteIsAvailable</a> function), software must get the received byte from the RX buffer (using the <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function) and initiate transmission of the ACK/NAK bit (using the <a href="19591.html">PLIB_I2C_ReceivedByteAcknowledge</a> function). If it intends to receive another byte, software must ACK the byte just received. If it does not intend to receive another byte, software must NAK the byte just received.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>ACK Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+ACK, NAK&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Receive&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Software can verify that the ACK signal has completed using the <a href="19594.html">PLIB_I2C_ReceiverByteAcknowledgeHasCompleted</a> function. If software ACKed the previously received byte, it must initiate the &quot;Clock1Byte&quot; operation (using the <a href="19586.html">PLIB_I2C_MasterReceiverClock1Byte</a> function) so that the I2C module will cycle the SCL line eight times so that the slave can send the requested byte. Otherwise, software must have NAKed the previous byte to end the transfer.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>NAK Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+ACK, NAK&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Stop, Restart&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Software can verify that the NAK signal has completed using the <a href="19594.html">PLIB_I2C_ReceiverByteAcknowledgeHasCompleted</a> function. If software intends to continue the transfer without allowing the bus to go idle, it must initiate a repeated-start (using the <a href="19589.html">PLIB_I2C_MasterStartRepeat</a> function) and transition immediately to the Start state. If software intends to end the transfer and allow the bus to go idle, it must initiate a Stop condition using the <a href="19590.html">PLIB_I2C_MasterStop</a> function.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Restart&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Stop, repeated Start&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Start&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Immediately after initiating the repeated Start condition, software automatically transitions back to the &quot;Start&quot; state where it must decide if it will restart with a read or write transfer.<br><strong>Note:</strong> Write transfers will transition to the Start state in the Master Mode Write Transfer state machine.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Master Interrupt,<br>Stop Completed&nbsp;</div></td><td class="Element67" valign="top" width="3%">
+<div class="Element68">
+Stop, repeated Start&nbsp;</div></td><td class="Element67" valign="top" width="2%">
+<div class="Element68">
+Wait&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+When the master interrupt occurs, indicating that the Stop condition has completed, software transitions back to the waiting state (which is actually part of the Slave Mode state machine).&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17720.html">Interrupt State Machine</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Interrupt State Machine Topic Title: Interrupt State Machine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

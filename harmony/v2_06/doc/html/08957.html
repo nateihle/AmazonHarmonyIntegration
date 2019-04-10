@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>System Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="16815.html">MRF24WN Wi-Fi Driver Library</a> &gt; <a href="08641.html">Using the Library</a> &gt; <a href="08954.html">How the Library Works</a> &gt; <a href="08957.html">System Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08954.html">Previous</a> | <a href="08954.html">Up</a> | <a href="08953.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WIFI MRF24WN System Initialization Topic Title: System Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+System Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Wi-Fi initialization configures the MRF24WN<span style="color: #FF0000"> </span>module and then directs it to join (or create) a Wi-Fi network. The MRF24WN module defaults to open security and scans all channels in the domain. Therefore, to initialize and<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>with the minimum function call overhead in an open security network, the following functions can be used: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01222');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01222"><pre class="Element12"> WDRV_EXT_CmdSSIDSet(&quot;MySsidName&quot;,strlen(&quot;MySsidName&quot;);
+ WDRV_EXT_CmdConnect();        <i><span style="color: #008000">// start the connection process</span></i></pre></div></div>
+<p class="Element10">
+Alternatively, the following functions could be used to achieve the same effect: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01223');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01223"><pre class="Element12"> WDRV_EXT_CmdNetModeBSSSet();
+ WDRV_EXT_CmdSecNoneSet();
+ WDRV_EXT_CmdSSIDSet(&quot;MySsidName&quot;,strlen(&quot;MySsidName&quot;);
+ WDRV_EXT_CmdConnect();</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="16815.html">MRF24WN Wi-Fi Driver Library</a> &gt; <a href="08641.html">Using the Library</a> &gt; <a href="08954.html">How the Library Works</a> &gt; <a href="08957.html">System Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WIFI MRF24WN System Initialization Topic Title: System Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

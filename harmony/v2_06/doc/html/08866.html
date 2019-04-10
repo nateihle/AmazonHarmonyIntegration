@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Alarm Functionality</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08887.html">Timer Driver Library</a> &gt; <a href="08888.html">Using the Library</a> &gt; <a href="08878.html">How the Library Works</a> &gt; <a href="08866.html">Alarm Functionality</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08871.html">Previous</a> | <a href="08878.html">Up</a> | <a href="08883.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV TMR Alarm Functionality Topic Title: Alarm Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Alarm Functionality</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Timer Driver provides alarm functionality.&nbsp;</p>
+<p class="Element10">
+Applications using the Timer alarm functionality, need to perform the following:
+<ol class="Element636">
+<li value="1" class="Element606">The system should have completed the necessary initialization and <a href="11314.html">DRV_TMR_Tasks</a> should be running in either a polled environment or in an interrupt environment.</li>
+<li value="2" class="Element606">Open<span style="color: #FFFFFF">_</span>the driver using <a href="11304.html">DRV_TMR_Open</a>. The Timer Driver supports exclusive access only.</li>
+<li value="3" class="Element606">Configure the alarm using <a href="11249.html">DRV_TMR_AlarmRegister</a>.</li>
+<li value="4" class="Element606">Start the driver using <a href="11311.html">DRV_TMR_Start</a>.</li>
+<li value="5" class="Element606">If a callback is supplied, the Timer Driver will call the callback function when the alarm expires.</li>
+<li value="6" class="Element606">The client will be able to stop the started Timer module instance using <a href="11313.html">DRV_TMR_Stop</a> at any time and will be able to close it using <a href="11262.html">DRV_TMR_Close</a> when it is no longer required.</li>
+<li value="7" class="Element606">The client can deregister the callback by using <a href="11243.html">DRV_TMR_AlarmDeregister</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00911');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00911"><pre class="Element12">DRV_HANDLE handle;
+<i><span style="color: #008000">/* Open the client */</span></i>
+handle = DRV_TMR_Open (DRV_TMR_INDEX_0, DRV_IO_INTENT_EXCLUSIVE);
+<i><span style="color: #008000">/* Configure the timer alarm feature */</span></i>
+uint32_t myFreq = 1000; <i><span style="color: #008000">// 1KHz</span></i>
+uint32_t clkFreq = DRV_TMR_CounterFrequencyGet(tmrHandle);   <i><span style="color: #008000">// timer running frequency</span></i>
+
+<i><span style="color: #008000">// calculate the divider needed</span></i>
+uint32_t divider = clkFreq / myFreq;
+
+<i><span style="color: #008000">// Start the alarm</span></i>
+<strong><span style="color: #000080">if</span></strong>(!DRV_TMR_AlarmRegister ( tmrHandle, divider, <strong><span style="color: #000080">true</span></strong>, 0, CallBackFreq ))
+{
+    <i><span style="color: #008000">// divider value could not be obtain;</span></i>
+    <i><span style="color: #008000">// handle the error</span></i>
+    <i><span style="color: #008000">//</span></i>
+    <strong><span style="color: #000080">return</span></strong>;
+}
+
+DRV_TMR_Start (handle);
+
+<i><span style="color: #008000">// The driver tasks function calls the client registered callback after the alarm expires.</span></i>
+<strong><span style="color: #000080">void</span></strong> CallBackFreq (uintptr_t context, uint32_t alarmCount)
+{
+    <i><span style="color: #008000">// Do something specific on an alarm event trigger</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08887.html">Timer Driver Library</a> &gt; <a href="08888.html">Using the Library</a> &gt; <a href="08878.html">How the Library Works</a> &gt; <a href="08866.html">Alarm Functionality</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV TMR Alarm Functionality Topic Title: Alarm Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

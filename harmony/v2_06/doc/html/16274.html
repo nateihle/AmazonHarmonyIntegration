@@ -1,0 +1,791 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>libq_C.h</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="16272.html">LibQ Fixed-Point 'C' Math Library</a> &gt; <a href="16379.html">Files</a> &gt; <a href="16274.html">libq_C.h</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16379.html">Previous</a> | <a href="16379.html">Up</a> | <a href="11807.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: libq_C.h Topic Title: libq_C.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+libq_C.h</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The libq_c Fixed-Point Math Library provides fixed-point math functions written in C for portability between core processors.&nbsp;</p>
+<p class="Element10">
+Signed fixed point types (fractional Q types specified by Qn.m) are named as follows in the library names:&nbsp;</p>
+<p class="Element10">
+Qndm where:
+<ul class="Element636">
+<li class="Element606">n is the number of data bits to the left of the radix point</li>
+<li class="Element606">m is the number of data bits to the right of the radix point</li>
+<li class="Element606">a signed bit is implied (unless stated otherwise)</li>
+</ul>&nbsp;</p>
+<p class="Element10">
+For convenience, short names are also defined for arbitrary scaled fractional types:&nbsp;</p>
+<p class="Element10">
+<a href="22356.html">q15</a> is signed fractional 16 bit value <a href="22357.html">q31</a> is signed fractional 32 bit value <a href="13727.html">i16</a> is signed integer, i.e. Q16d0&nbsp;</p>
+<p class="Element10">
+In addition, A pseudo floating point 32 bit format (<a href="12176.html">FxQFloat32</a>) is defined that consists of 16 mantissa and a 16 bit exponant (base 2).&nbsp;</p>
+<p class="Element10">
+Functions in the library are prefixed with the type of the return value and followed by argument types (in order):&nbsp;</p>
+<p class="Element10">
+libq___: libq_q15_sin_Q2d13&nbsp;</p>
+<p class="Element10">
+For example, <a href="16289.html">libq_q1d15_Sin_q10d6</a> returns a Q1.15 value equal to the to the sine of an angle specified as a Q10.6 value (in degrees between 0 and 360)&nbsp;</p>
+<p class="Element10">
+Argument types do not always match the return type. Refer to the function prototype for a specification of its arguments.&nbsp;</p>
+<p class="Element10">
+In some cases, both the return type and the argument type are specified within the function name. For example,&nbsp;</p>
+<p class="Element10">
+For arbitrary scaled types (<a href="22356.html">q15</a>, q16, <a href="22357.html">q31</a>, and q32) the scaling of the result will depend on the function and the scaling of the arguments. For instance, <a href="16276.html">libq_q15_Add_q15_q15</a>(a,b) will return a scaled value type that is the two input types (which must have equivalent scaled value type).</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The libq_c functions do not correspond to the libq fixed-point library optimized for the microaptive core processor and written in asm.&nbsp;</p>
+<p class="Element10">
+Table of LIBQ_C math functions:&nbsp;</p>
+<p class="Element10">
+Sine: <a href="16289.html">libq_q1d15_Sin_q10d6</a> <a href="16290.html">libq_q20d12_Sin_q20d12</a>&nbsp;</p>
+<p class="Element10">
+Abs: <a href="16275.html">libq_q15_Abs_q15</a> <a href="16291.html">libq_q31_Abs_q31</a>&nbsp;</p>
+<p class="Element10">
+Negate: <a href="16283.html">libq_q15_Negate_q15</a> <a href="16299.html">libq_q31_Negate_q31</a>&nbsp;</p>
+<p class="Element10">
+Round: <a href="16284.html">libq_q15_RoundL_q31</a>&nbsp;</p>
+<p class="Element10">
+Deposit: <a href="16293.html">libq_q31_DepositH_q15</a> <a href="16294.html">libq_q31_DepositL_q15</a>&nbsp;</p>
+<p class="Element10">
+Extract: <a href="16279.html">libq_q15_ExtractH_q31</a> <a href="16280.html">libq_q15_ExtractL_q31</a>&nbsp;</p>
+<p class="Element10">
+Add: <a href="16276.html">libq_q15_Add_q15_q15</a> <a href="16292.html">libq_q31_Add_q31_q31</a>&nbsp;</p>
+<p class="Element10">
+Subtract: <a href="16288.html">libq_q15_Sub_q15_q15</a> <a href="16303.html">libq_q31_Sub_q31_q31</a>&nbsp;</p>
+<p class="Element10">
+Shift(Scale): libq_q15_ShiftLeft_q15_q15 libq_q31_ShiftLeft_q31_q15 libq_q15_ShiftRight_q15_q15 libq_q31_ShiftRight_q31_q15 libq_q15_ShiftRightRound_q15_q15 libq_q31_ShiftRightRound_q31_q15&nbsp;</p>
+<p class="Element10">
+Multiply: <a href="16297.html">libq_q31_Mult2_q15_q15</a> libq_q15_MultipyR2_q15_q15 (DEPRECATED - mis-spelled) libq_q15_MultiplyR2_q15_q15 <a href="16298.html">libq_q31_Multi_q15_q31</a>&nbsp;</p>
+<p class="Element10">
+Divide: <a href="16277.html">libq_q15_DivisionWithSaturation_q15_q15</a>&nbsp;</p>
+<p class="Element10">
+Multiply-Accumulate: <a href="16295.html">libq_q31_Mac_q31_q15_q15</a> <a href="16281.html">libq_q15_MacR_q31_q15_q15</a>&nbsp;</p>
+<p class="Element10">
+Multiply-Subtract: <a href="16296.html">libq_q31_Msu_q31_q15_q15</a> <a href="16282.html">libq_q15_MsuR_q31_q15_q15</a>&nbsp;</p>
+<p class="Element10">
+Exponential-Averaging: <a href="16278.html">libq_q15_ExpAvg_q15_q15_q1d15</a>&nbsp;</p>
+<p class="Element10">
+Table of LIBQ_C conversion functions:&nbsp;</p>
+<p class="Element10">
+Normalize Q value: <a href="12174.html">Fx16Norm</a> <a href="12175.html">Fx32Norm</a>&nbsp;</p>
+<p class="Element10">
+Float-to-Q value: <a href="12134.html">Fl2Fract16</a> <a href="12135.html">Fl2Fract32</a> <a href="12137.html">Fl2FxPnt16</a> <a href="12138.html">Fl2FxPnt32</a> <a href="12136.html">Fl2FxPnt</a>&nbsp;</p>
+<p class="Element10">
+Float-To-Integer: <a href="12139.html">Fl2Int16</a> <a href="12140.html">Fl2Int32</a>&nbsp;</p>
+<p class="Element10">
+Float-To-<a href="12176.html">FxQFloat32</a>: <a href="12141.html">Fl2QFloat32</a>&nbsp;</p>
+<p class="Element10">
+Exponent-To-Float: Exponent16ToFloat32</p></div>
+</div>
+<a name="46756E6374696F6E73"></a><div class="Element14">
+Functions</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12174.html">Fx16Norm</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Normalize the 16-bit fractional value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12175.html">Fx32Norm</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Normalize the 32-bit number.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16275.html">libq_q15_Abs_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Saturated Absolute value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16276.html">libq_q15_Add_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Add two 16-bit 2s-complement fractional values.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16277.html">libq_q15_DivisionWithSaturation_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Fractional division with saturation.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16278.html">libq_q15_ExpAvg_q15_q15_q1d15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Exponential averaging&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16279.html">libq_q15_ExtractH_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Extracts upper 16 bits of input 32-bit fractional value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16280.html">libq_q15_ExtractL_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Extracts lower 16-bits of input 32-bit fractional value.<br>Descriptionf Extracts lower 16-bits of input 32-bit fractional value and returns them as 16-bit fractional value. This is a bit-for-bit extraction of the bottom 16-bits of the 32-bit input. This function relates to the ETSI extract_l function.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16281.html">libq_q15_MacR_q31_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Multiply accumulate with rounding.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16282.html">libq_q15_MsuR_q31_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Multiply-Subtraction with rounding&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16283.html">libq_q15_Negate_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Negate 16-bit 2s-complement fractional value with saturation.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16284.html">libq_q15_RoundL_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Rounds the lower 16-bits of the 32-bit fractional input.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16285.html">libq_q15_ShiftLeft_q15_i16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+'Arithmetic' Shift of the 16-bit input argument.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16286.html">libq_q15_ShiftRight_q15_i16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+'Arithmetic' RIGHT Shift on a 16-bit value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16287.html">libq_q15_ShiftRightRound_q15_i16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Performs an 'Arithmetic' RIGHT Shift on a 16-bit input.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16288.html">libq_q15_Sub_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Subtract two 16-bit 2s-complement fractional values&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16289.html">libq_q1d15_Sin_q10d6</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Approximates the sine of an angle.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16290.html">libq_q20d12_Sin_q20d12</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+3rd order Polynomial apprx. of a sine function&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16291.html">libq_q31_Abs_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Saturated Absolute value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16292.html">libq_q31_Add_q31_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Add two 32-bit 2s-complement fractional values.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16293.html">libq_q31_DepositH_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Place 16 bits in the upper half of 32 bit word.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16294.html">libq_q31_DepositL_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Place 16 bits in the lower half of 32 bit word.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16295.html">libq_q31_Mac_q31_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Multiply-Accumulate function WITH saturation&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16296.html">libq_q31_Msu_q31_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+L_msu(a,b,c)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16297.html">libq_q31_Mult2_q15_q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+fractional multiplication of two 16-bit fractional values.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16298.html">libq_q31_Multi_q15_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Implement 16 bit by 32 bit multiply.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16299.html">libq_q31_Negate_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Negate 32-bit 2s-complement fractional value with saturation.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16300.html">libq_q31_ShiftLeft_q31_i16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+'Arithmetic' Shift of the 32-bit value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16301.html">libq_q31_ShiftRight_q31_i16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+'Arithmetic' RIGHT Shift on a 32-bit value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16302.html">libq_q31_ShiftRightRound_q31_i16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+'Arithmetic' RIGHT Shift on a 32-bit value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16303.html">libq_q31_Sub_q31_q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Subtract two 32-bit 2s-complement fractional values&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="4D6163726F73"></a><div class="Element14">
+Macros</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02080.html">_LIBQ_C_H_</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro _LIBQ_C_H_.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04850.html">BITMASKFRACT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Bit Mask for 16&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04851.html">BITMASKFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Bit Mask for 32&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12124.html">Exponent16ToQFloat32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts a power of 2 16-bit integer to 32-bit floating point value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12134.html">Fl2Fract16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts floating point constant value to fractional 16-bit value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12135.html">Fl2Fract32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts floating point constant value to fractional 32-bit value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12136.html">Fl2FxPnt</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts floating point constant value to fixed/fractional value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12137.html">Fl2FxPnt16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts floating point constant value to fixed point 16-bit value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12138.html">Fl2FxPnt32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts floating point constant value to fixed point 32-bit value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12139.html">Fl2Int16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts floating point constant expression to 16-bit integer value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12140.html">Fl2Int32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts floating point constant expression to 32-bit integer value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12141.html">Fl2QFloat32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts a decimal floating-point constant expression to pseudo float&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12168.html">FrMax</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+find the maximum of two numbers&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12169.html">FrMin</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+find the minimum of two numbers&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16323.html">LOG102Q5D11</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+log10(2) scaled to Q5.11 format&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16397.html">MAXFRACT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+0.999969&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16398.html">MAXFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+0.9999999995&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16399.html">MAXINT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum and minimum values for 16-bit data types.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16400.html">MAXINT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro MAXINT32.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16401.html">MAXPFLOAT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+minimum and maximum definitions for FX floating point data types&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16681.html">MINFRACT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1.000000&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16682.html">MINFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1.0000000000&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16683.html">MININT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro MININT16.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16684.html">MININT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro MININT32.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16686.html">MINPFLOAT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro MINPFLOAT32.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16816.html">MSBBITFRACT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+16-bit Sign Bit&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="16817.html">MSBBITFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+32-bit Sign Bit&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17063.html">NINETYQ10D22</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Ninety degrees scaled to Q10d22&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17064.html">NINETYQ10D6</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Ninety degrees scaled to Q10d6&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17068.html">NORMNEGFRACT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Max -val for 16&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17069.html">NORMNEGFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Max -val for 32&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17070.html">NORMPOSFRACT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Min +val for 16&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17071.html">NORMPOSFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Min +val for 32&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17075.html">NUMBITSFRACT16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Num of bits 16&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17076.html">NUMBITSFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Num of bits 32&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17162.html">ONEEIGHTYQ10D22</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+180 degrees scaled to Q10d22&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="17163.html">ONEEIGHTYQ10D6</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+180 degrees scaled to Q10d6&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="22590.html">ROUNDFRACT32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Rounding value&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="27076.html">THREESIXTYQ10D22</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+360 degrees scaled to Q10d22&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="27077.html">THREESIXTYQ10D6</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+360 degrees scaled to Q10d6&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="27122.html">TWOSEVENTYQ10D22</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+270 degrees scaled to Q10d22&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="27123.html">TWOSEVENTYQ10D6</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+270 degrees scaled to Q10d6&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="27170.html">UNITYFLOAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro UNITYFLOAT.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="5479706573"></a><div class="Element14">
+Types</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="13727.html">i16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Q16d0&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="22356.html">q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+q15 n.n (signed)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="22357.html">q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+q31 n.n (signed)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="22358.html">q63</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Q63 n.n (signed)&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="5661726961626C6573"></a><div class="Element14">
+Variables</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_field.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="12176.html">FxQFloat32</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+FxQFloat32 pseudo floating point type (limited floating point)&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="46696C65204E616D65"></a><div class="Element14">
+File Name</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+libq_c.h</p></div>
+</div>
+<a name="436F6D70616E79"></a><div class="Element14">
+Company</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Microchip Technology Inc.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="16272.html">LibQ Fixed-Point 'C' Math Library</a> &gt; <a href="16379.html">Files</a> &gt; <a href="16274.html">libq_C.h</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: libq_C.h Topic Title: libq_C.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

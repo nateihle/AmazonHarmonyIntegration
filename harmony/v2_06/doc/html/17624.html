@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Special Function Modules (CRC)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17624.html">Special Function Modules (CRC)</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17623.html">Previous</a> | <a href="17616.html">Up</a> | <a href="17625.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Special Function Modules (CRC) Topic Title: Special Function Modules (CRC))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Special Function Modules (CRC)</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Selected high-end devices support a special feature called the CRC generator.&nbsp;</p>
+<p class="Element10">
+Depending on the device, the is a highly configurable, 16-bit or 32-bit CRC generator. The CRC can be assigned to any available DMA channel using <a href="18962.html">PLIB_DMA_CRCChannelSelect</a> Function. The CRC is enabled using the <a href="18966.html">PLIB_DMA_CRCEnable</a> Function.&nbsp;</p>
+<p class="Element10">
+Optionally, the data from the source can be subjected to byte reordering using the <a href="18960.html">PLIB_DMA_CRCByteOrderSelect</a> Function. The data is then optionally passed to the Linear Shift Feedback Register (LFSR) CRC or the IP header checksum blocks using the <a href="18971.html">PLIB_DMA_CRCTypeSet</a> Function.&nbsp;</p>
+<p class="Element10">
+The CRC feature is attached to a channel in one of two possible modes, Background or Append.</p><div class="Element15">
+Background Mode</div>
+<p class="Element10">
+The CRC is calculated in the background, with normal DMA behavior maintained. This can be selected by disabling the Append mode.</p><div class="Element15">
+Append Mode</div>
+<p class="Element10">
+Data read from the source is not written to the destination, but the CRC data is accumulated in the CRC data register. The accumulated CRC is written to the location specified by the destination address when a block transfer completes. This mode is enabled by the <a href="18956.html">PLIB_DMA_CRCAppendModeEnable</a> Function.&nbsp;</p>
+<p class="Element10">
+The following code shows DMA CRC calculation in Append mode.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01912');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01912"><pre class="Element12"><i><span style="color: #008000">// CRC of the Flash block</span></i>
+uint32_t blockCRC;
+<strong><span style="color: #000080">bool</span></strong> error = <strong><span style="color: #000080">false</span></strong>;
+<i><span style="color: #008000">// disable the channel 0 interrupts using the Interrupts Peripheral Library</span></i>
+<i><span style="color: #008000">// Enable the DMA controller</span></i>
+PLIB_DMA_Enable ( DMA_ID_0 );
+<i><span style="color: #008000">// disable the selected channel-3</span></i>
+PLIB_DMA_ChannelXDisable ( DMA_ID_0, DMA_CHANNEL_3 );
+<i><span style="color: #008000">// set the channel priority to 2</span></i>
+PLIB_DMA_ChannelXPrioritySelect  ( DMA_ID_0, DMA_CHANNEL_3, DMA_CHANNEL_PRIORITY_2 );
+<i><span style="color: #008000">// Configure the channel auto enable feature</span></i>
+PLIB_DMA_ChannelXAutoEnable ( DMA_ID_0, DMA_CHANNEL_3 );
+<i><span style="color: #008000">// Disable the channel chain feature</span></i>
+PLIB_DMA_ChannelXChainDisable ( DMA_ID_0, DMA_CHANNEL_3 );
+<i><span style="color: #008000">// Disable the start IRQ.</span></i>
+PLIB_DMA_ChannelXTriggerDisable ( DMA_ID_0, DMA_CHANNEL_3, DMA_CHANNEL_TRIGGER_TRANSFER_START );
+<i><span style="color: #008000">// Seed the CRC generator</span></i>
+PLIB_DMA_CRCDataWrite ( DMA_ID_0, 0xFFFF );
+<i><span style="color: #008000">// use the standard CCITT CRC 16 polynomial : X^16+X^12+X^5+1</span></i>
+PLIB_DMA_CRCXOREnableSet ( DMA_ID_0, 0x1021 );
+<i><span style="color: #008000">// set polynomial length to 16</span></i>
+PLIB_DMA_CRCPolynomialLengthSet (DMA_ID_0, 16);
+<i><span style="color: #008000">// Enable append mode</span></i>
+PLIB_DMA_CRCAppendModeEnable ( DMA_ID_0 );
+<i><span style="color: #008000">// Attach CRC to DMA channel-3</span></i>
+PLIB_DMA_CRCChannelSelect (DMA_ID_0, DMA_CHANNEL_3);
+<i><span style="color: #008000">// Enable the CRC</span></i>
+PLIB_DMA_CRCEnable ( DMA_ID_0 );
+<i><span style="color: #008000">// Set the source starting address to 0x1000</span></i>
+PLIB_DMA_ChannelXSourceStartAddressSet ( DMA_ID_0, DMA_CHANNEL_3, 0x1000 );
+<i><span style="color: #008000">// Set the destination starting address to 0x2000</span></i>
+PLIB_DMA_ChannelXDestinationStartAddressSet ( DMA_ID_0, DMA_CHANNEL_3, 0x2000 );
+<i><span style="color: #008000">// set source and destination size to 100</span></i>
+PLIB_DMA_ChannelXSourceSizeSet ( DMA_ID_0, DMA_CHANNEL_3, 100 );
+PLIB_DMA_ChannelXDestinationSizeSet ( DMA_ID_0, DMA_CHANNEL_3, 100 );
+<i><span style="color: #008000">// Set cell size to 100</span></i>
+PLIB_DMA_ChannelXCellSizeSet ( DMA_ID_0, DMA_CHANNEL_3, 100 );
+<i><span style="color: #008000">//Enable channel-3</span></i>
+PLIB_DMA_ChannelXEnable ( DMA_ID_0, DMA_CHANNEL_3 );
+<i><span style="color: #008000">// Force initiate a transfer</span></i>
+PLIB_DMA_StartTransferSet ( DMA_ID_0, DMA_CHANNEL_3 );</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17624.html">Special Function Modules (CRC)</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Special Function Modules (CRC) Topic Title: Special Function Modules (CRC))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

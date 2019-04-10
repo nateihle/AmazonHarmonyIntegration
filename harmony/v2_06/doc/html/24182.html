@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SYS_TMR_ObjectCreate Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="27082.html">Timer System Service Library</a> &gt; <a href="24432.html">Library Interface</a> &gt; d) Timed Object Functions &gt; <a href="24182.html">SYS_TMR_ObjectCreate Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24181.html">Previous</a> | <a href="24432.html">Up</a> | <a href="24183.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_TMR_ObjectCreate@uint32_t@uintptr_t@SYS_TMR_CALLBACK@SYS_TMR_FLAGS Topic Title: SYS_TMR_ObjectCreate Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SYS_TMR_ObjectCreate Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="24169.html">SYS_TMR_HANDLE</a> <strong><span style="color: #000000">SYS_TMR_ObjectCreate</span></strong>(
+    uint32_t <strong><span style="color: #000000">periodMs</span></strong>, 
+    uintptr_t <strong><span style="color: #000000">context</span></strong>, 
+    <a href="24153.html">SYS_TMR_CALLBACK</a> <strong><span style="color: #000000">callback</span></strong>, 
+    <a href="24163.html">SYS_TMR_FLAGS</a> <strong><span style="color: #000000">flags</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function creates a new timer object of requested type. If a callback is supplied, it will notify the user once the time-out occurs. The timer object will be deleted by a call to <a href="24183.html">SYS_TMR_ObjectDelete</a></p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <a href="24176.html">SYS_TMR_Initialize</a> function should have been called before calling this function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+periodMs&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Periodic delay in milliseconds<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+context&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+A client parameter that's passed in the callback function. This will help to identify the callback. Can be 0 if not needed.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+callback&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to a callback routine that will be called periodically once the time-out occurs. Can be NULL if not needed.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+flags&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+multiple flags specifying what type of object is created:
+<ul class="Element630">
+<li class="Element600">SYS_TMR_FLAG_PERIODIC - a periodic timer object is requested</li>
+<li class="Element600">SYS_TMR_FLAG_SINGLE - a single timer object is requested</li>
+<li class="Element600">SYS_TMR_FLAG_AUTO_DELETE - auto-delete object (SYS_TMR_FLAG_SINGLE only)</li>
+</ul>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A valid timer object handle of type <a href="24169.html">SYS_TMR_HANDLE</a> if the call succeeds. <a href="24170.html">SYS_TMR_HANDLE_INVALID</a> otherwise.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The created timer object needs to be deleted with <a href="24183.html">SYS_TMR_ObjectDelete</a> when no longer needed (unless is auto-delete type).&nbsp;</p>
+<p class="Element10">
+The auto-delete objects are deleted if the time-out has occurred and the client has been notified, meaning:
+<ul class="Element630">
+<li class="Element600">The object has a notification/callback function, which has been called upon time-out.</li>
+<li class="Element600"><a href="24181.html">SYS_TMR_ObjectCountGet</a>()/<a href="24161.html">SYS_TMR_DelayStatusGet</a> has been called</li>
+</ul></p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04164');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04164"><pre class="Element12"><a href="24169.html">SYS_TMR_HANDLE</a> handle20ms, handle30ms;
+
+<strong><span style="color: #000080">void</span></strong> Test_Callback ( uintptr_t context, uint32_t currTick );
+
+handle20ms = SYS_TMR_ObjectCreate ( 20, 1, Test_Callback, SYS_TMR_FLAG_PERIODIC );
+handle30ms = SYS_TMR_ObjectCreate ( 30, 2, Test_Callback, SYS_TMR_FLAG_PERIODIC );
+
+<strong><span style="color: #000080">void</span></strong> Test_Callback ( uintptr_t context, uint32_t currTick )
+{
+    <strong><span style="color: #000080">if</span></strong> ( context == 1 )
+    {
+        <i><span style="color: #008000">//20 ms</span></i>
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        <i><span style="color: #008000">//30 ms</span></i>
+    }
+}
+
+<i><span style="color: #008000">// when done with the timer objects</span></i>
+<a href="24183.html">SYS_TMR_ObjectDelete</a>(handle20ms);
+<a href="24183.html">SYS_TMR_ObjectDelete</a>(handle30ms);
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="27082.html">Timer System Service Library</a> &gt; <a href="24432.html">Library Interface</a> &gt; d) Timed Object Functions &gt; <a href="24182.html">SYS_TMR_ObjectCreate Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_TMR_ObjectCreate@uint32_t@uintptr_t@SYS_TMR_CALLBACK@SYS_TMR_FLAGS Topic Title: SYS_TMR_ObjectCreate Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

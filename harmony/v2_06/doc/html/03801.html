@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="17077.html">NVM Driver Demonstration</a> &gt; <a href="03796.html">Demonstrations</a> &gt; <a href="03798.html">nvm_read_write</a> &gt; <a href="03801.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03800.html">Previous</a> | <a href="03798.html">Up</a> | <a href="03906.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS NVMDRV nvm_read_write_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This is a simple demonstration to show how to configure and make use of NVM Driver APIs to implement and access the on-board Flash memory of PIC32MX and PIC32MZ devices.</p><div class="Element15">
+How to Run This Demonstration Application</div>
+<p class="Element10">
+Once the demonstration application is compiled successfully, you are ready to program the firmware in the target device.&nbsp;</p>
+<p class="Element10">
+To run the demonstration in Debug mode, perform the following steps:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Select the appropriate configuration from the MPLAB X IDE Project Properties based on the target hardware.</li>
+<li value="2" class="Element600">Select your device programmer from the Hardware Tool menu in MPLAB X IDE.</li>
+<li value="3" class="Element600">Select either <i><u>Debug &gt; Debug Main Project</u></i> or click <strong>Debug Main Project</strong> in the toolbar.</li>
+<li value="4" class="Element600">Build the selected configuration in the MPLAB X IDE project and program the demonstration board.</li>
+</ol><p class="Element10">
+The execution status (pass/fail) of the demonstration is indicated by LEDs on the demonstration board, as shown in the following table. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="51%">
+<div class="Element66">
+Demonstration Board&nbsp;</div></td><td class="Element65" valign="top" width="25%">
+<div class="Element66">
+Success Indication&nbsp;</div></td><td class="Element65" valign="top" width="24%">
+<div class="Element66">
+Failure Indication&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="51%">
+<div class="Element68">
+PIC32 USB Starter Kit II<br>PIC32MZ EF Starter Kit&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+LED3 (Green LED)&nbsp;</div></td><td class="Element67" valign="top" width="24%">
+<div class="Element68">
+LED1 (Red LED)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The demonstration application makes use of 32 KB of NVM memory area starting at address <a href="10746.html">DRV_NVM_MEDIA_START_ADDRESS</a>.&nbsp;</p>
+<p class="Element10">
+The application does the following:</p>
+<ul class="Element630">
+<li class="Element600">Erases the entire 32 KB of memory and verifies the erase operation by reading back the data</li>
+<li class="Element600">Performs sequential writes within a page by queuing the write operations. Reads back and verifies the data.</li>
+<li class="Element600">Repeats step 1 to erase all data of the previous operation</li>
+<li class="Element600">Performs random writes to addresses spread across the available memory area. This operation demonstrates the queuing of the write operations at the driver layer. It also demonstrates the usage of the driver event handler to track the completion of the queued operations. Reads back and verifies the data.</li>
+<li class="Element600">Repeats step 1 to erase all data from the previous operation</li>
+<li class="Element600">Performs an EraseWrite operation. This operation demonstrates the usage of the EraseWrite feature</li>
+</ul></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="17077.html">NVM Driver Demonstration</a> &gt; <a href="03796.html">Demonstrations</a> &gt; <a href="03798.html">nvm_read_write</a> &gt; <a href="03801.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS NVMDRV nvm_read_write_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,166 @@
+config SEGGER_EMWIN_MAX_LAYERS
+    int
+    depends on USE_SEGGER_EMWIN_LIBRARY
+    default 1
+
+config SEGGER_EMWIN_COLOR_DEPTH
+    int
+    depends on USE_SEGGER_EMWIN_LIBRARY
+    default 16
+
+config SEGGER_EMWIN_TOUCH_WRAPPER
+    bool "Use SEGGER emWin Touch Wrapper?"
+    depends on USE_SEGGER_EMWIN_LIBRARY
+	default n
+
+config SEGGER_EMWIN_TOUCH_SYSTEM_NEEDED
+	depends on USE_SEGGER_EMWIN_LIBRARY
+	bool "Use Touch System Service? (Deprecated)"
+	select BSP_TOUCH_INPUT_NEEDED
+    default n
+    
+config SEGGER_EMWIN_USE_SYSINPUT
+    depends on USE_SEGGER_EMWIN_LIBRARY
+    bool "Use Input System Service?"
+	select BSP_TOUCH_INPUT_SYSTEM_SERVICE_NEEDED
+    default n
+
+menu "emWin Touch Wrapper" depends on SEGGER_EMWIN_TOUCH_WRAPPER
+source "$HARMONY_VERSION_PATH/third_party/gfx/emwin/touch/config/emwin_touch.hconfig"
+endmenu
+
+config SEGGER_EMWIN_GUI_WRAPPER
+    bool "Use SEGGER emWin GUI Wrapper?"
+    depends on USE_SEGGER_EMWIN_LIBRARY
+    default n
+
+menu "emWin GUI Wrapper" depends on SEGGER_EMWIN_GUI_WRAPPER
+source "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/config/emwin_gui.hconfig"
+endmenu
+
+ifblock (SEGGER_EMWIN_GUI_WRAPPER || SEGGER_EMWIN_TOUCH_WRAPPER)
+compiler EMWIN_WRAPPER_COMPILER_INCLUDEPATH includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/third_party/gfx/emwin/config"
+endif
+
+ifblock (USE_SEGGER_EMWIN_LIBRARY)
+file GUI_EMW_DCACHE_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_DCache.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_DCache.h"
+file GUI_EMW_DCACHE_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_DCache_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_DCache_Private.h"
+file GUI_EMW_DIST_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_Dist.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_Dist.h"
+file GUI_EMW_FLXCLR_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_FlexColor_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_FlexColor_Private.h"
+file GUI_EMW_LIN_OPT16_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_Lin_Opt_16.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_Lin_Opt_16.h"
+file GUI_EMW_LIN_OPT24_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_Lin_Opt_24.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_Lin_Opt_24.h"
+file GUI_EMW_LIN_OPT32_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_Lin_Opt_32.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_Lin_Opt_32.h"
+file GUI_EMW_LIN_OPT8_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_Lin_Opt_8.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_Lin_Opt_8.h"
+file GUI_EMW_LIN_PRVT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_Lin_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_Lin_Private.h"
+file GUI_EMW_NOOPT_1_8_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_NoOpt_1_8.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_NoOpt_1_8.h"
+file GUI_EMW_S1D13517_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_S1D13517_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_S1D13517_Private.h"
+file GUI_EMW_TEMPL_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_Template.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_Template.h"
+file GUI_EMW_TEMPL1_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_TemplateI.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_TemplateI.h"
+file GUI_EMW_TEMPL1_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUIDRV_TemplateI_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUIDRV_TemplateI_Private.h"
+file GUI_EMW_GCACH_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_GCache_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_GCache_Private.h"
+
+file GUI_EMW_BUTTON_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/BUTTON.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/BUTTON.h"
+file GUI_EMW_BUTTON_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/BUTTON_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/BUTTON_Private.h"
+file GUI_EMW_CALENDER_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/CALENDAR.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/CALENDAR.h"
+file GUI_EMW_CHBOX_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/CHECKBOX.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/CHECKBOX.h"
+file GUI_EMW_CHBOX_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/CHECKBOX_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/CHECKBOX_Private.h"
+file GUI_EMW_CHCOLOR_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/CHOOSECOLOR.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/CHOOSECOLOR.h"
+file GUI_EMW_CHFILE_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/CHOOSEFILE.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/CHOOSEFILE.h"
+file GUI_EMW_DIALOG_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/DIALOG.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/DIALOG.h"
+file GUI_EMW_DIALOG_INT_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/DIALOG_Intern.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/DIALOG_Intern.h"
+file GUI_EMW_DRPDWN_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/DROPDOWN.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/DROPDOWN.h"
+file GUI_EMW_DRPDWN_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/DROPDOWN_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/DROPDOWN_Private.h"
+file GUI_EMW_EDIT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/EDIT.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/EDIT.h"
+file GUI_EMW_EDIT_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/EDIT_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/EDIT_Private.h"
+file GUI_EMW_FRMWN_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/FRAMEWIN.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/FRAMEWIN.h"
+file GUI_EMW_FRMWN_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/FRAMEWIN_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/FRAMEWIN_Private.h"
+file GUI_EMW_GBL_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/Global.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/Global.h"
+file GUI_EMW_GRPH_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GRAPH.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GRAPH.h"
+file GUI_EMW_GRPH_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GRAPH_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GRAPH_Private.h"
+file GUI_EMW_GUI_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI.h"
+file GUI_EMW_BIDI2_BRKTS800_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI__BiDi2_Brackets_800.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI__BiDi2_Brackets_800.h"
+file GUI_EMW_BIDI2_TYPS800_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI__BiDi2_Types_800.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI__BiDi2_Types_800.h"
+file GUI_EMW_GUIARR_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_ARRAY.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_ARRAY.h"
+file GUI_EMW_GUIARR_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_ARRAY_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_ARRAY_Private.h"
+file GUI_EMW_BMP_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_BMP_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_BMP_Private.h"
+file GUI_EMW_CONF_DFLT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_ConfDefaults.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_ConfDefaults.h"
+file GUI_EMW_DEBG_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_Debug.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_Debug.h"
+file GUI_EMW_FNT_INT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_FontIntern.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_FontIntern.h"
+file GUI_EMW_GIF_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_GIF_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_GIF_Private.h"
+file GUI_EMW_HOOL_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_HOOK.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_HOOK.h"
+file GUI_EMW_JPG_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_JPEG_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_JPEG_Private.h"
+file GUI_EMW_GUI_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_Private.h"
+file GUI_EMW_ST_ORNTATN_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_SetOrientation.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_SetOrientation.h"
+file GUI_EMW_ST_ORNTATN_CX_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_SetOrientationCX.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_SetOrientationCX.h"
+file GUI_EMW_SPRITE_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_SPRITE_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_SPRITE_Private.h"
+file GUI_EMW_GUI_TYP_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_Type.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_Type.h"
+file GUI_EMW_GUI_VER_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_Version.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_Version.h"
+file GUI_EMW_GUI_VNC_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/GUI_VNC.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/GUI_VNC.h"
+file GUI_EMW_HDR_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/HEADER.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/HEADER.h"
+file GUI_EMW_HDR_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/HEADER_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/HEADER_Private.h"
+file GUI_EMW_ICNVW_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/ICONVIEW.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/ICONVIEW.h"
+file GUI_EMW_ICNVW_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/ICONVIEW_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/ICONVIEW_Private.h"
+file GUI_EMW_IMG_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/IMAGE.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/IMAGE.h"
+file GUI_EMW_IMG_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/IMAGE_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/IMAGE_Private.h"
+file GUI_EMW_IP_FS_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/IP_FS.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/IP_FS.h"
+file GUI_EMW_KNOB_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/KNOB.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/KNOB.h"
+file GUI_EMW_KNOB_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/KNOB_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/KNOB_Private.h"
+file GUI_EMW_LCD_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LCD.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LCD.h"
+file GUI_EMW_LCD_CONF_DFLT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LCD_ConfDefaults.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LCD_ConfDefaults.h"
+file GUI_EMW_LCD_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LCD_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LCD_Private.h"
+file GUI_EMW_LCD_PRTD_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LCD_Protected.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LCD_Protected.h"
+file GUI_EMW_LCD_SIM_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LCD_SIM.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LCD_SIM.h"
+file GUI_EMW_LSTBOX_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LISTBOX.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LISTBOX.h"
+file GUI_EMW_LSTBOX_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LISTBOX_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LISTBOX_Private.h"
+file GUI_EMW_LSTVW_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LISTVIEW.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LISTVIEW.h"
+file GUI_EMW_LSTVW_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LISTVIEW_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LISTVIEW_Private.h"
+file GUI_EMW_LSTWHL_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LISTWHEEL.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LISTWHEEL.h"
+file GUI_EMW_LSTWHL_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/LISTWHEEL_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/LISTWHEEL_Private.h"
+file GUI_EMW_MENU_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/MENU.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/MENU.h"
+file GUI_EMW_MENU_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/MENU_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/MENU_Private.h"
+file GUI_EMW_MSGBOX_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/MESSAGEBOX.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/MESSAGEBOX.h"
+file GUI_EMW_MLTEDT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/MULTIEDIT.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/MULTIEDIT.h"
+file GUI_EMW_MLTPG_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/MULTIPAGE.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/MULTIPAGE.h"
+file GUI_EMW_MLTPG_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/MULTIPAGE_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/MULTIPAGE_Private.h"
+file GUI_EMW_PRGBAR_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/PROGBAR.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/PROGBAR.h"
+file GUI_EMW_PRGBAR_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/PROGBAR_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/PROGBAR_Private.h"
+file GUI_EMW_RADIO_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/RADIO.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/RADIO.h"
+file GUI_EMW_RADIO_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/RADIO_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/RADIO_Private.h"
+file GUI_EMW_SCRLBAR_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SCROLLBAR.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SCROLLBAR.h"
+file GUI_EMW_SCRLBAR_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SCROLLBAR_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SCROLLBAR_Private.h"
+file GUI_EMW_SEGGER_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SEGGER.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SEGGER.h"
+file GUI_EMW_SLDR_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SLIDER.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SLIDER.h"
+file GUI_EMW_SLDR_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SLIDER_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SLIDER_Private.h"
+file GUI_EMW_SPNBOX_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SPINBOX.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SPINBOX.h"
+file GUI_EMW_SPNBOX_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SPINBOX_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SPINBOX_Private.h"
+file GUI_EMW_SWPLST_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SWIPELIST.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SWIPELIST.h"
+file GUI_EMW_SWPLST_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/SWIPELIST_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/SWIPELIST_Private.h"
+file GUI_EMW_TXT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/TEXT.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/TEXT.h"
+file GUI_EMW_TXT_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/TEXT_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/TEXT_Private.h"
+file GUI_EMW_TREEVW_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/TREEVIEW.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/TREEVIEW.h"
+file GUI_EMW_TREEVW_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/TREEVIEW_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/TREEVIEW_Private.h"
+file GUI_EMW_WDGT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/WIDGET.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/WIDGET.h"
+file GUI_EMW_WNDW_PRV_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/WINDOW_Private.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/WINDOW_Private.h"
+file GUI_EMW_WM_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/WM.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/WM.h"
+file GUI_EMW_WM_GUI_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/WM_GUI.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/WM_GUI.h"
+file GUI_EMW_WM_INT_H "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc/WM_Intern.h" to "$PROJECT_HEADER_FILES/framework/gfx/emwin/WM_Intern.h"
+
+ifblock (DS60001320)
+library LIB_SEGGER_EMWIN "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/lib/emWin.a"
+endif
+
+ifblock (DS60001156)
+library LIB_SEGGER_EMWIN_MX "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/lib/emWin_MX.a"
+endif
+
+ifblock (DS60001191 || DS60001361)
+library LIB_SEGGER_EMWIN_NOFP "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/lib/emWin_noFP.a"
+endif
+
+compiler EMWIN_COMPILER_INCLUDEPATH includepath "$HARMONY_VERSION_PATH/bin/framework/gfx/segger_emwin/inc"
+endif
+
+ifblock (USE_SEGGER_EMWIN_LIBRARY)
+add "<#include \"/third_party/gfx/emwin/templates/system_config.h.ftl\">"  to list SYSTEM_CONFIG_H_MIDDLEWARE_CONFIGURATION 
+endif
+

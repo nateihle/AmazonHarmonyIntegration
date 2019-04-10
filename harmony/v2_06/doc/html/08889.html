@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08909.html">Using the Library</a> &gt; <a href="08889.html">Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08909.html">Previous</a> | <a href="08909.html">Up</a> | <a href="08906.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USART Abstraction Model Topic Title: Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The USART driver features routines to perform the following functions:
+<ul class="Element636">
+<li class="Element606">Driver initialization</li>
+<li class="Element606">Transfer data</li>
+<li class="Element606">Manage communication properties of the module</li>
+</ul>The Driver initialization routines allow the system to initialize the driver. The driver must be initialized before it can be opened by a client. The data transfer routines allow the application to receive and transmit data through the USART. The driver also provides routines to change the communication properties such as USART baud or line control settings.&nbsp;</p>
+<p class="Element10">
+<img src="USART Driver Abstraction Model.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+As seen in the previous figure, the USART driver clients transfer data through the USART Driver Data Transfer model. The driver abstracts out the hardware details of the UART module FIFO mechanism and shift registers, and provides a low overhead data transfer mechanism to the application. The USART driver provides three different data transfer models for transferring data.
+<ul class="Element636">
+<li class="Element606">The Byte Transfer Model</li>
+<li class="Element606">The File I/O Type Read/Write Transfer Model</li>
+<li class="Element606">Buffer Queue Transfer Model</li>
+</ul></p><div class="Element15">
+Byte Transfer Model:</div>
+<p class="Element10">
+The byte transfer model allows the application to transfer data through USART driver one byte at a time. With this model, the driver reads one byte from the receive FIFO or writes one byte to the transmit FIFO. The application must check if data has been received before reading the data. Similarly, it must check if the transmit FIFO is not full before writing to the FIFO. The byte transfer model places the responsibility of maintaining the USART peripheral on the Application. The driver cannot support other data transfer models if support for this data transfer model is enabled. The byte transfer model is only recommended for simple data transfer applications.&nbsp;</p>
+<p class="Element10">
+To use the byte transfer model, the <span class="Element146">drv_usart_byte_model.c</span> file must be included in the project and the <a href="11482.html">DRV_USART_BYTE_MODEL_SUPPORT</a> configuration macro should be set to true.</p><div class="Element15">
+File I/O Type Read/Write Transfer Model:</div>
+<p class="Element10">
+This data transfer model is similar to file read and write API model in a UNIX operating system application. The application calls the USART driver read and write routines to transfer data through the USART. Unlike the byte transfer model, the read/write data model can process a block of data. Depending on the mode (blocking or non-blocking) in which the client opened the driver, the driver will either block until all of the data is transferred or will immediately return with the number of bytes transferred. The application does not have to check the FIFO status while using this mode. The application can instead use the return status (number of bytes transferred) to maintain its logic and complete the data transfer. The read/write model can be used with the non-DMA buffer queue model. It cannot be used with the byte transfer model and the DMA-enabled buffer queue model in the same application.&nbsp;</p>
+<p class="Element10">
+To use the file I/O type read/write data transfer model, the <span class="Element146">drv_usart_read_write.c</span> file must be included in the project and the <a href="11507.html">DRV_USART_READ_WRITE_MODEL_SUPPORT</a> configuration macro should be set to true.&nbsp;</p>
+<p class="Element10">
+See <a href="08899.html">File I/O Type Read/Write Data Transfer Mode</a>f for additional information.</p><div class="Element15">
+Buffer Queue Transfer Model:</div>
+<p class="Element10">
+The buffer queue data transfer model allows clients to queue data transfers for processing. This data transfer model is always non-blocking. The USART driver returns a buffer handle for a queued request. The clients can track the completion of a buffer through events and API. If the USART driver is busy processing a data transfer, other data transfer requests are queued. This allows the clients to optimize their application logic and increase throughput. To optimize memory usage, the USART driver implements a shared buffer object pool concept to add a data transfer request to the queue. The following figure shows a conceptual representation of the buffer queue model. </p><p class="Element10" style="text-align: center;">
+<strong>Buffer Queue Transfer Model</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRV USART Buffer Queue Model.png" border="0" alt="" title=""></p><p class="Element10">
+As shown in the previous figure, each USART driver hardware instance has a read and write queue. The system designer must configure the sizes of these read and write queues. The USART driver additionally employs a global pool of buffer queue objects. This pool is common to all USART Driver hardware instances and its size is defined by the <a href="11504.html">DRV_USART_QUEUE_DEPTH_COMBINED</a> configuration macro. When a client places a request to add a data transfer, the driver performs the following actions:
+<ul class="Element636">
+<li class="Element606">It checks if a buffer object is free in the global pool. If not, the driver rejects the request.</li>
+<li class="Element606">It then checks if the hardware instance specific queue is full. If not, the buffer object from the global pool is added to the hardware instance specific queue. If the queue is full, the driver rejects the request.</li>
+</ul>The buffer queue model can be used along with the file I/O type read/write data transfer model.&nbsp;</p>
+<p class="Element10">
+To use the Buffer Queue Data Transfer model, the <span class="Element146">drv_usart_buffer_queue.c</span> file must be included in the project and <a href="11473.html">DRV_USART_BUFFER_QUEUE_SUPPORT</a> configuration macro should be set to true.&nbsp;</p>
+<p class="Element10">
+The USART Driver DMA feature is only available while using the Buffer Queue Model. If enabled, the USART Driver uses the DMA module channels to transfer data directly from application memory to USART transmit or receive registers. This reduces CPU resource consumption and improves system performance. To use the buffer queue model with DMA, the <span class="Element146">drv_usart_buffer_queue_dma.c</span> file should be included in the project instead of <span class="Element146">drv_usart_buffer_queue.c</span>.&nbsp;</p>
+<p class="Element10">
+See <a href="08890.html">Buffer Queue Transfer Model</a> for additional information.</p><div class="Element15">
+Communication Management</div>
+<p class="Element10">
+The USART Driver API contains functions to control the USART Driver communication properties. These functions allow the client to change the parity, stop bits, number of data bits and the communication baud rate. A change in the communication setting affects all ongoing communication and all driver clients.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08909.html">Using the Library</a> &gt; <a href="08889.html">Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USART Abstraction Model Topic Title: Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

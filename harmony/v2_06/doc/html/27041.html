@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Test Harness State Machine</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27041.html">Test Harness State Machine</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27038.html">Previous</a> | <a href="16814.html">Up</a> | <a href="27040.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Test Harness State Machine Topic Title: Test Harness State Machine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Test Harness State Machine</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The basic logic of the Test Harness state machine is shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="TEST HARNESS LIB State Machine.png" border="0" alt="" title=""></p><p class="Element10">
+The test harness is initialized by calling the <a href="27049.html">TEST_Initialize</a> function and passing in a pointer to a data structure that identifies how many tests to run and provides all of the information necessary to manage the tests and library to be tested by each. The test harness state machine then runs as the <a href="27043.html">TEST_HarnessTasks</a> function is called from repeatedly from within the appropriate system loop. After the harness has initialized itself, its state machine will drop into a cycle that repeats for each test in the test list until it runs out of tests. Tests are executed sequentially, one after another. Messages are &quot;printed&quot; using the SYS DEBUG message functions (assuming that they are appropriately configured) and the harness accumulates results. When the last test is complete, the harness will report over-all test results and go idle. In a debug configuration, the &quot;idle&quot;state Tasks execution contains a hard-coded debug breakpoint where the harness will stop execution and return control to the debugger for analysis of the results.&nbsp;</p>
+<p class="Element10">
+While somewhat simplified for this discussion, the basic cycle for each test is shown in the state machine above diagram. The harness starts off by entering a Test Initialization state that calls the &quot;Initialize&quot; function for the current test, passing it any necessary initialization data. The harness then transitions to a Test Run state where it allows the test's Tasks function(s) to be called from the appropriate system loop so that the test's state machine can run. It stays in this state until the test calls the <a href="27050.html">TEST_LibraryInitialize</a> function to indicate that it is ready for the harness to initialize the library under test. When that happens, the harness transitions to a the Library Initialization state where it calls the &quot;Initialize&quot; function for each instance (up to three) of the library, passing in the necessary initialization data. Then, the harness enters the Test Start state where it call the test's &quot;Start&quot; function to instruct it to begin active testing of the LUT, after which it transitions to the Run Test and Library state where it allows both the test and the LUT state machines to run freely.&nbsp;</p>
+<p class="Element10">
+The test's state machine, consisting of up to five Tasks functions (limited by the MHC configuration settings), interacts with the API functions provided by the LUT and any other resources required to verify that the LUT is operating as expected. The test reports intermediate results by calling the <a href="27045.html">TEST_HasPassedSubtest</a> function, passing in &quot;true&quot; to indicate success and &quot;false&quot; to indicate a failure. The test can also &quot;print&quot; error or informational messages unsign the SYS DEBUG service, if it is appropriately configured. This continues, with the harness counting sub-tests that pass and fail, until the test either calls the <a href="27044.html">TEST_HasCompleted</a> function, reports that it is idle when its &quot;Status&quot; function is called, or the test harness timeout occurs (which indicates a test failure). When one of these events occurs, the harness transitions to the Library Deinitialization state where it calls the LUT's &quot;Deinitialize&quot; function and checks its status to verify that it deinitialized correctly. Finally, the harness transitions to the Test Complete state where it reports the final results of the current test, advances to the next test in the list, and repeats the cycle.&nbsp;</p>
+<p class="Element10">
+For each test, if all sub-tests pass (and no timeout occurs), the test harness counts that test as having passed. For each test, the harness itself reports a sub-test pass result if the LUT reports a SYS_STATUS_READY status (or greater) after being initialized and a SYS_STATUS_UNINITIALIZED status after being deinitialized. These are in addition to any sub-test results reported by the test itself. After all tests are completed (or any test fails), the harness &quot;prints&quot; overall test pass/fail results and goes idle.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27041.html">Test Harness State Machine</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Test Harness State Machine Topic Title: Test Harness State Machine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

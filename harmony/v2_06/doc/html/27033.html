@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Creating a New Test Harness Project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27033.html">Creating a New Test Harness Project</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27036.html">Previous</a> | <a href="16814.html">Up</a> | <a href="27034.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Creating a New Test Harness Project Topic Title: Creating a New Test Harness Project)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Creating a New Test Harness Project</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A MPLAB Harmony test harness project can effectively integrate a number tests for multiple modules. However, it is not efficient to attempt to maximize the number of tests within a single project. It is better to create a comprehensive test plan that defines the appropriate test requirements and use it to identify a strategic set of tests, test projects, and project configurations to validate a specific library.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+To create a new MPLAB Harmony test harness project, perform the following steps.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Note: These steps are listed sequentially, but it is usually best to work incrementally. Generate your initial configuration with a minimum of changes to the defaults and start developing your test. As you complete the test development, come back to the MHC and add the new test functions and information, regenerate, the configuration, then build, and debug your test.</p>
+<ol class="Element630">
+<li value="1" class="Element600">Using MPLAB X IDE, create a new MPLAB Harmony project.
+<ul class="Element631">
+<li class="Element601">Be sure to select the appropriate MPLAB Harmony installation and PIC32 processor</li>
+<li class="Element601">Rename the project and its initial (default) configuration to something appropriate for your test purposes</li>
+<li class="Element601">Be sure to set the new project as the &quot;main&quot; project</li>
+<li class="Element601">Set optimization level to zero (–O0) to facilitate debugging. Clear the “Enable recommended compiler optimizations” option in the &quot;File Generation&quot; dialog when you click <strong>Generate</strong> in the MHC.</li>
+<li class="Element601">It is usually easiest to start with a bare-metal, polled configuration as that is the easiest to debug</li>
+</ul></li>
+<li value="2" class="Element600">Open the MHC and use it to create the initial test configuration.</li>
+<li value="3" class="Element600">Add and configure the library under test and any required dependencies.</li>
+<li value="4" class="Element600">Select <strong>Use Test Harness?</strong> within the <i>Harmony Framework Configuration &gt; Tests</i> options.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARNESS Use Test Harness Step 4.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="5" class="Element600">Configure the test harness. Refer to the online Help associated with each option for a description of what it means. The test harness directly utilizes a timer (via the Timer PLIB) to provide a timeout capability and OSAL functions, even if no RTOS is selected.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARNESS Configure the test harness Step 5.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="6" class="Element600">Configure each test, entering the names of the test, its required functions and data structure and other information. Note that the MPLAB Harmony installation does provide some predefined tests. These can be selected and used to test supported pre-existing libraries. However, you will normally need to configure a &quot;Custom Test&quot; and fill in all of the required information manually as no predefined test will be provided for a newly created library.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARNESS Configure each test Step 6.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="7" class="Element600">Enter the library configuration options for the library under test that is associated with each test. This will include the library’s function names and initialization data structure name as well as information on the number of instances, polled and interrupt-driven tasks functions (and associated interrupt details).</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARNESS Library configuration options Step 7.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="8" class="Element600">Generate the configuration. This will insert the test harness library into your project and generate the necessary test list, initial data structures and other configuration code. You may need to make updates to these later as you develop your tests so that you can easily execute them under control of the test harness.</li>
+</ol><p class="Element10">
+<strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00176');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00176"><pre class="Element12"><i><span style="color: #008000">/* Test List */</span></i>
+<strong><span style="color: #000080">static</span></strong> TEST_DATA testList[] =
+{
+    {
+        .name       = &quot;Sample Module Functional Test 0&quot;,
+        .initialize = TEST_SampleFunctionalInitialize,
+        .tasks      = {
+                        TEST_SampleFunctionalTasks,
+                        TEST_SampleFunctionalTasks,
+                        NULL,
+                        NULL,
+                        TEST_SampleFunctionalTasks,
+                      },
+        .start      = TEST_SampleFunctionalStart,
+        .status     = TEST_SampleFunctionalStatus,
+        .index      = 0,
+        .initData   = (SYS_MODULE_INIT *)&amp;testSampleInit,
+        .library    = &amp;testSample0LUTdata
+    }
+};
+
+<i><span style="color: #008000">/* Test Harness Initialization Structure */</span></i>
+<strong><span style="color: #000080">static</span></strong> <strong><span style="color: #000080">const</span></strong> TEST_INIT_DATA testData =
+{
+    .numberOfTests  = <strong><span style="color: #000080">sizeof</span></strong>(testList)/<strong><span style="color: #000080">sizeof</span></strong>(TEST_DATA),
+    .tests          = testList
+};</pre></div></div>
+
+<ol class="Element630">
+<li value="9" class="Element600">Implement your test as required to test the desired library.</li>
+<li value="10" class="Element600">Create new project configurations for each new execution environment, hardware platform, or test configuration.</li>
+</ol><p class="Element10">
+After each configuration change, you should do a test build. If you have entered names for functions or data structures that do not yet exist, you will see build errors for them. If you do not enter any new information, the MHC will place &quot;NULL&quot; pointers in those locations and the project will build, but of course, the harness will not call your test until it has the required configuration information.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27033.html">Creating a New Test Harness Project</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Creating a New Test Harness Project Topic Title: Creating a New Test Harness Project)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

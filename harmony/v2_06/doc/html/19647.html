@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_IC_AlternateTimerSelect Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13981.html">Input Capture Peripheral Library</a> &gt; <a href="17747.html">Library Interface</a> &gt; b) Timer Functions &gt; <a href="19647.html">PLIB_IC_AlternateTimerSelect Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="19646.html">Previous</a> | <a href="17747.html">Up</a> | <a href="19657.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_IC_AlternateTimerSelect@IC_MODULE_ID@IC_ALT_TIMERS Topic Title: PLIB_IC_AlternateTimerSelect Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_IC_AlternateTimerSelect Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">PLIB_IC_AlternateTimerSelect</span></strong>(
+    <a href="13777.html">IC_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    <a href="13750.html">IC_ALT_TIMERS</a> <strong><span style="color: #000000">tmr</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function selects an alternate timer as a clock source for the IC module. IC_ID_1,IC_ID_2,IC_ID_3 : Can use Timer4 or Timer5 as alternate timers. IC_ID_4,IC_ID_5,IC_ID_6,IC_ID_13,IC_ID_14,IC_ID_15,IC_ID_16 : Can use Timer2 or Timer3 as alternate timers. IC_ID_7,IC_ID_8,IC_ID_9 : Can use Timer6 or Timer7 as alternate timers. IC_ID_10,IC_ID_11,IC_ID_12 : Can use Timer8 or Timer9 as alternate timers.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The 16-bit time base needs to be set. <a href="19646.html">PLIB_IC_AlternateClockEnable</a> API should be called for the IC module to enable the alternate clock selection.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired IC module&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+tmr&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the alternate timer&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Boolean
+<ul class="Element630">
+<li class="Element600">true - Alternate timer selected successfully.</li>
+<li class="Element600">false - Alternate timer selection failure, select appropriate alternate timer for the IC module index.</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This feature may not be available on all devices. Please refer to the specific device data sheet to determine availability or use <a href="19657.html">PLIB_IC_ExistsAlternateTimerSelect</a> in your application to determine whether this feature is available.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02586');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02586"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_IC_ID   IC_ID_1
+<strong><span style="color: #000080">bool</span></strong> result;
+
+<i><span style="color: #008000">//Enabling alternate timer selection</span></i>
+<i><span style="color: #008000">// Call system service to unlock oscillator</span></i>
+<a href="19646.html">PLIB_IC_AlternateClockEnable</a>( MY_IC_ID );
+
+<i><span style="color: #008000">// 16-bit Timer4 is selected as the clock source for IC module 1</span></i>
+result = PLIB_IC_AlternateTimerSelect(MY_IC_ID, IC_ALT_TIMER_TMR4);
+
+<strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">false</span></strong> == result)
+{
+    <i><span style="color: #008000">//Selected alternate timer does not available for the desired IC module.</span></i>
+    <i><span style="color: #008000">//Select appropriate alternate timer.</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13981.html">Input Capture Peripheral Library</a> &gt; <a href="17747.html">Library Interface</a> &gt; b) Timer Functions &gt; <a href="19647.html">PLIB_IC_AlternateTimerSelect Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_IC_AlternateTimerSelect@IC_MODULE_ID@IC_ALT_TIMERS Topic Title: PLIB_IC_AlternateTimerSelect Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

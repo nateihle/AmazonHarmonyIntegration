@@ -1,0 +1,98 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX675F512L_USB
+	bool
+	select HAVE_USB
+	default y
+
+config USB_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum USB_MODULE_ID exclusive
+	"USB_ID_1"
+
+enum USB_INTERRUPTS
+	"USB_INT_DEVICE_RESET"
+	|| "USB_INT_ERROR"
+	|| "USB_INT_TOKEN_DONE"
+	|| "USB_INT_IDLE_DETECT"
+	|| "USB_INT_STALL"
+	|| "USB_INT_SOF"
+	|| "USB_INT_HOST_DETACH"
+	|| "USB_INT_RESUME"
+	|| "USB_INT_ATTACH"
+	|| "USB_INT_ANY"
+	|| "USB_INT_ALL"
+
+enum USB_ERROR_INTERRUPTS
+	"USB_ERR_INT_PID_CHECK_FAILURE"
+	|| "USB_ERR_INT_BAD_CRC5"
+	|| "USB_ERR_INT_BAD_CRC16"
+	|| "USB_ERR_INT_BAD_DATA_FIELD_SIZE"
+	|| "USB_ERR_INT_BUS_TURNAROUND_TIMEOUT"
+	|| "USB_ERR_INT_BIT_STUFF_ERROR"
+	|| "USB_ERR_INT_HOST_EOF_ERROR"
+	|| "USB_ERR_INT_DMA_ERROR"
+	|| "USB_ERR_INT_BUS_MATRIX_ERROR"
+	|| "USB_ERR_INT_ANY"
+	|| "USB_ERR_INT_ALL"
+
+ifblock PROJECT_STANDALONE
+file PLIB_USB_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/processor/usb_p32mx675f512l.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/processor/usb_p32mx675f512l.h"
+
+file PLIB_USB_OTG_INTERRUPTSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_InterruptStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_InterruptStatus_Default.h"
+file PLIB_USB_OTG_INTERRUPT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_Interrupt_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_Interrupt_Default.h"
+file PLIB_USB_OTG_IDPINSTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_IDPinState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_IDPinState_Default.h"
+file PLIB_USB_OTG_LINESTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_LineState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_LineState_Default.h"
+file PLIB_USB_OTG_SESSIONVALID_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_SessionValid_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_SessionValid_Default.h"
+file PLIB_USB_OTG_BSESSIONEND_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_BSessionEnd_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_BSessionEnd_Default.h"
+file PLIB_USB_OTG_ASESSIONVALID_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_ASessionValid_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_ASessionValid_Default.h"
+file PLIB_USB_OTG_PULLUPPULLDOWN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_PullUpPullDown_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_PullUpPullDown_Default.h"
+file PLIB_USB_OTG_VBUSPOWERONOFF_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_VbusPowerOnOff_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_VbusPowerOnOff_Default.h"
+file PLIB_USB_OTG_VBUSCHARGE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_VbusCharge_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_VbusCharge_Default.h"
+file PLIB_USB_OTG_VBUSDISCHARGE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OTG_VbusDischarge_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OTG_VbusDischarge_Default.h"
+file PLIB_USB_ACTIVITYPENDING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_ActivityPending_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_ActivityPending_Default.h"
+file PLIB_USB_SLEEPENTRYGUARD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_SleepEntryGuard_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_SleepEntryGuard_Default.h"
+file PLIB_USB_MODULEBUSY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_ModuleBusy_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_ModuleBusy_Default.h"
+file PLIB_USB_SUSPEND_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_Suspend_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_Suspend_Default.h"
+file PLIB_USB_MODULEPOWER_32BIT16BIT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_ModulePower_32Bit16Bit.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_ModulePower_32Bit16Bit.h"
+file PLIB_USB_GEN_INTERRUPTSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_GEN_InterruptStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_GEN_InterruptStatus_Default.h"
+file PLIB_USB_GEN_INTERRUPT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_GEN_Interrupt_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_GEN_Interrupt_Default.h"
+file PLIB_USB_ALL_INTERRUPT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_ALL_Interrupt_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_ALL_Interrupt_Default.h"
+file PLIB_USB_ERR_INTERRUPTSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_ERR_InterruptStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_ERR_InterruptStatus_Default.h"
+file PLIB_USB_ERR_INTERRUPT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_ERR_Interrupt_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_ERR_Interrupt_Default.h"
+file PLIB_USB_LASTENDPOINT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_LastEndpoint_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_LastEndpoint_Default.h"
+file PLIB_USB_LASTDIRECTION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_LastDirection_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_LastDirection_Default.h"
+file PLIB_USB_LASTPINGPONG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_LastPingPong_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_LastPingPong_Default.h"
+file PLIB_USB_LASTTRANSACTIONDETAILS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_LastTransactionDetails_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_LastTransactionDetails_Default.h"
+file PLIB_USB_LIVEJSTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_LiveJState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_LiveJState_Default.h"
+file PLIB_USB_LIVESINGLEENDEDZERO_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_LiveSingleEndedZero_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_LiveSingleEndedZero_Default.h"
+file PLIB_USB_PACKETTRANSFER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_PacketTransfer_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_PacketTransfer_Default.h"
+file PLIB_USB_HOSTBUSYWITHTOKEN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_HostBusyWithToken_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_HostBusyWithToken_Default.h"
+file PLIB_USB_HOSTGENERATESRESET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_HostGeneratesReset_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_HostGeneratesReset_Default.h"
+file PLIB_USB_OPMODESELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OpModeSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OpModeSelect_Default.h"
+file PLIB_USB_RESUMESIGNALING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_ResumeSignaling_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_ResumeSignaling_Default.h"
+file PLIB_USB_BUFFERFREEZE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_BufferFreeze_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_BufferFreeze_Default.h"
+file PLIB_USB_STARTOFFRAMES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_StartOfFrames_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_StartOfFrames_Default.h"
+file PLIB_USB_NEXTTOKENSPEED_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_NextTokenSpeed_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_NextTokenSpeed_Default.h"
+file PLIB_USB_DEVICEADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_DeviceAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_DeviceAddress_Default.h"
+file PLIB_USB_FRAMENUMBER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_FrameNumber_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_FrameNumber_Default.h"
+file PLIB_USB_TOKENPID_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_TokenPID_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_TokenPID_Default.h"
+file PLIB_USB_TOKENEP_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_TokenEP_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_TokenEP_Default.h"
+file PLIB_USB_SOFTHRESHOLD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_SOFThreshold_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_SOFThreshold_Default.h"
+file PLIB_USB_BDTBASEADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_BDTBaseAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_BDTBaseAddress_Default.h"
+file PLIB_USB_EYEPATTERN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_EyePattern_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_EyePattern_Default.h"
+file PLIB_USB_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_StopInIdle_Default.h"
+file PLIB_USB_AUTOMATICSUSPEND_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_AutomaticSuspend_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_AutomaticSuspend_Default.h"
+file PLIB_USB_PINGPONGMODE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_PingPongMode_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_PingPongMode_Unsupported.h"
+file PLIB_USB_UOEMONITOR_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_UOEMonitor_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_UOEMonitor_Unsupported.h"
+file PLIB_USB_ONCHIPPULLUP_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OnChipPullup_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OnChipPullup_Unsupported.h"
+file PLIB_USB_ONCHIPTRANSCEIVER_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_OnChipTransceiver_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_OnChipTransceiver_Unsupported.h"
+file PLIB_USB_SPEEDCONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_SpeedControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_SpeedControl_Unsupported.h"
+file PLIB_USB_EP0LOWSPEEDCONNECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_EP0LowSpeedConnect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_EP0LowSpeedConnect_Default.h"
+file PLIB_USB_EP0NAKRETRY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_EP0NAKRetry_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_EP0NAKRetry_Default.h"
+file PLIB_USB_EPNTXRX_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_EPnTxRx_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_EPnTxRx_Default.h"
+file PLIB_USB_EPNRXENABLEENHANCED_PIC32_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_EPnRxEnableEnhanced_PIC32.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_EPnRxEnableEnhanced_PIC32.h"
+file PLIB_USB_BDTFUNCTIONS_PIC32_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/usb/templates/usb_BDTFunctions_PIC32.h" to "$PROJECT_HEADER_FILES/framework/peripheral/usb/templates/usb_BDTFunctions_PIC32.h"
+endif

@@ -1,0 +1,64 @@
+ifblock BSP_PIC32WK_GPB_GPD_SK_MODULE
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_PIC32WK_GPB_GPD_SK_MODULE
+
+config BSP_CONFIGURE_PIC32WK_GPB_GPD_SK_MODULE
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_USE_USBSWITCH
+    set BSP_PIN_15_FUNCTION_NAME to "BSP_SWITCH_1" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_15_FUNCTION_TYPE to "SWITCH" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_16_FUNCTION_NAME to "BSP_SWITCH_2" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_16_FUNCTION_TYPE to "SWITCH" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_25_FUNCTION_NAME to "BSP_SWITCH_3" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_25_FUNCTION_TYPE to "SWITCH" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_27_FUNCTION_NAME to "BSP_LED_1" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_27_FUNCTION_TYPE to "LED_AH"  if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_19_FUNCTION_NAME to "BSP_LED_2" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_19_FUNCTION_TYPE to "LED_AH" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_60_FUNCTION_NAME to "BSP_LED_3" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_60_FUNCTION_TYPE to "LED_AH" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_52_FUNCTION_NAME to "USB_VBUS_SWITCH" if COMPONENT_PACKAGE = "Module"
+    set BSP_PIN_52_FUNCTION_TYPE to "VBUS" if COMPONENT_PACKAGE = "Module"
+
+    set BSP_PIN_70_FUNCTION_NAME to "BSP_SWITCH_1" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_70_FUNCTION_TYPE to "SWITCH" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_71_FUNCTION_NAME to "BSP_SWITCH_2" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_71_FUNCTION_TYPE to "SWITCH" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_77_FUNCTION_NAME to "BSP_SWITCH_3" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_77_FUNCTION_TYPE to "SWITCH" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_11_FUNCTION_NAME to "BSP_LED_1" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_11_FUNCTION_TYPE to "LED_AH" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_130_FUNCTION_NAME to "BSP_LED_2" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_130_FUNCTION_TYPE to "LED_AH" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_93_FUNCTION_NAME to "BSP_LED_3" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_93_FUNCTION_TYPE to "LED_AH" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_86_FUNCTION_NAME to "USB_VBUS_SWITCH" if COMPONENT_PACKAGE = "DQFN"
+    set BSP_PIN_86_FUNCTION_TYPE to "VBUS" if COMPONENT_PACKAGE = "DQFN"	
+    bool
+    ---help---
+    BSP for PIC32WK Starter Kit with Module
+    ---endhelp---
+
+endmenu
+
+
+menu "Custom Board Configurations for PIC32WK Starter Kit with Module"
+    depends on USE_BSP
+
+import PIC32WK_GPB_GPD_SK_MODULE_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    BSP for PIC32WK Starter Kit with Module
+    ---endhelp---
+
+template BSP_pic32wk_gpb_gpd_sk_module_H "$HARMONY_VERSION_PATH/bsp/pic32wk_gpb_gpd_sk+module/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32wk_gpb_gpd_sk_module_C "$HARMONY_VERSION_PATH/bsp/pic32wk_gpb_gpd_sk+module/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32wk_gpb_gpd_sk_module includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif
+

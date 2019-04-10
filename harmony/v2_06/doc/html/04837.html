@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>BEGIN_DE_SEQUENCE Macro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; SDP Data Types and Constants &gt; <a href="04837.html">BEGIN_DE_SEQUENCE Macro</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="01497.html">Previous</a> | <a href="06308.html">Up</a> | <a href="07795.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BEGIN_DE_SEQUENCE Topic Title: BEGIN_DE_SEQUENCE Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+BEGIN_DE_SEQUENCE Macro</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">#define</span></strong> <strong><span style="color: #000000">BEGIN_DE_SEQUENCE</span></strong>(id, len) \
+    <strong><span style="color: #000080">static</span></strong> <a href="06153.html">bt_sdp_data_element_t</a> id[len];    \
+    <strong><span style="color: #000080">static</span></strong> <a href="06164.html">bt_sdp_sequence_t</a> seq_##id = { len, (<a href="06152.html">bt_sdp_data_element_p</a>)id};    \
+    <strong><span style="color: #000080">static</span></strong> <strong><span style="color: #000080">void</span></strong> init_de_sequence_##id() {    \
+        <strong><span style="color: #000080">static</span></strong> <a href="05587.html">bt_bool</a> initialized = <a href="12128.html">FALSE</a>;    \
+        <strong><span style="color: #000080">if</span></strong> (!initialized) {    \
+            <a href="05921.html">bt_int</a> i = 0;    \
+            <a href="05921.html">bt_int</a> max_len = len;    \
+            <a href="06153.html">bt_sdp_data_element_t</a>* cur_de = id;    \
+            initialized = <a href="27119.html">TRUE</a>;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element633">
+<li class="Element603">brief Begin a data element sequence</li>
+<li class="Element603">ingroup sdp</li>
+</ul>*
+<ul class="Element633">
+<li class="Element603">details BEGIN_DE_SEQUENCE and <a href="12027.html">END_DE_SEQUENCE</a> are used to define a data element sequence which is an array of sdp_data_element structures.</li>
+<li class="Element603">The array is used a search pattern in <a href="06161.html">bt_sdp_request_service_search</a>() and <a href="06160.html">bt_sdp_request_service_attribute</a>().</li>
+<li class="Element603">For example, to find a AVRCP Target the following code can be used:</li>
+</ul>&nbsp;</p>
+<p class="Element10">
+code const <a href="06260.html">bt_uuid_t</a> AVRCP_AV_REMOTE_CONTROL_CLSID = { 0x5F9B34FB, 0x80000080, 0x00001000, <a href="22807.html">SDP_CLSID_AV_REMOTE_CONTROL</a> }; const <a href="06260.html">bt_uuid_t</a> AVRCP_AV_REMOTE_CONTROL_TARGET_CLSID = { 0x5F9B34FB, 0x80000080, 0x00001000, <a href="22810.html">SDP_CLSID_AV_REMOTE_CONTROL_TARGET</a> };&nbsp;</p>
+<p class="Element10">
+BEGIN_DE_SEQUENCE(avrcp_target_service_search, 2) <a href="07802.html">DE_UUID128</a>(AVRCP_AV_REMOTE_CONTROL_CLSID) <a href="07802.html">DE_UUID128</a>(AVRCP_AV_REMOTE_CONTROL_TARGET_CLSID) <a href="12027.html">END_DE_SEQUENCE</a>(avrcp_target_service_search)&nbsp;</p>
+<p class="Element10">
+. . .&nbsp;</p>
+<p class="Element10">
+void findAvrcpTarget(void) { <a href="13975.html">INIT_DE_SEQUENCE</a>(avrcp_target_service_search);&nbsp;</p>
+<p class="Element10">
+<a href="06161.html">bt_sdp_request_service_search</a>(channel, &amp;seq_avrcp_target_service_search, &amp;callback, NULL); }&nbsp;</p>
+<p class="Element10">
+endcode&nbsp;</p>
+<p class="Element10">
+*
+<ul class="Element633">
+<li class="Element603">param id The data element sequence identifier. </li>
+<li class="Element603">param len The number of elements in the data element sequence.</li>
+</ul></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; SDP Data Types and Constants &gt; <a href="04837.html">BEGIN_DE_SEQUENCE Macro</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BEGIN_DE_SEQUENCE Topic Title: BEGIN_DE_SEQUENCE Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

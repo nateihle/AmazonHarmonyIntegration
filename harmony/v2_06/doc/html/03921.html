@@ -1,0 +1,527 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuring the Hardware</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="03906.html">SPI Driver Demonstrations</a> &gt; <a href="03913.html">Demonstrations</a> &gt; <a href="03919.html">spi_loopback</a> &gt; <a href="03921.html">Configuring the Hardware</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03920.html">Previous</a> | <a href="03919.html">Up</a> | <a href="03922.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS SPIDRV spi_loopback_configure Topic Title: Configuring the Hardware)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuring the Hardware</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Required Hardware</div>
+<p class="Element10">
+This demonstration requires the following hardware:</p>
+<ul class="Element630">
+<li class="Element600"><a href="05031.html">PIC32MZ EF Starter Kit</a> or <a href="05066.html">PIC32WK Wi-Fi Starter Kit</a></li>
+<li class="Element600"><a href="05035.html">PIC32MZ Starter Kit Adapter Board</a></li>
+<li class="Element600"><a href="05073.html">Starter Kit I/O Expansion Board</a></li>
+</ul><p class="Element10">
+Depending on the starter kit in use, the SPI1 and SPI2 modules or SPI1 and SPI3 modules are used in this demonstration. PIC32MZ and PIC32WK devices support the Peripheral Pin Select (PPS) feature. The SPI Pins of the SPI modules on this device are required to be configured using the PPS. Any related pin mapping (PPS) configuration code along with other port initialization can be found in the <span class="Element146">sys_port_static.c</span> file. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+To know more about the PIC32MZ and PIC32WK PPS feature and pin configuration, please refer to <strong>Section 12.3 &quot;Peripheral Pin Select (PPS)&quot;</strong> in the <strong>&quot;I/O Ports&quot;</strong> chapter of the specific device data.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+PIC32MZ EF Starter Kit Configuration</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">Connect (using wires) the pins on the Starter Kit I/O Expansion Board, as shown in the following figure. This hardwired connection would<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>the SPI1 lines to the SPI2 lines of the PIC32MZ2048ECH144 device on the PIC32MZ EC Starter Kit or the PIC32MZ2048EFM144 device on the PIC32MZ EF Starter Kit.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="PIC32_SPI1_SPI2_Connection.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="2" class="Element600">Next, the starter kit, the PIC32MZ Starter Kit Adapter Board, and the Starter Kit I/O Expansion Board, as shown in the following figure.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="pic32mz_ec_sk+IO_exp+Adapter.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+PIC32MZ EF Pin Mapping</div>
+<p class="Element10">
+The following table illustrates how the SPI1 and SPI2 pins for the PIC32MZ EF devices are mapped and connected to each other through the Starter Kit I/O Expansion Board. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="10%">
+<div class="Element66">
+SPI Module&nbsp;</div></td><td class="Element65" valign="top" width="9%">
+<div class="Element66">
+SPI Lines&nbsp;</div></td><td class="Element65" valign="top" width="15%">
+<div class="Element66">
+PIC32MZ2048EFM144 Device Pin #&nbsp;</div></td><td class="Element65" valign="top" width="10%">
+<div class="Element66">
+Analog Pin&nbsp;</div></td><td class="Element65" valign="top" width="19%">
+<div class="Element66">
+PIC32MZ2048EFM144 Port Pin Name/Function&nbsp;</div></td><td class="Element65" valign="top" width="17%">
+<div class="Element66">
+Pin # on I/O Expansion Board J10 Connector&nbsp;</div></td><td class="Element65" valign="top" width="20%">
+<div class="Element66">
+For this demonstration, attach this pin to:&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+109&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+No&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+41&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SCK2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+69&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+AN32&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+RPD14&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+44&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDO2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDO1&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+98&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+No&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+RPD10&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+43&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDI2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+/SS&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+Not Used&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SCK2&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+14&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+AN14&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SCK2&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+23&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SCK1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDI2&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+121&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+No&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+RPD7&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+24&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDO1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDO2&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+25&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+AN45&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+RPB5&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+25&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDI1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+/SS&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+Not Used&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+PIC32 USB Starter Kit II</div>
+<p class="Element10">
+This demonstration requires the following hardware:</p>
+<ul class="Element630">
+<li class="Element600"><a href="04986.html">PIC32 USB Starter Kit II</a></li>
+<li class="Element600"><a href="05073.html">Starter Kit I/O Expansion Board</a></li>
+</ul><p class="Element10">
+In this demonstration application, the SPI1 and SPI2 modules are used.</p>
+<ol class="Element630">
+<li value="1" class="Element600">Connect (using wires) the pins on the Starter Kit I/O Expansion Board, as shown in the following figure. This hardwired connection would attach the SPI1 lines to the SPI2 lines of the PIC32MX795F512L device on the PIC32 USB Starter Kit II through the Starter Kit I/O Expansion Board.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="PIC32_SPI1_SPI2_Connection.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="2" class="Element600">Next,<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>the PIC32 USB Starter Kit II and the Starter Kit I/O Expansion Board, as shown in the following figure.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="pic32_usb_sk2+IO_exp.png" border="0" alt="" title=""></p><p class="Element10">
+For the PIC32MX795F512L device, the SPI modules has dedicated I/O pins.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><div class="Element15">
+PIC32 USB Starter Kit II Pin Mapping</div>
+<p class="Element10">
+The following table illustrates how the SPI1 and SPI2 pins are mapped and connected to each other through the Starter Kit I/O Expansion Board. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="11%">
+<div class="Element66">
+SPI Module&nbsp;</div></td><td class="Element65" valign="top" width="10%">
+<div class="Element66">
+SPI Lines&nbsp;</div></td><td class="Element65" valign="top" width="15%">
+<div class="Element66">
+PIC32MX795F512L Device Pin #&nbsp;</div></td><td class="Element65" valign="top" width="21%">
+<div class="Element66">
+PIC32MX795F512L Port Pin Name/Function&nbsp;</div></td><td class="Element65" valign="top" width="19%">
+<div class="Element66">
+Pin # on I/O Expansion Board J10 Connector&nbsp;</div></td><td class="Element65" valign="top" width="23%">
+<div class="Element66">
+For this demonstration, attach this pin to:&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+70&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+41&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+SCK2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+9&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+44&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+SDO2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SDO1&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+72&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+SDO1&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+43&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+SDI2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI1&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+/SS&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+Not Used&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SCK2&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+10&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+SCK2&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+23&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+SCK1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SDI2&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+11&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+SDI2&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+24&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+SDO1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+SDO2&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+12&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+SDO2&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+25&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+SDI1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SPI2&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+/SS&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="21%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+Not Used&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+PIC32WK Wi-Fi Starter Kit II</div>
+<p class="Element10">
+This demonstration requires the following hardware:</p>
+<ul class="Element630">
+<li class="Element600"><a href="05066.html">PIC32WK Wi-Fi Starter Kit</a></li>
+</ul><p class="Element10">
+In this this demonstration application, the SPI1 and SPI2 modules are used. Connect (using wires) the pins on the Starter Kit I/O Expansion Board, as shown in the table and image below. This hardwired connection would attach the SPI1 lines to the SPI2 lines of the PIC32WK2057GPD132 device on the PIC32WK WiFI starter kit through the GPIO headers. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="8%">
+<div class="Element66">
+SPI Module&nbsp;</div></td><td class="Element65" valign="top" width="9%">
+<div class="Element66">
+SPI Lines&nbsp;</div></td><td class="Element65" valign="top" width="40%">
+<div class="Element66">
+PIC32WK2057GPD132 Device Pin #&nbsp;</div></td><td class="Element65" valign="top" width="19%">
+<div class="Element66">
+PIC32WK2057GPD132 Port Pin<br>Name/Function&nbsp;</div></td><td class="Element65" valign="top" width="5%">
+<div class="Element66">
+Pin # on starter kit&nbsp;</div></td><td class="Element65" valign="top" width="20%">
+<div class="Element66">
+For this demonstration, attach this pin to:&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Pin 2 (GPIO header 2)&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SCK2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Pin 5 (GPIO header 2)&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDO2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDO1&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Pin 3 (GPIO header 2)&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SDO1&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDI2&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP1&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+/SS&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+Not Used&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SCK2&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Pin 6 (GPIO header 1)&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SCK2&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SCK1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDI2&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Pin1 6 (GPIO header 1)&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SDI2&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDO1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDO2&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Pin 12 (GPIO header 1)&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SDO2&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SDI1&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+SP2&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+/SS&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+Not Used&nbsp;</div></td><td class="Element67" valign="top" width="5%">
+<div class="Element68">
+&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+Not Used&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<img src="PIC32WK_SK.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="03906.html">SPI Driver Demonstrations</a> &gt; <a href="03913.html">Demonstrations</a> &gt; <a href="03919.html">spi_loopback</a> &gt; <a href="03921.html">Configuring the Hardware</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS SPIDRV spi_loopback_configure Topic Title: Configuring the Hardware)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

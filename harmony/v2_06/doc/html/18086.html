@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>State Machine</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18086.html">State Machine</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18080.html">Previous</a> | <a href="18080.html">Up</a> | <a href="18072.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART State Machine Topic Title: State Machine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+State Machine</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following state machine is for the transmission and reception during normal operation. This state machine provides a general idea of the usage model of the USART Peripheral Library. Refer to the usage model for more detailed steps for the scenario that is being used. </p><p class="Element10" style="text-align: center;">
+<strong>Transmit and Receive State machine</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="PLIB USART State Machine.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element630">
+<li value="1" class="Element600">The wait states shown in red in the diagram can either be achieved using polled functions or using interrupts.</li>
+<li value="2" class="Element600">Refer to the specific USART mode in use for the setup and initialization steps.</li>
+<li value="3" class="Element600">Refer to the following table for the functions that can be used at each state.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="13%">
+<div class="Element66">
+State&nbsp;</div></td><td class="Element65" valign="top" width="87%">
+<div class="Element66">
+Associated Function&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Setup and initialization&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Refer to the specific USART mode for detailed setup instructions.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Wait for data to send&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Once the USART module has been appropriately set up and initialized, the state machine waits for the application to issue one of the send data functions.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Wait for data to be received&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+When the application is using Polled mode, the application can use the function <a href="21124.html">PLIB_USART_ReceiverDataIsAvailable</a>. When the application is using Interrupt mode, the application should wait for a receive interrupt.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Enable transmitter&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Use the function <a href="21150.html">PLIB_USART_TransmitterEnable</a> to enable the transmitter&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Wait for transmitter to have empty space&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+When the application is using polled mode, the application can use the function <a href="21147.html">PLIB_USART_TransmitterBufferIsFull</a>. When the application is using Interrupt mode, the application should wait for a transmit interrupt.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Send data&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Use the function <a href="21148.html">PLIB_USART_TransmitterByteSend</a> to send data. If an address needs to be transmitted or if a byte needs to be transmitted with a Parity bit use the function <a href="21143.html">PLIB_USART_Transmitter9BitsSend</a>.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Disable transmitter&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Use the function <a href="21149.html">PLIB_USART_TransmitterDisable</a> to disable the transmitter.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Get status&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+To get the status of the hardware module, use the set of functions, <a href="21127.html">PLIB_USART_ReceiverFramingErrorHasOccurred</a>, <a href="21134.html">PLIB_USART_ReceiverParityErrorHasOccurred</a>, and <a href="21133.html">PLIB_USART_ReceiverOverrunHasOccurred</a>.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Read data&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Use the function <a href="21123.html">PLIB_USART_ReceiverByteReceive</a> to read data.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Clear overrun error&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Clear the overrun error using the function <a href="21132.html">PLIB_USART_ReceiverOverrunErrorClear</a>.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18086.html">State Machine</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART State Machine Topic Title: State Machine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

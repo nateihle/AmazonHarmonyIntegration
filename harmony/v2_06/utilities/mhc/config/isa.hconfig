@@ -1,0 +1,24 @@
+# file: utilities/mhc/config/isa.hconfig
+
+menu "ISA Mode"
+    depends on PIC32MX || PIC32MZ || PIC32WK || PIC32MK
+
+    choice
+        prompt "Select ISA Mode"
+        default ISA_MIPS32_MODE
+
+      config ISA_MIPS32_MODE
+        depends on PIC32MX || PIC32MZ || PIC32WK || PIC32MK
+        bool "MIPS32 Mode"
+
+      config ISA_MICROMIPS_MODE
+        depends on PIC32MZ || PIC32WK || PIC32MK
+        set BOOTISA optionally to "MICROMIPS" if ISA_MICROMIPS_MODE
+        bool "microMIPS Mode"
+
+      config ISA_MIPS16_MODE
+        depends on PIC32MX
+        bool "MIPS16 Mode"
+    endchoice
+endmenu
+

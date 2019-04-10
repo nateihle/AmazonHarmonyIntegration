@@ -1,0 +1,54 @@
+ifblock BSP_PIC32MX460_PIM_E16
+
+menu "Select BSP Features"
+	depends on USE_BSP
+	depends on BSP_PIC32MX460_PIM_E16
+
+config BSP_CONFIGURE_PIC32MX460_PIM_E16
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "8000000"
+    set BSP_PIN_83_FUNCTION_NAME to "BSP_SWITCH_3" 
+    set BSP_PIN_83_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_80_FUNCTION_NAME to "BSP_SWITCH_4" 
+    set BSP_PIN_80_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_84_FUNCTION_NAME to "BSP_SWITCH_6" 
+    set BSP_PIN_84_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_17_FUNCTION_NAME to "BSP_LED_3" 
+    set BSP_PIN_17_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_38_FUNCTION_NAME to "BSP_LED_4" 
+    set BSP_PIN_38_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_58_FUNCTION_NAME to "BSP_LED_5" 
+    set BSP_PIN_58_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_59_FUNCTION_NAME to "BSP_LED_6" 
+    set BSP_PIN_59_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_60_FUNCTION_NAME to "BSP_LED_7" 
+    set BSP_PIN_60_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_61_FUNCTION_NAME to "BSP_LED_8" 
+    set BSP_PIN_61_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_91_FUNCTION_NAME to "BSP_LED_9" 
+    set BSP_PIN_91_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_92_FUNCTION_NAME to "BSP_LED_10" 
+    set BSP_PIN_92_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_20_FUNCTION_NAME to "USB_VBUS_SWITCH" 
+    set BSP_PIN_20_FUNCTION_TYPE to "VBUS" 
+    bool
+endmenu
+
+menu "Custom Board Configurations for Explorer 16 Board with PIC32MX460 PIM"
+    depends on USE_BSP
+
+import PIC32MX460_PIM_E16_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32mx460_pim_e16_H "$HARMONY_VERSION_PATH/bsp/pic32mx460_pim+e16/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32mx460_pim_e16_C "$HARMONY_VERSION_PATH/bsp/pic32mx460_pim+e16/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32mx460_pim_e16 includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif

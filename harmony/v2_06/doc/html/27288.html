@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Fuse Configuration and Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27297.html">Source Code Analysis</a> &gt; <a href="27288.html">Fuse Configuration and Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27297.html">Previous</a> | <a href="27297.html">Up</a> | <a href="27285.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Fuse Configuration and Initialization Topic Title: Fuse Configuration and Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Fuse Configuration and Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The microcontroller fuse configuration in the MLA “Device – CDC – Basic Demo” demonstration application is implemented in the project <span class="Element146">main.c</span> file.&nbsp;</p>
+<p class="Element10">
+Open the MLA “Device – CDC – Basic Demo” project in MPLAB X IDE and open the <span class="Element146">main.c</span> file. Browse to line 277 of the file. This code region defines the fuse configuration macros while using the <a href="04986.html">PIC32 USB Starter Kit II</a>. The following screen capture shows this code.&nbsp;</p>
+<p class="Element10">
+<img src="Fuse Config Init Figure 1.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+In the MPLAB Harmony <a href="04122.html">cdc_com_port_single</a> project, locate the system configuration files. These files are located in the <span class="Element146">&lt;install-dir&gt;/app/system_config</span> logical project folder. Within this folder, expand the <span class="Element146">pic32mx_usb_sk2_int_dyn</span> configuration folder, as shown in the following figure.&nbsp;</p>
+<p class="Element10">
+<img src="Fuse Config Init Figure 2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+Open <span class="Element146">system_init.c</span> and review the fuse configurations. In MPLAB Harmony projects, the device fuse configuration macros are implemented in the <span class="Element146">system_init.c</span> file. This file is a MPLAB Harmony system configuration file and is configuration-specific.&nbsp;</p>
+<p class="Element10">
+Continue with analysis of the MLA USB Demo <span class="Element146">main.c</span> file. Navigate to line 488 of this file. This code region contains the application main function. The InitializeSystem function call at line 491 initializes the system. Further analysis of the InitializeSystem function indicates that this function (see line 648 of the file) configures the PIC32MX Cache and Flash Wait state for maximum performance for 60 MHz operating frequency, calls application specific user initialization function UserInit (see line 763) and then initializes the device stack by calling USBDeviceInit function (see line 765).&nbsp;</p>
+<p class="Element10">
+The following table lists the initialization related functions of the MLA USB Demonstration Application and their respective functional equivalent functions in the MPLAB Harmony USB Demonstration Application. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="47%">
+<div class="Element66">
+MLA USB Demonstration Application Function&nbsp;</div></td><td class="Element65" valign="top" width="53%">
+<div class="Element66">
+Equivalent MPLAB Harmony USB Demonstration Application Function&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="47%">
+<div class="Element68">
+InitializeSystem&nbsp;</div></td><td class="Element67" valign="top" width="53%">
+<div class="Element68">
+<a href="23925.html">SYS_Initialize</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="47%">
+<div class="Element68">
+SYSTEMConfigPerformance&nbsp;</div></td><td class="Element67" valign="top" width="53%">
+<div class="Element68">
+<a href="23707.html">SYS_DEVCON_PerformanceConfig</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="47%">
+<div class="Element68">
+UserInit&nbsp;</div></td><td class="Element67" valign="top" width="53%">
+<div class="Element68">
+APP_Initialize&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="47%">
+<div class="Element68">
+mInitAllLEDs<br>mInitAllSwitches&nbsp;</div></td><td class="Element67" valign="top" width="53%">
+<div class="Element68">
+<a href="05079.html">BSP_Initialize</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="47%">
+<div class="Element68">
+USBDeviceInit&nbsp;</div></td><td class="Element67" valign="top" width="53%">
+<div class="Element68">
+<a href="27841.html">USB_DEVICE_Initialize</a>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The usbDevInitData and sysDevconInit data structures in MPLAB Harmony <span class="Element146">system_init.c</span> are initialization data structures for the MPLAB Harmony USB Device Layer and the Device Control System Service, respectively. Please note that unlike the MLA USB Device Layer, the MPLAB Harmony USB Device Layer requires the specification of an endpoint table (see the endpointTable array declaration in <span class="Element146">system_init.c</span>). The size of this table should be USB_DEVICE_ENDPOINT_TABLE_SIZE. This table (actually a byte array) should be aligned at 512 bytes address boundary.&nbsp;</p>
+<p class="Element10">
+The MPLAB Harmony Interrupt System Service functions, <a href="23961.html">SYS_INT_VectorPrioritySet</a> and <a href="23945.html">SYS_INT_Enable</a>,set the USB Interrupt Vector Priority and enable the global interrupts respectively. The <a href="27841.html">USB_DEVICE_Initialize</a> function initializes the USB Device Layer. The APP_Initialize function initializes the application data structure.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27297.html">Source Code Analysis</a> &gt; <a href="27288.html">Fuse Configuration and Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Fuse Configuration and Initialization Topic Title: Fuse Configuration and Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

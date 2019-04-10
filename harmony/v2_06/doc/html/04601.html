@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Macro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06288.html">Bluetooth Stack Library Configuration Profile Macros</a> &gt; AVDTP Configuration Macros &gt; <a href="04601.html">AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Macro</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04600.html">Previous</a> | <a href="06288.html">Up</a> | <a href="04602.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Topic Title: AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Macro</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">#define</span></strong> <strong><span style="color: #000000">AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR</span></strong> </pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element631">
+<li class="Element601">defgroup avdtp_config Configuration</li>
+<li class="Element601">ingroup avdtp</li>
+</ul>*
+<ul class="Element631">
+<li class="Element601">This module describes parameters used to configure AVDTP layer.</li>
+</ul>*
+<ul class="Element631">
+<li class="Element601">dotstack is customized using a configuration file. The configuration file tailors the dotstack to the application being built. It has to have the structure shown below.</li>
+</ul>* code #include &quot;cdbt/bt/<a href="06235.html">bt_std.h</a>&quot;&nbsp;</p>
+<p class="Element10">
+// HCI, L2CAP and SDP must always be present&nbsp;</p>
+<p class="Element10">
+// HCI configuration parameters #define HCI_MAX_CMD_BUFFERS ... #define <a href="13420.html">HCI_MAX_DATA_BUFFERS</a> ... #define HCI_MAX_HCI_CONNECTIONS ... #define HCI_RX_BUFFER_LEN ... #define <a href="13578.html">HCI_TX_BUFFER_LEN</a> ... #define <a href="13323.html">HCI_L2CAP_BUFFER_LEN</a> ... #define HCI_MAX_CMD_PARAM_LEN ...&nbsp;</p>
+<p class="Element10">
+// L2CAP configuration parameters #define L2CAP_MAX_CMD_BUFFERS ... #define <a href="14847.html">L2CAP_MAX_FRAME_BUFFERS</a> ... #define L2CAP_MAX_PSMS ... #define L2CAP_MAX_CHANNELS ...&nbsp;</p>
+<p class="Element10">
+// SDP configuration parameters #define <a href="22890.html">SDP_MAX_SEARCH_RESULT_LEN</a> ... #define <a href="22885.html">SDP_MAX_ATTRIBUTE_RESULT_LEN</a> ...&nbsp;</p>
+<p class="Element10">
+// Depending on protocols and profiles used below goes configuration parameters // for each used module. E.g., to use and configure AVDTP &amp; A2DP (this one does not need configuration), // the following values must be defined:&nbsp;</p>
+<p class="Element10">
+#define BT_INCLUDE_AVDTP // tells dotstack to compile in AVDTP support #define <a href="04710.html">AVDTP_MAX_SEP</a> ... #define <a href="04712.html">AVDTP_MAX_STREAMS</a> ... #define <a href="04709.html">AVDTP_MAX_REMOTE_DEVICES</a> ... #define <a href="04707.html">AVDTP_MAX_CMD_BUFFERS</a> ... #define <a href="04713.html">AVDTP_MAX_TRANSPORT_CHANNELS</a> ... #define <a href="04714.html">AVDTP_MAX_TX_BUFFER_LEN</a> ... #define <a href="04708.html">AVDTP_MAX_CMD_PARAM_LEN</a> ... #define <a href="04616.html">AVDTP_CODEC_CONFIG_BUFFER_LEN</a> ...&nbsp;</p>
+<p class="Element10">
+#include &quot;cdbt/bt/<a href="06081.html">bt_oem_config.h</a>&quot;&nbsp;</p>
+<p class="Element10">
+endcode</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06288.html">Bluetooth Stack Library Configuration Profile Macros</a> &gt; AVDTP Configuration Macros &gt; <a href="04601.html">AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Macro</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Topic Title: AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

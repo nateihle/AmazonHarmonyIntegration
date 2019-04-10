@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_CAN_BitSamplePhaseSet Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; c) Bus Speed Configuration Functions &gt; <a href="18441.html">PLIB_CAN_BitSamplePhaseSet Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18519.html">Previous</a> | <a href="17498.html">Up</a> | <a href="18450.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_CAN_BitSamplePhaseSet@CAN_MODULE_ID@uint8_t@uint8_t@uint8_t@uint8_t Topic Title: PLIB_CAN_BitSamplePhaseSet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_CAN_BitSamplePhaseSet Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">PLIB_CAN_BitSamplePhaseSet</span></strong>(
+    <a href="06712.html">CAN_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    uint8_t <strong><span style="color: #000000">syncJumpWidth</span></strong>, 
+    uint8_t <strong><span style="color: #000000">propagation</span></strong>, 
+    uint8_t <strong><span style="color: #000000">segment1</span></strong>, 
+    uint8_t <strong><span style="color: #000000">segment2</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function selects the CAN bit-sampling phase parameters that determine the Baud rate setting.&nbsp;</p>
+<p class="Element10">
+For a given baud rate setting, a single bit time is divided into a number segments or phases of equal time length called &quot;time quanta&quot;. The bit time for a given baud rate (i.e. 1/baud) is divided into a number of time quanta of equal length.&nbsp;</p>
+<p class="Element10">
+1 time quantum = (one bit time) / (total number of time quanta)&nbsp;</p>
+<p class="Element10">
+These time quanta are then partitioned into different phases of the bit sample time called synchronization phase (always 1 time quantum long), the propagation phase, and the segment 1 and segment 2 phases. Thus, the total number of time quanta equals the sum of the time quanta allocated to each phase.&nbsp;</p>
+<p class="Element10">
+total number of time quanta = (1 + propagation + segment1 + segment2)&nbsp;</p>
+<p class="Element10">
+(Sampling of the bit occurs at the end of the segment 1 phase.)&nbsp;</p>
+<p class="Element10">
+This function determines the length of each phase (in time quanta) as well as the synchronization jump width, the number of time quanta by which the CAN module may move time from segment 1 to segment 2 (or vice versa) to adjust for jitter in the bit sampling phase timing.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function works only if the CAN module is in Configuration mode. Use the <a href="18515.html">PLIB_CAN_OperationModeGet</a> function to get the current mode and the <a href="18516.html">PLIB_CAN_OperationModeSelect</a> function to change the mode.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired CAN module&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+syncJumpWidth&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+The synchronization jump width is the number of time quanta by which the CAN module may adjust phase segment 1 and segment 2 to compensate for jitter in the bit phase to achieve a valid sampling point.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+propagation&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Propagation segment length is the number of time quanta allocated to allow for propagation variation in the bit sampling phase.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+segment1&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Phase segment 1 length(in time quanta) after the propagation segment before sampling of the bit begins.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+segment2&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Phase segment 2 length (in time quanta) after sampling has begun.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element637">
+<li class="Element607">true = BitSamplePhase Setup success</li>
+<li class="Element607">false = BitSamplePhase Setup failure, arguments passed are beyond the possible limits</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The values of the syncJumpWidth, propagation, segment1 and segment2 parameters should passed as a number of time quanta for each. These values will be encoded by this function correctly for the the part in use before they are written to the registers of the CAN peripheral. To pass in precalculated values that are already encoded for the physical registers of the CAN controller (such as the values provided by the ECAN Baud Rate Calculator or the MPLAB Harmony Configurator (MHC) utility), use the <a href="18519.html">PLIB_CAN_PrecalculatedBitRateSetup</a> function instead.&nbsp;</p>
+<p class="Element10">
+The MY_CAN_ID macro in the example above is used as a place holder for the actual CAN bus ID (as defined by the processor-specific <a href="06712.html">CAN_MODULE_ID</a> enum).&nbsp;</p>
+<p class="Element10">
+This feature may not be available on all devices. Please refer to the specific device data sheet to determine availability or use <a href="18464.html">PLIB_CAN_ExistsBitSamplePhaseSet</a> in your application to determine whether this feature is available.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01694');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01694"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_CAN_ID       CAN_ID_1
+
+<strong><span style="color: #000080">#define</span></strong> SYNCJUMPWIDTH   1
+<strong><span style="color: #000080">#define</span></strong> PROPAGATION     2
+<strong><span style="color: #000080">#define</span></strong> SEGMENT1        4
+<strong><span style="color: #000080">#define</span></strong> SEGMENT2        4
+<strong><span style="color: #000080">bool</span></strong> result;
+<strong><span style="color: #000080">if</span></strong> (CAN_CONFIGURATION_MODE == <a href="18515.html">PLIB_CAN_OperationModeGet</a>(MY_CAN_ID))
+{
+   result = PLIB_CAN_BitSamplePhaseSet(MY_CAN_ID, SYNCJUMPWIDTH, PROPAGATION, 
+                                   SEGMENT1, SEGMENT2);
+                                   
+   <strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">false</span></strong> == result)
+   {
+       <i><span style="color: #008000">// Error occurred</span></i>
+   }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; c) Bus Speed Configuration Functions &gt; <a href="18441.html">PLIB_CAN_BitSamplePhaseSet Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_CAN_BitSamplePhaseSet@CAN_MODULE_ID@uint8_t@uint8_t@uint8_t@uint8_t Topic Title: PLIB_CAN_BitSamplePhaseSet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

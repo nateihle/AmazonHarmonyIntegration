@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Harness, Test, and Module Interactions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27035.html">Harness, Test, and Module Interactions</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27040.html">Previous</a> | <a href="16814.html">Up</a> | <a href="27032.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Harness, Test, and Module Interactions Topic Title: Harness, Test, and Module Interactions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Harness, Test, and Module Interactions</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+There are a number of interactions between the Test Harness, the test application, and the LUT, as shown by the following diagram. </p><p class="Element10" style="text-align: center;">
+<strong>Test Harness Interactions</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="HARNESS Test Harness Interactions.png" border="0" alt="" title=""></p><p class="Element10">
+Before running any tests, the harness calls a configuration specific function: <a href="27057.html">TEST_PlatformInitialize</a>. If required, the system configuration can implement this function (usually in <span class="Element146">system_init.c</span>) to initialize any hardware specific items such as timers or special I/O devices. If this process takes time to complete, the code that does so can call <a href="27058.html">TEST_PlatformReady</a> when it is finished. If there are no platform initialization requirements, then this process can be safely ignored as there is a weak implementation of the <a href="27057.html">TEST_PlatformInitialize</a> function built into the harness that simply returns &quot;true&quot; to indicate that the platform is already initialized.&nbsp;</p>
+<p class="Element10">
+Once the harness is ready, calls the current test's initialization function through a pointer provided in the <a href="27026.html">TEST_DATA</a> structure in the test list. Then, it runs the test's state machine by calling its tasks function using a pointer from the same test data structure. When the test indicates it is ready for the harness to initialize the library (by calling TEST_ModuleUnderTestInitialize), the harness then calls the library's initialization function using a pointer to it provided in a <a href="16304.html">LIBRARY_UNDER_TEST</a> data structure. After successfully initializing the library, the harness starts the actual testing process by calling the test's start function (also using a pointer in the <a href="27026.html">TEST_DATA</a> structure).&nbsp;</p>
+<p class="Element10">
+After all the initializations are completed and the test has been started, the harness continues calling the tasks functions of both the test and the library (in potentially very different contexts, as described previously). While the test is running, it calls the <a href="27045.html">TEST_HasPassedSubtest</a> function, passing in a Boolean (“true” or “false”) to indicate the results of individual sub-tests. When the test is finished, it reports an idle status when its &quot;Status&quot; function is called (this is not shown in the diagram) or it can call the <a href="27044.html">TEST_HasCompleted</a> function to end the test prematurely. At that point, the harness deinitializes the library, stops running both the test and the library, and advances to the next test.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27035.html">Harness, Test, and Module Interactions</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Harness, Test, and Module Interactions Topic Title: Harness, Test, and Module Interactions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_SQI_TransferFrames Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23261.html">SQI Driver Library</a> &gt; <a href="08845.html">Library Interface</a> &gt; c) Data Transfer Functions &gt; <a href="11027.html">DRV_SQI_TransferFrames Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11013.html">Previous</a> | <a href="08845.html">Up</a> | <a href="10929.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_SQI_TransferFrames@DRV_HANDLE@DRV_SQI_COMMAND_HANDLE *@DRV_SQI_TransferFrame *@uint8_t Topic Title: DRV_SQI_TransferFrames Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_SQI_TransferFrames Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">DRV_SQI_TransferFrames</span></strong>(
+    <a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">handle</span></strong>, 
+    <a href="10929.html">DRV_SQI_COMMAND_HANDLE</a> * <strong><span style="color: #000000">commandHandle</span></strong>, 
+    <a href="11018.html">DRV_SQI_TransferFrame</a> * <strong><span style="color: #000000">frame</span></strong>, 
+    uint8_t <strong><span style="color: #000000">numFrames</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine queues a transfer request operation on the SQI device. In order to perform any operation on the sqi flash device, a one byte instruction specifying the operation to be performed needs to be sent out. This is followed by optional address from/to which data is to be read/written, option, dummy and data bytes.&nbsp;</p>
+<p class="Element10">
+If an event handler is registered with the driver the event handler would be invoked with the status of the operation once the operation has been completed. The function returns <a href="10930.html">DRV_SQI_COMMAND_HANDLE_INVALID</a> in the commandHandle argument under the following circumstances:
+<ul class="Element636">
+<li class="Element606">if the driver handle is invalid</li>
+<li class="Element606">if the transfer element is NULL or number of transfer elements is zero</li>
+<li class="Element606">if a buffer object could not be allocated to the request</li>
+</ul></p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <a href="10989.html">DRV_SQI_Initialize</a> routine must have been called for the specified SQI driver instance.&nbsp;</p>
+<p class="Element10">
+<a href="11000.html">DRV_SQI_Open</a> must have been called with DRV_IO_INTENT_READ or DRV_IO_INTENT_READWRITE as the ioIntent to obtain a valid opened device handle.&nbsp;</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+handle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+A valid open-instance handle, returned from the driver's open function<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+commandHandle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to an argument that will contain the handle to the track the status of the transfer request.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+frame&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to the transfer frame array.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+numFrames&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Number of elements in the transfer frame array.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The handle to the transfer request is returned in the commandHandle argument. It will be <a href="10930.html">DRV_SQI_COMMAND_HANDLE_INVALID</a> if the request was not successful.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00863');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00863"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> READ_BUF_SIZE 512
+
+uint8_t readBuffer[READ_BUF_SIZE];
+uint8_t numElements = 0;
+<a href="10929.html">DRV_SQI_COMMAND_HANDLE</a> cmdHandle;
+<a href="11018.html">DRV_SQI_TransferFrame</a> xferFrame;
+
+<a href="11018.html">DRV_SQI_TransferFrame</a> *frame = &amp;xferFrame;
+frame-&gt;instruction = 0x6B;
+frame-&gt;address = 0x00;
+frame-&gt;data = readBuffer;
+frame-&gt;length = READ_BUF_SIZE;
+frame-&gt;laneCfg = DRV_SQI_LANE_QUAD_DATA;
+frame-&gt;numDummyBytes = 8;
+frame-&gt;flags = (<a href="10969.html">DRV_SQI_FLAG_INSTR_ENABLE_MASK</a> | <a href="10959.html">DRV_SQI_FLAG_DATA_ENABLE_MASK</a> |
+    <a href="10949.html">DRV_SQI_FLAG_ADDR_ENABLE_MASK</a> | <a href="10962.html">DRV_SQI_FLAG_DATA_TARGET_MEMORY</a> | 
+    <a href="10956.html">DRV_SQI_FLAG_DATA_DIRECTION_READ</a>);
+DRV_SQI_TransferFrames (sqiHandle, &amp;cmdHandle, frame, 1);
+<strong><span style="color: #000080">if</span></strong> (cmdHandle == <a href="10930.html">DRV_SQI_COMMAND_HANDLE_INVALID</a>)
+{
+    <i><span style="color: #008000">// handle the failure.</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+    <i><span style="color: #008000">// continue with the rest of the operation.</span></i>
+}
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23261.html">SQI Driver Library</a> &gt; <a href="08845.html">Library Interface</a> &gt; c) Data Transfer Functions &gt; <a href="11027.html">DRV_SQI_TransferFrames Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_SQI_TransferFrames@DRV_HANDLE@DRV_SQI_COMMAND_HANDLE *@DRV_SQI_TransferFrame *@uint8_t Topic Title: DRV_SQI_TransferFrames Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

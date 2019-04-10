@@ -1,0 +1,58 @@
+choice
+    prompt "Select BSP To Use For $DEVICE Device"
+    depends on USE_BSP
+    default BSP_PIC32MX_BT_SK
+    ---help---
+    IDH_HTML_BSP_Board_Support_Packages
+    ---endhelp---
+
+config BSP_PIC32MX_BT_SK
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_12MHz
+    set ICESEL optionally to "ICS_PGx4" if BSP_PIC32MX_BT_SK
+    set POSCMOD optionally to "HS" if BSP_PIC32MX_BT_SK
+    bool "PIC32MX Bluetooth Starter Kit"
+    ---help---
+    IDH_HTML_BSP_pic32mx_bt_sk
+    ---endhelp---
+	
+config BSP_PIC32MX_USB_DIGITAL_AB
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_12MHz
+    set ICESEL optionally to "ICS_PGx1" if BSP_PIC32MX_USB_DIGITAL_AB
+    set POSCMOD optionally to "EC" if BSP_PIC32MX_USB_DIGITAL_AB
+    bool "PIC32 USB Digital Audio Accessory Board"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_digital_audio_ab
+    ---endhelp---
+	
+config BSP_CUSTOM
+    depends on USE_BSP
+    bool "Custom"
+
+	
+endchoice	
+
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_bt_sk/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_digital_audio_ab/config/bsp.hconfig"
+
+config BSP_DS60001168_COMMON
+    set JTAGEN optionally to "OFF"
+    set FNOSC optionally to "PRIPLL" if USE_BSP
+    set FNOSC optionally to "FRCPLL" if !USE_BSP
+    set POSCMOD optionally to "OFF" if !USE_BSP
+    set FPLLIDIV optionally to "DIV_3" if USE_BSP
+    set FPLLIDIV optionally to "DIV_2" if !USE_BSP
+    set FPLLODIV optionally to "DIV_2"
+    set UPLLIDIV optionally to "DIV_3"
+    set UPLLEN optionally to "ON" if USE_BSP
+    set FSOSCEN optionally to "OFF"
+    set IESO optionally to "OFF"
+    set FPBDIV optionally to "DIV_1"
+    set FWDTEN optionally to "OFF"
+    set FWDTWINSZ optionally to "WINSZ_50"
+    bool
+    default y if USE_BSP
+

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_CAN_FilterMaskConfigure Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; h) Message Filtering Functions &gt; <a href="18505.html">PLIB_CAN_FilterMaskConfigure Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18504.html">Previous</a> | <a href="17498.html">Up</a> | <a href="18506.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_CAN_FilterMaskConfigure@CAN_MODULE_ID@CAN_FILTER_MASK@uint32_t@CAN_ID_TYPE@CAN_FILTER_MASK_TYPE Topic Title: PLIB_CAN_FilterMaskConfigure Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_CAN_FilterMaskConfigure Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">PLIB_CAN_FilterMaskConfigure</span></strong>(
+    <a href="06712.html">CAN_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    <a href="06690.html">CAN_FILTER_MASK</a> <strong><span style="color: #000000">mask</span></strong>, 
+    uint32_t <strong><span style="color: #000000">maskBits</span></strong>, 
+    <a href="06699.html">CAN_ID_TYPE</a> <strong><span style="color: #000000">idType</span></strong>, 
+    <a href="06696.html">CAN_FILTER_MASK_TYPE</a> <strong><span style="color: #000000">mide</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function configures a CAN filter mask. The mask bits determine which message ID bits are ignored and compared during the filtering process.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The CAN module should be in Configuration mode. This is achieved by using the <a href="18516.html">PLIB_CAN_OperationModeSelect</a> function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired CAN module&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+<a href="16341.html">mask</a>&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired CAN receive filter mask.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+maskBits&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+A value in the range 0x0 to 0x7FF for SID range or 0x0 to 0x1FFFFFFF for the EID range. Each set bit will mean that the corresponding bit in the filter will be compared to the corresponding bit in the message ID. A clear mask bit means the corresponding bit in the incoming message ID field will be ignored.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+idType&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Specifies the value range of maskBits parameter.
+<ul class="Element637">
+<li class="Element607">CAN_EID - Value range of maskBits parameter is 0x0 (ignore all 29 bits of the incoming message ID) to 0x1FFFFFFF (compare all 29 bits of the incoming message ID).</li>
+<li class="Element607">CAN_SID - Value range of maskBits parameter is 0x0 (ignore all 11 bits of the incoming message ID) to 0x7FF (compare all 11 bits of the incoming message ID).</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+mide&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Specifies ID masking options
+<ul class="Element637">
+<li class="Element607">CAN_FILTER_MASK_IDE_TYPE - Masking will be performed by filter type only. If the filter is set up for SID messages, the mask will decline all incoming EID messages. If the filter is set up for EID messages, the mask will decline all incoming SID messages</li>
+<li class="Element607">CAN_FILTER_MASK_ANY_TYPE - Masking will be performed regardless of the incoming message ID type. The message will be accepted on a Filter and Message SID match or a filter and message SID/EID match.</li>
+</ul>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A mask bit value of zero essentially means that all messages with any ID are accepted. The mode and idType input parameters are still relevant in such a case.&nbsp;</p>
+<p class="Element10">
+This feature may not be available on all devices. Please refer to the specific device data sheet to determine availability or use <a href="18478.html">PLIB_CAN_ExistsFilterMaskConfigure</a> in your application to determine whether this feature is available.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01721');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01721"><pre class="Element12"><i><span style="color: #008000">// Configure CAN_ID_1 Filter Mask 2 to accept</span></i>
+<i><span style="color: #008000">// extended ID messages in the range 0x4F1DE8 - 0x4F1DEC.</span></i>
+<i><span style="color: #008000">// On analyzing this address range it can be seen that only</span></i>
+<i><span style="color: #008000">// the last two bits of the incoming CAN message should ignored.</span></i>
+<i><span style="color: #008000">// Therefore the mask value should 0x1FFFFFFC.</span></i>
+<i><span style="color: #008000">// This mask will be used with a extended ID filter.</span></i>
+<i><span style="color: #008000">// Set the masking option to filter IDE type.</span></i>
+
+PLIB_CAN_FilterMaskConfigure(CAN_ID_1, CAN_FILTER_MASK2, 0x1FFFFFFC,
+                            CAN_EID, CAN_FILTER_MASK_IDE_TYPE);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; h) Message Filtering Functions &gt; <a href="18505.html">PLIB_CAN_FilterMaskConfigure Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_CAN_FilterMaskConfigure@CAN_MODULE_ID@CAN_FILTER_MASK@uint32_t@CAN_ID_TYPE@CAN_FILTER_MASK_TYPE Topic Title: PLIB_CAN_FilterMaskConfigure Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

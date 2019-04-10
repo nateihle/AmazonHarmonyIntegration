@@ -1,0 +1,16 @@
+# file: project.hconfig
+
+menu "XC32 (Global Options)"
+    menu "xc32-ld"
+        menu "General"
+            config XC32_HEAP
+                string "Heap Size (bytes)"
+                    default "44960" if USE_TCPIP_STACK = y
+                    default "32768" if USE_CRYPTO_LIB = y && USE_CRYPTO_ECC = y
+                    default "102400" if USE_GFX_STACK = y
+                    default "2048" if USE_SYS_CONSOLE = y
+                    default "4096" if SEGGER_EMWIN_GUI_WRAPPER = y
+                default ""
+        endmenu
+    endmenu
+endmenu

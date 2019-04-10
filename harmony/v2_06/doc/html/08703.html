@@ -1,0 +1,526 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Migrating Applications from v1.03.01 and Earlier Releases of MPLAB Harmony</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17067.html">NVM Driver Library</a> &gt; <a href="08703.html">Migrating Applications from v1.03.01 and Earlier Releases of MPLAB Harmony</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17067.html">Previous</a> | <a href="17067.html">Up</a> | <a href="08699.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV NVM Migrating from v1.03.01 and Earlier Topic Title: Migrating Applications from v1.03.01 and Earlier Releases of MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Migrating Applications from v1.03.01 and Earlier Releases of MPLAB Harmony</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The NVM Driver Library APIs have changed beginning with the v1.04 release of MPLAB Harmony. Applications that were developed using the earlier version of the MPLAB Harmony NVM Driver (v1.03.01 and earlier) will not build unless the application calls to NVM Driver are updated.  While the MHC utility provides an option to continue creating applications using the v1.03.01 and earlier NVM Driver API, it is recommended that existing applications migrate to the latest API to take advantage of the latest features in the NVM Driver. The following sections describe the API changes and other considerations while updating the application for changes in the NVM Driver.&nbsp;</p>
+<p class="Element10">
+All NVM Driver Demonstration Applications and NVM Driver related documentation have been updated to the latest (new) API. The following sections do not discuss changes in the NVM Driver configuration related code. This code is updated automatically when the project is regenerated using the MHC utility. Only the application related API changes are discussed.&nbsp;</p>
+<p class="Element10">
+The following table shows the beta API and corresponding v1.04 and Later MPLAB Harmony NVM Driver API. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="12%">
+<div class="Element66">
+v1.03.01 and Earlier NVM Driver API&nbsp;</div></td><td class="Element65" valign="top" width="13%">
+<div class="Element66">
+v1.04 and Later NVM Driver API&nbsp;</div></td><td class="Element65" valign="top" width="75%">
+<div class="Element66">
+v1.04 and Later API Notes&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10740.html">DRV_NVM_Initialize</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10740.html">DRV_NVM_Initialize</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+The init structure now has additional members that allow the NVM media address and geometry to be specified.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10721.html">DRV_NVM_Deinitialize</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10721.html">DRV_NVM_Deinitialize</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+No change.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10751.html">DRV_NVM_Status</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10751.html">DRV_NVM_Status</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+No change.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10747.html">DRV_NVM_Open</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10747.html">DRV_NVM_Open</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+No change.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10711.html">DRV_NVM_Close</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10711.html">DRV_NVM_Close</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+No change.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10749.html">DRV_NVM_Read</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10749.html">DRV_NVM_Read</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Parameters have changed:
+<ul class="Element635">
+<li class="Element605">Returns the command handle associated with the read operation as an output parameter</li>
+<li class="Element605">Data is now read in terms of blocks. The read block size is specified in the NVM Geometry.</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10754.html">DRV_NVM_Write</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10754.html">DRV_NVM_Write</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Parameters have changed:
+<ul class="Element635">
+<li class="Element605">Returns the command handle associated with the write operation as an output parameter</li>
+<li class="Element605">Data is now written in terms of blocks. The write block size is specified in the NVM Geometry.</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10723.html">DRV_NVM_Erase</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10723.html">DRV_NVM_Erase</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Parameters have changed:
+<ul class="Element635">
+<li class="Element605">Returns the command handle associated with the erase operation as an output parameter</li>
+<li class="Element605">NVM Flash is erased in terms of blocks. The erase block size is specified in the NVM Geometry.</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+<a href="10725.html">DRV_NVM_EraseWrite</a>&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10725.html">DRV_NVM_EraseWrite</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Parameters have changed:
+<ul class="Element635">
+<li class="Element605">Returns the command handle associated with the Erase/Write operation as an output parameter.</li>
+<li class="Element605">Data is now written in terms of blocks. The write block size is specified in the NVM Geometry.</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+DRV_NVM_BlockEventHandlerSet&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10730.html">DRV_NVM_EventHandlerSet</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Function name and parameter type have changed.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+DRV_NVM_ClientStatus&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Not Available&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+This API is no longer available.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+DRV_NVM_BufferStatus&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10719.html">DRV_NVM_CommandStatus</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+The <a href="10749.html">DRV_NVM_Read</a>, <a href="10754.html">DRV_NVM_Write</a>, <a href="10723.html">DRV_NVM_Erase</a>, and <a href="10725.html">DRV_NVM_EraseWrite</a> functions now return a command handle associated with the operation. The status of the operation can be checked by passing the command handle to this function.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Not Available&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10731.html">DRV_NVM_GeometryGet</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+This API gives the following geometrical details of the NVM Flash:
+<ul class="Element635">
+<li class="Element605">Media Property</li>
+<li class="Element605">Number of Read/Write/Erase regions in the flash device</li>
+<li class="Element605">Number of Blocks and their size in each region of the device</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Not Available&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10743.html">DRV_NVM_IsAttached</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Returns the physical attach status of the NVM Flash.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Not Available&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10744.html">DRV_NVM_IsWriteProtected</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Returns the write protect status of the NVM Flash.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Not Available&nbsp;</div></td><td class="Element67" valign="top" width="13%">
+<div class="Element68">
+<a href="10708.html">DRV_NVM_AddressGet</a>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Returns the NVM Media Start address.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+NVM Driver Initialization</div>
+<p class="Element10">
+<a href="10734.html">DRV_NVM_INIT</a> now takes the following two additional initialization parameters:
+<ul class="Element635">
+<li class="Element605">mediaStartAddress - NVM Media Start address. The driver treats this address as the start address for read, write and erase operations.</li>
+<li class="Element605">nvmMediaGeometry - Indicates the layout of the media in terms of read, write and erase regions.</li>
+</ul>The following code examples show how the driver initialization was performed with 1.03 APIs and how it is performed with the 1.04 APIs:&nbsp;</p>
+<p class="Element10">
+<strong>Example 1:</strong> v<strong>1.03 and Earlier Code</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00687');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00687"><pre class="Element12"><strong><span style="color: #000080">const</span></strong> DRV_NVM_INIT drvNvmInit =
+{
+    .moduleInit.sys.powerState = SYS_MODULE_POWER_RUN_FULL,
+    .nvmID = NVM_ID_0,
+    .interruptSource = INT_SOURCE_FLASH_CONTROL,
+};
+ 
+<strong><span style="color: #000080">void</span></strong> SYS_Initialize (<strong><span style="color: #000080">void</span></strong> *data)
+{
+.
+.
+    <i><span style="color: #008000">// Initialize NVM Driver Layer</span></i>
+    sysObj.drvNvm = DRV_NVM_Initialize(DRV_NVM_INDEX_0, (SYS_MODULE_INIT *)&amp;drvNvmInit);
+.
+}</pre></div></div>
+<p class="Element10">
+<strong>Example: v1.04 and Later Code</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00688');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00688"><pre class="Element12"><i><span style="color: #008000">/* NVM Geometry structure */</span></i>
+SYS_FS_MEDIA_REGION_GEOMETRY NVMGeometryTable[3] =
+{
+    {
+        .blockSize = 1,
+        .numBlocks = (DRV_NVM_MEDIA_SIZE * 1024),
+    },
+    {
+       .blockSize = DRV_NVM_ROW_SIZE,
+       .numBlocks = ((DRV_NVM_MEDIA_SIZE * 1024)/DRV_NVM_ROW_SIZE)
+    },
+    {
+       .blockSize = DRV_NVM_PAGE_SIZE,
+       .numBlocks = ((DRV_NVM_MEDIA_SIZE * 1024)/DRV_NVM_PAGE_SIZE)
+    }
+};
+ 
+<strong><span style="color: #000080">const</span></strong> SYS_FS_MEDIA_GEOMETRY NVMGeometry =
+{
+    .mediaProperty = SYS_FS_MEDIA_WRITE_IS_BLOCKING,
+    .numReadRegions = 1,
+    .numWriteRegions = 1,
+    .numEraseRegions = 1,
+    .geometryTable = (SYS_FS_MEDIA_REGION_GEOMETRY *)&amp;NVMGeometryTable
+};
+ 
+<strong><span style="color: #000080">const</span></strong> DRV_NVM_INIT drvNvmInit =
+{
+    .moduleInit.sys.powerState = SYS_MODULE_POWER_RUN_FULL,
+    .nvmID = NVM_ID_0,
+    .interruptSource = INT_SOURCE_FLASH_CONTROL,
+    .mediaStartAddress = 0x9D010000,
+    .nvmMediaGeometry = (SYS_FS_MEDIA_GEOMETRY *)&amp;NVMGeometry
+};
+ 
+<strong><span style="color: #000080">void</span></strong> SYS_Initialize (<strong><span style="color: #000080">void</span></strong> *data)
+{
+.
+.
+    <i><span style="color: #008000">// Initialize NVM Driver Layer</span></i>
+    sysObj.drvNvm = DRV_NVM_Initialize(DRV_NVM_INDEX_0, (SYS_MODULE_INIT *)&amp;drvNvmInit);
+.
+.
+}</pre></div></div>
+<div class="Element15">
+Addressing in NVM Driver</div>
+<p class="Element10">
+The v1.03.01 and earlier Read, Write, Erase and EraseWrite APIs took the actual address on which the operation was to be performed. The unit of access was bytes.&nbsp;</p>
+<p class="Element10">
+In v1.04 the addressing mechanism has been modified. The media start address is set in the <a href="10740.html">DRV_NVM_Initialize</a>. This address is used as the base address for the Read, Write, Erase and EraseWrite APIs. The unit of access is in terms of blocks. The NVM Geometry specifies the media layout in terms of:
+<ul class="Element635">
+<li class="Element605">Number of erase, read and write regions</li>
+<li class="Element605">Block size for erase, read and write operations.</li>
+<li class="Element605">Number of blocks in erase, read and write regions</li>
+</ul>For example, in PIC32MZ family devices:
+<ul class="Element635">
+<li class="Element605">Read block size = 1 byte</li>
+<li class="Element605">Write block size = ROW Size = 2048 bytes</li>
+<li class="Element605">Erase block size = PAGE Size = 16384 bytes</li>
+</ul>If the size of media is 32 KB then the following table illustrates the address range and number of blocks for the read, write and erase regions: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="20%">
+<div class="Element66">
+Region Type &nbsp;</div></td><td class="Element65" valign="top" width="16%">
+<div class="Element66">
+Block Size&nbsp;</div></td><td class="Element65" valign="top" width="50%">
+<div class="Element66">
+Number of blocks&nbsp;</div></td><td class="Element65" valign="top" width="14%">
+<div class="Element66">
+Address range&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+Read Region&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+1 Byte&nbsp;</div></td><td class="Element67" valign="top" width="50%">
+<div class="Element68">
+32 KB / Read block size = 32768&nbsp;</div></td><td class="Element67" valign="top" width="14%">
+<div class="Element68">
+0–32767&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+Write Region&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+2048 Bytes&nbsp;</div></td><td class="Element67" valign="top" width="50%">
+<div class="Element68">
+32 KB / Write block size = 16 blocks&nbsp;</div></td><td class="Element67" valign="top" width="14%">
+<div class="Element68">
+0–15&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+Erase Region&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+16384 Bytes&nbsp;</div></td><td class="Element67" valign="top" width="50%">
+<div class="Element68">
+32 KB / Erase block size = 2 blocks&nbsp;</div></td><td class="Element67" valign="top" width="14%">
+<div class="Element68">
+0–1&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Erasing Data on NVM Flash</div>
+<p class="Element10">
+The NVM Geometry indicates the number of erase blocks and the size of a single erase block. The Erase API takes in the erase block start address and the number of blocks to be erased. The following code examples show how to perform the erase operation in v1.03.01 and earlier and how to perform it with v1.04 and later.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> v<strong>1.03.01 and Earlier Code</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00689');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00689"><pre class="Element12">DRV_HANDLE      myNVMHandle;    <i><span style="color: #008000">// Returned from DRV_NVM_Open</span></i>
+DRV_NVM_BUFFER_HANDLE bufferHandle;
+ 
+bufferHandle = DRV_NVM_Erase(myNVMHandle, (uint8_t*)NVM_BASE_ADDRESS, DRV_NVM_PAGE_SIZE);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_BUFFER_HANDLE_INVALID == bufferHandle)
+{
+    <i><span style="color: #008000">// Do error handling here</span></i>
+}
+ 
+<i><span style="color: #008000">// Wait until the buffer completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+<strong><span style="color: #000080">while</span></strong>(DRV_NVM_BufferStatus(bufferHandle) != DRV_NVM_BUFFER_COMPLETED);</pre></div></div>
+<p class="Element10">
+<strong>Example: v1.04 and Later Code</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00690');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00690"><pre class="Element12"><i><span style="color: #008000">/* This code example shows how to erase NVM Media data */</span></i>
+DRV_HANDLE nvmHandle;
+DRV_NVM_COMMAND_HANDLE nvmCommandHandle;
+DRV_NVM_COMMAND_STATUS commandStatus;
+uint32_t blockAddress;
+uint32_t nBlocks;
+ 
+blockAddress = 0;
+nBlocks = 1;
+ 
+DRV_NVM_Erase(nvmHandle, &amp;nvmCommandHandle, blockAddress, nBlocks);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_HANDLE_INVALID == nvmCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the erase request. Handle the error. */</span></i>
+}
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+ 
+commandStatus = DRV_NVM_CommandStatus(nvmHandle, nvmCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Erase completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_NVM_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Erase Failed */</span></i>
+}</pre></div></div>
+<div class="Element15">
+Writing Data to NVM Flash</div>
+<p class="Element10">
+The NVM Geometry indicates the number of write blocks and the size of a single write block. The Write API takes in the write block start address and the number of blocks to be written. The following code examples show how the write operation was performed in v1.03.01 and earlier and how to perform it with v1.04 and later APIs:&nbsp;</p>
+<p class="Element10">
+<strong>Example : v1.03.01 and Earlier Code</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00691');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00691"><pre class="Element12">DRV_HANDLE myNVMHandle;    <i><span style="color: #008000">// Returned from DRV_NVM_Open</span></i>
+<strong><span style="color: #000080">char</span></strong>       myBuffer[2 * DRV_NVM_ROW_SIZE];
+ 
+<i><span style="color: #008000">// Destination address should be row aligned.</span></i>
+<strong><span style="color: #000080">char</span></strong>       *destAddress = (<strong><span style="color: #000080">char</span></strong> *)NVM_BASE_ADDRESS_TO_WRITE;
+ 
+<strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong>    count = 2 * MY_BUFFER_SIZE;
+DRV_NVM_BUFFER_HANDLE bufferHandle;
+ 
+bufferHandle  = DRV_NVM_Write(myNVMHandle, destAddress, &amp;myBuffer[total], count);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_BUFFER_HANDLE_INVALID == bufferHandle)
+{
+    <i><span style="color: #008000">// Do error handling here</span></i>
+}
+ 
+<i><span style="color: #008000">// Wait until the buffer completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+<strong><span style="color: #000080">while</span></strong>(DRV_NVM_BufferStatus(bufferHandle) != DRV_NVM_BUFFER_COMPLETED);</pre></div></div>
+<p class="Element10">
+<strong>Example: v1.04 and Later Code</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00692');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00692"><pre class="Element12"><i><span style="color: #008000">/* This code example shows how to write data to NVM Media */</span></i>
+DRV_HANDLE nvmHandle;
+DRV_NVM_COMMAND_HANDLE nvmCommandHandle;
+DRV_NVM_COMMAND_STATUS commandStatus;
+uint8_t writeBuf[DRV_NVM_ROW_SIZE];
+uint32_t blockAddress;
+uint32_t nBlocks;
+ 
+blockAddress = 0;
+nBlocks = 1;
+ 
+DRV_NVM_Write(nvmHandle, &amp;nvmCommandHandle, (uint8_t *)writeBuf, blockAddress, nBlocks);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_HANDLE_INVALID == nvmCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the write request. Handle the error. */</span></i>
+}
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+ 
+commandStatus = DRV_NVM_CommandStatus(nvmHandle, nvmCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Write completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_NVM_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Write Failed */</span></i>
+}</pre></div></div>
+<div class="Element15">
+Reading Data from NVM Flash</div>
+<p class="Element10">
+The NVM Geometry indicates the number of read blocks and the size of a single read block. The Read API takes in the read block start address and the number of blocks to be read. The following code examples show how the read operation was performed with v1.03.01 and earlier APIs and how to perform the same with v1.04 and later APIs:&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> <strong>v1.03.01 and Earlier Code</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00693');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00693"><pre class="Element12">DRV_HANDLE      myNVMHandle;    <i><span style="color: #008000">// Returned from DRV_NVM_Open</span></i>
+<strong><span style="color: #000080">char</span></strong>            myBuffer[MY_BUFFER_SIZE];
+<strong><span style="color: #000080">char</span></strong>            *srcAddress = NVM_BASE_ADDRESS_TO_READ_FROM;
+<strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong>    count = MY_BUFFER_SIZE;
+DRV_NVM_BUFFER_HANDLE bufferHandle;
+ 
+bufferHandle  = DRV_NVM_Read(myNVMHandle, &amp;myBuffer[total], srcAddress, count);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_BUFFER_HANDLE_INVALID == bufferHandle)
+{
+    <i><span style="color: #008000">// Do error handling here</span></i>
+}
+ 
+<i><span style="color: #008000">// Wait until the buffer completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+<strong><span style="color: #000080">while</span></strong>(DRV_NVM_BufferStatus(bufferHandle) != DRV_NVM_BUFFER_COMPLETED);</pre></div></div>
+<p class="Element10">
+<strong>Example: v1.04 and Later Code</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00694');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00694"><pre class="Element12"><i><span style="color: #008000">/* This code example shows how to read data from NVM Media */</span></i>
+DRV_HANDLE nvmHandle;
+DRV_NVM_COMMAND_HANDLE nvmCommandHandle;
+DRV_NVM_COMMAND_STATUS commandStatus;
+uint8_t readBuf[DRV_NVM_ROW_SIZE];
+uint32_t blockAddress;
+uint32_t nBlocks;
+ 
+blockAddress = 0;
+nBlocks = DRV_NVM_ROW_SIZE;
+ 
+DRV_NVM_Read(nvmHandle, &amp;nvmCommandHandle, (uint8_t *)readBuf, blockAddress, nBlocks);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_HANDLE_INVALID == nvmCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the read request. Handle the error. */</span></i>
+}
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+ 
+commandStatus = DRV_NVM_CommandStatus(nvmHandle, nvmCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Read completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_NVM_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Read Failed */</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17067.html">NVM Driver Library</a> &gt; <a href="08703.html">Migrating Applications from v1.03.01 and Earlier Releases of MPLAB Harmony</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV NVM Migrating from v1.03.01 and Earlier Topic Title: Migrating Applications from v1.03.01 and Earlier Releases of MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

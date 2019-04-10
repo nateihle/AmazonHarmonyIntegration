@@ -1,0 +1,75 @@
+
+
+config IN_EMB_DUAL_USE_TCP
+    bool "Use v4/v6 stack"
+    depends on HAVE_ETH
+    default n
+    ---help---
+         This product is available for license from InterNiche Technologies. http://www.iniche.com
+    ---endhelp---
+
+config IN_EMB_DUAL_USE_DHCP
+    bool "Use DHCP"
+    depends on IN_EMB_DUAL_USE_TCP
+    default y
+    ---help---
+        Use DHCP to get address
+    ---endhelp---
+
+
+config IN_EMB_DUAL_IP4ADDR
+    string "V4 ip address"
+    depends on IN_EMB_DUAL_USE_TCP
+    depends on !IN_EMB_DUAL_USE_DHCP
+    default "192.168.0.111"
+    ---help---
+      Static ipv4 address to use
+    ---endhelp---
+
+
+config IN_EMB_DUAL_IP4MASK
+    string "V4 Netmask"
+    depends on IN_EMB_DUAL_USE_TCP
+    depends on !IN_EMB_DUAL_USE_DHCP
+    default "255.255.255.0"
+    ---help---
+      Static ipv4 netmask
+    ---endhelp---
+
+
+config IN_EMB_DUAL_IP4GW
+    string "V4 Default Gateway"
+    depends on IN_EMB_DUAL_USE_TCP
+    depends on !IN_EMB_DUAL_USE_DHCP
+    default "192.168.0.1"
+    ---help---
+        Static ipv4 address of default gateway
+    ---endhelp---
+
+
+config IN_EMB_DUAL_DNS_SRV1
+    string "DNS server"
+    depends on IN_EMB_DUAL_USE_TCP
+    default "0.0.0.0"
+    ---help---
+      IP address of first DNS server
+    ---endhelp---
+
+config IN_EMB_DUAL_DNS_SRV2
+    string "DNS server"
+    depends on IN_EMB_DUAL_USE_TCP
+    default "0.0.0.0"
+    ---help---
+      IP address of second DNS server
+    ---endhelp---
+
+
+config IN_EMB_DUAL_DNS_SRV3
+    string "DNS server"
+    depends on IN_EMB_DUAL_USE_TCP
+    default "0.0.0.0"
+    ---help---
+      IP address of third DNS server
+    ---endhelp---
+
+

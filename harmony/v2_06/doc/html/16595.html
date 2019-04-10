@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Complete hconfig Grammar Definition</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16606.html">hconfig Files</a> &gt; <a href="16595.html">Complete hconfig Grammar Definition</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16603.html">Previous</a> | <a href="16606.html">Up</a> | <a href="16617.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Complete hconfig Grammar Definition Topic Title: Complete hconfig Grammar Definition)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Complete hconfig Grammar Definition</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00065');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00065"><pre class="Element12">Model:
+ ( Statements += Statement)*;
+
+Statement:
+   CommonStatement
+ | MainmenuStmt
+ | MenuStmt
+ | ChoiceStmt
+;
+
+CommonStatement:
+      IfStmt
+    | CommentStmt
+    | ConfigStmt
+    | MenuconfigStmt
+    | SourceStmt
+    | EnumStmt
+    | TemplateStmt
+    | FileStmt
+    | LibraryStmt
+    | ExecuteStmt
+    | CompilerStmt
+ | AssemblerStmt
+;
+
+TemplateStmt:
+    'template' name= ID templateFilePath=STRING 'to' templateLogicalPath=STRING ( 'if' (Expr = Expr) )?
+;
+
+FileStmt:
+    'file' name=ID filePath=STRING ('to' fileLogicalPath=STRING)? ( 'if' (Expr = Expr) )?
+;
+
+LibraryStmt:
+    'library' name=ID libraryPath=STRING ( 'if' (Expr = Expr) )?
+;
+
+ExecuteStmt:
+    'execute' name=ID
+    (OptionList += Option*)
+    <i><span style="color: #008000">// Only valid execute options are Prompt | Dependency | Default | HelpText=KCONFIG_HELP</span></i>
+;
+
+CompilerStmt:
+ 'compiler' name=ID  which=('C' | 'CPP')?  type=('define' | 'undefine' | 'includepath') str=STRING ( 'if' (Expr = Expr ) )?
+;
+
+AssemblerStmt:
+   'assembler' name=ID  type=('define' | 'undefine' | 'includepath') str=STRING ( 'if' (Expr = Expr ) )?
+;
+IfStmt:
+    'ifblock' ifexpr=Expr
+    (statements += Statement*)
+    'endif'
+;
+
+MainmenuStmt:
+    'mainmenu' value=STRING
+;
+
+MenuStmt:
+    'menu' value=STRING
+    (VisibilityList += Visible*)
+    (DependsList    += Dependency*)
+    (Helptext = KCONFIG_HELP)?
+    (MenuBlockList  += Statement*)
+    'endmenu'
+;
+
+Visible:
+    Visible = 'visible' ( 'if' (visible_expr = Expr) )?
+;
+
+Dependency:
+    'depends on' depexpr = Expr
+;
+
+MenuconfigStmt:
+    'menuconfig' name= ID
+    (OptionList += Option*)
+;
+
+CommentStmt:
+    'comment' value=STRING
+    (DependsList += Dependency*)
+    (Helptext = KCONFIG_HELP)?
+;
+
+EnumStmt:
+    'enum' name=ID (exclusive='exclusive')?
+    (Firststring = STRING)
+    (Orstrings += Orstring)*
+    (Helptext = KCONFIG_HELP)?
+;
+
+Orstring:
+    '||' value=STRING
+;
+
+ChoiceStmt:
+    ChoiceStmt = 'choice' (name = ID)?
+    (OptionList += ChoiceOption*)
+    (Helptext = KCONFIG_HELP)?
+    (statements += ConfigStmt*)
+    'endchoice'
+;
+
+ChoiceOption:
+    Optional | Prompt | Dependency | Default
+;
+
+Optional:
+    Optional='optional'
+;
+
+Option:
+    Type | Prompt | Range | Dependency | Select | Default | Persistent | MiscOption | HelpText=KCONFIG_HELP
+;
+
+SourceStmt:
+    'source' path=STRING (numInstances=SIGNED_INT 'instances')?
+;
+
+ConfigStmt:
+    'config' name= ID
+    (OptionList += Option*)
+;
+
+Type:
+    type=('bool'|'tristate'|'int'|'hex'|'string') tprompt=STRING? ('if' ifexpr=Expr)? |
+    type=('def_bool'|'def_tristate') defexpr=Expr ('if' ifexpr=Expr)?
+;
+
+Select:
+    'select' name=ID ('if' ifexpr = Expr)?
+;
+
+Set:
+    'set' name=ID 'to' value=Expr ('if' ifexpr = Expr)?
+;
+
+Default:
+    'default' (value=Expr) ('if' ifexpr = Expr)?
+;
+
+Persistent:
+    persistent='persistent' ('if' ifexpr = Expr)?
+;
+
+Prompt:
+    'prompt' value=STRING ('if' ifexpr = Expr)?
+;
+
+Range:
+    'range' rangeexpr=RangeExpr ('if' ifexpr = Expr)?
+;
+
+MiscOption:
+    'option' (MiscOption='modules' | MiscOption='allnoconfig_y' | MiscOption='env' '=' string=STRING | MiscOption='defconfig_list')
+;
+
+RangeExpr returns KconfigExpr:
+     RangeLiteral ({RangeExpr.left=current} right=RangeLiteral)?
+;
+
+RangeLiteral:
+    (conf = ID | signed_int=SIGNED_INT | hex=HEX_TERMINAL)
+;
+
+Expr returns KconfigExpr:
+    OrLiteral ({Expr.left=current} '&amp;&amp;' right=OrLiteral)*
+;
+
+OrLiteral returns KconfigExpr:
+    EqLiteral ({OrLiteral.left=current} '||' right=EqLiteral)*
+;
+
+EqLiteral returns KconfigExpr:
+    NeqLiteral ({EqLiteral.left=current} '=' right=NeqLiteral)?
+;
+
+NeqLiteral returns KconfigExpr:
+    PrimaryLiteral ({NeqLiteral.left=current} '!=' right=PrimaryLiteral)?
+;
+
+PrimaryLiteral returns KconfigExpr:
+    ConfigLiteral | NotLiteral | NotExpr | ParenExpr
+;
+
+NotExpr:
+    '!' '(' NotExpr=Expr ')'
+;
+
+ParenExpr:
+    '(' ParenExpr=Expr ')'
+;
+
+NotLiteral:
+    '!' (NotLiteral = ID)
+;
+
+ConfigLiteral:
+    conf = ID | signed_int = SIGNED_INT | hex = HEX_TERMINAL | string = STRING
+;
+
+
+terminal ID:
+    ('1'..'9')('0'..'9')('0'..'9')('0'..'9')('0'..'9')
+        (('A'..'Z')|('a'..'z')|'_')
+        (('a'..'z')|('0'..'9')|('A'..'Z')|'_')*
+    |
+
+     ('1'..'9')('0'..'9')('0'..'9')('0'..'9')
+         (('A'..'Z')|('a'..'z')|'_')
+         (('a'..'z')|('0'..'9')|('A'..'Z')|'_')*
+     |
+
+    ('0'..'9')('0'..'9')('0'..'9')
+        (('A'..'Z')|('a'..'z')|'_')
+        (('a'..'z')|('0'..'9')|('A'..'Z')|'_')*
+     |
+
+     ('1'..'9')('0'..'9')
+         (('A'..'Z')|('a'..'z')|'_')
+         (('a'..'z')|('0'..'9')|('A'..'Z')|'_')*
+     |
+
+    ('1'..'9')
+        (('A'..'Z')|('a'..'z')|'_')
+        (('a'..'z')|('0'..'9')|('A'..'Z')|'_')*
+    |
+
+    (('A'..'Z')|('a'..'z'))
+        (('a'..'z')|('0'..'9')|('A'..'Z')|'_')*
+    ;
+
+terminal HEX_TERMINAL: '0x'('0'..'9'|'a'..'f'|'A'..'F')*;
+terminal KCONFIG_HELP: ('---help---' | 'help') ('\r'? '\n') -&gt; '---endhelp---' ('\r'? '\n');
+terminal SL_COMMENT: '#' !('\n'|'\r')* ('\r'? '\n')?;
+SIGNED_INT: ('-')? INT;</pre></div></div>
+<p class="Element10">
+Please refer to <a href="16615.html">Kconfig Language Specification</a> and <a href="16607.html">hconfig Language Extensions (Kconfig+)</a> for semantic descriptions of the hconfig grammatical elements. For usage information, refer to <a href="16597.html">Developing a New hconfig File</a>.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16606.html">hconfig Files</a> &gt; <a href="16595.html">Complete hconfig Grammar Definition</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Complete hconfig Grammar Definition Topic Title: Complete hconfig Grammar Definition)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,237 @@
+menu "RTCC"
+    depends on HAVE_RTCC
+
+config USE_SYS_RTCC
+    bool "Use RTCC System Service?"
+    select DRIVER
+    default n
+    ---help---
+    IDH_HTML_RTCC_Peripheral_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_SYS_RTCC
+    depends on USE_3RDPARTY_RTOS
+
+config SYS_RTCC_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config SYS_RTCC_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on SYS_RTCC_RTOS = "Standalone"
+    default 1024
+
+config SYS_RTCC_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on SYS_RTCC_RTOS = "Standalone"
+    default 1
+
+config SYS_RTCC_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on SYS_RTCC_RTOS = "Standalone"
+    default y
+
+config SYS_RTCC_RTOS_DELAY
+    int "Task Delay"
+    depends on SYS_RTCC_RTOS = "Standalone"
+    depends on SYS_RTCC_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+
+config SYS_RTCC_INTERRUPT_MODE
+    bool "Use Interrupt Mode"
+    depends on USE_SYS_RTCC
+    select USE_SYS_INT_NEEDED
+    default n
+    ---help---
+    Checking this option would enable interrupt mode of the module and place necessary calls in the driver.
+    ---endhelp---
+
+config SYS_RTCC_INT_SOURCE
+    string
+    depends on USE_SYS_RTCC
+    depends on SYS_RTCC_INTERRUPT_MODE
+    range INT_SOURCE
+    default "INT_SOURCE_RTCC"
+    ---help---
+    IDH_HTML_INT_SOURCE
+    ---endhelp---
+
+config SYS_RTCC_INT_VECTOR
+    string
+    depends on USE_SYS_RTCC
+    depends on SYS_RTCC_INTERRUPT_MODE
+    range INT_VECTOR
+    default "INT_VECTOR_RTCC"
+    ---help---
+      IDH_HTML_INT_VECTOR
+    ---endhelp---
+
+config SYS_RTCC_INT_PRIORITY
+    string "Interrupt Priority"
+    depends on USE_SYS_RTCC
+    depends on SYS_RTCC_INTERRUPT_MODE
+    range INT_PRIORITY_LEVEL
+    default "INT_PRIORITY_LEVEL1"
+    ---help---
+    IDH_HTML_INT_PRIORITY_LEVEL
+    ---endhelp---
+
+config SYS_RTCC_INT_SUBPRIORITY
+    string "Interrupt Sub-priority"
+    depends on USE_SYS_RTCC
+    depends on SYS_RTCC_INTERRUPT_MODE
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+    ---help---
+    IDH_HTML_INT_SUBPRIORITY_LEVEL
+    ---endhelp---
+
+config SYS_RTCC_INT_PRIO_NUM
+    string
+    depends on USE_SYS_RTCC
+    depends on SYS_RTCC_INTERRUPT_MODE
+    default "0" if SYS_RTCC_INT_PRIORITY = "INT_DISABLE_INTERRUPT"
+    default "1" if SYS_RTCC_INT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if SYS_RTCC_INT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if SYS_RTCC_INT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if SYS_RTCC_INT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if SYS_RTCC_INT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if SYS_RTCC_INT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if SYS_RTCC_INT_PRIORITY = "INT_PRIORITY_LEVEL7"
+
+config SYS_RTCC_ISR_VECTOR
+    string
+    depends on USE_SYS_RTCC
+    depends on SYS_RTCC_INTERRUPT_MODE
+    default "_RTCC_VECTOR" if SYS_RTCC_INT_VECTOR = "INT_VECTOR_RTCC"
+
+
+config SYS_RTCC_CLOCK_SOURCE
+    string "Clock Source"
+    depends on USE_SYS_RTCC && HAVE_RTCC_WITH_CLOCKSELECT
+    range RTCC_CLOCK_SOURCE_SELECT
+    default "RTCC_CLOCK_SOURCE_LPRC"
+    ---help---
+    IDH_HTML_RTCC_CLOCK_SOURCE_SELECT
+    ---endhelp---
+
+config SYS_RTCC_OUTPUT_ENABLE
+    bool "RTCC Output Enable"
+    depends on USE_SYS_RTCC
+    default n
+    ---help---
+    IDH_HTML_PLIB_RTCC_ClockOutputEnable_RTCC_MODULE_ID
+    ---endhelp---
+
+config SYS_RTCC_OUTPUT_SELECT
+    string "Output Select"
+    depends on USE_SYS_RTCC
+    depends on SYS_RTCC_OUTPUT_ENABLE
+    range RTCC_OUTPUT_SELECT
+    default "RTCC_OUTPUT_ALARM_PULSE"
+    ---help---
+    IDH_HTML_PLIB_RTCC_OutputSelect_RTCC_MODULE_ID_RTCC_OUTPUT_SELECT
+    ---endhelp---
+
+menu "Time & Date"
+    depends on USE_SYS_RTCC
+
+config SYS_RTCC_TIME_SET
+    string "Time (HHMMSS, where HH:00-24, MM:00-59, SS:00-59):"
+    depends on USE_SYS_RTCC
+    default "235950"
+    ---help---
+    IDH_HTML_PLIB_RTCC_RTCTimeSet_RTCC_MODULE_ID_uint32_t
+    ---endhelp---
+
+config SYS_RTCC_DATE_SET
+    string "Date (YYMMDD, where YY:00-99, MM:01-12, DD:01-31):"
+    depends on USE_SYS_RTCC
+    default "150101"
+    ---help---
+    IDH_HTML_PLIB_RTCC_RTCDateSet_RTCC_MODULE_ID_uint32_t
+    ---endhelp---
+
+config SYS_RTCC_DAY_SET
+    int "Weekday (0-6):"
+    depends on USE_SYS_RTCC
+    range 0 6
+    default 0
+    ---help---
+    IDH_HTML_PLIB_RTCC_RTCDateSet_RTCC_MODULE_ID_uint32_t
+    ---endhelp---
+endmenu
+
+menu "Alarm"
+    depends on USE_SYS_RTCC
+
+config SYS_RTCC_ALARM_TIME_SET
+    string "Alarm Time (HHMMSS, where HH:00-24, MM:00-59, SS:00-59):"
+    default "000005"
+    ---help---
+    IDH_HTML_PLIB_RTCC_AlarmTimeSet_RTCC_MODULE_ID_uint32_t
+    ---endhelp---
+
+config SYS_RTCC_ALARM_DATE_SET
+    string "Alarm Date (MMDD, where MM:01-12, DD:01-31):"
+    default "0101"
+    ---help---
+    IDH_HTML_PLIB_RTCC_AlarmDateSet_RTCC_MODULE_ID_uint32_t
+    ---endhelp---
+
+config SYS_RTCC_ALARM_MASK_CONFIGURATION
+    string "Alarm Mask"
+    range RTCC_ALARM_MASK_CONFIGURATION
+    default "RTCC_ALARM_ONCE_A_DAY"
+    ---help---
+    IDH_HTML_RTCC_ALARM_MASK_CONFIGURATION
+    ---endhelp---
+
+config SYS_RTCC_ALARM_DAY_SET
+    int "Alarm Weekday (0-6):"
+    depends on SYS_RTCC_ALARM_MASK_CONFIGURATION = "RTCC_ALARM_ONCE_A_WEEK"
+    range 0 6
+    default 0
+    ---help---
+    IDH_HTML_RTCC_ALARM_MASK_CONFIGURATION
+    ---endhelp---
+
+config SYS_RTCC_ALARM_REPEAT_FOREVER
+    bool "Alarm Repeats Forever"
+    default n
+    ---help---
+    IDH_HTML_PLIB_RTCC_AlarmChimeEnable_RTCC_MODULE_ID
+    ---endhelp---
+
+config SYS_RTCC_ALARM_REPEAT_COUNT
+    int "Alarm Repeat Count"
+    depends on !SYS_RTCC_ALARM_REPEAT_FOREVER
+    range 0 255
+    default 0
+    ---help---
+    IDH_HTML_PLIB_RTCC_AlarmRepeatCountSet_RTCC_MODULE_ID_uint8_t
+    ---endhelp---
+
+endmenu
+
+endmenu
+
+ifblock USE_SYS_RTCC
+
+add "#include \"system/rtcc/sys_rtcc.h\"" to list SYSTEM_DEFINITIONS_H_INCLUDES
+add "<#include \"/framework/system/rtcc/templates/sys_rtcc_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/system/rtcc/templates/sys_rtcc_obj.c.ftl\">"  to list SYSTEM_DEFINITIONS_H_OBJECTS
+add "<#include \"/framework/system/rtcc/templates/sys_rtcc_interrupt.c.ftl\">"  to list SYSTEM_INTERRUPT_C_VECTORS
+add "<#assign SYS_RTCC_TASKS = \"TASK_CALL_NO_RTOS\"><#include \"/framework/system/rtcc/templates/sys_rtcc_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_SYSTEM_TASKS
+
+template RTCC_SYS_S "$HARMONY_VERSION_PATH/framework/system/rtcc/templates/sys_rtcc.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/rtcc/sys_rtcc.c" 
+ file SYS_RTCC_H "$HARMONY_VERSION_PATH/framework/system/rtcc/sys_rtcc.h" to "$PROJECT_HEADER_FILES/framework/system/rtcc/sys_rtcc.h"
+	file SYS_RTCC_PIC32M_H "$HARMONY_VERSION_PATH/framework/system/rtcc/sys_rtcc_pic32m.h" to "$PROJECT_HEADER_FILES/framework/system/rtcc/sys_rtcc_pic32m.h"
+
+endif
+
+

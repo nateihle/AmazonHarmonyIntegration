@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>BM64_ble_comm</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04855.html">Bluetooth Demonstrations</a> &gt; <a href="03484.html">Demonstrations</a> &gt; <a href="03457.html">BM64 Driver Demonstrations</a> &gt; <a href="03462.html">BM64_ble_comm</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03461.html">Previous</a> | <a href="03457.html">Up</a> | <a href="03463.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS BLUETOOTH BM64_ble_comm Topic Title: BM64_ble_comm)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+BM64_ble_comm</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In this demonstration application, the Bluetooth® Low Energy (BLE) capabilities of the BM64 Module Daughter Board, installed on the PIC32 Bluetooth Audio Development Kit, are used to send a string of characters to a smartphone when one of the push buttons is pressed on the BTADK, and to receive a string of characters from the smartphone and display them on the LCD of the PIC32 Bluetooth Audio Development Kit.&nbsp;</p>
+<p class="Element10">
+Although the current BM64 module does not support standard BLE GATT predefined profiles, it does provide what is called a Transparent Service, which allows generic text strings up to 20 bytes in length to be sent back and forth between a server (e.g., BM64) and a client (e.g., smartphone). Therefore, users can add their own structure on top of this capability and implement their own protocol such as a command/data format.&nbsp;</p>
+<p class="Element10">
+The Transparent Service provides a BLE substitute for the Serial Port Protocol (SPP) of classic Bluetooth for use with an Apple® iPhone®, which <i>does not</i> support SPP.&nbsp;</p>
+<p class="Element10">
+To successfully run this application, you will need an iPhone 4s or later, which supports Bluetooth 4.0. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This MPLAB Harmony application has been designed to also work with a smartphones running Android™, as well as an iPhone; however, the firmware on the BM64 module currently does not support connections to Android smartphones. If you need this application to work with an Android™ phone, please contact your local Microchip Marketing Representative as to the possibility of getting an update to the BM64 firmware.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Architecture</div>
+<p class="Element10">
+This application runs on the <a href="04923.html">PIC32 Bluetooth Audio Development Kit</a>, which contains a PIC32MX470F512L microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 96 MHz with the following features:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD</li>
+<li class="Element600">Six push buttons (SW1-SW6)</li>
+<li class="Element600">Five LEDs</li>
+<li class="Element600">USB Device and Host interfaces</li>
+<li class="Element600">Two X32 sockets, one one for a Bluetooth module and a second for a Codec or DAC</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+</p>
+<ol class="Element630">
+<li value="1" class="Element600">The PIC32 Bluetooth Audio Development Kit comes with a BTM805 Bluetooth Daughter Board and an AK4384 Audio DAC daughter Board; however, you must replace the BTM805 daughter board with the daughter board for the BM64.</li>
+<li value="2" class="Element600">The USB Device and Host interfaces, as well as the LEDs, and the AK4384 Audio DAC Daughter Board <i>are not used</i> in this application.</li>
+</ol><p class="Element68">
+&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Surrounding the PIC32MX470F512L microcontroller are a set of headers, which accept various plug-in modules (PIM), including one for the PIC32MX270F512L as a second configuration for this project.&nbsp;</p>
+<p class="Element10">
+The following figure illustrates the application architecture. </p><p class="Element10" style="text-align: center;">
+<img src="APPS BLUETOOTH BM64_ble_comm Application Diagram.png" border="0" alt="" title=""></p><p class="Element10">
+The PIC32 microcontroller (MCU) runs the application code, and communicates with the BM64 over a USART interface operating at 115,200 baud. The BM64 module contains its own Bluetooth stack, so it is unnecessary to include a software Bluetooth stack in the PIC32 MCU. The program takes up only about 35% of the PIC32MX470F512 microcontroller’s program space, and 25% of its RAM.&nbsp;</p>
+<p class="Element10">
+The interface between the PIC32 MCU and the LCD is an 8-bit parallel master port (PMP). The program uses the MPLAB Harmony v2.0 Graphics Library to draw on the screen. The buttons are also interfaced using GPIO pins.&nbsp;</p>
+<p class="Element10">
+As with any MPLAB Harmony application, the <a href="23925.html">SYS_Initialize</a> function, which is located in the <span class="Element146">system_init.c</span> source file, makes calls to initialize various subsystems, such as the clock, ports, board support package (BSP), PMP, BM64, timers, UART, graphics, and interrupts.&nbsp;</p>
+<p class="Element10">
+The BM64 driver, graphics, and the application state machines are all updated through calls located in the <a href="24151.html">SYS_Tasks</a> function in <span class="Element146">system_tasks.c</span> file. Interrupt handlers in the <span class="Element146">system_interrupt.c</span> file are only used for receiving characters from the UART and for the two timers.&nbsp;</p>
+<p class="Element10">
+The application code is contained in two principal source files. The first, <span class="Element146">app.c</span>, contains a simple state machine (APP_Tasks), which initializes the application, and then while idle, calls a secondary state machine, buttonTasks, to process any button pushes (resulting in a call to the BM64 driver to send a string from the BM64 to a connected smartphone).&nbsp;</p>
+<p class="Element10">
+APP_Tasks also calls another secondary state machine (bleTasks), which is located in the source file <span class="Element146">ble.c</span> to process BLE-related tasks. bleTasks receives a handle to the BM64 driver by calling DRV_BT_Open, and then registers an event handler, _BLEEventHandler, as a callback with the BM64 driver. The callback is called when either a message is received from the BM64 (which is then put on the display) or when the BLE status changes (i.e., when it is connected or disconnected). Both of these actions result in updates to the LCD display through calls to the graphics sub-system.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600"><a href="04856.html">BM64 Bluetooth Driver Library</a></li>
+<li class="Element600">At a lower level, the BM64 Driver uses the <a href="27174.html">USART Driver Library</a> to communicate with the BM64 module</li>
+<li class="Element600">BLE advertising</li>
+<li class="Element600">Connection of BM64 to the smartphone</li>
+<li class="Element600">Display of service and characteristic UUIDs on the smartphone</li>
+<li class="Element600">Sending of a text string from the BTADK/BM64 to the smartphone when a button is pressed</li>
+<li class="Element600">Sending of a text string from the smartphone to the BM64/BTADK, which displays it on the LCD</li>
+<li class="Element600">Sending and receiving characters between the USART of the PIC32 MCU and the BM64. (see <a href="27174.html">USART Driver Library</a>)</li>
+<li class="Element600">Displaying graphics on the 220x176 LCD of the PIC32 Bluetooth Audio Development Kit using the MPLAB Harmony Graphics Library (see <a href="07412.html">MPLAB Harmony Graphics Composer Suite</a>) and the <a href="17353.html">Parallel Master Port (PMP) Driver Library</a>.)</li>
+<li class="Element600">Processing of button pushes on the PIC32 Bluetooth Audio Development Kit using a state machine for contact debouncing. (see <a href="21622.html">Ports Peripheral Library</a>)</li>
+<li class="Element600">Use of two timers: one as a periodic 1 ms timer for the application, and a second used by the BM64 driver (see <a href="08887.html">Timer Driver Library</a>)</li>
+</ul><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+When building a new application, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project</i>. Select the desired processor (PICMX470F512L or PIC32MX270F512L) and the PIC32MX Bluetooth Audio Development Kit. Click the green MPLAB Harmony icon to start the MPLAB Harmony Configurator (MHC). Under BSP Configuration, select PIC32 Bluetooth Audio Development Kit (BM64+AK4384) or PICMX270F512L w/ Bluetooth Audio Development Kit (BM64+AK4384).&nbsp;</p>
+<p class="Element10">
+Open the <i>Harmony Configurator Framework &gt; Drivers</i> section, and then expand <i>Bluetooth &gt; BM64</i> and select <strong>Use BM64 Driver?</strong>. A submenu will appear with all options selected. Since you will only be using BLE functions, clear <strong>HFP,A2DP,AVRCP protocols?</strong>. If this option is selected, it would also by default, bring in the drivers for the AK4384 codec and I2S. </p><p class="Element10" style="text-align: center;">
+<img src="APPS BLUETOOTH BM64_ble_comm MHC Config HPF A2DP AVRCP Protocols.png" border="0" alt="" title=""></p><p class="Element10">
+You will also want to go into the Timer section, select a second timer (change Number of Timer Instances from 1 to 2), and then within TMR Driver Instance 1, change the Prescale value to TMR_PRESCALE_VALUE_1.&nbsp;</p>
+<p class="Element10">
+In addition, go into the USART section and select <strong>Use USART Driver?</strong> and use the default parameters.&nbsp;</p>
+<p class="Element10">
+If your application is going to be using graphics, as this one does, within Graphics Stack, select <strong>Use Graphics Stack?</strong>. Further down, within <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <strong>Enable Touch</strong> since the LCD on the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Since you are using the LCD, you will also need to go back to the Drivers section, and within PMP, select <strong>Use PMP Driver?</strong>. Expand that section, and change the value of Strobe Wait Sates to PMP_STROBE_WAIT_4.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03463.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03464.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+ &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03465.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04855.html">Bluetooth Demonstrations</a> &gt; <a href="03484.html">Demonstrations</a> &gt; <a href="03457.html">BM64 Driver Demonstrations</a> &gt; <a href="03462.html">BM64_ble_comm</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS BLUETOOTH BM64_ble_comm Topic Title: BM64_ble_comm)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

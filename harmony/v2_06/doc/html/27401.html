@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>USB MSD Host Client Driver and SCSI Block Storage Driver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27395.html">USB Host Library</a> &gt; <a href="27398.html">USB Host Library Migration Guide</a> &gt; <a href="27401.html">USB MSD Host Client Driver and SCSI Block Storage Driver</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27403.html">Previous</a> | <a href="27398.html">Up</a> | <a href="27402.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB HOST MIGRATION MSD and SCSI Drivers Topic Title: USB MSD Host Client Driver and SCSI Block Storage Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+USB MSD Host Client Driver and SCSI Block Storage Driver</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The application would use the MSD Host Client Driver and SCSI Block Storage Driver for accessing USB Storage Devices, such as USB Pen Drives. The key difference between the MSD Host Client Drivers in previous versions of the MPLAB Harmony USB Host Stack and the v1.04 MPLAB Harmony USB Host Stack MSD Host Client Drivers is the way the storage device attach and detach events are handled.&nbsp;</p>
+<p class="Element10">
+In previous versions (i.e., v1.03.01 or earlier) of USB Host Stack MSD Host Client Driver an application would have to register an event handler using the USB_HOST_MSDEventHandlerSet) function after Host operation has been enabled. When the application would receive an event, USB_HOST_MSD_EVENT_ATTACH would be detected, and the application would then try to mount the drive in this event. This is shown in the following code example.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04421');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04421"><pre class="Element12"><i><span style="color: #008000">/* In a v1.03.01 or earlier MSD Host Client Driver implementation, the driver will send an
+ * attach detach event to the application. The application must use this to mount or unmount
+ * the drive in its main state machine */</span></i>
+
+<strong><span style="color: #000080">bool</span></strong> APP_USBHostMSDEventHandler
+(
+    USB_HOST_MSD_INDEX index,
+    USB_HOST_MSD_EVENT event,
+    <strong><span style="color: #000080">void</span></strong>* pData
+)
+{
+    <strong><span style="color: #000080">switch</span></strong> ( event)
+    {
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_MSD_EVENT_ATTACH:
+
+            <i><span style="color: #008000">/* This means a USB storage device was plugged in. Update the
+             * application state */</span></i>
+            appData.state =  APP_STATE_DEVICE_CONNECTED;
+
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_MSD_EVENT_DETACH:
+
+            <i><span style="color: #008000">/* This means the USB storage was unplugged. Update the application
+             * state */</span></i>
+            appData.state = APP_STATE_UNMOUNT_DISK;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+
+    <strong><span style="color: #000080">return</span></strong> 0;
+}
+
+<i><span style="color: #008000">/* In the main application task routine, the host layer is opened and the host
+ * operation is enabled. A MSD Host Client Driver event handler is registered
+ * and disk is mounted when an attach event has been detected */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* The application task state machine */</span></i>
+
+    <strong><span style="color: #000080">switch</span></strong>(appData.state)
+    {
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_OPEN_HOST_LAYER:
+
+            <i><span style="color: #008000">/* Open the host layer and then enable Host layer operation */</span></i>
+            appData.hostHandle = USB_HOST_Open(USB_HOST_INDEX_0, DRV_IO_INTENT_EXCLUSIVE);
+
+            <strong><span style="color: #000080">if</span></strong> (appData.hostHandle != USB_HOST_HANDLE_INVALID)
+            {
+                <i><span style="color: #008000">/* Host layer was opened successfully. Enable operation
+                 * and then wait for operation to be enabled  */</span></i>
+
+                USB_HOST_OperationEnable(appData.hostHandle );
+                appData.state = APP_STATE_WAIT_FOR_HOST_ENABLE;
+
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_HOST_ENABLE:
+
+            <i><span style="color: #008000">/* Check if the host operation has been enabled */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(USB_HOST_OperationIsEnabled(appData.hostHandle))
+            {
+                <i><span style="color: #008000">/* This means host operation is enabled. We can
+                 * move on to the next state */</span></i>
+
+                USB_HOST_EventCallBackSet(appData.hostHandle,APP_USBHostEventHandler , 0 );
+                USB_HOST_MSD_EventHandlerSet (APP_USBHostMSDEventHandler );
+                appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            }
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_DEVICE_ATTACH:
+
+            <i><span style="color: #008000">/* Wait for device attach. The state machine will move
+             * to the next state when the attach event
+             * is received.  */</span></i>
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_DEVICE_CONNECTED:
+
+            <i><span style="color: #008000">/* Device was connected. We can try mounting the disk */</span></i>
+            appData.state = APP_STATE_MOUNT_DISK;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong>  APP_STATE_MOUNT_DISK:
+
+            <i><span style="color: #008000">/* The application gets into this state when the drive is attached
+             * */</span></i>
+
+            <strong><span style="color: #000080">if</span></strong>(SYS_FS_Mount(&quot;/dev/sda1&quot;, &quot;/mnt/myDrive&quot;, FAT, 0, NULL) != 0)
+            {
+                <i><span style="color: #008000">/* The disk could not be mounted. Try
+                 * mounting again until success. */</span></i>
+
+                appData.state = APP_STATE_MOUNT_DISK;
+            }
+            <strong><span style="color: #000080">else</span></strong>
+            {
+                <i><span style="color: #008000">/* Mount was successful. Try opening the file */</span></i>
+                appData.state = APP_STATE_OPEN_FILE;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_UNMOUNT_DISK:
+
+            <i><span style="color: #008000">/* The application gets into this state when the drive is detached
+             * */</span></i>
+
+            <strong><span style="color: #000080">if</span></strong>(SYS_FS_Unmount(&quot;/mnt/myDrive&quot;) != 0)
+            {
+                <i><span style="color: #008000">/* The disk could not be unmounted. Try
+                 * unmounting again until success. */</span></i>
+
+                appData.state = APP_STATE_UNMOUNT_DISK;
+            }
+            <strong><span style="color: #000080">else</span></strong>
+            {
+                <i><span style="color: #008000">/* Unmount was successful. Wait for device attach */</span></i>
+                appData.state =  APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+<p class="Element10">
+In the v1.04 USB Host Stack MSD Host Client Driver, the application must use the auto mount feature of the MPLAB Harmony File System. This feature should be enabled when the project is generated via MHC. The application then uses the MPLAB Harmony File System event handler to know when the File System has mounted the attached USB Storage Device. The application does not have to explicitly mount or unmount the drive. This is shown in the following code example.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04422');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04422"><pre class="Element12"><i><span style="color: #008000">/* In v1.04 USB MSD Host Client Driver, the driver uses the auto mount feature
+ * of the MPLAB Harmony File System. The application must make sure that this
+ * feature is enabled when the project is generated using MHC. Note that unlike
+ * previous implement, here the USB Storage device attach detach event appears
+ * as a File System Event. */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_SYSFSEventHandler(SYS_FS_EVENT event, <strong><span style="color: #000080">void</span></strong> * eventData, uintptr_t context)
+{
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> SYS_FS_EVENT_MOUNT:
+
+            <i><span style="color: #008000">/* The file system generates this event when the drive is mounted.
+             * This happens when the USB storage device is connected */</span></i>
+            appData.deviceIsConnected = <strong><span style="color: #000080">true</span></strong>;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> SYS_FS_EVENT_UNMOUNT:
+
+            <i><span style="color: #008000">/* The file system generates this event when the drive is unmounted.
+             * This happens when the USB storage device is disconnected */</span></i>
+            appData.deviceIsConnected = <strong><span style="color: #000080">false</span></strong>;
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}
+
+<i><span style="color: #008000">/* This is the application state machine. Note how the application register the
+ * event handler with the File System before enabling the bus */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <strong><span style="color: #000080">switch</span></strong>(appData.state)
+    {
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_BUS_ENABLE:
+
+            <i><span style="color: #008000">/* Set the event handler and enable the bus */</span></i>
+            SYS_FS_EventHandlerSet(APP_SYSFSEventHandler, (uintptr_t)NULL);
+            USB_HOST_EventHandlerSet(APP_USBHostEventHandler, 0);
+            USB_HOST_BusEnable(0);
+            appData.state = APP_STATE_WAIT_FOR_BUS_ENABLE_COMPLETE;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_BUS_ENABLE_COMPLETE:
+            <strong><span style="color: #000080">if</span></strong>(USB_HOST_BusIsEnabled(0))
+            {
+                appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_DEVICE_ATTACH:
+
+            <i><span style="color: #008000">/* Wait for device attach. The state machine will move
+             * to the next state when the attach event
+             * is received.  */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(appData.deviceIsConnected)
+            {
+                appData.state = APP_STATE_DEVICE_CONNECTED;
+            }
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_DEVICE_CONNECTED:
+
+            <i><span style="color: #008000">/* Device was connected. We can try mounting the disk */</span></i>
+            appData.state = APP_STATE_OPEN_FILE;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_IDLE:
+
+            <i><span style="color: #008000">/* The application reaches here after completing operation and waits
+             * for device detach and if detached, wait for attach. */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(appData.deviceIsConnected == <strong><span style="color: #000080">false</span></strong>)
+            {
+                appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27395.html">USB Host Library</a> &gt; <a href="27398.html">USB Host Library Migration Guide</a> &gt; <a href="27401.html">USB MSD Host Client Driver and SCSI Block Storage Driver</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB HOST MIGRATION MSD and SCSI Drivers Topic Title: USB MSD Host Client Driver and SCSI Block Storage Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

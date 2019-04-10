@@ -1,0 +1,23 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ1024EFM100_WDT
+	bool
+	select HAVE_WDT
+	default y
+
+config WDT_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum WDT_MODULE_ID exclusive
+	"WDT_ID_0"
+
+ifblock PROJECT_STANDALONE
+file PLIB_WDT_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/wdt/processor/wdt_p32mz1024efm100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/wdt/processor/wdt_p32mz1024efm100.h"
+
+file PLIB_WDT_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/wdt/templates/wdt_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/wdt/templates/wdt_EnableControl_Default.h"
+file PLIB_WDT_WINDOWENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/wdt/templates/wdt_WindowEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/wdt/templates/wdt_WindowEnable_Default.h"
+file PLIB_WDT_TIMERCLEAR_WITHKEY_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/wdt/templates/wdt_TimerClear_WithKey.h" to "$PROJECT_HEADER_FILES/framework/peripheral/wdt/templates/wdt_TimerClear_WithKey.h"
+file PLIB_WDT_POSTSCALERVALUE_DEFAULT_1_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/wdt/templates/wdt_PostscalerValue_Default_1.h" to "$PROJECT_HEADER_FILES/framework/peripheral/wdt/templates/wdt_PostscalerValue_Default_1.h"
+file PLIB_WDT_SLEEPMODEPOSTSCALERVALUE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/wdt/templates/wdt_SleepModePostscalerValue_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/wdt/templates/wdt_SleepModePostscalerValue_Unsupported.h"
+endif

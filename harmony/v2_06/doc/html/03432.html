@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>usb_microphone_multirate</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03432.html">usb_microphone_multirate</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03436.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03433.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO usb_microphone_multirate Topic Title: usb_microphone_multirate)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+usb_microphone_multirate</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This demonstration application configures a USB microphone system operating at a 16 kHz sampling rate with 16-bit data.&nbsp;</p>
+<p class="Element10">
+The system will interface to a USB Host (such as a personal computer), which can accommodate a USB device class microphone. The embedded system will enumerate with a USB audio device endpoint and enable the host system to input audio from the USB port at 16 kHz/16-bit stereo using a standard USB Full-Speed implementation.&nbsp;</p>
+<p class="Element10">
+The embedded system will take the data from a microphone via the Codec Driver and send it to the audio USB interface. The Codec Driver sets up the audio output interface, timing, DMA channels and buffer queue to enable a continuous audio stream. The digital audio is received from the Codec through an I2S data channel at 16 kHz via USB to the host computer. The AK4642 Codec is utilized with the PIC33MX470F512L microcontroller on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a>.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The board can also be configured for an external microphone through the 3.5 mm audio jack.&nbsp;</p>
+<p class="Element10">
+This application runs on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a>, which contains a PIC32MX470F512L microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 96 MHz with the following features:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD</li>
+<li class="Element600">Five LEDs</li>
+<li class="Element600">USB Device interfaces</li>
+<li class="Element600">Two X32 sockets, one of which will be used to host a AK4642 Codec module daughter board having both an on-board internal microphone that will be used for the demonstration, and an external microphone input through a 3.5 mm audio jack</li>
+</ul><p class="Element10">
+The PIC32 Bluetooth Audio Development Kit comes with a BTM805 Bluetooth daughter board and an AK4384 Audio DAC daughter board; however, you must replace the AK4384 daughter board with the AK4642 daughter board. The BTM805 daughter board is unused.&nbsp;</p>
+<p class="Element10">
+The following figure shows the application structure and hardware used. The PIC32 device runs all of the application code. </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO usb_microphone_multirate Architecture Diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The interface between the PIC32 and the LCD display is an 8-bit parallel master port (PMP) used for data transfer. The program uses the MPLAB Harmony 2.0 Graphics Library to draw on the screen. The buttons are interfaced using GPIO pins.&nbsp;</p>
+<p class="Element10">
+As with any MPLAB Harmony application, the function <a href="23925.html">SYS_Initialize</a> located in the source file <span class="Element146">system_init.c</span> makes calls to initialize various sub-systems, such as the clock, ports, board support package (BSP), PMP, Codec, timers, UART, graphics, and interrupts. The USB, Codec driver, graphics, and the application state machines are all updated via calls located in the function <a href="24151.html">SYS_Tasks</a> in <span class="Element146">system_tasks.c</span>. Interrupt handlers in the file <span class="Element146">system_interrupt.c</span> are only used for receiving characters from the UART, and for the two timers&nbsp;</p>
+<p class="Element10">
+The AK4642 utilizes one instance of I2S at Port 1, with the I2S module and Codec configured as shown in the following tables. The I2S is configured for bidirectional data flow, however only the SDI1 pin is utilized in order to receive the microphone data. The I2S Parameters Values table shows the parameters being used to generate these clocks and configure the Codec device over I2C. The I2S is set up for 16-bit data per stereo channel data transferred serially using 32 bit framing per channel (the 2 least significant bytes are 0 and ignored by the module). The data is configured as stereo, despite the microphone data being mono with the data duplicated across both 16 kHz channels (left and right). The 16-bit stereo samples are transferred to the memory buffer via DMA Channel 1.&nbsp;</p>
+<p class="Element10">
+The I2S clock values generated by the PIC32 master are derived from the following formulas, starting with the REFCLK0 value (4.096 Mhz) used for the I2S MCLK and the sample rate, Fs (48000 Hz):&nbsp;</p>
+<p class="Element10">
+MCLK = 12288000Hz&nbsp;</p>
+<p class="Element10">
+Fs = 48000&nbsp;</p>
+<p class="Element10">
+NUM_CHANNELS = 2 channels&nbsp;</p>
+<p class="Element10">
+FRAME_SIZE = 32 bits/channel * NUM_CHANNELS&nbsp;</p>
+<p class="Element10">
+BCLK = FRAME_SIZE * Fs&nbsp;</p>
+<p class="Element10">
+LRCK = Fs&nbsp;</p>
+<p class="Element10">
+The codec slave uses the following parameters calculated from the clock values:&nbsp;</p>
+<p class="Element10">
+MCLK_DIV = MCLK/LRCK&nbsp;</p>
+<p class="Element10">
+BCLK_DIV = MCLK/BCLK&nbsp;</p>
+<p class="Element10">
+The table shows the calculated parameters and generated clock rates.&nbsp;</p>
+<p class="Element10">
+<strong>16 kHz Sampling I2S Clock Values</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="13%">
+<div class="Element66">
+I2S Function&nbsp;</div></td><td class="Element65" valign="top" width="19%">
+<div class="Element66">
+Value&nbsp;</div></td><td class="Element65" valign="top" width="68%">
+<div class="Element66">
+Description/PIC32 Pin (Port)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+LRCK&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+48000 Hz&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Sample rate clock /SS1 on pin 69 (RD1)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+BCLK&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+1,536,000 Hz&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Bit rate clock /SCK1 on pin 70 (RD10)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+MCLK&nbsp;</div></td><td class="Element67" valign="top" width="19%">
+<div class="Element68">
+12,288,000 Hz&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Master clock /REFCLK0 on pin 53 (RF8)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>I2S Data Pins</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="14%">
+<div class="Element66">
+PIC32 Name&nbsp;</div></td><td class="Element65" valign="top" width="32%">
+<div class="Element66">
+Description&nbsp;</div></td><td class="Element65" valign="top" width="9%">
+<div class="Element66">
+I2S&nbsp;</div></td><td class="Element65" valign="top" width="46%">
+<div class="Element66">
+PIC32 Bluetooth Audio Development Kit Pin&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="32%">
+<div class="Element68">
+Serial Data In&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="46%">
+<div class="Element68">
+73 (RC13)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+SDO1&nbsp;</div></td><td class="Element67" valign="top" width="32%">
+<div class="Element68">
+Serial Data Out&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="46%">
+<div class="Element68">
+72 (RD0)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>I2S Parameter Values</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="26%">
+<div class="Element66">
+I2S&nbsp;</div></td><td class="Element65" valign="top" width="11%">
+<div class="Element66">
+Value&nbsp;</div></td><td class="Element65" valign="top" width="63%">
+<div class="Element66">
+Description/PIC32 Pin (Port)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+PIC32 Mode&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+HOST&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+AK4642 Mode&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SLAVE&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Controlled by the PIC32&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+MCLK_MULT (mhc)&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+256&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+48 kHz sample rate multiplier for MCLK&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+MCLK_BCLK_RATIO&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+4&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+48 kHz sample rate multiplier for BCLK&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Data Sizes&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+16/16/32&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+16-bit data/16-deep queue/32-bit frame&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Channels&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+Stereo&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+2-channel&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Timing&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+LJ&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Left-justified&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The application uses the USB Library as a &quot;Device&quot; stack, which will connect to a &quot;Host&quot;. It is configured for five USB endpoints with a single function having three interfaces. All of these are defined for a USB Microphone device in the fullSpeedConfigurationDescriptor array variable structure (located in <span class="Element146">system_init.c</span>). This structure defines the connection to the host, with a sample rate of 48 kHz, 16-bit mono channel data. buffer queue of size 2 is used for USB packets of size 482 samples 2 bytes/sample = 192 bytes. This gives a pin-pong buffer arrangement using 2 ms buffers.&nbsp;</p>
+<p class="Element10">
+All MPLAB Harmony applications use the function <a href="23925.html">SYS_Initialize</a> located in the source file <span class="Element146">system_init.c</span> and executed from main to initialize various sub-systems such as the clock, ports, board support package (BSP), PMP, Codec, timers, UART, graphics, and interrupts. The USB, AK4642 driver, graphics, and the application state machines are all updated via calls located in the function <a href="24151.html">SYS_Tasks</a>, executed from the main polling loop, located in <span class="Element146">system_tasks.c</span>.&nbsp;</p>
+<p class="Element10">
+The conversion of the 16 kHz/16-bit stereo buffers from the Codec/I2S to the 48 kHz/16-bit mono buffers requires that one input channel be removed and that the SRC be applied as a 3x upsample on the remaining channel. A single stage upsample filter using the efficient multi-rate linear interpolation FIR structure is used with a 6-tap filter and three phases of 2-taps/phase each (see <strong>Note</strong>). The advantage of this structure is that a single 5th order filter can be used to calculate all three output samples at the 16 kHz input rate. The response of the linear interpolation filter showing the rejection of aliasing artifacts (in red), as shown in the following figure. Other filters (11th order with 3-taps/phase, as shown in blue and green) can be designed the give even greater rejection. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Refer to <i>Multirate Systems and Filter Banks</i> by P. P. Vaidyanathan, Prentice-Hall, 1993. ISBN-13: 978-0136057185; ISBN-10: 0136057187.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO usb_microphone Anti-aliasing.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The application code is contained in the standard source file <span class="Element146">app.c</span>. The application code is initialized in <a href="23925.html">SYS_Initialize</a> using the application APP_Initialize function to instantiate driver objects and start the USB Device interface. The application utilizes a simple state machine (APP_Tasks executed from <a href="24151.html">SYS_Tasks</a>) with the following functions:</p>
+<ul class="Element630">
+<li class="Element600">Sets up the drivers and USB Library interface</li>
+<li class="Element600">Responds to USB Host commands (&quot;USB Record at 48Khz&quot;)</li>
+<li class="Element600">Initiates and maintains the microphone data audio streaming for &quot;USB Record&quot; function.</li>
+</ul><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">Microphone data input using a <a href="04920.html">Audio Codec Daughter Board AK4642EN</a></li>
+<li class="Element600">Sample Rate Conversion using the <a href="16272.html">LibQ Fixed-Point 'C' Math Library</a> to implement an efficient 3x upsampler</li>
+<li class="Element600">USB connection to a host system using the <a href="27320.html">USB Library Device Stack</a></li>
+<li class="Element600">Displaying graphics on the PIC32 Bluetooth Audio Development Kit 220x176 LCD using the <a href="12777.html">MPLAB Harmony Graphics Library</a> and the <a href="17353.html">Parallel Master Port (PMP) Driver Library</a></li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+If building this application from scratch, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project</i>. Select the PIC32MX Bluetooth Audio Development Kit and the configuration name of bt_audio_dk_AK4642. Click the green MPLAB Harmony icon to open the MPLAB Harmony Configurator (MHC).&nbsp;</p>
+<p class="Element10">
+Expand <i>Harmony Configurator Framework &gt; Drivers</i>, and then expand <i>Codec &gt; AK4642</i>. Select <strong>Use AK4642 Driver?</strong> and a sub-menu will appear. For this application the default values will suffice, although volume setting can be adjusted between a -75 dB and +12 dB gain range. The I2S and I2C driver (default to DRV_I2S_INSTANCE_0 and DRV_I2C_INSTANCE_0, respectively) associated to the Codec driver can be configured, as described previously.&nbsp;</p>
+<p class="Element10">
+To use the Graphics Stack Library, under <i>Graphics Stack</i>, select <strong>Use Graphics Stack?</strong>. Further down, under <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <strong>Enable Touch</strong>. Since the board uses the Crystal Fontz 176x220 pixel LCD with the OTM2201A controller the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Under PMP, select <strong>Use PMP Driver?</strong>, which is used for graphics data transfer. Expand that section, and change the value of Strobe Wait Sates to PMP_STROBE_WAIT_4.&nbsp;</p>
+<p class="Element10">
+To use the USB Stack Library, under <i>USB Library</i>, select either <strong>Use USB Stack Under Select Host</strong> or <strong>Device Stack Select Device</strong>. Change the Number of Endpoints Used to 5. Below that select USB Device Instance 0 and under that make Function 1 (matching the fullSpeedConfigurationDescriptor struct in system_init.c: AUDIO Device Class, 3 Interfaces, 2 Audio Streaming interfaces; with a Write Queue Size of 2 (for the ping-pong buffer arrangement) and a Read Queue Size of 2 (not used). The Product ID Selection gives the name shown at the Host, which in this case is &quot;usb_microphone_demo&quot;. A USB Interrupt Priority of 1 is also used. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Do not change the current fullSpeedConfigurationDescriptor values in <span class="Element146">system_init.c</span> when using MHC to generate the project files.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03433.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03434.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03435.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section demonstrates how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03432.html">usb_microphone_multirate</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO usb_microphone_multirate Topic Title: usb_microphone_multirate)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

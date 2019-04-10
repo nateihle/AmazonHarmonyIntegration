@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuring the MHC</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="04854.html">Bluetooth Driver Libraries</a> &gt; <a href="04856.html">BM64 Bluetooth Driver Library</a> &gt; <a href="08405.html">Configuring the MHC</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="13974.html">Previous</a> | <a href="04856.html">Up</a> | <a href="08402.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV BLUETOOTH BM64 Configuring the MHC Topic Title: Configuring the MHC)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuring the MHC</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following figure shows an example MHC configuration for the BM64 Bluetooth Driver. </p><p class="Element10" style="text-align: center;">
+<img src="DRV BLUETOOTH BM64 MHC Configuration.png" border="0" alt="" title=""></p><p class="Element10">
+The option <strong>Include HFP,A2DP,AVRCP protocols?</strong> identifies whether the driver should include the interface to support HFP, A2DP and AVRCP protocols, which by default also brings in the I2S driver and the default codec based on the BSP selected. If you are building a BLE-only application, uncheck this option.&nbsp;</p>
+<p class="Element10">
+The option <strong>Include BLE features?</strong> identifies whether the driver should include BLE functions. If you are not using any BLE functionality, uncheck this option.&nbsp;</p>
+<p class="Element10">
+When <strong>Use BM64 Driver?</strong> is selected, and you have already selected the PIC32 Bluetooth Audio Development Kit (AK4384), the proper configuration for the AK4384, I2S, and Timer will have already been made for you, including:
+<ul class="Element635">
+<li class="Element605">Under Drivers/CODEC,
+<ul class="Element636">
+<li class="Element606">Use_Codec_AK4384 selected</li>
+<li class="Element606">I2S Driver (used for data interface interface) instance set to <a href="10176.html">DRV_I2S_INDEX_1</a></li>
+</ul></li>
+<li class="Element605">Under I2S,
+<ul class="Element636">
+<li class="Element606">Use I2S Driver Selected</li>
+<li class="Element606">DMA Mode Selected</li>
+<li class="Element606">Transmit DMA Support Selected</li>
+<li class="Element606">Receive DMA Support Selected</li>
+<li class="Element606">Enable DMA Channel Interrupts selected</li>
+<li class="Element606">Sampling Rate set to 8000</li>
+</ul></li>
+<li class="Element605">Number of I2S Instances set to 2</li>
+<li class="Element605">I2S Driver Instance 0 selected
+<ul class="Element636">
+<li class="Element606">I2S Module ID set to SPI_ID_2 (BM64 Module as wired on BTADK)</li>
+<li class="Element606">Audio Protocol Mode set to DRV_I2S_AUDIO_I2S</li>
+</ul></li>
+<li class="Element605">I2S Driver Instance 1 selected
+<ul class="Element636">
+<li class="Element606">I2S Module ID set to SPI_ID_1 (AK4384 DAC Module as wired on BTADK)</li>
+<li class="Element606">Audio Protocol Mode set to DRV_I2S_AUDIO_LFET_JUSTIFIED</li>
+</ul></li>
+</ul></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="04854.html">Bluetooth Driver Libraries</a> &gt; <a href="04856.html">BM64 Bluetooth Driver Library</a> &gt; <a href="08405.html">Configuring the MHC</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV BLUETOOTH BM64 Configuring the MHC Topic Title: Configuring the MHC)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="03906.html">SPI Driver Demonstrations</a> &gt; <a href="03913.html">Demonstrations</a> &gt; <a href="03919.html">spi_loopback</a> &gt; <a href="03922.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03921.html">Previous</a> | <a href="03919.html">Up</a> | <a href="03923.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS SPIDRV spi_loopback_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This demonstration shows how to configure and make use of the SPI Driver APIs to support multiple SPI hardware instances to multiple clients of the driver in both interrupt mode and polled mode. This demonstration shows the SPI driver's &quot;multi-instance multi-client&quot; feature.&nbsp;</p>
+<p class="Element10">
+Once the demonstration application is compiled successfully, you are ready to program the firmware in the target device.&nbsp;</p>
+<p class="Element10">
+To run the demonstration in Debug mode, perform the following steps:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Select the appropriate configuration from the MPLAB X IDE Project Properties based on the target hardware.</li>
+<li value="2" class="Element600">Select your device programmer from the Hardware Tool menu in MPLAB X IDE.</li>
+<li value="3" class="Element600">Select either <i>Debug &gt; Debug Main Project</i> or click <strong>Debug Main Project</strong> in the toolbar.</li>
+<li value="4" class="Element600">Build the selected configuration in the MPLAB X IDE project and program the demonstration board.</li>
+</ol><p class="Element10">
+The SPI Driver configures the SPI1 as Master and SPI2 as Slave on the same PIC32 device. The SPI1 and SPI2 lines are connected to each other as described in <a href="03921.html">Configuring the Hardware</a>. The Master sends a chunk of data (64 bytes) to the Slave. The data is sent and received back on the same PIC32 device through the SPI. The data is looped back to the sender.&nbsp;</p>
+<p class="Element10">
+Upon execution of the program, the SPI Master (SPI1) will transmit a sequence of character string/data through the SPI channel using the settings defined in the application to SPI1.&nbsp;</p>
+<p class="Element10">
+After transmitting the data from SPI1, the driver will read SPI2 for any data received. if the data is received, the program will verify the validity of the received data. Based on the verification result, the program will go either to a success or error state.&nbsp;</p>
+<p class="Element10">
+If an error occurs, or if the transmitted data is not the same as the received data, LED2 (Yellow) of the starter kit will illuminate, which indicates the demonstration has failed.&nbsp;</p>
+<p class="Element10">
+If the transmitted data is exactly the same as the received data, LED3 (Green) of the starter kit will illuminate, which indicates the demonstration was successful.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="03906.html">SPI Driver Demonstrations</a> &gt; <a href="03913.html">Demonstrations</a> &gt; <a href="03919.html">spi_loopback</a> &gt; <a href="03922.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS SPIDRV spi_loopback_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

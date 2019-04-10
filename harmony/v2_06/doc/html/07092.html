@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>4.1.2: Interrupt Driven Execution</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07123.html">4.1: Support One or More Execution Environments</a> &gt; <a href="07092.html">4.1.2: Interrupt Driven Execution</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07089.html">Previous</a> | <a href="07123.html">Up</a> | <a href="07100.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Interrupt Driven Execution Topic Title: 4.1.2: Interrupt Driven Execution)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+4.1.2: Interrupt Driven Execution</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Different microcontrollers handle interrupts in different ways. Some support multi-vectored interrupts so that each instance of each device can have its own interrupt vector function. Some microcontrollers only have a single interrupt vector function and the ISR that implements the vector function must interrogate the interrupt controller and/or peripherals to identify which peripheral caused the interrupt. Other microcontrollers do something in between; grouping some interrupts so that the ISR may need to identify which specific flag from a group caused the interrupt.&nbsp;</p>
+<p class="Element10">
+In all cases, the ISR itself is only responsible for identifying the specific source of the interrupt and for calling the appropriate driver tasks function. But, since the exact combination of interrupt-source flags and vector functions is always processor-specific, the actual interrupt vector functions must be implemented as part of the system configuration code. However, the driver’s tasks function is the routine that actually services the peripheral as required and clears the interrupt flag. So, the ISR must call the appropriate tasks function to service the interrupt, as shown in the following example. </p><p class="Element10" style="text-align: center;">
+<strong>Interrupt-Driven Execution</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="COMPGUIDE Interrupt Driven Execution.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+It is preferable that any driver or module that supports interrupt-driven operation supports this mechanism, making it flexible enough to be easily configured for any microcontroller that supports the peripheral in question. However, it is acceptable to embed the ISR vector function into the driver or module’s implementation. But, doing so will likely restrict the driver to only supporting a single instance of a single module on a small set of microcontrollers. So, all resulting restrictions must be clearly and conspicuously documented.&nbsp;</p>
+<p class="Element10">
+Additionally, it is preferable any tasks routine that is designed so that it can be called from an ISR, should also be configurable so that it can be called from a polled loop. At a minimum, testing ISR tasks functions in a polled environment will improve the robustness of the function by ensuring that it correctly handles spurious interrupts (since a polled tasks routine will be called many times when it has no actual task to perform and it must be able to distinguish when it does and does not have anything to do).</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07123.html">4.1: Support One or More Execution Environments</a> &gt; <a href="07092.html">4.1.2: Interrupt Driven Execution</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Interrupt Driven Execution Topic Title: 4.1.2: Interrupt Driven Execution)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

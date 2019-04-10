@@ -1,0 +1,97 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ2064DAA288_DDR
+	bool
+	select HAVE_DDR
+	default y
+
+config DDR_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum DDR_MODULE_ID exclusive
+	"DDR_ID_0"
+
+enum DDR_TARGET
+	"DDR_TARGET_0"
+	|| "DDR_TARGET_1"
+	|| "DDR_TARGET_2"
+	|| "DDR_TARGET_3"
+	|| "DDR_TARGET_4"
+
+enum DDR_PHY_ODT
+	"DDR_PHY_ODT_75_OHM"
+	|| "DDR_PHY_ODT_150_OHM"
+
+enum DDR_PHY_DRIVE_STRENGTH
+	"DDR_PHY_DRIVE_STRENGTH_60"
+	|| "DDR_PHY_DRIVE_STRENGTH_FULL"
+
+enum DDR_PHY_PREAMBLE_DLY
+	"DDR_PHY_PREAMBLE_DLY_2_0"
+	|| "DDR_PHY_PREAMBLE_DLY_1_5"
+	|| "DDR_PHY_PREAMBLE_DLY_1_0"
+
+enum DDR_PHY_SCL_BURST_MODE
+	"DDR_PHY_SCL_BURST_MODE_4"
+	|| "DDR_PHY_SCL_BURST_MODE_8"
+
+enum DDR_PHY_DDR_TYPE
+	"DDR_PHY_DDR_TYPE_DDR2"
+	|| "DDR_PHY_DDR_TYPE_DDR3"
+
+enum DDR_PHY_SCL_DELAY
+	"DDR_PHY_SCL_DELAY_SINGLE"
+	|| "DDR_PHY_SCL_DELAY_DOUBLE"
+
+enum DDR_HOST_CMD_REG
+	"DDR_HOST_CMD_REG_10"
+	|| "DDR_HOST_CMD_REG_11"
+	|| "DDR_HOST_CMD_REG_12"
+	|| "DDR_HOST_CMD_REG_13"
+	|| "DDR_HOST_CMD_REG_14"
+	|| "DDR_HOST_CMD_REG_15"
+	|| "DDR_HOST_CMD_REG_16"
+	|| "DDR_HOST_CMD_REG_17"
+	|| "DDR_HOST_CMD_REG_18"
+	|| "DDR_HOST_CMD_REG_19"
+	|| "DDR_HOST_CMD_REG_110"
+	|| "DDR_HOST_CMD_REG_111"
+	|| "DDR_HOST_CMD_REG_112"
+	|| "DDR_HOST_CMD_REG_113"
+	|| "DDR_HOST_CMD_REG_114"
+	|| "DDR_HOST_CMD_REG_115"
+	|| "DDR_HOST_CMD_REG_20"
+	|| "DDR_HOST_CMD_REG_21"
+	|| "DDR_HOST_CMD_REG_22"
+	|| "DDR_HOST_CMD_REG_23"
+	|| "DDR_HOST_CMD_REG_24"
+	|| "DDR_HOST_CMD_REG_25"
+	|| "DDR_HOST_CMD_REG_26"
+	|| "DDR_HOST_CMD_REG_27"
+	|| "DDR_HOST_CMD_REG_28"
+	|| "DDR_HOST_CMD_REG_29"
+	|| "DDR_HOST_CMD_REG_210"
+	|| "DDR_HOST_CMD_REG_211"
+	|| "DDR_HOST_CMD_REG_212"
+	|| "DDR_HOST_CMD_REG_213"
+	|| "DDR_HOST_CMD_REG_214"
+	|| "DDR_HOST_CMD_REG_215"
+
+ifblock PROJECT_STANDALONE
+file PLIB_DDR_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/processor/ddr_p32mz2064daa288.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/processor/ddr_p32mz2064daa288.h"
+
+file PLIB_DDR_ARBITRATIONCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_ArbitrationControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_ArbitrationControl_Default.h"
+file PLIB_DDR_ADDRESSMAPPING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_AddressMapping_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_AddressMapping_Default.h"
+file PLIB_DDR_REFRESHCONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_RefreshConfig_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_RefreshConfig_Default.h"
+file PLIB_DDR_AUTOPOWERDOWN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_AutoPowerDown_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_AutoPowerDown_Default.h"
+file PLIB_DDR_AUTOSELFREFRESH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_AutoSelfRefresh_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_AutoSelfRefresh_Default.h"
+file PLIB_DDR_AUTOPRECHARGE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_AutoPrecharge_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_AutoPrecharge_Default.h"
+file PLIB_DDR_TIMINGDELAYS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_TimingDelays_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_TimingDelays_Default.h"
+file PLIB_DDR_ODTCONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_ODTConfig_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_ODTConfig_Default.h"
+file PLIB_DDR_DDRCONTROLLERCONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_DDRControllerConfig_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_DDRControllerConfig_Default.h"
+file PLIB_DDR_DDRCOMMANDS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_DDRCommands_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_DDRCommands_Default.h"
+file PLIB_DDR_PHY_PADCONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_PHY_PadConfig_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_PHY_PadConfig_Default.h"
+file PLIB_DDR_PHY_DLLCALIBRATION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_PHY_DLLCalibration_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_PHY_DLLCalibration_Default.h"
+file PLIB_DDR_PHY_SCLCONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ddr/templates/ddr_PHY_SCLConfig_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ddr/templates/ddr_PHY_SCLConfig_Default.h"
+endif

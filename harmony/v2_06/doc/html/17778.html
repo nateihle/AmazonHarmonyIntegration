@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Interrupt Generation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17778.html">Interrupt Generation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17772.html">Previous</a> | <a href="17777.html">Up</a> | <a href="17769.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM Interrupt Generation Topic Title: Interrupt Generation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Interrupt Generation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MCPWM module has two dedicated module-level IRQ signals and one channel-level multiplexed IRQ signal per PWM channel.</p><div class="Element15">
+Module-Level Interrupt Sources:</div>
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Primary Special Event Trigger Interrupt: Post-scaled Primary Special Event Trigger generates an interrupt.</li>
+<li class="Element600">Secondary Special Event Trigger Interrupt: Post-scaled Secondary Special Event Trigger generates an interrupt.</li>
+</ul></p><div class="Element15">
+Module-Level Interrupt Setup</div>
+<p class="Element10">
+Use the following steps to setup primary/secondary special event interrupt.
+<ol class="Element630">
+<li value="1" class="Element600">Enable Primary/Secondary Special event interrupt at MCPWM module-level using <a href="19816.html">PLIB_MCPWM_PrimarySpecialEventTriggerInterruptEnable</a> / <a href="19822.html">PLIB_MCPWM_SecondarySpecialEventTriggerInterruptEnable</a></li>
+<li value="2" class="Element600">Clear the Primary/Secondary Special Event Interrupt Flag at interrupt controller level using <a href="19713.html">PLIB_INT_SourceFlagClear</a></li>
+<li value="3" class="Element600">Set the Primary/Secondary Special Event Interrupt priority using <a href="19721.html">PLIB_INT_VectorPrioritySet</a>.</li>
+<li value="4" class="Element600">Set the Primary/Secondary Special Event Interrupt sub-priority using <a href="19723.html">PLIB_INT_VectorSubPrioritySet</a></li>
+<li value="5" class="Element600">Enable Primary/Secondary Special event interrupt at interrupt controller level using <a href="19712.html">PLIB_INT_SourceEnable</a></li>
+</ol></p><div class="Element15">
+Module-Level Interrupt Service Routine</div>
+<p class="Element10">
+Use the following steps to service the module-level interrupts
+<ol class="Element630">
+<li value="1" class="Element600">Disable the Primary/Secondary Special Event Interrupt at MCPWM module-level using <a href="19815.html">PLIB_MCPWM_PrimarySpecialEventTriggerInterruptDisable</a> / <a href="19821.html">PLIB_MCPWM_SecondarySpecialEventTriggerInterruptDisable</a>.</li>
+<li value="2" class="Element600">Complete the tasks associated with the interrupt.</li>
+<li value="3" class="Element600">Clear the Primary/Secondary Special Event Interrupt Flag at interrupt controller level using <a href="19713.html">PLIB_INT_SourceFlagClear</a>.</li>
+<li value="4" class="Element600">Re-enable the Primary/Secondary Special event interrupt at MCPWM module-level using <a href="19816.html">PLIB_MCPWM_PrimarySpecialEventTriggerInterruptEnable</a> / <a href="19822.html">PLIB_MCPWM_SecondarySpecialEventTriggerInterruptEnable</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02634');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02634"><pre class="Element12"><i><span style="color: #008000">//Interrupt Setup</span></i>
+<i><span style="color: #008000">/*Enable Primary Special Event Interrupt at MCPWM module-level*/</span></i>
+PLIB_MCPWM_PrimarySpecialEventTriggerInterruptEnable(MCPWM_ID_0);
+<i><span style="color: #008000">/*Clear Primary Special Event Interrupt Flag at interrupt controller level*/</span></i>
+PLIB_INT_SourceFlagClear (INT_ID_0, INT_SOURCE_PWM_PRIMARY);
+<i><span style="color: #008000">/*Set Primary Special Event Interrupt Priority = 4*/</span></i>
+PLIB_INT_VectorPrioritySet(INT_ID_0, INT_SOURCE_PWM_PRIMARY, INT_PRIORITY_LEVEL4);
+<i><span style="color: #008000">/*Set Primary Special Event Interrupt Sub-priority = 0*/</span></i>
+PLIB_INT_VectorSubPrioritySet(INT_ID_0, INT_SOURCE_PWM_PRIMARY, INT_SUBPRIORITY_LEVEL0);
+<i><span style="color: #008000">/*Enable Primary Special Event Interrupt at interrupt controller level*/</span></i>
+PLIB_INT_SourceEnable(INT_ID_0, INT_SOURCE_PWM_PRIMARY);
+<i><span style="color: #008000">//Interrupt Service Routine</span></i>
+<strong><span style="color: #000080">void</span></strong> __ISR(_PWM_PRI_VECTOR, ipl4AUTO) _IntHandlerDrvMCPWMPrimarySpecialEvent (<strong><span style="color: #000080">void</span></strong>)
+{
+<i><span style="color: #008000">/*Disable Primary Special Event Trigger Interrupt at MCPWM Module level*/</span></i>
+PLIB_MCPWM_PrimarySpecialEventTriggerInterruptDisable(MCPWM_ID_0);
+<i><span style="color: #008000">/*Complete tasks associated with Primary Special Event Trigger*/</span></i>
+PrimarySpecialEventTriggerTasks();
+<i><span style="color: #008000">/*Clear the Primary Special Event Interrupt Flag at interrupt controller level*/</span></i>
+PLIB_INT_SourceFlagClear (INT_ID_0, INT_SOURCE_PWM_PRIMARY);
+<i><span style="color: #008000">/*Re-enable Primary Special Event Trigger Interrupt at MCPWM module-level*/</span></i>
+PLIB_MCPWM_PrimarySpecialEventTriggerInterruptEnable(MCPWM_ID_0);
+}</pre></div></div>
+<div class="Element15">
+Channel-Level Interrupt Sources:</div>
+<p class="Element10">
+Each PWM Channel has a multiplexed IRQ. Following five channel-level interrupts are multiplexed on a single channel-level IRQ signal:
+<ul class="Element630">
+<li class="Element600">Channel Fault Interrupt: If enabled, generates an interrupt on assertion of fault input.</li>
+<li class="Element600">Channel Current-Limit Interrupt: If enabled, generates an interrupt on assertion of current-limit input.</li>
+<li class="Element600">Channel Trigger Interrupt: If enabled, generates an interrupt on channel trigger event.</li>
+<li class="Element600">Period Reset Interrupt: If enabled, generates an interrupt on PWM period reset.</li>
+<li class="Element600">Period Match Interrupt: If enabled, generates an interrupt on PWM period match.</li>
+</ul></p><div class="Element15">
+Channel-Level Interrupt Setup:</div>
+<p class="Element10">
+Use the following steps to setup channel-level interrupts:
+<ol class="Element630">
+<li value="1" class="Element600">Clear the channel-level interrupt flags of the interrupts used in the applications using their corresponding flag clear PLIB functions as follows:
+<ul class="Element630">
+<li class="Element600"><a href="19737.html">PLIB_MCPWM_ChannelFaultInterruptFlagClear</a> – Clears the channel-level interrupt flag for Fault Interrupt.</li>
+<li class="Element600"><a href="19729.html">PLIB_MCPWM_ChannelCurrentLimitInterruptFlagClear</a> – Clears the channel-level interrupt flag for Current-Limit Interrupt.</li>
+<li class="Element600"><a href="19786.html">PLIB_MCPWM_ChannelTriggerInterruptFlagClear</a> – Clears the channel-level interrupt flag for Trigger Interrupt.</li>
+<li class="Element600"><a href="19760.html">PLIB_MCPWM_ChannelPeriodResetInterruptFlagClear</a> – Clears the channel-level interrupt flag for Period Reset interrupt.</li>
+<li class="Element600"><a href="19755.html">PLIB_MCPWM_ChannelPeriodMatchInterruptFlagClear</a> – Clears the channel-level interrupt flag for Period Match interrupt.</li>
+</ul></li>
+<li value="2" class="Element600">Enable the channel-level interrupts, used in the application, using their corresponding channel-level interrupt enable PLIB functions as follows:
+<ul class="Element630">
+<li class="Element600"><a href="19736.html">PLIB_MCPWM_ChannelFaultInterruptEnable</a> – Enables the channel-level Fault Interrupt.</li>
+<li class="Element600"><a href="19728.html">PLIB_MCPWM_ChannelCurrentLimitInterruptEnable</a> – Enables the channel-level Current-Limit Interrupt.</li>
+<li class="Element600"><a href="19785.html">PLIB_MCPWM_ChannelTriggerInterruptEnable</a> – Enables the channel-level Trigger Interrupt.</li>
+<li class="Element600"><a href="19759.html">PLIB_MCPWM_ChannelPeriodResetInterruptEnable</a> – Enables the channel-level Period Reset Interrupt.</li>
+<li class="Element600"><a href="19754.html">PLIB_MCPWM_ChannelPeriodMatchInterruptEnable</a> – Enables the channel-level Period Match Interrupt.</li>
+</ul></li>
+<li value="3" class="Element600">Clear channel interrupt flag at interrupt controller level using <a href="19713.html">PLIB_INT_SourceFlagClear</a>.</li>
+<li value="4" class="Element600">Set the Channel Interrupt priority using <a href="19721.html">PLIB_INT_VectorPrioritySet</a>.</li>
+<li value="5" class="Element600">Set the Channel Interrupt sub-priority using <a href="19723.html">PLIB_INT_VectorSubPrioritySet</a></li>
+<li value="6" class="Element600">Enable channel interrupt at interrupt controller level using <a href="19712.html">PLIB_INT_SourceEnable</a></li>
+</ol></p><div class="Element15">
+Channel-Level Interrupt Service Routine</div>
+<p class="Element10">
+Use the following steps to service the channel-level interrupts:
+<ol class="Element630">
+<li value="1" class="Element600">1. As 5 channel level interrupts are multiplexed together, it is important to identify the interrupting sources by logically ‘AND’ing their respective interrupt enable status &amp; interrupt flag status using their corresponding PLIB functions listed below:
+<ul class="Element630">
+<li class="Element600"><a href="19738.html">PLIB_MCPWM_ChannelFaultInterruptIsEnabled</a> – Returns ‘true’ if interrupt is enabled.</li>
+<li class="Element600"><a href="19739.html">PLIB_MCPWM_ChannelFaultInterruptIsPending</a> – Returns ‘true’ if interrupt flag is set.</li>
+<li class="Element600"><a href="19730.html">PLIB_MCPWM_ChannelCurrentLimitInterruptIsEnabled</a> – Returns ‘true’ if interrupt is enabled.</li>
+<li class="Element600"><a href="19731.html">PLIB_MCPWM_ChannelCurrentLimitInterruptIsPending</a> – Returns ‘true’ if interrupt flag is set.</li>
+<li class="Element600"><a href="19787.html">PLIB_MCPWM_ChannelTriggerInterruptIsEnabled</a> – Returns ‘true’ if interrupt is enabled.</li>
+<li class="Element600"><a href="19788.html">PLIB_MCPWM_ChannelTriggerInterruptIsPending</a> – Returns ‘true’ if interrupt flag is set.</li>
+<li class="Element600"><a href="19761.html">PLIB_MCPWM_ChannelPeriodResetInterruptIsEnabled</a> – Returns ‘true’ if interrupt is enabled.</li>
+<li class="Element600"><a href="19762.html">PLIB_MCPWM_ChannelPeriodResetInterruptIsPending</a> – Returns ‘true’ if interrupt flag is set.</li>
+<li class="Element600"><a href="19756.html">PLIB_MCPWM_ChannelPeriodMatchInterruptIsEnabled</a> – Returns ‘true’ if interrupt is enabled.</li>
+<li class="Element600"><a href="19757.html">PLIB_MCPWM_ChannelPeriodMatchInterruptIsPending</a> – Returns ‘true’ if interrupt flag is set.</li>
+</ul></li>
+<li value="2" class="Element600">Complete the tasks associated with the corresponding interrupt.</li>
+<li value="3" class="Element600">Clear the channel-level interrupt flags of the serviced interrupt using their corresponding Flag Clear PLIB instructions listed below:
+<ul class="Element630">
+<li class="Element600"><a href="19737.html">PLIB_MCPWM_ChannelFaultInterruptFlagClear</a> – Clears the channel – level status flag of fault interrupt.</li>
+<li class="Element600"><a href="19729.html">PLIB_MCPWM_ChannelCurrentLimitInterruptFlagClear</a> – Clears the channel – level status flag of current-limit interrupt.</li>
+<li class="Element600"><a href="19786.html">PLIB_MCPWM_ChannelTriggerInterruptFlagClear</a> – Clears the channel – level status flag of trigger interrupt.</li>
+<li class="Element600"><a href="19760.html">PLIB_MCPWM_ChannelPeriodResetInterruptFlagClear</a> – Clears the channel – level status flag of Period Reset interrupt.</li>
+<li class="Element600"><a href="19755.html">PLIB_MCPWM_ChannelPeriodMatchInterruptFlagClear</a> – Clears the channel – level status flag of Period Match interrupt.</li>
+</ul></li>
+<li value="4" class="Element600">Clear the channel Interrupt Flag at interrupt controller level using <a href="19713.html">PLIB_INT_SourceFlagClear</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02635');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02635"><pre class="Element12"><i><span style="color: #008000">//Interrupt Setup</span></i>
+<i><span style="color: #008000">/*Clear Fault Interrupt and Trigger Interrupt Flags of PWM Channel 1*/</span></i>
+PLIB_MCPWM_ChannelFaultInterruptFlagClear (MCPWM_ID_0, MCPWM_CHANNEL1);
+PLIB_MCPWM_ChannelTriggerInterruptFlagClear (MCPWM_ID_0, MCPWM_CHANNEL1);
+
+<i><span style="color: #008000">/*Enable Fault and Trigger Interrupts of PWM Channel 1*/</span></i>
+PLIB_MCPWM_ChannelFaultInterruptEnable (MCPWM_ID_0, MCPWM_CHANNEL1);
+PLIB_MCPWM_ChannelTriggerInterruptEnable (MCPWM_ID_0, MCPWM_CHANNEL1);
+
+<i><span style="color: #008000">/*Clear PWM Channel 1 Interrupt Flag at interrupt controller level*/</span></i>
+PLIB_INT_SourceFlagClear (INT_ID_0, INT_SOURCE_PWM1);
+
+<i><span style="color: #008000">/*Set PWM Channel 1 Interrupt Priority = 4*/</span></i>
+PLIB_INT_VectorPrioritySet(INT_ID_0, INT_SOURCE_PWM1, INT_PRIORITY_LEVEL4);
+
+<i><span style="color: #008000">/*Set PWM Channel 1 Interrupt Sub-priority = 0*/</span></i>
+PLIB_INT_VectorSubPrioritySet(INT_ID_0, INT_SOURCE_PWM1, INT_SUBPRIORITY_LEVEL0);
+
+<i><span style="color: #008000">/*Enable PWM Channel 1 Interrupt at interrupt controller level*/</span></i>
+PLIB_INT_SourceEnable(INT_ID_0, INT_SOURCE_PWM1);
+
+<i><span style="color: #008000">//Interrupt Service Routine</span></i>
+<strong><span style="color: #000080">void</span></strong> __ISR(_PWM1_VECTOR, ipl4AUTO) _IntHandlerDrvMCPWMChannelInstanceMCPWM_CHANNEL1(<strong><span style="color: #000080">void</span></strong>)
+{
+<i><span style="color: #008000">/*Identify the channel-level interrupt source and complete the tasks associated with it*/</span></i>
+<i><span style="color: #008000">/*If Fault interrupt is enabled &amp; pending, execute tasks associated with Fault interrupt*/</span></i>
+<strong><span style="color: #000080">if</span></strong>(PLIB_MCPWM_ChannelFaultInterruptIsEnabled(MCPWM_ID_0, MCPWM_CHANNEL1) &amp;&amp; PLIB_MCPWM_ChannelFaultInterruptIsPending(MCPWM_ID_0, MCPWM_CHANNEL1))
+{
+FaultISRTasks(); <i><span style="color: #008000">// Complete tasks associated with Fault Interrupt</span></i>
+<i><span style="color: #008000">/*Clear channel-level Fault Interrupt Flag*/</span></i>
+PLIB_MCPWM_ChannelFaultInterruptFlagClear(MCPWM_ID_0, MCPWM_CHANNEL1);
+}
+<i><span style="color: #008000">/*If Trigger interrupt is enabled &amp; pending, execute tasks associated with Trigger interrupt*/</span></i>
+<strong><span style="color: #000080">if</span></strong>(PLIB_MCPWM_ChannelTriggerInterruptIsEnabled(MCPWM_ID_0, MCPWM_CHANNEL1) &amp;&amp; PLIB_MCPWM_ChannelTriggerInterruptIsPending(MCPWM_ID_0, MCPWM_CHANNEL1))
+{
+TriggerISRTasks(); <i><span style="color: #008000">// Complete tasks associated with Trigger Interrupt</span></i>
+<i><span style="color: #008000">/*Clear channel-level Trigger Interrupt Flag*/</span></i>
+PLIB_MCPWM_ChannelTriggerInterruptFlagClear(MCPWM_ID_0, MCPWM_CHANNEL1);
+}
+<i><span style="color: #008000">/*Clear Channel Interrupt Flag at interrupt controller level*/</span></i>
+PLIB_INT_SourceFlagClear (INT_ID_0, INT_SOURCE_PWM1);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17778.html">Interrupt Generation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM Interrupt Generation Topic Title: Interrupt Generation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

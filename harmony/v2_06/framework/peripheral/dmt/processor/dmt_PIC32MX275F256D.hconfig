@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX275F256D_DMT
+	bool
+	select HAVE_DMT
+	default n
+
+config DMT_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_DMT_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/processor/dmt_p32mx275f256d.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/processor/dmt_p32mx275f256d.h"
+
+endif

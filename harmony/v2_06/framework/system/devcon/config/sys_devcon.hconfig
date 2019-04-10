@@ -1,0 +1,123 @@
+menu "Device Control"
+
+  config USE_SYS_DEVCON
+    bool "Use Device Control System Service?"
+    default y
+    ---help---
+    IDH_HTML_Device_Control_System_Service_Library
+    ---endhelp---
+
+  config SYS_DEVCON_DYNAMIC
+    bool "Use Dynanic Implementation?"
+    default n
+    depends on USE_SYS_DEVCON
+    ---help---
+    IDH_HTML_Device_Control_System_Service_Library
+    ---endhelp---
+
+  enum SYS_DEVCON_JTAGEN_OPT
+     "ON"
+     || "OFF"
+
+  config SYS_DEVCON_USE_JTAG_NEEDED
+    string
+    depends on USE_SYS_DEVCON
+    range SYS_DEVCON_JTAGEN_OPT
+    default "OFF"
+
+  config SYS_DEVCON_USE_JTAG
+    bool "Enable JTAG?"
+    depends on USE_SYS_DEVCON
+    depends on HAVE_JTAG
+    default y if BSP_JTAG
+    default y if SYS_DEVCON_USE_JTAG_NEEDED = "ON"
+    default n
+
+  config SYS_DEVCON_USE_TRACE
+    bool "Enable Trace?"
+    depends on USE_SYS_DEVCON
+    depends on HAVE_TRACE
+    default n
+
+  menu "RTOS Configuration"
+    depends on USE_SYS_DEVCON
+    depends on USE_3RDPARTY_RTOS
+
+    config SYS_DEVCON_RTOS
+      string "Run Library Tasks As"
+      range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+      default "Combined with System Tasks"
+
+    config SYS_DEVCON_RTOS_TASK_SIZE
+      int "Task Size"
+      depends on SYS_DEVCON_RTOS = "Standalone"
+      default 1024
+
+    config SYS_DEVCON_RTOS_TASK_PRIORITY
+      int "Task Priority"
+      depends on SYS_DEVCON_RTOS = "Standalone"
+      default 1
+
+    config SYS_DEVCON_RTOS_USE_DELAY
+      bool "Use Task Delay?"
+      depends on SYS_DEVCON_RTOS = "Standalone"
+      default y
+
+    config SYS_DEVCON_RTOS_DELAY
+      int "Task Delay"
+      depends on SYS_DEVCON_RTOS = "Standalone"
+      depends on SYS_DEVCON_RTOS_USE_DELAY
+      default 1000
+  endmenu
+endmenu
+
+ifblock (USE_SYS_DEVCON)
+
+  add "<#include \"/framework/system/devcon/templates/system_definitions.h.include.ftl\">"  to list SYSTEM_DEFINITIONS_H_INCLUDES
+  add "<#include \"/framework/system/devcon/templates/system_definitions.h.obj.ftl\">"      to list SYSTEM_DEFINITIONS_H_OBJECTS
+  add "<#include \"/framework/system/devcon/templates/system_init.c.data.ftl\">"            to list SYSTEM_INIT_C_MODULE_INITIALIZATION_DATA
+  add "<#include \"/framework/system/devcon/templates/system_init.c.call.ftl\">"            to list SYSTEM_INIT_C_SYS_INITIALIZE_CORE
+
+  ifblock (SYS_DEVCON_DYNAMIC)
+    file SYS_DEVCON_DYN_H "$HARMONY_VERSION_PATH/framework/system/devcon/sys_devcon.h"     to "$PROJECT_HEADER_FILES/framework/system/devcon/sys_devcon.h"
+
+    ifblock (PIC32MK || PIC32MX || PIC32MZ)
+      file SYS_DEVCON_DYN_C "$HARMONY_VERSION_PATH/framework/system/devcon/src/sys_devcon.c" to "$PROJECT_SOURCE_FILES/framework/system/devcon/src/sys_devcon.c"
+      file SYS_DEVCON_DYN_LOCAL_H "$HARMONY_VERSION_PATH/framework/system/devcon/src/sys_devcon_local.h" to "$PROJECT_HEADER_FILES/framework/system/devcon/src/sys_devcon_local.h"
+
+      ifblock (PIC32MK)
+        file SYS_DEVCON_DYN_PIC32MK_C "$HARMONY_VERSION_PATH/framework/system/devcon/src/sys_devcon_pic32mk.c" to "$PROJECT_SOURCE_FILES/framework/system/devcon/src/sys_devcon_pic32mk.c"
+      endif
+      ifblock (PIC32MX)
+        file SYS_DEVCON_DYN_PIC32MX_C "$HARMONY_VERSION_PATH/framework/system/devcon/src/sys_devcon_pic32mx.c" to "$PROJECT_SOURCE_FILES/framework/system/devcon/src/sys_devcon_pic32mx.c"
+      endif
+      ifblock (PIC32MZ)
+        file SYS_DEVCON_DYN_PIC32MZ_C "$HARMONY_VERSION_PATH/framework/system/devcon/src/sys_devcon_pic32mz.c" to "$PROJECT_SOURCE_FILES/framework/system/devcon/src/sys_devcon_pic32mz.c"
+        file SYS_DEVCON_DYN_PIC32MZ_S "$HARMONY_VERSION_PATH/framework/system/devcon/src/sys_devcon_cache_pic32mz.S" to "$PROJECT_SOURCE_FILES/framework/system/devcon/src/sys_devcon_cache_pic32mz.S"
+        file SYS_DEVCON_DYN_PIC32MZ_H "$HARMONY_VERSION_PATH/framework/system/devcon/src/sys_devcon_cache.h" to "$PROJECT_SOURCE_FILES/framework/system/devcon/src/sys_devcon_cache.h"
+      endif
+    endif
+  endif
+
+  ifblock !(SYS_DEVCON_DYNAMIC)
+    template SYS_DEVCON_STAT_H "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/sys_devcon.h"
+
+    ifblock (PIC32MK || PIC32MX || PIC32MZ || PIC32WK)
+      template SYS_DEVCON_STAT_C "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/src/sys_devcon.c"
+      template SYS_DEVCON_STAT_LOCAL_H "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon_local.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/src/sys_devcon_local.h"
+    endif
+
+    ifblock (PIC32MK)
+      template SYS_DEVCON_STAT_PIC32MK_C "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon_pic32mk.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/src/sys_devcon_pic32mk.c"
+    endif
+    ifblock (PIC32MX)
+      template SYS_DEVCON_STAT_PIC32MX_C "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon_pic32mx.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/src/sys_devcon_pic32mx.c"
+    endif
+    ifblock (PIC32MZ)
+      template SYS_DEVCON_STAT_PIC32MZ_C "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon_pic32mz.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/src/sys_devcon_pic32mz.c"
+      template SYS_DEVCON_STAT_PIC32MZ_S "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon_cache_pic32mz.S.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/src/sys_devcon_cache_pic32mz.S"
+      template SYS_DEVCON_STAT_PIC32MZ_H "$HARMONY_VERSION_PATH/framework/system/devcon/templates/sys_devcon_cache.h.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/devcon/src/sys_devcon_cache.h"
+    endif
+  endif
+
+endif # USE_SYS_DEVCON

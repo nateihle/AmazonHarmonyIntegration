@@ -1,0 +1,137 @@
+menu "AR1021"
+
+config USE_DRV_TOUCH_AR1021_NEEDED
+    bool
+
+config USE_DRV_TOUCH_AR1021
+    bool "Use AR1021 Driver?"
+    default n if !USE_DRV_TOUCH_AR1021_NEEDED
+    default y if USE_DRV_TOUCH_AR1021_NEEDED
+    select DRV_SPI_USE_DRIVER_NEEDED
+    select USE_SYS_TOUCH_CALIBRATION
+    ---help---
+    IDH_HTML_AR1021_Touch_Driver_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_TOUCH_AR1021
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_TOUCH_AR1021_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_TOUCH_AR1021_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_TOUCH_AR1021_RTOS = "Standalone"
+    default 1024
+
+config DRV_TOUCH_AR1021_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_TOUCH_AR1021_RTOS = "Standalone"
+    default 1
+
+config DRV_TOUCH_AR1021_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_TOUCH_AR1021_RTOS = "Standalone"
+    default y
+
+config DRV_TOUCH_AR1021_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_TOUCH_AR1021_RTOS = "Standalone"
+    depends on DRV_TOUCH_AR1021_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_AR1021_SPI_INSTANCE
+    int "SPI Instance"
+    depends on USE_DRV_TOUCH_AR1021
+    range 0 0 if DRV_SPI_INSTANCES_NUMBER = 1
+    range 0 1 if DRV_SPI_INSTANCES_NUMBER = 2
+    range 0 2 if DRV_SPI_INSTANCES_NUMBER = 3
+    range 0 3 if DRV_SPI_INSTANCES_NUMBER = 4
+    range 0 4 if DRV_SPI_INSTANCES_NUMBER = 5
+    range 0 5 if DRV_SPI_INSTANCES_NUMBER = 6
+    default 0
+
+config DRV_TOUCH_AR1021_CLIENTS_NUMBER
+    int "Number of Clients"
+    depends on USE_DRV_TOUCH_AR1021
+    default 1
+	
+config DRV_TOUCH_AR1021_REG_TOUCH_THRESHOLD
+    hex "Touch Threshold"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0xc5
+
+config DRV_TOUCH_AR1021_REG_SENSITIVITY_FILTER
+    hex "Sensitivity Filter"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x04
+
+config DRV_TOUCH_AR1021_REG_SAMPLING_FAST
+    hex "Sampling Fast"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x04
+
+config DRV_TOUCH_AR1021_REG_SAMPLING_SLOW
+    hex "Sampling Slow"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x10
+	
+config DRV_TOUCH_AR1021_REG_ACCURACY_FILTER_FAST
+    hex "Accuracy Filter Fast"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x02
+
+config DRV_TOUCH_AR1021_REG_ACCURACY_FILTER_SLOW
+    hex "Accuracy Filter Slow"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x08
+
+config DRV_TOUCH_AR1021_REG_SPEED_THRESHOLD
+    hex "Speed Threshold"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x04
+
+config DRV_TOUCH_AR1021_REG_SLEEP_DELAY
+    hex "Sleep Delay"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x64
+
+config DRV_TOUCH_AR1021_REG_PEN_UP_DELAY
+    hex "Pen Up Delay"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x80
+
+config DRV_TOUCH_AR1021_REG_TOUCH_MODE
+    hex "Touch Mode"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0xb1
+
+config DRV_TOUCH_AR1021_REG_CALIBRATION_INSET
+    hex "Calibration Inset"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0x19
+
+config DRV_TOUCH_AR1021_REG_PEN_STATE_REPORT_DELAY
+    hex "Pen State Report Delay"
+    depends on USE_DRV_TOUCH_AR1021
+    default 0xc8
+
+endmenu
+
+ifblock USE_DRV_TOUCH_AR1021
+
+add "<#include \"/framework/driver/touch/ar1021/config/drv_ar1021.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/touch/ar1021/config/drv_ar1021_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/touch/ar1021/config/drv_ar1021_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/touch/ar1021/config/drv_ar1021.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_AR1021_H "$HARMONY_VERSION_PATH/framework/driver/touch/ar1021/drv_ar1021.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/ar1021/drv_ar1021.h"
+file DRV_AR1021_TOUCH_H "$HARMONY_VERSION_PATH/framework/driver/touch/drv_touch.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/drv_touch.h"
+file DRV_AR1021_C "$HARMONY_VERSION_PATH/framework/driver/touch/ar1021/src/drv_ar1021.c" to "$PROJECT_SOURCE_FILES/framework/driver/touch/ar1021/src/drv_ar1021.c"
+endif
+
+

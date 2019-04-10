@@ -1,0 +1,267 @@
+config IN_TCPIP
+    bool "Enable TCP/IP stack"
+    depends on HAVE_ETH
+    default n
+    ---help---
+         This product is available for license from InterNiche Technologies. http://www.iniche.com
+    ---endhelp---
+
+ifblock IN_TCPIP
+
+enum IN_TCPIP_IF_TYPES
+       "PIC32INT"
+    || "MRF24W"
+    || "PPP"
+
+config IN_TCPIP_IF0
+    depends on IN_TCPIP
+    bool "Network Interface 0"
+    default y
+    source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/network0.hconfig"
+
+
+config IN_TCPIP_IF1
+    depends on IN_TCPIP
+    bool "Network Interface 1"
+    default n
+    source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/network1.hconfig"
+
+
+config IN_TCPIP_IF2
+    depends on IN_TCPIP
+    bool "Network Interface 2"
+    default n
+    source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/network2.hconfig"
+
+
+config IN_TCPIP_IF3
+    depends on IN_TCPIP
+    bool "Network Interface 3"
+    default n
+    source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/network3.hconfig"
+
+config IN_TCPIP_CE_LITE_NEEDED
+bool
+config IN_TCPIP_CE_SSH_NEEDED
+bool
+config IN_TCPIP_CE_SSL_NEEDED
+bool
+config IN_TCPIP_CE_FULL_NEEDED
+bool
+
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/tcpip4.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/tcpip6.hconfig"
+
+
+
+config IN_TCPIP_USE_UDP
+    bool "UDP"
+    depends on IN_TCPIP
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_TCP
+    bool "TCP"
+    depends on IN_TCPIP
+    default y
+    ---help---
+    ---endhelp---
+
+
+config IN_TCPIP_USE_SOCKETS
+    bool "Sockets API"
+    depends on IN_TCPIP_USE_TCP || IN_TCPIP_USE_UDP
+    default y
+    ---help---
+      Berkley sockets API
+    ---endhelp---
+
+config IN_TCPIP_USE_FRAGMENTS
+    bool "Support fragment reassembley"
+    depends on IN_TCPIP
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_MULTICAST
+    bool "Multicast groups"
+    depends on IN_TCPIP
+    default y
+    ---help---
+    ---endhelp---
+
+
+config IN_TCPIP_USE_ROUTING
+    bool "Route between interfaces"
+    depends on IN_TCPIP
+    default y
+    ---help---
+    ---endhelp---
+
+
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/ce-common.hconfig"
+
+config IN_TCPIP_USE_PING
+    bool "PING"
+    depends on IN_TCPIP
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_DNS_NEEDED
+bool
+
+config IN_TCPIP_USE_DNS
+    bool "DNS client"
+    depends on IN_TCPIP
+    default y if IN_TCPIP_USE_DNS_NEEDED
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_DNS_GETADDR_INFO
+    bool "getaddrinfo and getnameinfo"
+    depends on IN_TCPIP_USE_DNS
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_DNS_SRV1
+    depends on IN_TCPIP_USE_DNS
+    string "DNS server"
+    default "0.0.0.0"
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_DNS_SRV2
+    depends on IN_TCPIP_USE_DNS
+    string "DNS server"
+    default "0.0.0.0"
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_DNS_SRV3
+    string "DNS server"
+    depends on IN_TCPIP_USE_DNS
+    default "0.0.0.0"
+    ---help---
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/httpsvr.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/snmpv1.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/snmpv2.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/snmpv3.hconfig"
+
+config IN_TCPIP_USE_DNSC_NEEDED
+   bool
+
+config IN_TCPIP_USE_DNSC
+    bool "DNS resolver"
+    depends on IN_TCPIP_USE_V4
+    default n
+    ---help---
+        DNS resolver
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/dhcpsvr.hconfig"
+
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/ikev2.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/ipsec.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/ssh.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/esmtp.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/ftp.hconfig"
+
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/sntp.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/syslog.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/telnet.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/tftp.hconfig"
+
+menu "System services"
+
+
+config IN_TCPIP_USE_CLI
+    bool "CLI"
+    depends on IN_TCPIP
+    default y
+    ---help---
+      Terminal like access to configuration and status
+    ---endhelp---
+
+config IN_TCPIP_USE_USERTAB
+    bool "user tables"
+    depends on IN_TCPIP
+    default y
+    ---help---
+      Support for user validation in Telnet/FTP/HTTP and others
+    ---endhelp---
+
+config IN_TCPIP_USE_MIBS
+    bool "MIBs"
+    depends on IN_TCPIP
+    default y
+    ---help---
+      Standard MIBs for network and system
+    ---endhelp---
+
+config IN_TCPIP_USE_NETSTATS
+    bool "network stats MIB"
+    depends on IN_TCPIP
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_PRINT_NETSTATS
+    bool "detailed netstats"
+    depends on IN_TCPIP_USE_NETSTATS
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_PROFILER_NEEDED
+    bool
+
+config IN_TCPIP_USE_PROFILER
+    bool "profiler"
+    depends on IN_TCPIP
+    default y if IN_TCPIP_USE_PROFILER_NEEDED
+    default n
+    ---help---
+      Module level profiling
+    ---endhelp---
+
+endmenu
+
+menu "Debug options"
+
+config IN_TCPIP_NPDEBUG
+    bool "debug printf"
+    depends on IN_TCPIP
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_PFDEBUG
+    bool "Packet profile debugging"
+    depends on IN_TCPIP
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_PKTLOG
+    bool "Allow tracing of packet buffers"
+    depends on IN_TCPIP
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_PKTLOG2
+    bool "More detailed tracking"
+    depends on IN_TCPIP_PKTLOG
+    default n
+    ---help---
+    ---endhelp---
+
+endmenu
+endif
+

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Main Program Changes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24810.html">New MPLAB Harmony TCP/IP Stack API Functions</a> &gt; <a href="24796.html">Main Program Changes</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24810.html">Previous</a> | <a href="24810.html">Up</a> | <a href="24804.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING Main Program Changes Topic Title: Main Program Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Main Program Changes</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Main Program Changes</div>
+<p class="Element10">
+There are few changes that the main program loop has to take care of. A full working example is given with the file, <span class="Element146">main_demo.c</span>, which is provided with the stack distribution.&nbsp;</p>
+<p class="Element10">
+The main program should call the following functions:
+<ul class="Element630">
+<li class="Element600"><a href="23925.html">SYS_Initialize</a>() – This function is what initializes the system and runs the Board Support Package (BSP) specific code</li>
+<li class="Element600"><a href="24151.html">SYS_Tasks</a>() – This is the function that takes care of the system tasks and must be called periodically</li>
+<li class="Element600"><a href="26792.html">TCPIP_STACK_Task</a>() – This is the TCP/IP stack tasks function that runs all of the state machines that are part of the TCP/IP stack. This function must be called periodically. Please note the name change.</li>
+</ul>To gain access to a network interface the TCPIP_STACK_NetHandle(&quot;iname&quot;) function should be used. Examples are provided in the previous section.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24810.html">New MPLAB Harmony TCP/IP Stack API Functions</a> &gt; <a href="24796.html">Main Program Changes</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING Main Program Changes Topic Title: Main Program Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>usb_host_headset</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03425.html">usb_host_headset</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03424.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03426.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO usb_host_headset Topic Title: usb_host_headset)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+usb_host_headset</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The demonstration implements a USB Audio 1.0 Host interface to connect the USB headset to a Type A USB connector at 48 kHz sampling rate, and 16-bit stereo data. The source of the audio will be an analog input (LINE-<a href="13954.html">IN</a>) to the codec. If the device is a headset, the USB microphone can also be monitored through the Codec output (HP-<a href="17338.html">OUT</a>).&nbsp;</p>
+<p class="Element10">
+Once attached, the embedded system will detect the USB headset, enumerate the available interfaces, feature units, terminal links, and endpoints, and select an <a href="17338.html">OUT</a> Stream (to the headset) and optionally an <a href="13954.html">IN</a> steam from the microphone. Both streams are sources and synced from/to the codec.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+This application runs on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a>, which contains a PIC32MX270F512L microcontroller with 512 KB of Flash memory and 64 KB of RAM running at 48 MHz, or a PIC32MX470F512L microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 96 MHz using the following hardware:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD using the OTM2201B Controller</li>
+<li class="Element600">USB Host interface using a Type-A connector, which must be selected in place of the USB device interface</li>
+<li class="Element600">Five LEDs</li>
+<li class="Element600">Two X32 sockets, one of which will be used to host a Codec module daughter board. The Codec will be used for the analog audio source to the USB headset through the 3.5 mm audio jack(LINE-<a href="13954.html">IN</a>). The HP out of the Codec DB will be used to monitor the USB Microphone, if available.</li>
+</ul><p class="Element10">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO usb_host_headphone architecture.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The interface between the processor and the LCD display on the PIC32 Bluetooth Audio Development Kit is an 8-bit Parallel Master Port (PMP) used for data transfer of graphics commands implemented by a graphics processor. The program uses the MPLAB Harmony 2.0 Graphics Library to draw on the screen.&nbsp;</p>
+<p class="Element10">
+The Codec utilizes one instance of I2S, with the I2S module and Codec configured, as shown in the following tables. The I2S is configured for bidirectional data flow, using the SDI1 pin for input (unused) and SDO1 for output to the headset jack. <strong>Table 3</strong> provides the parameters being used to generate these clocks, and configure the Codec device (either AK4642 or AK4953) over I2C. Initially, the Codec is set for 16 kHz&nbsp;</p>
+<p class="Element10">
+The I2S is set up for 16-bit data per stereo channel data transferred serially using 32-bit framing per channel (the two least significant bytes are zero and ignored by the module). The data is configured as stereo. The 16-bit stereo samples are transferred to the Codec memory buffer via DMA.&nbsp;</p>
+<p class="Element10">
+<strong>Table 1. 48 kHz Sampling I2S Clock Values</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="18%">
+<div class="Element66">
+I2S Function&nbsp;</div></td><td class="Element65" valign="top" width="28%">
+<div class="Element66">
+Value&nbsp;</div></td><td class="Element65" valign="top" width="54%">
+<div class="Element66">
+Description/PIC32 Pin (Port)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+LRCK&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+48.000000 kHz&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+Sample Rate Clock&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+BCLK&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+3072000 Hz&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+Bit Rate Clock&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+MCLK&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+12.288000&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+Master Clock&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Table 2. I2S Data Pins PIC32MX480F512L (PIC32 Bluetooth Audio Development Kit)</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="18%">
+<div class="Element66">
+PIC32 Name&nbsp;</div></td><td class="Element65" valign="top" width="42%">
+<div class="Element66">
+Description&nbsp;</div></td><td class="Element65" valign="top" width="12%">
+<div class="Element66">
+I2S&nbsp;</div></td><td class="Element65" valign="top" width="28%">
+<div class="Element66">
+PIC32 Pin&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="42%">
+<div class="Element68">
+Serial Data In&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+73 (RC13)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+SD01&nbsp;</div></td><td class="Element67" valign="top" width="42%">
+<div class="Element68">
+Serial Data Out&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+72 (RD0)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+SS1&nbsp;</div></td><td class="Element67" valign="top" width="42%">
+<div class="Element68">
+Bit Clock&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+BCLK&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+69 (RD9)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="42%">
+<div class="Element68">
+Master Clock&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+MCLK&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+70 (RD10)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+REFCLK01&nbsp;</div></td><td class="Element67" valign="top" width="42%">
+<div class="Element68">
+Reference Clock&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+-&nbsp;</div></td><td class="Element67" valign="top" width="28%">
+<div class="Element68">
+53 (RF8)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Table 3. I2S Parameter Values (48 kHz Sampling)</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="26%">
+<div class="Element66">
+I2S&nbsp;</div></td><td class="Element65" valign="top" width="11%">
+<div class="Element66">
+Value&nbsp;</div></td><td class="Element65" valign="top" width="63%">
+<div class="Element66">
+Description/PIC32 Pin (Port)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+PIC32 Mode&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+HOST&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+AK4642 Mode&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SLAVE&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Controlled by the PIC32&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+MCLK_MULT (mhc)&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+512&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Sample rate multiplier for MCLK&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+MCLK_BCLK_RATIO&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+4&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Sample rate multiplier for BCLK&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Data Sizes&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+16/16/32&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+16 bit data/16 deep queue/32 bit frame&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Channels&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+Stereo&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+2-channels&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Timing&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+LJ&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Left Justified&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The application uses the USB Library as a host stack, which accepts the device connection. It is configured for six USB endpoints to account for the <a href="13954.html">IN</a> and <a href="17338.html">OUT</a> audio stream interfaces possibly requiring three endpoints (0-bandwidth, audio stream, and control).&nbsp;</p>
+<p class="Element10">
+When the USB headset is attached to the Type-A connector, the device enumeration process is executed by the application, where the device will transmit descriptors describing its function and the host application identifies the available functions. The USB headset will send a v1.0 USB device descriptor to the USB host that must contain an <a href="17338.html">OUT</a> audio stream. It will also send a descriptor for an <a href="13954.html">IN</a> Audio stream if it is a full headset and not just a headset.&nbsp;</p>
+<p class="Element10">
+The <a href="17338.html">OUT</a> stream format can be identified in the device enumeration process, as shown in the following: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00011');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00011"><pre class="Element12"><strong><span style="color: #000080">const</span></strong> APP_USB_HOST_AUDIO_STREAM_FORMAT audioSpeakerStreamFormat =
+{
+ .streamDirection = USB_HOST_AUDIO_V1_DIRECTION_OUT,
+ .format = USB_AUDIO_FORMAT_PCM,
+ .nChannels = 2,
+ .bitResolution = 16,
+ .subFrameSize = 2,
+ .samplingRate = AUDIO_SAMPLING_RATE
+};</pre></div></div>
+<p class="Element10">
+This indicates a stereo (2-channel) stream (nChannels) in the out direction from the host (streamDirection), with 16 bits per channel (bitResolution in bits), with a framing of 16 bits (subFrameSize * 2 bytes) at the AUDIO_SAMPLING_RATE, which is fixed for this application at 48000 Hz. The <a href="13954.html">IN</a> stream used for the USB microphone data uses the same format except for the streamDirection.&nbsp;</p>
+<p class="Element10">
+The enumerated device descriptor will contain a descriptor that can accept the required 48000 Hz sampling rate. Two forms of the descriptor are possible. The discrete frequency format is shown in the following table.&nbsp;</p>
+<p class="Element10">
+<strong>Table 4: Audio Streaming Format Type Descriptor</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="69%">
+<div class="Element66">
+Descriptor Name&nbsp;</div></td><td class="Element65" valign="top" width="31%">
+<div class="Element66">
+Value&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bLength&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x0E&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bDescriptorType&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x24&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bDescriptorSubtype&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x02&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bFormatType&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x01&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bNrChannels&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x02&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bSubframeSize&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x02&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bBitResolution&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x10&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+bSamFreqType&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x01&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="69%">
+<div class="Element68">
+tSamFreq&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0x00BB80 (48000 Hz)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Where bSamFreqType gives the number of discrete values in the tSamFreq array, of which there is only one value given here (48000 Hz). Note that the bNrChannels, bBitResolution, and the bSubframeSize also match the usable stream values.&nbsp;</p>
+<p class="Element10">
+The second form of the descriptor gives a continuous range of frequencies, as shown in the following table.&nbsp;</p>
+<p class="Element10">
+<strong>Table 5: Audio Streaming Format Type Descriptor</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="66%">
+<div class="Element66">
+Descriptor Name&nbsp;</div></td><td class="Element65" valign="top" width="34%">
+<div class="Element66">
+Value&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bLength&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x0E&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bDescriptorType&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x24&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bDescriptorSubtype&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x02&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bFormatType&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x01&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bNrChannels&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x02&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bSubframeSize&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x02&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bBitResolution&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x10&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+bSamFreqType&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x00&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+tLowerSamFreq&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x001F40 (8000 Hz)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+tUpperSamFreq&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+0x00BB80 (48000 Hz)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The bSamFreqType is '0' which indicates the next two 24 bit values give a frequency range of 8000 Hz to 48000 Hz. Again this audio interface descriptor describes a usable stream interface.&nbsp;</p>
+<p class="Element10">
+The USB full speed interface uses a 1 ms packet size for audio streaming. This requires that the USB packet size is set to 48000 Hz/1000 ms/sec * 2 channels/sample * 2 bytes/channel= 192 bytes. This should match the wMaxPacketSize parameter in the Endpoint descriptor for the interface.</p><div class="Element15">
+Software Structure</div>
+<p class="Element10">
+All MPLAB Harmony applications use the function <a href="23925.html">SYS_Initialize</a> located in the source file <span class="Element146">system_init.c</span> and executed from the main function to initialize various subsystems such as the clock, ports, Board Support Package (BSP), PMP, Codec, timers, graphics, and interrupts. The USB, AK4642 driver, graphics, and the application state machines are all updated via calls located in the function <a href="24151.html">SYS_Tasks</a>, executed from the main polling loop, located in <span class="Element146">system_tasks.c.</span>&nbsp;</p>
+<p class="Element10">
+The application code is contained in the standard source file <span class="Element146">app.c</span>. The application code is initialized in <a href="23925.html">SYS_Initialize</a> using the application APP_Initialize function to instantiate driver objects and start the USB Device interface. The application utilizes a simple state machine (APP_Tasks executed from <a href="24151.html">SYS_Tasks</a>) with the following functions:</p>
+<ul class="Element630">
+<li class="Element600">Setup the device peripheral drivers and USB Library interface</li>
+<li class="Element600">Responses to USB host stream requests (&quot;Initiate stream interface completed,&quot; “Change stream sample rate completed,&quot; “Read packet received,&quot; and “Write packet sent”</li>
+<li class="Element600">Responses to USB host control requests</li>
+<li class="Element600">The Data buffer completes from the codec read and write buffer DMA complete interrupts, used to initiate USB buffer read and write requests</li>
+</ul><p class="Element10">
+The USB interface uses a separate host and device data timing. Buffering between the Codec reads from LINE-<a href="17338.html">OUT</a> to USB <a href="17338.html">OUT</a> stream writes uses a ping-pong buffer arrangement, which is allowable since clock domain mismatches generating buffer underflow and overflow will be mitigated as the USB device. The USB host receiving the USB <a href="13954.html">IN</a> stream must mitigate underflow and overflow problems to the Codec, which is done by using a packet buffer queue. A queue length of 64 eliminates most of the dropouts due to packet underflow.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">USB headset playback using the AK4642 Codec Daughter Board LINE-<a href="13954.html">IN</a> analog audio source</li>
+<li class="Element600">USB headset microphone monitoring using the AK4642 Codec Daughter Board HP-<a href="17338.html">OUT</a></li>
+<li class="Element600">USB connection to a USB audio device using the <a href="27294.html">MPLAB Harmony USB Library Host Stack</a></li>
+<li class="Element600">Displaying graphics on the BTADK 220x176 LCD using <a href="07412.html">MPLAB Harmony Graphics Library</a> and <a href="17353.html">PMP</a> interface to OTM0221B Graphics Controller</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+<i>PIC32MX470F512L on PIC32 Bluetooth Audio Development Kit with AK4642 Configuration</i>&nbsp;</p>
+<p class="Element10">
+If building this application from scratch, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project dialog</i>. Select PIC32MX Bluetooth Audio Development Kit and a configuration name, such as pic32mx270f512l_pim_btadk_ak4642, indicating the processor, the board and the Codec Daughter Board. Click the MPLAB Harmony icon to open the MPLAB Harmony Configurator (MHC). When using a PIM, select the board with the associated PIM, after selecting the device: <i>PIC32MX270F512L</i>.&nbsp;</p>
+<p class="Element10">
+Open the <i>Harmony Configurator Framework &gt; Drivers</i> section, and then expand <i>Codec &gt;</i>. Then, select the required <i>Codec/DAC Driver?**</i> and a sub-menu will appear. For this application, the default values will suffice, except for the following:</p>
+<ul class="Element630">
+<li class="Element600">The volume setting can be adjusted between a -75 dB and +12 dB gain range</li>
+<li class="Element600">The number of clients should be 2, to accommodate a read and a write client</li>
+</ul><p class="Element10">
+Expand the I2S, the <i>Use I2S Driver?</i> option should be selected. The driver callbacks require <i>Transmit DMA Support</i> (for the write client), <i>Receive DMA Support</i> (for the read client). This automatically selects Enable DMA Channel Interrupts for the callback when the buffer transfer has completed. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The AK4953 driver is also used for the AK4954 Codec.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+To use the Graphics Stack Library, within <i>Graphics Stack</i>, select <i>Use Graphics Stack?</i>. Further down, within <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <i>Enable Touch</i>. Since the board uses the Crystal Fontz 176x220 pixel LCD with the OTM2201A Graphics Controller the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Within <i>PMP</i>, select <i>Use PMP Driver?</i> This is used for graphics data transfer. Expand that section, and change the value of <i>Strobe Wait Sates</i> to <i>PMP_STROBE_WAIT_4</i>.&nbsp;</p>
+<p class="Element10">
+To use the USB Stack Library, within <i>USB Library</i>, select<i> Use USB Stack Under Select Host</i> or <i>Device Stack Select Host</i>. Change the <i>Number of Endpoints Used</i> to 6&quot; and also select <i>Use Audio v1.0 Host Client Driver</i>. The number of <i>AUDIO v1.0 Streaming Interfaces</i> is 2 (<a href="13954.html">IN</a> and <a href="17338.html">OUT</a> streaming). The Number of <i>Audio V1.0 Sampling Frequencies</i> is 0 since the application overrides the driver and accepts all the frequencies given by the device audio stream descriptor and ignores this value.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03426.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name, location,lists and descriptions for the available configurations of the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03427.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03428.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section demonstrates how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03425.html">usb_host_headset</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO usb_host_headset Topic Title: usb_host_headset)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

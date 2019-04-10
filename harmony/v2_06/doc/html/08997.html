@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Using the Library</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="28685.html">WINC1500 Socket Mode Driver Library</a> &gt; <a href="08997.html">Using the Library</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08994.html">Previous</a> | <a href="28685.html">Up</a> | <a href="08987.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 SOCKET MODE Using the Library Topic Title: Using the Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Using the Library</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The WINC1500 Socket Mode Driver Library implements the MPLAB Harmony device driver and communicates with the WINC1500 Host Driver Software to access and control the external WINC1500 module which firmware consists of the following key features:
+<ul class="Element636">
+<li class="Element606">Wi-Fi IEEE 802.11 b/g/n STA, AP, and Wi-Fi Direct® modes</li>
+<li class="Element606">Wi-Fi Protected Setup (WPS)</li>
+<li class="Element606">Support of WEP, WPA/WPA2 personal, and WPA/WPA2 Enterprise security</li>
+<li class="Element606">Embedded network stack protocols</li>
+<li class="Element606">Embedded TCP/IP stack with BSD-style socket API</li>
+<li class="Element606">Embedded network protocols – DHCP client/server – DNS resolver client – SNTP client for UTC time synchronization</li>
+<li class="Element606">Embedded TLS security abstracted behind BSD-style socket API</li>
+<li class="Element606">HTTP Server for provisioning over AP mode</li>
+<li class="Element606">8 MB internal Flash memory with OTA firmware upgrade</li>
+<li class="Element606">Low power consumption with different power saving modes</li>
+<li class="Element606">SPI, I2C, and UART support</li>
+</ul>The WINC1500 Host Driver Software is a C library which provides the host MCU application with necessary APIs to perform necessary WLAN and socket operations. The architecture of the WINC1500 Host Driver Software which runs on the host MCU is shown below, and the components of the host driver are described in the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="DRV WINC1500 SOCKET MODE Host Driver Software Diagram.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>WLAN Application Interface API</strong>&nbsp;</p>
+<p class="Element10">
+This module provides an interface to the application for all Wi-Fi operations and any non-IP related operations. This includes the following services:
+<ul class="Element636">
+<li class="Element606">Wi-Fi STA management operations</li>
+<li class="Element606">Wi-Fi Scan</li>
+<li class="Element606">Wi-Fi Connection management (Connect, Disconnect, Connection status, etc.) – WPS activation/deactivation</li>
+<li class="Element606">Wi-Fi AP enable/disable</li>
+<li class="Element606">Wi-Fi Direct enable/disable</li>
+<li class="Element606">Wi-Fi power save control API</li>
+<li class="Element606">Wi-Fi monitoring (Sniffer) mode</li>
+</ul>This interface is defined in the file: m2m_wifi.h.&nbsp;</p>
+<p class="Element10">
+<strong>Socket API</strong>&nbsp;</p>
+<p class="Element10">
+This module provides the socket communication APIs that are mostly compliant with the well-known BSD sockets. To comply with the nature of MCU application environment, there are differences in API prototypes and in usage of some APIs between WINC1500 sockets and BSD sockets.&nbsp;</p>
+<p class="Element10">
+This interface is defined in the file: socket.h.&nbsp;</p>
+<p class="Element10">
+<strong>Host Interface (HIF)</strong>&nbsp;</p>
+<p class="Element10">
+The Host Interface is responsible for handling the communication between the host driver and the WINC1500 firmware. This includes interrupt handling, DMA and HIF command/response management. The host driver communicates with the firmware in a form of commands and responses formatted by the HIF layer.&nbsp;</p>
+<p class="Element10">
+The interface is defined in the file: m2m_hif.h.&nbsp;</p>
+<p class="Element10">
+<strong>Board Support Package (BSP)</strong>&nbsp;</p>
+<p class="Element10">
+The Board Support Package abstracts the functionality of a specific host MCU platform. This allows the driver to be portable to a wide range of hardware and hosts. Abstraction includes: pin assignment, power on/off sequence, reset sequence and peripheral definitions (Push buttons, LEDs…etc.).&nbsp;</p>
+<p class="Element10">
+The minimum required BSP functionality is defined in the file: nm_bsp.h.&nbsp;</p>
+<p class="Element10">
+<strong>Serial Bus Interface</strong>&nbsp;</p>
+<p class="Element10">
+The Serial Bus Interface module abstracts the hardware associated with implementing the bus between the Host and the WINC1500. The serial bus interface abstracts I2C, SPI, or UART bus interface. The basic bus access operations (Read and Write) are implemented in this module as appropriate for the interface type and the specific hardware.&nbsp;</p>
+<p class="Element10">
+The bus interface APIs are defined in the file: nm_bus_wrapper.h.&nbsp;</p>
+<p class="Element10">
+<strong>Using the WINC1500 Socket Mode Driver Library</strong>&nbsp;</p>
+<p class="Element10">
+The interface to the WINC1500 Socket Driver Library is defined in these header files:
+<ul class="Element636">
+<li class="Element606"><a href="28671.html">wdrv_winc1500_api.h</a></li>
+<li class="Element606"><a href="28673.html">wdrv_winc1500_stub.h</a></li>
+</ul>Any C language source (.c) file that uses the WINC1500 Socket Mode Driver library should include both <a href="28671.html">wdrv_winc1500_api.h</a> and <a href="28673.html">wdrv_winc1500_stub.h</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Abstraction of the WINC1500 Wi-Fi Application</strong>&nbsp;</p>
+<p class="Element10">
+The major blocks of software comprise of a WINC1500 Wi-Fi application are listed and described in the following table. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="11%">
+<div class="Element66">
+Software Block&nbsp;</div></td><td class="Element65" valign="top" width="89%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+Application Software&nbsp;</div></td><td class="Element67" valign="top" width="89%">
+<div class="Element68">
+This is the application code. Note that three event handlers (OTA, Socket, and Wi-Fi) are part of this block. The event handlers contain callback functions that the driver calls and the application processes.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+WINC1500 Socket Mode Driver&nbsp;</div></td><td class="Element67" valign="top" width="89%">
+<div class="Element68">
+This is the WINC1500 Socket Mode driver. The driver API and Stub functions provide application software with setup for the SPI interface between the host MCU and the external WINC1500 module, and provide application software with control and socket data services to the external WINC1500 module via the WINC1500 Host Software Driver.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+WINC1500 Socket Mode Driver Stub Functions&nbsp;</div></td><td class="Element67" valign="top" width="89%">
+<div class="Element68">
+The driver Stub functions provide application software with control to the PIC32 MCU hardware blocks (SPI, EXT_INT, Timer, GPIO, I2C) for configuration of Host PIC32 MCU specific hardware and event handling:
+<ul class="Element636">
+<li class="Element606">SPI Interface</li>
+<li class="Element606">GPIO control</li>
+<li class="Element606">Timer</li>
+<li class="Element606">Interrupt from WINC1500</li>
+<li class="Element606">Wi-Fi, TPC/IP socket, and OTA event handling</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+WINC1500 Socket Mode Driver API Functions&nbsp;</div></td><td class="Element67" valign="top" width="89%">
+<div class="Element68">
+The driver Ext functions provide application software access to the driver’s system interface for initialize and de-initialize of the driver, as well as setting up the driver hardware interrupt handler and the WINC1500 interrupt service routine.<br>Note: Not all API functions are used in the socket mode driver library. Only these four API functions are used:
+<ul class="Element636">
+<li class="Element606"><a href="28624.html">WDRV_EXT_Initialize</a></li>
+<li class="Element606"><a href="28622.html">WDRV_EXT_Deinitialize</a></li>
+<li class="Element606"><a href="28623.html">WDRV_EXT_HWInterruptHandler</a></li>
+<li class="Element606"><a href="28672.html">WDRV_WINC1500_ISR</a></li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="11%">
+<div class="Element68">
+WINC1500 Host Software Driver APIs&nbsp;</div></td><td class="Element67" valign="top" width="89%">
+<div class="Element68">
+The WINC1500 Host Software Driver provides the host MCU application with necessary APIs to perform necessary WLAN and BSD socket operations by offloading these operations to the WINC1500 module firmware. See Section 3 for details of these APIs.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="08987.html">Abstraction Model</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This library provides a low-level abstraction of the WINC1500 Wi-Fi module with a convenient C language interface. This topic describes how that abstraction is modeled in software and introduces the library's interface.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="08996.html">Library Overview</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Refer to the <a href="08264.html">Driver Library Overview</a> section for information on how the driver operates in a system.<br><span style="color: #000000">The </span><a href="08995.html">Library Interface</a><span style="color: #000000"> functions are divided into various sub-sections, which address one of the blocks or the overall operation of the WINC1500 Socket Mode Driver Library.</span> &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="08993.html">How the Library Works</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how the WINC1500 Socket Mode Driver Library operates.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="28685.html">WINC1500 Socket Mode Driver Library</a> &gt; <a href="08997.html">Using the Library</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 SOCKET MODE Using the Library Topic Title: Using the Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

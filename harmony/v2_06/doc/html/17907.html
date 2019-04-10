@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Porting Procedure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17905.html">Peripheral Library Porting Example</a> &gt; <a href="17907.html">Porting Procedure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17906.html">Previous</a> | <a href="17905.html">Up</a> | <a href="02681.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTING USART Porting Setup Topic Title: Porting Procedure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Porting Procedure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>Step 1:</strong> Install the latest version of MPLAB Harmony. Throughout this porting guide, it is assumed that MPLAB Harmony is installed in its default location: <span class="Element146">C:/microchip/harmony/&lt;version&gt;</span>. The <span class="Element146">&lt;version&gt;</span> folder is assumed to be the root directory and all further steps will be explained relative to this root folder.&nbsp;</p>
+<p class="Element10">
+<strong>Step 2:</strong> Open MPLAB X IDE.&nbsp;</p>
+<p class="Element10">
+<strong>Step 3:</strong> Since the project will be created using the MHC, ensure that the MHC plug-in has been installed in MPLAB X IDE. You can verify the installation by selecting Tools &gt; Embedded. If MHC is installed, you will see MPLAB Harmony Configurator is available as an option. Refer to <a href="04266.html">Installing a Plug-in Module</a> for information on installing the plug-in.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING MHC menu selection.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 4:</strong> Select <i>File &gt; New Project</i> or click the New Project icon in MPLAB X IDE. In Categories, select <strong>Microchip Embedded</strong> and in Projects select <strong>MPLAB Harmony Project</strong> from the list of available project templates, and then click <strong>Next </strong>to launch the Microchip Harmony Configurator Project Wizard.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING New Project Dialog.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 5:</strong> Specify the following in the New Project dialog:
+<ul class="Element636">
+<li class="Element606">Project Location: <span class="Element146">&lt;install-dir&gt;/apps/examples/peripheral/usart</span>
+<ul class="Element637">
+<li class="Element607">Project Name: uart_basic</li>
+<li class="Element607">Configuration Name: pic32mx795_pim_e16</li>
+<li class="Element607">Target Device of PIC32MX795F512L</li>
+</ul></li>
+</ul><img src="PLIB PORTING New Project Dialog Completed.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 6:</strong> Once the project is created, the configuration name will be set as &quot;pic32mx795_pim_e16&quot;, as shown in the following figure.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING configuration verification.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 7:</strong> In the MPLAB Harmony Configurator tab, click <strong>Configuration</strong>.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING configuration button selection.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+The Configuration Management dialog appears, which lists the folder path where the default configurator file (<span class="Element146">.mhc</span>) will be saved. It is recommended not to modify the default path. Click <strong>Save</strong> to continue.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING configuration management dialog.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 8:</strong> In the MPLAB Harmony Configuration tab, configure the Device Configuration, Harmony Framework Configuration and BSP Configuration by selecting appropriate items from each drop down menu.
+<ul class="Element636">
+<li class="Element606">Device Configuration: Since the controller should be running at 80 MHz with an 8 MHz external crystal, the configuration bits are set from the drop down menu, as shown in the following figure</li>
+</ul><img src="PLIB PORTING Device Configuration.png" border="0" alt="" title="">
+<ul class="Element636">
+<li class="Element606">Harmony Framework Configuration: To enabler use of the UART Peripheral Library, the UART driver should be selected in the STATIC configuration in Interrupt mode, as shown in the following figure</li>
+</ul><img src="PLIB PORTING Harmony Framework Configuration.png" border="0" alt="" title="">
+<ul class="Element636">
+<li class="Element606">UART Configuration: Configure the UART2 with baud rate set to 9600, and interrupt enabled only for RX and Error. Also, set the other UART parameters, as shown in the following figure.</li>
+</ul><img src="PLIB PORTING UART Configuration.png" border="0" alt="" title="">
+<ul class="Element636">
+<li class="Element606">BSP Configuration: Configure the BSP to use the PIC32MX795F512L and Explorer 16 Development Board, as shown in the following figure</li>
+</ul><img src="PLIB PORTING BSP Configuration.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 9:</strong> Click <strong>Generate</strong>. Since, the configurations were modified from the default values, MHC will ask whether or not the new configuration setting file (<span class="Element146">.mhc</span>) should be saved. Click <strong>Save</strong> to continue.&nbsp;</p>
+<p class="Element10">
+<strong>Step 10:</strong> Click <strong>Generate</strong>. Once the files are generated, the header, source, and library files will be added to the <span class="Element146">uart_basic</span> project. The explanation of each logical folder is as follows:
+<ul class="Element636">
+<li class="Element606"><span class="Element146">app</span> – Contains all application specific source files</li>
+<li class="Element606"><span class="Element146">bsp</span> – Contains all board specific source files</li>
+<li class="Element606"><span class="Element146">framework</span> – Contains all framework files from MPLAB Harmony</li>
+<li class="Element606"><span class="Element146">system_config</span> – Contains the system and application configuration, initialization, and Interrupt Service Routine (ISR)</li>
+</ul><img src="PLIB PORTING USART Project Folder Structure.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 11:</strong> At this point in the process, the <span class="Element146">system_init.c</span> file will have functions/code to initialize the device clock and initialize the UART2. The code will be consistent to the settings previously done with MHC in <strong>Step 8</strong>.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING USART Project system_init screens.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 12:</strong> Since the LEDs on the Explorer 16 Development Board are controlled by pins of PIC32MX795F512L device, which are shared with the JTAG function, JTAG should be disabled by manually adding the <a href="18848.html">PLIB_DEVCON_JTAGPortDisable</a> function in <span class="Element146">system_init.c</span>. In addition, manually add the functions to set Multi-vector mode (<a href="19698.html">PLIB_INT_MultiVectorSelect</a>) and enable interrupt (<a href="19677.html">PLIB_INT_Enable</a>). &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01408');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01408"><pre class="Element12"><i><span style="color: #008000">/* Initialize System Services */</span></i>
+PLIB_DEVCON_JTAGPortDisable(DEVCON_ID_0);
+
+<i><span style="color: #008000">/* Enable multi-vectored interrupts, enable the generation of interrupts to the CPU */</span></i>
+PLIB_INT_MultiVectorSelect(INT_ID_0);
+PLIB_INT_Enable(INT_ID_0);</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project system_init JTAG code.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 13:</strong> In the ISR function of the <span class="Element146">system_interrupt.c</span> file, add code to echo back the received character. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01409');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01409"><pre class="Element12"> <i><span style="color: #008000">/* Make sure receive buffer has data available */</span></i>
+    <strong><span style="color: #000080">if</span></strong> (PLIB_USART_ReceiverDataIsAvailable(USART_ID_2))
+    {
+        <i><span style="color: #008000">/* Get the data from the buffer */</span></i>
+        appData.data = PLIB_USART_ReceiverByteReceive(USART_ID_2);
+    }
+
+    appData.InterruptFlag = <strong><span style="color: #000080">true</span></strong>;
+;</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project system_interrupt changes.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 14:</strong> In the file <span class="Element146">app.h</span>, define the application-specific members of the APP_STATES enumeration. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01410');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01410"><pre class="Element12"> <i><span style="color: #008000">/* USART Enable State */</span></i>
+    USART_ENABLE,
+
+ <i><span style="color: #008000">/* USART Transmit First string */</span></i>
+    USART_TRANSMIT_FIRST_STRING,
+
+ <i><span style="color: #008000">/* USART Transmit Second string */</span></i>
+    USART_TRANSMIT_SECOND_STRING,
+
+ <i><span style="color: #008000">/* USART Receive State */</span></i>
+    USART_RECEIVE_DONE</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project app.h changes.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 15:</strong> For APP_DATA structure, define three variables. The first variable is of type Boolean to act as a flag for interrupt indication, the second pointer variable will hold the address of the string that needs to be transmitted to the UART, and the third variable will hold the data received from the UART. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01411');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01411"><pre class="Element12"><strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong> *stringPointer;
+<strong><span style="color: #000080">char</span></strong> data;
+<strong><span style="color: #000080">bool</span></strong> InterruptFlag;</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project app.h boolean.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 16:</strong> Towards the end of the file, insert the prototype declaration for two functions: PutCharacter and WriteString. These functions will later be added to <span class="Element146">app.c</span> (in <strong>Step 20</strong>). Also, declare the <span class="Element146">extern APP_DATA appData</span>, so that the appData variable is available across the project. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01412');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01412"><pre class="Element12"><strong><span style="color: #000080">bool</span></strong> PutCharacter(<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong> character);
+
+<strong><span style="color: #000080">bool</span></strong> WriteString(<strong><span style="color: #000080">void</span></strong>);
+
+<strong><span style="color: #000080">extern</span></strong> APP_DATA appData;</pre></div></div>
+<p class="Element10">
+<strong>Step 17:</strong> In the APP_Initialize of the <span class="Element146">app.c</span> file, add code to set the initial state of application. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01413');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01413"><pre class="Element12">    <i><span style="color: #008000">/* Place the App state machine in its initial state. */</span></i>
+    appData.state = USART_ENABLE;
+    appData.InterruptFlag = <strong><span style="color: #000080">false</span></strong>;</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project app.c changes.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 18:</strong> Declare two global strings: string1 and string2. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01414');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01414"><pre class="Element12"><strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong> *string1 = &quot;*** UART Interrupt-driven Application Example ***\r\n&quot;;
+<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong> *string2 = &quot;*** Type some characters and observe the LED turn ON ***\r\n&quot;;</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project app.c strings.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 19:</strong> Next, add application-specific code to the APP_Tasks function. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01415');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01415"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* check the application state*/</span></i>
+    <strong><span style="color: #000080">switch</span></strong> ( appData.state )
+    {
+        <strong><span style="color: #000080">case</span></strong> USART_ENABLE:
+
+            <i><span style="color: #008000">/* Enable the UART module*/</span></i>
+            PLIB_USART_Enable(USART_ID_2);
+            appData.stringPointer = string1;
+
+            appData.state =  USART_TRANSMIT_FIRST_STRING;
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USART_TRANSMIT_FIRST_STRING:
+            <strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">true</span></strong> == WriteString())
+            {
+                appData.state = USART_TRANSMIT_SECOND_STRING;
+                appData.stringPointer = string2;
+            }
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USART_TRANSMIT_SECOND_STRING:
+            <strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">true</span></strong> == WriteString())
+            {
+                appData.state = USART_RECEIVE_DONE;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USART_RECEIVE_DONE:
+              <strong><span style="color: #000080">if</span></strong> (appData.InterruptFlag)
+              {
+                  <strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">true</span></strong> == PutCharacter(appData.data))
+                  {
+                    BSP_LEDOn(BSP_LED_3);
+                    appData.InterruptFlag = <strong><span style="color: #000080">false</span></strong>;
+                  }
+              }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            SYS_DEBUG (SYS_ERROR_FATAL,&quot;ERROR! Invalid state\r\n&quot;);
+            <strong><span style="color: #000080">while</span></strong> (1);
+
+    }
+
+}</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project APP_Tasks changes.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 20:</strong> Next, add functions for PutCharacter and WriteString. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01416');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01416"><pre class="Element12"><strong><span style="color: #000080">bool</span></strong> WriteString(<strong><span style="color: #000080">void</span></strong>)
+{
+    <strong><span style="color: #000080">if</span></strong>(*appData.stringPointer == '\0')
+    {
+        <strong><span style="color: #000080">return</span></strong> <strong><span style="color: #000080">true</span></strong>;
+    }
+
+    <i><span style="color: #008000">/* Write a character at a time, only if transmitter is empty */</span></i>
+    <strong><span style="color: #000080">while</span></strong> (PLIB_USART_TransmitterIsEmpty(USART_ID_2))
+    {
+        <i><span style="color: #008000">/* Send character */</span></i>
+        PLIB_USART_TransmitterByteSend(USART_ID_2, *appData.stringPointer);
+
+        <i><span style="color: #008000">/* Increment to address of next character */</span></i>
+        appData.stringPointer++;
+
+        <strong><span style="color: #000080">if</span></strong>(*appData.stringPointer == '\0')
+        {
+            <strong><span style="color: #000080">return</span></strong> <strong><span style="color: #000080">true</span></strong>;
+        }
+    }
+    <strong><span style="color: #000080">return</span></strong> <strong><span style="color: #000080">false</span></strong>;
+}
+
+<strong><span style="color: #000080">bool</span></strong> PutCharacter(<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong> character)
+{
+    <i><span style="color: #008000">/* Check if buffer is empty for a new transmission */</span></i>
+    <strong><span style="color: #000080">if</span></strong>(PLIB_USART_TransmitterIsEmpty(USART_ID_2))
+    {
+        <i><span style="color: #008000">/* Send character */</span></i>
+        PLIB_USART_TransmitterByteSend(USART_ID_2, character);
+        <strong><span style="color: #000080">return</span></strong> <strong><span style="color: #000080">true</span></strong>;
+    }
+    <strong><span style="color: #000080">else</span></strong>
+        <strong><span style="color: #000080">return</span></strong> <strong><span style="color: #000080">false</span></strong>;
+}</pre></div></div>
+<p class="Element10">
+<img src="PLIB PORTING USART Project app.c functions.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING USART Project app.c functions II.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 21:</strong> At this point in the process, all of the files have been added to the project with the proper code. Once the project is built, it should build without any errors or warnings.&nbsp;</p>
+<p class="Element10">
+<strong>Step 22:</strong> Once the device is programmed and run, a serial cable should be connected to the Explorer 16 Development Board. The appropriate COM port is selected with a baud rate of 9600. As shown in the following RealTerm example, the terminal will echo the typed characters and the LED on the Explorer 16 Development Board will illuminate.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB PORTING USART Terminal Emulator Output.png" border="0" alt="" title=""> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element636">
+<li value="1" class="Element606">Refer to the <a href="27175.html">USART Peripheral Library</a> section in the MPLAB Harmony help for a detailed explanation and the example code for the peripheral library functions used in the application.</li>
+<li value="2" class="Element606">The demonstration code is provided at the same location <span class="Element146">&lt;install-dir&gt;/apps/examples/peripheral/usart</span>.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17905.html">Peripheral Library Porting Example</a> &gt; <a href="17907.html">Porting Procedure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTING USART Porting Setup Topic Title: Porting Procedure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

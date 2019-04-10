@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Using MHC Application Templates to Create an Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04295.html">Using MHC Application Templates to Create an Application</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04251.html">Previous</a> | <a href="04300.html">Up</a> | <a href="04267.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH Using MHC Application Templates to Create an Application Topic Title: Using MHC Application Templates to Create an Application)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Using MHC Application Templates to Create an Application</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MHC provides Application Templates that can be used to create a baseline working project (i.e., application).&nbsp;</p>
+<p class="Element10">
+In this tutorial, the project will be minimal, but will be able to perform a high-level function (e.g., transmit a string with a fully configured USART) without a lot of peripheral configuration and connecting code together.&nbsp;</p>
+<p class="Element10">
+The software module connections are made by the precoded application templates. These templates generate one (or more) specific applications based on the module(s) chosen (i.e., USART, SPI).&nbsp;</p>
+<p class="Element10">
+This tutorial will describe the process for using MHC to choose ‘Application Templates’, choose a function (e.g., USART transmit) and generate the code in less than a minute and be running ‘Hello World’.</p>
+<ul class="Element630">
+<li class="Element600"><a href="04268.html">Step 1: Select Your Application Template</a></li>
+<li class="Element600"><a href="04269.html">Step 2: Save the Configuration</a></li>
+<li class="Element600"><a href="04270.html">Step 3: Generate the Code</a></li>
+<li class="Element600"><a href="04271.html">Step 4: Build the Code</a></li>
+<li class="Element600"><a href="04272.html">Step 5: Building on the Application Template</a></li>
+<li class="Element600"><a href="04273.html">Step 6: Integrating Multiple Modules</a></li>
+<li class="Element600"><a href="04274.html">Step 7: Creating Multiple Applications</a></li>
+<li class="Element600"><a href="04275.html">Step 8: Application Peripheral Integrity</a></li>
+</ul><p class="Element10">
+Once you have a working application, you can modify it further to provide a more specific application to suit your needs.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04267.html">Prerequisites and Assumptions</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes the prerequisites for starting this tutorial and the assumptions made when it was written.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04268.html">Step 1: Select Your Application Template</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes opening MHC and selecting your application.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04269.html">Step 2: Save the Configuration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes saving the application.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04270.html">Step 3: Generate the Code</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how to generate the code for the new application.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04271.html">Step 4: Build the Code</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how to build and debug the application code.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04272.html">Step 5: Building on the Application Template</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how to build on the existing application template by modifying the configuration and template parameters.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04273.html">Step 6: Integrating Mutiple Modules</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how to integrate multiple modules into your application.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04274.html">Step 7: Creating Multiple Applications</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Provides information on creating multiple applications.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04275.html">Step 8: Application Peripheral Integrity</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes application templates that have peripherals associated by 'instances'.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04276.html">Summary</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Summarizes the teachings of this tutorial and describes where to find additional help.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04295.html">Using MHC Application Templates to Create an Application</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH Using MHC Application Templates to Create an Application Topic Title: Using MHC Application Templates to Create an Application)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Using the File System</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="12133.html">File System Service Library</a> &gt; <a href="24313.html">Using the Library</a> &gt; <a href="24301.html">How the Library Works</a> &gt; <a href="24312.html">Using the File System</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24289.html">Previous</a> | <a href="24301.html">Up</a> | <a href="24293.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM FS Using the File System Topic Title: Using the File System)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Using the File System</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Use the Available Library Demonstration Applications</div>
+<p class="Element10">
+The FS framework release package contains a set of demonstration applications that are representative of common scenario (single/multi-media and single/multi-native file systems). These demonstrations can be easily modified to include application-specific initialization and application logic. The application logic must be non-blocking and could be implemented as a state machine.
+<ul class="Element630">
+<li class="Element600">The application specific initialization can be called in the <a href="23925.html">SYS_Initialize</a> function (in the <span class="Element146">system_init.c</span> file). The <a href="23925.html">SYS_Initialize</a> function is called when the device comes out of Power-on Reset (POR).</li>
+<li class="Element600">The application logic can be called in the <a href="24151.html">SYS_Tasks</a> function (in the <span class="Element146">system_tasks.c</span> file). The application logic can interact with the FS layer<span style="color: #FFFFFF">_</span>by using relevant API calls, as provided in the APP_Tasks (in the <span class="Element146">app.c</span> file)</li>
+</ul></p><div class="Element15">
+Building a FS Application from Scratch</div>
+<p class="Element10">
+In a case where the available demonstration applications do not meet the end application requirements, an application to use the FS framework can be created from scratch. The following figure shows a flowchart for the steps that need to be performed. </p><p class="Element10" style="text-align: center;">
+<strong>Steps to Create a FS Application</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="figure_5.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>Step 1:</strong>&nbsp;</p>
+<p class="Element10">
+Create a MPLAB Project and add the required FS framework files to the project. The following files are needed to build the a FS project
+<ul class="Element630">
+<li class="Element600"><span class="Element146">system_config.h</span> - This file should contain the compile time configuration macros for the Driver, Media Layer, and FS layer. The file also contains the clock speed setting, which is set for the microcontroller.</li>
+<li class="Element600"><span class="Element146">system_init.c</span> – This file should contain the initial settings for each driver. It should also call the functions required to initialize different drivers to be used by the FS.</li>
+<li class="Element600"><span class="Element146">ff.c</span>, <span class="Element146">diskio.c</span>, <span class="Element146">mpfs.c</span>, <span class="Element146">sys_fs.c</span>, <span class="Element146">sys_fs_media_manager.c</span> – These files are part of the FS, which must be included in the project</li>
+<li class="Element600"><span class="Element146">sys_int_pic32.c</span> and <span class="Element146">plib_int_pic32.c</span> - These files implement the system interrupt service that is required by the FS</li>
+<li class="Element600"><span class="Element146">sys_ports.c</span> – If the FS is using a SD card as media, this file needs to be included (for Chip Select)</li>
+<li class="Element600">Driver – The driver for media to be used by FS should also be included</li>
+<li class="Element600">Application specific files - These file will implement the application logic</li>
+</ul><strong>Step 2:</strong>&nbsp;</p>
+<p class="Element10">
+Since the MPLAB Harmony drivers included with the File System operate in interrupt mode, a driver Handler should be defined as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03961');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03961"><pre class="Element12"><i><span style="color: #008000">/* Use this for PIC32MX */</span></i>
+<strong><span style="color: #000080">void</span></strong> __ISR ( _SPI1_VECTOR,ipl4 ) _InterruptHandler_SPI_stub ( <strong><span style="color: #000080">void</span></strong> )
+{
+    DRV_SPI_Tasks((SYS_MODULE_OBJ)appDrvObjects.drvSPIObject);
+}
+
+<i><span style="color: #008000">/* Use this for PIC32MZ */</span></i>
+<strong><span style="color: #000080">void</span></strong> __ISR ( _SPI2_RX_VECTOR,ipl4 ) _InterruptHandler_SPI_RX_stub ( <strong><span style="color: #000080">void</span></strong> )
+{
+    DRV_SPI_Tasks((SYS_MODULE_OBJ)appDrvObjects.drvSPIObject);
+}
+
+<strong><span style="color: #000080">void</span></strong> __ISR ( _SPI2_TX_VECTOR,ipl4 ) _InterruptHandler_SPI_TX_stub ( <strong><span style="color: #000080">void</span></strong> )
+{
+    DRV_SPI_Tasks((SYS_MODULE_OBJ)appDrvObjects.drvSPIObject);
+}</pre></div></div>
+<p class="Element10">
+<strong>Step 3:</strong>&nbsp;</p>
+<p class="Element10">
+The application should create a <span class="Element146">while(1)</span> loop that continuously updates the driver layer<span style="color: #FFFFFF">_</span>State Machine and the application state machine. This requires the application state machine to be non-blocking. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03962');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03962"><pre class="Element12"><i><span style="color: #008000">/* This while(1) loop will continuously update the driver layer state machine and the application state machine */</span></i>
+
+<strong><span style="color: #000080">while</span></strong>(1)
+{
+    <i><span style="color: #008000">/* Task routine for sys_fs */</span></i>
+    SYS_FS_Tasks();
+
+    <i><span style="color: #008000">/* Call the SDCARD Task */</span></i>
+    DRV_SDCARD_Tasks(appDrvObjects.drvSDCARDObject);
+
+    <i><span style="color: #008000">/* Call the application's tasks routine */</span></i>
+    APP_Tasks ( );
+
+}</pre></div></div>
+<p class="Element10">
+<strong>Step 4:</strong>&nbsp;</p>
+<p class="Element10">
+If interrupt-based operation is needed, the interrupts need to be enabled first. The application should then initialize the driver<span style="color: #FFFFFF">_</span>layer. Refer to the driver specific documentation regarding usage. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03963');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03963"><pre class="Element12"><i><span style="color: #008000">/* Initialize the interrupt system  */</span></i>
+
+SYS_INT_Initialize();
+
+<i><span style="color: #008000">/* Initialize the global interrupts */</span></i>
+SYS_INT_Enable();
+
+<i><span style="color: #008000">/* set priority for SPI interrupt source */</span></i>
+SYS_INT_VectorPrioritySet(INT_VECTOR_SPI1, INT_PRIORITY_LEVEL3);
+
+<i><span style="color: #008000">/* set sub-priority for SPI interrupt source */</span></i>
+SYS_INT_VectorSubprioritySet(INT_VECTOR_SPI1, INT_SUBPRIORITY_LEVEL3);
+
+<i><span style="color: #008000">/* Initialize the global interrupts */</span></i>
+SYS_INT_Enable();
+
+<i><span style="color: #008000">/* Initialize the SPI driver */</span></i>
+appDrvObjects.drvSPIObject = DRV_SPI_Initialize(DRV_SPI_INDEX_0,
+        (SYS_MODULE_INIT *)&amp;drvSPIInit);
+
+<i><span style="color: #008000">/* Initialize the SDCARD driver*/</span></i>
+appDrvObjects.drvSDCARDObject = DRV_SDCARD_Initialize(DRV_SDCARD_INDEX_0,
+        (SYS_MODULE_INIT *)&amp;drvSDCARDInit);
+</pre></div></div>
+<p class="Element10">
+<strong>Step 5:</strong>&nbsp;</p>
+<p class="Element10">
+The application code can be implemented as a non-blocking state machine inside the APP_TASKS function, as shown in the following example for an application to read a file and write the content into another newly created file.&nbsp;</p>
+<p class="Element10">
+The input file <span class="Element146">TEST.JPG</span> is not provided with the release package. It could be any arbitrary JPEG file chosen by the user, and then suitably renamed to <span class="Element146">TEST.JPG</span>. The reason for choosing a JPEG file for test purposes is that the duplicate file <span class="Element146">TEST1.JPG</span> created by the FS demonstration could be easily verified for correctness by inserting the SD card in the computer and opening the <span class="Element146">TEST1.JPG</span> file. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03964');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03964"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* The application task state machine */</span></i>
+
+    <strong><span style="color: #000080">switch</span></strong>(appData.state)
+    {
+        <strong><span style="color: #000080">case</span></strong> APP_MOUNT_DISK:
+            <strong><span style="color: #000080">if</span></strong>(SYS_FS_Mount(&quot;/dev/mmcblka1&quot;, &quot;/mnt/myDrive&quot;, FAT, 0, NULL) != 0)
+            {
+                <i><span style="color: #008000">/* The disk could not be mounted. Try
+                 * mounting again until success. */</span></i>
+
+                appData.state = APP_MOUNT_DISK;
+            }
+            <strong><span style="color: #000080">else</span></strong>
+            {
+                <i><span style="color: #008000">/* Mount was successful. Open a file.
+                 * Let the switch case fall through. */</span></i>
+                appData.state = APP_OPEN_FILE;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_OPEN_FILE:
+
+            appData.fileHandle = SYS_FS_FileOpen(&quot;/mnt/myDrive/TEST.JPG&quot;,
+                    (FA_READ));
+            <strong><span style="color: #000080">if</span></strong>(appData.fileHandle == SYS_FS_HANDLE_INVALID)
+            {
+                <i><span style="color: #008000">/* Could not open the file. Error out*/</span></i>
+                appData.state = APP_ERROR;
+            }
+            <strong><span style="color: #000080">else</span></strong>
+            {
+                appData.fileHandle1 = SYS_FS_FileOpen(&quot;/mnt/myDrive/TEST1.JPG&quot;,
+                        (FA_WRITE|FA_CREATE_ALWAYS));
+                <strong><span style="color: #000080">if</span></strong>(appData.fileHandle == SYS_FS_HANDLE_INVALID)
+                {
+                    <i><span style="color: #008000">/* Could not open the file. Error out*/</span></i>
+                    appData.state = APP_ERROR;
+                }
+                <strong><span style="color: #000080">else</span></strong>
+                {
+                    <i><span style="color: #008000">/* Check the file to be read */</span></i>
+                    appData.state = APP_CHECK_FILE;
+                }
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_CHECK_FILE:
+            <i><span style="color: #008000">/* check the size of file */</span></i>
+            fileSize = SYS_FS_FileSize(appData.fileHandle);
+            <i><span style="color: #008000">/* since, we will read 512 bytes at a time, find the number of times, the read has to be
+             performed */</span></i>
+            sectorCounter = integralSector = (fileSize/512);
+            <i><span style="color: #008000">/* find the remaining bytes */</span></i>
+            balanceSector = (fileSize%512);
+
+            appData.state = APP_READ_WRITE_TO_FILE;
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_READ_WRITE_TO_FILE:
+
+            <strong><span style="color: #000080">if</span></strong>(SYS_FS_FileRead((<strong><span style="color: #000080">void</span></strong> *)appData.data, 512, appData.fileHandle) == -1)
+            {
+                <i><span style="color: #008000">/* There was an error while reading the file.
+                 * Close the file and error out. */</span></i>
+
+                SYS_FS_FileClose(appData.fileHandle);
+                appData.state = APP_ERROR;
+            }
+            <strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong>(SYS_FS_FileWrite((<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">void</span></strong> *)appData.data, 512, appData.fileHandle1) == -1)
+            {
+                <i><span style="color: #008000">/* Write was not successful. Close the file
+                 * and error out.*/</span></i>
+                SYS_FS_FileClose(appData.fileHandle1);
+                appData.state = APP_ERROR;
+            }
+            <strong><span style="color: #000080">else</span></strong>
+            {
+                sectorCounter--;
+                <i><span style="color: #008000">/* if entire integral sectors are written, write the balance sector*/</span></i>
+                <strong><span style="color: #000080">if</span></strong>(sectorCounter == 0)
+                {
+                    <strong><span style="color: #000080">if</span></strong>(SYS_FS_FileRead((<strong><span style="color: #000080">void</span></strong> *)appData.data, balanceSector, appData.fileHandle) == -1)
+                    {
+                        <i><span style="color: #008000">/* There was an error while reading the file.
+                         * Close the file and error out. */</span></i>
+
+                        SYS_FS_FileClose(appData.fileHandle);
+                        appData.state = APP_ERROR;
+                    }
+                    <strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong>(SYS_FS_FileWrite((<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">void</span></strong> *)appData.data, balanceSector, appData.fileHandle1) == -1)
+                    {
+                        <i><span style="color: #008000">/* Write was not successful. Close the file
+                         * and error out.*/</span></i>
+                        SYS_FS_FileClose(appData.fileHandle1);
+                        appData.state = APP_ERROR;
+                    }
+                    <strong><span style="color: #000080">else</span></strong>
+                    {
+                        appData.state = APP_CLOSE_FILE;
+                    }
+                }
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_CLOSE_FILE:
+            <i><span style="color: #008000">/* Close both files */</span></i>
+            SYS_FS_FileClose(appData.fileHandle);
+            SYS_FS_FileClose(appData.fileHandle1);
+             <i><span style="color: #008000">/* The test was successful. Lets idle. */</span></i>
+            appData.state = APP_IDLE;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_IDLE:
+            <i><span style="color: #008000">/* The application comes here when the demonstration
+               has completed successfully. Switch on green LED. */</span></i>
+            BSP_SwitchONLED(LED_2);
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">case</span></strong> APP_ERROR:
+            <i><span style="color: #008000">/* The application comes here when the demonstration
+               has failed. Switch on the red LED.*/</span></i>
+            BSP_SwitchONLED(LED_1);
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+
+    }
+
+} <i><span style="color: #008000">//End of APP_Tasks</span></i></pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="12133.html">File System Service Library</a> &gt; <a href="24313.html">Using the Library</a> &gt; <a href="24301.html">How the Library Works</a> &gt; <a href="24312.html">Using the File System</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM FS Using the File System Topic Title: Using the File System)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

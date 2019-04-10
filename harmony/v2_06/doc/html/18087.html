@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Synchronous Master Mode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18087.html">Synchronous Master Mode</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18072.html">Previous</a> | <a href="18080.html">Up</a> | <a href="18088.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Synchronous Master Mode Topic Title: Synchronous Master Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Synchronous Master Mode</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Synchronous Master Transmission</div>
+<p class="Element10">
+<strong>Setup</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Set the desired baud rate using <a href="21061.html">PLIB_USART_BaudRateSet</a> or <a href="21060.html">PLIB_USART_BaudRateHighSet</a>.</li>
+<li value="2" class="Element600">Enable the synchronous master serial port using PLIB_USART_SyncModeSelect, PLIB_USART_SyncClockSourceSelect, and <a href="21066.html">PLIB_USART_Enable</a>.</li>
+<li value="3" class="Element600">Set the appropriate I/O direction and corresponding RX and TX I/O pins.</li>
+<li value="4" class="Element600">Disable receive using <a href="21125.html">PLIB_USART_ReceiverDisable</a>.</li>
+<li value="5" class="Element600"><i>Optional:</i> If desired set the number of data bits to 9 (to send address byte or to enable parity check) using <a href="21111.html">PLIB_USART_LineControlModeSelect</a>.</li>
+<li value="6" class="Element600"><i>Optional:</i> If desired, enable the transmit interrupt, ensuring that the interrupts are enabled for the system and the peripherals.</li>
+</ol><strong>Example: Synchronous Master Transmission Setup</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03506');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03506"><pre class="Element12"><i><span style="color: #008000">// Set the desired baud rate</span></i>
+uint32_t baudRate = 9600;
+
+<i><span style="color: #008000">// where, MY_USART_INSTANCE - is a specific instance of the hardware peripheral.</span></i>
+<i><span style="color: #008000">// where, MY_CLOCK_FREQUENCY - is hardware clock frequency which is currently being used by the system.</span></i>
+PLIB_USART_BaudRateHighSet(MY_USART_INSTANCE, baudRate, MY_CLOCK_FREQUENCY);
+
+<i><span style="color: #008000">// Enable the synchronous master serial port.</span></i>
+<i><span style="color: #008000">// enable sync mode</span></i>
+PLIB_USART_SyncModeSelect(MY_USART_INSTANCE, USART_ASYNC_MODE);
+<i><span style="color: #008000">// enable master clock</span></i>
+PLIB_USART_SyncClockSourceSelect(MY_USART_INSTANCE, USART_SYNC_CLOCK_SOURCE_MASTER);
+<i><span style="color: #008000">// enable USART</span></i>
+PLIB_USART_Enable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Set the appropriate IO direction for USART pins</span></i>
+<i><span style="color: #008000">// TODO Call the appropriate function.</span></i></pre></div></div>
+<p class="Element10">
+<strong>Transmission</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Enable transmission using <a href="21150.html">PLIB_USART_TransmitterEnable</a>.</li>
+<li value="2" class="Element600">Ensure that the transmit buffer is not full before attempting to write onto the transmit buffer. Either poll using <a href="21147.html">PLIB_USART_TransmitterBufferIsFull</a> or wait for the transmit interrupt.</li>
+</ol></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If using interrupts, make sure that interrupts are also enabled for the system and the peripherals.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="3" class="Element600">Start the transmission using <a href="21148.html">PLIB_USART_TransmitterByteSend</a> (if transmitting 8 - bit data) or <a href="21143.html">PLIB_USART_Transmitter9BitsSend</a> (if transmitting address or if transmitting a byte with parity).</li>
+<li value="4" class="Element600">After the transmission is complete, disable the transmitter.</li>
+</ol><strong>Example: Synchronous Master Transmission</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03507');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03507"><pre class="Element12"><i><span style="color: #008000">// Enable the transmission</span></i>
+PLIB_USART_TransmitterEnable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// TODO Either wait for Transmit buffer to be not full or wait for an transmit interrupt.</span></i>
+
+<i><span style="color: #008000">// Transmit the byte when Transmit buffer is empty.</span></i>
+<i><span style="color: #008000">// where, my_byte is the 8 bit data to be transmitted</span></i>
+PLIB_USART_TransmitterByteSend(MY_USART_INSTANCE, my_byte);</pre></div></div>
+<div class="Element15">
+Synchronous Master Reception</div>
+<p class="Element10">
+<strong>Setup</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Set the desired baud rate using <a href="21061.html">PLIB_USART_BaudRateSet</a> or <a href="21060.html">PLIB_USART_BaudRateHighSet</a>.</li>
+<li value="2" class="Element600">Enable the synchronous master serial port using PLIB_USART_SyncModeSelect, PLIB_USART_SyncClockSourceSelect, and <a href="21066.html">PLIB_USART_Enable</a>.</li>
+<li value="3" class="Element600">Set the appropriate IO direction and corresponding to RX and TX I/O pins.</li>
+<li value="4" class="Element600"><i>Optional:</i> If desired, enable the receive interrupt, ensuring that the interrupts are enabled for the system and the peripherals.</li>
+<li value="5" class="Element600">Start the reception using <a href="21125.html">PLIB_USART_ReceiverDisable</a>.</li>
+</ol><strong>Example: Synchronous Master Reception Setup</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03508');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03508"><pre class="Element12">uint32_t baudRate = 9600;
+<i><span style="color: #008000">// where, MY_USART_INSTANCE - is a specific instance of the hardware peripheral.</span></i>
+<i><span style="color: #008000">// where, MY_CLOCK_FREQUENCY - is hardware clock frequency which is currently being used by the system.</span></i>
+PLIB_USART_BaudRateHighSet(MY_USART_INSTANCE, baudRate, MY_CLOCK_FREQUENCY);
+
+PLIB_USART_HandshakeModeSelect(MY_USART_INSTANCE,
+                                    USART_HANDSHAKE_MODE_SIMPLEX);
+<i><span style="color: #008000">// Enable the synchronous master serial port.</span></i>
+<i><span style="color: #008000">// enable sync mode</span></i>
+PLIB_USART_SyncModeSelect(MY_USART_INSTANCE, USART_SYNC_MODE);
+<i><span style="color: #008000">// enable master clock</span></i>
+PLIB_USART_SyncClockSourceSelect(MY_USART_INSTANCE, USART_SYNC_CLOCK_SOURCE_MASTER);
+<i><span style="color: #008000">// enable USART</span></i>
+PLIB_USART_Enable(MY_USART_INSTANCE);
+
+<i><span style="color: #008000">// Set the appropriate IO direction for USART pins</span></i>
+<i><span style="color: #008000">// TODO - Call the appropriate function.</span></i>
+
+<i><span style="color: #008000">// Enable receive mode</span></i>
+PLIB_USART_ReceiverEnable(MY_USART_INSTANCE);</pre></div></div>
+<p class="Element10">
+<strong>Reception</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Either wait for an interrupt, which will be generated when the reception is completed, or poll using <a href="21124.html">PLIB_USART_ReceiverDataIsAvailable</a>.</li>
+</ol></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If using interrupts, make sure that interrupts are also enabled for the system and the peripherals.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="2" class="Element600">Read the status of the device using <a href="21133.html">PLIB_USART_ReceiverOverrunHasOccurred</a>, <a href="21134.html">PLIB_USART_ReceiverParityErrorHasOccurred</a> and <a href="21127.html">PLIB_USART_ReceiverFramingErrorHasOccurred</a>.</li>
+<li value="3" class="Element600">Read the data using <a href="21123.html">PLIB_USART_ReceiverByteReceive</a>.</li>
+<li value="4" class="Element600">If an overrun error occurred, clear the error using the function <a href="21132.html">PLIB_USART_ReceiverOverrunErrorClear</a>.</li>
+</ol><strong>Example: Synchronous Master Reception</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03509');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03509"><pre class="Element12"><i><span style="color: #008000">// Read the byte</span></i>
+<i><span style="color: #008000">// where, my_byte is the 8 bit data to be transmitted</span></i>
+my_byte = PLIB_USART_ReceiverByteReceive(MY_USART_INSTANCE);
+
+<strong><span style="color: #000080">if</span></strong>(PLIB_USART_ReceiverOverrunHasOccurred(MY_USART_INSTANCE))
+{
+    PLIB_USART_ReceiverOverrunErrorClear(MY_USART_INSTANCE);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18090.html">Using the Library</a> &gt; <a href="18080.html">How the Library Works</a> &gt; <a href="18087.html">Synchronous Master Mode</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Synchronous Master Mode Topic Title: Synchronous Master Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

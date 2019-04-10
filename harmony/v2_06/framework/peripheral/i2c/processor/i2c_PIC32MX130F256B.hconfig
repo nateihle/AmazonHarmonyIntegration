@@ -1,0 +1,64 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX130F256B_I2C
+	bool
+	select HAVE_I2C
+	default y
+
+config I2C_NUMBER_OF_MODULES
+	int
+	default 2
+
+enum I2C_MODULE_ID exclusive
+	"I2C_ID_1"
+	|| "I2C_ID_2"
+
+enum I2C_SDA_MIN_HOLD_TIME
+	"I2C_SDA_MIN_HOLD_TIME_NONE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_I2C_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/processor/i2c_p32mx130f256b.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/processor/i2c_p32mx130f256b.h"
+
+file PLIB_I2C_CLOCKSTRETCHING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ClockStretching_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ClockStretching_Default.h"
+file PLIB_I2C_GENERALCALL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_GeneralCall_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_GeneralCall_Default.h"
+file PLIB_I2C_SMBUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SMBus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SMBus_Default.h"
+file PLIB_I2C_HIGHFREQUENCY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_HighFrequency_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_HighFrequency_Default.h"
+file PLIB_I2C_RESERVEDADDRESSPROTECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ReservedAddressProtect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ReservedAddressProtect_Default.h"
+file PLIB_I2C_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_StopInIdle_Default.h"
+file PLIB_I2C_IPMI_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_IPMI_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_IPMI_Unsupported.h"
+file PLIB_I2C_MODULEENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ModuleEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ModuleEnable_Default.h"
+file PLIB_I2C_STARTDETECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_StartDetect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_StartDetect_Default.h"
+file PLIB_I2C_STOPDETECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_StopDetect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_StopDetect_Default.h"
+file PLIB_I2C_ARBITRATIONLOSS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ArbitrationLoss_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ArbitrationLoss_Default.h"
+file PLIB_I2C_BUSIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_BusIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_BusIdle_Default.h"
+file PLIB_I2C_BAUDRATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_BaudRate_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_BaudRate_Default.h"
+file PLIB_I2C_SLAVEADDRESS7BIT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveAddress7Bit_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveAddress7Bit_Default.h"
+file PLIB_I2C_SLAVEADDRESS10BIT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveAddress10Bit_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveAddress10Bit_Default.h"
+file PLIB_I2C_SLAVEADDRESSDETECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveAddressDetect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveAddressDetect_Default.h"
+file PLIB_I2C_GENERALCALLADDRESSDETECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_GeneralCallAddressDetect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_GeneralCallAddressDetect_Default.h"
+file PLIB_I2C_SLAVEMASK_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveMask_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveMask_Default.h"
+file PLIB_I2C_SLAVEREADREQUEST_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveReadRequest_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveReadRequest_Default.h"
+file PLIB_I2C_SLAVEDATADETECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveDataDetect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveDataDetect_Default.h"
+file PLIB_I2C_SLAVECLOCKHOLD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveClockHold_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveClockHold_Default.h"
+file PLIB_I2C_MASTERSTART_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_MasterStart_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_MasterStart_Default.h"
+file PLIB_I2C_MASTERSTARTREPEAT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_MasterStartRepeat_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_MasterStartRepeat_Default.h"
+file PLIB_I2C_MASTERRECEIVERCLOCK1BYTE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_MasterReceiverClock1Byte_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_MasterReceiverClock1Byte_Default.h"
+file PLIB_I2C_MASTERSTOP_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_MasterStop_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_MasterStop_Default.h"
+file PLIB_I2C_TRANSMITTERBUSY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_TransmitterBusy_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_TransmitterBusy_Default.h"
+file PLIB_I2C_TRANSMITTERBYTESEND_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_TransmitterByteSend_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_TransmitterByteSend_Default.h"
+file PLIB_I2C_TRANSMITTERBYTECOMPLETE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_TransmitterByteComplete_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_TransmitterByteComplete_Default.h"
+file PLIB_I2C_TRANSMITTERBYTEACKNOWLEDGE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_TransmitterByteAcknowledge_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_TransmitterByteAcknowledge_Default.h"
+file PLIB_I2C_TRANSMITTEROVERFLOW_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_TransmitterOverflow_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_TransmitterOverflow_Default.h"
+file PLIB_I2C_RECEIVEDBYTEAVAILABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ReceivedByteAvailable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ReceivedByteAvailable_Default.h"
+file PLIB_I2C_RECEIVEDBYTEGET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ReceivedByteGet_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ReceivedByteGet_Default.h"
+file PLIB_I2C_RECEIVEDBYTEACKNOWLEDGE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ReceivedByteAcknowledge_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ReceivedByteAcknowledge_Default.h"
+file PLIB_I2C_RECEIVEROVERFLOW_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_ReceiverOverflow_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_ReceiverOverflow_Default.h"
+file PLIB_I2C_SLAVEINTERRUPTONSTOP_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveInterruptOnStop_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveInterruptOnStop_Unsupported.h"
+file PLIB_I2C_SLAVEINTERRUPTONSTART_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveInterruptOnStart_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveInterruptOnStart_Unsupported.h"
+file PLIB_I2C_SLAVEBUFFEROVERWRITE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveBufferOverwrite_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveBufferOverwrite_Unsupported.h"
+file PLIB_I2C_DATALINEHOLDTIME_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_DataLineHoldTime_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_DataLineHoldTime_Unsupported.h"
+file PLIB_I2C_SLAVEBUSCOLLISIONDETECT_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveBusCollisionDetect_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveBusCollisionDetect_Unsupported.h"
+file PLIB_I2C_SLAVEADDRESSHOLDENABLE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveAddressHoldEnable_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveAddressHoldEnable_Unsupported.h"
+file PLIB_I2C_SLAVEDATAHOLDENABLE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_SlaveDataHoldEnable_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_SlaveDataHoldEnable_Unsupported.h"
+file PLIB_I2C_ACKSEQUENCEISINPROGRESS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/i2c/templates/i2c_AcksequenceIsInProgress_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/i2c/templates/i2c_AcksequenceIsInProgress_Unsupported.h"
+endif

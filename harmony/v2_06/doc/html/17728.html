@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Operating as a Slave Receiver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17728.html">Operating as a Slave Receiver</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17719.html">Previous</a> | <a href="17718.html">Up</a> | <a href="17729.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Operating as a Slave Receiver Topic Title: Operating as a Slave Receiver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Operating as a Slave Receiver</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Before enabling the module, the module's &quot;local&quot; slave address and mask should be programmed using the <a href="19603.html">PLIB_I2C_SlaveAddress7BitSet</a> function or the <a href="19600.html">PLIB_I2C_SlaveAddress10BitSet</a> function, depending on the desired address width. If slave address masking is supported on the chosen processor the &quot;don't care bits&quot; mask can be set using the <a href="19627.html">PLIB_I2C_SlaveMask7BitSet</a> function or the <a href="19625.html">PLIB_I2C_SlaveMask10BitSet</a> function, also depending on the desired address width. Once the I2C module has been enabled, it will begin waiting for an I2C master to address it. When the programmed local slave address is recognized (ignoring any bits in the programmed mask value, if supported), the module will ACK the address and notify software that it has received an address byte. If the R/W bit of the address is 0, the module enters receive mode automatically. As additional bytes are received, the module will automatically ACK them if the previous byte has been read from the RX buffer before the new byte has been completely received and notify software of the newly available byte. Both address and data bytes received must be read from the RX buffer by software.&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>
+<ol class="Element630">
+<li value="1" class="Element600">The module must have had its basic options and clock frequency initialized and have been enabled (see <a href="17719.html">Initializing the I2C</a>).</li>
+<li value="2" class="Element600">An external master must have started a transfer.</li>
+<li value="3" class="Element600">The address of the transfer must have matched with the address (ignoring any bits in the mask) programmed into the module by software.</li>
+</ol><strong>Process</strong>&nbsp;</p>
+<p class="Element10">
+Software must follow this sequence:
+<ol class="Element630">
+<li value="1" class="Element600">Ensure that a byte has been received either by polling the <a href="19593.html">PLIB_I2C_ReceivedByteIsAvailable</a> function or by waiting for a slave interrupt (at which time, this function should still be checked).</li>
+<li value="2" class="Element600">Identify if the byte is a data byte or an address byte using the <a href="19606.html">PLIB_I2C_SlaveAddressIsDetected</a> function.</li>
+<li value="3" class="Element600">If the byte is an address byte, software must identify if it is starting a read or write operation using the <a href="19628.html">PLIB_I2C_SlaveReadIsRequested</a> function.</li>
+<li value="4" class="Element600">Software must read the byte from the RX buffer using the <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function, even if it was an address byte.</li>
+<li value="5" class="Element600">If clock stretching was enabled during initialization, software must call the <a href="19614.html">PLIB_I2C_SlaveClockRelease</a> function<strong> </strong>to release the SCL line.</li>
+</ol><strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02476');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02476"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID  I2C_ID_1
+uint8_t data;
+
+<strong><span style="color: #000080">if</span></strong> ( PLIB_I2C_ReceivedByteIsAvailable(MY_I2C_ID) )
+{
+    <i><span style="color: #008000">// Check to see if the byte is data or an address</span></i>
+    <strong><span style="color: #000080">if</span></strong> (PLIB_I2C_SlaveAddressWasDetected(MY_I2C_ID))
+    {
+        <strong><span style="color: #000080">if</span></strong> ( PLIB_I2C_SlaveReadWasRequested(MY_I2C_ID) )
+        {
+            <i><span style="color: #008000">// Beginning a slave receive sequence</span></i>
+        }
+        <strong><span style="color: #000080">else</span></strong>
+        {
+            <i><span style="color: #008000">// Beginning a slave transmit sequence</span></i>
+        }
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        <i><span style="color: #008000">// Data Byte Received</span></i>
+    }
+    <i><span style="color: #008000">// Read the data or address from the RX buffer</span></i>
+    data = PLIB_I2C_ReceivedByteGet(MY_I2C_ID);
+
+    <i><span style="color: #008000">// Free the SCL line (only if clock stretching was enabled)</span></i>
+    PLIB_I2C_SlaveClockRelease(MY_I2C_ID);
+}</pre></div></div>
+<p class="Element10">
+The previous example uses the following constants and variables: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="9%">
+<div class="Element66">
+Symbol&nbsp;</div></td><td class="Element65" valign="top" width="91%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="9%">
+<div class="Element68">
+MY_I2C_ID&nbsp;</div></td><td class="Element67" valign="top" width="91%">
+<div class="Element68">
+Defined as the selected I2C module value from the <a href="13732.html">I2C_MODULE_ID</a> enumeration. Example: <span class="Element146">#define MY_I2C_ID I2C_ID_1</span>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="9%">
+<div class="Element68">
+data&nbsp;</div></td><td class="Element67" valign="top" width="91%">
+<div class="Element68">
+This is the variable used to hold the byte received.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17728.html">Operating as a Slave Receiver</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Operating as a Slave Receiver Topic Title: Operating as a Slave Receiver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

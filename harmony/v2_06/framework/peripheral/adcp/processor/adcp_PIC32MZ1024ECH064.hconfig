@@ -1,0 +1,162 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ1024ECH064_ADCP
+	bool
+	select HAVE_ADCP
+	default y
+
+config ADCP_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum ADCP_MODULE_ID exclusive
+	"ADCP_ID_1"
+
+enum ADCP_VREF_SOURCE
+	"ADCP_VREF_AVDD_AVSS"
+	|| "ADCP_VREF_VREFP_AVSS"
+	|| "ADCP_VREF_AVDD_VREFN"
+	|| "ADCP_VREF_VREFP_VREFN"
+
+enum ADCP_CLOCK_SOURCE
+	"ADCP_CLK_SRC_NONE"
+	|| "ADCP_CLK_SRC_SYSCLK"
+	|| "ADCP_CLK_SRC_RFCLK3"
+	|| "ADCP_CLK_SRC_FRC"
+
+enum ADCP_CLASS12_INPUT_ID
+	"ADCP_CLASS12_AN0"
+	|| "ADCP_CLASS12_AN1"
+	|| "ADCP_CLASS12_AN2"
+	|| "ADCP_CLASS12_AN3"
+	|| "ADCP_CLASS12_AN4"
+	|| "ADCP_CLASS12_AN5"
+	|| "ADCP_CLASS12_AN6"
+	|| "ADCP_CLASS12_AN7"
+	|| "ADCP_CLASS12_AN8"
+	|| "ADCP_CLASS12_AN9"
+	|| "ADCP_CLASS12_AN10"
+	|| "ADCP_CLASS12_AN11"
+
+enum ADCP_SH_ID
+	"ADCP_SH0"
+	|| "ADCP_SH1"
+	|| "ADCP_SH2"
+	|| "ADCP_SH3"
+	|| "ADCP_SH4"
+	|| "ADCP_SH5"
+	|| "ADCP_NUMBER_OF_SH"
+
+enum ADCP_DSH_ID
+	"ADCP_DSH0"
+	|| "ADCP_DSH1"
+	|| "ADCP_DSH2"
+	|| "ADCP_DSH3"
+	|| "ADCP_DSH4"
+	|| "ADCP_NUMBER_OF_DSH"
+
+enum ADCP_SH_MODE
+	"ADCP_SH_MODE_SINGLE_ENDED_UNIPOLAR"
+	|| "ADCP_SH_MODE_SINGLE_ENDED_TWOS_COMP"
+	|| "ADCP_SH_MODE_DIFFERENTIAL_UNIPOLAR"
+	|| "ADCP_SH_MODE_DIFFERENTIAL_TWOS_COMP"
+
+enum ADCP_SCAN_TRG_SRC
+	"ADCP_SCAN_TRG_SRC_NONE"
+	|| "ADCP_SCAN_TRG_SRC_SOFTWARE"
+	|| "ADCP_SCAN_TRG_SRC_INT0"
+	|| "ADCP_SCAN_TRG_SRC_TMR1_MATCH"
+	|| "ADCP_SCAN_TRG_SRC_TMR3_MATCH"
+	|| "ADCP_SCAN_TRG_SRC_TMR5_MATCH"
+	|| "ADCP_SCAN_TRG_SRC_OCMP1"
+	|| "ADCP_SCAN_TRG_SRC_OCMP3"
+	|| "ADCP_SCAN_TRG_SRC_OCMP5"
+	|| "ADCP_SCAN_TRG_SRC_COMP1_COUT"
+	|| "ADCP_SCAN_TRG_SRC_COMP2_COUT"
+
+enum ADCP_TRG_SRC
+	"ADCP_TRG_SRC_NONE"
+	|| "ADCP_TRG_SRC_SOFTWARE"
+	|| "ADCP_TRG_SRC_SCAN_TRG"
+	|| "ADCP_TRG_SRC_INT0"
+	|| "ADCP_TRG_SRC_TMR1_MATCH"
+	|| "ADCP_TRG_SRC_TMR3_MATCH"
+	|| "ADCP_TRG_SRC_TMR5_MATCH"
+	|| "ADCP_TRG_SRC_OCMP1"
+	|| "ADCP_TRG_SRC_OCMP3"
+	|| "ADCP_TRG_SRC_OCMP5"
+	|| "ADCP_TRG_SRC_COMP1_COUT"
+	|| "ADCP_TRG_SRC_COMP2_COUT"
+
+enum ADCP_INPUT_ID
+	"ADCP_AN0"
+	|| "ADCP_AN1"
+	|| "ADCP_AN2"
+	|| "ADCP_AN3"
+	|| "ADCP_AN4"
+	|| "ADCP_AN5"
+	|| "ADCP_AN6"
+	|| "ADCP_AN7"
+	|| "ADCP_AN8"
+	|| "ADCP_AN9"
+	|| "ADCP_AN10"
+	|| "ADCP_AN11"
+	|| "ADCP_AN12"
+	|| "ADCP_AN13"
+	|| "ADCP_AN14"
+	|| "ADCP_AN15"
+	|| "ADCP_AN16"
+	|| "ADCP_AN17"
+	|| "ADCP_AN18"
+	|| "ADCP_AN19"
+	|| "ADCP_AN20"
+	|| "ADCP_AN21"
+	|| "ADCP_AN22"
+	|| "ADCP_AN23"
+	|| "ADCP_IVREF"
+	|| "ADCP_ITEMP"
+
+enum ADCP_DCMP_ID
+	"ADCP_DCMP1"
+	|| "ADCP_DCMP2"
+	|| "ADCP_DCMP3"
+	|| "ADCP_DCMP4"
+	|| "ADCP_DCMP5"
+	|| "ADCP_DCMP6"
+	|| "ADCP_NUMBER_OF_DCMP"
+
+enum ADCP_ODFLTR_ID
+	"ADCP_ODFLTR1"
+	|| "ADCP_ODFLTR2"
+	|| "ADCP_ODFLTR3"
+	|| "ADCP_ODFLTR4"
+	|| "ADCP_ODFLTR5"
+	|| "ADCP_ODFLTR6"
+	|| "ADCP_NUMBER_OF_ODFLTR"
+
+enum ADCP_ODFLTR_SAMPLE_RATIO
+	"ADCP_ODFLTR_4X"
+	|| "ADCP_ODFLTR_16X"
+	|| "ADCP_ODFLTR_64X"
+	|| "ADCP_ODFLTR_256X"
+	|| "ADCP_ODFLTR_2X"
+	|| "ADCP_ODFLTR_8X"
+	|| "ADCP_ODFLTR_32X"
+	|| "ADCP_ODFLTR_128X"
+
+ifblock PROJECT_STANDALONE
+file PLIB_ADCP_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/processor/adcp_p32mz1024ech064.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/processor/adcp_p32mz1024ech064.h"
+
+file PLIB_ADCP_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_EnableControl_Default.h"
+file PLIB_ADCP_CALIBRATION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_Calibration_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_Calibration_Default.h"
+file PLIB_ADCP_CONFIGURATION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_Configuration_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_Configuration_Default.h"
+file PLIB_ADCP_LOWPOWERCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_LowPowerControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_LowPowerControl_Default.h"
+file PLIB_ADCP_READYSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_ReadyStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_ReadyStatus_Default.h"
+file PLIB_ADCP_INPUTSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_InputSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_InputSelect_Default.h"
+file PLIB_ADCP_MODESELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_ModeSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_ModeSelect_Default.h"
+file PLIB_ADCP_CHANNELSCAN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_ChannelScan_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_ChannelScan_Default.h"
+file PLIB_ADCP_TRIGGERING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_Triggering_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_Triggering_Default.h"
+file PLIB_ADCP_CONVERSIONRESULTS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_ConversionResults_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_ConversionResults_Default.h"
+file PLIB_ADCP_DIGITALCOMPARATOR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_DigitalComparator_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_DigitalComparator_Default.h"
+file PLIB_ADCP_OSAMPDIGITALFILTER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adcp/templates/adcp_OsampDigitalFilter_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adcp/templates/adcp_OsampDigitalFilter_Default.h"
+endif

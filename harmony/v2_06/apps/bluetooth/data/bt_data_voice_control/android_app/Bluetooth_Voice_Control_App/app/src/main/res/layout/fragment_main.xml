@@ -1,0 +1,170 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.microchip.spp_voice_control.MainActivity$PlaceholderFragment" >
+
+    <TextView
+        android:id="@+id/btStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Bluetooth Status:" />
+
+    <TextView
+        android:id="@+id/btStatusValText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Status" />
+
+    <RelativeLayout
+        android:id="@+id/scanLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btStatusText"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/scanButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:onClick="startScan"
+            android:text="Scan" />
+
+        <TextView
+            android:id="@+id/step1Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingTop="10dp"
+            android:text="Step 1: Connect to a Device" />
+
+        <ScrollView
+            android:id="@+id/btDeviceScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/scanButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/step1Text"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <LinearLayout
+                android:id="@+id/btDeviceLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="false"
+                android:orientation="vertical" >
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btEnableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btStatusText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/btStatusValText"
+        android:layout_below="@+id/btStatusText"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/btNotEnabledText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingTop="10dp"
+            android:text="Bluetooth is currently not enabled." />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:onClick="enableBluetooth"
+            android:text="Enable Bluetooth" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btUploadLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btStatusText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/btStatusValText"
+        android:layout_below="@+id/btStatusText"
+        android:visibility="visible" >
+
+        <TextView
+            android:id="@+id/step2Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Step 2: Upload File" />
+
+        <Button
+            android:id="@+id/selectFileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/step2Text"
+            android:layout_marginTop="14dp"
+            android:enabled="false"
+            android:onClick="openFile"
+            android:text="Select File"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/fileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/selectFileButton"
+            android:layout_marginTop="18dp"
+            android:text="File:" />
+
+        <Button
+            android:id="@+id/uploadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:minHeight="150dip"
+            android:onClick="uploadFile"
+            android:text="Upload" />
+
+        <TextView
+            android:id="@+id/fileTextVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/fileText"
+            android:layout_marginTop="14dp"
+            android:text="File" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

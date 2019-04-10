@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Graphics Utilities Library</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12787.html">Graphics Utilities Library</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16271.html">Previous</a> | <a href="12777.html">Up</a> | <a href="12786.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB Graphics Utilities Library Topic Title: Graphics Utilities Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Graphics Utilities Library</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This library is primarily responsible for managing and decoding assets such as images, fonts, and strings. It provides the means for interacting with asset data, complex data decoding, data decompression, and string asset lookup. The library also abstractly handles the accessing of external memory sources during asset decoding.</p><div class="Element15">
+Definitions</div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">Anti-aliasing – Uses transparency to achieve a less jagged look when rasterizing pixel information.</li>
+<li class="Element606">ASCII – The standard 8-bit-per-character text representation.</li>
+<li class="Element606">Asset – A generic term for any resource that consists of blocks of binary data. Can be images, raw files, fonts, strings, and so on.</li>
+<li class="Element606">Binary Asset – A chunk of raw data.</li>
+<li class="Element606">Codepoint – The numerical ID of a glyph, typically four bytes in size</li>
+<li class="Element606">External Asset – An asset that is stored on an external storage peripheral not directly accessible from the CPU.</li>
+<li class="Element606">Font – A collection of images that represent linguistic characters. Each font has a distinct look and feel.</li>
+<li class="Element606">Glyph – A linguistic character.</li>
+<li class="Element606">Image Asset – A collection of pixel data that, when rendered, forms a visual image.</li>
+<li class="Element606">Index Map – An image that is stored as a series of lookup table indices, rather than raw pixel data.</li>
+<li class="Element606">Palette Asset – A form of image compression. Palettes are lookup tables of color information.</li>
+<li class="Element606">Run-length Encoding (RLE) – A simple form of data compression that indexes long strings of duplicate bytes into a single value with an associated length value. Data blocks with long runs of duplicate characters are good candidates for RLE compression. Poor candidates will see the data size increase rather than decrease.</li>
+<li class="Element606">String – A series of characters often used to form linguistic sentences.</li>
+<li class="Element606">UTF8 – The encoding format for Unicode characters that favors space over decoding speed.</li>
+<li class="Element606">UTF16 – The encoding format for Unicode characters that favors decoding speed over space.</li>
+</ul></p><div class="Element15">
+Graphics Utilities Library Objective</div>
+<p class="Element10">
+The library serves four main purposes:
+<ul class="Element636">
+<li class="Element606">Provides a common definition for asset description.</li>
+<li class="Element606">Provides APIs for asset indexing, decoding, and rendering.</li>
+<li class="Element606">Provides an abstract API for asset decoders.</li>
+<li class="Element606">Provides state machines for accessing assets located in external memory locations.</li>
+</ul></p><div class="Element15">
+Asset Common Definition</div>
+<p class="Element10">
+All assets share a common header “<a href="12816.html">GFXU_AssetHeader</a>”. This header is defined as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01245');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01245"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> GFXU_AssetHeader_t
+{
+ uint32_t type;
+ uint32_t dataLocation;
+ <strong><span style="color: #000080">void</span></strong>* dataAddress;
+ uint32_t dataSize;
+} GFXU_AssetHeader;</pre></div></div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">type – the type of an asset</li>
+<li class="Element606">dataLocation – The location ID for the asset. A location of “0” always indicates internal flash memory.</li>
+<li class="Element606">dataAddress – The address of the asset. Depending on memory location, this address may not be accessible from the CPU.</li>
+<li class="Element606">dataSize – The size of the asset in bytes.</li>
+</ul></p><div class="Element15">
+Image Decoding and Rendering</div>
+<p class="Element10">
+Image Asset Descriptor&nbsp;</p>
+<p class="Element10">
+The image asset descriptor is defined as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01246');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01246"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> GFXU_ImageAsset_t
+{
+ GFXU_AssetHeader header;
+ GFXU_ImageFormat format;
+ uint32_t width;
+ uint32_t height;
+ GFX_ColorMode colorMode;
+ GFXU_ImageCompressionType compType;
+ GFX_Bool useMask;
+ GFX_Color mask;
+ GFXU_PaletteAsset* palette;
+} GFXU_ImageAsset;</pre></div></div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">header – The common asset header.</li>
+<li class="Element606">format – The format of the image data.</li>
+<li class="Element606">width – The width of the image.</li>
+<li class="Element606">height – The height of the image.</li>
+<li class="Element606">colorMode – The format of the image's pixel data.</li>
+<li class="Element606">compType – If compressed, indicates the compression type.</li>
+<li class="Element606">useMask – Indicates whether the image specifies a pixel transparency mask.</li>
+<li class="Element606">mask – The value of the image transparency mask.</li>
+<li class="Element606">palette – If the color mode is an index format, then this is the address of the lookup table to reference.</li>
+</ul>Image decoding with the GFX Utilities library is meant to be simple and straightforward. The library provides a single API that clients can use to render image assets. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01247');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01247"><pre class="Element12">GFX_Result GFXU_DrawImage(GFXU_ImageAsset* img,
+ int32_t src_x,
+ int32_t src_y,
+ int32_t src_width,
+ int32_t src_height,
+ int32_t dest_x,
+ int32_t dest_y,
+ GFXU_MemoryIntf* read_cb,
+ GFXU_ExternalAssetReader** reader);</pre></div></div>
+<p class="Element10">
+This function accepts a pointer to an image header and rendering dimensions for rendering sub-sections of the image. The last two arguments refer to external memory access and will be described later. If the type of an image specifies an image decoder, then that decoder is automatically invoked by the library. If an image is stored as an index map, then its associated palette is referenced during decoding.&nbsp;</p>
+<p class="Element10">
+<strong>Image Palette Asset</strong>&nbsp;</p>
+<p class="Element10">
+Palette assets are color lookup tables that can be referenced when decoding indexed images. The index format can be 1bpp, 4bpp, or 8bpp large, resulting in a maximum of 1, 16, or 256 colors, respectively.&nbsp;</p>
+<p class="Element10">
+The palette descriptor is defined as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01248');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01248"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> GFXU_PaletteAsset_t
+{
+ GFXU_AssetHeader header;
+ uint32_t colorCount;
+ GFX_ColorMode colorMode;
+} GFXU_PaletteAsset;</pre></div></div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">header – The common asset header.</li>
+<li class="Element606">colorCount – The number of colors in this palette.</li>
+<li class="Element606">colorMode – The color format of this palette.</li>
+</ul><strong>Font Assets</strong>&nbsp;</p>
+<p class="Element10">
+Fonts are chunks of data that contain color information for drawing individual linguistic characters. Font glyph data can either be stored by using a 1bpp or 8bpp format. The larger format is for storing transparency information for use in drawing anti-aliased characters.&nbsp;</p>
+<p class="Element10">
+The font descriptor is as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01249');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01249"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> GFXU_FontAsset_t
+{
+ GFXU_AssetHeader header;
+ uint32_t height;
+ uint32_t ascent;
+ uint32_t descent;
+ uint32_t baseline;
+ GFXU_FontAssetBPP bpp;
+ GFXU_FontGlyphIndexTable* indexTable;
+} GFXU_FontAsset;</pre></div></div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">header – The common asset header.</li>
+<li class="Element606">height – The height of the font.</li>
+<li class="Element606">ascent – The ascent of the font.</li>
+<li class="Element606">descent – The descent of the font.</li>
+<li class="Element606">baseline – The baseline of the font.</li>
+<li class="Element606">bpp – The size of the per-pixel font data.</li>
+<li class="Element606">indexTable – The pointer to the font index table.</li>
+</ul><strong>Font Index Table</strong>&nbsp;</p>
+<p class="Element10">
+Each font provides an index table for quickly locating pixel data inside the font data chunk. The index table specifies the number of individual ranges or series of glyphs that it provides, followed by the actual range data.&nbsp;</p>
+<p class="Element10">
+A typical font range table entry is as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01250');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01250"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> GFXU_FontGlyphRange_t
+{
+ uint32_t glyphCount;
+ uint32_t startID;
+ uint32_t endID;
+ uint8_t* lookupTable;
+} GFXU_FontGlyphRange;</pre></div></div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">glyphCount – The number of glyphs in this range.</li>
+<li class="Element606">startID – The starting glyph codepoint.</li>
+<li class="Element606">endID – The ending glyph codepoint.</li>
+<li class="Element606">lookupTable – The pointer to the lookup table for this range.</li>
+</ul><strong>Font Lookup Table</strong>&nbsp;</p>
+<p class="Element10">
+The font lookup table contains location and size data for referencing glyphs in the font data chunk. This table provides with values to allow geometric analysis of font glyphs without having to render any data.&nbsp;</p>
+<p class="Element10">
+The data in a font lookup table is defined as follows:
+<ul class="Element636">
+<li class="Element606">Byte 1 – The size of the offset values in the lookup table. 1-4 bytes possible depending on the <a href="16389.html">max</a> size of the font data chunk.</li>
+<li class="Element606">Byte 2 – The size of the width values in the lookup table. This depends on the font size. The maximum size is 0xFFFF.</li>
+</ul>Repeating 'glyphCount' number of times:
+<ul class="Element636">
+<li class="Element606">Offset value – Read offset value of 1-4 bytes, depending on the header.</li>
+<li class="Element606">Width value – Read width value of 1-2 bytes, depending on the header</li>
+</ul><strong>Font Glyph Raster Data</strong>&nbsp;</p>
+<p class="Element10">
+Font raster data is stored in a single chunk of memory and is referenced through the previously mentioned lookup tables. When rendering a font, the decoder uses the code point to find the appropriate lookup table and then uses that table to get the offset of the glyph. The width value says how large the glyph is in pixels, which could be 1bpp or 8bpp, depending on the anti-alias setting. The decoder then reads &quot;width&quot; number of pixels starting at &quot;offset&quot;. The pixel data offsets are always byte-aligned.&nbsp;</p>
+<p class="Element10">
+<strong>String Table</strong>&nbsp;</p>
+<p class="Element10">
+The graphics utilities library defines a special asset called the &quot;String Table&quot;. This table is a predefined lookup table of strings, languages, and their associated fonts. This construct makes runtime localization possible for user interface libraries.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="12786.html">Graphics Utilities Interface</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the interface for the Graphics Utilities Library.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12787.html">Graphics Utilities Library</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB Graphics Utilities Library Topic Title: Graphics Utilities Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

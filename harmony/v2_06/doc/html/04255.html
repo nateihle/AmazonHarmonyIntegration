@@ -1,0 +1,355 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Adding Customized Assert and Exception Handling</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04254.html">Part III: Debugging While Running Stand-alone</a> &gt; <a href="27121.html">Tutorial Steps</a> &gt; <a href="04255.html">Adding Customized Assert and Exception Handling</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04248.html">Previous</a> | <a href="27121.html">Up</a> | <a href="04257.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Stand-alone Adding Customized Assert and Exception Handling Topic Title: Adding Customized Assert and Exception Handling)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Adding Customized Assert and Exception Handling</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The default assert function provided by the PIC32 compiler is called _fassert. It is “weakly” defined, meaning that you can provide a customized replacement for it in your project. You may want to replace the default (compiler) assert for two reasons:</p>
+<ul class="Element630">
+<li class="Element600">The default function is hardwired to use USART2 and you want to use another USART</li>
+<li class="Element600">You have a lot of asserts in your code, but do not need them to report out the line number, file name, failed expression, and function name in the message, because storing all of these string constants for every assert uses too much memory. Instead, you can invent a customized _fassert that only reports out, for example, only the line number and function name to save memory.</li>
+</ul><p class="Element10">
+The default exception handler is hardwired to USART2, so using MPLAB Harmony’s replacement handler, as we did in <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a>, will at least give you the flexibility to control which USART is used. However, both handlers only report out the cause and program address of the exception, nothing more. Please note that there will be cases where this information is not sufficient to locate what went wrong. MHC provides two additional, advanced exception handlers that can be used instead.</p>
+<ol class="Element630">
+<li value="1" class="Element600">The MHC menu Advanced Exception and Error Handling shows the options available.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Adv Exception and Error Handling.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="2" class="Element600">Select the Advanced Harmony Exception Handler. (The other advanced handler shown supports filtering by saturating rather than overflowing integer arithmetic.) Select the MPLAB Harmony Assert Handler to replace the compiler’s built-in assert handler. By default, output uses <a href="23672.html">SYS_DEBUG_PRINT</a>, but using <a href="23656.html">SYS_CONSOLE_Write</a> can be chosen instead since it is a more robust way of reporting exceptions and errors.</li>
+<li value="3" class="Element600">Generate this configuration by clicking Generate Code. After completing this, your default project folder should contain the files shown in the following figure. Note the assembly (<span class="Element146">.S</span>) file is required to report out extra information via the new exception handler.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Generate Code Files.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="4" class="Element600">Double click the new exception handler, <span class="Element146">general_exception_handler.c</span>, to see what it reports.</li>
+</ol><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00034');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00034"><pre class="Element12">  <strong><span style="color: #000080">void</span></strong> __attribute__((nomips16)) _general_exception_handler (XCPT_FRAME* <strong><span style="color: #000080">const</span></strong> pXFrame)
+  {
+      <strong><span style="color: #000080">register</span></strong> uint32_t _localStackPointerValue <strong><span style="color: #000080">asm</span></strong>(&quot;sp&quot;);
+
+      _excep_addr = pXFrame-&gt;epc;
+      _excep_code = pXFrame-&gt;cause;   <i><span style="color: #008000">// capture exception type</span></i>
+      _excep_code = (_excep_code &amp; 0x0000007C) &gt;&gt; 2;
+
+      _CP0_StatusValue   = _CP0_GET_STATUS();
+      _StackPointerValue = _localStackPointerValue;
+      _BadVirtualAddress = _CP0_GET_BADVADDR();
+      _ReturnAddress     = pXFrame-&gt;ra;
+
+      sprintf(msgBuffer,&quot;**EXCEPTION:*\r\n&quot;
+                        &quot; ECode: %d, EAddr: 0x%08X, CPO Status: 0x%08X\r\n&quot;
+                        &quot; Stack Ptr: 0x%08X, Bad Addr: 0x%08X, Return Addr: 0x%08X\r\n&quot;
+                        &quot;**EXCEPTION:*\r\n&quot;,
+                        _excep_code,_excep_addr,_CP0_StatusValue,
+                        _StackPointerValue,_BadVirtualAddress,_ReturnAddress);
+      SYS_CONSOLE_Write(SYS_CONSOLE_INDEX_0,STDOUT_FILENO,msgBuffer,strlen(msgBuffer));
+
+      SYS_DEBUG_BreakPoint();  <i><span style="color: #008000">// Stop here if in debugger.</span></i>
+
+      <strong><span style="color: #000080">while</span></strong>(1) {
+          <i><span style="color: #008000">//Do Nothing</span></i>
+      }
+  }</pre></div></div>
+<p class="Element10">
+So, in addition to the cause (ECode) and address (EAddr) of the exception, this exception handler also reports the Core Register CP0 value (CPO Status), the Stack Pointer value (Stack Ptr), Bad Address value (Bad Addr), and the Return Address value (Return Addr).&nbsp;</p>
+<p class="Element10">
+For more information on the bit fields in the CP0 register refer to one of these PIC32 Family Reference Manual sections:</p>
+<ul class="Element630">
+<li class="Element600">PIC32MX: Section 02. &quot;CPU for Devices with M4K Core&quot; (DS6000113)</li>
+<li class="Element600">PIC32MK and PIC32MZ: Section 50. &quot;CPU for Devices with microAptiv Core&quot; (DS60001192)</li>
+</ul><p class="Element10">
+Both of these documents are available for download from the Microchip website at: <a href="#" onclick="openExternalLink('http://www.microchip.com');"><img src="indicator_external_link.gif" border="0" alt="" title="">www.microchip.com</a>.</p>
+<ol class="Element630">
+<li value="5" class="Element600">Add post processing to the project’s configuration to produce a disassembly listing.
+<ul class="Element631">
+<li class="Element601"> Right click the project name and selecting <strong>Properties</strong></li>
+<li class="Element601">Within the Building ( ) properties, enable <strong>Execute this line after build</strong> and enter the following text:
+<ul class="Element632">
+<li class="Element602"><span class="Element146">${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf &gt; disassembly.lst</span></li>
+</ul></li>
+<li class="Element601">At the end the window should show:</li>
+</ul></li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Post Processing.png" border="0" alt="" title=""></p>
+<ul class="Element630">
+<li class="Element600">Click <strong>OK</strong> to close the window</li>
+</ul>
+<ol class="Element630">
+<li value="6" class="Element600">To explore how we can use the extra information reported by the new exception handler, make the following modifications shown in <span style="color: #FF0000">red</span> text to <span class="Element146">heartbeat.c</span>:</li>
+</ol><p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> void DivideByZero(void)</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> {</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> uint8_t x, y, z;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> x = 1;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> y = 0;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> z = x/y;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> <a href="23672.html">SYS_DEBUG_PRINT</a>(SYS_ERROR_DEBUG,&quot;x: %d, y: %d, z: %d\r\n&quot;,x,y,z);</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> }</span></span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> void Dereference_Bad_Address(void)</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> {</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> uint32_t * pointer;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> uint32_t value;</span></span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> pointer = (uint32_t *)0xDEADBEEF;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> value = *pointer;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> <a href="23672.html">SYS_DEBUG_PRINT</a>(SYS_ERROR_DEBUG,&quot;Value: %d\r\n&quot;,value);</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> }</span></span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> void HEARTBEAT_Initialize ( void )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="23965.html">SYS_MESSAGE</a>(</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> &quot;\r\nApplication created &quot; __DATE__ &quot; &quot; __TIME__ &quot; initialized!\r\n&quot;);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // Test out error handling</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // assert(0);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // uint8_t x, y, z;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // x = 1;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // y = 0;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // z = x/y;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // <a href="23672.html">SYS_DEBUG_PRINT</a>(SYS_ERROR_DEBUG,&quot;x: %d, y: %d, z: %d\r\n&quot;,x,y,z);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // }</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> //assert(0);</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> //DivideByZero();</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> //Dereference_Bad_Address();</span></span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Place the App state machine in its initial state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> heartbeatData.state = HEARTBEAT_STATE_INIT;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: Initialize your application's state machine and other</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> * parameters.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<ol class="Element630">
+<li value="7" class="Element600">Uncomment the <span class="Element146">//assert(0);</span>, abd then build and run the application. In your HyperTerminal application, you should see something similar to the following:</li>
+</ol><p class="Element10">
+<span class="Element146"> Application created Aug 8 2017 16:51:05 initialized!</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> ASSERTION '0' FAILED! File: ../src/heartbeat.c, Line: 148, Function: HEARTBEAT_Initialize</span></p>
+<ol class="Element630">
+<li value="8" class="Element600">Now comment out the assert and uncomment the call to DivideByZero, and then build and run. In your HyperTerminal application, you should see something similar to the following:</li>
+</ol><p class="Element10">
+<span class="Element146"> Application created Aug 8 2017 16:37:51 initialized!</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> **EXCEPTION:*</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> ECode: 13, EAddr: 0x9D006CAC, CPO Status: 0x25000003</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> Stack Ptr: 0x8007FED8, Bad Addr: 0x25651D53, Return Addr: 0x9D007020</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> **EXCEPTION:*</span>&nbsp;</p>
+<p class="Element10">
+In the disassembly listing you will see: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00035');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00035"><pre class="Element12">  <strong><span style="color: #000080">void</span></strong> DivideByZero(<strong><span style="color: #000080">void</span></strong>)
+  {
+      uint8_t x, y, z;
+      x = 1;
+      y = 0;
+      z = x/y;
+  9d006ca0:   24070001    li  a3,1
+  9d006ca4:   00001021    move    v0,zero
+  9d006ca8:   00e2001b    divu    zero,a3,v0
+  9d006cac:   004001f4    teq v0,zero,0x7 &lt;&lt;------------------- EAddr
+  9d006cb0:   00003812    mflo    a3
+      SYS_DEBUG_PRINT(SYS_ERROR_DEBUG,&quot;x: %d, y: %d, z: %d\r\n&quot;,x,y,z);
+  9d006cb4:   3c049d00    lui a0,0x9d00
+  9d006cb8:   24846968    addiu   a0,a0,26984
+  9d006cbc:   24050001    li  a1,1
+  9d006cc0:   00003021    move    a2,zero
+  9d006cc4:   0f4015fd    jal 9d0057f4 &lt;SYS_DEBUG_Print&gt;
+  9d006cc8:   30e700ff    andi    a3,a3,0xff
+
+  9d006ccc &lt;.LVL2&gt;:
+  }
+
+      <i><span style="color: #008000">//assert(0);</span></i>
+      DivideByZero();
+  9d007018:   0f401b22    jal 9d006c88 &lt;.LFE1152&gt;
+  9d00701c:   00000000    nop
+
+  9d007020 &lt;.LVL9&gt;:                    &lt;&lt;------------ Return Address
+      <i><span style="color: #008000">//Dereference_Bad_Address();</span></i>
+
+      <i><span style="color: #008000">/* Place the App state machine in its initial state. */</span></i>
+         heartbeatData.state = HEARTBEAT_STATE_INIT;
+  9d007020:   af808054    sw  zero,-32684(gp)  &lt;&lt;---- Return Address</pre></div></div>
+<p class="Element10">
+In this example we see, as before, that the exception address correctly identifies the instruction that caused the exception. Note also that the return address points to the instruction after the call to the DivideByZero function. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The actual addresses may vary depending on the target device.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="9" class="Element600">Now comment out the DivideByZero and uncomment the call to Dereference_Bad_Address, and then build and run. In your HyperTerminal application you should see something similar to the following:</li>
+</ol><p class="Element10">
+<span class="Element146"> Application created Aug 8 2017 16:43:01 initialized!</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> **EXCEPTION:*</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> ECode: 4, EAddr: 0x9D006F38, CPO Status: 0x25000003</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> Stack Ptr: 0x8007FED8, Bad Addr: 0xDEADBEEF, Return Addr: 0x9D006F40</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> **EXCEPTION:*</span>&nbsp;</p>
+<p class="Element10">
+In the disassembly listing you will see: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00036');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00036"><pre class="Element12">  <strong><span style="color: #000080">void</span></strong> Dereference_Bad_Address(<strong><span style="color: #000080">void</span></strong>)
+  {
+  9d006f24: 27bdffe8 addiu sp,sp,-24
+  9d006f28: afbf0014 sw ra,20(sp)
+  9d006f2c: afb00010 sw s0,16(sp)
+  uint32_t * pointer;
+  uint32_t value;
+
+  pointer = (uint32_t *)0xDEADBEEF;
+  value = *pointer;
+  9d006f30: 3c02dead lui v0,0xdead
+  9d006f34: 3442beef ori v0,v0,0xbeef
+
+  9d006f38 &lt;.LVL4&gt;: &lt;&lt;------------ EAddr
+  SYS_DEBUG_PRINT(SYS_ERROR_DEBUG,&quot;Value: %d\r\n&quot;,value);
+  9d006f38: 0f40003e jal 9d0000f8 &lt;.LFE1164&gt;
+  9d006f3c: 8c500000 lw s0,0(v0)
+
+  9d006f40 &lt;.LVL5&gt;: &lt;&lt;----- Return Address
+  9d006f40: 10400006 beqz v0,9d006f5c &lt;.LVL6+0x4&gt; &lt;&lt;--
+  9d006f44: 8fbf0014 lw ra,20(sp)
+  9d006f48: 3c049d00 lui a0,0x9d00
+  9d006f4c: 24846980 addiu a0,a0,27008
+  9d006f50: 0f4015fd jal 9d0057f4 &lt;SYS_DEBUG_Print&gt;
+  9d006f54: 02002821 move a1,s0
+
+  9d006f58 &lt;.LVL6&gt;:
+  }</pre></div></div>
+<p class="Element10">
+The exception code reported, 4, corresponds to an “address error exception (load or ifetch)”.&nbsp;</p>
+<p class="Element10">
+In this example, the return address didn’t provide much information but we see that the bad address used in the pointer dereference was correctly reported.&nbsp;</p>
+<p class="Element10">
+As an additional step, replace <span class="Element146">value = *pointer</span> with <span class="Element146">*pointer = value</span> in the code and verify that an exception code of 5, “address error exception (store)”, is reported instead.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04254.html">Part III: Debugging While Running Stand-alone</a> &gt; <a href="27121.html">Tutorial Steps</a> &gt; <a href="04255.html">Adding Customized Assert and Exception Handling</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Stand-alone Adding Customized Assert and Exception Handling Topic Title: Adding Customized Assert and Exception Handling)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

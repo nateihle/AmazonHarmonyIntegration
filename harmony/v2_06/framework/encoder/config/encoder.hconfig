@@ -1,0 +1,128 @@
+menu "Encoder"
+---help---
+IDH_HTML_HARMONY_Decoder_Libraries_Help
+---endhelp---
+
+
+enum ENUM_AUDIO_ENCODERS
+	"PCM"
+	|| "ADPCM"
+	|| "OPUS"
+	|| "SPEEX"
+	
+enum ENUM_AUDIO_CONTAINERS
+	"WAV(RIFF)"
+	|| "Ogg"
+	
+
+menu "Audio Encoders"
+---help---
+IDH_HTML_HARMONY_Decoder_Libraries_Help
+---endhelp---
+
+
+
+
+config USE_ENCODER
+bool "Use Audio Decoder Libraries?"
+default n
+---help---
+IDH_HTML_HARMONY_Decoder_Libraries_Help
+---endhelp---
+
+config USE_PCM_ENCODER
+    bool "Select PCM Encoder"
+    default n
+    depends on USE_ENCODER
+config USE_ADPCM_ENCODER
+	bool "Select ADPCM Encoder"
+    default n
+    depends on USE_ENCODER
+
+config USE_OPUS_ENCODER
+	bool "Select Opus Encoder"
+    default n
+    depends on USE_ENCODER
+config USE_SPEEX_ENCODER
+	bool "Select Speex Encoder"
+    default n
+    depends on USE_ENCODER
+endmenu
+
+
+menu "Audio Containers"
+---help---
+IDH_HTML_HARMONY_Encoder_Libraries_Help
+---endhelp---
+
+
+config USE_AUDIO_CONTAINER
+bool "Use Audio Container?"
+default n
+---help---
+IDH_HTML_HARMONY_Encoder_Libraries_Help
+---endhelp---
+
+config USE_WAV_CONTAINER
+    bool "Select WAV(RIFF) Container"
+    default n
+    depends on USE_AUDIO_CONTAINER
+config USE_OGG_CONTAINER
+	bool "Select Ogg Container"
+    default n
+    depends on USE_AUDIO_CONTAINER
+	
+
+endmenu
+
+endmenu
+
+
+ifblock (USE_AUDIO_CONTAINER)
+	compiler AUDIO_CONTAINER_INCLUDE includepath "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/include"
+	ifblock ( USE_WAV_CONTAINER )
+		file AUDIO_CONTAINER_WAV_H "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/include/wav_format_container.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_container/wav_format_container.h"
+		template AUDIO_CONTAINER_WAV_C_FTL "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/templates/wav_format_container.c.ftl" to "$PROJECT_SOURCE_FILES/framework/encoder/audio_container/wav_format_container.c"
+	endif
+	
+	ifblock ( USE_OGG_CONTAINER )
+		compiler AUDIO_CONTAINER_OGG_STREAM_LIB_INCLUDE includepath "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/lib_ogg_1_3_2/include"
+		file AUDIO_CONTAINER_OGG_STREAM_LIB_HEADER "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/lib_ogg_1_3_2/include/ogg/ogg.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_container/ogg_stream_lib/ogg.h"
+		file AUDIO_CONTAINER_OGG_STREAM_LIB_HEADER_2 "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/lib_ogg_1_3_2/include/ogg/os_types.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_container/ogg_stream_lib/os_types.h"
+		library LIB_OGG_CONTAINER "$HARMONY_VERSION_PATH/bin/framework/decoder/lib_ogg_v1_3_2.a"
+		
+		file AUDIO_CONTAINER_OGG_H "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/include/ogg_format_container.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_container/ogg_format_container.h"
+		template AUDIO_CONTAINER_OGG_C_FTL "$HARMONY_VERSION_PATH/framework/encoder/audio_containers/templates/ogg_format_container.c.ftl" to "$PROJECT_SOURCE_FILES/framework/encoder/audio_container/ogg_format_container.c"
+	endif
+endif
+
+ifblock (USE_ENCODER)
+	compiler AUDIO_ENCODERS_INCLUDE includepath "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders" 
+	file AUDIO_ENCODER_H "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/encoder.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_encoder/encoder.h"
+	
+	ifblock(USE_OPUS_ENCODER)
+		compiler AUDIO_ENCODERS_OPUS_INCLUDE includepath "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders"
+		library LIB_OPUS_ENCODER "$HARMONY_VERSION_PATH/bin/framework/decoder/opus_fpu.a"
+		file AUDIO_ENCODER_OPUS_H "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/opus/opus_enc.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_encoder/opus/opus_enc.h"
+		file AUDIO_ENCODER_OPUS_C "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/opus/opus_enc.c" to "$PROJECT_SOURCE_FILES/framework/encoder/audio_encoder/opus/opus_enc.c"
+	endif
+	
+	ifblock(USE_PCM_ENCODER)
+	file AUDIO_ENCODER_PCM_H "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/pcm/pcm_enc.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_encoder/pcm/pcm_enc.h"
+	file AUDIO_ENCODER_PCM_C "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/pcm/pcm_enc.c" to "$PROJECT_SOURCE_FILES/framework/encoder/audio_encoder/pcm/pcm_enc.c"
+	endif
+	
+	ifblock(USE_ADPCM_ENCODER)
+	file AUDIO_ENCODER_ADPCM_H "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/adpcm/adpcm_enc.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_encoder/adpcm/adpcm_enc.h"
+	file AUDIO_ENCODER_ADPCM_C "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/adpcm/adpcm_enc.c" to "$PROJECT_SOURCE_FILES/framework/encoder/audio_encoder/adpcm/adpcm_enc.c"
+	endif
+	
+	ifblock(USE_SPEEX_ENCODER)
+		compiler AUDIO_ENCODERS_SPEEX_INCLUDE includepath "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders"
+		library LIB_SPEEX_ENCODER "$HARMONY_VERSION_PATH/bin/framework/decoder/speex_decoder.a"
+		file AUDIO_ENCODER_SPEEX_H "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/speex/speex_enc.h" to "$PROJECT_HEADER_FILES/framework/encoder/audio_encoder/speex/speex_enc.h"
+		file AUDIO_ENCODER_SPEEX_C "$HARMONY_VERSION_PATH/framework/encoder/audio_encoders/speex/speex_enc.c" to "$PROJECT_SOURCE_FILES/framework/encoder/audio_encoder/speex/speex_enc.c"
+	endif
+	
+
+endif

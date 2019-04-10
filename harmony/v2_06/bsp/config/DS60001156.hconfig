@@ -1,0 +1,221 @@
+choice
+    prompt "Select BSP To Use For $DEVICE Device"
+    depends on USE_BSP
+    default BSP_PIC32MX_USB_SK2
+    ---help---
+    IDH_HTML_BSP_Board_Support_Packages
+    ---endhelp---
+
+	
+config BSP_PIC32MX_ETH_SK
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    bool "PIC32MX Ethernet Starter Kit"
+    ---help---
+    IDH_HTML_BSP_pic32mx_eth_sk
+    ---endhelp---
+	
+config BSP_PIC32MX_ETH_SK2
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    bool "PIC32MX Ethernet Starter Kit 2"
+    ---help---
+    IDH_HTML_BSP_pic32mx_eth_sk2
+    ---endhelp---
+	
+config BSP_PIC32MX_PCAP_DB
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    
+	select USE_GFX_NEWHAVEN_43_480X272_PCAP_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_LCC_NEEDED if BSP_GRAPHICS_NEEDED
+	
+	select USE_DRV_TOUCH_MTCH6301_NEEDED if BSP_TOUCH_INPUT_NEEDED
+    set DRV_TOUCH_MTCH6301_INTERRUPT_SOURCE to "INT_SOURCE_EXTERNAL_0" if BSP_TOUCH_INPUT_NEEDED && BSP_PIC32MX_PCAP_DB
+    bool "PIC32 GUI Development Board with Projected Capacitive Touch"
+    ---help---
+    IDH_HTML_BSP_pic32mx_pcap_db
+    ---endhelp---
+
+config BSP_PIC32MX_USB_SK2
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    bool "PIC32MX USB Starter Kit 2"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2
+    ---endhelp---
+	
+config BSP_PIC32MX_USB_SK2_LCC_PICTAIL_QVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    select DRV_GFX_LCC_ADDRESS_LINE_15 if BSP_GRAPHICS_NEEDED
+
+	select USE_GFX_TRULY_32_240X320_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_LCC_NEEDED if BSP_GRAPHICS_NEEDED
+	
+	set DRV_GFX_LCC_DMA_BUFFER_SIZE_MODE to "Small Buffer"
+    set DRV_GFX_LCC_MODE to "External Memory"
+    bool "PIC32MX USB Starter Kit 2 w/ LCC Pictail+ and QVGA glass"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2_lcc_pictail_qvga
+    ---endhelp---
+
+config BSP_PIC32MX_USB_SK2_LCC_PICTAIL_WQVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    select DRV_GFX_LCC_ADDRESS_LINE_15 if BSP_GRAPHICS_NEEDED
+
+	select USE_GFX_POWERTIP_43_480X272_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_LCC_NEEDED if BSP_GRAPHICS_NEEDED
+	
+    set DRV_GFX_LCC_DMA_BUFFER_SIZE_MODE to "Small Buffer"
+    set DRV_GFX_LCC_MODE to "External Memory"
+    bool "PIC32MX USB Starter Kit 2 w/ LCC Pictail+ and WQVGA glass"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2_lcc_pictail_wqvga
+    ---endhelp---
+
+config BSP_PIC32MX_USB_SK2_MEB
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    
+	select USE_GFX_TRULY_32_240X320_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_SSD1926_NEEDED if BSP_GRAPHICS_NEEDED
+	
+	select USE_DRV_TOUCH_ADC10BIT_NEEDED if BSP_TOUCH_INPUT_NEEDED
+    bool "PIC32MX USB Starter Kit 2 w/ Multimedia Expansion Board (MEB)"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2_meb
+    ---endhelp---
+
+config BSP_PIC32MX_USB_SK2_S1D_PICTAIL_VGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    
+	select USE_GFX_TRULY_57_640X480_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_S1D13517_NEEDED if BSP_GRAPHICS_NEEDED
+	
+	bool "PIC32MX USB Starter Kit 2 w/ S1D13517 Pictail+ and VGA glass"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2_s1d_pictail_vga
+    ---endhelp---
+	
+config BSP_PIC32MX_USB_SK2_S1D_PICTAIL_WQVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    
+	select USE_GFX_POWERTIP_43_480X272_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_S1D13517_NEEDED if BSP_GRAPHICS_NEEDED
+	
+	bool "PIC32MX USB Starter Kit 2 w/ S1D13517 Pictail+ and WQVGA glass"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2_s1d_pictail_wqvga
+    ---endhelp---
+	
+config BSP_PIC32MX_USB_SK2_S1D_PICTAIL_WVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+	
+    select USE_GFX_TRULY_7_800X480_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_S1D13517_NEEDED if BSP_GRAPHICS_NEEDED
+	
+    bool "PIC32MX USB Starter Kit 2 w/ S1D13517 Pictail+ and WVGA glass"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2_s1d_pictail_wvga
+    ---endhelp---
+	
+config BSP_PIC32MX_USB_SK2_SSD_PICTAIL_QVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_JTAG
+    select BSP_POSC_8MHz
+    
+	select USE_GFX_TRULY_32_240X320_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_SSD1926_NEEDED if BSP_GRAPHICS_NEEDED
+	select DRV_GFX_TCON_SSD_1289_NEEDED if BSP_GRAPHICS_NEEDED
+	set DRV_GFX_TCON_SSD_1289_MODE to "SSD1926" if BSP_GRAPHICS_NEEDED
+	select USE_DRV_PMP if BSP_GRAPHICS_NEEDED
+
+	select USE_DRV_TOUCH_ADC10BIT_NEEDED if BSP_TOUCH_INPUT_NEEDED
+    bool "PIC32MX USB Starter Kit 2 w/ SSD1926 Pictail+ and QVGA glass"
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk2_ssd_pictail_qvga
+    ---endhelp---
+	
+config BSP_PIC32MX795_PIM_E16
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    bool "PIC32MX795F512L PIM w/Explorer16"
+    ---help---
+    IDH_HTML_BSP_pic32mx795_pim_e16
+    ---endhelp---
+	
+config BSP_CHIPKIT_WF32
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    select BSP_USE_USBSWITCH
+    bool "chipKIT WF32 Board (PIC32MX695F512L)"
+    ---help---
+    IDH_HTML_BSP_chipkit_wf32
+    ---endhelp---
+
+config BSP_CUSTOM
+    depends on USE_BSP
+    bool "Custom"
+
+	
+endchoice	
+
+
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_eth_sk/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_eth_sk2/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_pcap_db/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2+lcc_pictail+qvga/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2+lcc_pictail+wqvga/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2+meb/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2+s1d_pictail+vga/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2+s1d_pictail+wqvga/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2+s1d_pictail+wvga/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk2+ssd_pictail+qvga/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx795_pim+e16/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/chipkit_wf32/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/wifi_g_db/config/bsp.hconfig"
+
+config BSP_DS60001156_COMMON
+    set DEBUG optionally to "ON"
+    set FNOSC optionally to "PRIPLL" if USE_BSP
+    set FNOSC optionally to "FRCPLL" if !USE_BSP
+    set POSCMOD optionally to "XT" if USE_BSP
+    set POSCMOD optionally to "OFF" if !USE_BSP
+    set FPLLIDIV optionally to "DIV_2"
+    set FPLLMUL optionally to "MUL_20"
+    set FPLLODIV optionally to "DIV_1"
+    set FPBDIV optionally to "DIV_1"
+    set FCKSM optionally to "CSECMD"
+    set FWDTEN optionally to "OFF"
+    set UPLLIDIV optionally to "DIV_2"
+    set UPLLEN optionally to "ON" if USE_BSP
+    set FMIIEN optionally to "OFF" if USE_BSP
+    bool
+    default y if USE_BSP

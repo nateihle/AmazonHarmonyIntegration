@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuring a New Display</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="13067.html">MPLAB Harmony Display Manager User's Guide</a> &gt; <a href="13065.html">Configuring a New Display</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="13066.html">Previous</a> | <a href="13067.html">Up</a> | <a href="16592.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HARMONY DM Configuring a New Display Topic Title: Configuring a New Display)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuring a New Display</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Use the follow process to create a new MPLAB Harmony project to render a test graphics screen on the display:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Create a new MPLAB Harmony project using the instructions provided in <a href="13076.html">MPLAB Harmony Configurator User's Guide &gt; Using MHC to Create a New Application &gt; Step 1: Create the New Project</a> and select the PIC32MZ2048EHM144 as the device.</li>
+<li value="2" class="Element600">The MPLAB Harmony Configurator (MHC) will be launched automatically.</li>
+<li value="3" class="Element600">Perform the following configuration changes in the MHC Tree:
+<ul class="Element631">
+<li class="Element601">BSP Configuration &gt; select <strong>Use BSP</strong></li>
+<li class="Element601">Selecting BSP to Use:
+<ul class="Element632">
+<li class="Element602">PIC32MZ EC Starter Kit w/Multimedia Expansion Board (MEB) II</li>
+<li class="Element602">Graphics Stack &gt; Use Graphics Stack? &gt; set to <strong>Enable</strong></li>
+</ul></li>
+</ul></li>
+<li value="4" class="Element600">Launch the MPLAB Harmony Display Manager (MHDM) using the plug-in drop-down menu.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Launch Plug-in.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="5" class="Element600">The Display Manager will launch and bring its tabs into focus.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Tabs.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="6" class="Element600">Based on the settings of the BSP, the Display Manager will default to the Newhaven 4.3-inch 480x272 WQVGA display. Select <strong>Customize</strong> in the Display Settings tab to enable the fields for entering custom display timing values.</li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If you choose to use the Newhaven display. certain specification values from the manufacturer's data sheet are required during the configuration process in the MPLAB Harmony Display Manager. A PDF of this data sheet can be obtained from Newhaven Display International, Inc. at: <a href="#" onclick="openExternalLink('http://www.newhavendisplay.com/specs/NHD-4.3-480272EF-ATXL-CTP.pdf');"><img src="indicator_external_link.gif" border="0" alt="" title="">http://www.newhavendisplay.com/specs/NHD-4.3-480272EF-ATXL-CTP.pdf</a>.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Customize.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="7" class="Element600">In the display data sheet, locate the following values and enter them into their respective fields in the Display Settings tab:
+<ul class="Element631">
+<li class="Element601">Horizontal Pixel Resolution</li>
+<li class="Element601">Vertical Pixel Resolution</li>
+<li class="Element601">Horizontal Pulse Width (Typically listed as T<sub>hpw</sub> in the data sheet)</li>
+<li class="Element601">Horizontal Front Porch (Typically listed as T<sub>hfp</sub> in the data sheet)</li>
+<li class="Element601">Horizontal Back Porch (Typically listed as T<sub>hbp</sub> in the data sheet)</li>
+<li class="Element601">Vertical Pulse Width (Typically listed as T<sub>vpw</sub> in the data sheet)</li>
+<li class="Element601">Vertical Front Porch (Typically listed as T<sub>vfp</sub> in the data sheet)</li>
+<li class="Element601">Vertical Back Porch (Typically listed as T<sub>vbp</sub> in the data sheet)</li>
+</ul></li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Display Settings.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="8" class="Element600">The display data sheet may include a diagram depicting the active area transposed over the hidden area. The Display Diagram tab is intended to simulate this diagram based on the values entered in step 7. You may want to visually compare the two.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Display Diagram.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="9" class="Element600">Typically, most display data sheets include waveform diagram depicting the timing interaction between the pixel clock (P-clock) signal, Vertical Sync (V-sync) signal, the Horizontal Sync (<a href="13056.html">H</a>-Sync) signal, and the Data Enable (DE) signal. Some displays may not require a Data Enable signal. The Display Timing tab shows a timing simulation of how the graphics controller will behave. You may want to compare the simulation with the waveform diagram in the display data sheet.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Display Timing.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="10" class="Element600">Based on the total number of pixels, the Display Manager will estimate a rough analogy of standard display resolution. The estimate is shown in the Display Analogue field in the Display Settings tab. If the display resolution is estimated by the Display Manager to be greater than the largest resolution supported, this field will show “Not Supported”.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Display Analog.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="11" class="Element600">Since we are using the MEB II development board, the Low-Cost Controllerless (LCC) Graphics Controller will be used. The Display Manager has an option to provide a generated driver custom tailored for your display. The MEB II BSP should have been preselected to generate LCC . If not, select <strong>LCC</strong> from the Generate Driver drop-down in the Display Settings tab. This will expose more configuration features within the Display Manager specific to the LCC Controller Driver. For more information regarding the LCC technology, please refer to application note AN1387 <i>&quot;Using PIC32 MCUs to Develop Low-Cost Controllerless (LCC) Graphics Solutions</i>&quot;, which is available for download from the Microchip web site (<a href="#" onclick="openExternalLink('http://www.microchip.com');"><img src="indicator_external_link.gif" border="0" alt="" title="">www.microchip.com</a>).</li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The timing values entered in Step 7 still applies to the graphics controller even if you are not using the LCC Controller Driver.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<img src="HARMONY DM LCC.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="12" class="Element600">Select <strong>Configure</strong> in the Display Settings tab to open the LCC Configuration user interface.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Configure.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="13" class="Element600">The LCC Driver Configuration Settings user interface contains several key settings for quickly setting up the LCC Controller Driver. For now, we will select <strong>Conventional</strong> under Refresh Strategy, as this tells the LCC Controller Driver to use the refresh algorithm most likely to allow the display to render.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM LCC Driver Config.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The LCC Controller Driver contains more configuration settings under the MPLAB Harmony &amp; Application Configuration tree in the Options tab of the MPLAB Harmony Configurator (MHC). The LCC Driver Configuration Settings user interface services the essential configuration settings. For further system fine-tuning, you may wish to inspect the configuration settings within the Options tab of the MHC.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<img src="MHC LCC Configuration.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="14" class="Element600">The next field to consider is the Memory Interface Mode field. This field directs the LCC Controller Driver, for its display frame buffer, whether to use the PIC32’s internal memory or an external memory via the External Bus Interface (EBI).</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM LCC Driver Config Mem IF.png" border="0" alt="" title=""></p><p class="Element10">
+Depending on the display size, you may need to utilize the 2 MB SRAM on the MEB II to accommodate the necessary frame buffer (and in the case of double buffering, two times that amount). The following table can be used to guide you with the selection. Please note that information is provided based on the assumption of 512K memory being internally available on the PIC32MZ device. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="30%">
+<div class="Element66">
+Display Analogue&nbsp;</div></td><td class="Element65" valign="top" width="30%">
+<div class="Element66">
+Buffering Strategy&nbsp;</div></td><td class="Element65" valign="top" width="40%">
+<div class="Element66">
+Memory Interface Mode&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+WQVGA or lower&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Single&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Internal&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+WQVGA or lower&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Double&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+External&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+HVGA&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Single&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Internal&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+HVGA&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Double&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+External&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+VGA&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Single&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+External&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+VGA&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Double&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+External&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+WVGA&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Single&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+External&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="30%">
+<div class="Element68">
+WVGA&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+Double&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+External&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The Display Manager will provide you with a warning pop-up if it detects the current configuration may not have enough memory to support the display resolution.&nbsp;</p>
+<p class="Element10">
+Another checking mechanism, in the case of frame buffer being too large for the supported memory, is a compile error such, as shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Compile Window.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Make sure to select <strong>2 Mbytes</strong> when using the external memory, as it is the size of the SRAM connected to the EBI on the MEB II.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="15" class="Element600">Depending on your display, the polarity of the V-Sync, <a href="13056.html">H</a>-Sync, and DE pulses can be inverted, respectively. You will want to do so to match the simulated waveform with the data sheet waveform.</li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Polarity control of the pulses is only available with the LCC generated driver for the current release.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<img src="HARMONY DM MHC Config.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="16" class="Element600">If the LCC generated driver is used, the Display Manager also provides an estimated refresh rate base on the master clock source and timing values provided. The estimated timing will be updated as the timing values are adjusted. The important number to note is the Display Refresh Rate. You may want to ensure this number is within the tolerance specification in the display data sheet. There are two ways to adjust the clock source:
+<ul class="Element631">
+<li class="Element601">The first method is selecting <strong>Master Clock</strong> to open the Clock Configurator. Depending on your PIC32 device, the button will indicate which clock to adjust. In the case of the PIC32MZ, the clock source to adjust is PBCLK3.</li>
+<li class="Element601">The second method is to adjust the LCC generated driver’s internal prescaler setting. Admittedly, this is a coarser adjustment setting</li>
+</ul></li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Typical estimated timing tends to be approximate 5 to 10% higher in frequency than the actual measured value, as the pixel clock for the LCC driver is driven by the clocking of each byte on the DMA channel, the DMA channel is preempted every time the Graphics Library is updating the frame buffer in a draw event. This pause is what slows down the entire refresh rate.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Master Clock.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="17" class="Element600">Next, we will enable the MPLAB Harmony Graphics Composer (MHGC) to create a test screen for the display. For details about the MHGC, please refer to the <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="MHC Composer Launch.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="18" class="Element600">Using the MHGC, draw a test screen with a white background, and four line widgets along the border of the screen, as shown in the following figure. You can use the Snap button to get the lines right up against the edge. You may want to add a couple of primitive shapes with fill color so that you can easily see if the display is rendering the graphics properly. The test screen is designed to ensure the timing values entered in step 7 are adequate for the display.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="MHC Composer Test Screen2.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="19" class="Element600">The project is now ready to be generated and deployed to the MEB II. During generation, the Display Manager will add the generated LCC driver files <span class="Element146">drv_gfx_lcc_generic.h</span> and <span class="Element146">drv_gfx_lcc_generic.c</span> to <span class="Element146">app/system_config/&lt;configuration name&gt;/framework/driver/gfx/controller/lcc</span>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="MPLABX LCC Driver Files.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="20" class="Element600">Once deployed, you should see the test screen rendered and the single pixel-width color lines in the test screen should be rendered right at the edge of the screen. If you do not see the lines rendered at the edge or they are only partially rendered, you may need to tune the timing values using the Settings Tab. Use the Active Area in the Display Diagram tab as your positional reference.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="HARMONY DM Active Area.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="21" class="Element600">You now have a baseline LCC driver configuration for rendering static graphics on your display. However, the driver may not handle image decoding, motion, or screen transition well. Enabling Double Buffering or adjusting the Display Refresh Rate are two ways to improve display driver performance.</li>
+</ol><p class="Element10">
+The process is now complete; however, you may want to revisit the Display Manager later and use it as a display tuning tool by allowing a short adjustment-to-deploy feedback cycle.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="13067.html">MPLAB Harmony Display Manager User's Guide</a> &gt; <a href="13065.html">Configuring a New Display</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HARMONY DM Configuring a New Display Topic Title: Configuring a New Display)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

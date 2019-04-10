@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>bt_hci_ctrl_state_t Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; HCI Data Types and Constants &gt; <a href="05643.html">bt_hci_ctrl_state_t Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="05640.html">Previous</a> | <a href="06308.html">Up</a> | <a href="05645.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_hci_ctrl_state_t Topic Title: bt_hci_ctrl_state_t Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+bt_hci_ctrl_state_t Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> <strong><span style="color: #000000">_bt_hci_ctrl_state_s</span></strong> {
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">state</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">default_link_policy</span></strong>;
+  <a href="05585.html">bt_bdaddr_t</a> <strong><span style="color: #000000">bdaddr</span></strong>;
+  <a href="05921.html">bt_int</a> <strong><span style="color: #000000">num_hci_cmd_packets</span></strong>;
+  <a href="05921.html">bt_int</a> <strong><span style="color: #000000">total_num_acl_data_packets</span></strong>;
+  <a href="05921.html">bt_int</a> <strong><span style="color: #000000">total_num_sco_data_packets</span></strong>;
+  <a href="05921.html">bt_int</a> <strong><span style="color: #000000">aclDataPacketLen</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">scoDataPacketLen</span></strong>;
+  <a href="05636.html">bt_hci_conn_state_t</a>* <strong><span style="color: #000000">connections</span></strong>;
+  <a href="06255.html">bt_ulong</a> <strong><span style="color: #000000">_discoverable_period</span></strong>;
+  <a href="06255.html">bt_ulong</a> <strong><span style="color: #000000">_connectable_period</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">_last_cmd_status</span></strong>;
+  <a href="05781.html">bt_hci_le_ctrl_state_t</a>* <strong><span style="color: #000000">le_ctrl_state</span></strong>;
+  <a href="06255.html">bt_ulong</a> <strong><span style="color: #000000">event_mask_l</span></strong>;
+  <a href="06255.html">bt_ulong</a> <strong><span style="color: #000000">event_mask_h</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">incoming_connection_role</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">inquiry_response_tx_power_level</span></strong>;
+  <strong><span style="color: #000080">struct</span></strong> <a href="06012.html">_bt_l2cap_mgr_s</a>* <strong><span style="color: #000000">l2cap_mgr</span></strong>;
+  <a href="17372.html">pf_l2cap_receive_callback</a> <strong><span style="color: #000000">l2cap_data_receive_callback</span></strong>;
+  <a href="05868.html">bt_hci_start_callback_fp</a> <strong><span style="color: #000000">_init_cb</span></strong>;
+  <strong><span style="color: #000080">void</span></strong>* <strong><span style="color: #000000">_init_param</span></strong>;
+  <a href="05638.html">bt_hci_connect_callback_fp</a> <strong><span style="color: #000000">_connect_cb</span></strong>;
+  <strong><span style="color: #000080">void</span></strong>* <strong><span style="color: #000000">_connect_param</span></strong>;
+  <a href="06252.html">bt_uint</a> <strong><span style="color: #000000">_connect_acl_config</span></strong>;
+  <a href="05638.html">bt_hci_connect_callback_fp</a> <strong><span style="color: #000000">_listen_cb</span></strong>;
+  <strong><span style="color: #000080">void</span></strong>* <strong><span style="color: #000000">_listen_param</span></strong>;
+  <a href="06255.html">bt_ulong</a> <strong><span style="color: #000000">sco_tx_bandwidth</span></strong>;
+  <a href="06255.html">bt_ulong</a> <strong><span style="color: #000000">sco_rcv_bandwidth</span></strong>;
+  <a href="06252.html">bt_uint</a> <strong><span style="color: #000000">sco_max_latency</span></strong>;
+  <a href="06252.html">bt_uint</a> <strong><span style="color: #000000">sco_content_format</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">sco_retransmission_effort</span></strong>;
+  <a href="06252.html">bt_uint</a> <strong><span style="color: #000000">sco_packet_type</span></strong>;
+  <a href="05638.html">bt_hci_connect_callback_fp</a> <strong><span style="color: #000000">sco_listen_cb</span></strong>;
+  <strong><span style="color: #000080">void</span></strong>* <strong><span style="color: #000000">_sco_listen_param</span></strong>;
+  <a href="05638.html">bt_hci_connect_callback_fp</a> <strong><span style="color: #000000">sco_connect_cb</span></strong>;
+  <strong><span style="color: #000080">void</span></strong>* <strong><span style="color: #000000">_sco_connect_param</span></strong>;
+  <a href="05758.html">bt_hci_inquiry_callback_fp</a> <strong><span style="color: #000000">inquiry_cb</span></strong>;
+  <a href="05845.html">bt_hci_request_remote_name_callback_fp</a> <strong><span style="color: #000000">remote_name_cb</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">inquiry_max_responses</span></strong>;
+  <a href="05592.html">bt_byte</a> <strong><span style="color: #000000">inquiry_length</span></strong>;
+  <a href="17369.html">pf_hci_sleep_callback</a> <strong><span style="color: #000000">sleep_cb</span></strong>;
+  <a href="17370.html">pf_hci_wakeup_callback</a> <strong><span style="color: #000000">wakeup_cb</span></strong>;
+  <a href="05640.html">bt_hci_ctrl_listener_t</a>* <strong><span style="color: #000000">listeners</span></strong>;
+} bt_hci_ctrl_state_t;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This is type bt_hci_ctrl_state_t.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; HCI Data Types and Constants &gt; <a href="05643.html">bt_hci_ctrl_state_t Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_hci_ctrl_state_t Topic Title: bt_hci_ctrl_state_t Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

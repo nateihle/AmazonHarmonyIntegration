@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.3.3: Protect Owned Resources From Accesses by ISR</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07101.html">3.3: Protect Owned Resources</a> &gt; <a href="07102.html">3.3.3: Protect Owned Resources From Accesses by ISR</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07104.html">Previous</a> | <a href="07101.html">Up</a> | <a href="07084.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Protect Owned Resources From Accesses by ISR Topic Title: 3.3.3: Protect Owned Resources From Accesses by ISR)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.3.3: Protect Owned Resources From Accesses by ISR</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Any library that supports calling of one or more of its functions from within an Interrupt Service Routine (ISR) context must implement a mechanism by which it prevents that interrupt from corrupting modifiable resources owned by that library that may be accessed non-atomically by non-ISR routines. For example, the following code sequence example shows how this can be done using the MPLAB Harmony Interrupt System Service.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Protecting Critical of Code from an Interrupt</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00099');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00099"><pre class="Element12"><strong><span style="color: #000080">bool</span></strong> interruptWasEnabled;
+
+<i><span style="color: #008000">/* Saves interrupt source enable status before disabling it. */</span></i>
+interruptWasEnabled = SYS_INT_SourceDisable(MY_DRIVER_INTERRUPT_SOURCE);
+
+<i><span style="color: #008000">/* Do something critical. */</span></i>
+
+<i><span style="color: #008000">/* Re-enable interrupt source if it was enabled before. */</span></i>
+<strong><span style="color: #000080">if</span></strong> (interruptWasEnabled)
+{
+    SYS_INT_SourceEnable(MY_DRIVER_INTERRUPT_SOURCE);
+}</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Normally, only a device driver or system service library’s state machine &quot;Tasks&quot; function (as described in <a href="07122.html">Support One or More &quot;Tasks&quot; Functions if Required</a>) can be called from an ISR. In these cases, the library’s other routines may use the MPLAB Harmony Interrupt System Service to temporarily disable the interrupt in question (and only that interrupt). However, care must be taken if other interface or callback routines can be called from within another module’s interrupt context to not make non-atomic accesses to resources as one module may not disable another module’s interrupt.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07101.html">3.3: Protect Owned Resources</a> &gt; <a href="07102.html">3.3.3: Protect Owned Resources From Accesses by ISR</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Protect Owned Resources From Accesses by ISR Topic Title: 3.3.3: Protect Owned Resources From Accesses by ISR)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

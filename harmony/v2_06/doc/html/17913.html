@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17913.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17925.html">Previous</a> | <a href="17925.html">Up</a> | <a href="17917.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+General Purpose I/O</div>
+<p class="Element10">
+All port pins have three controls directly associated with their operation as digital I/O. The data direction control determines whether the pin is an input or an output. All port pins are defined as inputs after a Reset. Writes to a port are latched and, if programmed as an output, driven by a buffer to the pin. The value of pin can be read directly from an input buffer, (after it has been synchronized to the clock), regardless of whether the pin direction has been selected as input or output. Additionally, the value being driven by the latch before the output buffer, can also be read. </p><p class="Element10" style="text-align: center;">
+<img src="Generic IO.png" border="0" alt="" title=""></p><p class="Element10">
+Internal pull-up resistors are available on selected port pins to eliminate the need to use external pull-up resistors. These pull-ups can be controlled by this library. The open-drain feature allows the generation of outputs higher than VDD on any desired digital-only pins by using external pull-up resistors. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+For detailed specifications on the maximum allowed open-drain voltage, refer to the <strong>&quot;Electrical Characteristics&quot;</strong> chapter in the specific device data sheet.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The input change notification feature of the I/O ports allows the microcontrollers to generate interrupt requests to the processor in response to a change of state on selected input pins. This feature is capable of detecting input change of states even in Sleep mode, when the clocks are disabled.&nbsp;</p>
+<p class="Element10">
+The alternate pin function selections are used to steer specific peripheral input and output functions between different pins.&nbsp;</p>
+<p class="Element10">
+The output slew rate<i> </i>of some port pins are programmable to select either the standard transition rate or a reduced transition rate of 'x' times the standard to minimize EMI.</p><div class="Element15">
+Peripheral Pin Select</div>
+<p class="Element10">
+In addition to general purpose IO control, this library also provides a low-level abstraction of the PPS module on Microchip microcontrollers with a convenient C language interface.</p><div class="Element15">
+Available Pins</div>
+<p class="Element10">
+The number of available pins is dependent on the particular device and its pin count. Pins that support the PPS feature include the designation 'RPn' or 'RPIn' in their full pin designation, where 'RP' designates a remappable peripheral and 'n' is the remappable pin number. RP is used to designate pins that support both remappable input and output functions, while RPI indicates pins that only support remappable input functions.</p><div class="Element15">
+Available Peripherals</div>
+<p class="Element10">
+The peripherals managed by PPS are all digital-only peripherals. These include general serial communications (UART and SPI), general purpose timer clock inputs, timer-related peripherals (Input Capture and Output Compare), comparator digital output, interrupt-on-change inputs, etc.&nbsp;</p>
+<p class="Element10">
+In comparison, some digital-only peripheral modules are never included in the peripheral pin select feature. This is because the peripheral’s function requires special I/O circuitry on a specific port and cannot be easily connected to multiple pins. These modules include I2C, among others. A similar requirement excludes all modules with analog inputs, such as the Analog-to-Digital Converter (ADC).&nbsp;</p>
+<p class="Element10">
+If multiple peripherals are enabled on the same pin(s), there is an internal priority that decides which function is mapped to the pin. When a remappable peripheral is active on a given I/O pin, it takes priority over all other digital I/O and digital communication peripherals associated with the pin. Priority is given regardless of the type of peripheral that is mapped. Remappable peripherals never take priority over any analog functions associated with the pin. In other words, If an analog function is enabled on the pin, the PPS input will be disabled. </p><p class="Element10" style="text-align: center;">
+<img src="Remap.png" border="0" alt="" title=""></p><div class="Element15">
+Input Mapping</div>
+<p class="Element10">
+The inputs of the peripheral pin select options are mapped on the basis of the peripheral. </p><p class="Element10" style="text-align: center;">
+<img src="Input_Map_Example.png" border="0" alt="" title=""></p><div class="Element15">
+Output Mapping</div>
+<p class="Element10">
+In contrast to inputs, the outputs of the peripheral pin select options are mapped on the basis of the pin. In this case, a control associated with a particular pin dictates the peripheral output to be mapped. </p><p class="Element10" style="text-align: center;">
+<img src="Output_Map_Example.png" border="0" alt="" title=""></p><div class="Element15">
+Mapping Limitations</div>
+<p class="Element10">
+The control schema of the peripheral select pins is not limited to a small range of fixed peripheral configurations. There are no mutual-exclusion or hardware-enforced lockouts between any of the peripheral mapping SFRs. Literally any combination of peripheral mappings across any or all of the RPn pins is possible. This includes both many-to-one and one-to-many mappings of peripheral inputs and outputs to pins. While such mappings may be technically possible from a configuration point of view, they may not be supportable from an electrical point of view and may cause damage to the part. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element630">
+<li value="1" class="Element600">For detailed specifications on the mapping limitations, refer to the <strong>&quot;I/O Ports&quot;</strong> chapter in the specific device data sheet.</li>
+<li value="2" class="Element600">Regrading pin priorities, the priority of the pins are assigned from left to right, left being the highest priority and the right most being the least priority.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17913.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

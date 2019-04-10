@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27080.html">Timer Peripheral Library</a> &gt; <a href="18071.html">Using the Library</a> &gt; <a href="18058.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18071.html">Previous</a> | <a href="18071.html">Up</a> | <a href="18062.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB TMR Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<span style="color: #000000">Microchip timers can be classified as:</span>
+<ul class="Element630">
+<li class="Element600"><span style="color: #000000">Overflow-based</span></li>
+<li class="Element600"><span style="color: #000000">Period match-based</span></li>
+</ul><span style="color: #000000">These timers are essentially counters of a specific size (8-, 16-, or 32-bits wide) that increment based on the clock cycle and the timer prescaler. An application can monitor these counters to determine how much time has elapsed.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The prescaler determines the timer granularity (resolution). It is a mechanism for generating the clock for the timer by the CPU clock. Every CPU has a clock source and the frequency of this source decides the rate at which instructions are executed by the processor. Most of the timers have the option of providing input clock prescalers, while some have the optional postscalers. The prescaler is used to divide the clock frequency of the Timer module and produce a clock for the timer.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">Each timer can be configured with a different source (internal or external) meaning, the source of the timer’s input clock is selectable. Both internal and external sources are available, depending on the part in use, with some timers providing a clock synchronization mechanisms with reference to external source.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">On some timers the clock edge, either the rising or the falling edge, on which the increment occurs, is selectable.</span></p><div class="Element15">
+Overflow-based Timers</div>
+<p class="Element10">
+<span style="color: #000000">Overflow-based timers provide timer outputs or generate interrupts after a rollover from the maximum possible timer count.</span> </p><p class="Element10" style="text-align: center;">
+<span style="color: #000000"><strong>Overflow Timer Abstraction Diagram</strong></span>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="Abs_Overflow.png" border="0" alt="" title=""></p><p class="Element10">
+<span style="color: #000000">An overflow interrupt is triggered whenever the timer register overflows (i.e., reaches its maximum value based on its size as depicted by the following diagram).</span> </p><p class="Element10" style="text-align: center;">
+<img src="Overflow_Int.png" border="0" alt="" title=""></p><div class="Element15">
+Period Match-based Timers</div>
+<p class="Element10">
+<span style="color: #000000">Period match-based timers provide the timer outputs or generate interrupts upon a match between the counter's count value against the preprogrammed period.</span> </p><p class="Element10" style="text-align: center;">
+<span style="color: #000000"><strong>Period Match Timer Abstraction Diagram</strong></span>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="Abs_Periodmatch.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="Period_Int.png" border="0" alt="" title=""></p><div class="Element15">
+Gated Time Accumulation/Gated Control Mode</div>
+<p class="Element10">
+<span style="color: #000000">The Gated Time Accumulation/Gate control mode allows the internal timer to increment based upon the duration of the high time applied to the timer input pin. In the Gated Time Accumulation mode, the timer clock source is derived from the internal system clock. When the input clock pin state is high, the timer will count up until a period match has occurred, or the input pin state is changed to a low state. A pin state transition from high-to-low will trigger an interrupt.</span> </p><p class="Element10" style="text-align: center;">
+<img src="Periodmatch_Int.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27080.html">Timer Peripheral Library</a> &gt; <a href="18071.html">Using the Library</a> &gt; <a href="18058.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB TMR Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

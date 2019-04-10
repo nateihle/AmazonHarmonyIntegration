@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Authentication</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="13679.html">HTTP Module</a> &gt; <a href="24674.html">Using the Library</a> &gt; <a href="24654.html">HTTP Features</a> &gt; <a href="24644.html">Authentication</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24652.html">Previous</a> | <a href="24654.html">Up</a> | <a href="24648.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP HTTP Authentication Topic Title: Authentication)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Authentication</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Authentication functionality is supported by two user-provided callback functions. The first, <a href="25547.html">TCPIP_HTTP_FileAuthenticate</a>, determines if the requested page requires valid credentials to proceed. The second, <a href="25775.html">TCPIP_HTTP_UserAuthenticate</a>, checks the user name and password against an accepted list and determines whether to grant or deny access. The connection stores the current authorization setting which can be manipulated by using the <a href="25500.html">TCPIP_HTTP_CurrentConnectionIsAuthorizedGet</a> and <a href="25501.html">TCPIP_HTTP_CurrentConnectionIsAuthorizedSet</a> functions.</p><div class="Element15">
+Requiring Authentication</div>
+<p class="Element10">
+When a request is first made, the function <a href="25547.html">TCPIP_HTTP_FileAuthenticate</a> is called to determine if that page needs password protection. This function returns a value to instruct the HTTP server how to proceed. The most significant bit indicates whether or not access is granted. That is, values 0x80 and higher allow access unconditionally, while values 0x79 and lower will require a user name and password at a later point. The value returned is stored in the connection data so that it can be accessed by future callback functions.&nbsp;</p>
+<p class="Element10">
+The following example is the simplest case, in which all files require a password for access: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04199');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04199"><pre class="Element12">uint8_t TCPIP_HTTP_FileAuthenticate(HTTP_CONN_HANDLE connHandle, uint8_t* cFile)
+{
+<strong><span style="color: #000080">return</span></strong> 0;
+}
+In some cases, only certain files will need to be <strong><span style="color: #000080">protected</span></strong>. The second example requires a password <strong><span style="color: #000080">for</span></strong> any file located in the /treasure folder:
+uint8_t TCPIP_HTTP_FileAuthenticate(HTTP_CONN_HANDLE connHandle, uint8_t* cFile)
+{
+    <i><span style="color: #008000">// Compare to &quot;/treasure&quot; folder. Don't use strcmp here, because</span></i>
+    <i><span style="color: #008000">// cFile has additional path info such as &quot;/treasure/gold.htm&quot;</span></i>
+    <strong><span style="color: #000080">if</span></strong>(memcmp(cFile, (<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">void</span></strong>*)&quot;treasure&quot;, 8) == 0)
+    {   <i><span style="color: #008000">// Authentication will be needed later</span></i>
+        <strong><span style="color: #000080">return</span></strong> 0;
+    }
+
+    <i><span style="color: #008000">// No authentication required</span></i>
+    <strong><span style="color: #000080">return</span></strong> 0x80;
+}</pre></div></div>
+<p class="Element10">
+More complex uses could require an administrative user to access the <span class="Element146">/admin</span> folder, while any authenticated user can access the rest of the site. This requires the <a href="25547.html">TCPIP_HTTP_FileAuthenticate</a> to return different authentication values for a different file.</p><div class="Element15">
+Validating Credentials</div>
+<p class="Element10">
+The <a href="25775.html">TCPIP_HTTP_UserAuthenticate</a> function determines if the supplied user name and password are valid to access the specific resource. Again, the most significant bit indicates whether or not access is granted. The value returned is also stored in the connection internal data and it can be accessed by future callback functions.&nbsp;</p>
+<p class="Element10">
+The following example is the simplest case, in which one user/password pair is accepted for all pages: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04200');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04200"><pre class="Element12">uint8_t TCPIP_HTTP_UserAuthenticate(HTTP_CONN_HANDLE connHandle, uint8_t* cUser, uint8_t* cPass)
+{
+    <strong><span style="color: #000080">if</span></strong>(!strcmp((<strong><span style="color: #000080">char</span></strong>*)cUser, (<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong>*)&quot;AliBaba&quot;) &amp;&amp;
+    !strcmp((<strong><span style="color: #000080">char</span></strong>*)cPass, (<strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong>*)&quot;Open Sesame!&quot;) )
+    {
+        <strong><span style="color: #000080">return</span></strong> 0x80;
+    }
+
+    <strong><span style="color: #000080">return</span></strong> 0;
+}</pre></div></div>
+<p class="Element10">
+More complex uses are certainly feasible. Many applications may choose to store the user names and passwords in protected files so that they may be updated by a privileged user. In some cases, you may have multiple users with various levels of access. The application may wish to return various values above 0x80 in <a href="25775.html">TCPIP_HTTP_UserAuthenticate</a> so that later callback functions can determine which user logged in.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="13679.html">HTTP Module</a> &gt; <a href="24674.html">Using the Library</a> &gt; <a href="24654.html">HTTP Features</a> &gt; <a href="24644.html">Authentication</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP HTTP Authentication Topic Title: Authentication)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

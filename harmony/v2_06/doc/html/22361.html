@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Creating New Graphics Applications</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="22364.html">Quick Start Guides</a> &gt; <a href="22365.html">Graphics and Touch Quick Start Guides</a> &gt; <a href="22361.html">Creating New Graphics Applications</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22359.html">Previous</a> | <a href="22365.html">Up</a> | <a href="22362.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: QSG Creating New Graphics Applications Topic Title: Creating New Graphics Applications)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Creating New Graphics Applications</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This tutorial provides information on how to create a new touch input-enabled graphics project using the MPLAB Harmony Graphics Composer (MHGC). At the end of this tutorial you will have created a new project equivalent to a configuration found in the <a href="03698.html">aria_quickstart</a> demonstration project.&nbsp;</p>
+<p class="Element10">
+The following hardware configurations are supported:</p>
+<ul class="Element630">
+<li class="Element600"><a href="05033.html">PIC32MZ Embedded Graphics with External DRAM (DA) Starter Kit</a> and the <a href="04973.html">Multimedia Expansion Board II (MEB II)</a></li>
+<li class="Element600"><a href="05034.html">PIC32MZ Embedded Graphics with Internal DRAM (DA) Starter Kit</a> and the <a href="04973.html">Multimedia Expansion Board II (MEB II)</a></li>
+<li class="Element600"><a href="05032.html">PIC32MZ Embedded Graphics with Disabled DRAM (DA) Starter Kit</a> and the <a href="04973.html">Multimedia Expansion Board II (MEB II)</a></li>
+<li class="Element600"><a href="05031.html">PIC32MZ Embedded Connectivity with Floating Point Unit (EF) Starter Kit</a> and the <a href="04973.html">Multimedia Expansion Board II (MEB II)</a></li>
+</ul><div class="Element15">
+Getting Started</div>
+<p class="Element10">
+Follow the tutorial found in<i> Volume 1: Getting Started With MPLAB Harmony Libraries and Applications &gt; MPLAB Harmony Tutorial - Creating Your First Project &gt; <a href="04252.html">Part I: Creating Your First MPLAB Harmony Project in MHC</a></i> to first learn about the basics of software development using MPLAB Harmony. Successfully completing the tutorial will verify your software setup is correct.&nbsp;</p>
+<p class="Element10">
+You will need the following hardware, depending on which hardware setup you are using:</p>
+<ul class="Element630">
+<li class="Element600">PIC32MZ Embedded Graphics with External DRAM (DA) Starter Kit and a Multimedia Expansion Board II (MEB II). For details on how to assemble the boards or for links on how to order the hardware, see <a href="05037.html">pic32mz_da_sk_extddr+meb2</a></li>
+<li class="Element600">PIC32MZ Embedded Graphics with Internal DRAM (DA) Starter Kit and a Multimedia Expansion Board II (MEB II). For details on how to assemble the boards or for links on how to order the hardware, see <a href="05040.html">pic32mz_da_sk_intddr+meb2</a></li>
+<li class="Element600">PIC32MZ Graphics (DA) Starter Kit w/DDR-disabled and a Multimedia Expansion Board II (MEB II). For details on how to assemble the boards or for links on how to order the hardware, see pic32mz_da_sk_noddr+meb2</li>
+<li class="Element600">PIC32MZ Embedded Connectivity (EF) Starter Kit and a Multimedia Expansion Board II (MEB II). For details on how to assemble the boards or for links on how to order the hardware, see <a href="05058.html">pic32mz_ef_sk+meb2</a></li>
+</ul><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Configuring the Hardware</div>
+<p class="Element10">
+PIC32MZ EF Starter Kit connected to the Multimedia Expansion Board II (MEB II)</p>
+<ul class="Element630">
+<li class="Element600">The J9 Jumper on the MEB II board, located beneath the PIC32MZ EF Starter Kit, should be configured to support using internal SRAM for the graphics frame buffer, as shown in the following figure.</li>
+<li class="Element600">Connect the PIC32MZ EF Starter Kit board to the MEB II board</li>
+<li class="Element600">Power up the board by connecting the power adapter to J3 power connector on the MEB II board or a powered USB cable to the USB DEBUG port on the Starter Kit board</li>
+</ul><p class="Element10" style="text-align: center;">
+<img src="QSG J9-Internal Memory.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+<a href="05033.html">PIC32MZ Embedded Graphics with External DRAM (DA) Starter Kit</a> and a <a href="04973.html">Multimedia Expansion Board II (MEB II)</a>,&nbsp;</p>
+<p class="Element10">
+<a href="05034.html">PIC32MZ Embedded Graphics with Internal DRAM (DA) Starter Kit</a> and a <a href="04973.html">Multimedia Expansion Board II (MEB II)</a>,&nbsp;</p>
+<p class="Element10">
+<a href="05032.html">PIC32MZ Embedded Graphics with Disabled DRAM (DA) Starter Kit</a> and a <a href="04973.html">Multimedia Expansion Board II (MEB II)</a>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<ul class="Element630">
+<li class="Element600">These configurations require that the J9 jumper be set to provide the GLCD's pixel clock. Set the J9 jumper to connect EPIOE to LCD_PCLK.</li>
+<li class="Element600">The J9 jumper is located on the bottom of the MEB II board, beneath where the starter kit is plugged into the board. Refer to the following figure for the exact location.</li>
+<li class="Element600">Connect the PIC32MZ DA Starter Kit board to the MEB II board</li>
+<li class="Element600">Power up the board by connecting the power adapter to J3 power connector on the MEB II board or a powered USB cable to the USB DEBUG port on the Starter Kit board</li>
+</ul><p class="Element10" style="text-align: center;">
+<img src="QSG J9-DA Setup.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Tutorial Steps</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">Start MPLAB X IDE and select <i>File &gt; New Project</i>. The New Project dialog appears.</li>
+<li value="2" class="Element600">In the New Project dialog, ensure that Microchip Embedded is selected, and that the project type is 32-bit MPLAB Harmony Project, as shown in the following figure, and then click <strong>Next</strong>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Dialog.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If the option “32-Bit MPLAB Harmony Project” is not visible, you need to stop and download/install MPLAB Harmony before continuing with this tutorial.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="3" class="Element600">In the updated New Project dialog (Step 2. Name and Location), edit fields 1-5, depending on the hardware you are using.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Selections.png" border="0" alt="" title=""></p>
+<ul class="Element630">
+<li class="Element600">1) <i>Harmony Path</i>: Ensure that the path you enter is the path to your installation of MPLAB Harmony</li>
+<li class="Element600">2) <i>Project Location</i>: Since this is a graphics project you can put it in the <span class="Element146">.\apps\gfx</span> folder, but anywhere on the same drive as MPLAB Harmony will work.</li>
+<li class="Element600">3) <i>Project Name</i>: Any project name will work, the tutorial uses “graphics_quickstart”, as long as it is all lowercase.</li>
+<li class="Element600">4) <i>Device Family</i>: For DA and EF targets, select PIC32MZ. For the USB Starter Kit II, select PIC32MX.</li>
+<li class="Element600">5) <i>Target Board</i>: Choose the target board associated with your hardware setup</li>
+</ul><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Target Board.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="4" class="Element600">Click <strong>Finish</strong> when done. A new empty project named <i>heartbeat</i> will be created in MPLAB X IDE, which opens the MPLAB Harmony Configurator (MHC) plug-in.</li>
+<li value="5" class="Element600">Within MHC, launch the Graphics Composer.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Target Launch MHC.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="6" class="Element600">Next, you should see the MHGC’s Welcome Dialog.
+<ul class="Element631">
+<li class="Element601">Click the first icon to create a new graphics design</li>
+</ul></li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Target Graphics Composer Welcome Screen.png" border="0" alt="" title=""></p>
+<ul class="Element630">
+<li class="Element600">If the Welcome Dialog does not appear because you’ve disabled it, in the MPLAB Harmony Graphics Composer (MHGC) screen, use the left-most icon to create a new graphics design</li>
+</ul><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Create New Design.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+You can re-enable the Welcome Dialog by using MHGC’s File &gt; Settings &gt; General menu:<br><img src="QSG New Project MHGC Welcom Dialog Setting.png" border="0" alt="" title="">&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="7" class="Element600">Since you have not enabled the Graphics Stack within MHC, you will be prompted to enable it now. Click <strong>Yes</strong> to continue.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Use Graphics Stack.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="8" class="Element600">This action opens MHGC’s New Project Wizard dialog, which has four stages: Color Mode, Memory Size, Project Type, and Finish. For the Color Mode stage, select the color mode that matches your hardware.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Color Mode Selection.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="9" class="Element600">For the Memory Size stage, set the amount to be 25% of available Program Flash. Then, accept it by clicking <strong>Next</strong>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New ProjectProgram Flash Selection.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="10" class="Element600">You can create a new graphics application with a “basic template” in the Project Type stage. Select Start with a new project using a basic template, as shown in the following figure, then click <strong>Next</strong>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Contents.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="11" class="Element600">In the last stage (i.e., Finish stage), clicking <strong>Finish</strong> will create a screen design similar to that in <a href="03698.html">aria_quickstart</a>. Try modifying the screen design by clicking on one of the three widgets shown and moving it to a new position. Or click and drag a new widget, such as a circle, from the Widget Tool Box onto the screen.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Finish Stage.png" border="0" alt="" title=""></p>
+<ul class="Element630">
+<li class="Element600"><i>Optional:</i> Use the Heap Estimator tool to reduce the application’s heap allocation
+<ul class="Element631">
+<li class="Element601">Launch the Heap Estimator tool from the MPLAB Harmony Graphics Configurator Tools menu</li>
+<li class="Element601">Click <strong>Calculate</strong> to determine the size of the heap</li>
+<li class="Element601">Click <strong>Set MHC Heap Value</strong></li>
+<li class="Element601">Close the Heap Estimator's window</li>
+</ul></li>
+</ul>
+<ol class="Element630">
+<li value="13" class="Element600">From the MHC main menu, click the <strong>Generate Code</strong> icon to create this application. When prompted, click <strong>Save</strong> to save the modified graphics configuration, and then click <strong>Generate</strong> to generate the new code.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Generate Code.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="14" class="Element600">Verify that you have the right compiler selected. After the project has been generated, right mouse click project and select project <strong>Properties</strong>.</li>
+<li value="15" class="Element600">Be sure you have the right compiler selected. For MPLAB Harmony v2.05 it should be XC32 V1.44 or newer.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Compiler Selection.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="16" class="Element600">Click <strong>OK</strong> to close the Project Properties dialog.</li>
+<li value="17" class="Element600">Run the main project by clicking the Run Main Project icon.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="QSG New Project Run Main Project.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="18" class="Element600">The display should show what was designed and the “Modify. Generate. Run” button should react to user interaction.</li>
+</ol><div class="Element15">
+Next Steps</div>
+
+<ul class="Element630">
+<li class="Element600">Learn how to add events to your project: <i>Volume I: Getting Started With MPLAB Harmony Libraries and Applications &gt; Quick Start Guides &gt; Graphics and Touch Quick Start Guides &gt; Adding an Event to the Aria Quickstart Demonstration</i></li>
+<li class="Element600">Learn how to use phantom buttons to improve touch performance: <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Graphics Composer User’s Guide &gt; Advanced Topics &gt; Improved Touch Performance with Phantom Buttons</i></li>
+</ul></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="22364.html">Quick Start Guides</a> &gt; <a href="22365.html">Graphics and Touch Quick Start Guides</a> &gt; <a href="22361.html">Creating New Graphics Applications</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: QSG Creating New Graphics Applications Topic Title: Creating New Graphics Applications)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

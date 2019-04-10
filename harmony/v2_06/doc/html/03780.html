@@ -1,0 +1,412 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="16691.html">Motor Control Demonstrations</a> &gt; <a href="03771.html">Demonstrations</a> &gt; <a href="03777.html">integrated_pfc_foc_mhcv3_ext_opamp</a> &gt; <a href="03780.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03779.html">Previous</a> | <a href="03777.html">Up</a> | <a href="03781.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS MC integrated_pfc_foc_mchv3_ext_opamp_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Do the following to run the demonstration:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Compile and build the project.</li>
+<li value="2" class="Element600">Program the target device.</li>
+<li value="3" class="Element600">Press the ‘S1’ switch to start the PFC. Once the bus voltage has reached the set point, the motor will begin spinning.</li>
+<li value="4" class="Element600">Vary the potentiometer, POT1, to change the motor speed.</li>
+<li value="5" class="Element600">Press the ‘Reset’ switch to stop the motor.</li>
+</ol><div class="Element15">
+Modifying the System Parameters</div>
+<p class="Element10">
+The system parameters, such as motor coefficients, maximum current, etc., can be modified in the header file <span class="Element146">mc_app.h</span>, as shown in the following code example </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00019');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00019"><pre class="Element12"><i><span style="color: #008000">//===============================================================</span></i>
+<i><span style="color: #008000">// Following parameters for MCHV-3 board (External Opamp Configuration)</span></i>
+<i><span style="color: #008000">// Gain of opamp = 10.06</span></i>
+<i><span style="color: #008000">// shunt resistor = 0.01 ohms</span></i>
+<i><span style="color: #008000">// DC offset = 1.65V</span></i>
+<i><span style="color: #008000">// max current = x</span></i>
+<i><span style="color: #008000">// (x * 0.01 * 10.06) + 1.65V = 3.3V</span></i>
+<i><span style="color: #008000">// x = 16.4 Amps</span></i>
+<strong><span style="color: #000080">#define</span></strong>     MAX_BOARD_CURRENT                                   (<strong><span style="color: #000080">float</span></strong>)(16.4)
+<strong><span style="color: #000080">#define</span></strong>     MAX_MOTOR_CURRENT                                   (<strong><span style="color: #000080">float</span></strong>)(8)
+<strong><span style="color: #000080">#define</span></strong>     MAX_MOTOR_CURRENT_SQUARED                  (<strong><span style="color: #000080">float</span></strong>)((<strong><span style="color: #000080">float</span></strong>)MAX_MOTOR_CURRENT*(<strong><span style="color: #000080">float</span></strong>)MAX_MOTOR_CURRENT)
+
+<strong><span style="color: #000080">#define</span></strong>     ADC_CURRENT_SCALE                                   (<strong><span style="color: #000080">float</span></strong>)(MAX_BOARD_CURRENT/(<strong><span style="color: #000080">float</span></strong>)2048)
+
+<strong><span style="color: #000080">#define</span></strong>     CURRENT_LIMIT_CMP_REF                               (<strong><span style="color: #000080">int</span></strong>)(((<strong><span style="color: #000080">float</span></strong>)2048*(MAX_MOTOR_CURRENT/MAX_BOARD_CURRENT))+VREF_DAC_VALUE)
+
+<i><span style="color: #008000">// Resistance in Ohms</span></i>
+<strong><span style="color: #000080">#define</span></strong>     MOTOR_PER_PHASE_RESISTANCE                          ((<strong><span style="color: #000080">float</span></strong>)16)
+
+
+<i><span style="color: #008000">// Inductance in Henrys</span></i>
+<strong><span style="color: #000080">#define</span></strong>     MOTOR_PER_PHASE_INDUCTANCE                          ((<strong><span style="color: #000080">float</span></strong>)0.022)
+
+<strong><span style="color: #000080">#define</span></strong>     MOTOR_PER_PHASE_INDUCTANCE_DIV_2_PI                 ((<strong><span style="color: #000080">float</span></strong>)(MOTOR_PER_PHASE_INDUCTANCE/(2*M_PI)))
+
+<i><span style="color: #008000">// Back EMF Constant in Vpeak/KRPM</span></i>
+<strong><span style="color: #000080">#define</span></strong>     MOTOR_BACK_EMF_CONSTANT_Vpeak_Line_Line_KRPM_MECH   (<strong><span style="color: #000080">float</span></strong>)75
+
+<strong><span style="color: #000080">#define</span></strong>     NOPOLESPAIRS                                        2
+<strong><span style="color: #000080">#define</span></strong>     MAX_ADC_COUNT                                       (<strong><span style="color: #000080">float</span></strong>)4095     <i><span style="color: #008000">// for 12-bit ADC</span></i>
+<strong><span style="color: #000080">#define</span></strong>     MAX_ADC_INPUT_VOLTAGE                      (<strong><span style="color: #000080">float</span></strong>)3.3      <i><span style="color: #008000">// volts</span></i></pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Application Parameters</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="27%">
+<div class="Element66">
+Parameter Name&nbsp;</div></td><td class="Element65" valign="top" width="69%">
+<div class="Element66">
+Description&nbsp;</div></td><td class="Element65" valign="top" width="4%">
+<div class="Element66">
+Units&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+PWM_FREQ&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+PWM Frequency&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Hz&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+DEADTIME_SEC&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Dead Time&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Seconds&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MAX_BOARD_CURRENT&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Maximum Inverter DC bus current through the board that can be measured without saturating the ADC&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MAX_MOTOR_CURRENT&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Maximum Motor Phase Current&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MOTOR_PER_PHASE_RESISTANCE&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Motor per phase resistance&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Ω&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MOTOR_PER_PHASE_INDUCTANCE&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Motor per phase inductance&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+<a href="13056.html">H</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MOTOR_BACK_EMF_CONSTANT_Vpeak_Line_Line_KRPM_MECH&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Motor Back EMF constant&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Vpeak(line-line)/KRPM&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+NOPOLESPAIRS&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Number of Motor Pole Pairs&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MAX_ADC_COUNT&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Full Scale ADC Count, 2n bit ADC -1 (For 12 bit ADC, 212-1= 4095&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MAX_ADC_INPUT_VOLTAGE&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+ADC Reference voltage&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+V&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+DCBUS_SENSE_TOP_RESISTOR&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+High side resistance of DC BUS Sense voltage divider&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Ω&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+DCBUS_SENSE_BOTTOM_RESISTOR&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Low side resistance of DC BUS Sense voltage divider&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Ω&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+LOCK_TIME_IN_SEC&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Rotor lock time to a forced rotor angle before spinning the motor&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Seconds&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+END_SPEED_RPM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Motor speed in Open Loop mode at which the algorithm switches to closed loop&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+RPM&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+RAMP_TIME_IN_SEC&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Time to reach Open Loop End Speed (END_SPEED_RPM) during open loop operation&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+Seconds&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+Q_CURRENT_REF_OPENLOOP&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Q axis current during Open Loop operation&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+NOMINAL_SPEED_RPM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Maximum rated speed in Constant Torque mode (without field weakening)&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+RPM&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MOVING_AVG_WINDOW_SIZE&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Total number of current samples used to calculate moving average of the current to obtain ADC Current Offset = 2MOVING_AVG_WINDOW_SIZE&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+CURRENT_OFFSET_MAX&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Maximum limit of the ADC Current Offset&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+CURRENT_OFFSET_MIN&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Minimum limit of the ADC Current Offset&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+CURRENT_OFFSET_INIT&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Initial value of the ADC Current Offset&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+KFILTER_ESDQ&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+First order low pass filter coefficient for Ed, Eq estimator parameters&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+KFILTER_VELESTIM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+First order low pass filter coefficient for speed estimation&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+FW_SPEED_RPM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Maximum rated speed in Field Weakening mode&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+RPM&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+MAX_FW_NEGATIVE_ID_REF&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Maximum applicable negative D-axis current&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+D_CURRCNTR_PTERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+D-axis Current Controller Proportional Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+D_CURRCNTR_ITERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+D-axis Current Controller Integral Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+D_CURRCNTR_CTERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+D-axis Current Controller Anti-Windup Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+D_CURRCNTR_OUTMAX&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+D-axis Current Controller Saturation Limit&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+Q_CURRCNTR_PTERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Q-axis Current Controller Proportional Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+Q_CURRCNTR_ITERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Q-axis Current Controller Integral Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+Q_CURRCNTR_CTERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Q-axis Current Controller Anti-Windup Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+Q_CURRCNTR_OUTMAX&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Q-axis Current Controller Saturation Limit&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+SPEEDCNTR_PTERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Speed Controller Proportional Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+SPEEDCNTR_ITERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Speed Controller Integral Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+SPEEDCNTR_CTERM&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Speed Current Controller Anti-Windup Gain&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="27%">
+<div class="Element68">
+SPEEDCNTR_OUTMAX&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+Speed Current Controller Saturation Limit&nbsp;</div></td><td class="Element67" valign="top" width="4%">
+<div class="Element68">
+-&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Class B Tests</div>
+<p class="Element10">
+This demonstration runs the following Class B tests during startup:</p>
+<ul class="Element630">
+<li class="Element600">Clock Test</li>
+<li class="Element600">Program Counter Test</li>
+<li class="Element600">CPU Registers Test</li>
+<li class="Element600">Flash Test</li>
+<li class="Element600">Checkerboard RAM Test</li>
+<li class="Element600">March B Test</li>
+<li class="Element600">March C Test</li>
+</ul><p class="Element10">
+All Class B memory tests in this demonstration are non-destructive.</p><div class="Element15">
+Faults</div>
+<p class="Element10">
+In this demonstration, the ON state of LED D2 indicates a Fault detection. This demonstration is equipped to detect a Class B test fail, and PFC or Motor Control faults. Class B tests are run immediately after the device power-up. If any of the Class B tests fail, it will be indicated by LED D2 turning ON. Also, the failure of Class B tests would inhibit the start of the PFC or motor. Once the Class B tests have passed successfully, the motor can be started by pressing the switch ‘S1’. While the PFC and motor are operational, if there is an Overcurrent or over-voltage condition detected on the PFC or Motor, this will cause the MCPWM to shutdown and the LED D2 will turn ON indicating a Fault.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="16691.html">Motor Control Demonstrations</a> &gt; <a href="03771.html">Demonstrations</a> &gt; <a href="03777.html">integrated_pfc_foc_mhcv3_ext_opamp</a> &gt; <a href="03780.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS MC integrated_pfc_foc_mchv3_ext_opamp_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

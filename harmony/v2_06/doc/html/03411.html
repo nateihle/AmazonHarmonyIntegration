@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>universal_audio_decoders</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03411.html">universal_audio_decoders</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03410.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03412.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO universal_audio_decoders Topic Title: universal_audio_decoders)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+universal_audio_decoders</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Universal Audio Decoder application configures the development board to be in USB Host mode. The application supports the FAT32 file system. When a mass storage device is connected to the development board, the application begins to scan the root directory. Once the scan is complete, the first track in the list will be opened and played. The fill buffer routine will read a chunk of data as an input to the decoder of the supported file format. The decoder will decode the packet and send the first frame of audio data to the codec driver through I2S Driver and the output will be audible through the speakers. The following block diagram depicts a representation of the application.&nbsp;</p>
+<p class="Element10">
+Button controls provide support to traverse the directory tree and play audio files from other directories or sub-directories. By default, the application only supports WAVE (<span class="Element146">.wav</span>) format files.&nbsp;</p>
+<p class="Element10">
+In addition to WAVE formats, the application also supports MP3, AAC, WMA, ADPCM, and Speex provided the decoder libraries and the supported source files are added as plug-ins. The MP3, AAC, and WMA are premium packages and must be purchased, whereas the PCM (i.e., WAVE format), ADPCM, Speex, Opus, and FLAC are included free of charge. Refer to the Microchip Premium MPLAB Harmony Audio web page (<a href="#" onclick="openExternalLink('http://www.microchip.com/design-centers/audio-and-speech');"><img src="indicator_external_link.gif" border="0" alt="" title="">http://www.microchip.com/design-centers/audio-and-speech</a>) for information.&nbsp;</p>
+<p class="Element10">
+Once purchased, the MP3, AAC, and WMA decoder modules can be added to the application as described in <a href="03414.html">Selecting the Decoders Using MHC</a>. Separate from purchasing the MP3, AAC and WMA libraries from Microchip, the use of MP3, AAC, and WMA in product design must be licensed from the third-party under their patents.&nbsp;</p>
+<p class="Element10">
+If support for any decoder is not available or was removed using MHC, the particular file format will not be scanned. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="7%">
+<div class="Element66">
+Audio Format&nbsp;</div></td><td class="Element65" valign="top" width="6%">
+<div class="Element66">
+Package&nbsp;</div></td><td class="Element65" valign="top" width="7%">
+<div class="Element66">
+Sampling Rates (kHz)&nbsp;</div></td><td class="Element65" valign="top" width="80%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+ADPCM&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Free of charge&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+8, 16&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Adaptive Delta Pulse Code Modulation (ADPCM) is a sub-class of the Microsoft waveform (<span class="Element146">.wav</span>) file format. In this demonstration, it only decodes ADPCM audio, which has a WAV header. The extension name for this format is pcm or PCM.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+Speex&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Free of charge&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+8, 16&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Speex is an Open Source/Free Software patent-free audio compression format designed for speech. In this demonstration, only Speex bit-streams within an Ogg container can be decoded. The extension name for this format is spx or SPX. The library is built on Speex v1.0.5 source code from <a href="#" onclick="openExternalLink('htpp://www.speex.org');"><img src="indicator_external_link.gif" border="0" alt="" title="">www.speex.org</a>.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+WAVE&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Free of charge&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+8 through 96&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+The WAVE file format is the native file format used by Microsoft Windows for storing digital audio data.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+<a href="02628.html">AAC</a>&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Premium (must be purchased)&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+8, 11.025, 12, 16, 22.05, 24, 32, 44.1, 48, 64, 88.2, and 96&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+The AAC format is a lossy digital compression format of audio data with an ADTS header. The AAC decoder supports MPEG-2 and MPEG-4 AAC. To make sure the AAC audio files work with the AAC decoder, you can always convert any audio files to MPEG-2, 4 AAC files by a MPEG-2, 4 AAC encoder, one known working encoder is FAAC (Freeware Advanced Audio Coder). The current version of the AAC Library in MPLAB Harmony is v1.0.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+<a href="16694.html">MP3</a>&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Premium (must be purchased)&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+8 through 48&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+The MPEG1, MPEG2, and MPEG2.5 Layer 3 are lossy digital compression formats for audio data. The current version of the MP3 Library version in MPLAB Harmony is v3.0.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+<a href="28688.html">WMA</a>&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Premium (must be purchased)&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+8, 11.025, 16, 22.05, 32, 44.1, and 48&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+The Windows Media Application (WMA) format allows storing digital audio using lossy compression algorithm. The WMA decoder supports the ASF container format. The Windows Media Encoder 9 Series can be downloaded from the Microsoft website to convert any audio files to WMA v9.2 files to work with this WMA decoder. The current version of the WMA Library in MPLAB Harmony is v1.01.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+<a href="12142.html">FLAC</a>&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Free of charge&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+44.1, 88.2, and 96&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+The Free Lossless Audio Codec (FLAC) is an audio format similar to MP3, but lossless, meaning that audio is compressed without any loss in quality. The FLAC Library was built using source code v1.3.2 from <a href="#" onclick="openExternalLink('http://downloads.xiph.org/releases/flac');"><img src="indicator_external_link.gif" border="0" alt="" title="">http://downloads.xiph.org/releases/flac/</a>.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="7%">
+<div class="Element68">
+<a href="17168.html">OPUS</a>&nbsp;</div></td><td class="Element67" valign="top" width="6%">
+<div class="Element68">
+Free of charge&nbsp;</div></td><td class="Element67" valign="top" width="7%">
+<div class="Element68">
+8 through 48&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Opus is an open source audio codec, which is specifically designed for interactive speech and music transmission over the Internet. The Opus Library was built using source code v1.1.2 from <a href="#" onclick="openExternalLink('http://opus-codec.org');"><img src="indicator_external_link.gif" border="0" alt="" title="">http://opus-codec.org/</a>.&nbsp;</div></td></tr></table></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The AAC and MP3 Decoder Libraries have two versions: PIC32MX (for use with PIC32MX devices) and microAptiv (for use with PIC32MZ devices with the microAptiv core). When selecting either the AAC or MP3 library in MHC, for PIC32MX devices, the PIC32MX version of the library will be automatically added in the project. For PIC32MZ devices that have the microAptiv core, the microAptiv version of the library will be added in the project. Theoretically, MHC will automatically add the correct library; however, be sure to use the correct libraries on different devices.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The macro DISK_MAX_DIRS and DISK_MAX_FILES in <span class="Element146">system_config.h</span> under each configuration, determines the maximum number of directories that should be scanned at each level (to prevent stack overflow, the traversing level is limited to 5), and the maximum number of songs in total the demonstration should scan. For each configuration, the value could be different. For example, for the PIC32MX270F512L PIM, DISK_MAX_FILES can be approximately 600, while for the PIC32MZ EF Starter Kit, DISK_MAX_FILES may be as large as 800.&nbsp;</p>
+<p class="Element10">
+Refer to <a href="02628.html">AAC Decoder Library</a>, <a href="16694.html">MP3 Decoder Library</a>, and <a href="28688.html">WMA Decoder Library</a> in the Framework Help, as well as the Microchip Premium MPLAB Harmony Audio web page (<a href="#" onclick="openExternalLink('htto://www.microchip.com/pic32harmonypremiumaudio');"><img src="indicator_external_link.gif" border="0" alt="" title="">www.microchip.com/pic32harmonypremiumaudio</a>) for additional information on the Decoder Libraries.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The universal_audio_decoders application uses the MPLAB Harmony <a href="13063.html">Decoder Library</a> to decode music files on a USB thumb drive. By default, it scans WAV (PCM) format files on mounted FAT32 USB thumb drive and streaming audio through a AKM DAC/Codec to a speaker; however, more decoders can be enabled by selecting decoders in MHC and regenerating the project. In the application, the number of audio output buffers can always set to be more than two to enhance the audio quality. And, the size of input buffer in this application is be chosen to be able to handle all decoders supported in MPLAB Harmony. Generally for non-Hi-Fi quality audio files, the size gives the application 23 ms to 26 ms buffering time on the AAC and MP3 decoders, 130 ms for Opus and Speex, 9 2ms for WMA, and 42 ms for FLAC. The following figure shows the architecture for the demonstration. </p><p class="Element10" style="text-align: center;">
+<strong>Architecture Block Diagram</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO universal_audio_decoders arch block diagram.png" border="0" alt="" title=""></p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">USB MSD Host Client Driver (see <a href="27434.html">USB MSD Host Client Driver Library</a>)</li>
+<li class="Element600">FAT32 File System (see <a href="12133.html">File System Service Library</a>)</li>
+<li class="Element600">Audio real-time buffer handling</li>
+<li class="Element600">Decoding Multiple Audio decoders in real-time</li>
+<li class="Element600">AKM Codec Drivers (see <a href="13058.html">Codec Driver Libraries</a>)</li>
+<li class="Element600">I2S usage in audio system (see <a href="13740.html">I2S Driver Library Help</a>)</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+The application supports the WAVE, Compact MP3, AAC (ADTS header), WMA (v9.2), ADPCM (WAV header), and Speex (Ogg container) audio formats. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The MP3, AAC, and WMA Decoder Libraries are premium packages and must be purchased. Refer to the Microchip Premium MPLAB Harmony Audio web page (<a href="#" onclick="openExternalLink('htto://www.microchip.com/pic32harmonypremiumaudio');"><img src="indicator_external_link.gif" border="0" alt="" title="">www.microchip.com/pic32harmonypremiumaudio</a>) for information.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The audio format can be chosen as required using MHC as follows:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Open the project on MPLAB X IDE and select the project configuration depending upon the hardware.</li>
+<li value="2" class="Element600">Open the MHC and select the Decoder.</li>
+<li value="3" class="Element600">Select <strong>Use audio decoders libraries?</strong> and the list of available decoders will be listed in the drop-down menu.</li>
+<li value="4" class="Element600">Select the decoders that are required and click <strong>Generate</strong> to add the supporting decoder files and libraries to the project.</li>
+</ol><div class="Element15">
+Audio Codec Driver</div>
+<p class="Element10">
+For Configurations using the Audio DAC Daughter Board (AK4384). In the Timer driver instance field, the index number is changed to 1.&nbsp;</p>
+<p class="Element10">
+This is because Timer instance 0 is occupied by other drivers or services.</p><div class="Element15">
+Timer Driver</div>
+<p class="Element10">
+The Timer driver configuration, Timer driver instance 0, is used by a system driver (which is also a MHC setting in System Service section), and Timer instance 1 is for the Audio DAC driver, timer instance 2 is set up for ticking function in application.</p><div class="Element15">
+I2S Driver</div>
+<p class="Element10">
+Initial sampling rate is set to 48000; however, this demonstration is supported for different sampling rates during run-time, with an API available in the Audio Codec Driver.</p><div class="Element15">
+SPI/I2S Module</div>
+<p class="Element10">
+SPI/I2S module pin setting is needed for to ensure that the I2S running correctly.&nbsp;</p>
+<p class="Element10">
+For the Bluetooth Audio Development Kit configuration, configure the following settings:</p>
+<ul class="Element630">
+<li class="Element600">SCK of I2S1 is set to port 70</li>
+<li class="Element600">SDI1 is set to port 73</li>
+<li class="Element600">SDO1 is set to 72</li>
+<li class="Element600">SS1(out) is set to 69</li>
+</ul><div class="Element15">
+Heap Size Setting</div>
+<p class="Element10">
+This application intends to set the heap size to the MCU at maximum SRAM capacity. This is done to support as many audio decoders as possible.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03412.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03413.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03414.html">Selecting the Decoders Using MHC</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This topic describes how to select the decoders using the MPLAB Harmony Configurator (MHC).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03415.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section demonstrates how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03411.html">universal_audio_decoders</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO universal_audio_decoders Topic Title: universal_audio_decoders)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

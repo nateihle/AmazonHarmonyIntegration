@@ -1,0 +1,79 @@
+// =============================================================================
+// 
+// CSR tracking information, report this in case of problems:
+//   $Revision: #2 $
+//   Built Thu Nov 27 10:10:56 2014 GMT
+//   Checked-in $DateTime: 2014/11/27 10:15:04 $
+//   $File: //depot/bc/gemini-a12/dev/patches/10520/pb-173.psr $
+// 
+// Patch is for build 10520 gem_5hci_rom_bt4.1_gemA12_1407301204_dspm_encr128
+// 
+// Issues patched: B-158094, B-171616, B-174812
+// 
+// Documentation from pb-173.pb
+// ----------------------------
+// 
+// This is patch bundle for Gemini A12.
+// 
+// Documentation from disable_to_air_shunt.pb
+// ------------------------------------------
+// 
+// Issues patched: B-174812
+// 
+// By default, To-air shunt will be disabled for all users of this
+// device regardless of package or application.
+// 
+// Documentation from patch_ulp_adv_avg_to_calc.xap
+// ------------------------------------------------
+// 
+// Issues patched: B-171616
+// 
+// Bluecore firmware does not send LE ADVERTISING REPORT with
+// rssi value -127 even when it does not receive any advertising
+// packet from PEER for average rssi supervision timeout.
+// 
+// Documentation from patch_ble_scan_deaf.xap
+// ------------------------------------------
+// 
+// Issues patched: B-158094
+// 
+// When BlueCore is asked to do BLE scanning, it scans for a window
+// approximately 2.5% shorter than asked for. Generally, this does
+// not cause noticeable effects; sometimes BLE adverts can be missed
+// making connection initialisation between two BLE devices take
+// somewhat longer than expected. In pathological cases, especially
+// if the scan window is long, connections may fail to be made entirely.
+// 
+// Version information for input files
+// -----------------------------------
+// 
+// Created by patchmaker.pl Revision: #1  Date: 2014/06/13 
+// 
+// Input file: pb-173.pb
+// Depot file: //depot/bc/gemini-a12/dev/patches/10520/pb-173.pb
+// File revision: 2
+// 
+// Input file: disable_to_air_shunt.pb
+// Depot file: //depot/bc/gemini-a12/dev/patches/10520/disable_to_air_shunt.pb
+// File revision: 3
+// 
+// Input file: patch_ulp_adv_avg_to_calc.xap
+// Depot file: //depot/bc/gemini-a12/dev/patches/10520/patch_ulp_adv_avg_to_calc.xap
+// File revision: 3
+// 
+// Input file: ../patch_utils.inc
+// Depot file: //depot/bc/gemini-a12/dev/patches/patch_utils.inc
+// File revision: 1
+// 
+// Input file: patch_ble_scan_deaf.xap
+// Depot file: //depot/bc/gemini-a12/dev/patches/10520/patch_ble_scan_deaf.xap
+// File revision: 3
+
+// patch_hardware_1, PSKEY_PATCH51 (0x212d, 8493), 21 words
+&212d = 0002 968a 0863 f925 f821 0757 0663 e099 02ec 05e0 f915 0727 f815 0627 0218 ff2b ff0e 9700 8d18 00e2 7e34
+
+// patch_hardware_2, PSKEY_PATCH52 (0x212e, 8494), 16 words
+&212e = 0002 0b5a 0100 7834 0040 0327 0223 f815 e311 0218 ff2b ff0e 0b00 5e18 00e2 59c1
+
+// explicit, PSKEY_DISABLE_TO_AIR_SHUNT (0x25f6, 9718), 1 words
+&25f6 = 0001

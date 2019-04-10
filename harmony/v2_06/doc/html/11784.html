@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Interrupt and Thread Safety</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11780.html">Previous</a> | <a href="16810.html">Up</a> | <a href="11766.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Interrupt and Thread Safety Topic Title: Interrupt and Thread Safety)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Interrupt and Thread Safety</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+MPLAB Harmony allows libraries to be configured for any one of several different environments. This is accomplished by designing libraries that comprehend the restrictions of all supported environments and that are configurable for each.&nbsp;</p>
+<p class="Element10">
+The basic concept is to always consider the context in which a function can be called. Since a driver has both system and client interface functions, the developer must consider both of these interfaces. In particular a driver’s tasks function(s) may be called from any one of the following three contexts (but only from one of them in any given configuration).</p>
+<ul class="Element630">
+<li class="Element600">The main polling loop</li>
+<li class="Element600">An ISR, if an appropriate one is available</li>
+<li class="Element600">A loop in a RTOS thread or task function</li>
+</ul><p class="Element10">
+It is also important to keep in mind that a driver’s client interface functions are normally called from an application’s tasks function (or some other client module’s tasks function), which is called from a potentially different one of the previous three contexts. And, if a driver supports callback functions, the developer must consider from what context it will call the client’s function (again, from a potentially different one of the previous three contexts).&nbsp;</p>
+<p class="Element10">
+Supporting (and testing) the capability to configure a driver for any of these environments, while potentially challenging, helps to produce robust and flexible drivers that can be used and reused in the widest range applications and that are easily portable to future projects. It also helps to ensure that they are reliable in the project for which they were originally developed by helping to find corner cases and ensure reliable operation.&nbsp;</p>
+<p class="Element10">
+Of the three contexts listed previously, most developers consider the polled environment is first when designing and implementing libraries. This environment is the easiest to understand, but it is also the most restrictive and limiting in terms of system capabilities and real-time responsiveness. So, most systems will utilize at least some interrupt-driven code or use a RTOS, requiring the developer to consider the issues described in this section.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11766.html">Atomicity</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes atomic code sequences and data types at a fundamental level.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="14395.html">Interrupt Safety</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how to guard against the potential conflicts that interrupts can cause.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11798.html">RTOS Thread Safety</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how to protect accesses to shared resources and critical sections of code from corruption by simultaneous access by multiple RTOS threads (tasks) and interrupts.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11770.html">Callback Functions</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes callback functions and the potential interrupt and thread-safety concerns they may cause.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11803.html">Synchronization</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how to use the OS Abstraction Layer (OSAL) to synchronize between threads and ISRs to manage blocking behavior.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Interrupt and Thread Safety Topic Title: Interrupt and Thread Safety)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>TEST_DATA Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27024.html">Test Libraries Help</a> &gt; <a href="27023.html">Test Harness Library</a> &gt; <a href="27013.html">Library Interface</a> &gt; e) Test Harness Initialization Data Types &gt; <a href="27026.html">TEST_DATA Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16304.html">Previous</a> | <a href="27013.html">Up</a> | <a href="27048.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_DATA Topic Title: TEST_DATA Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+TEST_DATA Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> <strong><span style="color: #000000">_test_data</span></strong> {
+  <strong><span style="color: #000080">char</span></strong> * <strong><span style="color: #000000">name</span></strong>;
+  <a href="27053.html">TEST_MODULE_INITIALIZE_ROUTINE</a> <strong><span style="color: #000000">initialize</span></strong>;
+  <a href="27056.html">TEST_MODULE_TASKS_ROUTINE</a> <strong><span style="color: #000000">tasks</span></strong>[TEST_HARNESS_MAX_NUM_TASKS];
+  <a href="27054.html">TEST_MODULE_START_FUNCTION</a> <strong><span style="color: #000000">start</span></strong>;
+  <a href="27055.html">TEST_MODULE_STATUS_ROUTINE</a> <strong><span style="color: #000000">status</span></strong>;
+  <a href="23968.html">SYS_MODULE_INDEX</a> <strong><span style="color: #000000">index</span></strong>;
+  <a href="23969.html">SYS_MODULE_INIT</a> * <strong><span style="color: #000000"><a href="13976.html">initData</a></span></strong>;
+  <a href="16304.html">LIBRARY_UNDER_TEST</a> * <strong><span style="color: #000000">library</span></strong>;
+  <a href="23975.html">SYS_MODULE_OBJ</a> <strong><span style="color: #000000">testObj</span></strong>;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">passed</span></strong>;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">count</span></strong>;
+  <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">completed</span></strong>;
+} TEST_DATA;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Test Data&nbsp;</p>
+<p class="Element10">
+This structure holds the data necessary to initialize and run a single test.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+char * name;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to test name string.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+TEST_MODULE_INITIALIZE_ROUTINE initialize;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to test's initialize routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+TEST_MODULE_TASKS_ROUTINE tasks[TEST_HARNESS_MAX_NUM_TASKS];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to test's tasks routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+TEST_MODULE_START_FUNCTION start;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to test's start routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+TEST_MODULE_STATUS_ROUTINE status;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to test's status routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_INDEX index;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Test module's index.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_INIT * initData;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Initial data for test module.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+LIBRARY_UNDER_TEST * library;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to library under test data structure.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_OBJ testObj;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Test module's object handle.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned int passed;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Count of sub-tests that have passed.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned int count;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Count of sub-tests that have been run.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+bool completed;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Flag indicating all sub-tests completed (module is idle).&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27024.html">Test Libraries Help</a> &gt; <a href="27023.html">Test Harness Library</a> &gt; <a href="27013.html">Library Interface</a> &gt; e) Test Harness Initialization Data Types &gt; <a href="27026.html">TEST_DATA Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_DATA Topic Title: TEST_DATA Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

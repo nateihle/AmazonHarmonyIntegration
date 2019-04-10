@@ -1,0 +1,67 @@
+menu "Sample"
+
+config USE_DRV_SAMPLE
+    bool "Use Sample Driver?"
+    default n
+	select DRIVER
+    ---help---
+    The sample driver provides an example of a MPLAB Harmony driver.
+    IDH_HTML_SAMPLE_Introduction
+    ---endhelp---
+
+config DRV_SAMPLE_INSTANCES_NUMBER
+    int "Number of sample driver instances."
+    depends on USE_DRV_SAMPLE
+    range 1 2
+    default 2
+    ---help---
+    Determines the number of instances of the sample driver used.
+    
+    Defines DRV_SAMPLE_INSTANCES_NUMBER in system_config.h header of the current 
+    configuration of the master project.
+    ---endhelp---
+
+config DRV_SAMPLE_CLIENTS_NUMBER
+    int "Number of sample driver clients (shared between all instances)."
+    depends on USE_DRV_SAMPLE
+    default 5
+    ---help---
+    Determines the number of instances of the sample driver used.
+    
+    Defines DRV_SAMPLE_CLIENTS_NUMBER in system_config.h header of the current 
+    configuration of the master project.
+    ---endhelp---
+
+config DRV_SAMPLE_INTERRUPT_MODE
+    bool "Build for interrupt-driven mode"
+    depends on USE_DRV_SAMPLE
+    default n
+    ---help---
+    Determines if the sample driver is built to support interrupt mode.
+    
+    Defines DRV_SAMPLE_INTERRUPT_MODE in system_config.h header of the current 
+    configuration of the master project as true if selected, false if not.
+    ---endhelp---
+    
+comment "Each sample driver instance uses a timer when interrupt driven."
+    depends on USE_DRV_SAMPLE
+    depends on DRV_SAMPLE_INTERRUPT_MODE
+    
+
+source "$HARMONY_VERSION_PATH/framework/driver/sample/config/drv_sample_idx.hconfig.ftl" 2 instances
+
+endmenu
+
+
+enum DRV_SAMPLE_INDEX
+    "DRV_SAMPLE_INDEX_0"
+    || "DRV_SAMPLE_INDEX_1"
+
+ifblock USE_DRV_SAMPLE
+add "<#include \"/framework/driver/sample/templates/system_config.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_SAMPLE_H       "$HARMONY_VERSION_PATH/framework/driver/sample/drv_sample.h"            to "$PROJECT_HEADER_FILES/framework/driver/sample/drv_sample.h"
+file DRV_SAMPLE_MAP_H   "$HARMONY_VERSION_PATH/framework/driver/sample/drv_sample_mapping.h"     to "$PROJECT_HEADER_FILES/framework/driver/sample/drv_sample_mapping.h"
+file DRV_SAMPLE_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/sample/src/drv_sample_local.h"  to "$PROJECT_HEADER_FILES/framework/driver/sample/src/drv_sample_local.h"
+file DRV_SAMPLE_C       "$HARMONY_VERSION_PATH/framework/driver/sample/src/drv_sample.c"        to "$PROJECT_SOURCE_FILES/framework/driver/sample/src/drv_sample.c"
+endif

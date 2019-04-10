@@ -1,0 +1,675 @@
+menu "wolfSSL"
+    ---help---
+<p><strong>Use wolfSSL?</strong></p>
+<div>
+	&nbsp;</div>
+<p>Refer to the <A HREF="http://www.wolfssl.com/wolfSSL/Docs.html">online documentation.</A></p>
+    ---endhelp---
+
+config USE_3RDPARTY_WOLFSSL_NEEDED
+    bool
+
+config USE_3RDPARTY_WOLFSSL
+    bool "Use wolfSSL"
+    select TCPIP_USE_SNTP_CLIENT_NEEDED
+    select USE_CRYPTO_LIB_NEEDED
+    select USE_CRYPTO_RSA_NEEDED
+    default n if !USE_3RDPARTY_WOLFSSL_NEEDED
+    default y if USE_3RDPARTY_WOLFSSL_NEEDED
+    ---help---
+<p><strong>Use wolfSSL?</strong></p>
+<div>
+	&nbsp;</div>
+<p>Refer to the <A HREF="http://www.wolfssl.com/wolfSSL/Docs.html">online documentation.</A></p>
+    ---endhelp---
+
+config WOLFSSL_MULTI_THREAD_SUPPORT
+    bool "Multi-threaded Support?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Multi-threaded Protection</strong></p>
+    Enabling single threaded mode turns off multi thread protection of the session cache. Only enable single threaded mode if you know your application is single threaded or your application is multi threaded and only one thread at a time will be accessing the library.
+    ---endhelp---
+
+
+config WOLFSSL_USE_FAST_MATH
+    bool "Use Fast Math?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Fast Math Support</string></p>
+    enabling fastmath will speed up public key operations like RSA, DH, and DSA.  By default, wolfSSL uses the normal big integer math library.  This is generally the most portable and generally easiest to get going with.  The negatives to the normal big integer library are that it is slower and it uses a lot of dynamic memory.  This option switches the big integer library to a faster one that uses assembly if possible.  Assembly inclusion is dependent on compiler and processor combinations. Some combinations will need additional configure flags and some may not be possible. Help with optimizing fastmath with new assembly routines is available on a consulting basis.
+    ---endhelp---
+
+
+config WOLFSSL_USE_MZ_CRYPTO
+    bool "Use PIC32MZ Hardware Cryptography?"
+    depends on USE_3RDPARTY_WOLFSSL
+    depends on CRYPTO
+    select USE_CRYPTO_HW_NEEDED
+    default n
+
+menu "Protocol and Key Exchange"
+    depends on USE_3RDPARTY_WOLFSSL
+
+config WOLFSSL_TLS
+    bool "Use TLS?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>TLS Support</strong></p>
+    Turns on TLS. We don't recommend turning off TLS.
+    ---endhelp---
+
+
+config WOLFSSL_DH
+    bool "Use Diffie-Hellman?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Diffie-Hellman Support</strong></p>
+    Turns on Diffie-Hellman support which is widely used.
+    ---endhelp---
+
+config WOLFSSL_PSK
+    bool "Use PSK?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Pre-shared Key Extension</strong></p>
+    Turns on the use of the pre-shared key extension. It is built-in by default.
+    ---endhelp---
+
+config WOLFSSL_PWDBASED
+    bool "Use PWDBASED?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Password-Based Key Derivation</strong></p>
+     Enables password-based key derivation functions such as PBKDF1, PBKDF2, and PBKDF from PKCS #12.
+    ---endhelp---
+
+config WOLFSSL_CERT_GEN
+    bool "Use Certificate Generation?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Certificate Generation</strong></p>
+    Turns on wolfSSL's certificate generation functionality.  See chapter 7 for more information.
+    ---endhelp---
+
+config WOLFSSL_DER_LOAD
+    bool "Allow loading if DER-formatted CA Certificates?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>DER-formatted CA certs</strong></p>
+    Allows loading DER-formatted CA certs into the wolfSSL context (WOLFSSL_CTX) using the function wolfSSL_CTX_der_load_verify_locations().
+    ---endhelp---
+
+config WOLFSSL_DTLS
+    bool "Use DTLS?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Datagram TLS</string></p>
+    Turns on the use of DTLS, or datagram TLS.  This isn't widely supported or used so it is off by default.
+    ---endhelp---
+
+config WOLFSSL_KEY_GEN
+    bool "Use RSA Key Generation?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>RSA Key Generation</strong></p>
+    Turns on wolfSSL's RSA key generation functionality.  See chapter 7 for more information.
+    ---endhelp---
+
+config WOLFSSL_HAVE_CRL
+    bool "Use Certificate Revocation List?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Certificate Revocation List</strong></p>
+    Enables Certificate Revocation List (CRL) support.
+    ---endhelp---
+
+
+config WOLFSSL_HAVE_ECC
+    bool "Use Elliptical Curve Cryptography (ECC)?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Elliptical Curve Cryptography</strong></p>
+    Enables Elliptical Curve Cryptography (ECC) support.
+    ---endhelp---
+
+config WOLFSSL_HAVE_LIBZ
+    bool "Support Connection Compression?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Connection Compression</strong></p>
+    Enables an extension that can allow for compression of data over the connection.  It is off by default and normally shouldn't be used.
+    ---endhelp---
+
+
+config WOLFSSL_HAVE_OCSP
+    bool "Use Online Certificate Status Protocol (OCSP)?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Online Certificate Status Protocol</strong></p>
+    Enables Online Certificate Status Protocol (OCSP) support.
+    ---endhelp---
+
+config WOLFSSL_HAVE_TLS13
+	bool "Use TLS 1.3 Protocol?  (Beta)"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>TLS Version 1.3</strong></p>
+    Enables the 1.3 version of the TLS protocol.  Note: TLS version 1.3 is considered beta software, and may contains bugs, exploits and other deficiencies that can effect security.
+    ---endhelp---
+
+endmenu
+
+
+menu "Cyphers"
+    depends on USE_3RDPARTY_WOLFSSL
+
+config WOLFSSL_DES3
+    bool "Use Triple DES?"
+    depends on USE_3RDPARTY_WOLFSSL
+    select USE_CRYPTO_3DES_NEEDED
+    default y
+    ---help---
+    <p><strong>DES3 Encryption</strong></p>
+    Enables the use of DES3 encryptions. DES3 is built-in by default because some older servers still use it and it's required by SSL 3.0.
+    ---endhelp---
+
+config WOLFSSL_AES
+    bool "Use AES?"
+    depends on USE_3RDPARTY_WOLFSSL
+    select USE_CRYPTO_AES_NEEDED
+    default y
+    ---help---
+    <p><strong>AES Encryption</strong></p>
+    Enables the use of DES3 encryptions. AES is widely used.
+    ---endhelp---
+
+config WOLFSSL_HAVE_AESCCM
+    bool "AES-CCM support?"
+    depends on WOLFSSL_AES
+    default n
+    ---help---
+    <p><strong>AES-CCM</strong></p>
+    Enables AES-CCM support.
+    ---endhelp---
+
+config WOLFSSL_HAVE_AESGCM
+    bool "AES-GCM support?"
+    depends on WOLFSSL_AES
+    default n
+    ---help---
+    <p><strong>AES-GCM</strong></p>
+    Enables AES-GCM support.
+    ---endhelp---
+
+config WOLFSSL_DSA
+    bool "Use DSA?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>DSA</strong></p>
+    Includes DSA. It's being phased out of popular use.
+    ---endhelp---
+
+config WOLFSSL_HMAC
+    bool "Use HMAC?"
+    depends on USE_3RDPARTY_WOLFSSL
+    select USE_CRYPTO_HMAC_NEEDED
+    default y
+    ---help---
+    <p><strong>HMAC</strong></p>
+    Includes HMAC in the build
+    ---endhelp---
+
+
+config WOLFSSL_RC4
+    bool "Use RC4?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>RC4</strong></p>
+    Enables the use of the ARC4 steam cipher from the build. ARC4 is built-in by default because it is still popular and widely used.
+    ---endhelp---
+
+config WOLFSSL_RABBIT
+    bool "Use RABBIT?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Rabbit</strong></p>
+    Enables stream cipher extension in the build.
+    ---endhelp---
+
+config WOLFSSL_HC128
+    bool "Use HC128?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>HC128</strong></p>
+    Enables stream cipher extension in the build.
+    ---endhelp---
+
+config WOLFSSL_HAVE_CAMELLIA
+    bool "Use CAMELLIA?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Camellia </strong></p>
+    Enables Camellia support.
+    ---endhelp---
+
+
+endmenu
+
+menu "Hashes"
+    depends on USE_3RDPARTY_WOLFSSL
+
+config WOLFSSL_MD4
+    bool "Use MD4?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>MD4</strong></p>
+    Enables MD4 in the build, MD4 is broken and shouldn't be used.
+    ---endhelp---
+
+config WOLFSSL_SHA256
+    bool "Use SHA256?"
+    depends on USE_3RDPARTY_WOLFSSL
+    select USE_CRYPTO_SHA_256_NEEDED
+    default y
+    ---help---
+    <p><strong>SHA256</strong></p>
+    Enables SHA256 in the build.
+    ---endhelp---
+
+config WOLFSSL_RIPEMD
+    bool "Use RIPEMD-160?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>RIPEMD-160</strong></p>
+    Enables RIPEMD-160 support.
+    ---endhelp---
+
+config WOLFSSL_SHA384
+    bool "Use SHA-384?"
+    depends on USE_3RDPARTY_WOLFSSL
+    select USE_CRYPTO_SHA_384_NEEDED
+    default n
+    ---help---
+    <p><strong>SHA384</strong></p>
+    Enables SHA-384 support.
+    ---endhelp---
+
+config WOLFSSL_SHA512
+    bool "Use SHA-512?"
+    depends on USE_3RDPARTY_WOLFSSL
+    select USE_CRYPTO_SHA_512_NEEDED
+    default n
+    ---help---
+    <p><strong>SHA512</strong></p>
+    Enables SHA-512 support.
+    ---endhelp---
+
+endmenu
+
+menu "Memory Optimization"
+    depends on USE_3RDPARTY_WOLFSSL
+
+config WOLFSSL_SESSION_CACHE
+    bool "Use Session Cache?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Session Cache</strong></p>
+    Used when a session cache is needed.  This should increase memory use by nearly 3 kB.
+    ---endhelp---
+
+config WOLFSSL_SMALL_SESSION_CACHE
+    bool "Use Small Session Cache?"
+    depends on WOLFSSL_SESSION_CACHE
+    default n
+    ---help---
+    <p><strong>Small Session Cache</strong></p>
+    Can be defined to limit the size of the SSL session cache used by wolfSSL.  This will reduce the default session cache from 33 sessions to 6 sessions and save approximately 2.5 kB.
+    ---endhelp---
+
+endmenu
+
+menu "Code Size Optimizations"
+    depends on USE_3RDPARTY_WOLFSSL
+
+config WOLFSSL_ERROR_STRINGS
+    bool "Use Error Strings?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Error String</strong></p>
+    Enables error strings. Error strings are located in src/internal.c for wolfSSL or ctaocrypt/src/asn.c for CTaoCrypt.
+    ---endhelp---
+
+config WOLFSSL_WOLFSSL_CLIENT
+    bool "Use wolfSSL Client?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>wolfSSL Client</strong></p>
+    Includes calls specific to the client and is for a client enabled builds.  You should only not use this if you want to remove a few calls for the sake of size.
+    ---endhelp---
+
+config WOLFSSL_WOLFSSL_SERVER
+    bool "Use wolfSSL Server?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>wolfSSL Server</strong></p>
+    Includes calls specific to the server and is for a server enabled builds.  You should only not use this if you want to remove a few calls for the sake of size.
+    ---endhelp---
+
+config WOLFSSL_DEBUG_SUPPORT
+    bool "Debug Support?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>Debug Support</strong></p>
+    Builds in the ability to debug. For more information regarding debugging wolfSSL, see Chapter 8.  It is off by default.
+    ---endhelp---
+
+
+config WOLFSSL_OPENSSL_EXTRA
+    bool "OpenSSL API Support?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default n
+    ---help---
+    <p><strong>OpenSSL Support</strong></p>
+    Builds even more OpenSSL compatibility into the library, and enables the wolfSSL OpenSSL compatibility layer to ease porting wolfSSL into existing applications which had been designed to work with OpenSSL. It is off by default.
+    ---endhelp---
+
+config WOLFSSL_OLD_TLS_SUPPORT
+    bool "Support older versions of TLS & SSL 3.0?"
+    depends on USE_3RDPARTY_WOLFSSL
+    default y
+    ---help---
+    <p><strong>Support Older Versions of TLS and SSL 3.0</strong></p>
+    With this option enabled SSL 3.0, TLS 1.0 & TLS 1.1 are supported.  With this option turned off only TLS 1.2 is supported.
+    ---endhelp---
+
+endmenu
+
+endmenu
+
+ifblock USE_3RDPARTY_WOLFSSL
+
+file WOLFSSL_HEADER_01 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/callbacks.h"       to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/callbacks.h"
+file WOLFSSL_HEADER_02 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/certs_test.h"      to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/certs_test.h"
+file WOLFSSL_HEADER_03 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/crl.h"             to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/crl.h"
+file WOLFSSL_HEADER_04 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/error-ssl.h"       to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/error-ssl.h"
+file WOLFSSL_HEADER_06 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/ocsp.h"            to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/ocsp.h"
+file WOLFSSL_HEADER_08 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/sniffer.h"         to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/sniffer.h"
+file WOLFSSL_HEADER_09 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/sniffer_error.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/sniffer_error.h"
+file WOLFSSL_HEADER_10 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/ssl.h"             to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/ssl.h"
+file WOLFSSL_HEADER_11 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/test.h"            to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/test.h"
+file WOLFSSL_HEADER_12 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfio.h"              to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfio.h"
+
+
+file WOLFSSL_HEADER_15 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/asn_public.h"         to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/asn_public.h"
+file WOLFSSL_HEADER_16 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/blake2-impl.h"        to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/blake2-impl.h"
+file WOLFSSL_HEADER_17 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/blake2-int.h"         to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/blake2-int.h"
+file WOLFSSL_HEADER_18 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/blake2.h"             to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/blake2.h"
+file WOLFSSL_HEADER_19 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/camellia.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/camellia.h"
+file WOLFSSL_HEADER_20 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/chacha.h"             to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/chacha.h"
+file WOLFSSL_HEADER_21 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/chacha20_poly1305.h"  to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/chacha20_poly1305.h"
+file WOLFSSL_HEADER_24 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/curve25519.h"         to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/curve25519.h"
+file WOLFSSL_HEADER_26 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/dh.h"                 to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/dh.h"
+file WOLFSSL_HEADER_27 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/dsa.h"                to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/dsa.h"
+file WOLFSSL_HEADER_29 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ed25519.h"            to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ed25519.h"
+file WOLFSSL_HEADER_30 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/error-crypt.h"        to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/error-crypt.h"
+file WOLFSSL_HEADER_31 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/fe_operations.h"      to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/fe_operations.h"
+file WOLFSSL_HEADER_32 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/fips_test.h"          to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/fips_test.h"
+file WOLFSSL_HEADER_33 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ge_operations.h"      to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ge_operations.h"
+file WOLFSSL_HEADER_35 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/hc128.h"              to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/hc128.h"
+file WOLFSSL_HEADER_39 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/md2.h"                to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/md2.h"
+file WOLFSSL_HEADER_40 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/md4.h"                to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/md4.h"
+file WOLFSSL_HEADER_44 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/mpi_class.h"          to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/mpi_class.h"
+file WOLFSSL_HEADER_45 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/mpi_superclass.h"     to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/mpi_superclass.h"
+file WOLFSSL_HEADER_46 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/pkcs7.h"              to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/pkcs7.h"
+file WOLFSSL_HEADER_47 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/poly1305.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/poly1305.h"
+file WOLFSSL_HEADER_49 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/rabbit.h"             to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/rabbit.h"
+file WOLFSSL_HEADER_51 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ripemd.h"             to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ripemd.h"
+
+compiler WOLFSSL_COMPILER_1 C define "HAVE_CONFIG_H"
+compiler WOLFSSL_COMPILER_2 C includepath  "$HARMONY_VERSION_PATH/third_party/tcpip/support"
+compiler WOLFSSL_COMPILER_3 C includepath  "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl"
+
+file WOLFSSL_SOURCE_01 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/crl.c"        to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/crl.c"
+file WOLFSSL_SOURCE_02 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/internal.c"   to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/internal.c"
+file WOLFSSL_SOURCE_03 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/wolfio.c"         to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfio.c"
+file WOLFSSL_SOURCE_04 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/keys.c"       to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/keys.c"
+file WOLFSSL_SOURCE_05 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/ocsp.c"       to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/ocsp.c"
+file WOLFSSL_SOURCE_06 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/sniffer.c"    to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/sniffer.c"
+file WOLFSSL_SOURCE_07 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/ssl.c"        to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/ssl.c"
+file WOLFSSL_SOURCE_08 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/src/tls.c"        to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/tls.c"
+
+file WOLFSSL_SOURCE_11 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/asm.c"                to "$PROJECT_HEADER_FILES/framework/crypto/src/asm.c"
+file WOLFSSL_SOURCE_13 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/blake2b.c"            to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/blake2b.c"
+file WOLFSSL_SOURCE_14 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/camellia.c"           to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/camellia.c"
+file WOLFSSL_SOURCE_15 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/chacha.c"             to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/chacha.c"
+file WOLFSSL_SOURCE_16 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/chacha20_poly1305.c"  to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/chacha20_poly1305.c"
+file WOLFSSL_SOURCE_19 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/curve25519.c"         to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/curve25519.c"
+file WOLFSSL_SOURCE_21 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/dh.c"                 to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/dh.c"
+file WOLFSSL_SOURCE_22 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/dsa.c"                to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/dsa.c"
+file WOLFSSL_SOURCE_24 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/ecc_fp.c"             to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/ecc_fp.c"
+file WOLFSSL_SOURCE_25 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/ed25519.c"            to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/ed25519.c"
+file WOLFSSL_SOURCE_27 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/fe_low_mem.c"         to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/fe_low_mem.c"
+file WOLFSSL_SOURCE_28 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/fe_operations.c"      to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/fe_operations.c"
+file WOLFSSL_SOURCE_29 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/ge_low_mem.c"         to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/ge_low_mem.c"
+file WOLFSSL_SOURCE_30 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/ge_operations.c"      to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/ge_operations.c"
+file WOLFSSL_SOURCE_32 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/hc128.c"              to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/hc128.c"
+file WOLFSSL_SOURCE_36 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/md2.c"                to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/md2.c"
+file WOLFSSL_SOURCE_37 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/md4.c"                to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/md4.c"
+file WOLFSSL_SOURCE_40 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/pkcs7.c"              to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/pkcs7.c"
+file WOLFSSL_SOURCE_41 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/poly1305.c"           to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/poly1305.c"
+file WOLFSSL_SOURCE_43 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/rabbit.c"             to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/rabbit.c"
+file WOLFSSL_SOURCE_45 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/ripemd.c"             to "$PROJECT_SOURCE_FILES/third_party/tcpip/wolfssl/wolfcrypt/ripemd.c"
+file WOLFSSL_SOURCE_46 "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfcrypt/src/misc.c"               to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfcrypt/src/misc.c"
+
+template WOLFSSL_CONFIG_H_TEMPLATE "$HARMONY_VERSION_PATH/third_party/tcpip/config/wolfssl.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/config.h"
+
+file WOLFSSL_CYASSL_CALLBACK_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/callbacks.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/callbacks.h"
+file WOLFSSL_CYASSL_CERTTEST_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/certs_test.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/certs_test.h"
+file WOLFSSL_CYASSL_CRL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/crl.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/crl.h"
+#file WOLFSSL_CYASSL_AES_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/aes.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/aes.h"
+file WOLFSSL_CYASSL_ARC4_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/arc4.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/arc4.h"
+file WOLFSSL_CYASSL_ASN_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/asn.h"           to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/asn.h"
+file WOLFSSL_CYASSL_ASN_PUBLIC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/asn_public.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/asn_public.h"
+file WOLFSSL_CYASSL_BLAKE2_IMPL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/blake2-impl.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/blake2-impl.h"
+file WOLFSSL_CYASSL_BLAKE2_INT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/blake2-int.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/blake2-int.h"
+file WOLFSSL_CYASSL_BLAKE2_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/blake2.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/blake2.h"
+file WOLFSSL_CYASSL_CAMELLIA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/camellia.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/camellia.h"
+file WOLFSSL_CYASSL_CHACHA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/chacha.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/chacha.h"
+file WOLFSSL_CYASSL_CODING_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/coding.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/coding.h"
+file WOLFSSL_CYASSL_COMPRESS_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/compress.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/compress.h"
+#file WOLFSSL_CYASSL_DES3_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/des3.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/des3.h"
+file WOLFSSL_CYASSL_DH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/dh.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/dh.h"
+file WOLFSSL_CYASSL_DSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/dsa.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/dsa.h"
+file WOLFSSL_CYASSL_ECC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/ecc.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/ecc.h"
+file WOLFSSL_CYASSL_ERR_CRYPT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/error-crypt.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/error-crypt.h"
+file WOLFSSL_CYASSL_FIPS_TEST_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/fips_test.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/fips_test.h"
+file WOLFSSL_CYASSL_HC128_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/hc128.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/hc128.h"
+file WOLFSSL_CYASSL_HMAC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/hmac.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/hmac.h"
+file WOLFSSL_CYASSL_INTEGER_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/integer.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/integer.h"
+file WOLFSSL_CYASSL_LOGGING_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/logging.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/logging.h"
+file WOLFSSL_CYASSL_MD2_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/md2.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/md2.h"
+file WOLFSSL_CYASSL_MD4_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/md4.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/md4.h"
+#file WOLFSSL_CYASSL_MD5_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/md5.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/md5.h"
+file WOLFSSL_CYASSL_MEMORY_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/memory.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/memory.h"
+file WOLFSSL_CYASSL_MISC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/misc.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/misc.h"
+file WOLFSSL_CYASSL_MPI_CLASS_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/mpi_class.h"   to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/mpi_class.h"
+file WOLFSSL_CYASSL_MPI_SUPERCLASS_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/mpi_superclass.h" to"$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/mpi_superclass.h"
+file WOLFSSL_CYASSL_PKCS7_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/pkcs7.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/pkcs7.h"
+file WOLFSSL_CYASSL_POLY1305_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/poly1305.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/poly1305.h"
+#ifblock USE_CRYPTO_HW
+file WOLFSSL_CYASSL_PIC32MZ_CRYPT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/port/pic32/pic32mz-crypt.h" to"$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/port/pic32/pic32mz-crypt.h"
+#endif
+file WOLFSSL_CYASSL_PWDBASED_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/pwdbased.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/pwdbased.h"
+file WOLFSSL_CYASSL_RABBIT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/rabbit.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/rabbit.h"
+#file WOLFSSL_CYASSL_RANDOM_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/random.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/random.h"
+file WOLFSSL_CYASSL_RIPMED_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/ripemd.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/ripemd.h"
+file WOLFSSL_CYASSL_RSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/rsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/rsa.h"
+file WOLFSSL_CYASSL_SETTINGS_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/settings.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/settings.h"
+file WOLFSSL_CYASSL_SETTINGS_COMP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/settings_comp.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/settings_comp.h"
+#file WOLFSSL_CYASSL_SHA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/sha.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/sha.h"
+#file WOLFSSL_CYASSL_SHA256_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/sha256.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/sha256.h"
+file WOLFSSL_CYASSL_SHA512_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/sha512.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/sha512.h"
+file WOLFSSL_CYASSL_TFM_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/tfm.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/tfm.h"
+file WOLFSSL_CYASSL_TYPES_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/types.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/types.h"
+file WOLFSSL_CYASSL_VISIBLITY_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/visibility.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/visibility.h"
+file WOLFSSL_CYASSL_WC_PORT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ctaocrypt/wc_port.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ctaocrypt/wc_port.h"
+file WOLFSSL_CYASSL_ERR_SSL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/error-ssl.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/error-ssl.h"
+file WOLFSSL_CYASSL_INTERNAL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/internal.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/internal.h"
+file WOLFSSL_CYASSL_OCSP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ocsp.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ocsp.h"
+file WOLFSSL_CY_OPENSSL_ASN1_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/asn1.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/asn1.h"
+file WOLFSSL_CY_OPENSSL_BIO_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/bio.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/bio.h"
+file WOLFSSL_CY_OPENSSL_BN_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/bn.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/bn.h"
+file WOLFSSL_CY_OPENSSL_CONF_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/conf.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/conf.h"
+file WOLFSSL_CY_OPENSSL_CRYPTO_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/crypto.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/crypto.h"
+file WOLFSSL_CY_OPENSSL_DES_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/des.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/des.h"
+file WOLFSSL_CY_OPENSSL_DH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/dh.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/dh.h"
+file WOLFSSL_CY_OPENSSL_DSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/dsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/dsa.h"
+file WOLFSSL_CY_OPENSSL_EC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ec.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ec.h"
+file WOLFSSL_CY_OPENSSL_EC25519_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ec25519.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ec25519.h"
+file WOLFSSL_CY_OPENSSL_ECDH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ecdh.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ecdh.h"
+file WOLFSSL_CY_OPENSSL_ECDSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ecdsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ecdsa.h"
+file WOLFSSL_CY_OPENSSL_ED25519_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ed25519.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ed25519.h"
+file WOLFSSL_CY_OPENSSL_ENGINE_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/engine.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/engine.h"
+file WOLFSSL_CY_OPENSSL_ERR_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/err.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/err.h"
+file WOLFSSL_CY_OPENSSL_EVP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/evp.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/evp.h"
+file WOLFSSL_CY_OPENSSL_HMAC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/hmac.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/hmac.h"
+file WOLFSSL_CY_OPENSSL_LHASH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/lhash.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/lhash.h"
+file WOLFSSL_CY_OPENSSL_MD4_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/md4.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/md4.h"
+#file WOLFSSL_CY_OPENSSL_MD5_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/md5.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/md5.h"
+file WOLFSSL_CY_OPENSSL_OCSP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ocsp.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ocsp.h"
+file WOLFSSL_CY_OPENSSL_OPENSSLCONF_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/opensslconf.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/opensslconf.h"
+file WOLFSSL_CY_OPENSSL_OPENSSLV_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/opensslv.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/opensslv.h"
+file WOLFSSL_CY_OPENSSL_OSSL_TYP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ossl_typ.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ossl_typ.h"
+file WOLFSSL_CY_OPENSSL_PEM_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/pem.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/pem.h"
+file WOLFSSL_CY_OPENSSL_PKCS12_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/pkcs12.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/pkcs12.h"
+file WOLFSSL_CY_OPENSSL_RAND_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/rand.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/rand.h"
+file WOLFSSL_CY_OPENSSL_RIPEMED_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ripemd.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ripemd.h"
+file WOLFSSL_CY_OPENSSL_RSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/rsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/rsa.h"
+#file WOLFSSL_CY_OPENSSL_SHA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/sha.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/sha.h"
+file WOLFSSL_CY_OPENSSL_SSL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ssl.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ssl.h"
+file WOLFSSL_CY_OPENSSL_STACK_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/stack.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/stack.h"
+file WOLFSSL_CY_OPENSSL_UI_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/ui.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/ui.h"
+file WOLFSSL_CY_OPENSSL_X509_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/x509.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/x509.h"
+file WOLFSSL_CY_OPENSSL_X509V3_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/openssl/x509v3.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/openssl/x509v3.h"
+file WOLFSSL_CYASSL_SNIFFER_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/sniffer.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/sniffer.h"
+file WOLFSSL_CYASSL_SNIFFER_ERROR_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/sniffer_error.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/sniffer_error.h"
+file WOLFSSL_CYASSL_SSL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/ssl.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/ssl.h"
+file WOLFSSL_CYASSL_TEST_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/test.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/test.h"
+file WOLFSSL_CYASSL_VERSION_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/cyassl/version.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/cyassl/version.h"
+file WOLFSSL_CLIENT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/examples/client/client.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/examples/client/client.h"
+file WOLFSSL_ECHOCLIENT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/examples/echoclient/echoclient.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/examples/echoclient/echoclient.h"
+file WOLFSSL_ECHOSERVER_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/examples/echoserver/echoserver.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/examples/echoserver/echoserver.h"
+file WOLFSSL_SERVER_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/examples/server/server.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/examples/server/server.h"
+file WOLFSSL_UNIT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/tests/unit.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/tests/unit.h"
+file WOLFSSL_WOLFSSL_INTERNAL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/internal.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/internal.h"
+file WOLFSSL_OPENSSL_ASN1_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/asn1.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/asn1.h"
+file WOLFSSL_OPENSSL_BIO_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/bio.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/bio.h"
+file WOLFSSL_OPENSSL_BN_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/bn.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/bn.h"
+file WOLFSSL_OPENSSL_CONF_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/conf.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/conf.h"
+file WOLFSSL_OPENSSL_CRYPTO_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/crypto.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/crypto.h"
+file WOLFSSL_OPENSSL_DES_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/des.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/des.h"
+file WOLFSSL_OPENSSL_DH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/dh.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/dh.h"
+file WOLFSSL_OPENSSL_DSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/dsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/dsa.h"
+file WOLFSSL_OPENSSL_EC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ec.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ec.h"
+file WOLFSSL_OPENSSL_EC25519_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ec25519.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ec25519.h"
+file WOLFSSL_OPENSSL_ECDH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ecdh.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ecdh.h"
+file WOLFSSL_OPENSSL_ECDSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ecdsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ecdsa.h"
+file WOLFSSL_OPENSSL_ED25519_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ed25519.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ed25519.h"
+file WOLFSSL_OPENSSL_ENGINE_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/engine.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/engine.h"
+file WOLFSSL_OPENSSL_ERR_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/err.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/err.h"
+file WOLFSSL_OPENSSL_EVP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/evp.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/evp.h"
+file WOLFSSL_OPENSSL_HMAC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/hmac.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/hmac.h"
+file WOLFSSL_OPENSSL_LHASH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/lhash.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/lhash.h"
+file WOLFSSL_OPENSSL_MD4_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/md4.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/md4.h"
+#file WOLFSSL_OPENSSL_MD5_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/md5.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/md5.h"
+file WOLFSSL_OPENSSL_OCSP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ocsp.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ocsp.h"
+file WOLFSSL_OPENSSL_OPENSSLCONF_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/opensslconf.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/opensslconf.h"
+file WOLFSSL_OPENSSL_OPENSSLV_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/opensslv.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/opensslv.h"
+file WOLFSSL_OPENSSL_OSSL_TYP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ossl_typ.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ossl_typ.h"
+file WOLFSSL_OPENSSL_PEM_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/pem.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/pem.h"
+file WOLFSSL_OPENSSL_PKCS12_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/pkcs12.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/pkcs12.h"
+file WOLFSSL_OPENSSL_RAND_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/rand.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/rand.h"
+file WOLFSSL_OPENSSL_RIPEMED_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ripemd.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ripemd.h"
+file WOLFSSL_OPENSSL_RSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/rsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/rsa.h"
+#file WOLFSSL_OPENSSL_SHA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/sha.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/sha.h"
+file WOLFSSL_OPENSSL_SSL_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ssl.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ssl.h"
+file WOLFSSL_OPENSSL_STACK_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/stack.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/stack.h"
+file WOLFSSL_OPENSSL_UI_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/ui.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/ui.h"
+file WOLFSSL_OPENSSL_X509_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/x509.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/x509.h"
+file WOLFSSL_OPENSSL_X509V3_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/openssl/x509v3.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/openssl/x509v3.h"
+file WOLFSSL_OPENSSL_VERSION_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/version.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/version.h"
+#file WOLFSSL_WRCYPT_AES_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/aes.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/aes.h"
+file WOLFSSL_WRCYPT_ARC4_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/arc4.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/arc4.h"
+file WOLFSSL_WRCYPT_ASN_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/asn.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/asn.h"
+file WOLFSSL_WRCYPT_CODING_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/coding.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/coding.h"
+file WOLFSSL_WRCYPT_COMPRESS_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/compress.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/compress.h"
+#file WOLFSSL_WRCYPT_DES3_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/des3.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/des3.h"
+file WOLFSSL_WRCYPT_ECC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ecc.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/ecc.h"
+file WOLFSSL_WRCYPT_HASH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/hash.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/hash.h"
+file WOLFSSL_WRCYPT_HMAC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/hmac.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/hmac.h"
+file WOLFSSL_WRCYPT_IDEA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/idea.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/idea.h"
+file WOLFSSL_WRCYPT_INTEGER_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/integer.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/integer.h"
+file WOLFSSL_WRCYPT_LOGGING_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/logging.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/logging.h"
+#file WOLFSSL_WRCYPT_MD5_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/md5.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/md5.h"
+file WOLFSSL_WRCYPT_MEMORY_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/memory.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/memory.h"
+file WOLFSSL_WRCYPT_MISC_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/misc.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/misc.h"
+file WOLFSSL_WRCYPT_NRF51_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/nrf51.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/nrf51.h"
+#ifblock USE_CRYPTO_HW
+file WOLFSSL_WRCYPT_PIC32MZ_CRYPT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/pic32/pic32mz-crypt.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/pic32/pic32mz-crypt.h"
+#endif
+file WOLFSSL_WRCYPT_TI_CCM_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/ti/ti-ccm.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/ti/ti-ccm.h"
+file WOLFSSL_WRCYPT_TI_HASH_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/ti/ti-hash.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/port/ti/ti-hash.h"
+file WOLFSSL_WRCYPT_PWDBASED_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/pwdbased.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/pwdbased.h"
+#file WOLFSSL_WRCYPT_RANDOM_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/random.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/random.h"
+file WOLFSSL_WRCYPT_RSA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/rsa.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/rsa.h"
+file WOLFSSL_WRCYPT_SETTINGS_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/settings.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/settings.h"
+#file WOLFSSL_WRCYPT_SHA_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/sha.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/sha.h"
+#file WOLFSSL_WRCYPT_SHA256_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/sha256.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/sha256.h"
+file WOLFSSL_WRCYPT_SHA512_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/sha512.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/sha512.h"
+file WOLFSSL_WRCYPT_SIGNATURE_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/signature.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/signature.h"
+file WOLFSSL_WRCYPT_SRP_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/srp.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/srp.h"
+file WOLFSSL_WRCYPT_TFM_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/tfm.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/tfm.h"
+file WOLFSSL_WRCYPT_TYPES_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/types.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/types.h"
+file WOLFSSL_WRCYPT_VISIBILITY_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/visibility.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/visibility.h"
+file WOLFSSL_WRCYPT_WC_ENCRYPT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/wc_encrypt.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/wc_encrypt.h"
+file WOLFSSL_WRCYPT_WC_PORT_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/wc_port.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/wc_port.h"
+file WOLFSSL_WRCYPT_PKCS12_H "$HARMONY_VERSION_PATH/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/pkcs12.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/wolfssl/wolfssl/wolfcrypt/pkcs12.h"
+
+file SUPPORT_AES_H "$HARMONY_VERSION_PATH/third_party/tcpip/support/wolfssl/wolfcrypt/aes.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/support/wolfssl/wolfcrypt/aes.h"
+file SUPPORT_DES3_H "$HARMONY_VERSION_PATH/third_party/tcpip/support/wolfssl/wolfcrypt/des3.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/support/wolfssl/wolfcrypt/des3.h"
+file SUPPORT_MD5_H "$HARMONY_VERSION_PATH/third_party/tcpip/support/wolfssl/wolfcrypt/md5.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/support/wolfssl/wolfcrypt/md5.h"
+file SUPPORT_SHA_H "$HARMONY_VERSION_PATH/third_party/tcpip/support/wolfssl/wolfcrypt/sha.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/support/wolfssl/wolfcrypt/sha.h"
+file SUPPORT_SHA256_H "$HARMONY_VERSION_PATH/third_party/tcpip/support/wolfssl/wolfcrypt/sha256.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/support/wolfssl/wolfcrypt/sha256.h"
+file SUPPORT_RANDOM_H "$HARMONY_VERSION_PATH/third_party/tcpip/support/wolfssl/wolfcrypt/random.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/support/wolfssl/wolfcrypt/random.h"
+file SUPPORT_wolfmath_H "$HARMONY_VERSION_PATH/third_party/tcpip/support/wolfssl/wolfcrypt/wolfmath.h" to "$PROJECT_HEADER_FILES/third_party/tcpip/support/wolfssl/wolfcrypt/wolfmath.h"
+
+endif
+

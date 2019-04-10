@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17665.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17671.html">Previous</a> | <a href="17681.html">Up</a> | <a href="17658.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Peripheral Library is an abstraction of hardware which can be used to control hardware and obtain status. It is intended to allow the programmer access to hardware registers without knowing the exact bit or register names which may vary on individual devices. For example, instead of turning on the Ethernet module using:&nbsp;</p>
+<p class="Element10">
+ETHCON1bits.EON = 1; the programmer can turn on the Ethernet module using: <a href="19141.html">PLIB_ETH_Enable</a>(moduleId);. This allows the programmer to use the same command for any device containing an Ethernet module without having to learn the individual device register names.</p><div class="Element15">
+Basic Overview</div>
+<p class="Element10">
+The Ethernet Controller provides the modules needed to implement a 10/100 Mbps Ethernet node using an external PHY chip. To off-load the CPU from moving packet data to and from the module, internal descriptor-based DMA engines are included in the controller.&nbsp;</p>
+<p class="Element10">
+The Ethernet Controller consists of the following modules:
+<ul class="Element638">
+<li class="Element608">Media Access Control (MAC) block: Responsible for implementing the MAC functions of the Ethernet IEEE 802.3 Specification</li>
+<li class="Element608">Flow Control (FC) block, which provides:
+<ul class="Element639">
+<li class="Element609">Manual flow control</li>
+<li class="Element609">Automatic flow control</li>
+<li class="Element609">Transmission of PAUSE frames</li>
+<li class="Element609">Reception of PAUSE frame is handled within the MAC</li>
+</ul></li>
+<li class="Element608">RX Filter (RXF) block: This module performs filtering on every receive packet to determine whether each packet should be accepted or rejected and includes:
+<ul class="Element639">
+<li class="Element609">CRC Check</li>
+<li class="Element609">64-byte Pattern Match</li>
+<li class="Element609">Broadcast, Multicast and Unicast packets</li>
+<li class="Element609">Magic Packet™</li>
+<li class="Element609">64-bit Hash Table</li>
+<li class="Element609">Runt Packet</li>
+</ul></li>
+<li class="Element608">TX DMA/TX BM Engine: The TX DMA and TX Buffer Management engines perform data transfers from the memory (using descriptor tables) to the MAC Transmit Interface</li>
+<li class="Element608">RX DMA/RX BM Engine: The RX DMA and RX Buffer Management engines transfer receive packets from the MAC to the memory (using descriptor tables)</li>
+</ul></p><div class="Element15">
+Basic Ethernet Controller Operation</div>
+<p class="Element10">
+The Ethernet Controller is enabled using <a href="19141.html">PLIB_ETH_Enable</a> and is disabled using <a href="19140.html">PLIB_ETH_Disable</a>. The Ethernet Controller is disabled by default after any Reset. If the Ethernet Controller is disabled, all of the I/O pins used for the MII/RMII and MIIM interfaces operate as port pins and are under the control of the respective PORTx latch bit and TRISx bit.&nbsp;</p>
+<p class="Element10">
+Disabling the controller resets the internal DMA state machines and all transmit and receive operations are aborted. The Special Function Registers (SFRs) are still accessible and their values are preserved.&nbsp;</p>
+<p class="Element10">
+Clearing the ON bit while the Ethernet Controller is active will abort all pending operations and reset the peripheral as previously defined.&nbsp;</p>
+<p class="Element10">
+Re-enabling the ON bit will restart the Ethernet Controller in its clean reset state while preserving the SFR values. </p><p class="Element10" style="text-align: center;">
+<span style="color: #000000"><strong>Ethernet Controller Section Block Diagram</strong></span>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MAC functions.png" border="0" alt="" title="">&nbsp;</p><div class="Element15">
+MAC Overview</div>
+<p class="Element10">
+The MAC sub-layer is part of the functionality described in the OSI model for the Data Link Layer. It defines a medium-independent facility, built on the medium-dependent physical facility provided by the Physical Layer, and under the access-layer-independent LLC sub-layer or other MAC client. It is applicable to a general class of local area broadcast media suitable for use with the Carrier Sense Multiple Access with Collision Detection (CSMA/CD).&nbsp;</p>
+<p class="Element10">
+The CSMA/CD MAC sub-layer provides services to the MAC client required for the transmission and reception of frames. The CSMA/CD MAC sub-layer makes a best effort to acquire the medium and transfer a serial stream of bits to the Physical Layer. Although certain errors are reported to the client, error recovery is not provided by the MAC.&nbsp;</p>
+<p class="Element10">
+The following is a summary of the functional capabilities of the CSMA/CD MAC sub-layer as shown in the previous diagram.
+<ul class="Element638">
+<li class="Element608">For Frame Transmission:
+<ul class="Element639">
+<li class="Element609">Accepts data from the MAC client and constructs a frame</li>
+<li class="Element609">Presents a bit-serial data stream to the Physical Layer for transmission on the medium</li>
+<li class="Element609">In half-duplex mode, defers transmission of a bit-serial stream whenever the physical medium is busy</li>
+<li class="Element609">It can append proper Frame Check Sequence (FCS) value to outgoing frames and verifies full octet boundary alignment</li>
+<li class="Element609">Delays transmission of frame bit stream for specified inter-frame gap period</li>
+<li class="Element609">In half-duplex mode, halts transmission when collision is detected</li>
+<li class="Element609">In half-duplex mode, schedules retransmission after a collision until a specified retry limit is reached</li>
+<li class="Element609">In half-duplex mode, enforces collision to ensure propagation throughout network by sending jam message</li>
+<li class="Element609">Prepends preamble and Start Frame Delimiter and appends FCS to all frame Appends PAD field for frames whose data length is less than a minimum value</li>
+</ul></li>
+<li class="Element608">For Frame Reception:
+<ul class="Element639">
+<li class="Element609">Receives a bit-serial data stream from the Physical Layer</li>
+<li class="Element609">Presents the received frames to the MAC client (broadcast, multicast, unicast frames, etc.)</li>
+<li class="Element609">Checks incoming frames for transmission errors by way of FCS and verifies octet boundary alignment</li>
+<li class="Element609">Removes preamble, Start Frame Delimiter and PAD field (if necessary) from received frames</li>
+<li class="Element609">Implements the MII Management block that provides control/status connection to the external MII PHY</li>
+</ul></li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all modes are available on all devices, please refer to the specific device data sheet to determine the set of modes supported for your device. In addition, refer to <strong>Section 35.</strong> <strong>&quot;Ethernet Controller&quot;</strong> (DS60001155) of the <i>&quot;PIC32 Family</i> <i> Reference Manual&quot;</i> or the <a href="12121.html">Ethernet MAC Driver Library</a> for more information.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17658.html">Ethernet Frame Overview</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17656.html">Ethernet Controller Operation</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Basic Ethernet Controller Operation</strong><br>The Ethernet Controller is enabled using <a href="19141.html">PLIB_ETH_Enable</a> and is disabled using <a href="19140.html">PLIB_ETH_Disable</a>. The Ethernet Controller is disabled by default after any Reset. If the Ethernet Controller is disabled, all of the I/O pins used for the MII/RMII and MIIM interfaces operate as port pins and are under the control of the respective PORT latch bit and TRIS bit.<br>Disabling the controller resets the internal DMA state machines and all transmit and receive operations are aborted. The SFRs are still accessible and their values preserved.<br>Clearing the ON bit while the Ethernet Controller is active will... <a href="17656.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17672.html">Media Independent Interface (MII)</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the Media Independent Interface (MII).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17675.html">Reduced Media Independent Interface (RMII)</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the Reduced Media Independent Interface (RMII).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17663.html">Flow Control Overview</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17674.html">Receive Filtering Overview</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17657.html">Ethernet DMA and Buffer Management Engine</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17665.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

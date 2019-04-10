@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_I2S_INTERFACE Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13740.html">I2S Driver Library Help</a> &gt; <a href="08607.html">Library Interface</a> &gt; e) Data Types and Constants &gt; <a href="10183.html">DRV_I2S_INTERFACE Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="10180.html">Previous</a> | <a href="08607.html">Up</a> | <a href="08604.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_I2S_INTERFACE Topic Title: DRV_I2S_INTERFACE Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_I2S_INTERFACE Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> {
+  <a href="23975.html">SYS_MODULE_OBJ</a> (* <strong><span style="color: #000000">initialize</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> drvIndex, <strong><span style="color: #000080">const</span></strong> <a href="23969.html">SYS_MODULE_INIT</a> * <strong><span style="color: #000080">const</span></strong> init);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">deinitialize</span></strong>)(<a href="23975.html">SYS_MODULE_OBJ</a>);
+  <a href="24144.html">SYS_STATUS</a> (* <strong><span style="color: #000000">status</span></strong>)(<a href="23975.html">SYS_MODULE_OBJ</a> object);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">tasks</span></strong>)(<a href="23975.html">SYS_MODULE_OBJ</a> object);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">tasksError</span></strong>)(<a href="23975.html">SYS_MODULE_OBJ</a> object);
+  <a href="10088.html">DRV_HANDLE</a> (* <strong><span style="color: #000000">open</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> iDriver, <strong><span style="color: #000080">const</span></strong> <a href="10240.html">DRV_IO_INTENT</a> ioIntent);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">close</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> handle);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">bufferAddWrite</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> handle, <a href="10137.html">DRV_I2S_BUFFER_HANDLE</a> *bufferHandle, <strong><span style="color: #000080">void</span></strong> *buffer, size_t size);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">bufferAddRead</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> handle, <a href="10137.html">DRV_I2S_BUFFER_HANDLE</a> *bufferHandle, <strong><span style="color: #000080">void</span></strong> *buffer, size_t size);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">bufferAddWriteRead</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> handle, <a href="10137.html">DRV_I2S_BUFFER_HANDLE</a> *bufferHandle, <strong><span style="color: #000080">void</span></strong> *transmitBuffer, <strong><span style="color: #000080">void</span></strong> *receiveBuffer, size_t size);
+  size_t (* <strong><span style="color: #000000">read</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> handle, uint8_t *buffer, <strong><span style="color: #000080">const</span></strong> size_t numBytes);
+  size_t (* <strong><span style="color: #000000">write</span></strong>)(<strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> handle, uint8_t *buffer, <strong><span style="color: #000080">const</span></strong> size_t numBytes);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">eventHandlerSet</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle, <strong><span style="color: #000080">const</span></strong> <a href="10136.html">DRV_I2S_BUFFER_EVENT_HANDLER</a> eventHandler, <strong><span style="color: #000080">const</span></strong> uintptr_t contextHandle);
+  size_t (* <strong><span style="color: #000000">bufferProcessedSizeGet</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle);
+  size_t (* <strong><span style="color: #000000">bufferCombinedQueueSizeGet</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">bufferQueueFlush</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle);
+  <a href="10167.html">DRV_I2S_ERROR</a> (* <strong><span style="color: #000000">errorGet</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">baudSet</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle, uint32_t peripheralClock, uint32_t baud);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">setAudioCommunicationMode</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle, uint8_t audioCommWidth);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">transmitErrorIgnore</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle, <strong><span style="color: #000080">bool</span></strong> errorIgnore);
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">receiveErrorIgnore</span></strong>)(<a href="10088.html">DRV_HANDLE</a> handle, <strong><span style="color: #000080">bool</span></strong> errorEnable);
+} DRV_I2S_INTERFACE;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+I2S Driver Interface&nbsp;</p>
+<p class="Element10">
+This structure defines a structure of I2S Driver function pointers. A driver of any peripheral that supports the I2S protocol can export such a structure. The top level I2S Driver abstraction layer will then use this structure to map a I2S Driver call to underlying peripheral driver.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_OBJ (* initialize)(const SYS_MODULE_INDEX drvIndex, const SYS_MODULE_INIT * const init);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Initialization function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* deinitialize)(SYS_MODULE_OBJ);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Deinitialization function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_STATUS (* status)(SYS_MODULE_OBJ object);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Status function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* tasks)(SYS_MODULE_OBJ object);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the Tasks function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* tasksError)(SYS_MODULE_OBJ object);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the Error Tasks function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+DRV_HANDLE (* open)(const SYS_MODULE_INDEX iDriver, const DRV_IO_INTENT ioIntent);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the Open function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* close)(const DRV_HANDLE handle);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the Close function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* bufferAddWrite)(const DRV_HANDLE handle, DRV_I2S_BUFFER_HANDLE *bufferHandle, void *buffer, size_t size);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the Buffer Add Write function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* bufferAddRead)(const DRV_HANDLE handle, DRV_I2S_BUFFER_HANDLE *bufferHandle, void *buffer, size_t size);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the Buffer Add Read function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* bufferAddWriteRead)(const DRV_HANDLE handle, DRV_I2S_BUFFER_HANDLE *bufferHandle, void *transmitBuffer, void *receiveBuffer, size_t size);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the buffer Add Read Write function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+size_t (* read)(const DRV_HANDLE handle, uint8_t *buffer, const size_t numBytes);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Read function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+size_t (* write)(const DRV_HANDLE handle, uint8_t *buffer, const size_t numBytes);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Write function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* eventHandlerSet)(DRV_HANDLE handle, const DRV_I2S_BUFFER_EVENT_HANDLER eventHandler, const uintptr_t contextHandle);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Buffer Event Handler Set function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+size_t (* bufferProcessedSizeGet)(DRV_HANDLE handle);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Buffer Processed Size Get function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+size_t (* bufferCombinedQueueSizeGet)(DRV_HANDLE handle);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Buffer Combined Queue Size Get Function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* bufferQueueFlush)(DRV_HANDLE handle);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Buffer Queue Flush Function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+DRV_I2S_ERROR (* errorGet)(DRV_HANDLE handle);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Error Get function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* baudSet)(DRV_HANDLE handle, uint32_t peripheralClock, uint32_t baud);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Baud Set function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* setAudioCommunicationMode)(DRV_HANDLE handle, uint8_t audioCommWidth);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Set Audio Communication mode function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* transmitErrorIgnore)(DRV_HANDLE handle, bool errorIgnore);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Transmit Error Ignore function&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* receiveErrorIgnore)(DRV_HANDLE handle, bool errorEnable);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the driver Receive Error Ignore function&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13740.html">I2S Driver Library Help</a> &gt; <a href="08607.html">Library Interface</a> &gt; e) Data Types and Constants &gt; <a href="10183.html">DRV_I2S_INTERFACE Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_I2S_INTERFACE Topic Title: DRV_I2S_INTERFACE Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

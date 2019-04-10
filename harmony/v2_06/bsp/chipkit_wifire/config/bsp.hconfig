@@ -1,0 +1,48 @@
+ifblock BSP_CHIPKIT_WIFIRE
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_CHIPKIT_WIFIRE
+
+config BSP_CONFIGURE_CHIPKIT_WIFIRE
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_24MHz
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "24000000"
+    select BSP_USE_USBSWITCH
+    set BSP_PIN_2_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_2_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_61_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_61_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_10_FUNCTION_NAME to "BSP_LED_1" 
+    set BSP_PIN_10_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_81_FUNCTION_NAME to "BSP_LED_2" 
+    set BSP_PIN_81_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_35_FUNCTION_NAME to "BSP_LED_3" 
+    set BSP_PIN_35_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_1_FUNCTION_NAME to "BSP_LED_4" 
+    set BSP_PIN_1_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_25_FUNCTION_NAME to "USB_VBUS_SWITCH" 
+    set BSP_PIN_25_FUNCTION_TYPE to "VBUS" 
+    bool
+    ---help---
+    IDH_HTML_BSP_chipkit_wifire
+    ---endhelp---
+endmenu
+
+menu "Custom Board Configurations for chipKIT WiFire"
+    depends on USE_BSP
+
+import CHIPKIT_WIFIRE_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_chipkit_wifire_H "$HARMONY_VERSION_PATH/bsp/chipkit_wifire/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_chipkit_wifire_C "$HARMONY_VERSION_PATH/bsp/chipkit_wifire/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_chipkit_wifire includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif

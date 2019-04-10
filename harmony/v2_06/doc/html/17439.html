@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Example - Simultaneous Sampling Three Class 1 Inputs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17455.html">Using the Library</a> &gt; <a href="17442.html">How the Library Works</a> &gt; <a href="17434.html">Core Functionality</a> &gt; <a href="17439.html">Example - Simultaneous Sampling Three Class 1 Inputs</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17434.html">Previous</a> | <a href="17434.html">Up</a> | <a href="17436.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCP Example - Simultaneous Sampling Three Class1 Inputs Topic Title: Example - Simultaneous Sampling Three Class 1 Inputs)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Example - Simultaneous Sampling Three Class 1 Inputs</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Simultaneous sampling is used when the application requires capture of more than one signal at the same instance of time. Simultaneous sampling requires the use of multiple Class 1 inputs where each is assigned the same trigger source. The following example illustrates simultaneous sampling of AN0, AN1 and AN2 using the global software trigger as the trigger source. The dedicated Sample and Holds (S&amp;<a href="13056.html">H</a>) circuits are configured for single-ended input and a unipolar (unsigned) output. No interrupts are used so the results are polled for ready status.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01576');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01576"><pre class="Element12">    int32_t results[3] ;  <i><span style="color: #008000">// storage for results</span></i>
+
+    <i><span style="color: #008000">// This structure is used to simplify testing for a ready channel</span></i>
+    AN_READY anReady ;
+
+    <i><span style="color: #008000">// Configure the ADC</span></i>
+    <i><span style="color: #008000">// AVDD/AVSS reference, ADC clock is system clock (SYSCLK) divided by 8</span></i>
+    <i><span style="color: #008000">// No need to specify sample time for class 2/3 inputs or oversampling</span></i>
+    <i><span style="color: #008000">// sample time as Class 2/3 inputs and oversampling is not used.</span></i>
+    PLIB_ADCP_Configure ( ADCP_ID_1 ,
+                          ADCP_VREF_AVDD_AVSS ,    <i><span style="color: #008000">// AVDD and AVSS as reference</span></i>
+                          FALSE ,                  <i><span style="color: #008000">// No VREF boost</span></i>
+                          FALSE ,                  <i><span style="color: #008000">// Do not use fractional format</span></i>
+                          FALSE ,                  <i><span style="color: #008000">// Do not stop in idle</span></i>
+                          ADCP_CLK_SRC_SYSCLK ,    <i><span style="color: #008000">// SYSCLK is the clock source</span></i>
+                          4 ,                      <i><span style="color: #008000">// TAD = 1/SYSCLK * 2 * 4</span></i>
+                                                   <i><span style="color: #008000">// or ADC Clock = SYSCLK / (2 * 4)</span></i>
+                          0 ,                      <i><span style="color: #008000">// Oversampling is not used.</span></i>
+                          0 ,                      <i><span style="color: #008000">// No early interrupt.</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01577');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01577"><pre class="Element12">                          0 );                     <i><span style="color: #008000">// No class 2 or 3 channels are used</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01578');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01578"><pre class="Element12">
+
+    <i><span style="color: #008000">// Set up the triggers</span></i>
+    <i><span style="color: #008000">// Configure AN0 for triggering from software.</span></i>
+    PLIB_ADCP_Class12TriggerConfigure ( ADCP_ID_1 ,
+                                        ADCP_CLASS12_AN0 ,
+                                        ADCP_TRG_SRC_SOFTWARE ) ;
+    <i><span style="color: #008000">// Configure AN1 for triggering from software.</span></i>
+    PLIB_ADCP_Class12TriggerConfigure ( ADCP_ID_1 ,
+                                        ADCP_CLASS12_AN1 ,
+                                        ADCP_TRG_SRC_SOFTWARE ) ;
+    <i><span style="color: #008000">// Configure AN2 for triggering from software.</span></i>
+    PLIB_ADCP_Class12TriggerConfigure ( ADCP_ID_1 ,
+                                        ADCP_CLASS12_AN2 ,
+                                        ADCP_TRG_SRC_SOFTWARE ) ;
+</pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01579');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01579"><pre class="Element12">    <i><span style="color: #008000">// Set S&amp;H modes</span></i>
+    PLIB_ADCP_SHModeSelect ( ADCP_ID_1 , ADCP_SH0 , ADCP_SH_MODE_SINGLE_ENDED_UNIPOLAR ) ;
+    PLIB_ADCP_SHModeSelect ( ADCP_ID_1 , ADCP_SH1 , ADCP_SH_MODE_SINGLE_ENDED_UNIPOLAR ) ;
+    PLIB_ADCP_SHModeSelect ( ADCP_ID_1 , ADCP_SH2 , ADCP_SH_MODE_SINGLE_ENDED_UNIPOLAR ) ;
+</pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01580');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01580"><pre class="Element12">    <i><span style="color: #008000">// Enable the ADC Module</span></i>
+    PLIB_ADCP_Enable ( ADCP_ID_1 ) ;
+
+    <i><span style="color: #008000">// Wait for a ready status</span></i>
+    <strong><span style="color: #000080">while</span></strong> (!PLIB_ADCP_ModuleIsReady ( ADCP_ID_1 )) ;
+
+    <strong><span style="color: #000080">while</span></strong> (1)
+    {
+        <i><span style="color: #008000">// Initiate a trigger</span></i>
+        PLIB_ADCP_GlobalSoftwareTrigger ( ADCP_ID_1 ) ;
+
+        <i><span style="color: #008000">// Wait for a data results to be ready</span></i>
+        <i><span style="color: #008000">// if lowest priority channel is done then all are done.</span></i>
+        <strong><span style="color: #000080">do</span></strong>
+        {
+            anReady = PLIB_ADCP_ResultReady ( ADCP_ID_1 ) ;
+        }
+        <strong><span style="color: #000080">while</span></strong> (anReady.AN2 == 0) ;
+
+        <i><span style="color: #008000">// fetch AN0</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN0 == 1)
+            results[0] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN0 ) ;
+
+        <i><span style="color: #008000">// fetch AN1</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN1 == 1)
+            results[1] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN1 ) ;
+
+        <i><span style="color: #008000">// fetch AN2</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN2 == 1)
+            results[2] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN2 ) ;
+     }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17455.html">Using the Library</a> &gt; <a href="17442.html">How the Library Works</a> &gt; <a href="17434.html">Core Functionality</a> &gt; <a href="17439.html">Example - Simultaneous Sampling Three Class 1 Inputs</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCP Example - Simultaneous Sampling Three Class1 Inputs Topic Title: Example - Simultaneous Sampling Three Class 1 Inputs)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

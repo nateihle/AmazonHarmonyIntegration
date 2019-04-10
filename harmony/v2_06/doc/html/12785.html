@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Graphics Stack Architecture</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12775.html">Introduction</a> &gt; <a href="12785.html">Graphics Stack Architecture</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="12775.html">Previous</a> | <a href="12775.html">Up</a> | <a href="12779.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB Graphics Stack Architecture Topic Title: Graphics Stack Architecture)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Graphics Stack Architecture</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following is a diagram of the graphics stack architecture. </p><p class="Element10" style="text-align: center;">
+<img src="Graphics_stack.png" border="0" alt="" title=""></p><p class="Element10">
+The functionality of each layer is summarized below, the details have been provided in the help document in the corresponding sections:
+<ul class="Element636">
+<li class="Element606">Graphics Controller Driver – Software that talks directly to hardware. Multiple drivers for internal, external and no-controller options are available. These can be customized with the new Display Manager interface. No other software in the stack should have hardware access.</li>
+<li class="Element606">Graphics Accelerator Driver- Software that interfaces with graphics accelerator hardware.</li>
+<li class="Element606">Hardware Abstraction Layer (HAL) – A software layer that serves as a gate-keeper for all graphics controller and accelerator drivers. This layer is configured at initialization by the underlying graphics drivers and provides functionality such as: buffer management, primitive shape drawing, hardware abstraction, and draw state management. The presence of this layer serves as a means of protection for the drivers, frame buffers, and draw state in order to prevent state mismanagement by the application.</li>
+<li class="Element606">Graphics Utilities Library – This library is primarily responsible for managing and decoding assets such as images, fonts, and strings. It provides the means for interacting with asset data, complex data decoding, data decompression, and string asset look-up. It also abstractly handles accessing external memory sources during asset decoding.</li>
+<li class="Element606">Aria User Interface Library – This library provides the capability for interface generation, management, and interaction. This library provides the building blocks for constructing a user interface in the form of “Widgets” or user interface elements. These consist of things like buttons, check-boxes, images, etc. This library also handles user interaction events for things like touch actions.</li>
+<li class="Element606">Third Party Graphics Library – The third party library can be used with the harmony framework to perform the graphics operations if desired by the user. The third party library has access to the hardware abstraction layer (HAL), which has been configured to supply the frame buffer to be filled in by the third-party graphics library.</li>
+<li class="Element606">MPLAB Harmony Graphics Composer (MHGC) – This tools suite provides the capability to design a user interface using a graphical drag and drop interface. The tool can write all of the code needed to initialize, configure, and manage an Aria library context. The tools include:
+<ul class="Element637">
+<li class="Element607">Graphics Asset Converter – new engine for importing multiple external image types, estimating and optimizing size,</li>
+<li class="Element607">Image Editor - Enabling palette, compression, format changes and editing of images without external tools</li>
+<li class="Element607">Resource Manager – Tabulated totals of memory usage for images, fonts and other elements used within the graphics design. These can be used to optimize a specific design to fit within a given device Flash memory.</li>
+<li class="Element607">WYSIWYG GUI editor – Enables drag and drop capability to visualize your particular design</li>
+<li class="Element607">Event Manager – Enables the user to customize the experience of touch and logical (application) events and to interact with graphical attributes</li>
+<li class="Element607">Tree Manager – Enables the user to select the drawing priority and establish parent / child relationships so that objects can be grouped as desired</li>
+<li class="Element607">String and Font Manager – Used to input strings in multiple languages for potential reuse, and optimization of fonts and memory requirements</li>
+</ul></li>
+</ul>The Graphics Library architecture components, display drivers, libAria APIs and demonstration applications are placed into the following locations during the installation of MPLAB Harmony:
+<ul class="Element636">
+<li class="Element606"><span class="Element146">/microchip/harmony/&lt;version&gt;/framework/gfx/hal</span></li>
+<li class="Element606"><span class="Element146">/microchip/harmony/&lt;version&gt;/framework/gfx/utils</span></li>
+<li class="Element606"><span class="Element146">/microchip/harmony/&lt;version&gt;/framework/gfx/libaria</span></li>
+<li class="Element606"><span class="Element146">/microchip/harmony/&lt;version&gt;/apps/gfx/</span></li>
+</ul></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12775.html">Introduction</a> &gt; <a href="12785.html">Graphics Stack Architecture</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB Graphics Stack Architecture Topic Title: Graphics Stack Architecture)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Operating/Addressing Mode Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17621.html">Operating/Addressing Mode Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17617.html">Previous</a> | <a href="17616.html">Up</a> | <a href="17598.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Operating/Addressing Mode Management Topic Title: Operating/Addressing Mode Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Operating/Addressing Mode Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+DMA Operating Modes</div>
+<p class="Element10">
+The various operating/transfer modes supported are:
+<ul class="Element638">
+<li class="Element608">One-Shot mode</li>
+<li class="Element608">Repeated One-Shot mode</li>
+<li class="Element608">Continuous mode</li>
+<li class="Element608">Repeated Continuous mode</li>
+<li class="Element608">Ping-Pong mode</li>
+<li class="Element608">Null Data Write mode</li>
+</ul></p><div class="Element15">
+One-Shot Mode</div>
+<p class="Element10">
+In One-Shot mode, a single transfer is performed for each trigger event. The trigger event can be synchronous (refer to <a href="17627.html">Transfer/Abort (Synchronous)</a> or asynchronous (refer to <a href="17626.html">Transfer/Abort (Asynchronous) Trigger Management</a>).<strong> </strong>When a single one-shot transfer occurs and the DMA count is decremented to zero, this disables the channel and requires the channel to be re-enabled to perform the next transaction.</p><div class="Element15">
+Repeated One-Shot Mode</div>
+<p class="Element10">
+In Repeated One-Shot mode, single transfers occurs repeatedly so long as triggers are being provided. When the DMA count reaches zero, the channel is not disabled as in One-Shot mode, but the count is reloaded and transfers begin again.</p><div class="Element15">
+Continuous Mode</div>
+<p class="Element10">
+In Continuous mode, a single trigger starts a sequence of back-to-back transfers. These continue with each transfer decrementing the DMA count until it reaches zero. At this point, and like one-shot mode, the channel is disabled.</p><div class="Element15">
+Repeated Continuous Mode</div>
+<p class="Element10">
+This mode can be seen as a combination of Continuous and Repeated One-Shot modes. Data transfers keep occurring so as long as triggers are provided and multiple transfers can occur with each trigger. When the DMA count reaches zero, the address and data registers are reloaded and the process is repeated.</p><div class="Element15">
+Ping-Pong Mode</div>
+<p class="Element10">
+Certain devices support Ping-Pong mode, which allows the CPU to process one buffer while a second buffer operates with the DMA channel. The net result is that the CPU has the entire DMA block transfer time to process the buffer that is currently not being used by the DMA channel.&nbsp;</p>
+<p class="Element10">
+The following figure demonstrates the data flow for four DMA transactions using Ping-Pong mode. </p><p class="Element10" style="text-align: center;">
+<strong>Ping-Pong Mode</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="ping-pong.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+When the DMA is filling buffer-B, the CPU can process buffer-A and vice-versa.&nbsp;</p>
+<p class="Element10">
+Ping-Pong mode can be combined with One-Shot and Continuous modes (previously discussed) to create other combinations.</p><div class="Element15">
+Null Data Write Mode</div>
+<p class="Element10">
+A DMA transfer operates only in one direction from the source address to the destination address. However, some communication protocols require symmetrical buffer accesses, meaning that for every read operation performed on a buffer, there must be an accompanying write operation. The Null Write mode is designed to satisfy this requirement. This mode works by transferring data from the source to the destination like any other DMA operation. Once this is done, the transferred data still with the DMA buffer is written back to the source.</p><div class="Element15">
+DMA Addressing Modes</div>
+<p class="Element10">
+The addressing modes can be broadly classified into the following categories:
+<ul class="Element638">
+<li class="Element608">Register Indirect with Post Increment Addressing mode</li>
+<li class="Element608">Register Indirect without Post Increment Addressing mode</li>
+<li class="Element608">Source/destination increment based on size</li>
+<li class="Element608">Source/destination decrement based on size</li>
+<li class="Element608">Peripheral Indirect Addressing mode</li>
+</ul></p><div class="Element15">
+Register Indirect With Post Increment Addressing Mode</div>
+<p class="Element10">
+In this mode, the source data address is incremented by one location after each DMA transaction. The starting address is provided by a start address offset register.</p><div class="Element15">
+Register Indirect Without Post Increment Addressing Mode</div>
+<p class="Element10">
+In this mode, the source data address is not updated after each DMA transaction. Therefore, the next DMA transfer is initiated from the same RAM address. The starting address is provided by a start address offset register. </p><p class="Element10" style="text-align: center;">
+<strong>Register Indirect Addressing With and Without Post-increment</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="register_indirect.png" border="0" alt="" title=""></p><div class="Element15">
+Source/Destination Increment Based on Size</div>
+<p class="Element10">
+After each DMA transaction, the source/destination (a separate configuration exist for each) address increments by the size of data (word/byte) configured.</p><div class="Element15">
+Source/Destination Decrement Based on Size</div>
+<p class="Element10">
+After each DMA transaction, the source/destination (a separate configuration exist for each) address decrements by the size of data (word/byte) configured.</p><div class="Element15">
+Peripheral Indirect Addressing Mode</div>
+<p class="Element10">
+Peripheral Indirect Addressing (PIA) is a special auto-incrementing mode for the transfer of data to and from a multi-level peripheral buffer. This mode is only available for specific peripherals designed with its use in mind. Refer to the specific device data sheet to determine availability of this mode.&nbsp;</p>
+<p class="Element10">
+<i>PIA-capable peripherals - </i>When selected, the PIA-enabled peripheral generates a short Indirect Address (IA) (size defined by the peripheral) to the DMA channel. The IA is logically ORed with either the contents of the source address or the destination address to define a specific address for the peripheral inside the DMA address space.&nbsp;</p><div class="Element15">
+DMA Operating/Transfer Modes:</div>
+<p class="Element10">
+Refer to Operating/Addressing Mode Management for descriptions of the available operating modes.&nbsp;</p>
+<p class="Element10">
+The following code demonstrates usage of Continuous mode.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01902');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01902"><pre class="Element12"><i><span style="color: #008000">// Enable the DMA</span></i>
+PLIB_DMA_Enable ( DMA_ID_0 );
+<i><span style="color: #008000">// disable the selected channel-3</span></i>
+PLIB_DMA_ChannelXDisable ( DMA_ID_0, DMA_CHANNEL_3 );
+<i><span style="color: #008000">// program the source and destination addresses</span></i>
+<i><span style="color: #008000">// Set the source starting address to 0x1000</span></i>
+PLIB_DMA_ChannelXSourceStartAddressSet ( DMA_ID_0, DMA_CHANNEL_3, 0x1000 );
+<i><span style="color: #008000">// Set the destination starting address to 0x2000</span></i>
+PLIB_DMA_ChannelXDestinationStartAddressSet ( DMA_ID_0, DMA_CHANNEL_3, 0x2000 );
+<i><span style="color: #008000">// Set the transfer count to 100.</span></i>
+PLIB_DMA_ChannelXTransferCountSet ( DMA_ID_0, DMA_CHANNEL_3, 100 );
+<i><span style="color: #008000">// set the data transfer mode to one-shot</span></i>
+PLIB_DMA_ChannelXOperatingTransferModeSelect ( DMA_ID_0, DMA_CHANNEL_3, DMA_MODE_CONTINUOUS );
+<i><span style="color: #008000">// select the source addressing mode</span></i>
+PLIB_DMA_ChannelXSourceAddressModeSelect ( DMA_ID_0, DMA_CHANNEL_3, DMA_ADDRESSING_SOURCE_INCREMENT_BASED_ON_SIZE );
+<i><span style="color: #008000">// select the destination addressing mode</span></i>
+PLIB_DMA_ChannelXDestinationAddressModeSelect ( DMA_ID_0, DMA_CHANNEL_3, DMA_ADDRESSING_DESTINATION_INCREMENT_BASED_ON_SIZE );
+<i><span style="color: #008000">// Enable the channel</span></i>
+PLIB_DMA_ChannelXEnable ( DMA_ID_0, DMA_CHANNEL_3 );
+<i><span style="color: #008000">// Initiate the transfer</span></i>
+PLIB_DMA_StartTransferSet ( DMA_ID_0, DMA_CHANNEL_3 );</pre></div></div>
+<div class="Element15">
+DMA Addressing Modes:</div>
+<p class="Element10">
+DMA addressing modes can be selected by using following code example.&nbsp;</p>
+<p class="Element10">
+DMA Addressing mode Example: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01903');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01903"><pre class="Element12"><i><span style="color: #008000">// set the source address to increment upon each transfer</span></i>
+PLIB_DMA_ChannelXSourceAddressModeSelect ( DMA_ID_0, DMA_CHANNEL_3, DMA_ADDRESSING_SOURCE_INCREMENT_BASED_ON_SIZE );
+<i><span style="color: #008000">// Set the destination address to decrement upon each transfer</span></i>
+PLIB_DMA_ChannelXDestinationAddressModeSelect ( DMA_ID_0, DMA_CHANNEL_3, DMA_ADDRESSING_DESTINATION_DECREMENT_BASED_ON_SIZE );</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17621.html">Operating/Addressing Mode Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Operating/Addressing Mode Management Topic Title: Operating/Addressing Mode Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

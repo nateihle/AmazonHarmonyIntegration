@@ -1,0 +1,234 @@
+enum DRV_AK4384_IMPLEMENTATION
+    "DYNAMIC"
+
+ifblock SELECT_DRV_AK4384=y   
+config USE_DRV_CODEC_AK4384
+	depends on SELECT_DRV_AK4384
+	depends on HAVE_TMR
+	depends on HAVE_I2S	
+	bool
+	select DRIVER
+	select USE_DRV_I2S_NEEDED
+	select USE_DRV_TMR_NEEDED
+	select USE_SYS_CLK_DYNAMIC_NEEDED
+	default y if SELECT_DRV_AK4384	
+	default n if !SELECT_DRV_AK4384 
+    	---help---
+    	IDH_HTML_AK4384_Driver_Library
+    	---endhelp---
+endif	
+
+menu "RTOS Configuration"
+    depends on SELECT_DRV_AK4384    
+    depends on USE_DRV_CODEC_AK4384
+    depends on SELECT_DRV_AK4384    
+    depends on USE_3RDPARTY_RTOS
+    depends on DRV_CODEC_AK4384_IMPL = "DYNAMIC"
+
+config DRV_CODEC_AK4384_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config DRV_CODEC_AK4384_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_CODEC_AK4384_RTOS = "Standalone"
+    default 1024
+
+config DRV_CODEC_AK4384_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_CODEC_AK4384_RTOS = "Standalone"
+    default 1
+
+config DRV_CODEC_AK4384_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_CODEC_AK4384_RTOS = "Standalone"
+    default y
+
+config DRV_CODEC_AK4384_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_CODEC_AK4384_RTOS = "Standalone"
+    depends on DRV_CODEC_AK4384_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_CODEC_AK4384_IMPL
+    	string "Driver Implementation"
+    	depends on SELECT_DRV_AK4384        	
+    	depends on USE_DRV_CODEC_AK4384
+    	range DRV_AK4384_IMPLEMENTATION
+    	default "DYNAMIC"
+    	persistent
+    	---help---
+    	IDH_HTML_AK4384_Driver_Library
+	---endhelp---
+
+    
+enum DRV_AK4384_MCLK_SAMPLE_FREQ_MULTPLIER_VALUE
+	 "128"
+	|| "192"
+	|| "256"
+	|| "384"
+	|| "512"
+	|| "768"
+	|| "1152"
+
+enum DRV_AK4384_BCLK_BIT_CLK_DIVISOR_VALUE
+	 "1"
+	|| "2"
+	|| "4"
+	|| "8"	
+
+enum DRV_AK4384_AUDIO_DATA_FORMAT_VAL
+    "DRV_AK4384_AUDIO_DATA_FORMAT_16BIT_RIGHT_JUSTIFIED"
+	|| "DRV_AK4384_AUDIO_DATA_FORMAT_20BIT_RIGHT_JUSTIFIED"
+	|| "DRV_AK4384_AUDIO_DATA_FORMAT_24BIT_LEFT_JUSTIFIED"
+	|| "DRV_AK4384_AUDIO_DATA_FORMAT_24BIT_I2S"
+	|| "DRV_AK4384_AUDIO_DATA_FORMAT_24BIT_RIGHT_JUSTIFIED"
+
+enum DRV_AK4384_MCLK_MODE_VAL
+    "DRV_AK4384_MCLK_MODE_MANUAL"
+    || "DRV_AK4384_MCLK_MODE_AUTO"
+
+
+config DRV_AK4384_BCLK_BIT_CLK_DIVISOR
+	string
+    	depends on SELECT_DRV_AK4384    	
+	depends on USE_DRV_CODEC_AK4384	
+    default "1" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "1"
+    default "2" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "2"
+    default "4" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "4"
+    default "8" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "8"
+
+config DRV_AK4384_VOLUME
+	int "Volume for the DAC in the range 0 (Min) - 255(Max)"
+    	depends on SELECT_DRV_AK4384    	
+	depends on USE_DRV_CODEC_AK4384
+	range 0 255
+	default 120
+    	---help---
+    	IDH_HTML_DRV_AK4384_INIT
+    	---endhelp---
+
+config USE_DRV_AK4384_MCLK
+    bool "Specify MCLK value"
+    depends on SELECT_DRV_AK4384
+    default n
+    select USE_DRV_I2S_CUSTOM_MULTIPLIER
+
+config DRV_AK4384_MCLK
+    string "MCLK"
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    default "192"
+    range DRV_AK4384_MCLK_SAMPLE_FREQ_MULTPLIER_VALUE
+
+config DRV_AK4384_MCLK_USE_128_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_128
+    default y if DRV_AK4384_MCLK = "128"
+    default n
+
+config DRV_AK4384_MCLK_USE_192_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_192
+    default y if DRV_AK4384_MCLK = "192"
+    default n
+
+config DRV_AK4384_MCLK_USE_256_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_256
+    default y if DRV_AK4384_MCLK = "256"
+    default n
+
+config DRV_AK4384_MCLK_USE_384_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_384
+    default y if DRV_AK4384_MCLK = "384"
+    default n
+
+config DRV_AK4384_MCLK_USE_512_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_512
+    default y if DRV_AK4384_MCLK = "512"
+    default n
+
+config DRV_AK4384_MCLK_USE_768_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_768
+    default y if DRV_AK4384_MCLK = "768"
+    default n
+
+config DRV_AK4384_MCLK_USE_1152_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4384 && USE_DRV_AK4384_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_1152
+    default y if DRV_AK4384_MCLK = "1152"
+    default n
+
+config DRV_AK4384_MCLK_MODE_MACRO
+	string
+    depends on SELECT_DRV_AK4384    	
+	depends on USE_DRV_CODEC_AK4384
+	range DRV_AK4384_MCLK_MODE_VAL
+	default "DRV_AK4384_MCLK_MODE_MANUAL"
+    	---help---
+    	IDH_HTML_DRV_AK4384_MCLK_MODE
+    	---endhelp---
+
+config DRV_AK4384_DELAY_INITIALIZATION
+    bool "Delay driver initialization (due to shared RESET pin)"
+    depends on SELECT_DRV_AK4384
+    default y if USE_DRV_BLUETOOTH_BM64 = "y"
+    default n
+	---help---
+	IDH_HTML_DRV_AK4384_DELAY_INITIALIZATION
+	---endhelp---
+
+config DRV_AK4384_AUDIO_DATA_FORMAT_MACRO
+    	depends on SELECT_DRV_AK4384    
+	depends on USE_DRV_CODEC_AK4384
+	range DRV_AK4384_AUDIO_DATA_FORMAT_VAL
+    	---help---
+    	IDH_HTML_DRV_AK4384_AUDIO_DATA_FORMAT
+    	---endhelp---
+
+config DRV_AK4384_CLIENTS_NUMBER
+    int "Number of AK4384 Driver Clients"
+    depends on USE_DRV_CODEC_AK4384
+	range 1 2
+    default 1
+    persistent
+
+config USE_DRV_AK4384_BIT_BANGED_SPI_CONTROL_INTERFACE
+    	depends on SELECT_DRV_AK4384    
+	depends on USE_DRV_CODEC_AK4384
+	bool "Use Bit Banged SPI Control Interface?"
+     	default y
+    	persistent
+
+config DRV_AK4384_INSTANCES_NUMBER
+    depends on SELECT_DRV_AK4384    
+    depends on USE_DRV_CODEC_AK4384
+    depends on USE_DRV_AK4384_BIT_BANGED_SPI_CONTROL_INTERFACE    
+    range 1 DRV_AK4384_INSTANCES_NUMBER
+    default 1
+    persistent
+
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak4384/config/drv_ak4384_idx.ftl" 1 instances    	
+
+ifblock USE_DRV_CODEC_AK4384=y && SELECT_DRV_AK4384=y    
+
+add "<#include \"/framework/driver/codec/ak4384/templates/drv_ak4384.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/codec/ak4384/templates/drv_ak4384_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/codec/ak4384/templates/drv_ak4384_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/codec/ak4384/templates/drv_ak4384.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_CODEC_AK4384 "$HARMONY_VERSION_PATH/framework/driver/codec/ak4384/drv_ak4384.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak4384/drv_ak4384.h"
+file DRV_CODEC_AK4384_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/codec/ak4384/src/drv_ak4384_local.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak4384/drv_ak4384_local.h"
+endif	

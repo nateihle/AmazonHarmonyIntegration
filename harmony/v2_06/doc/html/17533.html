@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07081.html">Comparator Peripheral Library</a> &gt; <a href="17538.html">Using the Library</a> &gt; <a href="17532.html">How the Library Works</a> &gt; <a href="17533.html">Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17526.html">Previous</a> | <a href="17532.html">Up</a> | <a href="17524.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CMP Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Do the following when using a Comparator module:
+<ol class="Element637">
+<li value="1" class="Element607">Select the Comparator inverting input using <a href="18590.html">PLIB_CMP_InvertingInputChannelSelect</a>.</li>
+<li value="2" class="Element607">Select the Comparator non-inverting input using <a href="18591.html">PLIB_CMP_NonInvertingInputChannelSelect</a>.</li>
+<li value="3" class="Element607">Select the Comparator output polarity using <a href="18599.html">PLIB_CMP_OutputInvertEnable</a> and/or <a href="18598.html">PLIB_CMP_OutputInvertDisable</a>.</li>
+<li value="4" class="Element607">Select the Comparator output pin using <a href="18597.html">PLIB_CMP_OutputEnable</a> and/or <a href="18596.html">PLIB_CMP_OutputDisable</a>.</li>
+<li value="5" class="Element607">Turn on the Comparator module using <a href="18568.html">PLIB_CMP_Enable</a>.</li>
+</ol><strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01738');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01738"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_CMP_ID          CMP_ID_1
+
+<i><span style="color: #008000">//Select the comparator inverting input</span></i>
+PLIB_CMP_InvertingInputChannelSelect(MY_CMP_INSTANCE,CMP_INVERTING_INPUT_CHANNEL_B);
+
+<i><span style="color: #008000">//Select the comparator non-inverting input</span></i>
+PLIB_CMP_NonInvertingInputChannelSelect(MY_CMP_INSTANCE,CMP_NON_INVERTING_INPUT_A);
+
+<i><span style="color: #008000">//Select the comparator output polarity</span></i>
+ PLIB_CMP_OutputInvertDisable(MY_CMP_INSTANCE);
+
+<i><span style="color: #008000">//Enable the comparator output pin</span></i>
+PLIB_CMP_OutputEnable(MY_CMP_INSTANCE);
+
+<i><span style="color: #008000">//Turn on the comparator module</span></i>
+PLIB_CMP_Enable(MY_CMP_INSTANCE);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07081.html">Comparator Peripheral Library</a> &gt; <a href="17538.html">Using the Library</a> &gt; <a href="17532.html">How the Library Works</a> &gt; <a href="17533.html">Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CMP Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

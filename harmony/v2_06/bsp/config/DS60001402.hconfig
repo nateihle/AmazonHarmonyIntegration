@@ -1,0 +1,67 @@
+choice
+    prompt "Select BSP To Use For $DEVICE Device"
+    depends on USE_BSP
+    default BSP_PIC32MK_GP_DB
+    ---help---
+    IDH_HTML_BSP_Board_Support_Packages
+    ---endhelp---
+
+
+config BSP_PIC32MK_GP_DB
+    depends on USE_BSP
+    select BSP_TRIGGER
+    bool "PIC32MK (GP) Development Board"
+    ---help---
+    IDH_HTML_BSP_pic32mk_gp_db
+    ---endhelp---
+
+config BSP_PIC32MK_GP_DB_WQVGA_MXT
+    depends on USE_BSP
+    select BSP_TRIGGER
+    bool "PIC32MK (GP) Development Board + 4.3 inch WQVGA (480x272) with MaxTouch"
+    ---help---
+    IDH_HTML_BSP_pic32mk_gp_db_wqvga_mxt
+    ---endhelp---
+
+config BSP_PIC32MK_GP_DB_WVGA_MXT
+    depends on USE_BSP
+    select BSP_TRIGGER
+    bool "PIC32MK (GP) Development Board + 5 inch WVGA (800x480) with MaxTouch"
+    ---help---
+    IDH_HTML_BSP_pic32mk_gp_db_wvga_mxt
+    ---endhelp---
+
+config BSP_CUSTOM
+    depends on USE_BSP
+    bool "Custom"
+
+endchoice
+
+
+source "$HARMONY_VERSION_PATH/bsp/pic32mk_gp_db/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mk_gp_db+wqvga_mxt/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mk_gp_db+wvga_mxt/config/bsp.hconfig"
+
+config BSP_DS60001402_COMMON
+    set JTAGEN optionally to "OFF"
+    set ICESEL optionally to "ICS_PGx1" if USE_BSP
+    set TRCEN optionally to "OFF"
+    set FNOSC optionally to "SPLL"
+    set POSCMOD optionally to "EC" if USE_BSP
+    set FWDTEN optionally to "OFF"
+    set FDMTEN optionally to "OFF"
+    set FPLLRNG optionally to "RANGE_8_16_MHZ" if USE_BSP
+    set FPLLRNG optionally to "RANGE_5_10_MHZ" if !USE_BSP
+    set FPLLICLK optionally to "PLL_POSC" if USE_BSP
+    set FPLLICLK optionally to "PLL_FRC" if !USE_BSP
+    set FPLLIDIV optionally to "DIV_1" if USE_BSP
+    set FPLLIDIV optionally to "DIV_1" if !USE_BSP
+    set FPLLMULT optionally to "MUL_40" if USE_BSP
+    set FPLLMULT optionally to "MUL_60" if !USE_BSP
+    set FPLLODIV optionally to "DIV_4"
+    set DSWDTEN optionally to "OFF"
+    set TSEQ optionally to "0x0000"
+    set CSEQ optionally to "0xffff"
+    bool
+    default y if USE_BSP
+

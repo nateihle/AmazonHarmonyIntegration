@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_NVM_Erase Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17067.html">NVM Driver Library</a> &gt; <a href="08700.html">Library Interface</a> &gt; b) Client Core Functions &gt; <a href="10723.html">DRV_NVM_Erase Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="10754.html">Previous</a> | <a href="08700.html">Up</a> | <a href="10725.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_NVM_Erase@DRV_HANDLE@DRV_NVM_COMMAND_HANDLE *@uint32_t@uint32_t Topic Title: DRV_NVM_Erase Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_NVM_Erase Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">DRV_NVM_Erase</span></strong>(
+    <strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">handle</span></strong>, 
+    <a href="10712.html">DRV_NVM_COMMAND_HANDLE</a> * <strong><span style="color: #000000">commandHandle</span></strong>, 
+    uint32_t <strong><span style="color: #000000">blockStart</span></strong>, 
+    uint32_t <strong><span style="color: #000000">nBlock</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function schedules a non-blocking erase operation of flash memory. The function returns with a valid erase handle in the commandHandle argument if the erase request was scheduled successfully. The function adds the request to the hardware instance queue and returns immediately. The function returns <a href="10713.html">DRV_NVM_COMMAND_HANDLE_INVALID</a> in the commandHandle argument under the following circumstances:
+<ul class="Element635">
+<li class="Element605">if a buffer object could not be allocated to the request</li>
+<li class="Element605">if the client opened the driver for read only</li>
+<li class="Element605">if the number of blocks to be erased is either zero or more than the number of blocks actually available</li>
+<li class="Element605">if the erase queue size is full or queue depth is insufficient</li>
+<li class="Element605">if the driver handle is invalid</li>
+</ul>&nbsp;</p>
+<p class="Element10">
+If the requesting client registered an event callback with the driver, the driver will issue a DRV_NVM_EVENT_COMMAND_COMPLETE event if the erase operation was successful or DRV_NVM_EVENT_COMMAND_ERROR event if the erase operation was not successful.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <a href="10740.html">DRV_NVM_Initialize</a>() routine must have been called for the specified NVM driver instance.&nbsp;</p>
+<p class="Element10">
+The <a href="10747.html">DRV_NVM_Open</a>() routine must have been called with DRV_IO_INTENT_WRITE or DRV_IO_INTENT_READWRITE to obtain a valid opened device handle.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+handle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+A valid open-instance handle, returned from the driver's open function<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+commandHandle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to an argument that will contain the return buffer handle<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+blockStart&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Start block address in NVM memory from where the erase should begin. This should be aligned on a <a href="10748.html">DRV_NVM_PAGE_SIZE</a> byte boundary.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+nBlock&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Total number of blocks to be erased.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The buffer handle is returned in the commandHandle argument. It Will be <a href="10713.html">DRV_NVM_COMMAND_HANDLE_INVALID</a> if the request was not queued.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Performing a flash erase operation while executing (fetching) instructions from program Flash memory, the CPU stalls (waits) until the erase operation is finished. The CPU will not execute any instruction, or respond to interrupts, during this time. If any interrupts occur during the programming cycle, they remain pending until the cycle completes. This make the NVM erase operation blocking in nature.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00708');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00708"><pre class="Element12">
+<i><span style="color: #008000">// Destination address should be block aligned.</span></i>
+uint32_t blockStart;
+uint32_t nBlock;
+<a href="10712.html">DRV_NVM_COMMAND_HANDLE</a> commandHandle;
+MY_APP_OBJ myAppObj;
+
+<i><span style="color: #008000">// myNVMHandle is the handle returned</span></i>
+<i><span style="color: #008000">// by the DRV_NVM_Open function.</span></i>
+
+<i><span style="color: #008000">// Client registers an event handler with driver</span></i>
+
+<a href="10730.html">DRV_NVM_EventHandlerSet</a>(myNVMHandle, APP_NVMEventHandler, (uintptr_t)&amp;myAppObj);
+
+DRV_NVM_Erase( myNVMHandle, &amp;commandHandle, blockStart, nBlock );
+
+<strong><span style="color: #000080">if</span></strong>(<a href="10713.html">DRV_NVM_COMMAND_HANDLE_INVALID</a> == commandHandle)
+{
+    <i><span style="color: #008000">// Error handling here</span></i>
+}
+
+<i><span style="color: #008000">// Event is received when</span></i>
+<i><span style="color: #008000">// the buffer queue is processed.</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_NVMEventHandler(<a href="10726.html">DRV_NVM_EVENT</a> event,
+        <a href="10712.html">DRV_NVM_COMMAND_HANDLE</a> commandHandle, uintptr_t contextHandle)
+{
+    <i><span style="color: #008000">// contextHandle points to myAppObj.</span></i>
+
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_NVM_EVENT_COMMAND_COMPLETE:
+
+            <i><span style="color: #008000">// This means the data was transferred.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> DRV_NVM_EVENT_COMMAND_ERROR:
+
+            <i><span style="color: #008000">// Error handling here.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17067.html">NVM Driver Library</a> &gt; <a href="08700.html">Library Interface</a> &gt; b) Client Core Functions &gt; <a href="10723.html">DRV_NVM_Erase Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_NVM_Erase@DRV_HANDLE@DRV_NVM_COMMAND_HANDLE *@uint32_t@uint32_t Topic Title: DRV_NVM_Erase Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

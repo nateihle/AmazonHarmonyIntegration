@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03894.html">OPENRTOS Demonstrations</a> &gt; <a href="03886.html">cdc_com_port_dual</a> &gt; <a href="03889.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03888.html">Previous</a> | <a href="03886.html">Up</a> | <a href="03890.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS OPENRTOS cdc_com_port_dual_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Refer to the <a href="04121.html">Running the Demonstration</a> topic for the bare-metal (non RTOS) version of the cdc_com_port_dual demonstration applications for running the demonstration.&nbsp;</p>
+<p class="Element10">
+The demonstration application contains six tasks. A description of these tasks is as follows:</p>
+<ul class="Element630">
+<li class="Element600">The FrameworkTasks task is created in the <a href="24151.html">SYS_Tasks</a> function. This task calls the USB Device Layer Tasks function (<a href="27928.html">USB_DEVICE_Tasks</a>). The priority of this task is designed to be the lowest when compared to the priorities of other tasks. Hence this tasks runs when all other tasks are either in blocked state or not ready to run.</li>
+<li class="Element600">The APP_USB_DEVICE_Open task is created in the APP_Tasks function. This task creates all the semaphores and message queues needed for the application. It creates 4 tasks which implement the application logic. It attempts to open the Device Layer and then blocks on the xSemaphoreBlockUsbConfigure semaphore. The xSemaphoreBlockUsbConfigure is given in the USB Device Layer Event Handler when the device is configured by the Host. The tasks then resumes the 4 application logic tasks and suspends itself.</li>
+<li class="Element600">The APP_CDC1Read Task is created in the APP_USB_DEVICE_Open task. It schedules a read on the CDC1 instance and then blocks on the CDC1 instance xSemaphoreCDCReadComplete semaphore. This semaphore is given in the Read Complete event in the CDC Application Event Handler. The tasks will then post the data that it has received from the Host to the CDC 1 instance Message Queue.</li>
+<li class="Element600">The APP_CDC2Read Task is created in the APP_USB_DEVICE_Open task. It schedules a read on the CDC2 instance and then blocks on the CDC2 instance xSemaphoreCDCReadComplete semaphore. This semaphore is given in the Read Complete event in the CDC Application Event Handler. The tasks will then post the data that it has received from the Host to the CDC 1 instance Message Queue.</li>
+<li class="Element600">The APP_CDC1Write Task is created in the APP_USB_DEVICE_Open task. It blocks on the CDC 2 message queue. When APP_CDC2Read Task posts a message to this queue, the APP_CDC1Write gets ready to run and the writes the data (received on the queue) to the CDC 1. This data is then transferred to the Host.</li>
+<li class="Element600">The APP_CDC2Write Task is created in the APP_USB_DEVICE_Open task. It blocks on the CDC 1 message queue. When APP_CDC1Read Task posts a message to this queue, the APP_CDC2Write gets ready to run and the writes the data (received on the queue) to the CDC 2. This data is then transferred to the Host.</li>
+</ul></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03894.html">OPENRTOS Demonstrations</a> &gt; <a href="03886.html">cdc_com_port_dual</a> &gt; <a href="03889.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS OPENRTOS cdc_com_port_dual_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

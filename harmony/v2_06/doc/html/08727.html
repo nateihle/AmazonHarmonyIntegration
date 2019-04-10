@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Transfer Operation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a> &gt; <a href="08727.html">Transfer Operation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08726.html">Previous</a> | <a href="08726.html">Up</a> | <a href="08714.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP Transfer Operation Topic Title: Transfer Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Transfer Operation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Once the PMP Driver is open and configured for a client, it is set to start Reading/Writing through <a href="10820.html">DRV_PMP_Read</a> and <a href="10844.html">DRV_PMP_Write</a>. However, these functions will not directly start reading or writing. These will just put the relevant information in a queue in non-interrupt mode and return an ID that can be used later for checking the transfer status. In Interrupt mode, the Read/Write functions will trigger the transfer immediately after storing the transfer information in the queue.&nbsp;</p>
+<p class="Element10">
+The user must use a buffer pointing to character for data values.&nbsp;</p>
+<p class="Element10">
+The repeatCount parameter allows the user to repeatedly write the same nBytes of data into the slave devices.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00721');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00721"><pre class="Element12"><strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">char</span></strong> myReadBuffer[300], myWriteBuffer[100]; <i><span style="color: #008000">// has to be 'char' arrays</span></i>
+uint32_t deviceAddress, nBytes, repeatCount, i;
+uint32_t writeID, readID;
+DRV_HANDLE handle;
+
+<i><span style="color: #008000">//initialize, open and configure the driver/client</span></i>
+<i><span style="color: #008000">/* ... */</span></i>
+
+deviceAddress = 0x0206;
+nBytes = 100;
+repeatCount = 0x01;
+<strong><span style="color: #000080">for</span></strong> (i=0; i&lt;nBytes; i++)
+{
+   myWriteBuffer[i]=i*5+7;
+}
+
+<i><span style="color: #008000">/* it will write 100 bytes of data in the location starting from 0x0206 and then it will repeat
+ writing the same set of data in next 100 location starting from 0x206+100 for 8 bit data mode
+ and 50 location starting from 0x206+50 for 16 bit data mode. */</span></i>
+writeID = DRV_PMP_Write ( handle, deviceAddress, &amp;myWriteBuffer[0], nBytes, repeatCount);
+
+<i><span style="color: #008000">// it will read 300 locations starting from 0x0206 into myReadBuffer</span></i>
+readID = DRV_PMP_Read ( handle, deviceAddress, &amp;myReadBuffer[0], nBytes);</pre></div></div>
+<div class="Element15">
+Transfer Status</div>
+<p class="Element10">
+The status of the read/write transfers can be obtained using API <a href="10839.html">DRV_PMP_TransferStatus</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00722');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00722"><pre class="Element12">DRV_PMP_TRANSFER_STATUS writeStatus, readStatus;
+uint32_t writeID, readID;
+
+writeStatus = DRV_PMP_TransferStatus( DRV_PMP_INDEX_0, writeID);
+readStatus = DRV_PMP_TransferStatus( DRV_PMP_INDEX_0, readID);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a> &gt; <a href="08727.html">Transfer Operation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP Transfer Operation Topic Title: Transfer Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

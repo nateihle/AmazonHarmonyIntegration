@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_MXT336T_Open Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13090.html">Touch Driver Libraries Help</a> &gt; <a href="16823.html">mXT336T Touch Driver Library</a> &gt; <a href="08683.html">Library Interface</a> &gt; a) Device-specific Functions &gt; <a href="10698.html">DRV_MXT336T_Open Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="10700.html">Previous</a> | <a href="08683.html">Up</a> | <a href="10529.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_MXT336T_Open@SYS_MODULE_INDEX@DRV_IO_INTENT Topic Title: DRV_MXT336T_Open Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_MXT336T_Open Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">DRV_MXT336T_Open</span></strong>(
+    <strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> <strong><span style="color: #000000">drvIndex</span></strong>, 
+    <strong><span style="color: #000080">const</span></strong> <a href="10240.html">DRV_IO_INTENT</a> <strong><span style="color: #000000">intent</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine opens the specified MXT336T driver instance and provides a handle that must be provided to all other client-level operations to identify the caller and the instance of the driver. The ioIntent parameter defines how the client interacts with this driver instance.&nbsp;</p>
+<p class="Element10">
+The current version of driver does not support the <a href="10240.html">DRV_IO_INTENT</a> feature. The driver is by default non-blocking. The driver can perform both read and write to the MXT336T device. The driver supports single client only.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <a href="10551.html">DRV_MXT336T_Initialize</a> function must have been called before calling this function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+drvIndex&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Index of the driver initialized with <a href="10551.html">DRV_MXT336T_Initialize</a>().<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+intent&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Zero or more of the values from the enumeration <a href="10240.html">DRV_IO_INTENT</a> ORed together to indicate the intended use of the driver. The current version of driver does not support the selective IO intent feature.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If successful, the routine returns a valid open-instance handle (a number identifying both the caller and the module instance).&nbsp;</p>
+<p class="Element10">
+If an error occurs, the return value is <a href="10089.html">DRV_HANDLE_INVALID</a>. An error can occur when the following is true:
+<ul class="Element636">
+<li class="Element606">if the number of client objects allocated via <a href="10527.html">DRV_MXT336T_CLIENTS_NUMBER</a> is insufficient</li>
+<li class="Element606">if the client is trying to open the driver but driver has been opened exclusively by another client</li>
+<li class="Element606">if the driver hardware instance being opened is not initialized or is invalid</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The handle returned is valid until the <a href="10528.html">DRV_MXT336T_Close</a> routine is called. This routine will NEVER block waiting for hardware. If the requested intent flags are not supported, the routine will return <a href="10089.html">DRV_HANDLE_INVALID</a>. This function is thread safe in a RTOS application. It should not be called in an ISR.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01001');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01001"><pre class="Element12"><a href="10088.html">DRV_HANDLE</a>  handle;
+
+handle = DRV_MXT336T_Open( <a href="10539.html">DRV_MXT336T_INDEX_0</a>,
+                                  DRV_IO_INTENT_EXCLUSIVE );
+
+<strong><span style="color: #000080">if</span></strong>( <a href="10089.html">DRV_HANDLE_INVALID</a> == handle )
+{
+    <i><span style="color: #008000">// Unable to open the driver</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13090.html">Touch Driver Libraries Help</a> &gt; <a href="16823.html">mXT336T Touch Driver Library</a> &gt; <a href="08683.html">Library Interface</a> &gt; a) Device-specific Functions &gt; <a href="10698.html">DRV_MXT336T_Open Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_MXT336T_Open@SYS_MODULE_INDEX@DRV_IO_INTENT Topic Title: DRV_MXT336T_Open Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

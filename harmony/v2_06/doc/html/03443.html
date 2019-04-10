@@ -1,0 +1,367 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>usb_speaker_hi_res</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03443.html">usb_speaker_hi_res</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03447.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03444.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO usb_speaker_hi_res Topic Title: usb_speaker_hi_res)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+usb_speaker_hi_res</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This demonstration application configures a USB Speaker device to run at a 96 kHz sampling rate and 24-bits per stereo sample.&nbsp;</p>
+<p class="Element10">
+The system will attach to a USB host (such as a personal computer) using a USB Audio 1.0 Device interface, which can accommodate a USB Device class speaker. The embedded system will enumerate with a USB audio device endpoint, and enable the host system to input audio from the USB port using a standard USB full-speed implementation. The embedded system will stream USB playback audio to the codec over the I2S interface. The codec driver sets up this audio interface, timing, DMA channels and buffer queue, to enable a continuous audio stream. The digital audio is transmitted to the codec through a bidirectional I2S data module. The codec is configured through and I2C command interface.</p><div class="Element15">
+System Application Architecture</div>
+<p class="Element10">
+This application runs on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a>, which contains a PIC32MX470F512L microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 96 MHz. The demonstration uses the following features:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD</li>
+<li class="Element600">Five LEDs</li>
+<li class="Element600">USB Device interfaces</li>
+<li class="Element600">Two X32 sockets, one of which will be used to host a codec module daughter board that will be used for the USB playback demonstration through a 3.5 mm audio jack (labeled HP Out)</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The PIC32 Bluetooth Audio Development Kit comes with a BTM805 Bluetooth Daughter Board and an <a href="04978.html">PIC32 Audio DAC Daughter Board - AK4384VT</a>; however, the BTM805 Daughter Board is unused.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The following figure shows the applications system architecture. </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO usb_speaker_hi_res block diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The interface between the processor and the LCD display on the Bluetooth Audio Development Kit is an 8-bit Parallel Master Port (PMP) used for data transfer of graphics commands implemented by a graphics processor. The program uses the <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> to draw on the screen.&nbsp;</p>
+<p class="Element10">
+The codec utilizes one instance of I2S , with the I2S module and codec configured, as shown in the following tables.&nbsp;</p>
+<p class="Element10">
+The following table displays the I2S clock values generated by the PIC32 master. These values are derived from the following formulas, starting with the REFCLK0 value (12.288 MHz) used for the I2S MCLK, and the sample rate, Fs (48000 Hz), as given by: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00012');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00012"><pre class="Element12">MCLK = 12,288,000 Hz
+Fs = 96,000 Hz
+NUM_CHANNELS = 2 channels
+FRAME_SIZE = 32 bits/channel * NUM_CHANNELS = 64 bits/frame
+LRCK = Fs
+BCLK = FRAME_SIZE * Fs</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Table 1. 96 kHz Sampling I2S Clock Values</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="16%">
+<div class="Element66">
+I2S Function&nbsp;</div></td><td class="Element65" valign="top" width="29%">
+<div class="Element66">
+Value&nbsp;</div></td><td class="Element65" valign="top" width="55%">
+<div class="Element66">
+Description/PIC32 Pin (Port)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+LRCK&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+96.000000 kHz&nbsp;</div></td><td class="Element67" valign="top" width="55%">
+<div class="Element68">
+Sample rate clock&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+BCLK&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+6.144000 kHz&nbsp;</div></td><td class="Element67" valign="top" width="55%">
+<div class="Element68">
+Bit Rate Clock&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+MCLK&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+12.288000 kHz&nbsp;</div></td><td class="Element67" valign="top" width="55%">
+<div class="Element68">
+Master Clock (REFCLK01)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The I2S is configured for bidirectional data flow, using the SDI1 pin for input (unused) and SDO1 for output to the headphone jack. The following table displays the pins used on the PIC32 Bluetooth Audio Development Kit for the I2S interface to the codec.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Table 2. I2S Data pins PIC32MX480F512L (Bluetooth Audio Development Kit)</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="19%">
+<div class="Element66">
+PIC32 Name&nbsp;</div></td><td class="Element65" valign="top" width="44%">
+<div class="Element66">
+Description&nbsp;</div></td><td class="Element65" valign="top" width="12%">
+<div class="Element66">
+I2S&nbsp;</div></td><td class="Element65" valign="top" width="26%">
+<div class="Element66">
+PIC32 Pin&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="44%">
+<div class="Element68">
+Serial Data In&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="26%">
+<div class="Element68">
+73(RC13)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SD01&nbsp;</div></td><td class="Element67" valign="top" width="44%">
+<div class="Element68">
+Serial Data Out&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+SDI1&nbsp;</div></td><td class="Element67" valign="top" width="26%">
+<div class="Element68">
+72(RD0)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SS1&nbsp;</div></td><td class="Element67" valign="top" width="44%">
+<div class="Element68">
+Bit Clock&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+BCLK&nbsp;</div></td><td class="Element67" valign="top" width="26%">
+<div class="Element68">
+69(RD9)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="19%">
+<div class="Element68">
+SCK1&nbsp;</div></td><td class="Element67" valign="top" width="44%">
+<div class="Element68">
+Master Clock&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+MCLK&nbsp;</div></td><td class="Element67" valign="top" width="26%">
+<div class="Element68">
+70(RD10)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="19%">
+<div class="Element68">
+REFCLK01&nbsp;</div></td><td class="Element67" valign="top" width="44%">
+<div class="Element68">
+Reference Clock&nbsp;</div></td><td class="Element67" valign="top" width="12%">
+<div class="Element68">
+-&nbsp;</div></td><td class="Element67" valign="top" width="26%">
+<div class="Element68">
+53(RF8)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The following table displays the I2S set up for 24-bit data per stereo channel data transferred serially using 32-bit framing per channel (the least significant byte is 0). The data is configured as stereo (two channel). The 24-bit stereo samples are transferred to the codec memory buffer via DMA using 32-bit words. A 16-deep buffer queue is used to mitigate USB host, and USB device clock synchronization issues. The codec I2S slave is configured using the following parameters calculated from the clock values: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00013');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00013"><pre class="Element12">MCLK_DIV = MCLK/LRCK
+BCLK_DIV = MCLK/BCLK</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Table 3. I2S Parameter Values (48 kHz Sampling)</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="26%">
+<div class="Element66">
+I2S&nbsp;</div></td><td class="Element65" valign="top" width="11%">
+<div class="Element66">
+Value&nbsp;</div></td><td class="Element65" valign="top" width="63%">
+<div class="Element66">
+Description/PIC32 Pin (Port)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+PIC32 Mode&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+HOST&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+AK4642 Mode&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+SLAVE&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Controlled by the PIC32&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+MCLK_MULT (mhc)&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+128&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Sample rate multiplier for MCLK&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+MCLK_BCLK_RATIO&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+2&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Sample rate multiplier for BCLK&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Data Sizes&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+32/32/32&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+32-bit data/32 FIFO/32 bits per channel&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Channels&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+Stereo&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+2-channels&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="26%">
+<div class="Element68">
+Timing&nbsp;</div></td><td class="Element67" valign="top" width="11%">
+<div class="Element68">
+LJ&nbsp;</div></td><td class="Element67" valign="top" width="63%">
+<div class="Element68">
+Left Justified&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Software Architecture</div>
+<p class="Element10">
+All MPLAB Harmony applications use the function <span class="Element146"><a href="23925.html">SYS_Initialize</a></span> located in the source file <span class="Element146">system_init.c,</span> which is part of the main function used to initialize various subsystems such as: the clock, ports, Board Support Package (BSP), PMP, codec, timers, graphics, and interrupts. The USB, AK4642 driver, graphics, and the application state machines are all updated via calls located in the function <span class="Element146"><a href="24151.html">SYS_Tasks</a></span>, executed from the main polling loop, located in <span class="Element146">system_tasks.c</span>.&nbsp;</p>
+<p class="Element10">
+The application code is contained in the standard source file <span class="Element146">app.c</span>. The application code is initialized within <span class="Element146"><a href="23925.html">SYS_Initialize</a></span> using the application <span class="Element146">APP_Initialize</span> function to instantiate driver objects and start the USB device interface. The application utilizes a simple state machine (<span class="Element146">APP_Tasks</span> executed from <span class="Element146"><a href="24151.html">SYS_Tasks</a></span>) with the following functions:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Set up the device peripheral drivers and USB Library interface.</li>
+<li value="2" class="Element600">Initiating read requests to the USB host over the USB device interface to start the playback audio stream.</li>
+<li value="3" class="Element600">Initiating the write data stream to the codec when the USB read data packet buffer has filled to a set level.</li>
+<li value="4" class="Element600">Execute responses to the USB device stream requests “read packet received” to maintain the stream and to playback the data through writes to the codec.</li>
+<li value="5" class="Element600">Respond to data buffer completes from the codec read and write buffer DMA complete interrupts, used to initiate USB device data reads to maintain the audio stream from the USB host.</li>
+<li value="6" class="Element600">To control the muting function of the USB device interface when the stream data is paused, or playback resumes of the USB interface, (i.e., change of the USB audio interface alternate settings).</li>
+</ol><p class="Element10">
+The USB interface uses separate host and device data timing. The USB Device receiving the playback stream must mitigate buffer underflow and overflow problems to the codec, which is done by using a 64-deep packet buffer queue. Dropouts can occur if the receive rate is lower than the transmit rate to the codec, however this occurs rarely using a buffer of this length.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">High-speed (96 kHz) and high-definition (24-bit) USB audio connection to a host system using the USB V1.0 Library Device Stack for a USB speaker device using PIC32 Bluetooth Audio Development Kit.</li>
+<li class="Element600">Playback of 96 kHz/24 bit audio using an AK4384 DAC daughter board on the PIC32 Bluetooth Audio Development Kit.</li>
+<li class="Element600">Displaying graphics on the PIC32 Bluetooth Audio Development Kit 220x176 LCD using <a href="07412.html">MPLAB Harmony Graphics Composer Suite</a> and the <a href="17353.html">Parallel Master Port Driver Library</a> interface to OTM0221B graphics controller.</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+<strong>PIC32MX470F512L on the PIC32 Bluetooth Audio Development Kit with AK4384 Configuration</strong>&nbsp;</p>
+<p class="Element10">
+When building this application, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project</i>. Next, select <strong>PIC32 Bluetooth Audio Development Kit</strong> and a configuration name, such as bt_audio_dk indicating the default processor and codec daughter board for the PIC32 Bluetooth Audio Development Kit. Click the MPLAB Harmony icon to open the MPLAB Harmony Configurator (MHC).&nbsp;</p>
+<p class="Element10">
+Expand the <i>MPLAB Harmony Configurator Framework &gt; Drivers </i>section, and then expand <i>Codec &gt;.</i> Select the required Codec (AK4384) and a sub-menu will appear. For this application the default values will suffice, except for the following:</p>
+<ul class="Element630">
+<li class="Element600">The volume setting can be adjusted between a -75 dB and +12 dB gain range using the<i> range 0 to 255 setting</i>.</li>
+</ul><p class="Element10">
+Expand I2S, the <i>Use I2S Driver?</i> option should already be selected. The driver callbacks require <i>Receive DMA Support</i> (for the read client). This automatically selects <i>Enable DMA Channel Interrupts</i> for the callback when buffer transfer has completed. Expand <i>I2S Driver Instance</i> and select <i>Audio Communication Width</i> corresponding to 32 Data/32 FIFO/32 per Channel. The <i>Audio Protocol Mode</i> is left justified. The <i>Queue Size Transmit</i> is set to 64. Note that the transmit queue is used for the codec read client of the AK4384. <i>Queue Size Receive</i> is used for the read client for other codecs.&nbsp;</p>
+<p class="Element10">
+The codec I2S driver is implemented using the PIC32 SPI peripheral block. The AK4384 Codec Driver also uses a bit-banged SPI control interface by default, which defaults to <i>Timer instance 0</i> when used with the <i>Prescale value of one</i> to control the SPI timing.&nbsp;</p>
+<p class="Element10">
+To use the <i>Graphics Stack Library</i>, select <i>Use Graphics Stack?.</i> Further down, within <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <i>Enable Touch</i>. Since the board uses the Crystal Fontz 176x220 pixel LCD with the OTM2201A controller, the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Within <i>PMP</i>, select <i>Use PMP Driver?,</i> which is used for graphics data transfer. Expand that section, and change the value of <i>Strobe Wait States</i> to <i>PMP_STROBE_WAIT_4</i>.&nbsp;</p>
+<p class="Element10">
+Under the <i>USB Stack Library</i> select <i>Use USB Stack</i>, and then use the default selection, which is <i>Use Device</i>. Change the <i>Number of Endpoints Used</i> to &quot;2&quot;. Below that select <i>USB Device Instance 0,</i> and then select <i>usb_speaker_demo</i> from <i>Product ID Selection</i>. This selection generates the fullSpeedConfigurationDescriptor struct in <span class="Element146">system_init.c:</span> AUDIO Device Class, 3 Interfaces, 2 Audio Streaming interface; with a Write Queue Size of 2 (not used) and a Read Queue Size of 64 (the same as the codec write queue size). The <i>Product ID Selection</i> also gives the name shown at the host, which in this case is <i>usb_speaker_demo</i>. A <i>USB Interrupt Priority</i> of &quot;1&quot; is also used. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Do not change the current fullSpeedConfigurationDescriptor values in <span class="Element146">system_init.c</span> when using MHC to generate the project files, since it has been modified from 16-bit data and 48 kHz sampling rate to 96 kHz and 24-bit data, which also changes the packet size (1 ms audio packets are used for the full speed USB interface).&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03444.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03445.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03446.html">Running the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section demonstrates how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03443.html">usb_speaker_hi_res</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO usb_speaker_hi_res Topic Title: usb_speaker_hi_res)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

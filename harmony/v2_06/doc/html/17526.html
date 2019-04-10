@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>CVREF Setup</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07081.html">Comparator Peripheral Library</a> &gt; <a href="17538.html">Using the Library</a> &gt; <a href="17532.html">How the Library Works</a> &gt; <a href="17526.html">CVREF Setup</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17532.html">Previous</a> | <a href="17532.html">Up</a> | <a href="17533.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CMP CVREF Setup Topic Title: CVREF Setup)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+CVREF Setup</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The CVREF is one of the internal voltage references available for the Comparator module, which can be configured for the required voltage value.&nbsp;</p>
+<p class="Element10">
+Do the following to set up the CVREF:
+<ol class="Element637">
+<li value="1" class="Element607">Select the voltage source for CVREF using <a href="18562.html">PLIB_CMP_CVREF_SourceVoltageSelect</a>.</li>
+<li value="2" class="Element607">Select the CVREF voltage range using <a href="18565.html">PLIB_CMP_CVREF_WideRangeEnable</a> and/or <a href="18564.html">PLIB_CMP_CVREF_WideRangeDisable</a>.</li>
+<li value="3" class="Element607">Select the CVREF value using <a href="18563.html">PLIB_CMP_CVREF_ValueSelect</a>.</li>
+<li value="4" class="Element607">Enable or disable the CVREF pin output using <a href="18559.html">PLIB_CMP_CVREF_OutputEnable</a> or <a href="18558.html">PLIB_CMP_CVREF_OutputDisable</a>.</li>
+<li value="5" class="Element607">Turn on the CVREF module using <a href="18557.html">PLIB_CMP_CVREF_Enable</a>.</li>
+</ol><strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01737');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01737"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_CMP_ID          CMP_ID_1
+
+<i><span style="color: #008000">//Select the CVREF source</span></i>
+PLIB_CMP_CVREF_SourceVoltageSelect(MY_CMP_ID, CMP_CVREF_VOLTAGE_SOURCE_VDD);
+
+<i><span style="color: #008000">//Select the CVREF for wide range</span></i>
+PLIB_CMP_CVREF_WideRangeEnable(MY_CMP_ID);
+
+<i><span style="color: #008000">//Select the CVREF value</span></i>
+PLIB_CMP_CVREF_ValueSelect(MY_CMP_ID, CMP_CVREF_VALUE_15);
+
+<i><span style="color: #008000">//Enable the CVREF output pin</span></i>
+PLIB_CMP_CVREF_OutputEnable(MY_CMP_ID);
+
+<i><span style="color: #008000">//Turn on the CVREF module</span></i>
+PLIB_CMP_CVREF_Enable(MY_CMP_ID);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07081.html">Comparator Peripheral Library</a> &gt; <a href="17538.html">Using the Library</a> &gt; <a href="17532.html">How the Library Works</a> &gt; <a href="17526.html">CVREF Setup</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CMP CVREF Setup Topic Title: CVREF Setup)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

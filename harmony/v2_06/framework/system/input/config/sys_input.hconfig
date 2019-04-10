@@ -1,0 +1,64 @@
+menu "Input"
+
+config USE_SYS_INPUT_NEEDED
+    bool
+
+config USE_SYS_INPUT
+bool "Use Input System Service?"
+    default n if !USE_SYS_INPUT_NEEDED
+    default y if USE_SYS_INPUT_NEEDED
+    ---help---
+    IDH_HTML_Input_System_Service_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_SYS_INPUT
+    depends on USE_3RDPARTY_RTOS
+
+config SYS_INPUT_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config SYS_INPUT_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on SYS_INPUT_RTOS = "Standalone"
+    default 1024
+
+config SYS_INPUT_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on SYS_INPUT_RTOS = "Standalone"
+    default 1
+
+config SYS_INPUT_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on SYS_INPUT_RTOS = "Standalone"
+    default y
+
+config SYS_INPUT_RTOS_DELAY
+    int "Task Delay"
+    depends on SYS_INPUT_RTOS = "Standalone"
+    depends on SYS_INPUT_RTOS_USE_DELAY
+    default 1000
+
+endmenu
+
+endmenu
+
+ifblock USE_SYS_INPUT
+
+add "<#include \"/framework/system/input/config/sys_input.c.ftl\">"  to list SYSTEM_INIT_C_MODULE_INITIALIZATION_DATA
+add "<#include \"/framework/system/input/config/sys_input_init.c.ftl\">"  to list SYSTEM_INIT_C_INITIALIZE_SYSTEM_SERVICES
+add "<#assign SYS_INPUT_TASKS = \"TASK_CALL_NO_RTOS\"><#include \"/framework/system/input/config/sys_input_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_SYSTEM_TASKS
+
+file SYS_INPUT_H "$HARMONY_VERSION_PATH/framework/system/input/sys_input.h" to "$PROJECT_HEADER_FILES/framework/system/input/sys_input.h"
+file SYS_INPUT_GESTURE_H "$HARMONY_VERSION_PATH/framework/system/input/sys_input_gesture.h" to "$PROJECT_HEADER_FILES/framework/system/input/sys_input_gesture.h"
+file SYS_INPUT_KEYBOARD_H "$HARMONY_VERSION_PATH/framework/system/input/sys_input_keyboard.h" to "$PROJECT_HEADER_FILES/framework/system/input/sys_input_keyboard.h"
+file SYS_INPUT_LISTENER_H "$HARMONY_VERSION_PATH/framework/system/input/sys_input_listener.h" to "$PROJECT_HEADER_FILES/framework/system/input/sys_input_listener.h"
+file SYS_INPUT_MOUSE_H "$HARMONY_VERSION_PATH/framework/system/input/sys_input_mouse.h" to "$PROJECT_HEADER_FILES/framework/system/input/sys_input_mouse.h"
+file SYS_INPUT_TOUCH_H "$HARMONY_VERSION_PATH/framework/system/input/sys_input_touch.h" to "$PROJECT_HEADER_FILES/framework/system/input/sys_input_touch.h"
+
+file SYS_INPUT_C "$HARMONY_VERSION_PATH/framework/system/input/src/sys_input.c" to "$PROJECT_SOURCE_FILES/framework/system/input/src/sys_input.c"
+file SYS_INPUT_LISTENER_C "$HARMONY_VERSION_PATH/framework/system/input/src/sys_input_listener.c" to "$PROJECT_SOURCE_FILES/framework/system/input/src/sys_input_listener.c"
+
+endif

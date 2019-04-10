@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_USBFS_DEVICE_IRPSubmit Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08931.html">Library Interface</a> &gt; c) Device Mode Operation Functions &gt; <a href="11541.html">DRV_USBFS_DEVICE_IRPSubmit Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11540.html">Previous</a> | <a href="08931.html">Up</a> | <a href="11542.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBFS_DEVICE_IRPSubmit@DRV_HANDLE@USB_ENDPOINT@USB_DEVICE_IRP * Topic Title: DRV_USBFS_DEVICE_IRPSubmit Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_USBFS_DEVICE_IRPSubmit Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="27941.html">USB_ERROR</a> <strong><span style="color: #000000">DRV_USBFS_DEVICE_IRPSubmit</span></strong>(
+    <a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">client</span></strong>, 
+    <a href="27934.html">USB_ENDPOINT</a> <strong><span style="color: #000000">endpointAndDirection</span></strong>, 
+    <a href="27843.html">USB_DEVICE_IRP</a> * <strong><span style="color: #000000">irp</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function submits an I/O Request Packet (IRP) for processing to the USB Driver. The IRP allows a client to send and receive data from the USB Host. The data will be sent or received through the specified endpoint. The direction of the data transfer is indicated by the direction flag in the endpointAndDirection parameter. Submitting an IRP arms the endpoint to either send data to or receive data from the Host. If an IRP is already being processed on the endpoint, the subsequent IRP submit operation will be queued. The contents of the IRP (including the application buffers) should not be changed until the IRP has been processed.&nbsp;</p>
+<p class="Element10">
+Particular attention should be paid to the size parameter of IRP. The following should be noted:&nbsp;</p>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">The size parameter while sending data to the Host can be less than, greater than, equal to, or be an exact multiple of the maximum packet size for the endpoint. The maximum packet size for the endpoint determines the number of transactions required to process the IRP.</li>
+<li class="Element606">If the size parameter, while sending data to the Host is less than the maximum packet size, the transfer will complete in one transaction.</li>
+<li class="Element606">If the size parameter, while sending data to the Host is greater than the maximum packet size, the IRP will be processed in multiple transactions.</li>
+<li class="Element606">If the size parameter, while sending data to the Host is equal to or an exact multiple of the maximum packet size, the client can optionally ask the driver to send a Zero Length Packet(ZLP) by specifying the USB_DEVICE_IRP_FLAG_DATA_COMPLETE flag as the flag parameter.</li>
+<li class="Element606">The size parameter, while receiving data from the Host must be an exact multiple of the maximum packet size of the endpoint. If this is not the case, the driver will return a USB_ERROR_IRP_SIZE_INVALID result. If while processing the IRP, the driver receives less than maximum packet size or a ZLP from the Host, the driver considers the IRP as processed. The size parameter at this point contains the actual amount of data received from the Host. The IRP status is returned as USB_DEVICE_IRP_STATUS_COMPLETED_SHORT.</li>
+<li class="Element606">If a ZLP needs to be sent to Host, the IRP size should be specified as 0 and the flag parameter should be set as USB_DEVICE_IRP_FLAG_DATA_COMPLETE.</li>
+<li class="Element606">If the IRP size is an exact multiple of the endpoint size, the client can request the driver to not send a ZLP by setting the flag parameter to USB_DEVICE_IRP_FLAG_DATA_PENDING. This flag indicates that there is more data pending in this transfer.</li>
+<li class="Element606">Specifying a size less than the endpoint size along with the USB_DEVICE_IRP_FLAG_DATA_PENDING flag will cause the driver to return a USB_ERROR_IRP_SIZE_INVALID.</li>
+<li class="Element606">If the size is greater than but not a multiple of the endpoint size, and the flag is specified as USB_DEVICE_IRP_FLAG_DATA_PENDING, the driver will send multiple of endpoint size number of bytes. For example, if the IRP size is 130 and the endpoint size if 64, the number of bytes sent will 128.</li>
+</ul>&nbsp;</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Client handle should be valid.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+handle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Client's driver handle (returned from <a href="11601.html">DRV_USBFS_Open</a> function).&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+endpointAndDirection&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Specifies the endpoint and direction.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+irp&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to the IRP to be added to the queue for processing.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">USB_ERROR_NONE - if the IRP was submitted successful.</li>
+<li class="Element606">USB_ERROR_IRP_SIZE_INVALID - if the size parameter of the IRP is not correct. </li>
+<li class="Element606">USB_ERROR_PARAMETER_INVALID - If the client handle is not valid.</li>
+<li class="Element606">USB_ERROR_ENDPOINT_NOT_CONFIGURED - If the endpoint is not enabled.</li>
+<li class="Element606">USB_ERROR_DEVICE_ENDPOINT_INVALID - The specified endpoint is not valid.</li>
+<li class="Element606">USB_ERROR_OSAL_FUNCTION - An OSAL call in the function did not complete successfully.</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function can be called from the ISR of the USB module to associated with the client.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01108');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01108"><pre class="Element12"><i><span style="color: #008000">// The following code shows an example of how to schedule a IRP to send data</span></i>
+<i><span style="color: #008000">// from a device to the Host. Assume that the max packet size is 64 and</span></i>
+<i><span style="color: #008000">// and this data needs to sent over Endpoint 1. In this example, the</span></i>
+<i><span style="color: #008000">// transfer is processed as three transactions of 64, 64 and 2 bytes.</span></i>
+
+<a href="27934.html">USB_ENDPOINT</a> ep;
+<a href="27843.html">USB_DEVICE_IRP</a> irp;
+
+ep.direction = <a href="27935.html">USB_ENDPOINT_AND_DIRECTION</a>(USB_DATA_DIRECTION_DEVICE_TO_HOST, 1);
+
+irp.data = myDataBufferToSend;
+irp.size = 130;
+irp.flags = USB_DEVICE_IRP_FLAG_DATA_COMPLETE;
+irp.callback = MyIRPCompletionCallback;
+irp.referenceData = (uintptr_t)&amp;myDeviceLayerObj;
+
+<strong><span style="color: #000080">if</span></strong> (DRV_USBFS_DEVICE_IRPSubmit(handle, ep, &amp;irp) != USB_ERROR_NONE)
+{
+    <i><span style="color: #008000">// This means there was an error.</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+    <i><span style="color: #008000">// The status of the IRP can be checked.</span></i>
+    <strong><span style="color: #000080">while</span></strong>(irp.status != USB_DEVICE_IRP_STATUS_COMPLETED)
+    {
+        <i><span style="color: #008000">// Wait or run a task function.</span></i>
+    }
+}
+
+<i><span style="color: #008000">// The following code shows how the client can request</span></i>
+<i><span style="color: #008000">// the driver to send a ZLP when the size is an exact multiple of</span></i>
+<i><span style="color: #008000">// endpoint size.</span></i>
+
+irp.data = myDataBufferToSend;
+irp.size = 128;
+irp.flags = USB_DEVICE_IRP_FLAG_DATA_COMPLETE;
+irp.callback = MyIRPCompletionCallback;
+irp.referenceData = (uintptr_t)&amp;myDeviceLayerObj;
+
+<i><span style="color: #008000">// Note that while  receiving data from the Host, the size should be an</span></i>
+<i><span style="color: #008000">// exact multiple of the maximum packet size of the endpoint. In the</span></i>
+<i><span style="color: #008000">// following example, the DRV_USBFS_DEVICE_IRPSubmit function will return a</span></i>
+<i><span style="color: #008000">// USB_DEVICE_IRP_SIZE_INVALID value.</span></i>
+
+ep = <a href="27935.html">USB_ENDPOINT_AND_DIRECTION</a>(USB_DATA_DIRECTION_HOST_TO_DEVICE, 1);
+
+irp.data = myDataBufferToSend;
+irp.size = 60; <i><span style="color: #008000">// THIS SIZE IS NOT CORRECT</span></i>
+irp.flags = USB_DEVICE_IRP_FLAG_DATA_COMPLETE;
+irp.callback = MyIRPCompletionCallback;
+irp.referenceData = (uintptr_t)&amp;myDeviceLayerObj;
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08931.html">Library Interface</a> &gt; c) Device Mode Operation Functions &gt; <a href="11541.html">DRV_USBFS_DEVICE_IRPSubmit Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBFS_DEVICE_IRPSubmit@DRV_HANDLE@USB_ENDPOINT@USB_DEVICE_IRP * Topic Title: DRV_USBFS_DEVICE_IRPSubmit Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

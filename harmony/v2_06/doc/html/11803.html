@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Synchronization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="11803.html">Synchronization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11770.html">Previous</a> | <a href="11784.html">Up</a> | <a href="11775.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Synchronization Topic Title: Synchronization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Synchronization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Some driver interface functions have an intrinsically blocking usage model. For example, most developers would expect the file system style read and write functions to block and not return until the entire transfer had completed. While this cannot be accomplished in a bare-metal environment, it can be accomplished in a RTOS configuration in a way that still allows usage in a non-RTOS environment by using the OSAL semaphore support.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Blocking Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00158');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00158"><pre class="Element12">size_t DRV_MYDEV_Write( DRV_HANDLE handle, <strong><span style="color: #000080">void</span></strong> *buffer, size_t size)
+{
+    size_t        count;
+    DRV_MYDEV_OBJ pObj  = (DRV_MYDEV_OBJ *)handle;
+
+    count = 0;
+    <strong><span style="color: #000080">while</span></strong>(count &lt; size)
+    {
+        count += PLIB_MYDEV_Transmit(pObj-&gt;devIndex, buffer, size-count);
+        <strong><span style="color: #000080">if</span></strong> (count &lt; size)
+        {
+            <strong><span style="color: #000080">if</span></strong> (OSAL_SEM_Pend(pObj-&gt;txSemaphore) == OSAL_RESULT_TRUE)
+            {
+                <i><span style="color: #008000">/* Exit loop if semaphore fails or if no RTOS */</span></i>
+                <strong><span style="color: #000080">break</span></strong>;
+            }
+        }
+    }
+
+    <strong><span style="color: #000080">return</span></strong> count;
+}
+</pre></div></div>
+<p class="Element10">
+In the previous example, the DRV_MYDEV_Write function attempts to loop, repeatedly filling the fictitious MYDEV device’s transmit FIFO until it has sent all size bytes of data pointed to by the buffer parameter by calling the PLIB_MYDEV_Transmit function (assuming that is what this function does and that it returns the actual number of bytes copied to the transmitter FIFO). If the buffer passed in contains more data bytes than will fit into the device’s FIFO, <span class="Element146">count</span> will be less than <span class="Element146">size</span> and the code will call the <a href="17243.html">OSAL_SEM_Pend</a> function. In a RTOS configuration, assuming that no other code has previously posted the <span class="Element146">txSemaphore</span>, this will cause the thread that called the DRV_MYDEV_Write to block (be suspended by the OS scheduler) until some other thread or ISR posts the semaphore.&nbsp;</p>
+<p class="Element10">
+Presumably, this fictitious device will set an interrupt flag when its transmitter FIFO is empty (or as shown in a following section, a given watermark level). If that is the case, the driver’s tasks function will need to call either the <a href="17244.html">OSAL_SEM_Post</a> or <a href="17245.html">OSAL_SEM_PostISR</a> function (depending upon whether or not it is configured for polled or interrupt-driven operation), passing in the <span class="Element146">txSemaphore</span>, to signal that the transmitter is ready to accept more data. When that happens, the previous call to <a href="17243.html">OSAL_SEM_Pend</a> will return with an OSAL_RESULT_TRUE value. This causes the loop to continue until it has successfully transmitted all data (when <span class="Element146">count</span> equals <span class="Element146">size</span>) or until <a href="17243.html">OSAL_SEM_Pend</a> returns some other value.&nbsp;</p>
+<p class="Element10">
+If this code is built in a non-RTOS configuration, the <a href="17243.html">OSAL_SEM_Pend</a> function will instead return OSAL_RESULT_FALSE. When that occurs, the example will break out of the loop and the DRV_MYDEV_Write function will return the current count of how much data was successfully written to the device’s transmitter FIFO. While not ideal (after all, the caller was hoping all of its data would be written), this behavior is still consistent with the expected behavior of the DRV_MYDEV_Write function and is completely safe so long as the caller appropriately checks the return value and adjusts accordingly.&nbsp;</p>
+<p class="Element10">
+When using a technique like this, blocking behavior becomes an optimization that is available when a RTOS is used, which is why the naturally blocking file system style read and write functions operate best in a RTOS environment and they are a bit inefficient (but still work) in a bare metal environment. Similar techniques can be used to synchronize between any interface functions and the associated tasks function(s) in any driver (or other library). Using this technique also illustrates that a driver is best designed to block in its interface functions and not in its tasks function(s). Using this technique best synchronizes clients, calling a driver’s interface routines, with the operation of the driver’s state machine.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="11803.html">Synchronization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Synchronization Topic Title: Synchronization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

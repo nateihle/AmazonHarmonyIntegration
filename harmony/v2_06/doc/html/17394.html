@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17394.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17403.html">Previous</a> | <a href="17403.html">Up</a> | <a href="17399.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The ADC module accepts an analog signal at any one instance and converts it to a corresponding 10-bit digital value. It can accommodate a number of analog inputs and separate reference inputs; the actual number available on a particular device depends on the package size. </p><p class="Element10" style="text-align: center;">
+<strong>Hardware Abstraction Block Diagram</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="HwAbstractModel.png" border="0" alt="" title=""></p><p class="Element10">
+A combination of input multiplexers can select the signal to be converted from multiple analog input pins. The entire multiplexer path includes provision for differential analog input, although the number of negative input pins is limited, and the signal difference must remain positive (i.e., unipolar).</p><div class="Element15">
+Sampling Logic</div>
+<p class="Element10">
+An internal Sample and Hold (S&amp;<a href="13056.html">H</a>) circuit acquires a sample of an input signal, and then holds that value constant during the conversion process. The purpose of the S&amp;<a href="13056.html">H</a> circuitry is to take a snapshot of the sensor signal and hold the value. The sampled voltage is held and converted to a digital value, which strictly speaking, represents the ratio of that input voltage to a reference voltage. Configuration choices can allow connection of an external reference or use of the device power and ground (AVDD and AVSS).</p><div class="Element15">
+Conversion Logic</div>
+<p class="Element10">
+The heart of the ADC is the conversion logic that converts the analog signal value into its equivalent discrete representation. Conversions can be started individually by program control, continuously free-running, or triggered by selected hardware events. A single channel may be repeatedly converted, alternate conversions may be performed on two channels, or any or all of the channels may be sequentially scanned and converted according to a user-defined bit map.</p><div class="Element15">
+Result Handling</div>
+<p class="Element10">
+The resulting conversion output is 10-bit digital number in a 16-bit word.</p><div class="Element15">
+ADC Timing Details</div>
+<p class="Element10">
+<i>Sample time</i> is the time that the ADC module’s S&amp;<a href="13056.html">H</a> circuit is connected to the analog input pin. The sample time may be started and ended automatically by the ADC’s hardware or under direct program control. There is a minimum sample time to ensure that the S&amp;<a href="13056.html">H</a> circuit will provide sufficient accuracy for the analog-to-digital conversion.&nbsp;</p>
+<p class="Element10">
+<i>Conversion time</i> is the time required for the ADC to convert the voltage held by the S&amp;<a href="13056.html">H</a> circuit. The conversion trigger ends the sampling time and begins an analog-to-digital conversion or a repeating sequence. The conversion trigger sources can be taken from a variety of hardware sources or can be controlled directly in software.&nbsp;</p>
+<p class="Element10">
+Once the conversion is complete, the S&amp;<a href="13056.html">H</a> circuit can be reconnected to the input pin and a CPU interrupt may be generated. The sum of the sample time and the analog-to-digital conversion time provides the total ADC sequence time. The following figure shows the basic conversion sequence and the relationship between intervals. </p><p class="Element10" style="text-align: center;">
+<strong>ADC Sample/Convert Sequence</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="ADC Sample Seq.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+The conversion trigger sources can be taken from a variety of hardware sources, or can be controlled directly by software. One of the conversion trigger options is an auto-conversion, which uses a counter and the ADC clock to set the time between auto-conversions. The Auto-Sample mode and auto-conversion trigger can be used together to provide continuous automatic conversions without software intervention.&nbsp;</p>
+<p class="Element10">
+A sample/convert sequence that uses multiple S&amp;<a href="13056.html">H</a> channels can be simultaneously sampled or sequentially sampled. Simultaneously sampling multiple signals ensures that the snapshot of the analog inputs occurs at precisely the same time for all inputs. Sequential sampling takes a snapshot of each analog input just before conversion starts on that input. The sampling of multiple inputs is not correlated.</p><div class="Element15">
+Channel Multiplexers</div>
+<p class="Element10">
+On some devices, S&amp;<a href="13056.html">H</a> circuits have analog multiplexers on both their non-inverting and inverting inputs to select which analog input(s) are sampled. The ADC of some devices incorporate two independent sets of input multiplexers (MUX A and MUX B), which allow users to choose the analog channels that are to be sampled. Functionally, MUX A and MUX B are very similar to each other. Both multiplexers allow any of the analog input channels to be selected for individual sampling and allow selection of a negative reference source for differential signals. In addition, MUX A can be configured for sequential analog channel scanning. By default the ADC only samples and converts the inputs selected by MUX A. There is also a possibility to alternate between two sets of inputs selected by MUX A and MUX B during successive samples. </p><p class="Element10" style="text-align: center;">
+<strong>MUX Abstraction Model</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MUXes.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+When using MUX A to select analog inputs, the ADC module has the ability to scan multiple analog channels sequentially.</p><div class="Element15">
+Input Selection</div>
+<p class="Element10">
+The ADC module provides a flexible mechanism to select analog inputs for conversion:
+<ul class="Element636">
+<li class="Element606">Fixed input selection</li>
+<li class="Element606">Alternate input selection</li>
+<li class="Element606">Channel scanning</li>
+</ul></p><div class="Element15">
+Fixed Input Selection</div>
+<p class="Element10">
+This is achieved through one or more of the S&amp;<a href="13056.html">H</a> channels available in the device. The S&amp;<a href="13056.html">H</a> channels are connected to the analog input pins through the analog multiplexer.</p><div class="Element15">
+Alternate Sampling</div>
+<p class="Element10">
+In an Alternate Input Selection mode, the ADC completes one sweep using the MUX A selection, and then another sweep using the MUX B selection, and then another sweep using the MUX A selection, and so on. </p><p class="Element10" style="text-align: center;">
+<strong>Alternate Input Selection in 2-Channel Sequential Sampling Configuration</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="AlternateInput.png" border="0" alt="" title=""></p><div class="Element15">
+Channel Scanning</div>
+<p class="Element10">
+On some devices, the ADC module supports the Channel Scan mode using S&amp;<a href="13056.html">H</a> Channel 0 (CH0). The number of inputs scanned is software selectable. Any subset of the analog inputs from AN0 to AN31 (depending on the number of analog inputs present on a specific device) can be selected for conversion. The selected inputs are converted in ascending order. For example, if the input selection includes AN4, AN1, and AN3, the conversion sequence is AN1, AN3, and AN4. </p><p class="Element10" style="text-align: center;">
+<strong>Scan Four Analog Inputs Using CH0</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="ChannelScan.png" border="0" alt="" title="">&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17394.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

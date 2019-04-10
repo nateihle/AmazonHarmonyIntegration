@@ -1,0 +1,289 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Creating Your Own USB Device</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27321.html">USB Device Library - Getting Started</a> &gt; <a href="27419.html">Creating Your Own USB Device</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27421.html">Previous</a> | <a href="27321.html">Up</a> | <a href="27322.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB MID Creating Your Own USB Device Topic Title: Creating Your Own USB Device)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Creating Your Own USB Device</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The first step in creating a USB device is identifying whether the desired device function fits into any of the standard USB device class functions. Using standard USB classes may be advantageous as major operating systems feature Host driver support for standard USB devices. However, the application may not want to tolerate the overhead associated with standard USB device class protocols, in which case, a Vendor USB device can be implemented. A Vendor USB device can be implemented by using the USB Device Layer Endpoint functions; however, these devices will require custom USB host drivers for their operation. Having identified the device class to be used, the following approaches are available for developing a USB device by using the USB Device Library.</p><div class="Element15">
+Use the Available Library Demonstration Applications</div>
+<p class="Element10">
+The USB Device Library release package contains a set of demonstration applications that are representative of common USB devices. These can be modified easily to include application specific initialization and application logic. The application logic must be non-blocking and could be implemented as a state machine. Note that the function names and file names referred to in the following section are the those used in the USB Device Library demonstration applications.
+<ul class="Element630">
+<li class="Element600">The application specific initialization can be called in the APP_Initialize function (in the <span class="Element146">app.c</span> file). The APP_Initialize function is called from the <a href="23925.html">SYS_Initialize</a> function, which in turn is called when the device comes out of Power-on Reset (POR).</li>
+<li class="Element600">The application logic is implemented as a state machine in the APP_Tasks function (in the <span class="Element146">app.c</span> file). The application logic can interact with the function driver and the Device<span style="color: #FFFFFF">_</span>layer by using available API calls.</li>
+<li class="Element600">The application logic can track device events by processing the events in the application USB device event handler function (APP_USBDeviceEventHandler function in <span class="Element146">app.c</span>).</li>
+</ul></p><div class="Element15">
+Build a USB Device Library Application Using the MPLAB Harmony Configurator (MHC)</div>
+<p class="Element10">
+In a case where the available demonstration applications do not meet the end application requirements, a USB device can be created by building a USB Device Library application from scratch. It is recommended to use the Microchip Harmony Configurator (MHC) to generate a USB Device project. Using the MHC ensures that the correct and required MPLAB Harmony framework files are included in the project. The following section outlines the steps to follow to generate the project using the MHC.</p><div class="Element15">
+Before You Begin</div>
+<p class="Element10">
+The following process assumes that the MHC plug-in, <span class="Element146">com-microchip-mplab-module-mhc.nbm</span>, which is located in <span class="Element146">&lt;install-dir&gt;/utilities/mhc</span>, is installed in MPLAB X IDE. If the MHC plug-in is not already installed, refer to <a href="04266.html">Installing a Plug-in Module</a> for information.&nbsp;</p>
+<p class="Element10">
+<strong>Step 1: Create a New MPLAB X IDE Project</strong>&nbsp;</p>
+<p class="Element10">
+In MPLAB X IDE, select <i>File &gt; New Project</i> to open the New Project dialog and in Categories: select <strong>Microchip Embedded</strong> and in Projects: select <strong>MPLAB Harmony Project</strong>, and then click <strong>Next</strong>.&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR New Project.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 2: Specify Project Name, Location and PIC32 Device Type</strong>&nbsp;</p>
+<p class="Element10">
+In the New Project dialog, specify the Project Location, Project Name, and the Target Device, and then click <strong>Finish</strong>.&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR New Project USB.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 3: Start the MPLAB Harmony Configurator</strong>&nbsp;</p>
+<p class="Element10">
+Open the MHC by selecting <i>Tools &gt; Embedded &gt; MPLAB Harmony Configurator</i>. The initial view is shown in the following figure.&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR Project Example.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 4: Select Device Configuration and configure the fields as required</strong>&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR USB Device Configuration.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 5: MPLAB Harmony Framework Configuration</strong>&nbsp;</p>
+<p class="Element10">
+Expand the MPLAB Harmony Framework Configuration and select <strong>USB Library</strong>, and then select <strong>Use USB Stack</strong>. Doing this will also automatically include other MPLAB Harmony Framework components, that are required by the USB Stack into the project. Select <strong>USB Device</strong> and configure the different parameters as desired.&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR USB Framework Configuration.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 6: MPLAB Harmony Framework Configuration</strong>&nbsp;</p>
+<p class="Element10">
+Expand USB Device Instance 0 and configure parameters as desired.&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR USB Framework Configuration II.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 7: MPLAB Harmony Framework Configuration</strong>&nbsp;</p>
+<p class="Element10">
+For a PIC32MZ device, expand <i>MPLAB Harmony Framework Configuration &gt;Drivers &gt;Timer</i> and select the Timer Module ID as TMR_ID_2.&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR USB Framework Configuration PIC32MZ.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 8: Configure Interrupt Priorities</strong>&nbsp;</p>
+<p class="Element10">
+The interrupt priorities of the following modules should be configured as per application needs.&nbsp;</p>
+<p class="Element10">
+For PIC32MX devices:
+<ul class="Element630">
+<li class="Element600">USB Device Layer</li>
+</ul>For PIC32MZ devices:
+<ul class="Element630">
+<li class="Element600">USB Device Layer</li>
+<li class="Element600">Timer Driver</li>
+</ul><strong>Step 9: Generate code</strong>&nbsp;</p>
+<p class="Element10">
+Click <strong>Generate</strong> to generate the code for this configuration.&nbsp;</p>
+<p class="Element10">
+<img src="CONFIGURATOR Generate.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Step 10: Add application specific information</strong>&nbsp;</p>
+<p class="Element10">
+The following components should be manually added to the generated code:
+<ul class="Element630">
+<li class="Element600">USB Descriptors, Function Driver Registration table, USB Device Layer Master Descriptor Table. These data structures should be placed in <span class="Element146">system_init.c</span>. Refer to the <a href="27319.html">USB Device Layer Library</a> section for more information.</li>
+<li class="Element600">Application initialization steps should be implemented in APP_Initialize function in <span class="Element146">app.c</span></li>
+<li class="Element600">Application Tasks routine should be implemented in APP_Tasks function in <span class="Element146">app.c</span></li>
+</ul><strong>Step 11: Create a USB Device Layer Event Handler</strong>&nbsp;</p>
+<p class="Element10">
+The application should create a Device Layer Event Handler which will handle all the events generated by the Device Layer. The following code shows a list of all possible events that are generated by the Device Layer. The code can be used in the application and updated to meet the application requirements. Refer to the USB Device Layer Library section for more details on the Device Layer Event Handling. The <a href="27487.html">USB_DEVICE_Attach</a> function can be called to attach the device on the USB when the USB_DEVICE_EVENT_POWER_DETECTED event occurs.&nbsp;</p>
+<p class="Element10">
+This code example shows how the application can set a Device Layer Event Handler. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04302');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04302"><pre class="Element12">    <i><span style="color: #008000">// Application states</span></i>
+    <strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">enum</span></strong>
+    {
+        <i><span style="color: #008000">//Application's state machine's initial state.</span></i>
+        APP_STATE_INIT=0,
+        APP_STATE_SERVICE_TASKS,
+        APP_STATE_WAIT_FOR_CONFIGURATION,
+    } APP_STATES;
+
+    USB_DEVICE_HANDLE usbDeviceHandle;
+    APP_STATES appState;
+
+    <i><span style="color: #008000">// This is the application device layer event handler function.</span></i>
+
+    USB_DEVICE_EVENT_RESPONSE APP_USBDeviceEventHandler
+    (
+        USB_DEVICE_EVENT event,
+        <strong><span style="color: #000080">void</span></strong> * pData,
+        uintptr_t context
+    )
+    {
+        USB_SETUP_PACKET * setupPacket;
+        <strong><span style="color: #000080">switch</span></strong>(event)
+        {
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_POWER_DETECTED:
+                <i><span style="color: #008000">// This event in generated when VBUS is detected. Attach the device</span></i>
+                USB_DEVICE_Attach(usbDeviceHandle);
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_POWER_REMOVED:
+                <i><span style="color: #008000">// This event is generated when VBUS is removed. Detach the device</span></i>
+                USB_DEVICE_Detach (usbDeviceHandle);
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_CONFIGURED:
+                <i><span style="color: #008000">// This event indicates that Host has set Configuration in the Device.</span></i>
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_CONTROL_TRANSFER_SETUP_REQUEST:
+                <i><span style="color: #008000">// This event indicates a Control transfer setup stage has been completed.</span></i>
+                setupPacket = (USB_SETUP_PACKET *)pData;
+
+                <i><span style="color: #008000">// Parse the setup packet and respond with a USB_DEVICE_ControlSend(),</span></i>
+                <i><span style="color: #008000">// USB_DEVICE_ControlReceive or USB_DEVICE_ControlStatus().</span></i>
+
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_CONTROL_TRANSFER_DATA_SENT:
+                <i><span style="color: #008000">// This event indicates that a Control transfer Data has been sent to Host.</span></i>
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_CONTROL_TRANSFER_DATA_RECEIVED:
+                <i><span style="color: #008000">// This event indicates that a Control transfer Data has been received from Host.</span></i>
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_CONTROL_TRANSFER_ABORTED:
+                <i><span style="color: #008000">// This event indicates a control transfer was aborted.</span></i>
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_SUSPENDED:
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_RESUMED:
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_ERROR:
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_RESET:
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_SOF:
+                <i><span style="color: #008000">// This event indicates an SOF is detected on the bus. The     USB_DEVICE_SOF_EVENT_ENABLE</span></i>
+                <i><span style="color: #008000">// macro should be defined to get this event.</span></i>
+                <strong><span style="color: #000080">break</span></strong>;
+            <strong><span style="color: #000080">default</span></strong>:
+                <strong><span style="color: #000080">break</span></strong>;
+        }
+    }</pre></div></div>
+<p class="Element10">
+<strong>Step 12: Function Driver Event Handling</strong>&nbsp;</p>
+<p class="Element10">
+The application should create a Function Driver Event Handler which will handle all the events generated by the Function Driver. Refer to the <strong>Event Handling</strong> topic in the applicable function driver documentation for more details on the Function Driver Event Handling.&nbsp;</p>
+<p class="Element10">
+<strong>Step 13: Opening the Device Layer</strong>&nbsp;</p>
+<p class="Element10">
+The application should open the Device Layer in the Application tasks routine and register an event handler with the Device Layer. The Device Layer will generate events when the event handler is registered.&nbsp;</p>
+<p class="Element10">
+The following code shows an example for how to the open the Device Layer. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04303');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04303"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+    {
+        <i><span style="color: #008000">// Check the application's current state.</span></i>
+        <strong><span style="color: #000080">switch</span></strong> ( appState )
+        {
+            <i><span style="color: #008000">// Application's initial state.</span></i>
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_INIT:
+                <i><span style="color: #008000">// Open the device layer</span></i>
+                usbDeviceHandle = USB_DEVICE_Open( USB_DEVICE_INDEX_0,
+                    DRV_IO_INTENT_READWRITE );
+
+                <strong><span style="color: #000080">if</span></strong>(usbDeviceHandle != USB_DEVICE_HANDLE_INVALID)
+                {
+                    <i><span style="color: #008000">// Register a callback with device layer to get event notification</span></i>
+                    USB_DEVICE_EventHandlerSet(usbDeviceHandle,
+                        APP_USBDeviceEventHandler, 0);
+                    appState = APP_STATE_WAIT_FOR_CONFIGURATION;
+                }
+                <strong><span style="color: #000080">else</span></strong>
+                {
+                    <i><span style="color: #008000">// The Device Layer is not ready to be opened. We should try</span></i>
+                    <i><span style="color: #008000">// gain later.</span></i>
+                }
+                <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_SERVICE_TASKS:
+                <strong><span style="color: #000080">break</span></strong>;
+
+                <i><span style="color: #008000">// The default state should never be executed.</span></i>
+            <strong><span style="color: #000080">default</span></strong>:
+                <strong><span style="color: #000080">break</span></strong>;
+        }
+    }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27321.html">USB Device Library - Getting Started</a> &gt; <a href="27419.html">Creating Your Own USB Device</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB MID Creating Your Own USB Device Topic Title: Creating Your Own USB Device)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

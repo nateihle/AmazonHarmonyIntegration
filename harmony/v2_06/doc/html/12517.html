@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GFX_HAL Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12791.html">Library Interface</a> &gt; b) Data Types and Constants &gt; <a href="12517.html">GFX_HAL Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="12514.html">Previous</a> | <a href="12791.html">Up</a> | <a href="12617.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFX_HAL Topic Title: GFX_HAL Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+GFX_HAL Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> <strong><span style="color: #000000">GFX_HAL_t</span></strong> {
+  <a href="13977.html">initialize_FnPtr</a> <strong><span style="color: #000000">initialize</span></strong>;
+  <a href="07910.html">destroy_FnPtr</a> <strong><span style="color: #000000">destroy</span></strong>;
+  <a href="04838.html">begin_FnPtr</a> <strong><span style="color: #000000">begin</span></strong>;
+  <a href="12028.html">end_FnPtr</a> <strong><span style="color: #000000">end</span></strong>;
+  <a href="27171.html">update_FnPtr</a> <strong><span style="color: #000000">update</span></strong>;
+  <a href="04917.html">brightnessRangeGet_FnPtr</a> <strong><span style="color: #000000">brightnessRangeGet</span></strong>;
+  <a href="04916.html">brightnessGet_FnPtr</a> <strong><span style="color: #000000">brightnessGet</span></strong>;
+  <a href="04918.html">brightnessSet_FnPtr</a> <strong><span style="color: #000000">brightnessSet</span></strong>;
+  <a href="23446.html">syncCallbackGet_FnPtr</a> <strong><span style="color: #000000">vsyncCallbackGet</span></strong>;
+  <a href="23447.html">syncCallbackSet_FnPtr</a> <strong><span style="color: #000000">vsyncCallbackSet</span></strong>;
+  <a href="23446.html">syncCallbackGet_FnPtr</a> <strong><span style="color: #000000">hsyncCallbackGet</span></strong>;
+  <a href="23447.html">syncCallbackSet_FnPtr</a> <strong><span style="color: #000000">hsyncCallbackSet</span></strong>;
+  <a href="17194.html">orientationGet_FnPtr</a> <strong><span style="color: #000000">orientationGet</span></strong>;
+  <a href="17195.html">orientationSet_FnPtr</a> <strong><span style="color: #000000">orientationSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">mirroringGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">mirroringSet</span></strong>;
+  <a href="07074.html">colorModeGet_FnPtr</a> <strong><span style="color: #000000">colorModeGet</span></strong>;
+  <a href="07075.html">colorModeSet_FnPtr</a> <strong><span style="color: #000000">colorModeSet</span></strong>;
+  <a href="13036.html">globalPaletteGet_FnPtr</a> <strong><span style="color: #000000">globalPaletteGet</span></strong>;
+  <a href="13037.html">globalPaletteSet_FnPtr</a> <strong><span style="color: #000000">globalPaletteSet</span></strong>;
+  <a href="16211.html">layerActiveGet_FnPtr</a> <strong><span style="color: #000000">layerActiveGet</span></strong>;
+  <a href="16212.html">layerActiveSet_FnPtr</a> <strong><span style="color: #000000">layerActiveSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerEnabledGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">layerEnabledSet</span></strong>;
+  <a href="16220.html">layerBufferCountGet_FnPtr</a> <strong><span style="color: #000000">layerBufferCountGet</span></strong>;
+  <a href="16221.html">layerBufferCountSet_FnPtr</a> <strong><span style="color: #000000">layerBufferCountSet</span></strong>;
+  <a href="16215.html">layerBufferAddressGet_FnPtr</a> <strong><span style="color: #000000">layerBufferAddressGet</span></strong>;
+  <a href="16216.html">layerBufferAddressSet_FnPtr</a> <strong><span style="color: #000000">layerBufferAddressSet</span></strong>;
+  <a href="16218.html">layerBufferCoherentGet_FnPtr</a> <strong><span style="color: #000000">layerBufferCoherentGet</span></strong>;
+  <a href="16219.html">layerBufferCoherentSet_FnPtr</a> <strong><span style="color: #000000">layerBufferCoherentSet</span></strong>;
+  <a href="16217.html">layerBufferAllocate_FnPtr</a> <strong><span style="color: #000000">layerBufferAllocate</span></strong>;
+  <a href="16223.html">layerBufferIsAllocated_FnPtr</a> <strong><span style="color: #000000">layerBufferIsAllocated</span></strong>;
+  <a href="16222.html">layerBufferFree_FnPtr</a> <strong><span style="color: #000000">layerBufferFree</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerVisibleGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">layerVisibleSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerVsyncGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">layerVsyncSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerInvalidGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">layerInvalidSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerSwapSyncGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">layerSwapSyncSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerSwapGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">layerSwapSet</span></strong>;
+  <a href="16232.html">layerSwapPending_FnPtr</a> <strong><span style="color: #000000">layerSwapPending</span></strong>;
+  <a href="16231.html">layerSwapped_FnPtr</a> <strong><span style="color: #000000">layerSwapped</span></strong>;
+  <a href="16227.html">layerPositionGet_FnPtr</a> <strong><span style="color: #000000">layerPositionGet</span></strong>;
+  <a href="16228.html">layerPositionSet_FnPtr</a> <strong><span style="color: #000000">layerPositionSet</span></strong>;
+  <a href="16229.html">layerSizeGet_FnPtr</a> <strong><span style="color: #000000">layerSizeGet</span></strong>;
+  <a href="16230.html">layerSizeSet_FnPtr</a> <strong><span style="color: #000000">layerSizeSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerAlphaEnableGet</span></strong>;
+  <a href="16224.html">layerEffectSet_FnPtr</a> <strong><span style="color: #000000">layerAlphaEnableSet</span></strong>;
+  <a href="16213.html">layerAlphaAmountGet_FnPtr</a> <strong><span style="color: #000000">layerAlphaAmountGet</span></strong>;
+  <a href="16214.html">layerAlphaAmountSet_FnPtr</a> <strong><span style="color: #000000">layerAlphaAmountSet</span></strong>;
+  <a href="16225.html">layerMaskColorGet_FnPtr</a> <strong><span style="color: #000000">layerMaskEnableGet</span></strong>;
+  <a href="16226.html">layerMaskColorSet_FnPtr</a> <strong><span style="color: #000000">layerMaskEnableSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">layerMaskColorGet</span></strong>;
+  <a href="16224.html">layerEffectSet_FnPtr</a> <strong><span style="color: #000000">layerMaskColorSet</span></strong>;
+  <a href="17196.html">orientPoint_FnPtr</a> <strong><span style="color: #000000">orientPoint</span></strong>;
+  <a href="16687.html">mirrorPoint_FnPtr</a> <strong><span style="color: #000000">mirrorPoint</span></strong>;
+  <a href="08251.html">drawPipelineModeGet_FnPtr</a> <strong><span style="color: #000000">drawPipelineModeGet</span></strong>;
+  <a href="08252.html">drawPipelineModeSet_FnPtr</a> <strong><span style="color: #000000">drawPipelineModeSet</span></strong>;
+  <a href="08247.html">drawModeGet_FnPtr</a> <strong><span style="color: #000000">drawModeGet</span></strong>;
+  <a href="08248.html">drawModeSet_FnPtr</a> <strong><span style="color: #000000">drawModeSet</span></strong>;
+  <a href="08239.html">drawColorGet_FnPtr</a> <strong><span style="color: #000000">drawColorGet</span></strong>;
+  <a href="08240.html">drawColorSet_FnPtr</a> <strong><span style="color: #000000">drawColorSet</span></strong>;
+  <a href="08241.html">drawGradientColorGet_FnPtr</a> <strong><span style="color: #000000">drawGradientColorGet</span></strong>;
+  <a href="08242.html">drawGradientColorSet_FnPtr</a> <strong><span style="color: #000000">drawGradientColorSet</span></strong>;
+  <a href="08249.html">drawPaletteGet_FnPtr</a> <strong><span style="color: #000000">drawPaletteGet</span></strong>;
+  <a href="08250.html">drawPaletteSet_FnPtr</a> <strong><span style="color: #000000">drawPaletteSet</span></strong>;
+  <a href="08258.html">drawTargetGet_FnPtr</a> <strong><span style="color: #000000">drawTargetGet</span></strong>;
+  <a href="08259.html">drawTargetSet_FnPtr</a> <strong><span style="color: #000000">drawTargetSet</span></strong>;
+  <a href="08233.html">drawBlendModeGet_FnPtr</a> <strong><span style="color: #000000">drawBlendModeGet</span></strong>;
+  <a href="08234.html">drawBlendModeSet_FnPtr</a> <strong><span style="color: #000000">drawBlendModeSet</span></strong>;
+  <a href="08255.html">drawResizeModeGet_FnPtr</a> <strong><span style="color: #000000">drawResizeModeGet</span></strong>;
+  <a href="08256.html">drawResizeModeSet_FnPtr</a> <strong><span style="color: #000000">drawResizeModeSet</span></strong>;
+  drawAlphaEnableGet_FnPtr <strong><span style="color: #000000">drawAlphaEnableGet</span></strong>;
+  drawAlphaEnableSet_FnPtr <strong><span style="color: #000000">drawAlphaEnableSet</span></strong>;
+  <a href="08231.html">drawAlphaValueGet_FnPtr</a> <strong><span style="color: #000000">drawAlphaValueGet</span></strong>;
+  <a href="08232.html">drawAlphaValueSet_FnPtr</a> <strong><span style="color: #000000">drawAlphaValueSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">drawMaskEnableGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">drawMaskEnableSet</span></strong>;
+  <a href="08245.html">drawMaskValueGet_FnPtr</a> <strong><span style="color: #000000">drawMaskValueGet</span></strong>;
+  <a href="08246.html">drawMaskValueSet_FnPtr</a> <strong><span style="color: #000000">drawMaskValueSet</span></strong>;
+  <a href="16342.html">maskColor_FnPtr</a> <strong><span style="color: #000000">maskColor</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">drawAntialiasGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">drawAntialiasSet</span></strong>;
+  <a href="08260.html">drawThicknessGet_FnPtr</a> <strong><span style="color: #000000">drawThicknessGet</span></strong>;
+  <a href="08261.html">drawThicknessSet_FnPtr</a> <strong><span style="color: #000000">drawThicknessSet</span></strong>;
+  <a href="04863.html">boolGet_FnPtr</a> <strong><span style="color: #000000">drawClipEnableGet</span></strong>;
+  <a href="04864.html">boolSet_FnPtr</a> <strong><span style="color: #000000">drawClipEnableSet</span></strong>;
+  <a href="08237.html">drawClipRectGet_FnPtr</a> <strong><span style="color: #000000">drawClipRectGet</span></strong>;
+  <a href="08238.html">drawClipRectSet_FnPtr</a> <strong><span style="color: #000000">drawClipRectSet</span></strong>;
+  <a href="04853.html">blendGetPoint_FnPtr</a> <strong><span style="color: #000000">alphaGetPoint</span></strong>;
+  <a href="04852.html">blendColor_FnPtr</a> <strong><span style="color: #000000">alphaChannelBlend</span></strong>;
+  <a href="04852.html">blendColor_FnPtr</a> <strong><span style="color: #000000">globalAlphaBlend</span></strong>;
+  <a href="12405.html">GFX_DrawPipeline</a> <strong><span style="color: #000000">drawPipeline</span></strong>[<a href="12685.html">GFX_PIPELINE_MODE_COUNT</a>];
+  <a href="14397.html">interrupt_FnPtr</a> <strong><span style="color: #000000">interrupt</span></strong>;
+} GFX_HAL;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Hardware Abstraction Function Table *
+<ul class="Element636">
+<li class="Element606">This is the core hardware abtraction table that makes everything work. Drivers are</li>
+<li class="Element606">expected to reroute the functionality of this table to hardware specific implementations</li>
+<li class="Element606">to provide accelerated performance and features.</li>
+</ul></p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+interrupt_FnPtr interrupt;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+GFX_DRAW_PIPELINE_ENABLED&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12791.html">Library Interface</a> &gt; b) Data Types and Constants &gt; <a href="12517.html">GFX_HAL Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFX_HAL Topic Title: GFX_HAL Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

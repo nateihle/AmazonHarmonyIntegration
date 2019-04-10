@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SAMPLE_Initialize Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="22624.html">Sample Library Help</a> &gt; <a href="22625.html">Library Interface</a> &gt; a) System Interface Functions &gt; <a href="22635.html">SAMPLE_Initialize Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22625.html">Previous</a> | <a href="22625.html">Up</a> | <a href="22654.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SAMPLE_Initialize@SYS_MODULE_INDEX@SYS_MODULE_INIT * const Topic Title: SAMPLE_Initialize Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SAMPLE_Initialize Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="23975.html">SYS_MODULE_OBJ</a> <strong><span style="color: #000000">SAMPLE_Initialize</span></strong>(
+    <strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> <strong><span style="color: #000000">index</span></strong>, 
+    <strong><span style="color: #000080">const</span></strong> <a href="23969.html">SYS_MODULE_INIT</a> * <strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000000">init</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine initializes the sample module, making it ready for clients to open and use it.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Index for the module instance to be initialized<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+init&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to a data structure containing any data necessary to initialize the module.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If successful, returns a valid handle to a system module object. Otherwise, it returns <a href="23976.html">SYS_MODULE_OBJ_INVALID</a>. The returned object handle must be passed as an argument to <a href="22654.html">SAMPLE_Reinitialize</a>, <a href="22632.html">SAMPLE_Deinitialize</a>, <a href="22656.html">SAMPLE_Tasks</a> and <a href="22655.html">SAMPLE_Status</a> routines.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine must be called before any other sample module routine is called.&nbsp;</p>
+<p class="Element10">
+This routine should only be called once during system initialization unless <a href="22632.html">SAMPLE_Deinitialize</a> is called to deinitialize the module instance.&nbsp;</p>
+<p class="Element10">
+This routine will NEVER block for internal state changes. If the operation requires time to complete, it will be reported by the <a href="22655.html">SAMPLE_Status</a> operation. The system can use <a href="22655.html">SAMPLE_Status</a> to find out when the associated instance of the sample module is in a ready state.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03788');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03788"><pre class="Element12"><a href="22650.html">SAMPLE_MODULE_INIT_DATA</a> init;
+<a href="23975.html">SYS_MODULE_OBJ</a>          obj;
+
+<i><span style="color: #008000">// Populate the sample initialization structure</span></i>
+init.sys.powerState     = <a href="23981.html">SYS_MODULE_POWER_RUN_FULL</a>;
+init.dataSome           = 42;
+
+<i><span style="color: #008000">// Initialize the first instance of the sample module.</span></i>
+obj = SAMPLE_Initialize(<a href="22633.html">SAMPLE_INDEX_0</a>, (<a href="23969.html">SYS_MODULE_INIT</a> *)&amp;init);
+<strong><span style="color: #000080">if</span></strong> (<a href="23976.html">SYS_MODULE_OBJ_INVALID</a> == obj)
+{
+    <i><span style="color: #008000">// Handle failure</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="22624.html">Sample Library Help</a> &gt; <a href="22625.html">Library Interface</a> &gt; a) System Interface Functions &gt; <a href="22635.html">SAMPLE_Initialize Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SAMPLE_Initialize@SYS_MODULE_INDEX@SYS_MODULE_INIT * const Topic Title: SAMPLE_Initialize Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="21624.html">Ports System Service Library</a> &gt; <a href="24383.html">Using the Library</a> &gt; <a href="24364.html">Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24383.html">Previous</a> | <a href="24383.html">Up</a> | <a href="24374.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM PORTS Abstraction Model Topic Title: Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This model explains how the system interfaces with the Ports System Service and the application as illustrated in the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="SYSTEM PORTS Abstraction Model.png" border="0" alt="" title=""></p><div class="Element15">
+General Purpose I/O</div>
+<p class="Element10" style="text-align: justify;">
+All port pins have three registers directly associated with their operation as digital I/O. The Data Direction register determines whether the pin is an input or an output. If the data direction bit is a '1', the pin is an input. All port pins are defined as inputs after a Reset. Reads from the Output Latch register, read the latch, while writes to the latch, write the latch. Reads from the port, read the port pins, while writes to the port pins, write the latch.</p><p class="Element10" style="text-align: center;">
+<img src="SYSTEM PORTS Generic IO.png" border="0" alt="" title=""></p><p class="Element10" style="text-align: justify;">
+The <i>pull-ups</i> act as a current source or sink source connected to the pin, and eliminates the need for external resistors when push-button or keypad devices are connected. These <i>pull-ups</i> prevent floating state of the pins by providing voltage to it. These features are available on some pins and some parts. Please refer to the specific device data sheet for further information.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The <i>open-drain</i> feature allows the generation of outputs higher than VDD (e.g., 5V) on any desired digital only pins by using external pull-up resistors. The maximum open-drain voltage allowed is the same as the maximum VIH specification.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The <i>input change notification</i> function of the I/O ports allows the microcontrollers to generate interrupt requests to the processor in response to a change of state on selected input pins. This feature is capable of detecting input change of states even in Sleep mode, when the clocks are disabled.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The <i>Alternate Pin Function selections</i> are used to steer specific peripheral input and output functions between different pins.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The <i>output slew rate </i>of each port is programmable to select either the standard transition rate or a reduced transition rate of x times the standard to minimize EMI. The reduced transition time is the default slew rate for all ports.</p><div class="Element15">
+Peripheral Pin Select</div>
+<p class="Element10" style="text-align: justify;">
+<strong>Available Pins:</strong>&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The number of available pins is dependent on the particular device and its pin count. Pins that support the peripheral pin select feature include the designation &quot;RPn&quot; in their full pin designation, where &quot;RP&quot; designates a remappable peripheral and &quot;n&quot; is the remappable port number.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+<strong>Available Peripherals:</strong>&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The peripherals managed by the peripheral pin select are all digital-only peripherals. These include general serial communications (UART and SPI), general purpose timer clock inputs, timer-related peripherals (Input Capture and Output Compare) and interrupt-on-change inputs.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+In comparison, some digital-only peripheral modules are never included in the peripheral pin select feature. This is because the peripheral’s function requires special I/O circuitry on a specific port and cannot be easily connected to multiple pins. These modules include I2C among others. A similar requirement excludes all modules with analog inputs, such as the A/D converter. A key difference between remappable and non-remappable peripherals is that remappable peripherals are not associated with a default I/O pin. The peripheral must always be assigned to a specific I/O pin before it can be used. In contrast, non-remappable peripherals are always available on a default pin, assuming that the peripheral is active and not conflicting with another peripheral.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+When a remappable peripheral is active on a given I/O pin, it takes priority over all other digital I/O and digital communication peripherals associated with the pin. Priority is given regardless of the type of peripheral that is mapped. Remappable peripherals never take priority over any analog functions associated with the pin.</p><p class="Element10" style="text-align: center;">
+<img src="SYSTEM PORTS PPSMapping.png" border="0" alt="" title=""></p><p class="Element10" style="text-align: justify;">
+<strong>Input Mapping:</strong>&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The inputs of the peripheral pin select options are mapped on the basis of the peripheral. That is, a control register associated with a peripheral dictates to which pin it will be mapped.</p><p class="Element10" style="text-align: center;">
+<img src="SYSTEM PORTS Input_Map_Example.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+For input only, peripheral pin select functionality does not have priority over I/O port settings. Therefore, when configuring Remappable Pin for input,the corresponding bit in the I/O port register must also be configured for input (set to '1').&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: justify;">
+<strong>Output Mapping:</strong>&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+In contrast to inputs, the outputs of the peripheral pin select options are mapped on the basis of the pin. In this case, a control register associated with a particular pin dictates the peripheral output to be mapped.</p><p class="Element10" style="text-align: center;">
+<img src="SYSTEM PORTS Output_Map_Example.png" border="0" alt="" title=""></p><p class="Element10" style="text-align: justify;">
+<strong>Mapping Limitations:</strong>&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The control schema of the peripheral select pins is not limited to a small range of fixed peripheral configurations. There are no mutual or hardware-enforced lockouts between any of the peripheral mapping SFRs. Literally any combination of peripheral mappings across any or all of the RPn pins is possible. This includes both many-to-one and one-to-many mappings of peripheral inputs and outputs to pins. While such mappings may be technically possible from a configuration point of view, they may not be supportable from an electrical point of view.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="21624.html">Ports System Service Library</a> &gt; <a href="24383.html">Using the Library</a> &gt; <a href="24364.html">Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM PORTS Abstraction Model Topic Title: Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ2048ECG124_ADC
+	bool
+	select HAVE_ADC
+	default n
+
+config ADC_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_ADC_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/processor/adc_p32mz2048ecg124.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/processor/adc_p32mz2048ecg124.h"
+
+endif

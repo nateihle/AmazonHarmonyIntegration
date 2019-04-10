@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_ADCHS_ChannelSetup Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17427.html">Library Interface</a> &gt; h) Channel Related Functions &gt; <a href="18238.html">PLIB_ADCHS_ChannelSetup Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18235.html">Previous</a> | <a href="17427.html">Up</a> | <a href="18232.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_ADCHS_ChannelSetup@ADCHS_MODULE_ID@ADCHS_CHANNEL_ID@ADCHS_DATA_RESOLUTION@uint8_t@uint16_t@ADCHS_EARLY_INTERRUPT_PRIOR_CLOCK Topic Title: PLIB_ADCHS_ChannelSetup Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_ADCHS_ChannelSetup Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">PLIB_ADCHS_ChannelSetup</span></strong>(
+    <a href="03029.html">ADCHS_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    <a href="02903.html">ADCHS_CHANNEL_ID</a> <strong><span style="color: #000000">channelID</span></strong>, 
+    <a href="02946.html">ADCHS_DATA_RESOLUTION</a> <strong><span style="color: #000000">res</span></strong>, 
+    uint8_t <strong><span style="color: #000000">channelClockDivider</span></strong>, 
+    uint16_t <strong><span style="color: #000000">sampleTimeCount</span></strong>, 
+    <a href="03000.html">ADCHS_EARLY_INTERRUPT_PRIOR_CLOCK</a> <strong><span style="color: #000000">earlyInterruptClk</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function configures all ADC parameters that are common to the specified ADC Channel 0 to 7.&nbsp;</p>
+<p class="Element10">
+This configuration must occur prior to enabling the ADC, and therefore, must be called when the ADC is disabled. Also, this configuration must occur prior to enabling the digital circuit and analog bias circuit for the specified ADC Channel 0 to 7.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The channel is disabled when calling this function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the ADCHS instance.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+channelID&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Channel ID of the required ADC channel.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+res&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the output data resolution.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+channelClockDivider&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Channel Clock source divider. Values range from 1 to 127. This divider determines the channel clock (clock frequency at which the channel 0 to 7 is running). The frequency of&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+channel clock, as per following equation&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Channel clock frequency = (control clock frequency)/(channelClockDivider * 2). Please note that value of &quot;0&quot; for channelClockDivider is not allowed. The minimum value of channelClockDivider is &quot;1&quot;, which also means that the highest channel clock frequency is half of control clock frequency.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+sampleTimeCount&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the sample time for ADC channel, 0 to 7. Values range from&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+0 to 1023. The sample time is given by the equation&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sample time = ((1/Channel clock frequency) * (sampleTimeCount + 2)).&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+earlyInterruptClk&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the number of channel clocks prior to the availability of actual data that the early interrupt is generated. This variable if of type <a href="03000.html">ADCHS_EARLY_INTERRUPT_PRIOR_CLOCK</a>. The selection of this parameter is dependent on the resolution of output data.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function must be called when the ADC is disabled.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01549');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01549"><pre class="Element12"><strong><span style="color: #000080">bool</span></strong> status = <strong><span style="color: #000080">false</span></strong>;
+
+<i><span style="color: #008000">// Where MY_ADCHS_INSTANCE, is the ADCHS instance selected for use by the</span></i>
+<i><span style="color: #008000">// application developer.</span></i>
+
+<i><span style="color: #008000">// Configure the ADC</span></i>
+PLIB_ADCHS_ChannelSetup( MY_ADCHS_INSTANCE,
+        ADCHS_CHANNEL_1,                        <i><span style="color: #008000">// channel - 1</span></i>
+        ADCHS_DATA_RESOLUTION_12BIT,            <i><span style="color: #008000">// resolution is set to 12bits</span></i>
+        1,                                      <i><span style="color: #008000">// channel clock divider bit is, TAD =  2 * TQ</span></i>
+        1,                                      <i><span style="color: #008000">// Sample time is 3 * TAD</span></i>
+        ADCHS_EARLY_INTERRUPT_PRIOR_CLOCK_1);   <i><span style="color: #008000">// Interrupt, 1 clock early</span></i>
+
+status = <a href="18239.html">PLIB_ADCHS_ChannelTriggerSampleSelect</a>( MY_ADCHS_INSTANCE,
+        ADCHS_CHANNEL_1,                        <i><span style="color: #008000">// channel - 1</span></i>
+        ADCHS_CHANNEL_SYNC_SAMPLING);           <i><span style="color: #008000">// Synchronous sampling selected</span></i>
+        
+<strong><span style="color: #000080">if</span></strong>( <strong><span style="color: #000080">false</span></strong> == status)
+{
+    <i><span style="color: #008000">// error has occurred</span></i>
+    <strong><span style="color: #000080">while</span></strong>(1);
+}           
+<i><span style="color: #008000">// Enable the ADC</span></i>
+<a href="18281.html">PLIB_ADCHS_Enable</a>(MY_ADCHS_INSTANCE);
+
+<i><span style="color: #008000">// Wait until the reference voltage is ready</span></i>
+<strong><span style="color: #000080">while</span></strong>(!<a href="18339.html">PLIB_ADCHS_VREFIsReady</a>(MY_ADCHS_INSTANCE));
+
+<i><span style="color: #008000">//Check if there is a fault in reference voltage</span></i>
+<strong><span style="color: #000080">if</span></strong>(<a href="18336.html">PLIB_ADCHS_VREFFaultHasOccurred</a>(MY_ADCHS_INSTANCE))
+{
+    <i><span style="color: #008000">// process fault accordingly</span></i>
+    <strong><span style="color: #000080">while</span></strong>(1);
+}
+
+<i><span style="color: #008000">// Enable the analog circuit</span></i>
+<a href="18227.html">PLIB_ADCHS_ChannelAnalogFeatureEnable</a>(MY_ADCHS_INSTANCE, ADCHS_CHANNEL_1);
+
+<i><span style="color: #008000">// Wait until the channel wakes up after warm-up</span></i>
+<strong><span style="color: #000080">while</span></strong>(!<a href="18233.html">PLIB_ADCHS_ChannelIsReady</a>(MY_ADCHS_INSTANCE, ADCHS_CHANNEL_1));
+
+<i><span style="color: #008000">// Enable the digital circuit</span></i>
+<a href="18231.html">PLIB_ADCHS_ChannelDigitalFeatureEnable</a>(MY_ADCHS_INSTANCE, ADCHS_CHANNEL_1); 
+
+<i><span style="color: #008000">// ADC will begin conversion now, after a valid trigger </span></i></pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17427.html">Library Interface</a> &gt; h) Channel Related Functions &gt; <a href="18238.html">PLIB_ADCHS_ChannelSetup Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_ADCHS_ChannelSetup@ADCHS_MODULE_ID@ADCHS_CHANNEL_ID@ADCHS_DATA_RESOLUTION@uint8_t@uint16_t@ADCHS_EARLY_INTERRUPT_PRIOR_CLOCK Topic Title: PLIB_ADCHS_ChannelSetup Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

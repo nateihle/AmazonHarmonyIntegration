@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.7.2: Support File System Style Read-Write Data Transfer Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07139.html">3.7: Use Common Data Transfer Models When Applicable</a> &gt; <a href="07120.html">3.7.2: Support File System Style Read-Write Data Transfer Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07115.html">Previous</a> | <a href="07139.html">Up</a> | <a href="07113.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support File System Style Read-Write Data Transfer Model Topic Title: 3.7.2: Support File System Style Read-Write Data Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.7.2: Support File System Style Read-Write Data Transfer Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The File System style read/write data transfer model is intended to be similar to the POSIX read/write and fread/fwrite operations. This is the most basic data transfer model that any data source or sink driver should support, if feasible. In pseudo-code, this model appears as follows (from the client point of view).&nbsp;</p>
+<p class="Element10">
+<strong>Reading Data:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00113');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00113"><pre class="Element12">Count = Read(&amp;DataBuffer[SIZE], SIZE);</pre></div></div>
+<p class="Element10">
+<strong>Writing Data:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00114');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00114"><pre class="Element12">Count = Write(&amp;DataBuffer[SIZE], SIZE) )</pre></div></div>
+<p class="Element10">
+The exact function names, parameters, and data types for the operations shown (in bold in the previous examples) may vary, but the basic usage is consistent. This model has the advantage that it may allow clients to use the file system abstraction layer to read and/or write data to a peripheral without the need to know the actual function names of the module (as long as that module is mounted to the file system). However, it has the disadvantage that, in non-blocking configurations, it may only transfer the amount of data that can be buffered by the driver or hardware, thus the client may need to check the return count and call the function again (potentially several times) to complete the transfer. Also, like the byte-by-byte model, this method requires the client to respond within the time it takes to fill or empty the FIFO to keep a continuous stream of data transfers. This model is most useful in a blocking environment where it can block and only return when the entire transfer is complete.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07139.html">3.7: Use Common Data Transfer Models When Applicable</a> &gt; <a href="07120.html">3.7.2: Support File System Style Read-Write Data Transfer Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support File System Style Read-Write Data Transfer Model Topic Title: 3.7.2: Support File System Style Read-Write Data Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

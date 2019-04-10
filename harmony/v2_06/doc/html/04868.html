@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Bootloader Configurations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04889.html">Using the Library</a> &gt; <a href="04882.html">How the Library Works</a> &gt; <a href="04868.html">Bootloader Configurations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04874.html">Previous</a> | <a href="04882.html">Up</a> | <a href="04873.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Configurations Topic Title: Bootloader Configurations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Bootloader Configurations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Most of the configuration options for the <span style="color: #000000">Bootloader</span>s will be done with the driver or middleware-specific options available in MHC. For example:
+<ul class="Element635">
+<li class="Element605">UART - Adjusting the port used and the baud rate</li>
+<li class="Element605">USB - The value of the Vendor and Product IDs</li>
+<li class="Element605">Ethernet - The default MAC IDs and IP Address to use</li>
+<li class="Element605">SD Card - The SPI interface that communicates with the SD card</li>
+</ul>The following table lists macros that are modified in source code only, and their usage. Depending on user requirements, the values in these macros may need to be changed.&nbsp;</p>
+<p class="Element10">
+<strong>General Macros</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="16%">
+<div class="Element66">
+Macro&nbsp;</div></td><td class="Element65" valign="top" width="84%">
+<div class="Element66">
+Usage&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+<span class="Element146">APP_FLASH_BASE_ADDRESS</span>&nbsp;</div></td><td class="Element67" valign="top" width="84%">
+<div class="Element68">
+Base address of the program Flash reserved for the user application. The address value must point to the beginning of a Flash page, which is dependent upon the Flash page size of the specific device.<br>Note that setting this value to an address below the maximum memory will allow your <span style="color: #000000">Bootloader</span> to reserve Flash memory as needed.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+<span class="Element146">APP_FLASH_END_ADDRESS</span>&nbsp;</div></td><td class="Element67" valign="top" width="84%">
+<div class="Element68">
+End address of the program Flash reserved for the user application. The address value must point to the end of a Flash page.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+<span class="Element146">APP_RESET_ADDRESS</span>&nbsp;</div></td><td class="Element67" valign="top" width="84%">
+<div class="Element68">
+Address of user Reset vector. The Bootloader branches to this address when it must run the user application.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+<span class="Element146"><a href="16338.html">MAJOR_VERSION</a></span>&nbsp;</div></td><td class="Element67" valign="top" width="84%">
+<div class="Element68">
+Major version of the Bootloader firmware.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+<span class="Element146"><a href="16685.html">MINOR_VERSION</a></span>&nbsp;</div></td><td class="Element67" valign="top" width="84%">
+<div class="Element68">
+Minor version of the Bootloader firmware.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04889.html">Using the Library</a> &gt; <a href="04882.html">How the Library Works</a> &gt; <a href="04868.html">Bootloader Configurations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Configurations Topic Title: Bootloader Configurations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

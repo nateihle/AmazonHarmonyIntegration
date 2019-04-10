@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Input Capture Module Setup</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13981.html">Input Capture Peripheral Library</a> &gt; <a href="17753.html">Using the Library</a> &gt; <a href="17743.html">How the Library Works</a> &gt; <a href="17745.html">Input Capture Module Setup</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17743.html">Previous</a> | <a href="17743.html">Up</a> | <a href="17751.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB IC Input Capture Module Setup Topic Title: Input Capture Module Setup)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Input Capture Module Setup</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This section shows the steps required to initialize and configure the IC module. The IC module is configured such that a capture event occurs at the first falling edge of the input signal, and then at every subsequent edge of the input signal.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02577');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02577"><pre class="Element12"><i><span style="color: #008000">/* This example shows how to initialize and configure IC module */</span></i>
+<i><span style="color: #008000">/* Disable IC module */</span></i>
+PLIB_IC_Disable(MY_IC_ID);
+
+<i><span style="color: #008000">/* Disable any peripherals multiplexed with Input Capture pin */</span></i>
+
+<i><span style="color: #008000">/* Configure I/O pin as input pin. Refer PORTS Peripheral Library */</span></i>
+
+<i><span style="color: #008000">/* Stop in Idle mode is disabled for IC module. IC mode functions even in Idle mode */</span></i>
+PLIB_IC_StopInIdleDisable(MY_IC_ID);
+
+<i><span style="color: #008000">/* Every Edge Capture mode of operation is selected for IC module */</span></i>
+PLIB_IC_ModeSelect(MY_IC_ID, IC_INPUT_CAPTURE_EVERY_EDGE_MODE);
+
+<i><span style="color: #008000">/* Timer2 is selected as a clock source for the IC module  */</span></i>
+PLIB_IC_TimerSelect(MY_IC_ID, IC_TIMER_TMR2);
+
+<i><span style="color: #008000">/* 32-bit timer is selected*/</span></i>
+PLIB_IC_BufferSizeSelect(MY_IC_ID, IC_BUFFER_SIZE_32BIT);
+
+<i><span style="color: #008000">/* IC module is enabled */</span></i>
+PLIB_IC_Enable(MY_IC_ID);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13981.html">Input Capture Peripheral Library</a> &gt; <a href="17753.html">Using the Library</a> &gt; <a href="17743.html">How the Library Works</a> &gt; <a href="17745.html">Input Capture Module Setup</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB IC Input Capture Module Setup Topic Title: Input Capture Module Setup)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

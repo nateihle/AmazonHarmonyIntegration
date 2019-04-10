@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Invoking the Tasks Routine</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27297.html">Source Code Analysis</a> &gt; <a href="27293.html">Invoking the Tasks Routine</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27295.html">Previous</a> | <a href="27297.html">Up</a> | <a href="27299.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Invoking the Tasks Routine Topic Title: Invoking the Tasks Routine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Invoking the Tasks Routine</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Refer to line 502 of MLA &quot;Device – CDC – Basic Demo&quot; demonstration application file, <span class="Element146">main.c</span>. This section of the code invokes the MLA USB Device Layer Task Routine, the USBDeviceTasks function, in the application <span class="Element146">while(1)</span> superloop if the Device Stack is configured for Polled mode. If the Device Stack is configured for Interrupt mode operation, the USBDeviceTasks function is called (see line 664 of the <span class="Element146">usb_device.c</span> file) in the USB Interrupt Service Routine. The MLA USB Device Stack features only one Task routine function.&nbsp;</p>
+<p class="Element10">
+The USB Device Layer Tasks routine in the MPLAB Harmony USB Device Stack is implemented by the <a href="27928.html">USB_DEVICE_Tasks</a> function. This function must be always be called in the <a href="24151.html">SYS_Tasks</a> function, regardless of whether the USB Device Stack is configured for Polled or Interrupt mode of operation. The MPLAB Harmony USB Device Stack defines an additional Interrupt mode specific task routine, the USB_DEVICE_Tasks_ISR function, that must be called from the USB Peripheral Interrupt Service Routine (ISR). This function should only be called in the USB Peripheral ISR. The USB Peripheral ISR is implemented in the <span class="Element146">system_interrupt.c</span> file.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27297.html">Source Code Analysis</a> &gt; <a href="27293.html">Invoking the Tasks Routine</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Invoking the Tasks Routine Topic Title: Invoking the Tasks Routine)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

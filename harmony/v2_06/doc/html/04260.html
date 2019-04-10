@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Step 8: Use the Timer System Service in Your Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a> &gt; <a href="04258.html">Tutorial Steps</a> &gt; <a href="04260.html">Step 8: Use the Timer System Service in Your Application</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04237.html">Previous</a> | <a href="04258.html">Up</a> | <a href="04239.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Use the Timer System Service in Your Application Topic Title: Step 8: Use the Timer System Service in Your Application)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Step 8: Use the Timer System Service in Your Application</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Next, from the Project tab in MPLAB X IDE, double-click the heartbeat.h file to open it in the editor.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Open heartbeat.h.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="2" class="Element600">Then, add the new state, HEARTBEAT_RESTART_TIMER, to the application's state enumeration, as shown in the following figure. We will show how that state is used later in the tutorial.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ HEARTBEAT_RESTART_TIMER.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00024');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00024"><pre class="Element12"><i><span style="color: #008000">// HEARTBEAT_STATES:</span></i>
+    HEARTBEAT_RESTART_TIMER</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="3" class="Element600">Now, add the delay timer handle, <span class="Element146"><a href="24169.html">SYS_TMR_HANDLE</a> hDelayTimer; // Handle for delay timer</span>, to the application's data structure, as shown in the following figure.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ SYS_TMR_HANDLE.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00025');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00025"><pre class="Element12"><i><span style="color: #008000">// HEARTBEAT_DATA</span></i>
+    SYS_TMR_HANDLE hDelayTimer;  <i><span style="color: #008000">// Handle for delay timer</span></i></pre></div></div>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="4" class="Element600">Close and save <span class="Element146">heartbeat.h</span> by clicking the 'x', and then clicking <strong>Save</strong>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Close and Save heartbeat.h.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="5" class="Element600">Next, from the Projects tab in MPLAB X IDE, double-click <span class="Element146">heartbeat.c</span> from the <span class="Element146">Source Files &gt; app</span> folder to open it in the editor. We need to update <span class="Element146">heartbeat.c</span> to add the first timer delay, execute the time-out wait, and restart timer code. Refer to the following figure for the locations to insert the different code blocks.
+<ul class="Element631">
+<li class="Element601">Insert the following code to start the first delay timer</li>
+</ul></li>
+</ol><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00026');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00026"><pre class="Element12">     heartbeatData.hDelayTimer = SYS_TMR_DelayMS(HEARTBEAT_DELAY);
+     <strong><span style="color: #000080">if</span></strong> (heartbeatData.hDelayTimer != SYS_TMR_HANDLE_INVALID)
+     { <i><span style="color: #008000">// Valid handle returned</span></i>
+         BSP_LEDOn(HEARTBEAT_LED);
+         heartbeatData.state = HEARTBEAT_STATE_SERVICE_TASKS;
+     }</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+
+<ul class="Element630">
+<li class="Element600">Insert the following code to wait for a time-out</li>
+</ul><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00027');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00027"><pre class="Element12">     <strong><span style="color: #000080">if</span></strong> (SYS_TMR_DelayStatusGet(heartbeatData.hDelayTimer))
+     { <i><span style="color: #008000">// Single shot timer has now timed out.</span></i>
+         BSP_LEDToggle(HEARTBEAT_LED);
+         heartbeatData.state = HEARTBEAT_RESTART_TIMER;
+     }</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+
+<ul class="Element630">
+<li class="Element600">Finally, insert the following code to add the state to the restart timer.</li>
+</ul><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00028');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00028"><pre class="Element12">     <strong><span style="color: #000080">case</span></strong> HEARTBEAT_RESTART_TIMER:
+     { <i><span style="color: #008000">// Create a new timer</span></i>
+         heartbeatData.hDelayTimer = SYS_TMR_DelayMS(HEARTBEAT_DELAY);
+         <strong><span style="color: #000080">if</span></strong> (heartbeatData.hDelayTimer != SYS_TMR_HANDLE_INVALID)
+         { <i><span style="color: #008000">// Valid handle returned</span></i>
+             heartbeatData.state = HEARTBEAT_STATE_SERVICE_TASKS;
+         }
+         <strong><span style="color: #000080">break</span></strong>;
+     }</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Code Insertion Locations.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="6" class="Element600">Once you have finished inserting the code blocks, the <span class="Element146">heartbeat.c</span> file should appear like the following figure.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Completed Code.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="7" class="Element600">After updating the code, close and save <span class="Element146">heartbeat.c</span>.</li>
+</ol></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a> &gt; <a href="04258.html">Tutorial Steps</a> &gt; <a href="04260.html">Step 8: Use the Timer System Service in Your Application</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Use the Timer System Service in Your Application Topic Title: Step 8: Use the Timer System Service in Your Application)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

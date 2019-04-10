@@ -1,0 +1,75 @@
+enum DRV_INPUT_MXT336T_I2C_INSTANCE_INDEX_TYPE
+	"DRV_I2C_INDEX_0" ||
+	"DRV_I2C_INDEX_1" ||
+	"DRV_I2C_INDEX_2" ||
+	"DRV_I2C_INDEX_3" ||
+	"DRV_I2C_INDEX_4" ||
+	"DRV_I2C_INDEX_5"
+
+config USE_DRV_INPUT_MXT336T_NEEDED
+    bool
+
+config USE_DRV_INPUT_MXT336T
+    bool "Use MXT336T Driver?"
+    select USE_DRV_I2C_NEEDED
+    select USE_DRV_I2C_DYNAMIC_NEEDED
+    select DRV_I2C_INTERRUPT_MODE_NEEDED
+    select USE_SYS_INPUT_NEEDED
+    select USE_SYS_INT_NEEDED
+    select USE_EXT_INT_NEEDED
+    default y if USE_DRV_INPUT_MXT336T_NEEDED
+    default n
+    ---help---
+		IDH_HTML_MXT336T_Touch_Driver_Library
+    ---endhelp---
+
+menu "MXT336T Driver RTOS Configuration"
+    depends on USE_DRV_INPUT_MXT336T
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_INPUT_MXT336T_RTOS
+    string "Run Driver Task As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config DRV_INPUT_MXT336T_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_INPUT_MXT336T_RTOS = "Standalone"
+    default 1024
+
+config DRV_INPUT_MXT336T_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_INPUT_MXT336T_RTOS = "Standalone"
+    default 1
+
+config DRV_INPUT_MXT336T_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_INPUT_MXT336T_RTOS = "Standalone"
+    default y
+
+config DRV_INPUT_MXT336T_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_INPUT_MXT336T_RTOS = "Standalone"
+    depends on DRV_INPUT_MXT336T_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_INPUT_MXT336T_I2C_MODULE_INDEX
+    string "I2C driver module index"
+    depends on USE_DRV_INPUT_MXT336T
+    range DRV_INPUT_MXT336T_I2C_INSTANCE_INDEX_TYPE
+	default "DRV_I2C_INDEX_0"	
+
+ifblock USE_DRV_INPUT_MXT336T
+
+add "<#include \"/framework/driver/input/touch/mxt336t/config/drv_mxt336t.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/input/touch/mxt336t/config/drv_mxt336t_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/input/touch/mxt336t/config/drv_mxt336t_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/input/touch/mxt336t/config/drv_mxt336t.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_INPUT_MXT336T_H "$HARMONY_VERSION_PATH/framework/driver/input/touch/mxt336t/drv_mxt336t.h" to "$PROJECT_HEADER_FILES/framework/driver/input/touch/mxt336t/drv_mxt336t.h"
+file DRV_INPUT_MXT336T_C "$HARMONY_VERSION_PATH/framework/driver/input/touch/mxt336t/src/drv_mxt336t.c" to "$PROJECT_SOURCE_FILES/framework/driver/input/touch/mxt336t/src/drv_mxt336t.c"
+
+endif
+
+

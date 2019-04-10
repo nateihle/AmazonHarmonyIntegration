@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Interrupt Safety</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="14395.html">Interrupt Safety</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11766.html">Previous</a> | <a href="11784.html">Up</a> | <a href="11798.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: Interrupt Safety Topic Title: Interrupt Safety)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Interrupt Safety</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If a sequence of code must be atomic (indivisible and uninterruptible), the relevant interrupts must be disabled before entering the sequence. In MPLAB Harmony, interrupts can be disabled globally by using the interrupt system service or by using a high-priority mutex. However, MPLAB Harmony libraries are modular and by convention they respect the abstractions of other libraries, never attempting to directly access their internal resources. Because of this convention, the only code in the system that should ever attempt to access the internal resources owned by a driver is the driver code itself, as shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<strong>Interrupt-Driven (No RTOS)</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE Interrupt Driven No RTOS.png" border="0" alt="" title=""></p><p class="Element10">
+This means that it is not necessary to globally disable interrupts in most cases to guarantee correct and reliable operation of a MPLAB Harmony driver. It is usually sufficient for a driver to temporarily mask just the interrupt(s) of the peripheral it owns while performing non-atomic accesses to its own data structures or peripheral hardware. Doing so will prevent the driver’s own interrupt-driven tasks function(s) from potentially corrupting data that is also accessed by the driver’s interface function(s).&nbsp;</p>
+<p class="Element10">
+This can be done using the interrupt system service and it is more efficient than globally disabling all interrupts because it allows higher priority interrupts (which do not affect the driver in question) to occur, protecting their response time latency. This can be done using the Interrupt System Service, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Temporarily Disabling an Interrupt Source</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00146');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00146"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_INTERRUPT_SOURCE  INT_SOURCE_TIMER_2
+
+<strong><span style="color: #000080">bool</span></strong> enabled;
+
+enabled = SYS_INT_SourceDisable(MY_INTERRUPT_SOURCE);
+
+<i><span style="color: #008000">/* Access resource shared with interrupt-driven tasks function. */</span></i>
+
+<strong><span style="color: #000080">if</span></strong> (enabled)
+{
+    SYS_INT_SourceEnable(MY_INTERRUPT_SOURCE);
+}</pre></div></div>
+<p class="Element10">
+This method is safe to use, even if the driver in question is not running in an interrupt-driven mode because it only re-enables the interrupt source if it was enabled before the sequence was entered. However, when a driver is not configured for interrupt-driven operation, it must not enable its own interrupt and the code that is necessary to disable the interrupt and restore its previous state is not necessary and could be removed to save code space. Fortunately, this can be accomplished fairly easily by abstracting the interrupt management code behind functions that switch implementations depending upon the configuration of the driver, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Interrupt Management Functions</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00147');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00147"><pre class="Element12"><strong><span style="color: #000080">#if</span></strong> (SAMPLE_MODULE_INTERRUPT_MODE == <strong><span style="color: #000080">true</span></strong>)
+
+    <strong><span style="color: #000080">#define</span></strong> _SAMPLE_InterruptDisable(s)    SYS_INT_SourceDisable(s)
+
+<strong><span style="color: #000080">#else</span></strong>
+
+    <strong><span style="color: #000080">#define</span></strong> _SAMPLE_InterruptDisable(s)    <strong><span style="color: #000080">false</span></strong>
+
+<strong><span style="color: #000080">#endif</span></strong>
+
+
+<strong><span style="color: #000080">#if</span></strong> (SAMPLE_MODULE_INTERRUPT_MODE == <strong><span style="color: #000080">true</span></strong>)
+
+    <strong><span style="color: #000080">static</span></strong> <strong><span style="color: #000080">inline</span></strong> <strong><span style="color: #000080">void</span></strong> _SAMPLE_InterruptRestore ( INT_SOURCE source, <strong><span style="color: #000080">bool</span></strong> enabled )
+    {
+        <strong><span style="color: #000080">if</span></strong> (enabled)
+        {
+            SYS_INT_SourceEnable(source);
+        }
+    }
+
+<strong><span style="color: #000080">#else</span></strong>
+
+    <strong><span style="color: #000080">#define</span></strong> _SAMPLE_InterruptRestore(s,e)
+
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<p class="Element10">
+This method effectively compiles away the interrupt management code, adding little or no object code when used in a polled configuration (when <a href="22652.html">SAMPLE_MODULE_INTERRUPT_MODE</a> is false). But, when used in an interrupt-driven configuration (when <a href="22652.html">SAMPLE_MODULE_INTERRUPT_MODE</a> is true), these functions use the system interrupt service to manage the driver’s interrupt source(s). These functions can then be used to guard non-atomic accesses by the driver’s interface functions to resources that are shared with the driver’s ISR, as shown in the following code example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Interrupt Management</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00148');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00148"><pre class="Element12"><strong><span style="color: #000080">bool</span></strong> SAMPLE_DataGet ( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX index, <strong><span style="color: #000080">int</span></strong> *data )
+{
+    SAMPLE_MODULE_DATA *pObj;
+    <strong><span style="color: #000080">bool</span></strong>                intState;
+    <strong><span style="color: #000080">bool</span></strong>                result = <strong><span style="color: #000080">false</span></strong>;
+
+    pObj = (SAMPLE_MODULE_DATA *)&amp;gObj[index];
+
+    <i><span style="color: #008000">// Guard against interrupts</span></i>
+    intState = _SAMPLE_InterruptDisable(pObj-&gt;interrupt);
+
+    <strong><span style="color: #000080">if</span></strong> (pObj-&gt;dataProcessedIsValid)
+    {
+        <i><span style="color: #008000">// Provide data</span></i>
+        *data = pObj-&gt;dataProcessed;
+        pObj-&gt;dataProcessedIsValid = <strong><span style="color: #000080">false</span></strong>;
+        result = <strong><span style="color: #000080">true</span></strong>;
+    }
+
+    <i><span style="color: #008000">// Restore interrupt state.</span></i>
+    _SAMPLE_InterruptRestore(pObj-&gt;interrupt, intState);
+
+    <strong><span style="color: #000080">return</span></strong> result;
+}</pre></div></div>
+<p class="Element10">
+In this code example, the driver interface function <a href="22629.html">SAMPLE_DataGet</a> calls _SAMPLE_InterruptDisable before checking a flag and potentially updating an internal data structure, which is a non-atomic process that will take multiple instructions. When <a href="22652.html">SAMPLE_MODULE_INTERRUPT_MODE</a> is true, the _SAMPLE_InterruptDisable function will call the <a href="23952.html">SYS_INT_SourceDisable</a> system service function to atomically disable the interrupt source and capture its current state (whether it was enabled or disabled before being disabled). Once it is done accessing the data structure, it calls the _SAMPLE_InterruptRestore function to restore the interrupt to its previous state. This ensures that the ISR cannot fire and call the tasks function to modify this data until the interface function has finished with the data. However, if <a href="22652.html">SAMPLE_MODULE_INTERRUPT_MODE</a> is false, the _SAMPLE_InterruptDisable function will be replaced with a constant false value (to avoid a syntax error in the assignment of the function return value) and the _SAMPLE_InterruptRestore function will be completely removed.&nbsp;</p>
+<p class="Element10">
+This method works to ensure safe access to shared resources without disabling interrupts globally when using a bare-metal configuration. Of course, if a section of code must be truly atomic (uninterruptible), interrupts can be globally disabled for a short period of time using either the Interrupt System Service functions or a high-priority critical section.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="14395.html">Interrupt Safety</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: Interrupt Safety Topic Title: Interrupt Safety)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

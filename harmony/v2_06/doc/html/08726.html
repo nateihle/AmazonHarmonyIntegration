@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>System Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08720.html">Previous</a> | <a href="08720.html">Up</a> | <a href="08727.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP System Initialization Topic Title: System Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+System Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Initialization and Reinitialization</div>
+<p class="Element10" style="text-align: justify;">
+The system performs the initialization and the reinitialization of the device driver with settings that affect only the instance of the device that is being initialized or reinitialized. During system initialization each instance of the PMP device will be initialized with the following configuration settings:</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="24%">
+<div class="Element66">
+Initialization Member&nbsp;</div></td><td class="Element65" valign="top" width="76%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<span class="Element146">moduleInit</span>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+System module initialization of the power state.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<span class="Element146">pmpId</span>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+PMP hardware module ID (peripheral library-level ID).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<span class="Element146">stopInIdle</span>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Decide whether or not the module should be stopped in Idle mode.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<span class="Element146">muxMode</span>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+To select one of the different multiplexing modes possible for PMP module.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<span class="Element146">inputBuffer</span>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Select the type of Input Buffer (TTL or Schmitt Trigger).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<span class="Element146">polarity</span>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Select polarity of different PMP pins.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<span class="Element146">ports</span>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Set the pins the user wants to use as port or PMP pins.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The <a href="10791.html">DRV_PMP_Initialize</a> function returns an object handle of the type <a href="23975.html">SYS_MODULE_OBJ</a>. After this, the object handle returned by the initialize interface would be used by the other system interfaces, such as <a href="10821.html">DRV_PMP_Reinitialize</a>, <a href="10775.html">DRV_PMP_Deinitialize</a>, <a href="10822.html">DRV_PMP_Status</a>, and <a href="10823.html">DRV_PMP_Tasks</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Example for PMP Initialization Through the <a href="10783.html">DRV_PMP_INIT</a> Structure</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00718');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00718"><pre class="Element12">DRV_PMP_INIT     init;
+SYS_MODULE_OBJ   object;
+SYS_STATUS       pmpStatus;
+
+<i><span style="color: #008000">// populate the PMP init configuration structure</span></i>
+    init.inputBuffer = PMP_INPUT_BUFFER_TTL;
+    init.polarity.addressLatchPolarity = PMP_POLARITY_ACTIVE_HIGH;
+    init.polarity.rwStrobePolarity = PMP_POLARITY_ACTIVE_LOW;
+    init.polarity.writeEnableStrobePolarity = PMP_POLARITY_ACTIVE_LOW;
+    init.polarity.chipselect1Polarity = PMP_POLARITY_ACTIVE_HIGH;
+    init.polarity.chipselect2Polarity = PMP_POLARITY_ACTIVE_LOW;
+    init.ports.addressPortsMask = PMP_PMA0_PORT | PMP_PMA1_PORT | PMP_PMA2_TO_PMA13_PORTS | PMP_PMA14_PORT;
+    init.ports.readWriteStrobe = PORT_ENABLE;
+    init.ports.writeEnableStrobe = PORT_ENABLE;
+    init.moduleInit.value = SYS_MODULE_POWER_RUN_FULL;
+    init.pmpID            = PMP_ID_0;
+    init.stopInIdle       = <strong><span style="color: #000080">false</span></strong>;
+    init.muxMode          = PMP_MUX_NONE;
+
+object = DRV_PMP_Initialize (DRV_PMP_INDEX_0, (SYS_MODULE_INIT *)&amp;init);
+
+pmpStatus = DRV_PMP_Status(object);
+
+<strong><span style="color: #000080">if</span></strong> ( SYS_STATUS_READY != pmpStatus)
+{
+    <i><span style="color: #008000">// Handle error</span></i>
+}</pre></div></div>
+<div class="Element15">
+Deinitialization</div>
+<p class="Element10">
+Once the initialize operation has been called, the deinitialize operation must be called before the initialize operation can be called again. This routine may block if the driver is running in an OS environment that supports blocking operations and the driver requires system resources access. However, the function will never block for hardware PMP access. If the operation requires time to allow the hardware to complete, which will be reported by <a href="10822.html">DRV_PMP_Status</a>.</p><div class="Element15">
+Status</div>
+<p class="Element10">
+PMP status is available to query the module state before, during and after initialization, deinitialization, and reinitialization.</p><div class="Element15">
+Tasks Routine</div>
+<p class="Element10">
+The <a href="10823.html">DRV_PMP_Tasks</a> function will see the queue status and perform the task of transferring the data accordingly. In the Blocking mode when interrupts are disabled, it will finish one of the tasks completely (that means emptying one space in queue), and then return back. Whereas in Non-Blocking mode, it will return back just after starting one word (8-bit or 16-bit) of transfer (may not be emptying one space in the queue, as that task may not be completely finished).&nbsp;</p>
+<p class="Element10">
+The <a href="10823.html">DRV_PMP_Tasks</a> function can be called in two ways:
+<ul class="Element635">
+<li class="Element605">By the system task service in a polled environment</li>
+<li class="Element605">By the ISR of the PMP in an interrupt-based system</li>
+</ul><strong>Example: Polling</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00719');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00719"><pre class="Element12"><strong><span style="color: #000080">int</span></strong> main( <strong><span style="color: #000080">void</span></strong> )
+{
+    SYS_MODULE_OBJ object;
+    object = DRV_PMP_Initialize( DRV_PMP_INDEX_0, (SYS_MODULE_INIT *) &amp;initConf );
+
+    <strong><span style="color: #000080">if</span></strong>( SYS_STATUS_READY != DRV_PMP_Status( object ) )
+        <strong><span style="color: #000080">return</span></strong> 0;
+
+    <strong><span style="color: #000080">while</span></strong> (1)
+    {
+        DRV_PMP_Tasks (object);
+    }
+}</pre></div></div>
+<p class="Element10">
+<strong>Example: Interrupt</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00720');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00720"><pre class="Element12"><strong><span style="color: #000080">int</span></strong> main( <strong><span style="color: #000080">void</span></strong> )
+{
+    SYS_MODULE_OBJ object;
+    object = DRV_PMP_Initialize( DRV_PMP_INDEX_0, (SYS_MODULE_INIT *) &amp;initConf );
+
+    <strong><span style="color: #000080">if</span></strong>( SYS_STATUS_READY != DRV_PMP_Status( object ) )
+        <strong><span style="color: #000080">return</span></strong> 0;
+
+    <strong><span style="color: #000080">while</span></strong> (1);
+}
+
+<i><span style="color: #008000">/* Sample interrupt routine not specific to any device family */</span></i>
+<strong><span style="color: #000080">void</span></strong> ISR PMPInterrupt(<strong><span style="color: #000080">void</span></strong>)
+{
+    <i><span style="color: #008000">//Call the PMP Tasks routine</span></i>
+    DRV_PMP_Tasks(object);
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+A PMP transfer in Blocking mode in an interrupt environment is not supported.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="08727.html">Transfer Operation</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes transfer operation.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="08714.html">Client Operation</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes general client operation.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="08718.html">Example Code for Complete Operation</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+A code example of complete operation is provided in this section.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP System Initialization Topic Title: System Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

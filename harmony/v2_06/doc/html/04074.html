@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration Using Various Configurations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04070.html">wifi_wilc1000</a> &gt; <a href="04074.html">Running the Demonstration Using Various Configurations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04073.html">Previous</a> | <a href="04070.html">Up</a> | <a href="04075.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP WIFI wifi_wilc1000_run2 Topic Title: Running the Demonstration Using Various Configurations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration Using Various Configurations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+pic32mx795_pim__e16__wilc__freertos_wps</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">The demonstration comes as WPS in Push Button Mode.</li>
+<li value="2" class="Element600">The user needs to push the WPS Button on the AP for the device to connect to it.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000  pic32mx795_pim__e16__wilc__freertos_wps config.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="3" class="Element600">In case the user wants to use the WPS PIN Mode, changes need to be made in the <span class="Element146">wifi_wilc1000\firmware\src\wps.c</span> file
+<ul class="Element631">
+<li class="Element601">Macro MAIN_WPS_PUSH_BUTTON_FEATURE should be changed to <i>false</i></li>
+<li class="Element601">Macro MAIN_WPS_PIN_NUMBER needs to be set</li>
+</ul></li>
+</ol><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+pic32mx795_pim__e16__wilc__freertos_p2p_client</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">The P2P client comes up with the device name as <i>WILC1000_P2P</i>.</li>
+<li value="2" class="Element600">The other device can scan and find the same in its list.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_p2p_client.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="3" class="Element600">The other device needs to initiate the connection.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_p2p_client2.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="4" class="Element600">The Logs on the device will be as follows:</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="Apps WIFI wilc1000 teraterm.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<div class="Element15">
+pic32mx795_pim__e16__wilc__freertos_mode_change</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">The device comes up in AP Mode with SSID <i>WILC1000_AP</i>.</li>
+<li value="2" class="Element600">The device remains in AP Mode for around a minute, and then changes the mode to P2P Client.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_mode_change.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<div class="Element15">
+pic32mx795_pim__e16__wilc__freertos_tcp_client</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">When the device comes up, connect it to the AP using the command <i>iwconfig mode managed</i>.</li>
+<li value="2" class="Element600">Once connected, the demonstration will make a DNS query, and then open a TCP connection to microchip.com, and perform a simple HTTP GET command.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_tcp_client.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<div class="Element15">
+pic32mx795_pim__e16__wilc__freertos_tcp_server</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">When the device comes up, connect it to the AP using the command <i>iwconfig mode managed</i>.</li>
+<li value="2" class="Element600">Once connected, the demonstration starts a TCP Server on port 9760 with the IP assigned by the AP.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_tcp_server.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="3" class="Element600">Start a TCP Client on another device (SocketTest3 in this example), and connect to this TCP Server.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_tcp_server2.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="4" class="Element600">The TCP server running on the device shall send back the string received from the Client in CAPS. Therefore, if the TCP Client sends the Server “Hello”, the Server shall send “HELLO” back to the Client.</li>
+</ol><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+pic32mx795_pim__e16__wilc__freertos_udp_server</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">When the device comes up, connect it to the AP using the command <i>iwconfig mode managed</i>.</li>
+<li value="2" class="Element600">Once connected, the demonstration starts a UDP Server on port 9760 with the IP assigned by the AP.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_udp_server.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="3" class="Element600">Start a UDP Client on another device (SocketTest3 in this example), and connect to this UDP Server.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_udp_server2.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="4" class="Element600">The UDP server running on the device shall send back the string received from the Client in CAPS. Therefore, if the UDP Client sends the Server “Hello,&quot; the Server shall send “HELLO” back to the Client.</li>
+</ol><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+pic32mx795_pim__e16__wilc__freertos_udp_client</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">When the device comes up, connect it to the AP using the command <i>iwconfig mode managed</i>.</li>
+<li value="2" class="Element600">Start a UDP Server on another device (SocketTest3 in this example).</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_udp_client.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="3" class="Element600">This demonstration has three commands:
+<ul class="Element631">
+<li class="Element601">setudppacketoptions - Sets the current hostname, port, and message</li>
+<li class="Element601">getudppacketoptions - Gets the hostname, port and message</li>
+<li class="Element601">sendudppacket - Sends the UDP Packet</li>
+</ul></li>
+<li value="4" class="Element600">Use “setudppacketoptions” to set the IP, port of the UDP Server and the message to be sent to the UDP Server. In this example, setudppacketoptions 192.168.1.101 1212 hello.</li>
+<li value="5" class="Element600">After setting the options, send the packet to the server using the command <i>sendudppacket</i>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mx795_pim__e16__wilc__freertos_udp_client2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<div class="Element15">
+pic32mz_ef_sk__ioexp__wilc__freertos_wolfmqtt_client</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">Connect the device to the Access Point using the command<i> iwconfig mode managed</i>.</li>
+<li value="2" class="Element600">After connecting to the AP, the MQTT Protocol gets triggered automatically and Client connects to the Server.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI wilc1000 pic32mz_ef_sk__ioexp__wilc__freertos_wolfmqtt_client.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04070.html">wifi_wilc1000</a> &gt; <a href="04074.html">Running the Demonstration Using Various Configurations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP WIFI wifi_wilc1000_run2 Topic Title: Running the Demonstration Using Various Configurations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

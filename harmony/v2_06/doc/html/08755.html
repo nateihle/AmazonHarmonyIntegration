@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Transfer - Core</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23141.html">SPI Driver Library</a> &gt; <a href="08819.html">Using the Library</a> &gt; <a href="08793.html">How the Library Works</a> &gt; <a href="08755.html">Client Transfer - Core</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08753.html">Previous</a> | <a href="08793.html">Up</a> | <a href="08756.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI Client Transfer - Core Topic Title: Client Transfer - Core)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Transfer - Core</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Client basic functionality provides a extremely basic interface for the driver operation.&nbsp;</p>
+<p class="Element10">
+The following diagram illustrates the byte/word model used for the data transfer. </p><p class="Element10" style="text-align: center;">
+<img src="SPI DRV SPI Client Model.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+It is not necessary to close and reopen the client between multiple transfers.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Client Data Transfer Functionality</strong>&nbsp;</p>
+<p class="Element10">
+Applications using the SPI byte/word functionality, need to perform the following:
+<ol class="Element636">
+<li value="1" class="Element606">The system should have completed necessary initialization and the <a href="10922.html">DRV_SPI_Tasks</a> should either be running in polled environment, or in an interrupt environment.</li>
+<li value="2" class="Element606">Open<span style="color: #FFFFFF">_</span>the driver using <a href="10917.html">DRV_SPI_Open</a> with the necessary intent.</li>
+<li value="3" class="Element606">Optionally configure the client with <a href="10903.html">DRV_SPI_ClientConfigure</a> to set up OperationStarting and OperationEnded callbacks to handle selecting and deselecting the slave select pin.</li>
+<li value="4" class="Element606">Add a buffer using the <a href="10896.html">DRV_SPI_BufferAddRead</a>/<a href="10898.html">DRV_SPI_BufferAddWrite</a>/<a href="10900.html">DRV_SPI_BufferAddWriteRead</a> functions. An optional callback can be provided that will be called when the buffer/job is complete.</li>
+<li value="5" class="Element606">Check for the current transfer status using <a href="10902.html">DRV_SPI_BufferStatus</a> until the transfer progress is DRV_SPI_BUFFER_EVENT_COMPLETE, or wait for the callback to be called. If the SPI driver is configured in Polled more, ensure that <a href="10922.html">DRV_SPI_Tasks</a> is called regularly to handle the buffer/job.</li>
+<li value="6" class="Element606">The client will be able to close the driver using <a href="10905.html">DRV_SPI_Close</a> when required.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00762');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00762"><pre class="Element12">SYS_MODULE_OBJ spiObject;
+
+<strong><span style="color: #000080">int</span></strong> main( <strong><span style="color: #000080">void</span></strong> )
+{
+    <strong><span style="color: #000080">while</span></strong> ( 1 )
+    {
+        appTask ();
+        DRV_SPI_Tasks(spiObject);
+    }
+}
+<strong><span style="color: #000080">void</span></strong> appTask ()
+{
+    <strong><span style="color: #000080">#define</span></strong> MY_BUFFER_SIZE   5
+    DRV_HANDLE          handle;    <i><span style="color: #008000">// Returned from DRV_SPI_Open</span></i>
+    <strong><span style="color: #000080">char</span></strong>          myBuffer[MY_BUFFER_SIZE] = { 11, 22, 33, 44, 55};
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong>        numBytes;
+    DRV_SPI_BUFFER_HANDLE bufHandle;
+
+    <i><span style="color: #008000">// Preinitialize myBuffer with MY_BUFFER_SIZE bytes of valid data.</span></i>
+    <strong><span style="color: #000080">while</span></strong>( 1 )
+    {
+        <strong><span style="color: #000080">switch</span></strong>( state )
+        {
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_INIT:
+                <i><span style="color: #008000">/* Initialize the SPI Driver */</span></i>
+                spiObject = DRV_SPI_Initialize( DRV_SPI_INDEX_1,
+                                              ( SYS_MODULE_INIT * )
+                                                &amp;initConf_1 );
+
+                <i><span style="color: #008000">/* Check for the System Status */</span></i>
+                <strong><span style="color: #000080">if</span></strong>( SYS_STATUS_READY != DRV_SPI_Status( spiObject ) )
+                    <strong><span style="color: #000080">return</span></strong> 0;
+
+                <i><span style="color: #008000">/* Open the Driver */</span></i>
+                handle = DRV_SPI_Open( DRV_SPI_INDEX_1,
+                                       DRV_IO_INTENT_EXCLUSIVE );
+
+                <i><span style="color: #008000">/* Enable/Activate the CS */</span></i>
+
+                <i><span style="color: #008000">/* Update the state to transfer data */</span></i>
+                state = APP_STATE_DATA_PUT;
+            <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_DATA_PUT:
+                bufHandle = DRV_SPI_BufferAddWrite ( handle, myBuffer,
+                                                     5, NULL, NULL );
+                <i><span style="color: #008000">/* Update the state to status check */</span></i>
+                state = APP_STATE_DATA_CHECK;
+            <strong><span style="color: #000080">break</span></strong>;
+
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_DATA_CHECK:
+                <i><span style="color: #008000">/* Check for the successful data transfer */</span></i>
+                <strong><span style="color: #000080">if</span></strong>( DRV_SPI_BUFFER_EVENT_COMPLETE &amp;
+                    DRV_SPI_BufferStatus( bufhandle ) )
+                {
+                    <i><span style="color: #008000">/* Do this repeatedly */</span></i>
+                    state = APP_STATE_DATA_PUT;
+                }
+
+            <strong><span style="color: #000080">break</span></strong>;
+            <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+    }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23141.html">SPI Driver Library</a> &gt; <a href="08819.html">Using the Library</a> &gt; <a href="08793.html">How the Library Works</a> &gt; <a href="08755.html">Client Transfer - Core</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI Client Transfer - Core Topic Title: Client Transfer - Core)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

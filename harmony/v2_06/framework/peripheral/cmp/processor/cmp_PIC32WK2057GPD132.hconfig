@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32WK2057GPD132_CMP
+	bool
+	select HAVE_CMP
+	default n
+
+config CMP_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_CMP_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/processor/cmp_p32wk2057gpd132.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/processor/cmp_p32wk2057gpd132.h"
+
+endif

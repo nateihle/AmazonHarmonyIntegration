@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>4.5: Support Build Time Configuration Options</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07114.html">4.5: Support Build Time Configuration Options</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07119.html">Previous</a> | <a href="07091.html">Up</a> | <a href="07125.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Build Time Configuration Options Topic Title: 4.5: Support Build Time Configuration Options)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+4.5: Support Build Time Configuration Options</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+MPLAB Harmony libraries usually support several different types of build-time configuration options.&nbsp;</p>
+<p class="Element10">
+Types of Configuration Options</p>
+<ul class="Element630">
+<li class="Element600">Selection of supported Microchip microcontroller</li>
+<li class="Element600">Interrupt-driven or polled execution</li>
+<li class="Element600">Static or dynamic peripheral instance selection (for drivers)</li>
+<li class="Element600">Single- or multi-client support (for drivers)</li>
+<li class="Element600">Library-specific options</li>
+</ul><p class="Element10">
+MPLAB Harmony drivers and some system services are built upon MPLAB Harmony PLIBs. The appropriate PLIB implementation is selected when the specific microcontroller is selected in the build environment. Selection of the supported microcontroller is done from within the MPLAB X IDE (and, ultimately, by passing the correct build switch on the compiler command line). This mechanism supports easy porting from one Microchip microcontroller to another when using PLIBs, provided the required features are supported. Selection of all other options is done using static configuration options that need to be defined as C-language macros (<span class="Element146">#define</span> statements) by the user in the <span class="Element146">system_config.h</span> header (a file that is included by all libraries) or by selection of appropriate implementation (<span class="Element146">.c</span>) files.&nbsp;</p>
+<p class="Element10">
+Drivers should be easily configured to operate in an interrupt-driven mode or in a polled mode. If the driver (or other library) is configured to be interrupt driven, then the driver’s &quot;Tasks&quot; routine will be called from the appropriate ISR. If the driver is configured for polled operation, then the driver’s &quot;Tasks&quot; routine will be called from the main super loop (or an RTOS thread). The selection of which method is used is usually a required configuration option.&nbsp;</p>
+<p class="Element10">
+The interfaces to MPLAB Harmony drivers are designed to support dynamic (run-time) selection of the specific instance of a peripheral with which the driver interacts. However, since drivers can be implemented so that they are statically associated with a specific instance of a peripheral, the mechanism used to make this choice must be clearly documented.&nbsp;</p>
+<p class="Element10">
+Similarly, since a driver can allow only a single client to open and use it at one time or it can allow multiple clients to open and use it at the same time, the mechanism used to make this choice must be clearly documented.&nbsp;</p>
+<p class="Element10">
+Finally, there may be any number of driver or library-specific (build time) configuration options that can be supported. The meaning and usage of each option must be clearly documented.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="07125.html">4.5.1: Support Required Configuration Options</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This topic discusses required configuration options.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="07124.html">4.5.2: Support Optional Configuration Options</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This topic discusses optional configuration options.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07114.html">4.5: Support Build Time Configuration Options</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Build Time Configuration Options Topic Title: 4.5: Support Build Time Configuration Options)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

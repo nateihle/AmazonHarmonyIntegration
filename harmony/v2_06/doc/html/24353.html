@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="16588.html">Messaging System Service Library</a> &gt; <a href="24361.html">Using the Library</a> &gt; <a href="24353.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24357.html">Previous</a> | <a href="24361.html">Up</a> | <a href="24350.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM MSG How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all modes are available on all devices. Please refer to the specific device data sheet to determine the modes supported for your device.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The following example can be run on any PIC32 starter kit: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04040');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04040"><pre class="Element12"><strong><span style="color: #000080">#include</span></strong> &lt;sys/appio.h&gt;
+<strong><span style="color: #000080">#include</span></strong> &lt;GenericTypeDefs.h&gt;
+
+<strong><span style="color: #000080">#include</span></strong> &quot;system/common/sys_module.h&quot;
+<strong><span style="color: #000080">#include</span></strong> &quot;system/msg/sys_msg.h&quot;
+<strong><span style="color: #000080">#include</span></strong> &quot;system/msg/src/sys_msg_local.h&quot;
+
+<i><span style="color: #008000">// Strawman callback functions for three mailboxes</span></i>
+<strong><span style="color: #000080">void</span></strong> myCallBack0( SYS_MSG_OBJECT *pMessage )
+{
+    DBPRINTF(&quot;CallBack0:: Message Type: %d, nSource: %d\r\n&quot;
+             &quot;            param 0: %d, param1: %d, param2: %d \r\n&quot;,
+             pMessage-&gt;nMessageTypeID,
+             pMessage-&gt;nSource, pMessage-&gt;param0,
+             pMessage-&gt;param1,  pMessage-&gt;param2
+            );
+}
+
+<strong><span style="color: #000080">void</span></strong> myCallBack1( SYS_MSG_OBJECT *pMessage )
+{
+    DBPRINTF(&quot;CallBack1:: Message Type: %d, nSource: %d\r\n&quot;
+             &quot;            param 0: %d, param1: %d, param2: %d \r\n&quot;,
+             pMessage-&gt;nMessageTypeID,
+             pMessage-&gt;nSource, pMessage-&gt;param0,
+             pMessage-&gt;param1,  pMessage-&gt;param2
+            );
+}
+
+<strong><span style="color: #000080">void</span></strong> myCallBack2( SYS_MSG_OBJECT *pMessage )
+{
+    DBPRINTF(&quot;CallBack2:: Message Type: %d, nSource: %d\r\n&quot;
+             &quot;            param 0: %d, param1: %d, param2: %d \r\n&quot;,
+             pMessage-&gt;nMessageTypeID,
+             pMessage-&gt;nSource, pMessage-&gt;param0,
+             pMessage-&gt;param1,  pMessage-&gt;param2
+            );
+}
+
+
+<strong><span style="color: #000080">int</span></strong> main(<strong><span style="color: #000080">void</span></strong>)
+{
+    SYS_MSG_MESSAGING_OBJECT oSysMsg;
+    SYS_OBJ_HANDLE hSysMsg, hMsgType[5], hMailbox[3];
+    SYS_MSG_INSTANCE iSysMsg = SYS_MSG_0;
+    SYS_MSG_OBJECT myMessage[5];
+
+
+    {<i><span style="color: #008000">// SYS_MSG_Initialize</span></i>
+        uint8_t nQSizes[] = SYS_MSG_BUFFER_SIZES;
+
+        <i><span style="color: #008000">// Initialize the messaging system. This needs to done in the initialization code.</span></i>
+        hSysMsg = SYS_MSG_Initialize(iSysMsg,SYS_MSG_MAX_PRIORITY+1,nQSizes);
+
+        SYS_ASSERT( SYS_OBJ_HANDLE_INVALID != hSysMsg,&quot;Bad hSysMsg!&quot; );
+    }
+
+    <i><span style="color: #008000">// Create the message types to be used</span></i>
+    <i><span style="color: #008000">//                                     ID:    :Priority</span></i>
+    hMsgType[0] = SYS_MSG_TypeCreate(iSysMsg,1&lt;&lt;0,0);
+    hMsgType[1] = SYS_MSG_TypeCreate(iSysMsg,1&lt;&lt;1,1);
+    hMsgType[2] = SYS_MSG_TypeCreate(iSysMsg,1&lt;&lt;2,2);
+    hMsgType[3] = SYS_MSG_TypeCreate(iSysMsg,1&lt;&lt;3,3);
+    hMsgType[4] = SYS_MSG_TypeCreate(iSysMsg,1&lt;&lt;4,4);
+
+    <i><span style="color: #008000">// Create the mailboxes to be used</span></i>
+    hMailbox[0] = SYS_MSB_MailboxOpen( iSysMsg, &amp;myCallBack0 );
+    hMailbox[1] = SYS_MSB_MailboxOpen( iSysMsg, &amp;myCallBack1 );
+    hMailbox[2] = SYS_MSB_MailboxOpen( iSysMsg, &amp;myCallBack2 );
+
+ <i><span style="color: #008000">// Identify which messages are of interest for each mailbox.</span></i>
+    SYS_MSG_MailboxMsgAdd(hMailbox[0],hMsgType[0]);
+    SYS_MSG_MailboxMsgAdd(hMailbox[0],SYS_MSG_ID2hMsgType(iSysMsg,1&lt;&lt;1));
+    SYS_MSG_MailboxMsgAdd(hMailbox[0],SYS_MSG_ID2hMsgType(iSysMsg,1&lt;&lt;2));
+    SYS_MSG_MailboxMsgAdd(hMailbox[0],SYS_MSG_ID2hMsgType(iSysMsg,1&lt;&lt;3));
+    SYS_MSG_MailboxMsgAdd(hMailbox[0],SYS_MSG_ID2hMsgType(iSysMsg,1&lt;&lt;4));
+    SYS_MSG_MailboxMsgAdd(hMailbox[1],hMsgType[0]);
+    SYS_MSG_MailboxMsgAdd(hMailbox[2],hMsgType[0]);
+
+    {<i><span style="color: #008000">//Send and receive messages</span></i>
+        SYS_MSGQ_ELEMENT *pQElement;
+        SYS_MSG_OBJECT  *pMessage;
+        SYS_MSG_RESULTS myResult;
+        SYS_MSG_QUEUE_STATUS qStatus[5];
+        uint16_t iPriority;
+
+        <strong><span style="color: #000080">for</span></strong> (iPriority=0;iPriority&lt;=SYS_MSG_MAX_PRIORITY;iPriority++)
+        {
+            myMessage[iPriority].nSource = SYS_MSG_MAX_PRIORITY-iPriority;
+            myMessage[iPriority].nMessageTypeID = 1&lt;&lt;iPriority;
+            myMessage[iPriority].param0 = iPriority;
+            myMessage[iPriority].param1 = 0;
+            myMessage[iPriority].param2 = 0;
+        }
+
+        myMessage[4].param1 = 0;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[4] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[4].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[4] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[4].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[4] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[4].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[4] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[4] ); <i><span style="color: #008000">// Should fail, queue full!</span></i>
+        SYS_ASSERT(myResult == SYS_MSG_NOT_SENT,&quot;Result should NOT Be Sent!&quot;);
+
+        myMessage[3].param1 = myMessage[4].param1;
+        myMessage[3].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[3] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[3].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[3] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[2].param1 = myMessage[3].param1;
+        myMessage[2].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[2] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[2].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[2] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[1].param1 = myMessage[2].param1;
+        myMessage[1].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[1] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[1].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[1] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[0].param1 = myMessage[1].param1;
+        myMessage[0].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[0] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[0].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[0] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        myMessage[0].param1++;
+        myResult = SYS_MSG_MessageSend( iSysMsg, &amp;myMessage[0] );
+        SYS_ASSERT(myResult == SYS_MSG_SENT,&quot;Message not sent!&quot;);
+
+        <i><span style="color: #008000">// Preemptively read all Mailbox Zero messages</span></i>
+        <strong><span style="color: #000080">while</span></strong> ( NULL != (pMessage = SYS_MSG_MailboxMessagesGet(hMailbox[0])) )
+        {
+            <i><span style="color: #008000">// &quot;Process&quot; message.</span></i>
+            DBPRINTF(&quot;Mailbox Zero: Message Type: %d, nSource: %d\r\n&quot;
+                     &quot;              param 0: %d, param1: %d, param2: %d \r\n&quot;,
+                     pMessage-&gt;nMessageTypeID,
+                     pMessage-&gt;nSource, pMessage-&gt;param0,
+                     pMessage-&gt;param1,  pMessage-&gt;param2
+                    );
+        }
+
+        <i><span style="color: #008000">// Deliver messages for all mailboxes.</span></i>
+        DBPRINTF(&quot;\r\nGot Messages: %d\r\n&quot;,SYS_MSG_GotMessages(iSysMsg));
+        <strong><span style="color: #000080">for</span></strong> (iPriority=0;iPriority&lt;=SYS_MSG_MAX_PRIORITY;iPriority++)
+        {
+            qStatus[iPriority] =
+               SYS_MSG_QueueStatus((SYS_OBJ_HANDLE)iSysMsg,iPriority);
+        }
+        DBPRINTF(&quot;Queue Status (4:-1:0): %d, %d, %d, %d, %d\r\n\r\n&quot;,
+                  qStatus[4],qStatus[3],qStatus[2],qStatus[1],qStatus[0]);
+        <strong><span style="color: #000080">while</span></strong> ( (pQElement = SYS_MSG_MessageReceive(iSysMsg)) != NULL )
+        {
+            SYS_MSG_MessageDeliver(iSysMsg,pQElement);
+            <strong><span style="color: #000080">for</span></strong> (iPriority=0;iPriority&lt;=SYS_MSG_MAX_PRIORITY;iPriority++)
+            {
+                qStatus[iPriority] =
+                   SYS_MSG_QueueStatus((SYS_OBJ_HANDLE)iSysMsg,iPriority);
+            }
+            DBPRINTF(&quot;Queue Status (4:-1:0): %d, %d, %d, %d, %d\r\n\r\n&quot;,
+                      qStatus[4],qStatus[3],qStatus[2],qStatus[1],qStatus[0]);
+        }
+        DBPRINTF(&quot;Got Messages: %d\r\n&quot;,SYS_MSG_GotMessages(iSysMsg));
+    }
+
+    <strong><span style="color: #000080">return</span></strong> 0;
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="16588.html">Messaging System Service Library</a> &gt; <a href="24361.html">Using the Library</a> &gt; <a href="24353.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM MSG How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

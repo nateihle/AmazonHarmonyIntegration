@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17493.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17509.html">Previous</a> | <a href="17509.html">Up</a> | <a href="17499.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The interface provided is a super set of all of the functionality of the available CAN on the device. Refer to the specific device data sheet or the related family reference manual to determine the set of functions that are supported for each CAN module on the device.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<span style="color: #000000">This library provides the low-level abstraction of the CAN module on the Microchip family of microcontrollers with a convenient C language interface. This topic describes how that abstraction is modeled in the software and introduces the library interface.</span> </p><p class="Element10" style="text-align: center;">
+<span style="color: #000000"><strong>CAN Software Abstraction Block Diagram</strong></span>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="CAN_HW_Abt_Model.png" border="0" alt="" title=""></p><p class="Element10">
+<span style="color: #000000"><strong>Software Model:</strong></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The CAN Peripheral Library provides interface routines to interact with the blocks shown in the previous diagram. A channel can be either a transmit channel or a receive channel. The size of a CAN message is typically 16 bytes (8 bytes for data-only receive messages). The size of a channel (the number of messages it can buffer) is configurable. Each channel has a minimum size of one message buffer. The message buffer area for all channels is assigned at configuration time. The CAN Peripheral Library then provides access to these channels and buffers via the library interface.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The user code must enable and configure message acceptance filters to receive messages. These filters compare the ID field of the incoming message with configured value and accepts the messages if IDs match. The message is then stored in a selectable receive channel. At least one message acceptance filter and one filter mask should be enabled for the CAN module to receive messages. A filter mask allows specified filter bits to be ignored during the comparison process. This allows the filter to</span><span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span><span style="color: #000000">a message with an ID range.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The CAN Peripheral Library allows the CAN module to generate events. Events can be generated at the channel level and at the module level.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000"><strong>Events:</strong></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The CAN module is capable of notifying the user application when specific events occur in the module. The following diagram shows these events and how they are organized.</span>&nbsp;</p>
+<p class="Element10">
+<img src="CAN_events.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">There are two types of events in the CAN module: Channel events and Module events. Channel events are generated by transmit and receive channels. Module events are generated by various sources (including channels) within the CAN module. Each event can be enabled or disabled. Enabling a channel event will cause the CAN module to generate a module event. An enabled module level event will cause the CAN module to generate an interrupt to the CPU.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The application can also poll channel events to check if these are active. This may be done in cases where a polling scheme (rather than an interrupt scheme) needs to be implemented. In this case, the CAN module provides events status on a channel basis. If a channel event is found active, the application can then use library API calls to inspect which channel condition caused the channel event.</span></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17493.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

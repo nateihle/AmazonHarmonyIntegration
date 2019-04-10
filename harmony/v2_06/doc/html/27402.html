@@ -1,0 +1,453 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>USB CDC Host Client Driver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27395.html">USB Host Library</a> &gt; <a href="27398.html">USB Host Library Migration Guide</a> &gt; <a href="27402.html">USB CDC Host Client Driver</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27401.html">Previous</a> | <a href="27398.html">Up</a> | <a href="27394.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB HOST MIGRATION USB CDC Host Client Driver Topic Title: USB CDC Host Client Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+USB CDC Host Client Driver</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The key differences between the USB CDC Host Client Driver API in earlier versions of MPLAB Harmony and MPLAB Harmony v1.04 are:
+<ul class="Element630">
+<li class="Element600">In the v1.04 release, the Device Attach event handler must be registered before enabling the bus and the General CDC Host Client Driver Event Handler is registered after the attached CDC device has been opened. In v1.03.01 and earlier, there was only one event handler which received all events and this event handler was to be registered after the Host Operation was enabled.</li>
+<li class="Element600">In the v1.04 release, the application must open the attached CDC device. In v1.03.01 and earlier, the application does not have to open the attached CDC Device.</li>
+</ul></p><div class="Element15">
+Registering Events</div>
+<p class="Element10">
+In v1.03.01 and earlier versions of the USB CDC Host Client Driver, the application registers the CDC Event Handler after the Host Operation was enabled. Only one event handler could be registered for all attached CDC Devices. The CDC Host Client Driver would specify the instance of the CDC Device generating the event when the event handler was invoked. The following code shows an example of this. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04423');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04423"><pre class="Element12"><i><span style="color: #008000">/* This code shows how a single CDC event handler is registered for all
+ * instances of the CDC Host Client Driver. The instance of the client driver
+ * generating this event is available in the index parameter of the event
+ * handler. This code example is applicable to pre-v1.04 releases of the client
+ * driver */</span></i>
+
+USB_HOST_CDC_EVENT_RESPONSE APP_USBHostCDCEventHandler
+(
+    USB_HOST_CDC_INDEX index,
+    USB_HOST_CDC_EVENT event,
+    <strong><span style="color: #000080">void</span></strong> * eventData,
+    uintptr_t context
+)
+{
+    <i><span style="color: #008000">/* Get the application context */</span></i>
+    uint8_t deviceAddress;
+
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_CDC_EVENT_ATTACH:
+
+            <i><span style="color: #008000">/* The event data in this case is the address of the
+             * attached device. */</span></i>
+
+            appData.state = APP_STATE_DEVICE_CONNECTED;
+            deviceAddress = *((uint8_t *)eventData);
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_CDC_EVENT_DETACH:
+
+            <i><span style="color: #008000">/* This means the device was detached. There is no event data
+             * associated with this event.*/</span></i>
+
+            appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            <strong><span style="color: #000080">break</span></strong>;
+
+            <i><span style="color: #008000">/* Other events not shown here for the sake of brevity */</span></i>
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+
+    <strong><span style="color: #000080">return</span></strong> USB_HOST_CDC_EVENT_RESPONSE_NONE;
+}
+
+<i><span style="color: #008000">/* This is a pre v1.04 release application tasks for a CDC host client driver.
+ * Note that application does not open the client driver and hence when
+ * registering an event handler, is registering it all CDC Host Client Driver
+ * instances. */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* Check the application's current state. */</span></i>
+    USB_HOST_CDC_RESULT result;
+    uint8_t  temp;
+
+    <strong><span style="color: #000080">switch</span></strong> (appData.state)
+    {
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_OPEN_HOST_LAYER:
+
+            <i><span style="color: #008000">/* Open the host layer and then enable Host layer operation */</span></i>
+            appData.hostHandle = USB_HOST_Open(USB_HOST_INDEX_0, DRV_IO_INTENT_EXCLUSIVE);
+
+            <strong><span style="color: #000080">if</span></strong> (appData.hostHandle != USB_HOST_HANDLE_INVALID)
+            {
+                <i><span style="color: #008000">/* Host layer was opened successfully. Enable operation
+                 * and then wait for operation to be enabled  */</span></i>
+
+                USB_HOST_OperationEnable(appData.hostHandle );
+                appData.state = APP_STATE_WAIT_FOR_HOST_ENABLE;
+
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_HOST_ENABLE:
+
+            <i><span style="color: #008000">/* Check if the host operation has been enabled */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(USB_HOST_OperationIsEnabled(appData.hostHandle))
+            {
+                <i><span style="color: #008000">/* This means host operation is enabled. We can
+                 * move on to the next state */</span></i>
+                USB_HOST_EventCallBackSet(appData.hostHandle,APP_USBHostEventHandler , 0 );
+                USB_HOST_CDC_EventHandlerSet (APP_USBHostCDCEventHandler );
+                appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            }
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_DEVICE_ATTACH:
+
+            <i><span style="color: #008000">/* Wait for device attach. The state machine will move
+             * to the next state when the USB_HOST_CDC_EVENT_ATTACH
+             * is received. The application state is update in the
+             * CDC Host event handler */</span></i>
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+<p class="Element10">
+In the v1.04 released version of the USB CDC Host Client Driver, the application must register an Attach Event Handler before enabling the bus operation. This one Attach Event handler will be invoked when even a CDC Device is attached. The application must use the CDC object returned in the attach event handler to open the device. The application can then register an event handler using the handle returned by the open function. This is shown in the code snippet here. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04424');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04424"><pre class="Element12"><i><span style="color: #008000">/* This code how event handling is performed in the v1.04 release of the
+ * CDC Host Client Driver. The application must register a listener function
+ * that check if the CDC Device is attached. When the attached device is opened
+ * the application must then register event handler to register other CDC Host
+ * Client Driver events */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_USBHostCDCAttachEventListener(USB_HOST_CDC_OBJ cdcObj, uintptr_t context)
+{
+    <i><span style="color: #008000">/* This function gets called when the CDC device is attached. Update the
+     * application data structure to let the application know that this device
+     * is attached */</span></i>
+
+    appData.deviceIsAttached = <strong><span style="color: #000080">true</span></strong>;
+    appData.cdcObj = cdcObj;
+}
+
+
+USB_HOST_CDC_EVENT_RESPONSE APP_USBHostCDCEventHandler
+(
+    USB_HOST_CDC_HANDLE cdcHandle,
+    USB_HOST_CDC_EVENT event,
+    <strong><span style="color: #000080">void</span></strong> * eventData,
+    uintptr_t context
+)
+{
+    <i><span style="color: #008000">/* This function is called when a CDC Host event has occurred. A pointer to
+     * this function is registered after opening the device. See the call to
+     * USB_HOST_CDC_EventHandlerSet() function. */</span></i>
+
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_CDC_EVENT_ACM_SET_LINE_CODING_COMPLETE:
+
+            <i><span style="color: #008000">/* This means the application requested Set Line Coding request is
+             * complete. */</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_CDC_EVENT_ACM_SET_CONTROL_LINE_STATE_COMPLETE:
+
+            <i><span style="color: #008000">/* This means the application requested Set Control Line State
+             * request has completed. */</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_CDC_EVENT_WRITE_COMPLETE:
+
+            <i><span style="color: #008000">/* This means an application requested write has completed */</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_CDC_EVENT_READ_COMPLETE:
+
+            <i><span style="color: #008000">/* This means an application requested write has completed */</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_CDC_EVENT_DEVICE_DETACHED:
+
+            <i><span style="color: #008000">/* The device was detached */</span></i>
+            appData.deviceWasDetached = <strong><span style="color: #000080">true</span></strong>;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+
+    <strong><span style="color: #000080">return</span></strong>(USB_HOST_CDC_EVENT_RESPONE_NONE);
+}
+
+<i><span style="color: #008000">/* This is the example application task routine. The application sets the CDC
+ * attach listener function and then enables bus. When the CDC device is
+ * attached, the state machine opens the CDC Host Client Driver suing the object
+ * that was returned in the attach function. An event handler is then set with
+ * using the handle returned by the CDC Host Client Driver Open Function */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* Check the application's current state. */</span></i>
+    USB_HOST_CDC_RESULT result;
+
+    <strong><span style="color: #000080">if</span></strong>(appData.deviceWasDetached)
+    {
+        <i><span style="color: #008000">/* This means the device is not attached. Reset the application state */</span></i>
+
+        appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+    }
+
+    <strong><span style="color: #000080">switch</span></strong> (appData.state)
+    {
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_BUS_ENABLE:
+
+            <i><span style="color: #008000">/* In this state the application enables the USB Host Bus. Note
+             * how the CDC Attach event handler are registered before the bus
+             * is enabled. */</span></i>
+
+            USB_HOST_EventHandlerSet(APP_USBHostEventHandler, (uintptr_t)0);
+            USB_HOST_CDC_AttachEventHandlerSet(APP_USBHostCDCAttachEventListener, (uintptr_t) 0);
+            USB_HOST_BusEnable(0);
+            appData.state = APP_STATE_WAIT_FOR_BUS_ENABLE_COMPLETE;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_BUS_ENABLE_COMPLETE:
+
+            <i><span style="color: #008000">/* In this state we wait for the Bus enable to complete */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(USB_HOST_BusIsEnabled(0))
+            {
+                appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_DEVICE_ATTACH:
+
+            <i><span style="color: #008000">/* In this state the application is waiting for the device to be
+             * attached */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(appData.deviceIsAttached)
+            {
+                <i><span style="color: #008000">/* A device is attached. We can open this device */</span></i>
+                appData.state = APP_STATE_OPEN_DEVICE;
+                appData.deviceIsAttached = <strong><span style="color: #000080">false</span></strong>;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_OPEN_DEVICE:
+
+            <i><span style="color: #008000">/* In this state the application opens the attached device */</span></i>
+            appData.cdcHostHandle = USB_HOST_CDC_Open(appData.cdcObj);
+            <strong><span style="color: #000080">if</span></strong>(appData.cdcHostHandle != USB_HOST_CDC_HANDLE_INVALID)
+            {
+                <i><span style="color: #008000">/* The driver was opened successfully. Set the event handler
+                 * and then go to the next state. */</span></i>
+                USB_HOST_CDC_EventHandlerSet(appData.cdcHostHandle, APP_USBHostCDCEventHandler, (uintptr_t)0);
+                appData.state = APP_STATE_SET_LINE_CODING;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+<div class="Element15">
+API Differences</div>
+<p class="Element10">
+The following table shows the difference in API names between the pre v1.04 release and the v1.04 release versions of the CDC Host Client Driver. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="39%">
+<div class="Element66">
+MPLAB Harmony v1.03.01 and Earlier&nbsp;</div></td><td class="Element65" valign="top" width="61%">
+<div class="Element66">
+MPLAB Harmony v1.04 and Later&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="28208.html">USB_HOST_CDC_EventHandlerSet</a>&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28208.html">USB_HOST_CDC_EventHandlerSet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="28215.html">USB_HOST_CDC_Read</a>&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28215.html">USB_HOST_CDC_Read</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="28230.html">USB_HOST_CDC_Write</a>&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28230.html">USB_HOST_CDC_Write</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="28227.html">USB_HOST_CDC_SerialStateNotificationGet</a>&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28227.html">USB_HOST_CDC_SerialStateNotificationGet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+USB_HOST_CDC_LineCodingGet&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28175.html">USB_HOST_CDC_ACM_LineCodingGet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+USB_HOST_CDC_ControlLinetStateSet&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28174.html">USB_HOST_CDC_ACM_ControlLineStateSet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+USB_HOST_CDC_BreakSend&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28173.html">USB_HOST_CDC_ACM_BreakSend</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Not needed.&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28208.html">USB_HOST_CDC_EventHandlerSet</a><br>The attach event requires a separate event handler in v1.04.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Not available.&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28182.html">USB_HOST_CDC_DeviceObjHandleGet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Not available.&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28214.html">USB_HOST_CDC_Open</a><br>The driver needs to be opened in v1.04.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Not available.&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="28180.html">USB_HOST_CDC_Close</a>&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Event Name Differences</div>
+<p class="Element10">
+The following table shows the difference in event names between earlier versions and the MPLAB Harmony v1.04 release of the CDC Host Client Driver. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="46%">
+<div class="Element66">
+MPLAB Harmony v1.03.01 and Earlier&nbsp;</div></td><td class="Element65" valign="top" width="54%">
+<div class="Element66">
+MPLAB Harmony v1.04 and Later&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_READ_COMPLETE&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_READ_COMPLETE&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_WRITE_COMPLETE&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_WRITE_COMPLETE&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_SERIAL_STATE_NOTIFICATION_RECEIVED&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_SERIAL_STATE_NOTIFICATION_RECEIVED&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_GET_LINE_CODING_COMPLETE&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_ACM_GET_LINE_CODING_COMPLETE&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_SET_LINE_CODING_COMPLETE&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_ACM_SET_LINE_CODING_COMPLETE&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_SET_CONTROL_LINE_STATE_COMPLETE&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_ACM_SET_CONTROL_LINE_STATE_COMPLETE&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_SEND_BREAK_COMPLETE&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_ACM_SEND_BREAK_COMPLETE&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_DETACH&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_DEVICE_DETACHED&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+USB_HOST_CDC_EVENT_ATTACH&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+Not needed. Refer to the USB_HOST_AttachEventHandlerSet function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27395.html">USB Host Library</a> &gt; <a href="27398.html">USB Host Library Migration Guide</a> &gt; <a href="27402.html">USB CDC Host Client Driver</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB HOST MIGRATION USB CDC Host Client Driver Topic Title: USB CDC Host Client Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

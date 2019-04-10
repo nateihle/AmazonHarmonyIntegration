@@ -1,0 +1,34 @@
+menu "Camera"
+	
+enum DRV_CAMERA_DEVICE_LIST
+    "OVM7690"
+
+config USE_DRV_CAMERA_NEEDED
+    bool
+    default n
+
+config USE_DRV_CAMERA
+    bool "Use Camera Driver?"
+    select USE_DRV_OVM7690_NEEDED
+	select DRIVER
+    default n if !USE_DRV_CAMERA_NEEDED
+    default y if USE_DRV_CAMERA_NEEDED
+    ---help---
+    IDH_HTML_Camera_Driver_Library
+    ---endhelp---
+
+config DRV_CAMERA_DEVICE
+    string "Camera Device"
+    depends on USE_DRV_CAMERA
+    range DRV_CAMERA_DEVICE_LIST
+    default "OVM7690"
+    ---help---
+    IDH_HTML_Camera_Driver_Library
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/camera/ovm7690/config/drv_ovm7690.hconfig"
+endmenu
+
+ifblock USE_DRV_CAMERA
+file DRV_CAMERA_H "$HARMONY_VERSION_PATH/framework/driver/camera/drv_camera.h" to "$PROJECT_HEADER_FILES/framework/driver/camera/drv_camera.h"
+endif

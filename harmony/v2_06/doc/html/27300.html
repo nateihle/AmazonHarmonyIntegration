@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>USB Device Stack in MLA and MPLAB Harmony</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27300.html">USB Device Stack in MLA and MPLAB Harmony</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27296.html">Previous</a> | <a href="27301.html">Up</a> | <a href="27294.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING USB Device Stack in MLA and MPLAB Harmony Topic Title: USB Device Stack in MLA and MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+USB Device Stack in MLA and MPLAB Harmony</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Similarities</div>
+<p class="Element10">
+The key similarities between the USB Device Stack in MLA and MPLAB Harmony are:
+<ul class="Element630">
+<li class="Element600">Both solutions support Interrupt and Polled mode operation</li>
+<li class="Element600">Both solutions require configuration macros to control/define functional aspects of the device stack</li>
+<li class="Element600">Both solutions contain module Tasks routines that need to be invoked either in a<span class="Element146"> while(1)</span> application superloop and/or in the USB Interrupt Service Routine (ISR)</li>
+<li class="Element600">In both solutions, the function drivers and Device Layer are implemented as separate modules</li>
+</ul></p><div class="Element15">
+Differences</div>
+<p class="Element10">
+The key differences between the USB Device Stack in MLA and MPLAB Harmony are listed in the following table. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="66%">
+<div class="Element66">
+MPLAB Harmony&nbsp;</div></td><td class="Element65" valign="top" width="34%">
+<div class="Element66">
+MLA&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+In MPLAB Harmony, the complete user application is factored into System and Application code sections. The code sections are implemented in separate source code files. This represents the MPLAB Harmony Application paradigm.&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+There is no such factoring in MLA.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+In MPLAB Harmony, the USB peripheral management is performed by a USB Controller Driver. This is implemented separately.&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+The MLA USB Device stack combines the implementation of Device Layer and controller driver into one file.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+In MPLAB Harmony, the USB Device Layer is a MPLAB Harmony module and requires the application to open it to access the Device Layer functions.&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+This is not required in MLA.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+In MPLAB Harmony, Device Layer API is factored into System and Client functions. The application calls the client functions along with the Device Layer Handle.&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+There is no such factoring in the MLA Device Layer implementation.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+In MPLAB Harmony, function driver API require the specification of an instance index.&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+This is typically not required in MLA.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+In MPLAB Harmony, the USB Device Stack uses System Services to access shared system resources.&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+The MLA does not contain a formal implementation of such system services.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="66%">
+<div class="Element68">
+In MPLAB Harmony, the Device Layer initializes the function driver based on the configuration set by the host. This process does not require application intervention.&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+In MLA, the application must add code for the Set Configuration Event handling routine to invoke the initialize routine of the required function driver.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27300.html">USB Device Stack in MLA and MPLAB Harmony</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING USB Device Stack in MLA and MPLAB Harmony Topic Title: USB Device Stack in MLA and MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

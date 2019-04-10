@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>4.2: Support a Broad Set of PIC32 Microcontrollers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07110.html">4.2: Support a Broad Set of PIC32 Microcontrollers</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07100.html">Previous</a> | <a href="07091.html">Up</a> | <a href="07111.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support a Broad Set of PIC32 Microcontrollers Topic Title: 4.2: Support a Broad Set of PIC32 Microcontrollers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+4.2: Support a Broad Set of PIC32 Microcontrollers</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Different PIC32 microcontrollers support different features and different sets of peripherals. These differences are abstracted away from middleware and application modules by three different layers in the MPLAB Harmony framework:</p>
+<ul class="Element630">
+<li class="Element600">Device Drivers</li>
+<li class="Element600">System Services</li>
+<li class="Element600">Peripheral Libraries</li>
+</ul><p class="Element10">
+Device drivers provide highly abstracted file-system like interfaces to most types of peripherals. System services provide highly abstracted interfaces to common system-resource types of peripherals, like interrupt controllers, I/O ports, and DMA. Above these interfaces, any part-specific knowledge that is required is contained in parameters that can be defined at build time by the system configuration header (<span class="Element146">system_config.h</span>) or passed into an initialization function at system boot/reset time. So, MPLAB Harmony drivers and system services together can be thought of as a Hardware Abstraction Layer (HAL) as shown by the following block diagram. </p><p class="Element10" style="text-align: center;">
+<strong>Drivers and Services Abstract Peripherals</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="COMPGUIDE Drivers and Services Abstract Peripherals.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Some driver or system services features may not be supported on specific microcontrollers as MPLAB Harmony libraries do not usually emulate hardware features in software.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Beneath the module’s interface, device drivers and system services may have different implementations for different microcontroller families. However, to dramatically reduce the number of implementations required, drivers and system services are normally implemented using peripheral libraries (or by using other drivers or system services in a &quot;stack&quot;). Peripheral libraries provide consistent interfaces for each type of peripheral supported on Microchip microcontrollers, but they may have different implementations for the different variants of that peripheral that are available on different part families. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Peripheral libraries are only supported for internal (on board) microcontroller peripherals. External peripherals are always connected to the microcontroller through one or more internal peripheral interfaces and therefore do not require peripheral library support. They usually use a driver for an on-board peripheral (that does use a PLIB) to access the external device, as shown in the following diagram.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<strong>Example External Driver </strong>&quot;<strong>Stack</strong>&quot;&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="COMPGUIDE Example External Driver Stack.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+It is preferable that other library or application modules interact with microcontroller peripherals only through abstracted device driver and system service interfaces for portability across the widest range of PIC32 microcontrollers and usages. However, it is possible to obtain portability across one or more PIC32 families (assuming they support the same type of peripheral) by interacting directly with the peripheral library. However, if library modules access peripheral registers directly, they will be restricted to usage only on the set of microcontrollers that support the specific registers used. While direct register access is not advised, it is still possible to us that method and be MPLAB Harmony-compatible as long as all restrictions are clearly and conspicuously documented and the following two key rules are followed.&nbsp;</p>
+<p class="Element10">
+<strong>Key Rules:</strong>&nbsp;</p>
+<ol class="Element630">
+<li value="1" class="Element600">Any library that directly accesses a peripheral (either through a PLIB or by its registers) &quot;owns&quot; that peripheral and no other code may access the peripheral except through the interface to the library that owns it.</li>
+<li value="2" class="Element600">The library that &quot;owns&quot; a peripheral (usually a driver for that peripheral) is responsible for ensuring that clients only access that peripheral in safe ways that prevent them from interfering with each other. (Explicit tests and protection can be implemented in the driver in ways that are available for testing and debugging, but can be removed in production builds to reduce run-time overhead.)</li>
+</ol><p class="Element10">
+Ultimately, PLIB usage is not a MPLAB Harmony requirement. PLIBs are used to support implementations of drivers and services that are flexible enough to be easily configured for different part families. However, ownership and encapsulation of peripherals by a driver or service that allows it to be shared (either one client at a time or multiple clients at once) is a requirement.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07110.html">4.2: Support a Broad Set of PIC32 Microcontrollers</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support a Broad Set of PIC32 Microcontrollers Topic Title: 4.2: Support a Broad Set of PIC32 Microcontrollers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

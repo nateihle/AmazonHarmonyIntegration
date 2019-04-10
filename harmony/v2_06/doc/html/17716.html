@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Handling Errors</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17716.html">Handling Errors</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17713.html">Previous</a> | <a href="17718.html">Up</a> | <a href="17730.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Handling Errors Topic Title: Handling Errors)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Handling Errors</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+There are three basic types of errors that can occur during various I2C operations:
+<ul class="Element630">
+<li class="Element600">Transmitter Overflow</li>
+<li class="Element600">Receiver Overflow</li>
+<li class="Element600">Arbitration Loss</li>
+</ul></p><div class="Element15">
+Handling Transmitter Overflow Errors</div>
+<p class="Element10">
+A transmitter overflow error occurs when the software attempts to write to the TX buffer (by calling the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function) while the transmitter is busy. When this occurs, the write is not allowed and the transmitter overflow status bit is set. This can be identified by calling the <a href="19643.html">PLIB_I2C_TransmitterOverflowHasOccurred</a> function. Additional attempts to write to the TX buffer will not be allowed until the transmitter overflow error is cleared by calling the <a href="19642.html">PLIB_I2C_TransmitterOverflowClear</a> function. This sort of error should be either avoided by checking the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function before attempting to send a byte or by checking for the error after attempting to send a byte.&nbsp;</p>
+<p class="Element10">
+<i>Interrupts:</i> The transmitter overflow error does not trigger an interrupt.&nbsp;</p><div class="Element15">
+Handling Receiver Overflow Errors</div>
+<p class="Element10">
+A receiver overflow error occurs when an incoming byte has been completely received and is ready to be transferred to the RX buffer, but software has not yet gotten the previous byte from the RX buffer. When this happens the receiver overflow status bit is set and the incoming byte will be lost. This can happen when software does not respond quickly enough to a slave or master interrupt when receiving data. Software should check for this error before calling the <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function to get a byte from the RX buffer to determine if any data has been lost. This error can be identified by calling the <a href="19596.html">PLIB_I2C_ReceiverOverflowHasOccurred</a> function. This error must be cleared by calling the <a href="19595.html">PLIB_I2C_ReceiverOverflowClear</a> function or no additional data will be received.&nbsp;</p>
+<p class="Element10">
+<i>Interrupts:</i> The receiver overflow error does not trigger an interrupt (although the incoming data byte does, even though it is lost.)&nbsp;</p><div class="Element15">
+Handling Arbitration Loss Errors</div>
+<p class="Element10">
+Strictly speaking, arbitration loss is not an error. Rather it is a normal part of bus operation in a multi-master environment. Arbitration loss occurs when more than one master attempts to transmit on the bus at the same (or nearly the same) time. When this happens, at some point one of the masters will attempt to transmit a binary one ('1') when the other attempts to transmit a binary zero ('0'). At that point, the master transmitting the zero will win the transmission, because the zero transmission will dominate on the bus. The master detecting that the bus signals a zero when it attempted to transmit a one will lose arbitration and must immediately stop transmitting on the bus (which happens automatically).&nbsp;</p>
+<p class="Element10">
+Arbitration loss can be detected during any of the following actions:
+<ul class="Element630">
+<li class="Element600">Transmission of a Start condition</li>
+<li class="Element600">Transmission of a repeated Start condition</li>
+<li class="Element600">Transmission of an address or data byte</li>
+<li class="Element600">Transmission of an acknowledge bit</li>
+<li class="Element600">Transmission of a Stop condition</li>
+</ul>Arbitration loss can be identified by calling the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function. The arbitration loss condition can be cleared by calling the <a href="19529.html">PLIB_I2C_ArbitrationLossClear</a> function. Once arbitration loss occurs, the losing master must wait until the bus is once again idle (at which time a master interrupt will occur if arbitration loss has occurred) and retransmit the transfer from the beginning.&nbsp;</p>
+<p class="Element10">
+<i>Interrupts:</i> The I2C module will trigger an error interrupt when arbitration loss occurs.&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17716.html">Handling Errors</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Handling Errors Topic Title: Handling Errors)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

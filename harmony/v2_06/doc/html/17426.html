@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17426.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="02553.html">Previous</a> | <a href="02553.html">Up</a> | <a href="17431.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCHS Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The ADCHS is used to convert an analog input into a digital number that represents that input voltage. When the input is periodically converted, the result is a sequence of digital values that have converted a continuous-time and continuous-amplitude analog signal to a discrete-time and discrete-amplitude digital signal.&nbsp;</p>
+<p class="Element10">
+This particular ADC architecture consists of multiple SAR channels (maximum of eight). The SAR channels are numbered from Channel 0 to Channel 7. Out of these channels, Channels 0 through 6 have dedicated sample and hold (S&amp;<a href="13056.html">H</a>) circuits connected to a single (selectable) analog input. These SAR channels work independently from each other and are designed to capture time sensitive or transitory analog signals. The remaining channel, Channel 7, has its S&amp;<a href="13056.html">H</a> circuit connected to multiple analog inputs through a multiplexer. Channel 7 is used to convert analog signals that do not need a high conversion rate.&nbsp;</p>
+<p class="Element10">
+Features of the ADCHS module include:
+<ul class="Element636">
+<li class="Element606">Channels 0 through 6 have selectable analog inputs (default, alternate), which can be connected to a S&amp;<a href="13056.html">H</a> circuit</li>
+<li class="Element606">Channel 7 has multiple analog inputs connected to a S&amp;<a href="13056.html">H</a> circuit</li>
+<li class="Element606">Analog inputs connected to Channels 0 through 6 are Class 1 analog inputs. Analog inputs connected to Channel 7 are classified as Class 2 and Class 3 analog inputs.
+<ul class="Element637">
+<li class="Element607">Class 1 analog inputs have their individual trigger source and are converted by dedicated Channels (0 through 6).</li>
+<li class="Element607">Class 2 analog inputs have their individual trigger source, but are converted by shared channel-7</li>
+<li class="Element607">Class 3 analog inputs do not have individual trigger source and are converted by scan mode using Channel 7</li>
+</ul></li>
+<li class="Element606">Analog input scan is available, which allows a single trigger to start a sample/conversion sequence of multiple analog inputs using a predefined scan list</li>
+<li class="Element606">The inputs to a S&amp;<a href="13056.html">H</a> can be configured as unipolar/bipolar and single-ended/differential mode</li>
+<li class="Element606">For each channel, the converted data resolution can be set as 6, 8, 10, or 12-bits</li>
+<li class="Element606">Each channel (0 through 7) can have its individual conversion clock and sample time setting</li>
+<li class="Element606">A voltage reference is required for the ADCHS module. The voltage reference setting is a global setting for the ADCHS module and does not vary across channels.</li>
+<li class="Element606">Result registers store the conversion results and can be read by the software application. Software is notified of ready results by either polling or through the use of interrupts.</li>
+<li class="Element606">For Channels 0 through 6, the converted data can be stored in an optional FIFO or directly to RAM using the dedicated DMA interface</li>
+<li class="Element606">Optional Digital Filters can be used to provide increased resolution at the sacrifice of sample rate. Digital Filters also have an averaging mode.</li>
+<li class="Element606">Optional Digital Comparators can be used to test conversion results against set high and low limits, which are independent of software, and generate interrupts based on predefined conditions</li>
+<li class="Element606">Digital Comparators also have Capacitive Voltage Divider (CVD) mode, which can be used to detect a touch event in touch sense application</li>
+<li class="Element606">Early interrupt generation, providing extremely fast processing of converted data</li>
+</ul>A block diagram of the ADCHS module is provided in the following figure.&nbsp;</p>
+<p class="Element10">
+<img src="ADCHS Block Diagram.png" border="0" alt="" title="">&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17426.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCHS Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

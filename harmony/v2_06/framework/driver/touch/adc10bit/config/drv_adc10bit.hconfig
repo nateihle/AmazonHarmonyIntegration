@@ -1,0 +1,103 @@
+menu "ADC10BIT"
+
+config USE_DRV_TOUCH_ADC10BIT_NEEDED
+    bool
+
+config USE_DRV_TOUCH_ADC10BIT
+    bool "Use ADC10BIT Driver?"
+    default n if !USE_DRV_TOUCH_ADC10BIT_NEEDED
+    default y if USE_DRV_TOUCH_ADC10BIT_NEEDED
+    select USE_SYS_TOUCH_CALIBRATION_NEEDED
+    select USE_SYS_TOUCH_NEEDED
+    select USE_SYS_INT_NEEDED
+    ---help---
+    IDH_HTML_10_bit_ADC_Driver_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_TOUCH_ADC10BIT_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_TOUCH_ADC10BIT_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_TOUCH_ADC10BIT_RTOS = "Standalone"
+    default 1024
+
+config DRV_TOUCH_ADC10BIT_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_TOUCH_ADC10BIT_RTOS = "Standalone"
+    default 1
+
+config DRV_TOUCH_ADC10BIT_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_TOUCH_ADC10BIT_RTOS = "Standalone"
+    default y
+
+config DRV_TOUCH_ADC10BIT_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_TOUCH_ADC10BIT_RTOS = "Standalone"
+    depends on DRV_TOUCH_ADC10BIT_RTOS_USE_DELAY
+    default 1000
+endmenu
+		
+config DRV_TOUCH_ADC10BIT_CLIENTS_NUMBER
+    int "Number of Clients"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    default 1
+	
+config DRV_TOUCH_ADC10BIT_CALIBRATION_INSET
+    int "Calibration Inset"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    range 0 40
+    default 20
+
+config DRV_TOUCH_ADC10BIT_TOUCH_DIAMETER
+    int "Touch Diameter"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    default 10
+
+config DRV_TOUCH_ADC10BIT_SAMPLE_POINTS
+    int "Sample Points"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    range 1 10
+    default 4
+
+config DRV_TOUCH_ADC10BIT_CALIBRATION_DELAY
+    int "Calibration Delay"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    range 1 400
+    default 300
+	
+config DRV_TOUCH_ADC10BIT_CALIBRATION_SCALE_FACTOR
+    int "Calibration Scale Factor"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    range 1 256
+    default 8
+
+config DRV_TOUCH_ADC10BIT_PRESS_THRESHOLD
+    int "Press Threshold"
+    depends on USE_DRV_TOUCH_ADC10BIT
+    range 0 256
+    default 256
+
+endmenu
+
+ifblock USE_DRV_TOUCH_ADC10BIT
+
+add "<#include \"/framework/driver/touch/adc10bit/config/drv_adc10bit.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/touch/adc10bit/config/drv_adc10bit_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/touch/adc10bit/config/drv_adc10bit_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/touch/adc10bit/config/drv_adc10bit.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_ADC10BIT_H "$HARMONY_VERSION_PATH/framework/driver/touch/adc10bit/drv_adc10bit.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/adc10bit/drv_adc10bit.h"
+file DRV_ADC10BIT_TOUCH_H "$HARMONY_VERSION_PATH/framework/driver/touch/drv_touch.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/drv_touch.h"
+file DRV_ADC10BIT_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/touch/adc10bit/src/drv_adc10bit_local.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/adc10bit/src/drv_adc10bit_local.h"
+file DRV_ADC10BIT_C "$HARMONY_VERSION_PATH/framework/driver/touch/adc10bit/src/drv_adc10bit.c" to "$PROJECT_SOURCE_FILES/framework/driver/touch/adc10bit/src/drv_adc10bit.c"
+endif
+
+

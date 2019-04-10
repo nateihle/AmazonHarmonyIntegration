@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04075.html">wifi_winc1500_socket</a> &gt; <a href="04078.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04077.html">Previous</a> | <a href="04075.html">Up</a> | <a href="04088.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP wifi_winc1500_socket_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+To run the AP-SCAN-EXAMPLE demonstration follows these steps:</p>
+<ol class="Element630">
+<li value="1" class="Element600">In MPLAB X IDE, load the project file <span class="Element146">wifi_winc1500_socket.X</span>.</li>
+<li value="2" class="Element600">Select the project configuration BSP.</li>
+<li value="3" class="Element600">Edit the file <span class="Element146">app.h</span> and set:</li>
+</ol><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00021');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00021"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> AP_SCAN_EXAMPLE    1</pre></div></div>
+
+<ol class="Element630">
+<li value="4" class="Element600">Edit the file <span class="Element146">ap_scan.c</span> and set the configuration for the example:</li>
+</ol><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00022');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00022"><pre class="Element12"><strong><span style="color: #000080">#if</span></strong> AP_SCAN_EXAMPLE
+<strong><span style="color: #000080">#define</span></strong> WLAN_SSID                   &quot;DEMO_AP&quot; <i><span style="color: #008000">/* Target AP */</span></i>
+<strong><span style="color: #000080">#define</span></strong> WLAN_AUTH                   M2M_WIFI_SEC_WPA_PSK <i><span style="color: #008000">/* AP Security */</span></i>
+<strong><span style="color: #000080">#define</span></strong> WLAN_PSK                    &quot;12345678&quot; <i><span style="color: #008000">/* Security Passphrase (If WPA Security Used) */</span></i>
+<strong><span style="color: #000080">#define</span></strong> WLAN_WEP_KEY                &quot;1234567890&quot; <i><span style="color: #008000">/* Security Key (If WEP Security Used) */</span></i>
+<strong><span style="color: #000080">#define</span></strong> WLAN_WEP_KEY_INDEX        1 <i><span style="color: #008000">/* Security Key Index (If WEP Security Used) */</span></i>
+
+<strong><span style="color: #000080">#define</span></strong> PING_ADDRESS                &quot;192.168.1.1&quot; <i><span style="color: #008000">/* Address to Ping after Connection */</span></i>
+<strong><span style="color: #000080">#define</span></strong> PING_COUNT                  3 <i><span style="color: #008000">/* Number of Times to Ping */</span></i>
+<strong><span style="color: #000080">#define</span></strong> PING_INTERVAL               100 <i><span style="color: #008000">/* Wait 100ms between Pings */</span></i></pre></div></div>
+
+<ol class="Element630">
+<li value="5" class="Element600">Build and run the demonstration.</li>
+<li value="6" class="Element600">The example console outputs can be captured with TeraTerm, as shown in the following figure.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="TCPIP APPS wifi_winc1500_socket Terminal Output.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04075.html">wifi_winc1500_socket</a> &gt; <a href="04078.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP wifi_winc1500_socket_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,188 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ0512EFE100_SQI
+	bool
+	select HAVE_SQI
+	default y
+
+config SQI_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum SQI_MODULE_ID exclusive
+	"SQI_ID_0"
+
+enum SQI_XFER_MODE
+	"SQI_XFER_MODE_XIP"
+	|| "SQI_XFER_MODE_DMA"
+	|| "SQI_XFER_MODE_PIO"
+
+enum SQI_DATA_MODE
+	"SQI_DATA_MODE_3"
+	|| "SQI_DATA_MODE_0"
+
+enum SQI_DATA_FORMAT
+	"SQI_DATA_FORMAT_LSBF"
+	|| "SQI_DATA_FORMAT_MSBF"
+
+enum SQI_DATA_OEN
+	"SQI_DATA_OEN_QUAD"
+	|| "SQI_DATA_OEN_DUAL"
+	|| "SQI_DATA_OEN_SINGLE"
+
+enum SQI_CS_OEN
+	"SQI_CS_OEN_BOTH"
+	|| "SQI_CS_OEN_1"
+	|| "SQI_CS_OEN_0"
+	|| "SQI_CS_OEN_NONE"
+
+enum SQI_XFER_CMD
+	"SQI_CMD_RECEIVE"
+	|| "SQI_CMD_TRANSMIT"
+	|| "SQI_CMD_IDLE"
+
+enum SQI_LANE_MODE
+	"SQI_LANE_QUAD"
+	|| "SQI_LANE_DUAL"
+	|| "SQI_LANE_SINGLE"
+
+enum SQI_CS_NUM
+	"SQI_CS_1"
+	|| "SQI_CS_0"
+
+enum SQI_CLK_DIV
+	"CLK_DIV_2048"
+	|| "CLK_DIV_1024"
+	|| "CLK_DIV_512"
+	|| "CLK_DIV_256"
+	|| "CLK_DIV_128"
+	|| "CLK_DIV_64"
+	|| "CLK_DIV_32"
+	|| "CLK_DIV_16"
+	|| "CLK_DIV_8"
+	|| "CLK_DIV_4"
+	|| "CLK_DIV_2"
+	|| "CLK_DIV_1"
+
+enum SQI_ADDR_BYTES
+	"ADDR_BYTES_4"
+	|| "ADDR_BYTES_3"
+	|| "ADDR_BYTES_2"
+	|| "ADDR_BYTES_1"
+	|| "ADDR_BYTES_0"
+
+enum SQI_DUMMY_BYTES
+	"DUMMY_BYTES_7"
+	|| "DUMMY_BYTES_6"
+	|| "DUMMY_BYTES_5"
+	|| "DUMMY_BYTES_4"
+	|| "DUMMY_BYTES_3"
+	|| "DUMMY_BYTES_2"
+	|| "DUMMY_BYTES_1"
+	|| "DUMMY_BYTES_0"
+
+enum SQI_MODE_BYTES
+	"MODE_BYTES_3"
+	|| "MODE_BYTES_2"
+	|| "MODE_BYTES_1"
+	|| "MODE_BYTES_0"
+
+enum SQI_INTERRUPTS
+	"SQI_DMAERROR"
+	|| "SQI_PKTCOMP"
+	|| "SQI_BDDONE"
+	|| "SQI_CONTHR"
+	|| "SQI_CONEMPTY"
+	|| "SQI_CONFULL"
+	|| "SQI_RXTHR"
+	|| "SQI_RXEMPTY"
+	|| "SQI_RXFULL"
+	|| "SQI_TXTHR"
+	|| "SQI_TXEMPTY"
+	|| "SQI_TXFULL"
+
+enum SQI_BD_STATE
+	"BD_STATE_DISABLED"
+	|| "BD_STATE_DONE"
+	|| "BD_STATE_PROCESSING_DATA"
+	|| "BD_STATE_BEING_FETCHED"
+	|| "BD_STATE_FETCH_REQ_PENDING"
+	|| "BD_STATE_IDLE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_SQI_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/processor/sqi_p32mz0512efe100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/processor/sqi_p32mz0512efe100.h"
+
+file PLIB_SQI_XIPSDRCOMMANDDDRDATA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPSDRCommandDDRData_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPSDRCommandDDRData_Default.h"
+file PLIB_SQI_XIPDDRMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPDDRMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPDDRMode_Default.h"
+file PLIB_SQI_XIPNUMBEROFDUMMYBYTES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPNumberOfDummyBytes_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPNumberOfDummyBytes_Default.h"
+file PLIB_SQI_XIPNUMBEROFADDRESSBYTES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPNumberOfAddressBytes_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPNumberOfAddressBytes_Default.h"
+file PLIB_SQI_XIPREADOPCODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPReadOpCode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPReadOpCode_Default.h"
+file PLIB_SQI_XIPLANEMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPLaneMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPLaneMode_Default.h"
+file PLIB_SQI_XIPCONTROLWORD1_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPControlWord1_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPControlWord1_Default.h"
+file PLIB_SQI_XIPCHIPSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPChipSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPChipSelect_Default.h"
+file PLIB_SQI_XIPMODEBYTES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPModeBytes_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPModeBytes_Default.h"
+file PLIB_SQI_XIPMODECODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPModeCode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPModeCode_Default.h"
+file PLIB_SQI_XIPCONTROLWORD2_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPControlWord2_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPControlWord2_Default.h"
+file PLIB_SQI_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_EnableControl_Default.h"
+file PLIB_SQI_CSOUTPUTENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_CSOutputEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_CSOutputEnable_Default.h"
+file PLIB_SQI_DATAOUTPUTENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DataOutputEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DataOutputEnable_Default.h"
+file PLIB_SQI_CONBUFFERRESET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ConBufferReset_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ConBufferReset_Default.h"
+file PLIB_SQI_RXBUFFERRESET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_RxBufferReset_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_RxBufferReset_Default.h"
+file PLIB_SQI_TXBUFFERRESET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TxBufferReset_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TxBufferReset_Default.h"
+file PLIB_SQI_SOFTRESET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_SoftReset_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_SoftReset_Default.h"
+file PLIB_SQI_BURSTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BurstControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BurstControl_Default.h"
+file PLIB_SQI_HOLDPINCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_HoldPinControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_HoldPinControl_Default.h"
+file PLIB_SQI_WPPINCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_WPPinControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_WPPinControl_Default.h"
+file PLIB_SQI_RECEIVELATCH_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ReceiveLatch_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ReceiveLatch_Unsupported.h"
+file PLIB_SQI_DATAFORMAT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DataFormat_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DataFormat_Default.h"
+file PLIB_SQI_DATAMODECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DataModeControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DataModeControl_Default.h"
+file PLIB_SQI_TRANSFERMODECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TransferModeControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TransferModeControl_Default.h"
+file PLIB_SQI_CONFIGWORD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ConfigWord_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ConfigWord_Default.h"
+file PLIB_SQI_STATUSCHECK_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_StatusCheck_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_StatusCheck_Default.h"
+file PLIB_SQI_DDRMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DDRMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DDRMode_Default.h"
+file PLIB_SQI_CSDEASSERT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_CSDeassert_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_CSDeassert_Default.h"
+file PLIB_SQI_CHIPSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ChipSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ChipSelect_Default.h"
+file PLIB_SQI_LANEMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_LaneMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_LaneMode_Default.h"
+file PLIB_SQI_TRANSFERCOMMAND_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TransferCommand_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TransferCommand_Default.h"
+file PLIB_SQI_TRANSFERCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TransferCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TransferCount_Default.h"
+file PLIB_SQI_CONTROLWORD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ControlWord_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ControlWord_Default.h"
+file PLIB_SQI_CLOCKDIVIDER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ClockDivider_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ClockDivider_Default.h"
+file PLIB_SQI_CLOCKREADY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ClockReady_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ClockReady_Default.h"
+file PLIB_SQI_CLOCKCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ClockControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ClockControl_Default.h"
+file PLIB_SQI_RXBUFTHRESHOLD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_RxBufThreshold_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_RxBufThreshold_Default.h"
+file PLIB_SQI_TXBUFTHRESHOLD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TxBufThreshold_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TxBufThreshold_Default.h"
+file PLIB_SQI_RXBUFINTTHRESHOLD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_RxBufIntThreshold_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_RxBufIntThreshold_Default.h"
+file PLIB_SQI_TXBUFINTTHRESHOLD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TxBufIntThreshold_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TxBufIntThreshold_Default.h"
+file PLIB_SQI_INTERRUPTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_InterruptControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_InterruptControl_Default.h"
+file PLIB_SQI_INTERRUPTSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_InterruptStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_InterruptStatus_Default.h"
+file PLIB_SQI_TXDATA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TxData_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TxData_Default.h"
+file PLIB_SQI_RXDATA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_RxData_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_RxData_Default.h"
+file PLIB_SQI_TXBUFFERFREE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TxBufferFree_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TxBufferFree_Default.h"
+file PLIB_SQI_RXBUFFERCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_RxBufferCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_RxBufferCount_Default.h"
+file PLIB_SQI_CONBUFAVAILABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ConBufAvailable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ConBufAvailable_Default.h"
+file PLIB_SQI_COMMANDSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_CommandStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_CommandStatus_Default.h"
+file PLIB_SQI_DATAPINSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DataPinStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DataPinStatus_Default.h"
+file PLIB_SQI_RXUNDERRUN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_RxUnderRun_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_RxUnderRun_Default.h"
+file PLIB_SQI_TXOVERFLOW_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TxOverFlow_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TxOverFlow_Default.h"
+file PLIB_SQI_DMAENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DMAEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DMAEnable_Default.h"
+file PLIB_SQI_BDPOLLINGENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDPollingEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDPollingEnable_Default.h"
+file PLIB_SQI_DMABDFETCH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DMABDFetch_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DMABDFetch_Default.h"
+file PLIB_SQI_BDCURRENTADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDCurrentAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDCurrentAddress_Default.h"
+file PLIB_SQI_BDBASEADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDBaseAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDBaseAddress_Default.h"
+file PLIB_SQI_BDPROCESSSTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDProcessState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDProcessState_Default.h"
+file PLIB_SQI_DMAPROCESSINPROGRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DMAProcessInProgress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DMAProcessInProgress_Default.h"
+file PLIB_SQI_DMAENGINEBUSY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_DMAEngineBusy_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_DMAEngineBusy_Default.h"
+file PLIB_SQI_BDCONTROLWORD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDControlWord_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDControlWord_Default.h"
+file PLIB_SQI_BDPOLLCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDPollCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDPollCount_Default.h"
+file PLIB_SQI_BDTXSTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDTxState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDTxState_Default.h"
+file PLIB_SQI_BDTXBUFCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDTxBufCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDTxBufCount_Default.h"
+file PLIB_SQI_BDTXLENGTH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDTxLength_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDTxLength_Default.h"
+file PLIB_SQI_BDRXSTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDRxState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDRxState_Default.h"
+file PLIB_SQI_BDRXBUFCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDRxBufCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDRxBufCount_Default.h"
+file PLIB_SQI_BDRXLENGTH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_BDRxLength_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_BDRxLength_Default.h"
+file PLIB_SQI_CONBUFTHRESHOLD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_ConBufThreshold_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_ConBufThreshold_Default.h"
+file PLIB_SQI_INTERRUPTSIGNALCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_InterruptSignalControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_InterruptSignalControl_Default.h"
+file PLIB_SQI_TAPDELAY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_TapDelay_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_TapDelay_Default.h"
+file PLIB_SQI_XIPCONTROLWORD3_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPControlWord3_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPControlWord3_Default.h"
+file PLIB_SQI_XIPCONTROLWORD4_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sqi/templates/sqi_XIPControlWord4_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sqi/templates/sqi_XIPControlWord4_Default.h"
+endif

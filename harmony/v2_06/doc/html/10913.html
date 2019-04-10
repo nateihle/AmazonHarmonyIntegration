@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_SPI_Initialize Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23141.html">SPI Driver Library</a> &gt; <a href="08795.html">Library Interface</a> &gt; a) System Interaction Functions &gt; <a href="10913.html">DRV_SPI_Initialize Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08795.html">Previous</a> | <a href="08795.html">Up</a> | <a href="10907.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_SPI_Initialize@SYS_MODULE_INDEX@SYS_MODULE_INIT * const Topic Title: DRV_SPI_Initialize Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_SPI_Initialize Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="23975.html">SYS_MODULE_OBJ</a> <strong><span style="color: #000000">DRV_SPI_Initialize</span></strong>(
+    <strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> <strong><span style="color: #000000">index</span></strong>, 
+    <strong><span style="color: #000080">const</span></strong> <a href="23969.html">SYS_MODULE_INIT</a> * <strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000000">init</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine initializes the SPI driver instance for the specified driver index, making it ready for clients to open and use it. The initialization data is specified by the 'init' parameter. The initialization may fail if the number of driver objects allocated are insufficient or if the specified driver instance is already initialized. The driver instance index is independent of the SPI module ID. For example, driver instance 0 can be assigned to SPI2. If the driver is built statically, then some of the initialization parameters are overridden by configuration macros. Refer to the description of the DRV_SPI_INIT data structure for more details on which members on this data structure are overridden.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the instance to be initialized. Please note this is not the SPI id. The hardware SPI id is set in the initialization structure. This is the index of the driver index to use.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+init&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to a data structure containing any data necessary to initialize the driver. If this pointer is NULL, the driver uses the static initialization override macros for each member of the initialization data structure.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">If successful - returns a valid handle to a driver instance object</li>
+<li class="Element606">If unsuccessful - returns <a href="23976.html">SYS_MODULE_OBJ_INVALID</a></li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine must be called before any other SPI routine is called.&nbsp;</p>
+<p class="Element10">
+This routine should only be called once during system initialization unless <a href="10907.html">DRV_SPI_Deinitialize</a> is called to deinitialize the driver instance. This routine will NEVER block for hardware access.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00763');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00763"><pre class="Element12">DRV_SPI_INIT        init;
+<a href="23975.html">SYS_MODULE_OBJ</a>      objectHandle;
+
+<i><span style="color: #008000">// Populate the SPI initialization structure</span></i>
+init.spiId = SPI_ID_1,
+init.taskMode = DRV_SPI_TASK_MODE_ISR,
+init.spiMode = DRV_SPI_MODE_MASTER,
+init.allowIdleRun = <strong><span style="color: #000080">false</span></strong>,
+init.spiProtocolType = DRV_SPI_PROTOCOL_TYPE_STANDARD,
+init.commWidth = SPI_COMMUNICATION_WIDTH_8BITS,
+init.baudClockSource = SPI_BAUD_RATE_PBCLK_CLOCK;
+init.spiClk = CLK_BUS_PERIPHERAL_2,
+init.baudRate = 10000000,
+init.bufferType = DRV_SPI_BUFFER_TYPE_ENHANCED,
+init.clockMode = DRV_SPI_CLOCK_MODE_IDLE_LOW_EDGE_FALL,
+init.inputSamplePhase = SPI_INPUT_SAMPLING_PHASE_IN_MIDDLE,
+init.txInterruptSource = INT_SOURCE_SPI_1_TRANSMIT,
+init.rxInterruptSource = INT_SOURCE_SPI_1_RECEIVE,
+init.errInterruptSource = INT_SOURCE_SPI_1_ERROR,
+init.dummyByteValue = 0xFF,
+init.queueSize = 10,
+init.jobQueueReserveSize = 1,
+
+objectHandle = DRV_SPI_Initialize(DRV_SPI_INDEX_1, (<a href="23969.html">SYS_MODULE_INIT</a>*)usartInitData);
+<strong><span style="color: #000080">if</span></strong> (<a href="23976.html">SYS_MODULE_OBJ_INVALID</a> == objectHandle)
+{
+    <i><span style="color: #008000">// Handle error</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23141.html">SPI Driver Library</a> &gt; <a href="08795.html">Library Interface</a> &gt; a) System Interaction Functions &gt; <a href="10913.html">DRV_SPI_Initialize Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_SPI_Initialize@SYS_MODULE_INDEX@SYS_MODULE_INIT * const Topic Title: DRV_SPI_Initialize Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

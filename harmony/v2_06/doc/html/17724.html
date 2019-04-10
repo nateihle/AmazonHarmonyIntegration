@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Managing Slave Addresses</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17724.html">Managing Slave Addresses</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17720.html">Previous</a> | <a href="17718.html">Up</a> | <a href="17713.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Managing Slave Addresses Topic Title: Managing Slave Addresses)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Managing Slave Addresses</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+An I2C address identifies which slave device is being targeted by a master device on a transfer-by-transfer basis. I2C addresses can be either 7-bits or 10-bits, as shown in the following sections, 7-Bit Slave Addresses and 10-Bit Slave Addresses.&nbsp;</p>
+<p class="Element10">
+Addresses that are 7-bits long are sent in a single byte where bit 0 identifies the direction of the remaining data in the transfer. Addresses that are 10-bits long are sent in two bytes using a reserved range in the 7-bit address space (addresses 0x78 through 0x7C) to encode the two high-order bits (bits A9 and A8) in the first byte. The second byte encodes the eight low-order bites (A7 through A0). These formats are in the following two sections.&nbsp;</p>
+<p class="Element10">
+<strong>7-Bit Slave Addresses</strong>&nbsp;</p>
+<p class="Element10">
+When using 7-bit slave addressing, the address byte is the first byte sent by any I2C master device immediately following a &quot;Start&quot; condition. The 7-bit address is shifted left by 1 bit to fill bits 7-to-1 in the address byte. Bit 0 in the 7-bit address byte indicates the transfer direction, as follows. </p><p class="Element10" style="text-align: center;">
+<img src="8-bit Address.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="8%">
+<div class="Element66">
+Bits&nbsp;</div></td><td class="Element65" valign="top" width="92%">
+<div class="Element66">
+Usage&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+A6:A0&nbsp;</div></td><td class="Element67" valign="top" width="92%">
+<div class="Element68">
+Bits 7 through 1 of the address byte contain the 7-bit slave address.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="8%">
+<div class="Element68">
+R/W&nbsp;</div></td><td class="Element67" valign="top" width="92%">
+<div class="Element68">
+Bit 0 of the address byte is the read/write bit (0 = Read, 1 = Write).&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+See <a href="17727.html">Operating as a Master Transmitter</a> and <a href="17726.html">Operating as a Master Receiver</a> for examples.&nbsp;</p>
+<p class="Element10">
+<strong>10-Bit Slave Addresses</strong>&nbsp;</p>
+<p class="Element10">
+When using 10-bit slave addresses, the first address byte must be sent immediately following a start or repeated Start condition. The second byte must immediately follow the first byte when performing a write transfer. Read transfers must begin as write transfers so that both bytes may be sent. Immediately after sending the second address byte, the master will issue a repeated Start condition and resend the first address byte only (with the read/write bit cleared, indicating a read transfer. The second byte is not retransmitted. Since the transfer has been restarted, all listening 10-bit slave devices know that they will not be address again until the transfer has been ended with a Stop condition. However, devices that respond to 7-bit addresses might respond, so the first byte of the 10-bit address must be repeated to prevent that. The format of the 10-bit address is shown as follows. </p><p class="Element10" style="text-align: center;">
+<img src="10-bit Address.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="5%">
+<div class="Element66">
+Bits&nbsp;</div></td><td class="Element65" valign="top" width="95%">
+<div class="Element66">
+Usage&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+11110&nbsp;</div></td><td class="Element67" valign="top" width="95%">
+<div class="Element68">
+Bits 7 through 3 of the first byte are constants. This guarantees that the first byte of the 10-bit address will fall within the reserved range of the 7-bit addresses.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+A9:A8&nbsp;</div></td><td class="Element67" valign="top" width="95%">
+<div class="Element68">
+Bits 2 through 1 of the first byte are the two high-order bits of the 10-bit address.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+R/W&nbsp;</div></td><td class="Element67" valign="top" width="95%">
+<div class="Element68">
+Bit 0 of the first byte is the Read/Write bit (0 = Read, 1 = Write).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+A7:A0&nbsp;</div></td><td class="Element67" valign="top" width="95%">
+<div class="Element68">
+The second byte contains the 8 low-order bits of the 10-bit address.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+See <a href="17727.html">Operating as a Master Transmitter</a> and <a href="17726.html">Operating as a Master Receiver</a> for examples.&nbsp;</p>
+<p class="Element10">
+<strong>Operating in Slave Mode</strong>&nbsp;</p>
+<p class="Element10">
+In Slave mode, the &quot;slave address&quot; refers to the address (and optional mask) programmed into the I2C module to determine to which address or addresses the module will respond when addressed by an external master. The &quot;raw&quot; (unformatted) address is passed to or returned from the Managing Slave Addresses routines (without being formatted as previously shown). Likewise, the mask passed to or returned from the Slave Mask Control Functions (see the <a href="17722.html">Library Interface</a> section) is unformatted.&nbsp;</p>
+<p class="Element10">
+<strong>Operating in Master Mode</strong>&nbsp;</p>
+<p class="Element10">
+In Master mode, the &quot;slave address&quot; refers to the address transmitted on the I2C bus to identify the slave target of the transfer. In these cases, the slave address must be correctly formatted (as previously shown) and sent on the bus one byte at a time.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17724.html">Managing Slave Addresses</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Managing Slave Addresses Topic Title: Managing Slave Addresses)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

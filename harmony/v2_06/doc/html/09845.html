@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_ENC28J60_Configuration Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="12006.html">ENC28J60 Driver Library Help</a> &gt; <a href="08502.html">Library Interface</a> &gt; f) Data Types and Constants &gt; <a href="09845.html">DRV_ENC28J60_Configuration Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="09849.html">Previous</a> | <a href="08502.html">Up</a> | <a href="09854.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_ENC28J60_Configuration Topic Title: DRV_ENC28J60_Configuration Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_ENC28J60_Configuration Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> <strong><span style="color: #000000">_DRV_ENC28J60_Configuration</span></strong> {
+  uint16_t <strong><span style="color: #000000">txDescriptors</span></strong>;
+  uint16_t <strong><span style="color: #000000">rxDescriptors</span></strong>;
+  uint16_t <strong><span style="color: #000000">rxDescBufferSize</span></strong>;
+  <a href="23968.html">SYS_MODULE_INDEX</a> <strong><span style="color: #000000">spiDrvIndex</span></strong>;
+  uint32_t <strong><span style="color: #000000">spiBps</span></strong>;
+  uint16_t <strong><span style="color: #000000">rxBufferSize</span></strong>;
+  uint16_t <strong><span style="color: #000000">maxFrameSize</span></strong>;
+  <a href="21777.html">PORTS_MODULE_ID</a> <strong><span style="color: #000000">spiSSPortModule</span></strong>;
+  <a href="21740.html">PORTS_CHANNEL</a> <strong><span style="color: #000000">spiSSPortChannel</span></strong>;
+  <a href="21694.html">PORTS_BIT_POS</a> <strong><span style="color: #000000">spiSSPortPin</span></strong>;
+  <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">intEnable</span></strong>;
+  <a href="21777.html">PORTS_MODULE_ID</a> <strong><span style="color: #000000">intPortModule</span></strong>;
+  <a href="21740.html">PORTS_CHANNEL</a> <strong><span style="color: #000000">intPortChannel</span></strong>;
+  <a href="21694.html">PORTS_BIT_POS</a> <strong><span style="color: #000000">intPortPin</span></strong>;
+  <a href="09854.html">DRV_ENC28J60_MDIX_TYPE</a> <strong><span style="color: #000000">mdixControl</span></strong>;
+  <a href="21777.html">PORTS_MODULE_ID</a> <strong><span style="color: #000000">mdixPortModule</span></strong>;
+  <a href="21740.html">PORTS_CHANNEL</a> <strong><span style="color: #000000">mdixPortChannel</span></strong>;
+  <a href="21694.html">PORTS_BIT_POS</a> <strong><span style="color: #000000">mdixPortPin</span></strong>;
+} DRV_ENC28J60_Configuration;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+ENC28J60 Driver Initialization Data&nbsp;</p>
+<p class="Element10">
+This data type defines the data required to initialize or reinitialize the ENC28J60 driver. If the driver is built statically, the members of this data structure are statically over-ridden by static override definitions in the system_config.h file.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint16_t txDescriptors;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Number of TX Descriptors to Allocate&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint16_t rxDescriptors;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Number of RX Descriptors to Allocate&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint16_t rxDescBufferSize;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Size of the buffer each RX Descriptor will use. Make sure its not smaller than maxFrameSize&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_INDEX spiDrvIndex;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Index of the SPI driver to use&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint32_t spiBps;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Bus speed to use for the SPI interface. Section 1.0 of the ENC28J60 data sheets says the maximum is 20000000 Hz. It is not recommended to go above this value.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint16_t rxBufferSize;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+The ENC28J60 hardware has a 8 k dram. rxBufferSize defines how much of that memory is used by the rxBuffer&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint16_t maxFrameSize;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+The maximum frame size to be supported by the hardware. 1536 is the default&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_MODULE_ID spiSSPortModule;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Port Module of the GPIO pin hooked up to the CS/SS pin of the ENC28J60&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_CHANNEL spiSSPortChannel;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Port Channel of the GPIO pin hooked up to the CS/SS pin of the ENC28J60&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_BIT_POS spiSSPortPin;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pin position of the GPIO pin hooked up to the CS/SS pin of the ENC28J60&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+bool intEnable;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Use Interrupts or not.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_MODULE_ID intPortModule;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Port Module of the GPIO pin hooked up to the INT pin of the ENC28J60&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_CHANNEL intPortChannel;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Port Channel of the GPIO pin hooked up to the INT pin of the ENC28J60&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_BIT_POS intPortPin;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pin Position of the GPIO pin hooked up to the INT pin of the ENC28J60&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+DRV_ENC28J60_MDIX_TYPE mdixControl;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+To select the control type of the MDIX. This is only needed for hooking up to switches that don't have auto-mdix.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_MODULE_ID mdixPortModule;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Port Module of the GPIO pin hooked up to the MDIX select pin&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_CHANNEL mdixPortChannel;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Port Channel of the GPIO pin hooked up to the MDIX select pin&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+PORTS_BIT_POS mdixPortPin;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pin Position of the GPIO pin hooked up to the MDIX select pin&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="12006.html">ENC28J60 Driver Library Help</a> &gt; <a href="08502.html">Library Interface</a> &gt; f) Data Types and Constants &gt; <a href="09845.html">DRV_ENC28J60_Configuration Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_ENC28J60_Configuration Topic Title: DRV_ENC28J60_Configuration Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

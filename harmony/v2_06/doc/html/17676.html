@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Code</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17657.html">Previous</a> | <a href="17681.html">Up</a> | <a href="17666.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Sample Code Topic Title: Sample Code)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Sample Code</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Sample Code</div>
+<p class="Element10">
+The basic functionality of the Ethernet Peripheral Library is grouped into these sections:
+<ul class="Element638">
+<li class="Element608">Initialization</li>
+<li class="Element608">Transmit</li>
+<li class="Element608">Receive</li>
+</ul>For a properly functioning Ethernet port, development of a data queue and use of interrupts will be necessary.&nbsp;</p>
+<p class="Element10">
+For this additional functionality, see the <strong>&quot;Ethernet&quot;</strong> section in the family reference manual or the Ethernet Driver Library for more information.</p><div class="Element15">
+Initialization Sequence</div>
+<p class="Element10">
+The Ethernet Controller is enabled using <a href="19141.html">PLIB_ETH_Enable</a> and is disabled using <a href="19140.html">PLIB_ETH_Disable</a>. The Ethernet Controller is disabled by default after any Reset.&nbsp;</p>
+<p class="Element10">
+After being Enabled, disabling the controller resets the internal DMA state machines and all transmit and receive operations are aborted. All registers remain accessible and their values are preserved. It is important to reset the PHY and MII Management registers to ensure the PHY is in a known initialized state.&nbsp;</p>
+<p class="Element10">
+Before enabling the module for transmitting or receiving packets, there are several registers that must be initialized. To initialize the Ethernet Controller to receive and transmit, Microchip recommends the following sequence:
+<ol class="Element638">
+<li value="1" class="Element608">Begin with the module.</li>
+</ol>
+<ul class="Element638">
+<li class="Element608">Disable the CPU Ethernet interrupt</li>
+<li class="Element608">Turn the Ethernet Controller off</li>
+<li class="Element608">Disable receive</li>
+<li class="Element608">Disable transmit</li>
+<li class="Element608">Wait until the Ethernet module is no longer busy</li>
+<li class="Element608">Disable all Ethernet Interrupts</li>
+<li class="Element608">Clear the Ethernet Interrupt Pending Flag(s)</li>
+<li class="Element608">Clear the transmit and receive start addresses</li>
+</ul>2. MAC initialize.
+<ul class="Element638">
+<li class="Element608">Reset the MAC</li>
+<li class="Element608">A configuration fuse (FETHIO) setting shows which pins will be used for connection to the PHY</li>
+<li class="Element608">A configuration fuse (FMIIEN) settings shows whether MII or RMII will be used</li>
+</ul>3. PHY Initialize is PHY dependent. Common procedures (which may vary by PHY vender) include the following:
+<ul class="Element638">
+<li class="Element608">Reset PHY (using Control Register 0)</li>
+<li class="Element608">Set the MII/RMII operation mode</li>
+<li class="Element608">Set the normal, swapped, or auto (preferred)MDIX</li>
+<li class="Element608">Check the PY capabilities (using Status Register 1)</li>
+<li class="Element608">Preferably the auto-negotiation should be selected if the PHY supports it.
+<ul class="Element639">
+<li class="Element609">Expose the supported capabilities (extended Register 4)</li>
+<li class="Element609">Start the negotiation (using Control Register 0)</li>
+<li class="Element609">wait for the negotiation to complete and get the link partner capabilities (extended Register 5)</li>
+<li class="Element609">negotiation result (vendor-specific register)</li>
+</ul></li>
+<li class="Element608">If auto-negotiation is not supported (or not selected)
+<ul class="Element639">
+<li class="Element609">update the PHY Duplex and speed settings (use Control Register 0 or vender-specific register)</li>
+</ul></li>
+</ul>4. MAC Configuration
+<ul class="Element638">
+<li class="Element608">Enable MAC receive and pause both transmit and receive direction control frames.</li>
+<li class="Element608">Select the desired auto-padding, duplex, huge frame, and CRC capabilities.</li>
+<li class="Element608">Program back-to-back inter-packet gap and non-back-to-back interpacket gap.</li>
+<li class="Element608">Program collision window and maximum retransmissions.</li>
+<li class="Element608">Set Maximum frame length.</li>
+<li class="Element608">Optionally set the station MAC address(es) (or let them default to the factory value).</li>
+</ul>5. Continue Ethernet Controller initialization:
+<ul class="Element638">
+<li class="Element608">If planning to turn on flow control, update the Pause Timer Value</li>
+<li class="Element608">If using auto-flow control, set up the full/empty watermarks and enable it</li>
+<li class="Element608">Set the receive filters</li>
+<li class="Element608">Set receive buffer size - using packets that are too small impacts performance</li>
+<li class="Element608">Prepare the list/ring of transmit descriptors - refer to the device data sheet for more information</li>
+<li class="Element608">Prepare the list of receive descriptors populated with valid buffers for messages to be received - refer to the device data sheet for more information</li>
+<li class="Element608">Update the transmit buffer start address and the receive buffer start address</li>
+<li class="Element608">Enable the Ethernet Controller and wait until the module is ready</li>
+<li class="Element608">Enable Ethernet Receive.</li>
+</ul></p><div class="Element15">
+Receive Loop</div>
+<p class="Element10">
+
+<ol class="Element638">
+<li value="1" class="Element608">Wait until the receive buffer count has been incremented.</li>
+<li value="2" class="Element608">Inspect the receive descriptor to see whether it is still owned by the Ethernet Module.</li>
+<li value="3" class="Element608">If the receive descriptor is still owned by the Ethernet module, nothing has been received. Loop to 1.</li>
+<li value="4" class="Element608">Otherwise, a message was received and software has control of the memory where it is stored.</li>
+<li value="5" class="Element608">Extract a message and do something with it.</li>
+<li value="6" class="Element608">Reinitialize buffer descriptor and return receive buffer to list and decrement the receive packet buffer count.</li>
+<li value="7" class="Element608">Loop.</li>
+</ol></p><div class="Element15">
+Transmit Loop</div>
+<p class="Element10">
+
+<ol class="Element638">
+<li value="1" class="Element608">Software writes the packet data to packet data memory. A pointer to the packet data is inserted into the transmit buffer descriptor.</li>
+<li value="2" class="Element608">Update the necessary number of transmit descriptors, starting from the head of the list - setting the data buffer address (large packet fragmentation will impact performance).</li>
+<li value="3" class="Element608">Update the byte count for each descriptor with the number of bytes contained in each buffer.</li>
+<li value="4" class="Element608">Set the flag in each transmit descriptor that belongs to the packet to give the descriptor to the Ethernet module for transmission.</li>
+<li value="5" class="Element608">Enable the transmission.</li>
+<li value="6" class="Element608">Wait until the Ethernet module returns the transmit buffer descriptor ownership to software.</li>
+<li value="7" class="Element608">Insect the results of the transmission.</li>
+<li value="8" class="Element608">Loop.</li>
+</ol>The packet transmit process is as follows:
+<ol class="Element638">
+<li value="1" class="Element608">Software writes the packet data to a packet buffer in data memory and programs a buffer descriptor entry to point to the packet data buffer. The buffer descriptor is used to define the Transmission Packet data buffer location and length, and its address is written to the Ethernet Controller.</li>
+<li value="2" class="Element608">Software then calls the TransmitRequestToSendEnable function, which starts the TX DMA and TXBM logic.</li>
+<li value="3" class="Element608">After the TX DMA engine reads the DATA_BUFFER_ADDRESS value, the engine will begin reading the packet data from the location read from the descriptor.</li>
+<li value="4" class="Element608">The TXBM indicates the start-of-frame to the MAC and transmits the entire frame data from the transmit buffer, until the end address is reached. The TXBM simply transmits from the start address until the specified number of bytes has been transmitted to the MAC transmit interface.</li>
+<li value="5" class="Element608">The MAC can retry a transmission due to an early collision.</li>
+<li value="6" class="Element608">The MAC can abort a transmission due to a late collision, excessive collisions or excessive defers. This condition is signaled by TXABORT bit (ETHIRQ&lt;2&gt;).</li>
+<li value="7" class="Element608">Once transmission has completed, the TX DMA engine stores the relevant bits of the TSV into the first descriptor entry of the packet.</li>
+<li value="8" class="Element608">After the packet has been transmitted, all the descriptors used for the transmission are released to the software via the EOWN bits being cleared.</li>
+<li value="9" class="Element608">If more valid TX descriptors are available (EOWN = 1), the DMA engine will go back to step 3 to begin the next packet’s transmission. Otherwise, if the next descriptor is still owned by hardware (EOWN = 0), transmission will halt and wait for the software to set the TXRTS bit again.</li>
+</ol>Note that any collision that occurs within the CWINDOW bit (EMAC1CLRT&lt;8:14&gt;) boundary is an early collision and results in a Retry operation. A collision that happens beyond the CWINDOW boundary will be treated as a late collision and will cause an abort. The CWINDOW bit in the EMAC1CLRT register is typically set to 64 bytes. An abort condition can also result from reaching the maximum collision count RETX bit (EMAC1CLRT&lt;0:3&gt;) for a packet trying to be sent.&nbsp;</p>
+<p class="Element10">
+See the <strong>&quot;Ethernet&quot;</strong> section in the family reference manual or the Ethernet Driver Library for more information.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17666.html">Initialization</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17655.html">Descriptor Table Example</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17680.html">Transmit</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17673.html">Receive</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Sample Code Topic Title: Sample Code)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

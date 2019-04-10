@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Oscillator Selection and Switching</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17335.html">Oscillator Peripheral Library</a> &gt; <a href="17854.html">Using the Library</a> &gt; <a href="17841.html">How the Library Works</a> &gt; <a href="17846.html">Oscillator Selection and Switching</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17841.html">Previous</a> | <a href="17841.html">Up</a> | <a href="17832.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OSC Oscillator Selection and Switching Topic Title: Oscillator Selection and Switching)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Oscillator Selection and Switching</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The device Configuration options change with the microcontroller family. Refer to the <strong>&quot;Oscillator&quot;</strong> chapter in the specific device data sheet for possible device configurations.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+On devices that allow it, the oscillator selection can be overridden at run-time using the Oscillator Peripheral Library, as shown in the following code example: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02806');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02806"><pre class="Element12"><i><span style="color: #008000">//Do the configuration bit settings</span></i>
+OSC_SYS_TYPE currOsc;
+OSC_SYS_TYPE newOsc=OSC_PRIMARY;
+
+<i><span style="color: #008000">//get the current oscillator</span></i>
+currOsc =  PLIB_OSC_CurrentSysClockGet(OSC_ID_0);
+
+<i><span style="color: #008000">//check if the current oscillator is same as new oscillator</span></i>
+<strong><span style="color: #000080">if</span></strong>(currOsc != newOsc)
+{
+    <i><span style="color: #008000">// Unlock the Oscillator Registers</span></i>
+    PLIB_DEVCON_SystemUnlock(DEVCON_ID_0);
+
+    <i><span style="color: #008000">//set the new oscillator request to Fast RC oscillator</span></i>
+    PLIB_OSC_SysClockSelect ( OSC_ID_0, newOsc );
+}</pre></div></div>
+<p class="Element10">
+<strong>Example: Oscillator Selection Change During Run-time</strong>&nbsp;</p>
+<p class="Element10">
+In the event the clock switch did not complete, the clock switch logic can be reset by calling the following API: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02807');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02807"><pre class="Element12"><strong><span style="color: #000080">bool</span></strong> oscSwitch_st;
+
+oscSwitch_st = PLIB_OSC_ClockSwitchingIsComplete(OSC_ID_0);
+
+<strong><span style="color: #000080">if</span></strong>(!oscSwitch_st)
+{
+    <i><span style="color: #008000">// Unlock the Oscillator Registers</span></i>
+    PLIB_DEVCON_SystemUnlock(DEVCON_ID_0);
+
+    PLIB_OSC_ClockSwitchingAbort(OSC_ID_0);
+}</pre></div></div>
+<p class="Element10">
+<strong>Example: Oscillator Switch Abort</strong>&nbsp;</p>
+<p class="Element10">
+This will abandon the clock switch process, stop and reset the oscillator start-up timer (if applicable), and stop the PLL (if applicable). The clock switch process can be aborted at any time. A clock switch that is already in progress can also be aborted by performing a second clock switch.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17335.html">Oscillator Peripheral Library</a> &gt; <a href="17854.html">Using the Library</a> &gt; <a href="17841.html">How the Library Works</a> &gt; <a href="17846.html">Oscillator Selection and Switching</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OSC Oscillator Selection and Switching Topic Title: Oscillator Selection and Switching)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

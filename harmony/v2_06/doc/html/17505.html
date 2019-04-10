@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Receiving a CAN Message</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17505.html">Receiving a CAN Message</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17508.html">Previous</a> | <a href="17494.html">Up</a> | <a href="17492.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Receiving a CAN Message Topic Title: Receiving a CAN Message)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Receiving a CAN Message</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The caller application can use either the interrupt or polling technique to detect when a message has been received.&nbsp;</p>
+<p class="Element10">
+The following code shows how the <a href="18520.html">PLIB_CAN_ReceivedMessageGet</a> function can be used to read a received message. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01664');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01664"><pre class="Element12">CAN_RX_MSG_BUFFER * message;
+
+message = (CAN_RX_MSG_BUFFER *)PLIB_CAN_ReceivedMessageGet(CAN_ID_1,
+    CAN_CHANNEL1);
+<strong><span style="color: #000080">if</span></strong>(message != NULL)
+{
+    <i><span style="color: #008000">//Process the message received</span></i>
+
+   <i><span style="color: #008000">/* Call the PLIB_CAN_ChannelUpdate function to let
+    the CAN module know that the message processing
+    is done. */</span></i>
+    PLIB_CAN_ChannelUpdate(CAN_ID_1, CAN_CHANNEL1);
+}</pre></div></div>
+<p class="Element10">
+The <a href="18520.html">PLIB_CAN_ReceivedMessageGet</a> function returns an address pointer after converting it from physical address space to virtual address space.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17505.html">Receiving a CAN Message</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Receiving a CAN Message Topic Title: Receiving a CAN Message)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

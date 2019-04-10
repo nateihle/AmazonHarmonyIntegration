@@ -1,0 +1,251 @@
+enum MRF24WN_NETWORK_TYPE_LIST
+    "Infrastructure" || "SoftAP"
+
+enum MRF24WN_INFRASTRUCTURE_SECURITY_MODE_LIST
+    "Open" || "WEP-40 (64-bit)" || "WEP-104 (128-bit)" || "WPA-PSK" || "WPA2-PSK" || "WPS Push Button" || "WPS PIN"
+
+enum MRF24WN_SOFTAP_SECURITY_MODE_LIST
+    "Open" || "WEP-40 (64-bit)" || "WEP-104 (128-bit)" || "WPA-PSK" || "WPA2-PSK"
+
+# Select "Use TCP/IP Stack?".
+config MRF24WN_USE_TCPIP_STACK
+    bool
+    depends on USE_DRV_WIFI
+    default y
+    select USE_TCPIP_STACK_NEEDED
+
+menu "RTOS Configuration"
+    depends on USE_DRV_WIFI
+    depends on USE_3RDPARTY_RTOS
+
+comment "For MRF24WN, all RTOS Tasks must be Standalone."
+
+config MRF24WN_RTOS_INIT_TASK
+    string "Run Wi-Fi Driver RTOS Initialization Task as"
+    depends on 3RDPARTY_RTOS_USED = "FreeRTOS"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config MRF24WN_RTOS_INIT_TASK_SIZE
+    int "Initialization Task Size"
+    depends on MRF24WN_RTOS_INIT_TASK = "Standalone"
+    default 512
+
+config MRF24WN_RTOS_INIT_TASK_PRIORITY
+    int "Initialization Task Priority"
+    depends on MRF24WN_RTOS_INIT_TASK = "Standalone"
+    default 1
+
+config MRF24WN_RTOS_MAIN_TASK
+    string "Run Wi-Fi Driver RTOS Main Task as"
+    depends on 3RDPARTY_RTOS_USED = "FreeRTOS"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config MRF24WN_RTOS_MAIN_TASK_SIZE
+    int "Main Task Size"
+    depends on MRF24WN_RTOS_MAIN_TASK = "Standalone"
+    default 2048
+
+config MRF24WN_RTOS_MAIN_TASK_PRIORITY
+    int "Main Task Priority"
+    depends on MRF24WN_RTOS_MAIN_TASK = "Standalone"
+    default 2
+
+endmenu
+
+config MRF24WN_CS_PORT_CHANNEL
+    string "MRF24WN Chip Select Pin Port Channel"
+    depends on USE_DRV_WIFI
+    range DRV_WIFI_PORT_CHANNEL_LIST
+    default 'A'
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_CS_BIT_POS
+    int "MRF24WN Chip Select Pin Bit Position"
+    depends on USE_DRV_WIFI
+    range 0 15
+    default 0
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_INT_PORT_CHANNEL
+    string "MRF24WN Interrupt Pin Port Channel"
+    depends on USE_DRV_WIFI
+    range DRV_WIFI_PORT_CHANNEL_LIST
+    default 'A'
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_INT_BIT_POS
+    int "MRF24WN Interrupt Pin Bit Position"
+    depends on USE_DRV_WIFI
+    range 0 15
+    default 0
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_POWER_PORT_CHANNEL
+    string "MRF24WN Power Pin Port Channel"
+    depends on USE_DRV_WIFI
+    range DRV_WIFI_PORT_CHANNEL_LIST
+    default 'A'
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_POWER_BIT_POS
+    int "MRF24WN Power Pin Bit Position"
+    depends on USE_DRV_WIFI
+    range 0 15
+    default 0
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_RESET_PORT_CHANNEL
+    string "MRF24WN Reset Pin Port Channel"
+    depends on USE_DRV_WIFI
+    range DRV_WIFI_PORT_CHANNEL_LIST
+    default 'A'
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_RESET_BIT_POS
+    int "MRF24WN Reset Pin Bit Position"
+    depends on USE_DRV_WIFI
+    range 0 15
+    default 0
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_NETWORK_TYPE
+    string "Wi-Fi Network Type"
+    depends on USE_DRV_WIFI
+    range MRF24WN_NETWORK_TYPE_LIST
+    default "Infrastructure"
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_SOFTAP_OPERATING_CHANNEL
+    int "Wi-Fi Operating Channel"
+    depends on USE_DRV_WIFI && MRF24WN_NETWORK_TYPE = "SoftAP"
+    range 1 11
+    default 6
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_INFRASTRUCTURE_SECURITY_MODE
+    string "Wi-Fi Security Mode"
+    depends on USE_DRV_WIFI && MRF24WN_NETWORK_TYPE = "Infrastructure"
+    range MRF24WN_INFRASTRUCTURE_SECURITY_MODE_LIST
+    default "Open"
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_SOFTAP_SECURITY_MODE
+    string "Wi-Fi Security Mode"
+    depends on USE_DRV_WIFI && MRF24WN_NETWORK_TYPE = "SoftAP"
+    range MRF24WN_SOFTAP_SECURITY_MODE_LIST
+    default "Open"
+    ---help---
+    IDH_HTML_MRF24W_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config MRF24WN_SSID
+    string "Wi-Fi SSID"
+    depends on USE_DRV_WIFI && MRF24WN_INFRASTRUCTURE_SECURITY_MODE != "WPS Push Button"
+    default "MicrochipDemoApp" if MRF24WN_NETWORK_TYPE = "Infrastructure"
+    default "MCHPSoftAP" if MRF24WN_NETWORK_TYPE = "SoftAP"
+    ---help---
+The SSID should not contain more than 32 ASCII characters. Usually, the SSID can contain space charactcter.
+But in this demo, you should not put space character in the SSID.
+    ---endhelp---
+
+config MRF24WN_WEP_KEY_40
+    string "Wi-Fi WEP-40 (64-bit) Key"
+    depends on USE_DRV_WIFI &&
+        (MRF24WN_INFRASTRUCTURE_SECURITY_MODE = "WEP-40 (64-bit)" ||
+         MRF24WN_SOFTAP_SECURITY_MODE = "WEP-40 (64-bit)")
+    default "5AFB6C8E77"
+    ---help---
+Please visit http://www.wepkey.com/ to generate the key. For 64-bit key, please always use the 1st one. Others are not supported.
+The 64-bit key should contain exact 10 ASCII characters.
+    ---endhelp---
+
+config MRF24WN_WEP_KEY_104
+    string "Wi-Fi WEP-104 (128-bit) Key"
+    depends on USE_DRV_WIFI &&
+        (MRF24WN_INFRASTRUCTURE_SECURITY_MODE = "WEP-104 (128-bit)" ||
+         MRF24WN_SOFTAP_SECURITY_MODE = "WEP-104 (128-bit)")
+    default "90E96780C739409DA50034FCAA"
+    ---help---
+Please visit http://www.wepkey.com/ to generate the key. The 128-bit key should contain exact 26 ASCII characters.
+    ---endhelp---
+
+config MRF24WN_WPA_PASS_PHRASE
+    string "Wi-Fi WPA-PSK or WPA2-PSK Pass Phrase"
+    depends on USE_DRV_WIFI &&
+        (MRF24WN_INFRASTRUCTURE_SECURITY_MODE = "WPA-PSK" ||
+         MRF24WN_INFRASTRUCTURE_SECURITY_MODE = "WPA2-PSK" ||
+         MRF24WN_SOFTAP_SECURITY_MODE = "WPA-PSK" ||
+         MRF24WN_SOFTAP_SECURITY_MODE = "WPA2-PSK")
+    default "Microchip 802.11 Secret PSK Password"
+    ---help---
+The WPA passphrase can go from 8 to 63 ASCII characters.
+    ---endhelp---
+
+config MRF24WN_WPS_PIN
+    string "Wi-Fi WPS PIN"
+    depends on USE_DRV_WIFI && MRF24WN_INFRASTRUCTURE_SECURITY_MODE = "WPS PIN"
+    default "12390212"
+    ---help---
+An example PIN.
+The last digit is the checksum of first 7 digits.
+    ---endhelp---
+
+add "<#include \"/framework/driver/wifi/templates/drv_wifi.h.ftl\">" to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+add "<#include \"/framework/driver/wifi/templates/drv_wifi_init.c.ftl\">" to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+
+file WDRV_MRF24WN_API_H "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/include/wdrv_mrf24wn_api.h" to "$PROJECT_HEADER_FILES/framework/driver/wifi/mrf24wn/include/wdrv_mrf24wn_api.h"
+file WDRV_MRF24WN_COMMON_H "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/include/wdrv_mrf24wn_common.h" to "$PROJECT_HEADER_FILES/framework/driver/wifi/mrf24wn/include/wdrv_mrf24wn_common.h"
+file WDRV_MRF24WN_IWPRIV_H "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/include/wdrv_mrf24wn_iwpriv.h" to "$PROJECT_HEADER_FILES/framework/driver/wifi/mrf24wn/wireless_driver/include/wdrv_mrf24wn_iwpriv.h"
+file WDRV_MRF24WN_MAIN_H "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/include/wdrv_mrf24wn_main.h" to "$PROJECT_HEADER_FILES/framework/driver/wifi/mrf24wn/wireless_driver/include/wdrv_mrf24wn_main.h"
+file WDRVEXT_MRF24WN_MAIN_H "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver_extension/wdrvext_mrf24wn_main.h" to "$PROJECT_HEADER_FILES/framework/driver/wifi/mrf24wn/wireless_driver_extension/wdrvext_mrf24wn_main.h"
+
+file WDRV_MRF24WN_GPIO_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/dev/gpio/wdrv_mrf24wn_gpio.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/dev/gpio/wdrv_mrf24wn_gpio.c"
+file WDRV_MRF24WN_SPI_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/dev/spi/wdrv_mrf24wn_spi.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/dev/spi/wdrv_mrf24wn_spi.c"
+file WDRV_MRF24WN_CLI_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_cli.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_cli.c"
+file WDRV_MRF24WN_CONFIG_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_config.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_config.c"
+file WDRV_MRF24WN_CONNMGR_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_connmgr.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_connmgr.c"
+file WDRV_MRF24WN_EVENTS_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_events.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_events.c"
+file WDRV_MRF24WN_IWPRIV_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_iwpriv.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_iwpriv.c"
+file WDRV_MRF24WN_MAIN_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_main.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_main.c"
+file WDRV_MRF24WN_MISC_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_misc.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_misc.c"
+file WDRV_MRF24WN_OSAL_C "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_osal.c" to "$PROJECT_SOURCE_FILES/framework/driver/wifi/mrf24wn/wireless_driver/wdrv_mrf24wn_osal.c"
+
+library WDRVEXT_MX_A "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver_extension/wdrvext_mx.a" if PIC32MX
+
+ifblock ISA_MICROMIPS_MODE
+library WDRVEXT_MZ_EC_16BIT_A "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver_extension/wdrvext_mz_ec_16bit.a" if DS60001191
+library WDRVEXT_MZ_EF_16BIT_A "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver_extension/wdrvext_mz_ef_16bit.a" if DS60001320
+endif
+
+ifblock ISA_MIPS32_MODE
+library WDRVEXT_MZ_EC_A "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver_extension/wdrvext_mz_ec.a" if DS60001191
+library WDRVEXT_MZ_EF_A "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver_extension/wdrvext_mz_ef.a" if DS60001320
+endif
+
+compiler WDRV_MRF24WN_COMPILER_INCLUDEPATH_1 includepath "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/include"
+compiler WDRV_MRF24WN_COMPILER_INCLUDEPATH_2 includepath "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver/include"
+compiler WDRV_MRF24WN_COMPILER_INCLUDEPATH_3 includepath "$HARMONY_VERSION_PATH/framework/driver/wifi/mrf24wn/wireless_driver_extension"

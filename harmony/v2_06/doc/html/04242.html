@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Exception Handling in the Debugger</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04247.html">Part II: Debugging With Your Project</a> &gt; <a href="04246.html">Tutorial Steps</a> &gt; <a href="04242.html">Exception Handling in the Debugger</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04243.html">Previous</a> | <a href="04246.html">Up</a> | <a href="04254.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Debugger Exception Handling in the Debugger Topic Title: Exception Handling in the Debugger)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Exception Handling in the Debugger</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">The first step in exploring how MPLAB Harmony handles exceptions is to verify that the exception handler is enabled. Before launching MHC, the project must be the Main Project within the MPLAB X IDE. To set the project as the Main Project, right click the project name, and select <strong>Set as Main Project</strong>.</li>
+<li value="2" class="Element600">Start MHC by clicking the MPLAB Harmony icon ( <img src="ARCH CREATE PROJ Exception Handling MH Icon.png" border="0" alt="" title=""> ). If this icon is not visible, this indicates the MHC plug-in is not installed (refer to <i>Volume III: MPLAB harmony Configurator (MHC) &gt; MPLAB Harmony Configurator User's Guide &gt; <a href="13077.html">Installing MHC</a></i> to install MHC).</li>
+<li value="3" class="Element600">Verify that the MPLAB Harmony Exception Handler will be used. If correctly configured, the project should have the file <span class="Element146">system_exception.c</span> within <i>Source Files &gt; app &gt; system_config &gt; default</i> in the MPLAB X IDE Project tab. If this file is missing, go to MHC and select <strong>Use MPLAB Harmony Exception Handler Template?</strong> to enable MPLAB Harmony’s exception handler. Then, regenerate the application’s code to add Harmony’s exception handler.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Exception Handling Enable System Exception in MHC.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="4" class="Element600">Next, we need to create an exception in the code to observe how exceptions are handled. Replace the <span class="Element146">assert(0);</span> in HEARTBEAT_Initialize with the following code. However, if we jump to trying out this code in the debugger, nothing will happen. Under the default optimization level (-01) the compiler will recognize that this code does not do anything useful, and will not include it in the build. Therefore, we will have to change the optimization level for the file to zero before proceeding.</li>
+</ol><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00032');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00032"><pre class="Element12"><i><span style="color: #008000">// Test out error handling under Optimization Level Zero for system_init.c</span></i>
+{
+    uint8_t x, y, z;
+    x = 1;
+    y = 0;
+    z = x/y;
+}</pre></div></div>
+
+<ol class="Element630">
+<li value="5" class="Element600">Right click <span class="Element146">heartbeat.c</span> and choose Properties from the resulting menu and make the following selections:
+<ul class="Element631">
+<li class="Element601">In File Properties, select Override build options ( <img src="ARCH CREATE PROJ Exception Handling Override Build Options.png" border="0" alt="" title=""> )</li>
+</ul></li>
+</ol><p class="Element10">
+&nbsp;</p>
+
+<ul class="Element630">
+<li class="Element600">Next, select the compiler ( <img src="ARCH CREATE PROJ Exception Handling Select Compiler.png" border="0" alt="" title=""> )</li>
+</ul><p class="Element10">
+&nbsp;</p>
+
+<ul class="Element630">
+<li class="Element600">Within the Optimization category ( <img src="ARCH CREATE PROJ Exception Handling Set Optimization.png" border="0" alt="" title=""> ), set the optimization level to zero</li>
+</ul><p class="Element10">
+After making the selections, click <strong>OK</strong> to close the window</p>
+<ol class="Element630">
+<li value="6" class="Element600">Next, build and run the application under the debugger. The application should stop at the debugger breakpoint in <span class="Element146">system_exceptions.c</span>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Exception Handling Build and Run.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+Hovering your cursor above the variable, _excep_code, will reveal the exception code. </p><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Exception Handling Reveal Exception Code.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+In this case, 0xD or 13, corresponds to an arithmetic trap (see the following table for a list of PIC32 Exception Codes. Hovering your cursor over the variable, _excep_addr, will reveal where in the code the exception occurred. </p><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Exception Handling Reveal Exception Address.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+Now we need to find out where 0x9D00_25D8 is located in the code (this address may be different for your appliation). Before going to the next step, stop the debugger session by pressing Shift+F5 or by clicking the Finish Debugger Session icon ( <img src="ARCH CREATE PROJ Exception Handling Stop Debugger.png" border="0" alt="" title=""> ).&nbsp;</p>
+<p class="Element10">
+<strong>Exception Codes for PIC32</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element67" valign="top" width="100%">
+<div class="Element68">
+<span class="Element146">typedef enum {</span><br><span class="Element146"> EXCEP_IRQ = 1, // interrupt (coded as zero)</span><br><span class="Element146"> EXCEP_AdEL = 4, // address error exception (load or ifetch)</span><br><span class="Element146"> EXCEP_AdES = 5, // address error exception (store)</span><br><span class="Element146"> EXCEP_IBE = 6, // bus error (ifetch)</span><br><span class="Element146"> EXCEP_DBE = 7, // bus error (load/store)</span><br><span class="Element146"> EXCEP_Sys = 8, // syscall</span><br><span class="Element146"> EXCEP_Bp = 9, // breakpoint</span><br><span class="Element146"> EXCEP_RI = 10, // reserved instruction</span><br><span class="Element146"> EXCEP_CpU = 11, // coprocessor unusable</span><br><span class="Element146"> EXCEP_Overflow = 12, // arithmetic overflow</span><br><span class="Element146"> EXCEP_Trap = 13, // trap (possible divide by zero)</span><br><span class="Element146"> EXCEP_IS1 = 16, // implementation specfic 1</span><br><span class="Element146"> EXCEP_CEU = 17, // CorExtend Unuseable</span><br><span class="Element146"> EXCEP_C2E = 18, // coprocessor 2</span><br><span class="Element146">} EXCEPTION_CODES;</span>&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="7" class="Element600">If the debugger is inside of a function, you can look at a disassembly of the code, but this is impractical when you don’t know where to look for the cause of the exception. Instead, you can build a list of all the application’s assembly code at build time. (Of course, this step can cause the build to take longer, so only use it when trying to debug an exception.)
+<ul class="Element631">
+<li class="Element601">Right click the project name and select <strong>Properties</strong></li>
+<li class="Element601">Within the Building properties, enable <strong>Excecute this line after build</strong>, and enter the following text (Windows):
+<ul class="Element632">
+<li class="Element602"><span class="Element146">${MP_CC_DIR}\xc32-objdump -S ${ImageDir}\${PROJECTNAME}.${IMAGE_TYPE}.elf &gt; disassembly.lst</span></li>
+<li class="Element602">For Linux:<span class="Element146"> ${MP_CC_DIR}/xc32-objdump -S ${ImageDir}/${PROJECTNAME}.${IMAGE_TYPE}.elf &gt; disassembly.lst</span></li>
+</ul></li>
+<li class="Element601">At the end, the window should show:</li>
+</ul></li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Exception Handling Building Properties.png" border="0" alt="" title=""></p>
+<ul class="Element630">
+<li class="Element600">Click <strong>OK</strong> to finish.</li>
+</ul>
+<ol class="Element630">
+<li value="8" class="Element600">Run the project under the debugger again. When the breakpoint fires verify that the address is the same as before.</li>
+<li value="9" class="Element600">Now we need to examine the <span class="Element146">disassembly.lst</span> file that was just generated. This file is located in the <span class="Element146">./heartbeat/firmware/heartbeat.X</span> folder. Load the file with your favorite text editor and search for 9D0025D8 (or the address you found) in the listing. The following example illustrates what you should see:</li>
+</ol><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00033');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00033"><pre class="Element12">  <strong><span style="color: #000080">void</span></strong> HEARTBEAT_Initialize ( <strong><span style="color: #000080">void</span></strong> )
+  {
+  9d0025b4:    27bdfff0     addiu    sp,sp,-16
+
+  9d0025b8 &lt;.LCFI0&gt;:
+  9d0025b8:    afbe000c     sw    s8,12(sp)
+  9d0025bc:    03a0f021     move    s8,sp
+
+  9d0025c0 &lt;.LBB2&gt;:
+      <i><span style="color: #008000">// Test out error handling under Optimization Level Zero for system_init.c</span></i>
+      {
+          uint8_t x, y, z;
+          x = 1;
+  9d0025c0:    24020001     li    v0,1
+  9d0025c4:    a3c20000     sb    v0,0(s8)
+
+  9d0025c8 &lt;.LVL0&gt;:
+          y = 0;
+  9d0025c8:    a3c00001     sb    zero,1(s8)
+
+  9d0025cc &lt;.LVL1&gt;:
+          z = x/y;
+  9d0025cc:    93c30000     lbu    v1,0(s8)
+  9d0025d0:    93c20001     lbu    v0,1(s8)
+
+  9d0025d4 &lt;.LVL2&gt;:
+  9d0025d4:    0062001b     divu    zero,v1,v0
+  9d0025d8:    004001f4     teq    v0,zero,0x7  &lt;----- Exception Address
+  9d0025dc:    00001010     mfhi    v0
+  9d0025e0:    00001012     mflo    v0
+  9d0025e4:    a3c20002     sb    v0,2(s8)
+
+  9d0025e8 &lt;.LBE2&gt;:
+      }</pre></div></div>
+<p class="Element10">
+So the exception occurred during the assembly execution of the C instruction z = x/y, as expected.</p>
+<ol class="Element630">
+<li value="10" class="Element600">Before proceeding, comment out the exception code in the <span class="Element146">heartbeat.c</span> file. You could delete it from the file, but leaving it in as a comment provides a convenient way to validate that the exception handler is working; just uncomment and run to verify it still works as expected.</li>
+<li value="11" class="Element600">You should also remove the Override build options from <span class="Element146">heartbeat.c</span>, returning it back to the projects default of Optimization Level One (-O1).</li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+You might expect from the code in <span class="Element146">system_exceptions.c</span> that it would also print out a message reporting the exception, but pressing and holding the Ctrl key while hovering your cursor reveals that <a href="23672.html">SYS_DEBUG_PRINT</a> is not defined, so nothing really happens in the code.<br>Enabling this feature is discussed in the next tutorial.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<img src="ARCH CREATE PROJ Exception Handling SYS Debug Print.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04247.html">Part II: Debugging With Your Project</a> &gt; <a href="04246.html">Tutorial Steps</a> &gt; <a href="04242.html">Exception Handling in the Debugger</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Debugger Exception Handling in the Debugger Topic Title: Exception Handling in the Debugger)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

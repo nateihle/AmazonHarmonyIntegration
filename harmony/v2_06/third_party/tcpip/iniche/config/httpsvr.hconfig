@@ -1,0 +1,56 @@
+config IN_TCPIP_USE_HTTP
+    bool "HTTP"
+    depends on IN_TCPIP
+    default n
+    ---help---
+         This product is available for license from InterNiche Technologies. http://www.iniche.com
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTPS
+    bool "HTTPS"
+    depends on IN_TCPIP_USE_HTTP
+    select IN_TCPIP_CE_SSL_NEEDED
+    default n
+    ---help---
+        SSL for https
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTP_PERSISTENT
+    bool "persistent connections"
+    depends on IN_TCPIP_USE_HTTP
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTP_AUTH
+    bool "support authentication"
+    depends on IN_TCPIP_USE_HTTP
+    default y
+    ---help---
+      Basic auth support
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTP_AUTH_MD5
+    bool "md5 authentication"
+    depends on IN_TCPIP_USE_HTTP_AUTH
+    select IN_TCPIP_CE_LITE_NEEDED
+    default n
+    ---help---
+      Digest auth support
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTP_UPLOAD
+    bool "support file uploads"
+    depends on IN_TCPIP_USE_HTTP
+    default y
+    ---help---
+      Allow http uploads
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTP_COMPRESSION
+    bool "compress HTML tags"
+    depends on IN_TCPIP_USE_HTTP
+    default y
+    ---help---
+    ---endhelp---
+

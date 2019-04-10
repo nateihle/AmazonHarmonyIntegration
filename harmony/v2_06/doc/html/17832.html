@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Clock Sources</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17335.html">Oscillator Peripheral Library</a> &gt; <a href="17854.html">Using the Library</a> &gt; <a href="17841.html">How the Library Works</a> &gt; <a href="17832.html">Clock Sources</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17846.html">Previous</a> | <a href="17841.html">Up</a> | <a href="17835.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OSC Clock Sources Topic Title: Clock Sources)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Clock Sources</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This section explains the available clock sources and their setup.&nbsp;</p>
+<p class="Element10">
+The following clock sources are available in Microchip microcontrollers:
+<ul class="Element630">
+<li class="Element600">Primary Oscillator (Posc)</li>
+<li class="Element600">Secondary Oscillator (Sosc)</li>
+<li class="Element600">Internal Fast RC (FRC) Oscillator</li>
+<li class="Element600">Internal Low-Power RC (LPRC) Oscillator</li>
+</ul></p><div class="Element15">
+Primary Oscillator (Posc)</div>
+<p class="Element10">
+The Primary Oscillator has several operating modes (refer to the <strong>&quot;Oscillator&quot;</strong> chapter in the specific device data sheet for exact operating modes). The selection of the operating mode is done using the device Configuration registers during device programming. During run-time this can be changed using the oscillator switch option. However, changing the operating mode from High Gain (HC) to External Clock (EC) or External Resonator(XT) is not possible.&nbsp;</p>
+<p class="Element10">
+If a PLL is available, the PLL input divider can only be programmed during device programming. However, the PLL output divider and the PLL multiplier can be changed during run-time using the PLL functions described in the PLL section.</p><div class="Element15">
+Secondary Oscillator (Sosc)</div>
+<p class="Element10">
+The optional Secondary Oscillator is designed specifically for low-power operation with an external crystal. The Secondary Oscillator is enabled in hardware by the device Configuration bits. Once it is enabled in hardware, it can be switched on during software run-time. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02808');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02808"><pre class="Element12"><strong><span style="color: #000080">bool</span></strong> oscSecondary_st;
+
+oscSecondary_st = PLIB_OSC_SecondaryIsEnabled(OSC_ID_0);
+<strong><span style="color: #000080">if</span></strong>(oscSecondary_st)
+{
+   <i><span style="color: #008000">// Unlock the Oscillator Registers</span></i>
+   PLIB_DEVCON_SystemUnlock(DEVCON_ID_0);
+
+   PLIB_OSC_SecondaryDisable(OSC_ID_0);
+}</pre></div></div>
+<div class="Element15">
+Internal Fast RC (FRC) Oscillator</div>
+<p class="Element10">
+The FRC Oscillator is a fast user-trimmable internal RC oscillator with a user-selectable input divider, PLL multiplier, and output divider. See the <strong>&quot;Oscillator&quot;</strong> chapter in the specific device data sheet for more information on the FRC oscillator.&nbsp;</p>
+<p class="Element10">
+Once the FRC oscillator is selected using the device Configuration registers or an oscillator switch is initiated selecting the FRC as a new oscillator, the FRC Oscillator PLL divider can be changed during run-time. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02809');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02809"><pre class="Element12">OSC_FRC_DIV FRCDivisor;
+
+<i><span style="color: #008000">//Get the current divider value for FRC</span></i>
+FRCDivisor = PLIB_OSC_FRCDivisorGet(OSC_ID_0);
+
+<strong><span style="color: #000080">if</span></strong>(FRCDivisor != OSC_FRC_DIV_4)
+{
+    <i><span style="color: #008000">// Unlock the Oscillator Registers</span></i>
+    PLIB_DEVCON_SystemUnlock(DEVCON_ID_0);
+
+    PLIB_OSC_FRCDivisorSelect ( OSC_ID_0, OSC_FRC_DIV_4 );
+}</pre></div></div>
+<div class="Element15">
+Internal Low-Power RC (LPRC) Oscillator</div>
+<p class="Element10">
+The LPRC Oscillator is separate from the FRC Oscillator. It oscillates at a nominal frequency of 31.25 kHz (this value is device-dependent). The LPRC Oscillator can act as the clock source for the Power-up Timer (PWRT), Watchdog Timer (WDT), Fail-Safe Clock Monitor (FSCM), and PLL reference circuits. It can also be used to provide a low-frequency clock source option for the device in those applications where power consumption is critical and timing accuracy is not required.&nbsp;</p>
+<p class="Element10">
+The LPRC remains enabled after power on in the following conditions:
+<ul class="Element630">
+<li class="Element600">Fail-safe clock monitoring is enabled</li>
+<li class="Element600">Watchdog Timer is enabled</li>
+<li class="Element600">LPRC is selected as the system clock</li>
+</ul><strong>PLL Configuration</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02810');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02810"><pre class="Element12">OSC_SYSPLL_OUT_DIV PLLOutDiv;
+OSC_SYSPLL_MULTIPLIER pll_multiply;
+
+<i><span style="color: #008000">// Unlock the Oscillator Registers</span></i>
+PLIB_DEVCON_SystemUnlock(DEVCON_ID_0);
+
+pll_multiply = PLIB_OSC_SysPLLMultiplierGet(OSC_ID_0);
+<strong><span style="color: #000080">if</span></strong>(pll_multiply != 15)
+{
+    PLIB_OSC_SysPLLMultiplierSelect(OSC_ID_0, 15);
+}
+PLLOutDiv = PLIB_OSC_SysPLLOutputDivisorGet(OSC_ID_0);
+
+<strong><span style="color: #000080">if</span></strong>(PLLOutDiv != OSC_SYSPLL_OUT_DIV_8)
+{
+    PLIB_OSC_SysPLLOutputDivisorSelect(OSC_ID_0, OSC_SYSPLL_OUT_DIV_8);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17335.html">Oscillator Peripheral Library</a> &gt; <a href="17854.html">Using the Library</a> &gt; <a href="17841.html">How the Library Works</a> &gt; <a href="17832.html">Clock Sources</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OSC Clock Sources Topic Title: Clock Sources)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

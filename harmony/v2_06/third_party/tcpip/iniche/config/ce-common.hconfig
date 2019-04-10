@@ -1,0 +1,82 @@
+enum IN_TCPIP_CRYPT_TYPES
+       "OpenSSL"
+    || "Wolf"
+
+config IN_TCPIP_CE_LITE
+   bool
+config IN_TCPIP_CE_SSH
+   bool
+config IN_TCPIP_CE_SSL
+   bool
+config IN_TCPIP_CE_FULL
+   bool
+
+config IN_TCPIP_CE_NEEDED
+   bool
+   default y if IN_TCPIP_CE_LITE_NEEDED
+   default y if IN_TCPIP_CE_SSH_NEEDED
+   default y if IN_TCPIP_CE_SSL_NEEDED
+   default y if IN_TCPIP_CE_FULL_NEEDED
+   default n
+
+
+config IN_TCPIP_CE
+    depends on IN_TCPIP
+    bool "CryptoEngine"
+    default y if IN_TCPIP_CE_NEEDED
+    default n
+    ---help---
+         This product is available for license from InterNiche Technologies. http://www.iniche.com
+    ---endhelp---
+
+config IN_TCPIP_CE_TYPE
+    depends on IN_TCPIP_CE
+    string "Provider"
+    range IN_TCPIP_CRYPT_TYPES
+    default "OpenSSL"
+    ---help---
+        Cryptographic library to use
+    ---endhelp---
+
+config IN_TCPIP_CE_W
+    bool
+    depends on IN_TCPIP_CE
+# Wolf (CyaSSL) supplies everything.
+    select IN_TCPIP_CE_LITE
+    select IN_TCPIP_CE_SSH
+    select IN_TCPIP_CE_SSL
+    select IN_TCPIP_CE_FULL
+    default y if IN_TCPIP_CE_TYPE = "Wolf"
+    default n
+
+config IN_TCPIP_CE_O
+    bool
+    depends on IN_TCPIP_CE
+    default y if IN_TCPIP_CE_TYPE = "OpenSSL"
+    default n
+
+config IN_TCPIP_USE_SSL
+    bool "SSL"
+    depends on IN_TCPIP_CE
+    default y if IN_TCPIP_CE_SSL_NEEDED
+    select IN_TCPIP_CE_SSL_NEEDED
+    select IN_TCPIP_CE_FULL_NEEDED
+    default n
+    ---help---
+        SSL
+    ---endhelp---
+
+
+file IN_TCPIP_CRYPTENG_CE_BASE64_C "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/crypteng/ce_base64.c" to "$PROJECT_SOURCE_FILES/iniche/crypteng/ce_base64.c"
+file IN_TCPIP_CRYPTENG_CE_CORE_C "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/crypteng/ce_core.c" to "$PROJECT_SOURCE_FILES/iniche/crypteng/ce_core.c"
+file IN_TCPIP_CRYPTENG_CE_HW_TBLS_C "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/crypteng/ce_hw_tbls.c" to "$PROJECT_SOURCE_FILES/iniche/crypteng/ce_hw_tbls.c"
+file IN_TCPIP_CRYPTENG_CE_MOD_C "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/crypteng/ce_mod.c" to "$PROJECT_SOURCE_FILES/iniche/crypteng/ce_mod.c"
+file IN_TCPIP_CRYPTENG_CE_NT_C "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/crypteng/ce_nt.c" to "$PROJECT_SOURCE_FILES/iniche/crypteng/ce_nt.c"
+file IN_TCPIP_CRYPTENG_CRYPT_API_C "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/crypteng/crypt_api.c" to "$PROJECT_SOURCE_FILES/iniche/crypteng/crypt_api.c"
+file IN_TCPIP_EXTRAS_CERTS_X509FILES_C "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/extras/certs/x509files.c" to "$PROJECT_SOURCE_FILES/iniche/extras/certs/x509files.c"
+file IN_TCPIP_CRYPTENG_CE_HW_H "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/crypteng/ce_hw.h" to "$PROJECT_HEADER_FILES/iniche/crypteng/ce_hw.h"
+file IN_TCPIP_EXTRAS_CERTS_X509FILES_H "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/extras/certs/x509files.h" to "$PROJECT_HEADER_FILES/iniche/extras/certs/x509files.h"
+file IN_TCPIP_H_CE_H "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/h/ce.h" to "$PROJECT_HEADER_FILES/iniche/h/ce.h"
+file IN_TCPIP_H_CRYPT_API_H "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/h/crypt_api.h" to "$PROJECT_HEADER_FILES/iniche/h/crypt_api.h"
+file IN_TCPIP_H_SYSDEP_H "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/h/sysdep.h" to "$PROJECT_HEADER_FILES/iniche/h/sysdep.h"
+file IN_TCPIP_H_CRYPT_PORT_H "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/h/crypt_port.h" to "$PROJECT_HEADER_FILES/iniche/h/crypt_port.h"

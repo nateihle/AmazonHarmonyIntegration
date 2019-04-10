@@ -1,0 +1,57 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX120F032B_RTCC
+	bool
+	select HAVE_RTCC
+	default y
+
+config RTCC_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum RTCC_MODULE_ID exclusive
+	"RTCC_ID_0"
+
+enum RTCC_ALARM_MASK_CONFIGURATION
+	"RTCC_ALARM_EVERY_HALF_SECOND"
+	|| "RTCC_ALARM_EVERY_SECOND"
+	|| "RTCC_ALARM_EVERY_10_SECONDS"
+	|| "RTCC_ALARM_EVERY_MINUTE"
+	|| "RTCC_ALARM_EVERY_10_MINUTES"
+	|| "RTCC_ALARM_EVERY_HOUR"
+	|| "RTCC_ALARM_ONCE_A_DAY"
+	|| "RTCC_ALARM_ONCE_A_WEEK"
+	|| "RTCC_ALARM_ONCE_A_MONTH"
+	|| "RTCC_ALARM_ONCE_A_YEAR"
+
+enum RTCC_OUTPUT_SELECT
+	"RTCC_OUTPUT_ALARM_PULSE"
+	|| "RTCC_OUTPUT_SECONDS_CLOCK"
+
+enum RTCC_CLOCK_SOURCE_SELECT
+	"RTCC_CLOCK_SOURCE_SELECT_NONE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_RTCC_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/processor/rtcc_p32mx120f032b.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/processor/rtcc_p32mx120f032b.h"
+
+file PLIB_RTCC_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_EnableControl_Default.h"
+file PLIB_RTCC_WRITEENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_WriteEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_WriteEnable_Default.h"
+file PLIB_RTCC_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_StopInIdle_Default.h"
+file PLIB_RTCC_OUTPUTSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_OutputSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_OutputSelect_Default.h"
+file PLIB_RTCC_CLOCKSELECT_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_ClockSelect_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_ClockSelect_Unsupported.h"
+file PLIB_RTCC_CLOCKRUNNING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_ClockRunning_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_ClockRunning_Default.h"
+file PLIB_RTCC_CALIBRATION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_Calibration_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_Calibration_Default.h"
+file PLIB_RTCC_SYNC_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_Sync_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_Sync_Default.h"
+file PLIB_RTCC_HALFSECOND_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_HalfSecond_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_HalfSecond_Default.h"
+file PLIB_RTCC_OUTPUTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_OutputControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_OutputControl_Default.h"
+file PLIB_RTCC_ALARMCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmControl_Default.h"
+file PLIB_RTCC_ALARMCHIMECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmChimeControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmChimeControl_Default.h"
+file PLIB_RTCC_ALARMPULSEINITIAL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmPulseInitial_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmPulseInitial_Default.h"
+file PLIB_RTCC_ALARMSYNC_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmSync_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmSync_Default.h"
+file PLIB_RTCC_ALARMMASKCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmMaskControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmMaskControl_Default.h"
+file PLIB_RTCC_ALARMREPEATCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmRepeatControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmRepeatControl_Default.h"
+file PLIB_RTCC_RTCTIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_RTCTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_RTCTime_Default.h"
+file PLIB_RTCC_RTCDATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_RTCDate_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_RTCDate_Default.h"
+file PLIB_RTCC_ALARMTIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmTime_Default.h"
+file PLIB_RTCC_ALARMDATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/rtcc/templates/rtcc_AlarmDate_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/rtcc/templates/rtcc_AlarmDate_Default.h"
+endif

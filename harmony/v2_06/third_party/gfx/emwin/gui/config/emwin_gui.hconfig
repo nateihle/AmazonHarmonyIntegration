@@ -1,0 +1,47 @@
+enum SEGGER_EMWIN_COLOR_MODE
+	"EMWIN_COLOR_MODE_RGB_332" ||
+	"EMWIN_COLOR_MODE_RGB_565" ||
+	"EMWIN_COLOR_MODE_RGB_888" ||
+	"EMWIN_COLOR_MODE_ARGB_888"	
+
+config SEGGER_EMWIN_COLOR_FORMAT
+	depends on USE_GFX_STACK
+	string "Color Mode"
+	range SEGGER_EMWIN_COLOR_MODE
+	default "EMWIN_COLOR_MODE_RGB_565"
+
+config SEGGER_EMWIN_MEM_BLOCK_SIZE
+int "Memory Block Size"
+depends on SEGGER_EMWIN_GUI_WRAPPER
+default 229376
+
+config SEGGER_EMWIN_GUI_NUM_SCREENS
+int "Number of Screens"
+depends on SEGGER_EMWIN_GUI_WRAPPER
+default 1
+
+ifblock SEGGER_EMWIN_GUI_WRAPPER
+
+add "<#include \"/third_party/gfx/emwin/gui/templates/emwin_gui_init.c.ftl\">" to list SYSTEM_INIT_C_INITIALIZE_MIDDLEWARE
+
+add "<#include \"/third_party/gfx/emwin/gui/templates/emwin_gui_tasks.c.ftl\">" to list SYSTEM_TASKS_C_CALL_LIB_TASKS
+add "<#include \"/third_party/gfx/emwin/gui/templates/system_config.h.ftl\">"  to list SYSTEM_CONFIG_H_MIDDLEWARE_CONFIGURATION 
+
+template EMWIN_GUI_STATIC_H_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/emwin_gui_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/gui/emwin_gui_static.h"
+
+template EMWIN_GUI_STATIC_C_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/emwin_gui_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/gui/src/emwin_gui_static.c"
+
+template EMWIN_GUI_STATIC_LOCAL_H_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/emwin_gui_static_local.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/gui/src/emwin_gui_static_local.h"
+
+template EMWIN_GUI_CONFIG_H_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/GUIConf.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/config/GUIConf.h"
+
+template EMWIN_GUI_CONFIG_C_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/GUIConf.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/config/GUIConf.c"
+
+template EMWIN_GUI_X_CONFIG_C_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/GUI_X_Ex.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/config/GUI_X_Ex.c"
+
+template EMWIN_LCD_CONFIG_H_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/LCDConf.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/config/LCDConf.h"
+
+template EMWIN_LCD_CONFIG_C_FTL "$HARMONY_VERSION_PATH/third_party/gfx/emwin/gui/templates/LCDConf.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/third_party/gfx/emwin/config/LCDConf.c"
+
+endif
+

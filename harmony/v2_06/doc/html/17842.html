@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Internal FRC Oscillator Tuning</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17335.html">Oscillator Peripheral Library</a> &gt; <a href="17854.html">Using the Library</a> &gt; <a href="17841.html">How the Library Works</a> &gt; <a href="17842.html">Internal FRC Oscillator Tuning</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17835.html">Previous</a> | <a href="17841.html">Up</a> | <a href="17833.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OSC Internal FRC Oscillator Tuning Topic Title: Internal FRC Oscillator Tuning)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Internal FRC Oscillator Tuning</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>Tuning the Oscillator</strong>&nbsp;</p>
+<p class="Element10">
+Oscillator tuning will help compensate for temperature effects on the FRC frequency over a wide range of temperatures. The tuning step size is an approximation, the application is supposed to try different values to achieve the best result. In some of the devices there are different tuning modes available.&nbsp;</p>
+<p class="Element10">
+<strong>Direct Number Method</strong>&nbsp;</p>
+<p class="Element10">
+FRC tuning is based on the number specified by the <a href="20030.html">PLIB_OSC_FRCTuningSelect</a> function. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02812');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02812"><pre class="Element12">PLIB_OSC_FRCTuningModeSet(OSC_ID_0, OSC_TUNING_USING_NUMBER);
+
+PLIB_OSC_FRCTuningSelect(OSC_ID_0, 0x11);
+</pre></div></div>
+<p class="Element10">
+<strong>Sequential Dithering</strong>&nbsp;</p>
+<p class="Element10">
+To get the sequential dithering working, the client needs to set eight sequencer values. Value 0 is set using the <a href="20030.html">PLIB_OSC_FRCTuningSelect</a> function. The other seven values (values 1 through 7) are set using the PLIB_OSC_FRCTuningSequenceValueSet function. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02813');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02813"><pre class="Element12"><i><span style="color: #008000">// Unlock the Oscillator Registers</span></i>
+PLIB_DEVCON_SystemUnlock(DEVCON_ID_0);
+
+PLIB_OSC_FRCTuningModeSet(OSC_ID_0, OSC_TUNING_SEQ_DITHER);
+
+PLIB_OSC_FRCTuningSelect(OSC_ID_0, 0x11);
+
+PLIB_OSC_FRCTuningSequenceValueSet(OSC_ID_0, OSC_TUNING_SEQUENCER_1,
+        OSC_FRC_TUNE_MINUS_2_25_PERCENT);
+
+PLIB_OSC_FRCTuningSequenceValueSet(OSC_ID_0, OSC_TUNING_SEQUENCER_2,
+        OSC_FRC_TUNE_MINUS_1_5_PERCENT);
+
+PLIB_OSC_FRCTuningSequenceValueSet(OSC_ID_0, OSC_TUNING_SEQUENCER_3,
+        OSC_FRC_TUNE_MINUS_0_375_PERCENT);
+
+PLIB_OSC_FRCTuningSequenceValueSet(OSC_ID_0, OSC_TUNING_SEQUENCER_4,
+        OSC_FRC_TUNE_PLUS_0_43_PERCENT);
+
+PLIB_OSC_FRCTuningSequenceValueSet(OSC_ID_0, OSC_TUNING_SEQUENCER_5,
+        OSC_FRC_TUNE_PLUS_1_29_PERCENT);
+
+PLIB_OSC_FRCTuningSequenceValueSet(OSC_ID_0, OSC_TUNING_SEQUENCER_6,
+        OSC_FRC_TUNE_PLUS_2_54_PERCENT);
+
+PLIB_OSC_FRCTuningSequenceValueSet(OSC_ID_0, OSC_TUNING_SEQUENCER_7,
+        OSC_FRC_TUNE_MINUS_3_PERCENT);
+
+<i><span style="color: #008000">//Configure PWM (period, pulse width and turn on the module)</span></i></pre></div></div>
+<p class="Element10">
+<strong>Pseudo-Random Number</strong>&nbsp;</p>
+<p class="Element10">
+Select the tuning mode.<strong> </strong>Then, configure the PWM module and set the period and pulse width.<strong> </strong>The Oscillator system generates a 4-bit number based on a pseudo-random number generation algorithm. It then uses this value to tune the FRC oscillator. The module will generate different frequencies corresponding to the generated pseudo-random numbers every eighth PWM cycle. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02814');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02814"><pre class="Element12">PLIB_OSC_FRCTuningModeSet(OSC_ID_0, OSC_TUNING_PSEUDO_RANDOM);
+
+<i><span style="color: #008000">//15 bit Linear Feedback shift register value</span></i>
+PLIB_OSC_LinearFeedbackShiftRegSet(OSC_ID_0, 0x7FFF);
+
+<i><span style="color: #008000">//Configure PWM (period, pulse width and turn on the module)</span></i></pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17335.html">Oscillator Peripheral Library</a> &gt; <a href="17854.html">Using the Library</a> &gt; <a href="17841.html">How the Library Works</a> &gt; <a href="17842.html">Internal FRC Oscillator Tuning</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OSC Internal FRC Oscillator Tuning Topic Title: Internal FRC Oscillator Tuning)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

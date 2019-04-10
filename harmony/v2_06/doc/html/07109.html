@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.5.4: Support a &quot;Status&quot; Function if Required</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07109.html">3.5.4: Support a &quot;Status&quot; Function if Required</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07107.html">Previous</a> | <a href="07121.html">Up</a> | <a href="07108.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support a %22Status%22 Function if Required Topic Title: 3.5.4: Support a %22Status%22 Function if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.5.4: Support a &quot;Status&quot; Function if Required</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If a module implements the &quot;Deinitialize&quot; or &quot;Reinitialize&quot; system interface functions, it must also implement the &quot;Status&quot; function. A module may also implement the &quot;Status&quot; function if it provides error status reporting to the system.</p><div class="Element15">
+Function</div>
+<p class="Element10">
+<span class="Element146"><a href="24144.html">SYS_STATUS</a> &lt;module&gt;_Status( <a href="23975.html">SYS_MODULE_OBJ</a> object )</span></p><div class="Element15">
+Summary</div>
+<p class="Element10">
+Provides the current status of the identified instance of the module.</p><div class="Element15">
+Description</div>
+<p class="Element10">
+This routine provides the current status of the instance of the module identified by the object handle.</p><div class="Element15">
+Required or Optional?</div>
+<p class="Element10">
+Optional – But, required if the module implements either of the &quot;Deinitialize&quot; or &quot;Reinitialize&quot; routines.</p><div class="Element15">
+Preconditions</div>
+<p class="Element10">
+None. (The &quot;Status&quot; routine must return SYS_STATUS_UNINITIALIZED if called before the module has been initialized.)</p><div class="Element15">
+Parameters</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="16%" style="border:none;">
+<div class="Element68">
+object&nbsp;</div></td><td class="Element67" valign="top" width="84%" style="border:none;">
+<div class="Element68">
+Module’s instance data handle.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Returns</div>
+
+<ul class="Element630">
+<li class="Element600">SYS_STATUS_ERROR_EXTENDED = -10 - Any value less or equal to this indicates that a non-system defined (module specific) error has occurred.</li>
+<li class="Element600">SYS_STATUS_ERROR = -1 - Indicates that the specified module is in an error state. Any value less or equal to this value indicates an error has occurred.</li>
+<li class="Element600">SYS_STATUS_UNINITIALIZED = 0 - Indicates that the module has not yet been initialized (its &quot;Initialize&quot; function has not been called).</li>
+<li class="Element600">SYS_STATUS_BUSY = 1 - Indicates that a previous system operation for the specified module instance has not yet completed and the module is not yet ready to receive calls to other system interface operations.</li>
+<li class="Element600">SYS_STATUS_READY = 2 - Indicates that any previous module operation for the specified module has completed. Any value greater than or equal to value this indicates that the module is ready to receive calls to other operations.</li>
+<li class="Element600">SYS_STATUS_READY_EXTENDED = 10 - Any value greater or equal to this indicates that the specified module is in a non-system defined (module specific) ready or running state.</li>
+</ul><div class="Element15">
+Code Example</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00105');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00105"><pre class="Element12"><i><span style="color: #008000">// Initialize the I2C driver module</span></i>
+sysObjects.i2cDriver = DRV_I2C_Initialize(I2C_ID_1, &amp;i2c_init_data);
+
+<i><span style="color: #008000">// Check driver’s status</span></i>
+status = DRV_I2C_Status(sysObjects.i2cDriver);
+<strong><span style="color: #000080">if</span></strong> (status &lt;= SYS_STATUS_ERROR)
+{
+    <i><span style="color: #008000">// Handle error</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (status &lt; SYS_STATUS_READY)
+{
+    <i><span style="color: #008000">// Module not ready yet, check again later</span></i>
+}</pre></div></div>
+<div class="Element15">
+Blocking Behavior</div>
+<p class="Element10">
+This function must not block waiting for external I/O, other modules, or anything that may take significant time.</p><div class="Element15">
+Remarks</div>
+<p class="Element10">
+This operation can be used to determine when other system operations have completed, if a module has been initialized, or if an error has occurred. If the Status operation returns SYS_STATUS_BUSY, the previous operation has not yet completed. Once the Status operation returns <span class="Element146">SYS_STATUS_READY</span> (or greater), any previous operations have completed.&nbsp;</p>
+<p class="Element10">
+The value of SYS_STATUS_READY is 2. Values between 2 and 10 are reserved for system defined &quot;ready&quot; states. A module may define module-specific &quot;ready&quot; or &quot;run&quot; states greater than or equal to 10 (SYS_STATUS_READY_EXTENDED).&nbsp;</p>
+<p class="Element10">
+The value of SYS_STATUS_ERROR is -1. Values between -1 and -10 are reserved for system-defined errors. A module may define module-specific error values of less than or equal to -10 (SYS_STATUS_ERROR_EXTENDED).&nbsp;</p>
+<p class="Element10">
+If the Status operation returns an error value, the error may be cleared by calling the reinitialize operation. If that fails, the Deinitialize operation will need to be called, followed by the initialize operation to return to normal operations. (The system must check the value returned by the Status routine after calling any of the module operations to find out when they have completed.)&nbsp;</p>
+<p class="Element10">
+Refer to the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> header file or the <a href="24334.html">System Service Library Introduction</a> for additional information and definitions of the additional data types used.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07109.html">3.5.4: Support a &quot;Status&quot; Function if Required</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support a %22Status%22 Function if Required Topic Title: 3.5.4: Support a %22Status%22 Function if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

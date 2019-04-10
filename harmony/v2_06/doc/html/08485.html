@@ -1,0 +1,278 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="11980.html">Data EEPROM Driver Library</a> &gt; <a href="08491.html">Using the Library</a> &gt; <a href="08485.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08488.html">Previous</a> | <a href="08491.html">Up</a> | <a href="08482.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV EEPROM How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+System Functions</div>
+<p class="Element10">
+<strong>Data EEPROM Driver Initialization</strong>&nbsp;</p>
+<p class="Element10">
+The system performs the initialization of the device driver with settings that affect only the instance of the device that is being initialized. During system initialization, each instance of the Data EEPROM Driver would be initialized with the following configuration settings passed dynamically at run time using <a href="09825.html">DRV_EEPROM_INIT</a>, that are supported by the specific EEPROM driver:
+<ul class="Element635">
+<li class="Element605">Device requested power state: One of the system module power states. For specific details please refer to &quot;Data Types and Constants&quot; in the <a href="08487.html">Library Interface</a>section.</li>
+<li class="Element605">The actual peripheral ID enumerated as the PLIB level module ID (e.g., NVM_ID_0)</li>
+<li class="Element605">EEPROM Media Geometry</li>
+</ul>The <a href="09829.html">DRV_EEPROM_Initialize</a> function configures and initializes the EEPROM driver using the configuration information provided. It returns an object handle of the type <a href="23975.html">SYS_MODULE_OBJ</a>. This object handle would be used by other system interfaces such as <a href="09836.html">DRV_EEPROM_Status</a>, <a href="09838.html">DRV_EEPROM_Tasks</a> and <a href="09816.html">DRV_EEPROM_Deinitialize</a>.&nbsp;</p>
+<p class="Element10">
+<i>Example:</i> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00546');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00546"><pre class="Element12"><i><span style="color: #008000">/*** Data EEPROM Driver Initialization Data ***/</span></i>
+SYS_FS_MEDIA_REGION_GEOMETRY EEPROMGeometryTable[3] =
+{
+    {
+        .blockSize = 4,
+        .numBlocks = (DRV_EEPROM_MEDIA_SIZE * 1024),
+    },
+    {
+       .blockSize = 4,
+       .numBlocks = ((DRV_EEPROM_MEDIA_SIZE * 1024)/4)
+    },
+    {
+       .blockSize = 4,
+       .numBlocks = ((DRV_EEPROM_MEDIA_SIZE * 1024)/4)
+    }
+};
+
+<strong><span style="color: #000080">const</span></strong> SYS_FS_MEDIA_GEOMETRY EEPROMGeometry =
+{
+    .mediaProperty = SYS_FS_MEDIA_WRITE_IS_BLOCKING,
+    .numReadRegions = 1,
+    .numWriteRegions = 1,
+    .numEraseRegions = 1,
+    .geometryTable = (SYS_FS_MEDIA_REGION_GEOMETRY *)&amp;EEPROMGeometryTable
+};
+
+<strong><span style="color: #000080">const</span></strong> DRV_EEPROM_INIT drvEepromInit =
+{
+    .moduleInit.sys.powerState = SYS_MODULE_POWER_RUN_FULL,
+    .eepromId = NVM_ID_0,
+    .eepromMediaGeometry = (SYS_FS_MEDIA_GEOMETRY *)&amp;EEPROMGeometry
+};
+
+<i><span style="color: #008000">/* Initialize the Data EEPROM Driver */</span></i>
+sysObj.drvEeprom = DRV_EEPROM_Initialize(DRV_EEPROM_INDEX_0, (SYS_MODULE_INIT *)&amp;drvEepromInit);</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Data EEPROM Driver Task Routine</strong>&nbsp;</p>
+<p class="Element10">
+The Data EEPROM Driver task routine <a href="09838.html">DRV_EEPROM_Tasks</a>, will be called from the system task routine, <a href="24151.html">SYS_Tasks</a>. The driver task routine is responsible maintaining the driver state machine. The block operation requests from the application or from other modules are added to the driver queue.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Data EEPROM Driver Status</strong>&nbsp;</p>
+<p class="Element10">
+<a href="09836.html">DRV_EEPROM_Status</a>() returns the current status of the Data EEPROM Driver and is called by the MPLAB Harmony System. The application may not find the need to call this function directly.&nbsp;</p>
+<p class="Element10">
+<i>Example:</i> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00547');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00547"><pre class="Element12">SYS_MODULE_OBJ object;
+<i><span style="color: #008000">// Returned from DRV_EEPROM_Initialize</span></i>
+SYS_STATUS eepromStatus;
+
+eepromStatus = DRV_EEPROM_Status(object);
+<strong><span style="color: #000080">if</span></strong> (SYS_STATUS_ERROR &gt;= eepromStatus)
+{
+    <i><span style="color: #008000">// Handle error</span></i>
+}</pre></div></div>
+<div class="Element15">
+Client Core Functions</div>
+<p class="Element10">
+<strong>Opening the Driver</strong>&nbsp;</p>
+<p class="Element10">
+For the application to start using an instance of the module, it must call the <a href="09834.html">DRV_EEPROM_Open</a> function repeatedly until a valid handle is returned by the driver. The application client uses this driver handle to access the driver functions.&nbsp;</p>
+<p class="Element10">
+For the various options available for I/O INTENT please refer to Data Types and Constants in the Library Interface section.&nbsp;</p>
+<p class="Element10">
+<i>Example:</i> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00548');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00548"><pre class="Element12">eepromHandle = DRV_EEPROM_Open(DRV_EEPROM_INDEX_0, DRV_IO_INTENT_READWRITE);
+<strong><span style="color: #000080">if</span></strong> (DRV_HANDLE_INVALID == eepromHandle)
+{
+    <i><span style="color: #008000">/* Call until the function returns a valid handle. */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+    <i><span style="color: #008000">/* Do further processing. */</span></i>
+}</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Closing the Driver</strong>&nbsp;</p>
+<p class="Element10">
+Closes an opened-instance of the Data EEPROM Driver. This invalidates the driver handle. The application must open the driver again to obtain a valid handle.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00549');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00549"><pre class="Element12">DRV_HANDLE eepromHandle; <i><span style="color: #008000">// Returned from DRV_EEPROM_Open</span></i>
+DRV_EEPROM_Close(eepromHandle);</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Client Block Operation Functions</div>
+<p class="Element10">
+The driver provides client interfaces to perform operations in terms of blocks. A block is a unit that represents the minimum amount of data that can be erased, written, or read. The block sizes may differ for Erase, Write, and Read operations. The <a href="09823.html">DRV_EEPROM_GeometryGet</a> function can be used to read out the geometry of the EEPROM device. The geometry indicates the number of read, write and erase regions, blocks per region and the size of each block.&nbsp;</p>
+<p class="Element10">
+The <a href="09817.html">DRV_EEPROM_Erase</a>, <a href="09839.html">DRV_EEPROM_Write</a>, and <a href="09835.html">DRV_EEPROM_Read</a> functions are used to erase, write, and read the data to/from EEPROM devices. In addition to these functions, the driver also provides the <a href="09804.html">DRV_EEPROM_BulkErase</a> function that erases the entire EEPROM.&nbsp;</p>
+<p class="Element10">
+These functions are non-blocking in nature and queue the operation request into the driver queue. All of the requests in the queue are executed by the <a href="09838.html">DRV_EEPROM_Tasks</a> function one-by-one. A command handle associated with the operation request is returned to the application client when the operation request is queued at the driver. This handle allows the application client to track the request as it progresses through the queue. The handle expires when the request processing is complete. The driver provides events (<a href="09818.html">DRV_EEPROM_EVENT</a>) that indicate the completion of the requests.&nbsp;</p>
+<p class="Element10">
+The following steps can be performed for a simple Block Data Operation:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary initialization of the Data EEPROM Driver, and the <a href="09838.html">DRV_EEPROM_Tasks</a> function should be running in a polled environment.</li>
+<li value="2" class="Element605">Open the driver using <a href="09834.html">DRV_EEPROM_Open</a> with the necessary intent.</li>
+<li value="3" class="Element605">Set an event handler callback using the function <a href="09822.html">DRV_EEPROM_EventHandlerSet</a>.</li>
+<li value="4" class="Element605">Request for block operations using the functions, <a href="09817.html">DRV_EEPROM_Erase</a>, <a href="09839.html">DRV_EEPROM_Write</a>, <a href="09835.html">DRV_EEPROM_Read</a> and <a href="09804.html">DRV_EEPROM_BulkErase</a> with the appropriate parameters.</li>
+<li value="5" class="Element605">Wait for event handler callback to occur and check the status of the block operation using the callback function parameter of type DRV_EEPROM_ EVENT.</li>
+<li value="6" class="Element605">After performing the required block operations, the client can close the driver using the function , <a href="09806.html">DRV_EEPROM_Close</a> .</li>
+</ol>&nbsp;</p>
+<p class="Element10">
+<i>Example:</i> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00550');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00550"><pre class="Element12"><i><span style="color: #008000">// myAppObj is an application specific state data object.</span></i>
+MY_APP_OBJ myAppObj;
+
+uint8_t myBuffer[MY_BUFFER_SIZE];
+uint32_t blockStart, nBlock;
+DRV_EEPROM_COMMAND_HANDLE commandHandle;
+
+<i><span style="color: #008000">// drvEEPROMHandle is the handle returned by the DRV_EEPROM_Open // function. Client registers an event handler with driver. This // is done once.</span></i>
+
+DRV_EEPROM_EventHandlerSet(drvEEPROMHandle, APP_EEPROMEventHandler, (uintptr_t)&amp;myAppObj);
+
+DRV_EEPROM_Read(drvEEPROMHandle, &amp;commandHandle, &amp;myBuffer, blockStart, nBlock);
+
+<strong><span style="color: #000080">if</span></strong>(DRV_EEPROM_COMMAND_HANDLE_INVALID == commandHandle)
+{
+    <i><span style="color: #008000">// Error handling here</span></i>
+}
+
+<i><span style="color: #008000">// Event Processing Technique. Event is received when operation // is done.</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_EEPROMEventHandler
+(
+    DRV_EEPROM_EVENT event,
+    DRV_EEPROM_COMMAND_HANDLE commandHandle,
+    uintptr_t contextHandle
+)
+{
+    <i><span style="color: #008000">// The context handle was set to an application specific</span></i>
+    <i><span style="color: #008000">// object. It is now retrievable easily in the event</span></i>
+    <i><span style="color: #008000">// handler.</span></i>
+    MY_APP_OBJ myAppObj = (MY_APP_OBJ *) context;
+
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_EEPROM_EVENT_COMMAND_COMPLETE:
+            <i><span style="color: #008000">// Operation completed successfully.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> DRV_EEPROM_EVENT_COMMAND_ERROR:
+            <i><span style="color: #008000">// Error handling here.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Media Interface Functions</div>
+<p class="Element10">
+<strong>Reading the Device Geometry</strong>&nbsp;</p>
+<p class="Element10">
+The application can call the <a href="09823.html">DRV_EEPROM_GeometryGet</a> function to obtain the geometry of the EEPROM device. The geometry indicates the number of read, write and erase regions, number of blocks per region and the size of each block.&nbsp;</p>
+<p class="Element10">
+<i>Example:</i> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00551');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00551"><pre class="Element12">SYS_FS_MEDIA_GEOMETRY * eepromGeometry;
+uint32_t readBlockSize, writeBlockSize, eraseBlockSize;
+uint32_t nReadBlocks, nReadRegions, totalSize;
+
+eepromGeometry = DRV_EEPROM_GeometryGet(eepromOpenHandle1);
+
+readBlockSize = eepromGeometry-&gt;geometryTable-&gt;blockSize;
+nReadBlocks = eepromGeometry-&gt;geometryTable-&gt;numBlocks;
+nReadRegions = eepromGeometry-&gt;numReadRegions;
+
+writeBlockSize = (eepromGeometry-&gt;geometryTable +1)-&gt;blockSize;
+eraseBlockSize = (eepromGeometry-&gt;geometryTable +2)-&gt;blockSize;
+
+<i><span style="color: #008000">//The below expression provides the EEPROM memory size.</span></i>
+totalSize = readBlockSize * nReadBlocks * nReadRegions;</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="11980.html">Data EEPROM Driver Library</a> &gt; <a href="08491.html">Using the Library</a> &gt; <a href="08485.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV EEPROM How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

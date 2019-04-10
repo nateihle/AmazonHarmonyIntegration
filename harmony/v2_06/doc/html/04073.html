@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04070.html">wifi_wilc1000</a> &gt; <a href="04073.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04072.html">Previous</a> | <a href="04070.html">Up</a> | <a href="04074.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP WIFI wifi_wilc1000_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This demonstration exercises various encryption, decryption, hashing, and random number functions.</p>
+<ol class="Element630">
+<li value="1" class="Element600">After compiling and programming the target device, select the configuration as pic32mx795_pim_e16_wilc_freertos_sta.</li>
+<li value="2" class="Element600">When the UART is connected by the serial to the USB cable, configure the Home AP configuration using the <span class="Element146">iwconfig</span> console command. Refer to <a href="08969.html">DRV WILC1000 WIFI Library Interface</a> for additional information.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI iwconfig console.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="3" class="Element600">When receiving the IP from the Home AP, ping the Home AP.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI iwconfig console_ping_homeIP.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="4" class="Element600">When creating the device to act as the AP, to compile and program the target device, select the configuration as pic32mx795_pim_e16_wilc_freertos_ap.</li>
+<li value="5" class="Element600">When the device appears as Soft AP, the AP can be found in the scan with SSID as ‘MCHPSoftAP.'</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI MHCPsoftAP.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="6" class="Element600">The SSID ‘MCHPSoftAP’ can be found in the scan list.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI MCHPsoftAP.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="7" class="Element600">Any station can connect, and ping on the AP IP address, 192.168.1.1.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS wIFI ping_on_theAP.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="8" class="Element600">When the device serves as a wolfSSL client, to compile and program the target device, select the configuration pic32mz_ef_sk__ioexp__wilc__freertos_wolfssl_client.</li>
+<li value="9" class="Element600">For this configuration, the hardware is different. In this case, use the WINC1500 PICtail with the starter kit containing PIC32MZ2048. The highlighted red box is the WINC1500 Wi-Fi PICtail/PICtail Plus Daughter Board. The highlighted blue box is the PIC32MZ2048 Processor.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI winc1500pictail_with_starterkit.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="10" class="Element600">For serial communication and console output connect a mini-USB cable between the PIC32MZ Embedded Connectivity with Floating Point Unit (EF) Family Starter Kit and laptop. The serial connection is configured for 115200 baud, 8-bit data, No parity, 1 Stop bit, with No Flow Control. Configure the home AP using the <span class="Element146">iwconfig</span> console command. Refer to <a href="08969.html">DRV WILC1000 WIFI Library Interface</a> for additional information.</li>
+<li value="11" class="Element600">When receiving the IP from the home AP, the device makes a DNS query to resolve the IP address for the host, “https://www.google.com.&quot;</li>
+<li value="12" class="Element600">The device then proceeds with SSL negotiations as the URL is secured (https).</li>
+<li value="13" class="Element600">The UART displays the contents of the web page.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS WIFI config_uart.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04070.html">wifi_wilc1000</a> &gt; <a href="04073.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP WIFI wifi_wilc1000_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Step 6: Add the Timer System Service to Your Project</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a> &gt; <a href="04258.html">Tutorial Steps</a> &gt; <a href="04238.html">Step 6: Add the Timer System Service to Your Project</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04259.html">Previous</a> | <a href="04258.html">Up</a> | <a href="04237.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Add the Timer System Service to Your Project Topic Title: Step 6: Add the Timer System Service to Your Project)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Step 6: Add the Timer System Service to Your Project</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Next, the Timer System Service needs to be selected in MHC.</p>
+<ol class="Element630">
+<li value="1" class="Element600">Select the MHC tab, expand <i>Harmony Framework Configuration &gt; System Services &gt; Timer</i>, and then select <strong>Use Timer System Service?</strong></li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ User Timer System Service.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="2" class="Element600">As observed in the Help window, the documentation for the Timer System Service is displayed. Using the Help, we can explore what this library provides and choose how to implement the timer delay we need to blink LED1. Click <strong>Library Interface</strong> and scroll down to Timed Delay Functions.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Timer System Service Help.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Timed Delay Functions.png" border="0" alt="" title=""></p><p class="Element10">
+The <a href="24160.html">SYS_TMR_DelayMS</a> function can be used to create a one-shot delay timer, and then poll that timer status using SYS_TMR_DElayStatusGet. When the timer times out, we can then toggle the LED.</p>
+<ol class="Element630">
+<li value="3" class="Element600">Click <strong><a href="24160.html">SYS_TMR_DelayMS</a></strong> to open the related Help for this function.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ SYS_TMR_DelayMS.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The code example in the documentation provides all that is needed to create the delay. First, the <a href="24169.html">SYS_TMR_HANDLE</a> variable is needed, which is assigned when the timer is created. Then, use <a href="24161.html">SYS_TMR_DelayStatusGet</a> to poll whether the timer has timed out using this handle. So now, we know what to do.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a> &gt; <a href="04258.html">Tutorial Steps</a> &gt; <a href="04238.html">Step 6: Add the Timer System Service to Your Project</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Add the Timer System Service to Your Project Topic Title: Step 6: Add the Timer System Service to Your Project)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

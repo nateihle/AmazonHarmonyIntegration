@@ -1,0 +1,29 @@
+config USE_DRV_GFX_NANO2D_NEEDED
+    bool
+
+config DRV_GFX_PROCESSOR_TYPE
+    string "Select Processor Type"
+    range DRV_GFX_PROCESSOR_LIST
+    default "NANO 2D" if USE_DRV_GFX_NANO2D_NEEDED
+    default "None"
+    ---help---
+     IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+config DRV_GFX_PROCESSOR_DEF
+        string
+
+config USE_DRV_GFX_NANO2D
+    bool
+    select DRIVER
+    select USE_SYS_INT_NEEDED
+    default y if DRV_GFX_PROCESSOR_TYPE = "NANO 2D"
+        default n
+
+comment "WARNING: This device does not support NANO 2D"
+	depends on !HAVE_NANO2D && USE_DRV_GFX_NANO2D
+
+menu "Nano2D" depends on USE_DRV_GFX_NANO2D
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/processor/nano2d/config/drv_gfx_nano2d.hconfig"
+library NANO2D_A "$HARMONY_VERSION_PATH/bin/framework/gfx/driver/processor/nano2d/libnano2d.a"
+endmenu

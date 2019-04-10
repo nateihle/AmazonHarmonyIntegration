@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SYS_DMA_ChannelSetupMatchAbortMode Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07980.html">Direct Memory Access (DMA) System Service Library</a> &gt; <a href="24283.html">Library Interface</a> &gt; b) Channel Setup and Management Functions &gt; <a href="23732.html">SYS_DMA_ChannelSetupMatchAbortMode Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="23729.html">Previous</a> | <a href="24283.html">Up</a> | <a href="23735.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_DMA_ChannelSetupMatchAbortMode@SYS_DMA_CHANNEL_HANDLE@uint16_t@DMA_PATTERN_LENGTH@SYS_DMA_CHANNEL_IGNORE_MATCH@uint8_t Topic Title: SYS_DMA_ChannelSetupMatchAbortMode Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SYS_DMA_ChannelSetupMatchAbortMode Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">SYS_DMA_ChannelSetupMatchAbortMode</span></strong>(
+    SYS_DMA_CHANNEL_HANDLE <strong><span style="color: #000000">handle</span></strong>, 
+    uint16_t <strong><span style="color: #000000">pattern</span></strong>, 
+    <a href="08062.html">DMA_PATTERN_LENGTH</a> <strong><span style="color: #000000">length</span></strong>, 
+    SYS_DMA_CHANNEL_IGNORE_MATCH <strong><span style="color: #000000">ignore</span></strong>, 
+    uint8_t <strong><span style="color: #000000">ignorePattern</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function sets up the termination of DMA operation when the specified pattern is matched. Additionally on supported parts the function also sets up the ignoring of part of a pattern(8-bit) from match abort pattern(16-bit).</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+DMA should have been initialized by calling <a href="23738.html">SYS_DMA_Initialize</a>. DMA channel should have been allocated by calling <a href="23719.html">SYS_DMA_ChannelAllocate</a>. The function <a href="23731.html">SYS_DMA_ChannelSetup</a> must be called to enable SYS_DMA_CHANNEL_OP_MODE_MATCH_ABORT before setting up pattern match mode features.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+handle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Handle of the DMA channel as returned by the <a href="23719.html">SYS_DMA_ChannelAllocate</a> function.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+pattern&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+The pattern that needs to be matched to abort a DMA transfer.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+length&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Match pattern length can be 1-byte or 2-byte.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+ignore&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Enable/Disable a byte between a 2-byte pattern match.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+ignorePattern&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+The part of the pattern(8-bit) that needs to be ignored from the match abort pattern(16-bit)&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The parameter 'pattern' (8-bit or 16-bit) is device-specific. Not all features are available on all devices. Refer to the specific device data sheet for details.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03944');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03944"><pre class="Element12">  <i><span style="color: #008000">// Example 1</span></i>
+  <i><span style="color: #008000">// The following code is for a device with an 8-bit pattern value and no</span></i>
+  <i><span style="color: #008000">// support for pattern match ignore feature</span></i>
+
+  <i><span style="color: #008000">// 'handle' is a valid handle returned</span></i>
+  <i><span style="color: #008000">// by the SYS_DMA_ChannelAllocate function.</span></i>
+  uint16_t                        pattern;
+  <a href="08062.html">DMA_PATTERN_LENGTH</a>              length;
+  SYS_DMA_CHANNEL_IGNORE_MATCH    ignore;
+  uint8_t                         ignorePattern;
+
+  pattern         = 0x00; <i><span style="color: #008000">//Stop transfer on detection of a NULL character</span></i>
+  length          = DMA_PATTERN_LENGTH_NONE;
+  ignore          = SYS_DMA_CHANNEL_IGNORE_MATCH_DISABLE;
+  ignorePattern   = 0;
+  SYS_DMA_ChannelSetupMatchAbortMode(handle, pattern, length,
+                                     ignoreEnable, ignorePattern);
+
+  <i><span style="color: #008000">// Example 2</span></i>
+  <i><span style="color: #008000">// The following code is for a device with a 16-bit pattern value and</span></i>
+  <i><span style="color: #008000">// support for pattern match ignore feature</span></i>
+
+  <i><span style="color: #008000">// 'handle' is a valid handle returned</span></i>
+  <i><span style="color: #008000">// by the SYS_DMA_ChannelAllocate function.</span></i>
+  uint16_t                        pattern;
+  <a href="08062.html">DMA_PATTERN_LENGTH</a>              length;
+  SYS_DMA_CHANNEL_IGNORE_MATCH    ignore;
+  uint8_t                         ignorePattern;
+
+  pattern         = 0x0D0A; <i><span style="color: #008000">//Stop transfer on detection of 'rn'</span></i>
+  length          = DMA_PATTERN_MATCH_LENGTH_2BYTES;
+  ignore          = SYS_DMA_CHANNEL_IGNORE_MATCH_ENABLE;
+  ignorePattern   = 0x00; \ Any null character between the termination pattern
+                          \ 'r' and 'n' is ignored.
+  SYS_DMA_ChannelSetupMatchAbortMode(handle, pattern, length,
+                                          ignore, ignorePattern);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07980.html">Direct Memory Access (DMA) System Service Library</a> &gt; <a href="24283.html">Library Interface</a> &gt; b) Channel Setup and Management Functions &gt; <a href="23732.html">SYS_DMA_ChannelSetupMatchAbortMode Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_DMA_ChannelSetupMatchAbortMode@SYS_DMA_CHANNEL_HANDLE@uint16_t@DMA_PATTERN_LENGTH@SYS_DMA_CHANNEL_IGNORE_MATCH@uint8_t Topic Title: SYS_DMA_ChannelSetupMatchAbortMode Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

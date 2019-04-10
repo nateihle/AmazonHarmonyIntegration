@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Functionality</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="16815.html">MRF24WN Wi-Fi Driver Library</a> &gt; <a href="08632.html">Configuring the Library</a> &gt; <a href="08956.html">Sample Functionality</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08632.html">Previous</a> | <a href="08632.html">Up</a> | <a href="08631.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WIFI MRF24WN Sample Functionality Topic Title: Sample Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Sample Functionality</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following code provides an example of Wi-Fi Driver configuration. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01224');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01224"><pre class="Element12"><i><span style="color: #008000">/*** Wi-Fi Driver Configuration ***/</span></i>
+
+<strong><span style="color: #000080">#define</span></strong> WIFI_USE_RTOS
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_EXT_INIT_TASK_STACK_SIZE 512u
+<strong><span style="color: #000080">#define</span></strong> WDRV_EXT_INIT_TASK_PRIO 6u
+<strong><span style="color: #000080">#define</span></strong> WDRV_EXT_MAIN_TASK_STACK_SIZE 2048u
+<strong><span style="color: #000080">#define</span></strong> WDRV_EXT_MAIN_TASK_PRIO 7u
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_ASSERT(condition, msg) WDRV_Assert(condition, msg, __FILE__, __LINE__)
+
+<strong><span style="color: #000080">#define</span></strong> DRV_WIFI_SPI_INDEX 0
+<strong><span style="color: #000080">#define</span></strong> DRV_WIFI_SPI_INSTANCE sysObj.spiObjectIdx0
+
+<strong><span style="color: #000080">#define</span></strong> DRV_WIFI_NVM_SPACE_ENABLE
+<strong><span style="color: #000080">#define</span></strong> DRV_WIFI_NVM_SPACE_ADDR (48*1024)
+
+<strong><span style="color: #000080">#define</span></strong> MRF_INT_SOURCE INT_SOURCE_EXTERNAL_1
+<strong><span style="color: #000080">#define</span></strong> MRF_INT_VECTOR INT_VECTOR_INT1
+
+<i><span style="color: #008000">// IO mapping for general control pins, including CS, RESET and HIBERNATE</span></i>
+<i><span style="color: #008000">// MRF24W in SPI 1 slot</span></i>
+<strong><span style="color: #000080">#define</span></strong> WF_CS_PORT_CHANNEL PORT_CHANNEL_E
+<strong><span style="color: #000080">#define</span></strong> WF_CS_BIT_POS      9
+
+<strong><span style="color: #000080">#define</span></strong> WF_RESET_PORT_CHANNEL PORT_CHANNEL_F
+<strong><span style="color: #000080">#define</span></strong> WF_RESET_BIT_POS      0
+
+<strong><span style="color: #000080">#define</span></strong> WF_HIBERNATE_PORT_CHANNEL PORT_CHANNEL_F
+<strong><span style="color: #000080">#define</span></strong> WF_HIBERNATE_BIT_POS      1
+
+<strong><span style="color: #000080">#define</span></strong> WF_INT_PRIORITY     3
+<strong><span style="color: #000080">#define</span></strong> WF_INT_SUBPRIORITY  1
+<strong><span style="color: #000080">#define</span></strong> WF_INT_PORT_CHANNEL PORT_CHANNEL_E
+<strong><span style="color: #000080">#define</span></strong> WF_INT_BIT_POS      8
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_NETWORK_TYPE WDRV_NETWORK_TYPE_INFRASTRUCTURE
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_SSID_NAME &quot;MicrochipDemoApp&quot;
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_WIFI_SECURITY_MODE WDRV_SECURITY_OPEN
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_WEP_KEYS_40 &quot;5AFB6C8E77&quot; <i><span style="color: #008000">// default WEP40 key</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_WEP_KEYS_104 &quot;90E96780C739409DA50034FCAA&quot; <i><span style="color: #008000">// default WEP104 key</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_PSK_PHRASE &quot;Microchip 802.11 Secret PSK Password&quot; <i><span style="color: #008000">// default WPA-PSK or WPA2-PSK passphrase</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_WPS_PIN &quot;12390212&quot; <i><span style="color: #008000">// default WPS PIN</span></i>
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_CHANNEL 6
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_POWER_SAVE WDRV_FUNC_DISABLED</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="16815.html">MRF24WN Wi-Fi Driver Library</a> &gt; <a href="08632.html">Configuring the Library</a> &gt; <a href="08956.html">Sample Functionality</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WIFI MRF24WN Sample Functionality Topic Title: Sample Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

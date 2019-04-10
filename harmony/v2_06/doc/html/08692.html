@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Block Data Operation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17067.html">NVM Driver Library</a> &gt; <a href="08707.html">Using the Library</a> &gt; <a href="08698.html">How the Library Works</a> &gt; <a href="08692.html">Client Block Data Operation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08691.html">Previous</a> | <a href="08698.html">Up</a> | <a href="08695.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV NVM Client Block Data Function Topic Title: Client Block Data Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Block Data Operation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The NVM Driver provides a block interface to access the NVM media. The interface provides functionality to read, write, erase, and erase-write the NVM media. These interface functions depend on the block sizes and boundaries of the individual devices. The interfaces are responsible for keeping this information transparent from the application.</p><div class="Element15">
+Erasing Data on the NVM:</div>
+<p class="Element10">
+The following steps outline the sequence for erasing data on the NVM media:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary initialization and <a href="10753.html">DRV_NVM_Tasks</a> should either be running in a polled environment, or in an interrupt environment.</li>
+<li value="2" class="Element605">The driver should have been opened with the necessary intent.</li>
+<li value="3" class="Element605">Provide the block start address and the number of blocks to be erased and begin the erase process using the <a href="10723.html">DRV_NVM_Erase</a>.</li>
+<li value="4" class="Element605">The client can check the state of the erase request by invoking the <a href="10719.html">DRV_NVM_CommandStatus</a> and passing the command handle returned by the erase request.</li>
+<li value="5" class="Element605">The client will be able to close itself by calling the <a href="10711.html">DRV_NVM_Close</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00697');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00697"><pre class="Element12"><i><span style="color: #008000">// This code shows how to erase NVM Media data</span></i>
+DRV_HANDLE             nvmHandle;
+DRV_NVM_COMMAND_HANDLE nvmCommandHandle;
+
+DRV_NVM_COMMAND_STATUS commandStatus;
+
+uint32_t blockAddress;
+uint32_t nBlocks;
+
+blockAddress = 0;
+nBlocks = 1;
+
+DRV_NVM_Erase(nvmHandle, &amp;nvmCommandHandle, blockAddress, nBlocks);
+
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_HANDLE_INVALID == nvmCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the erase request. Handle the error. */</span></i>
+}
+
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+commandStatus = DRV_NVM_CommandStatus(nvmHandle, nvmCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Erase completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_NVM_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Erase Failed */</span></i>
+}</pre></div></div>
+<div class="Element15">
+Writing Data to the NVM:</div>
+<p class="Element10">
+The following steps outline the sequence to be followed for writing data to the NVM Media:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary initialization and <a href="10753.html">DRV_NVM_Tasks</a> should either be running in a polled environment, or in an interrupt environment.</li>
+<li value="2" class="Element605">The driver should have been opened with the necessary intent.</li>
+<li value="3" class="Element605">The client should ensure that blocks of addresses to which write is being performed should be in the erased state.</li>
+<li value="4" class="Element605">Provide the data to be written, block start address and the number of blocks to be written and begin write using the <a href="10754.html">DRV_NVM_Write</a>.</li>
+<li value="5" class="Element605">The client can check the state of the write request by invoking the <a href="10719.html">DRV_NVM_CommandStatus</a> and passing the command handle returned by the write request.</li>
+<li value="6" class="Element605">The client will be able to close itself by calling the <a href="10711.html">DRV_NVM_Close</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00698');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00698"><pre class="Element12"><i><span style="color: #008000">// This code shows how to write data to NVM Media</span></i>
+DRV_HANDLE             nvmHandle;
+DRV_NVM_COMMAND_HANDLE nvmCommandHandle;
+
+DRV_NVM_COMMAND_STATUS commandStatus;
+
+uint8_t writeBuf[DRV_NVM_ROW_SIZE];
+uint32_t blockAddress;
+uint32_t nBlocks;
+
+blockAddress = 0;
+nBlocks = 1;
+
+DRV_NVM_Write(nvmHandle, &amp;nvmCommandHandle, (uint8_t *)writeBuf, blockAddress, nBlocks);
+
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_HANDLE_INVALID == nvmCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the write request. Handle the error. */</span></i>
+}
+
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+commandStatus = DRV_NVM_CommandStatus(nvmHandle, nvmCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Write completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_NVM_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Write Failed */</span></i>
+}</pre></div></div>
+<div class="Element15">
+Reading Data from the NVM:</div>
+<p class="Element10">
+The following steps outline the sequence to be followed for reading data from the NVM Media:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary initialization and <a href="10753.html">DRV_NVM_Tasks</a> should either be running in a polled environment, or in an interrupt environment.</li>
+<li value="2" class="Element605">The driver should have been opened with the necessary intent.</li>
+<li value="3" class="Element605">Provide the target buffer, block start address and the number of blocks to be read and begin reading using the <a href="10749.html">DRV_NVM_Read</a>.</li>
+<li value="4" class="Element605">The client can check the state of the read request by invoking the <a href="10719.html">DRV_NVM_CommandStatus</a> and passing the command handle returned by the read request.</li>
+<li value="5" class="Element605">The client will be able to close itself by calling the <a href="10711.html">DRV_NVM_Close</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00699');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00699"><pre class="Element12"><i><span style="color: #008000">// This code shows how to read data from NVM Media</span></i>
+DRV_HANDLE             nvmHandle;
+DRV_NVM_COMMAND_HANDLE nvmCommandHandle;
+
+DRV_NVM_COMMAND_STATUS commandStatus;
+
+uint8_t readBuf[DRV_NVM_ROW_SIZE];
+uint32_t blockAddress;
+uint32_t nBlocks;
+
+blockAddress = 0;
+nBlocks = DRV_NVM_ROW_SIZE;
+
+DRV_NVM_Read(nvmHandle, &amp;nvmCommandHandle, (uint8_t *)readBuf, blockAddress, nBlocks);
+
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_HANDLE_INVALID == nvmCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the read request. Handle the error. */</span></i>
+}
+
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if a part of cooperative multi-tasking</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00700');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00700"><pre class="Element12"><i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+
+commandStatus = DRV_NVM_CommandStatus(nvmHandle, nvmCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_NVM_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Read completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_NVM_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Read Failed */</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17067.html">NVM Driver Library</a> &gt; <a href="08707.html">Using the Library</a> &gt; <a href="08698.html">How the Library Works</a> &gt; <a href="08692.html">Client Block Data Operation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV NVM Client Block Data Function Topic Title: Client Block Data Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

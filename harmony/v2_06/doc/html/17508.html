@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Transmitting a CAN Message</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17508.html">Transmitting a CAN Message</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17485.html">Previous</a> | <a href="17494.html">Up</a> | <a href="17505.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Transmitting a CAN Message Topic Title: Transmitting a CAN Message)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Transmitting a CAN Message</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The caller application can transmit a CAN message by queuing the message in a transmit channel, updating the channel, and then flushing it. Flushing a transmit channel will cause the CAN module to transmit all of the CAN messages that are queued in the channel.&nbsp;</p>
+<p class="Element10">
+The <a href="18533.html">PLIB_CAN_TransmitBufferGet</a> function should be used to obtain a <a href="06769.html">CAN_TX_MSG_BUFFER</a> handle type to an empty message buffer. The application should then populate this buffer. The <a href="18454.html">PLIB_CAN_ChannelUpdate</a> function must be called when the buffer has been populated. Finally, the <a href="18534.html">PLIB_CAN_TransmitChannelFlush</a> function is called to flush the channel.&nbsp;</p>
+<p class="Element10">
+The following code shows an example of transmitting an Extended ID message using Channel 0 on the CAN1 module. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01662');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01662"><pre class="Element12">CAN_TX_MSG_BUFFER * My_Message;
+
+<i><span style="color: #008000">/* Get a pointer to the next buffer in the Transmit channel
+ * check if the returned value is null. */</span></i>
+My_Message = PLIB_CAN_TransmitBufferGet(CAN_ID_1, CAN_CHANNEL0);
+
+<strong><span style="color: #000080">if</span></strong>(My_Message != NULL)
+{
+    <i><span style="color: #008000">/* Form a Extended ID CAN message. Start by clearing the buffer.
+    Set the IDE bit to 1 to indicate extended ID message. Clear RTR bit
+    as this is not a RTR message. */</span></i>
+    My_Message-&gt;messageWord[0] = 0;
+    My_Message-&gt;messageWord[1] = 0;
+    My_Message-&gt;messageWord[2] = 0;
+    My_Message-&gt;messageWord[3] = 0;
+    My_Message-&gt;msgSID.sid    = 0x200;
+    My_Message-&gt;msgEID.eid    = 0x4002;
+    My_Message-&gt;msgEID.ide    = 1;
+    My_Message-&gt;msgEID.sub_remote_req    = 0;
+    My_Message-&gt;msgEID.data_length_code  = 1;
+    My_Message-&gt;data[0]       = 0xAA;
+
+    <i><span style="color: #008000">/* This function lets the CAN module
+     know that the message processing is done.*/</span></i>
+    PLIB_CAN_ChannelUpdate(CAN_ID_1, CAN_CHANNEL0);
+
+    <i><span style="color: #008000">/* Direct the CAN module to flush the
+     Transmit channel. This will send any pending
+     message in the Transmit channel. */</span></i>
+    PLIB_CAN_TransmitChannelFlush(CAN_ID_1, CAN_CHANNEL0);
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The <a href="18533.html">PLIB_CAN_TransmitBufferGet</a> function will return NULL if the transmit channel is full. In this occurs, the <a href="18534.html">PLIB_CAN_TransmitChannelFlush</a> function should be called to empty the channel.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The following code shows an example of transmitting a Standard ID message using Channel 0 on the CAN1 module. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01663');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01663"><pre class="Element12">CAN_TX_MSG_BUFFER * myMessage;
+
+<i><span style="color: #008000">/* Get a pointer to the next buffer in the channel
+ check if the returned value is null. */</span></i>
+myMessage = PLIB_CAN_TransmitBufferGet(CAN_ID_1, CAN_CHANNEL0);
+
+<strong><span style="color: #000080">if</span></strong>(myMessage != NULL)
+{
+
+    <i><span style="color: #008000">/* Form a Standard ID CAN message. Start by clearing the buffer.
+     Send message to the CAN2 module. IDE = 0 means Standard ID message.
+     Send one byte of data.
+     */</span></i>
+    myMessage-&gt;messageWord[0] = 0;
+    myMessage-&gt;messageWord[1] = 0;
+    myMessage-&gt;messageWord[2] = 0;
+    myMessage-&gt;messageWord[3] = 0;
+
+    myMessage-&gt;msgSID.sid     = 0x202;
+    myMessage-&gt;msgEID.ide     = 0;
+    myMessage-&gt;msgEID.data_length_code     = 1;
+    myMessage-&gt;data[0]        = 0x23;
+
+    <i><span style="color: #008000">/* This function lets the CAN module
+     know that the message processing is done
+     and message is ready to be processed. */</span></i>
+    PLIB_CAN_ChannelUpdate(CAN_ID_1, CAN_CHANNEL0);
+
+    <i><span style="color: #008000">/* Direct the CAN module to flush the
+     Transmit channel. This will send any pending
+     message in the Transmit channel. */</span></i>
+    PLIB_CAN_TransmitChannelFlush(CAN_ID_1, CAN_CHANNEL0);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17508.html">Transmitting a CAN Message</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Transmitting a CAN Message Topic Title: Transmitting a CAN Message)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

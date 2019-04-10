@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17395.html">How the Library Works</a> &gt; <a href="17396.html">Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17392.html">Previous</a> | <a href="17395.html">Up</a> | <a href="17385.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following processes should be followed for performing an analog-to-digital conversion:&nbsp;</p>
+<p class="Element10">
+<strong>Initialize the ADC Module:</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="5%">
+<div class="Element66">
+Number&nbsp;</div></td><td class="Element65" valign="top" width="34%">
+<div class="Element66">
+Description&nbsp;</div></td><td class="Element65" valign="top" width="61%">
+<div class="Element66">
+Functions associated&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+1&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Selecting the voltage reference source<br>Idle mode control&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18206.html">PLIB_ADC_VoltageReferenceSelect</a><br><a href="18205.html">PLIB_ADC_StopInIdleEnable</a><br><a href="18204.html">PLIB_ADC_StopInIdleDisable</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+2&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Selecting the ADC conversion clock&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18150.html">PLIB_ADC_ConversionClockSet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+3&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Input channel selection<br><br>Configuring MUX A and MUX B inputs,<br>Alternating MUX A and MUX B input selections,<br>Scanning through several inputs&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<strong>Scan Mask Selection</strong><br><a href="18184.html">PLIB_ADC_InputScanMaskAdd</a><br><a href="18186.html">PLIB_ADC_InputScanMaskRemove</a><br><strong>Positive Inputs</strong><br><a href="18191.html">PLIB_ADC_MuxChannel0InputPositiveSelect</a><br><strong>Negative Inputs</strong><br><a href="18190.html">PLIB_ADC_MuxChannel0InputNegativeSelect</a><br><strong>Scan Mode Selection</strong><br><a href="18189.html">PLIB_ADC_MuxAInputScanEnable</a><br><a href="18188.html">PLIB_ADC_MuxAInputScanDisable</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+4&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Enabling the ADC module&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18158.html">PLIB_ADC_Enable</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+5&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Determine how sampling will occur&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<strong>Sampling Control</strong><br><a href="18201.html">PLIB_ADC_SamplingModeSelect</a><br><a href="18196.html">PLIB_ADC_SampleAcquisitionTimeSet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+6&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Selecting Manual or Auto-Sampling&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18198.html">PLIB_ADC_SampleAutoStartEnable</a><br><a href="18197.html">PLIB_ADC_SampleAutoStartDisable</a><br><a href="18202.html">PLIB_ADC_SamplingStart</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+7&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Select conversion trigger and sampling time&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18153.html">PLIB_ADC_ConversionStart</a><br><a href="18151.html">PLIB_ADC_ConversionClockSourceSelect</a><br><a href="18156.html">PLIB_ADC_ConversionTriggerSourceSelect</a><br><a href="18155.html">PLIB_ADC_ConversionStopSequenceEnable</a><br><a href="18154.html">PLIB_ADC_ConversionStopSequenceDisable</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+8&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Select how conversion results are stored in buffer&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18192.html">PLIB_ADC_ResultBufferModeSelect</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+9&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Select the result format&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18194.html">PLIB_ADC_ResultFormatSelect</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%">
+<div class="Element68">
+10&nbsp;</div></td><td class="Element67" valign="top" width="34%">
+<div class="Element68">
+Select the number of readings per interrupt&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+<a href="18199.html">PLIB_ADC_SamplesPerInterruptSelect</a>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The ADC is configured by the following steps:
+<ol class="Element636">
+<li value="1" class="Element606">Select the acquisition time using <a href="18196.html">PLIB_ADC_SampleAcquisitionTimeSet</a>.</li>
+<li value="2" class="Element606">Select the conversion clock for ADC using <a href="18150.html">PLIB_ADC_ConversionClockSet</a>.</li>
+<li value="3" class="Element606">The reference for ADC can be set using the function <a href="18206.html">PLIB_ADC_VoltageReferenceSelect</a>.</li>
+<li value="4" class="Element606">Select the appropriate analog MUX and analog input where the analog voltage is connected.</li>
+<li value="5" class="Element606">Select the appropriate trigger source using <a href="18156.html">PLIB_ADC_ConversionTriggerSourceSelect</a>.</li>
+<li value="6" class="Element606">Configure the ADC interrupt (if required):
+<ul class="Element637">
+<li class="Element607">Clear the interrupt status flag</li>
+<li class="Element607">Select the ADC interrupt priority</li>
+<li class="Element607">Enable ADC interrupt</li>
+</ul></li>
+<li value="7" class="Element606">Turn on the ADC module using <a href="18158.html">PLIB_ADC_Enable</a>.</li>
+</ol><strong>Example Initialization:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01417');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01417"><pre class="Element12"><i><span style="color: #008000">// Include all channels in scan</span></i>
+PLIB_ADC_InputScanMaskAdd(MY_ADC_INSTANCE, ADC_INPUT_SCAN_ALL);
+
+<i><span style="color: #008000">// Internal Counter triggers conversion</span></i>
+PLIB_ADC_ConversionTriggerSourceSelect(MY_ADC_INSTANCE, ADC_CONVERSION_TRIGGER_INTERNAL_COUNT);
+
+<i><span style="color: #008000">// Sample Time = 31TAD and TAD = 2TCY</span></i>
+PLIB_ADC_SampleAcquisitionTimeSet(MY_ADC_INSTANCE, 30);
+PLIB_ADC_ConversionClockSet(MY_ADC_INSTANCE, 80000000, 20000000);
+
+<i><span style="color: #008000">// Set the interrupt every 16 samples</span></i>
+PLIB_ADC_SamplesPerInterruptSelect(MY_ADC_INSTANCE, ADC_16SAMPLES_PER_INTERRUPT);
+
+<i><span style="color: #008000">// Enable scanning of channels</span></i>
+PLIB_ADC_MuxAInputScanEnable(MY_ADC_INSTANCE);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+PLIB_ADC_Enable(MY_ADC_INSTANCE);</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all functionality is available on all devices. Refer to the <strong>&quot;Analog-to-Digital Converter (ADC)&quot;</strong> chapter in the specific device data sheet for availability.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02681.html">ADC Peripheral Library</a> &gt; <a href="17403.html">Using the Library</a> &gt; <a href="17395.html">How the Library Works</a> &gt; <a href="17396.html">Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADC Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

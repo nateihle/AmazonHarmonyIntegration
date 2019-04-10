@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Channel Events</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17492.html">Handling Events</a> &gt; <a href="17482.html">Channel Events</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17492.html">Previous</a> | <a href="17492.html">Up</a> | <a href="17504.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Channel Events Topic Title: Channel Events)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Channel Events</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Each channel in the module has its own set of events. The type of events are common to all channels. While a specific channel event may be active and can be inspected, it will cause a module event only if the channel event is enabled.&nbsp;</p>
+<p class="Element10">
+The following code shows an example of enabling and disabling channel events using the <a href="18448.html">PLIB_CAN_ChannelEventEnable</a> function. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01665');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01665"><pre class="Element12"><i><span style="color: #008000">/* CAN 1 Channel 1 and 3 are Transmit channels and Channel 2 and 4 are Receive
+ channels */</span></i>
+<i><span style="color: #008000">/* Enable Channel 1 empty event and channel not full event. Disable Channel 2 full
+ and overflow event */</span></i>
+<i><span style="color: #008000">/* Enable all Transmit events on Channel 2 and disable all RX events on Channel 4 */</span></i>
+
+PLIB_CAN_ChannelEventEnable(CAN_ID_1, CAN_CHANNEL1,
+    (CAN_TX_CHANNEL_EMPTY | CAN_TX_CHANNEL_NOT_FULL));
+PLIB_CAN_ChannelEventEnable(CAN_ID_1, CAN_CHANNEL2,
+    (CAN_RX_CHANNEL_FULL | CAN_RX_CHANNEL_OVERFLOW));
+PLIB_CAN_ChannelEventEnable(CAN_ID_1, CAN_CHANNEL3, CAN_TX_CHANNEL_ANY_EVENT);
+PLIB_CAN_ChannelEventEnable(CAN_ID_1, CAN_CHANNEL4, CAN_RX_CHANNEL_ANY_EVENT);</pre></div></div>
+<p class="Element10">
+The <a href="18514.html">PLIB_CAN_ModuleEventGet</a> function can be used to check if a specific event is active in a specific channel.&nbsp;</p>
+<p class="Element10">
+It is only necessary for the event to be active and not enabled for this to work, as shown in the following code example. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01666');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01666"><pre class="Element12"><i><span style="color: #008000">// Check if RX Channel 2 of CAN module 1 is not empty or if its full.</span></i>
+CAN_CHANNEL_EVENT channelEvent;
+
+channelEvent = PLIB_CAN_ChannelEventGet(CAN_ID_1, CAN_CHANNEL2);
+
+<strong><span style="color: #000080">if</span></strong>((channelEvent &amp; (CAN_RX_CHANNEL_NOT_EMPTY | CAN_RX_CHANNEL_FULL)) != 0)
+{
+    <i><span style="color: #008000">// This means that either RX Channel 2 is not empty</span></i>
+    <i><span style="color: #008000">// or the Channel is full.</span></i>
+}</pre></div></div>
+<p class="Element10">
+If a channel event is enabled and is active, it will set a channel event status flag. This flag indicates that some event in the channel is active.&nbsp;</p>
+<p class="Element10">
+The following code example shows how the <a href="18437.html">PLIB_CAN_AllChannelEventsGet</a> function is used to check if any channel event is active. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01667');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01667"><pre class="Element12"><i><span style="color: #008000">/* Check if RX Channel 2 of CAN module 1 is not empty or if its full */</span></i>
+CAN_CHANNEL_EVENT channelEvent;
+
+channelEvent = PLIB_CAN_ChannelEventGet(CAN_ID_1, CAN_CHANNEL2);
+
+<strong><span style="color: #000080">if</span></strong>((channelEvent &amp; (CAN_RX_CHANNEL_NOT_EMPTY | CAN_RX_CHANNEL_FULL)) != 0)
+{
+    <i><span style="color: #008000">// This means that either RX Channel 2 is not empty</span></i>
+    <i><span style="color: #008000">// or the Channel is full.</span></i>
+}</pre></div></div>
+<p class="Element10">
+A receive channel overflow condition is special channel event and is available as a module event as well. The <a href="18438.html">PLIB_CAN_AllChannelOverflowStatusGet</a> function returns the status of all channels that have an active overflow event. Only channels with enabled overflow events will be reflected.&nbsp;</p>
+<p class="Element10">
+The following code shows an example of how this function is used. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01668');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01668"><pre class="Element12"><i><span style="color: #008000">/* Check if Channel 2 or 3 of CAN module 1 have any active events */</span></i>
+CAN_CHANNEL_MASK channelEvents;
+
+channelEvents = PLIB_CAN_AllChannelEventsGet(CAN_ID_1);
+
+<strong><span style="color: #000080">if</span></strong>((channelEvents &amp; (CAN_CHANNEL2_MASK | CAN_CHANNEL3_MASK)) != 0)
+{
+    <i><span style="color: #008000">// Either Channel 2 or 3 has an active event.</span></i>
+    <i><span style="color: #008000">// The PLIB_CAN_ChannelEventGet function can be</span></i>
+    <i><span style="color: #008000">// used to query the channel for more details.</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17492.html">Handling Events</a> &gt; <a href="17482.html">Channel Events</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Channel Events Topic Title: Channel Events)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

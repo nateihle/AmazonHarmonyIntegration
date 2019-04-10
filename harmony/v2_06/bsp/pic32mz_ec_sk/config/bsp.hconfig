@@ -1,0 +1,50 @@
+ifblock BSP_PIC32MZ_EC_SK
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_PIC32MZ_EC_SK
+
+config BSP_CONFIGURE_PIC32MZ_EC_SK
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_USE_USBSWITCH
+    select BSP_POSC_24MHz
+    set BSP_PIN_59_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_59_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_60_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_60_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_61_FUNCTION_NAME to "BSP_SWITCH_3" 
+    set BSP_PIN_61_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_43_FUNCTION_NAME to "BSP_LED_1" 
+    set BSP_PIN_43_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_44_FUNCTION_NAME to "BSP_LED_2" 
+    set BSP_PIN_44_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_45_FUNCTION_NAME to "BSP_LED_3" 
+    set BSP_PIN_45_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_25_FUNCTION_NAME to "USB_VBUS_SWITCH" 
+    set BSP_PIN_25_FUNCTION_TYPE to "VBUS" 
+    bool
+    ---help---
+    IDH_HTML_BSP_pic32mz_ec_sk
+    ---endhelp---
+
+endmenu
+
+
+menu "Custom Board Configurations for PIC32MZ EC Starter Kit"
+    depends on USE_BSP
+
+import PIC32MZ_EC_SK_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32mz_ec_sk_H "$HARMONY_VERSION_PATH/bsp/pic32mz_ec_sk/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32mz_ec_sk_C "$HARMONY_VERSION_PATH/bsp/pic32mz_ec_sk/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32mz_ec_sk includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif
+

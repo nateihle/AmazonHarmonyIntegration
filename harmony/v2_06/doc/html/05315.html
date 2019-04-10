@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>bt_avdtp_register_callback Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; AVDTP Functions &gt; <a href="05315.html">bt_avdtp_register_callback Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="05314.html">Previous</a> | <a href="06308.html">Up</a> | <a href="05316.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_avdtp_register_callback@bt_avdtp_mgr_t*@bt_avdtp_mgr_callback_fp@void* Topic Title: bt_avdtp_register_callback Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+bt_avdtp_register_callback Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">bt_avdtp_register_callback</span></strong>(
+    <a href="05312.html">bt_avdtp_mgr_t</a>* <strong><span style="color: #000000">mgr</span></strong>, 
+    <a href="05311.html">bt_avdtp_mgr_callback_fp</a> <strong><span style="color: #000000">callback</span></strong>, 
+    <strong><span style="color: #000080">void</span></strong>* <strong><span style="color: #000000">callback_param</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+brief Register a AVDTP application callback. ingroup avdtp&nbsp;</p>
+<p class="Element10">
+details In order to be notified of various events a consumer of the AVDTP layer has to register a callback function. The stack will call this function whenever a new event has been generated passing the code of the event as the second parameter. The event can be one of the following values:&nbsp;</p>
+<p class="Element10">
+@arg <a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a>: Control channel connected. @arg <a href="04671.html">AVDTP_EVT_CTRL_CHANNEL_DISCONNECTED</a>: Control channel disconnected. @arg <a href="04672.html">AVDTP_EVT_CTRL_CONNECTION_FAILED</a>: Control channel connection failed (generated only if control connection has been initiated by the local device). @arg <a href="04674.html">AVDTP_EVT_DISCOVER_COMPLETED</a>: Local device completed discovering remote SEPs. @arg <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a>: Local device received a response to Get SEP capabilities operation. @arg <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a>: Local device received a response to Set stream configuration operation. @arg <a href="04676.html">AVDTP_EVT_GET_STREAM_CONFIGURATION_COMPLETED</a>: Local device received a response to Get stream configuration operation. @arg <a href="04697.html">AVDTP_EVT_STREAM_RECONFIGURE_COMPLETED</a>: Local device received a response to Reconfigure stream operation. @arg <a href="04682.html">AVDTP_EVT_OPEN_STREAM_COMPLETED</a>: Local device received a response to Open stream operation. @arg <a href="04690.html">AVDTP_EVT_START_STREAM_COMPLETED</a>: Local device received a response to Start stream operation. @arg <a href="04668.html">AVDTP_EVT_CLOSE_STREAM_COMPLETED</a>: Local device received a response to Close stream operation. @arg <a href="04702.html">AVDTP_EVT_SUSPEND_STREAM_COMPLETED</a>: Local device received a response to Suspend stream operation. @arg <a href="04699.html">AVDTP_EVT_STREAM_SECURITY_CONTROL_COMPLETED</a>: Local device received a response to Stream security control operation. @arg <a href="04666.html">AVDTP_EVT_ABORT_STREAM_COMPLETED</a>: Local device received a response to Abort stream operation. @arg <a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a>: SEP information received. @arg <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a>: SEP capabilities received. @arg <a href="04694.html">AVDTP_EVT_STREAM_CONFIGURATION_RECEIVED</a>: Stream configuration received.&nbsp;</p>
+<p class="Element10">
+@arg <a href="04689.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a>: Remote device requested stream configuration. @arg <a href="04683.html">AVDTP_EVT_OPEN_STREAM_REQUESTED</a>: Remote device requested to open a stream. @arg <a href="04691.html">AVDTP_EVT_START_STREAM_REQUESTED</a>: Remote device requested to start a stream. @arg <a href="04669.html">AVDTP_EVT_CLOSE_STREAM_REQUESTED</a>: Remote device requested to close a stream. @arg <a href="04703.html">AVDTP_EVT_SUSPEND_STREAM_REQUESTED</a>: Remote device requested to suspend a stream. @arg <a href="04667.html">AVDTP_EVT_ABORT_STREAM_REQUESTED</a>: Remote device requested to abort a stream. @arg <a href="04684.html">AVDTP_EVT_RECONFIGURE_STREAM_REQUESTED</a>: Remote device requested to reconfigure a stream. @arg <a href="04678.html">AVDTP_EVT_MEDIA_PACKET_RECEIVED</a>: Remote device sent a media packet. @arg <a href="04695.html">AVDTP_EVT_STREAM_CONFIGURED</a>: A stream has been configured (This event is generated right after <a href="04689.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a> if the local devices accepted the request). @arg <a href="04698.html">AVDTP_EVT_STREAM_RECONFIGURED</a>: A stream has been re-configured (This event is generated right after <a href="04684.html">AVDTP_EVT_RECONFIGURE_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="04696.html">AVDTP_EVT_STREAM_OPENED</a>: A stream has been opened (This event is generated as a result of local or remote stream opening request). @arg <a href="04700.html">AVDTP_EVT_STREAM_STARTED</a>: A stream has been started (This event is generated right after <a href="04691.html">AVDTP_EVT_START_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="04693.html">AVDTP_EVT_STREAM_CLOSED</a>: A stream has been close (This event is generated right after <a href="04669.html">AVDTP_EVT_CLOSE_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="04701.html">AVDTP_EVT_STREAM_SUSPENDED</a>: A stream has been suspended (This event is generated right after <a href="04703.html">AVDTP_EVT_SUSPEND_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="04692.html">AVDTP_EVT_STREAM_ABORTED</a>: A stream has been aborted (This event is generated right after <a href="04703.html">AVDTP_EVT_SUSPEND_STREAM_REQUESTED</a> if the local devices accepted the request. It is also generated if connection between devices has been terminated by means other than AVDTP signaling, e.g. devices going out of rage). @arg <a href="04680.html">AVDTP_EVT_MEDIA_PACKET_SENT</a>: The local device has successfully sent a media packet to the remote device. @arg <a href="04679.html">AVDTP_EVT_MEDIA_PACKET_SEND_FAILED</a>: The local device was not able to send a media packet to the remote device.&nbsp;</p>
+<p class="Element10">
+param mgr AVDTP manager. param callback The callback function that will be called when the AVDTP generates an event. param callback_param A pointer to arbitrary data to be passed to the c callback callback.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; AVDTP Functions &gt; <a href="05315.html">bt_avdtp_register_callback Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_avdtp_register_callback@bt_avdtp_mgr_t*@bt_avdtp_mgr_callback_fp@void* Topic Title: bt_avdtp_register_callback Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

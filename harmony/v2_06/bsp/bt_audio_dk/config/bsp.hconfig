@@ -1,0 +1,98 @@
+ifblock BSP_BT_AUDIO_DK
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_BT_AUDIO_DK
+
+config BSP_CONFIGURE_BT_AUDIO_DK
+    depends on USE_BSP
+    depends on BSP_BT_AUDIO_DK
+
+    select BSP_TRIGGER
+    select BSP_POSC_12MHz
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "12000000"
+    select BSP_BT_AUDIO_DK_BOARD
+    set DRV_GFX_DISPLAY_TYPE to "Crystal Fontz 2-inch 176x220"
+    set POSCMOD optionally to "HS" 
+    set FPLLIDIV optionally to "DIV_3" 
+    set UPLLIDIV optionally to "DIV_3" 
+    set BSP_PIN_17_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_17_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_38_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_38_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_29_FUNCTION_NAME to "BSP_SWITCH_3" 
+    set BSP_PIN_29_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_41_FUNCTION_NAME to "BSP_SWITCH_4" 
+    set BSP_PIN_41_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_42_FUNCTION_NAME to "BSP_SWITCH_5" 
+    set BSP_PIN_42_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_43_FUNCTION_NAME to "BSP_SWITCH_6" 
+    set BSP_PIN_43_FUNCTION_TYPE to "SWITCH" 	
+    set BSP_PIN_90_FUNCTION_NAME to "BSP_USB_SW0" 
+    set BSP_PIN_90_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_89_FUNCTION_NAME to "BSP_USB_SW1" 
+    set BSP_PIN_89_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_60_FUNCTION_NAME to "BSP_LED_5" 
+    set BSP_PIN_60_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_61_FUNCTION_NAME to "BSP_LED_6" 
+    set BSP_PIN_61_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_91_FUNCTION_NAME to "BSP_LED_7" 
+    set BSP_PIN_91_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_92_FUNCTION_NAME to "BSP_LED_8" 
+    set BSP_PIN_92_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_28_FUNCTION_NAME to "BSP_LED_9" 
+    set BSP_PIN_28_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_78_FUNCTION_NAME to "BSP_AK4384_CONTROL_CLK" 
+    set BSP_PIN_78_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_77_FUNCTION_NAME to "BSP_AK4384_CONTROL_CS" 
+    set BSP_PIN_77_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_79_FUNCTION_NAME to "BSP_AK4384_CONTROL_DO" 
+    set BSP_PIN_79_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_76_FUNCTION_NAME to "BSP_AK4201_AMPLIFIER_PDN" 
+    set BSP_PIN_76_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_1_FUNCTION_NAME to "BSP_AK4384_PDN" 
+    set BSP_PIN_1_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_6_FUNCTION_NAME to "BSP_DisplayReset" 
+    set BSP_PIN_6_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_44_FUNCTION_NAME to "BSP_DisplaySet" 
+    set BSP_PIN_44_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_71_FUNCTION_NAME to "BSP_Display" 
+    set BSP_PIN_71_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_73_FUNCTION_NAME to "" 
+    set BSP_PIN_73_FUNCTION_TYPE to "SDI1" 
+    set BSP_PIN_72_FUNCTION_NAME to "" 
+    set BSP_PIN_72_FUNCTION_TYPE to "SDO1" 
+    set BSP_PIN_70_FUNCTION_NAME to "" 
+    set BSP_PIN_70_FUNCTION_TYPE to "SCK1" 
+    set BSP_PIN_69_FUNCTION_NAME to "" 
+    set BSP_PIN_69_FUNCTION_TYPE to "SS1 (out)"
+    set BSP_PIN_53_FUNCTION_NAME to "" 
+    set BSP_PIN_53_FUNCTION_TYPE to "REFCLKO"
+    bool
+    ---help---
+    IDH_HTML_BSP_bt_audio_dk
+    ---endhelp---
+
+endmenu
+
+
+menu "Custom Board Configurations for Bluetooth Audio Development Kit"
+    depends on USE_BSP
+    depends on BSP_BT_AUDIO_DK
+
+import BSP_BT_AUDIO_DK_IMPORT_ICB "Select Custom Configuration To Import" 
+    depends on USE_BSP
+    depends on BSP_BT_AUDIO_DK
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_bt_audio_dk_H "$HARMONY_VERSION_PATH/bsp/bt_audio_dk/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_bt_audio_dk_C "$HARMONY_VERSION_PATH/bsp/bt_audio_dk/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+add "^#include \"/bsp/bt_audio_dk/templates/bsp_usb.c.ftl\">" to list BSP_INIT_C_INITIALIZE_CODE
+
+compiler BSP_COMPILER_INCLUDE_bt_audio_dk includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+endif

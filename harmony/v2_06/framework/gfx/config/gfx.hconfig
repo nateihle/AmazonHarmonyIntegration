@@ -1,0 +1,276 @@
+menu "Graphics Stack"
+
+enum DRV_GFX_DISPLAYS
+    "PDA TM4301B 4.3-inch 480x272 (WQVGA) with PCAP"
+    || "PDA TM5000 5-inch 800x480 (WVGA) with PCAP"
+	|| "Truly 7-inch 800x480 (WVGA)"
+    || "Truly 5.7-inch 640x480 (VGA)"
+    || "Truly 3.2-inch 240x320 (QVGA)"
+    || "Powertip 4.3-inch 480x272 (WQVGA)"
+    || "LTS 4.3-inch 480x272 (WQVGA) with RTP"
+    || "Newhaven 5.0-inch 800x480 (WVGA) with PCAP"
+    || "Newhaven 4.3-inch 480x272 (WQVGA) with PCAP"
+    || "Crystal Fontz 2-inch 176x220"
+    || "maXTouch Xplained Pro 3.5-inch 320x480 (SPI 4-LINE)"
+    || "Custom Display"
+	
+enum DRV_GFX_ORIENTATION
+	"0"
+	|| "90"
+	|| "180"
+	|| "270"
+	
+enum DRV_GFX_DISPLAY_LCD_TYPES
+    "GFX_LCD_TFT"
+	
+config DRV_GFX_DISPLAY_MAX_INSTANCES
+	int
+	default 3
+
+enum GFX_LAYER_COLOR_MODE
+	"GFX_COLOR_MODE_GS_8"
+    || "GFX_COLOR_MODE_RGB_332"
+	|| "GFX_COLOR_MODE_RGB_565"
+    || "GFX_COLOR_MODE_RGBA_5551"
+	|| "GFX_COLOR_MODE_RGB_888"
+    || "GFX_COLOR_MODE_RGBA_8888"
+    || "GFX_COLOR_MODE_ARGB_8888"
+#    || "GFX_COLOR_MODE_YUYV"
+
+config USE_GFX_STACK_NEEDED
+    bool
+
+config USE_GFX_DRV_ONLY_NEEDED
+	bool
+	default n
+	
+config USE_GFX_PDA_TM4301B_480X272_NEEDED
+	bool
+
+config USE_GFX_PDA_TM5000_800X480_NEEDED
+	bool
+
+config USE_GFX_TRULY_7_800X480_NEEDED
+    bool
+
+config USE_GFX_TRULY_57_640X480_NEEDED
+    bool
+
+config USE_GFX_TRULY_32_240X320_NEEDED
+    bool
+
+config USE_GFX_POWERTIP_43_480X272_NEEDED
+    bool
+
+config USE_GFX_LTS_43_480X272_RTP_NEEDED
+    bool
+
+config USE_GFX_NEWHAVEN_50_800X480_PCAP_NEEDED
+    bool
+
+config USE_GFX_NEWHAVEN_43_480X272_PCAP_NEEDED
+    bool
+
+config USE_GFX_CRYSTAL_2_176x220_NEEDED
+    bool
+
+config USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE_NEEDED
+    bool
+
+config GFX_MAX_DISPLAYS
+    int 
+    default 1
+	
+config GFX_MAX_CONTROLLERS
+    int 
+    default 1
+
+config GFX_MAX_BUFFERS
+    int 
+    default 2
+	
+enum DRV_GFX_CONTROLLER_LIST
+	"Low Cost Controllerless" ||
+	"LCDC"                    ||
+	"GLCD"                    ||
+	"Epson S1D13517"          ||
+	"SSD1926"                 ||
+    "SSD1963"                 ||
+	"OTM2201A"                ||
+	"ILI9488 (SPI 4-LINE)" ||
+	"Generic Customizable Driver" ||
+	"None"
+
+enum DRV_GFX_PROCESSOR_LIST
+        "NANO 2D"                    ||
+        "None"
+
+#config USE_DRV_GFX_CONTROLLER_NEEDED
+#    bool
+	
+config USE_GFX_STACK
+    bool "Use Graphics Stack?"
+	select BSP_GRAPHICS_NEEDED
+	default y if USE_GFX_STACK_NEEDED
+    default n
+	---help---
+	---endhelp---
+
+menu "Graphics RTOS Configuration"
+    depends on USE_GFX_STACK
+    depends on USE_3RDPARTY_RTOS
+
+config GFX_STACK_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config GFX_STACK_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on GFX_STACK_RTOS = "Standalone"
+    default 1024
+
+config GFX_STACK_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on GFX_STACK_RTOS = "Standalone"
+    default 1
+
+config GFX_STACK_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on GFX_STACK_RTOS = "Standalone"
+    default y
+
+config GFX_STACK_RTOS_DELAY
+    int "Task Delay"
+    depends on GFX_STACK_RTOS = "Standalone"
+    depends on GFX_STACK_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+menu "Graphics Display" depends on USE_GFX_STACK
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/display/config/drv_gfx_display.hconfig"
+endmenu
+
+menu "Graphics Controller" depends on USE_GFX_STACK
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/config/drv_gfx_controller.hconfig"
+endmenu
+
+menu "Graphics Processor" depends on USE_GFX_STACK
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/processor/config/drv_gfx_processor.hconfig"
+endmenu
+
+menu "Timing Controller" depends on USE_GFX_STACK
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/tcon/config/tcon.hconfig"
+endmenu
+
+menu "Graphics Options" depends on USE_GFX_STACK
+source "$HARMONY_VERSION_PATH/framework/gfx/hal/config/gfx_config.hconfig"
+endmenu
+
+config GFX_CONTEXT_MAX_LAYERS
+	depends on USE_GFX_STACK
+	int
+	default 1
+
+config USE_GFX_COMPOSER_SUITE
+    bool "Use Harmony Graphics Composer Suite?"
+    depends on USE_GFX_STACK
+    select MHGC_ENABLE
+	default n if USE_GFX_DRV_ONLY_NEEDED
+    default y
+	---help---
+	---endhelp---
+
+menu "Middleware" depends on USE_GFX_COMPOSER_SUITE
+source "$HARMONY_VERSION_PATH/framework/gfx/utils/config/gfx_utils.hconfig"
+source "$HARMONY_VERSION_PATH/framework/gfx/libaria/config/libaria.hconfig"
+endmenu
+
+menu "Tools" depends on USE_GFX_COMPOSER_SUITE
+
+enum MHGC_GENERATE_MODE_VALS
+    "Complete User Interface Design"
+	|| "Graphical Assets Only"
+
+config MHGC_ENABLE
+    bool "Enable MPLAB Harmony Graphics Composer?"
+	default n if GFX_HAL_DRAW_PIPELINE_ENABLED
+    default y
+	
+config MHGC_GENERATE_MODE
+	depends on MHGC_ENABLE
+	string "Generate Mode"
+	range MHGC_GENERATE_MODE_VALS
+	default "Complete User Interface Design"
+	
+endmenu
+
+endmenu
+
+ifblock USE_GFX_STACK
+add "<#include \"/framework/gfx/config/gfx_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#assign GFX_STACK_TASKS = \"TASK_CALL_NO_RTOS\"><#include \"/framework/gfx/config/gfx_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+
+file GFX_H "$HARMONY_VERSION_PATH/framework/gfx/hal/gfx.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx.h"
+file GFX_COLOR_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_color.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_color.h"
+file GFX_COMMON_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_common.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_common.h"
+file GFX_CONTEXT_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_context.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_context.h"
+file GFX_DEFAULT_IMPL_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_default_impl.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_default_impl.h"
+file GFX_DISPLAY_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_display.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_display.h"
+file GFX_DRIVER_INTERFACE_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_driver_interface.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_driver_interface.h"
+file GFX_HAL_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_hal.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_hal.h"
+file GFX_INTERFACE_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_interface.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_interface.h"
+file GFX_LAYER_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_layer.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_layer.h"
+file GFX_PIXEL_BUFFER_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_pixel_buffer.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_pixel_buffer.h"
+file GFX_PROCESSOR_INTERFACE_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_processor_interface.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_processor_interface.h"
+file GFX_RECT_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_rect.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_rect.h"
+file GFX_UTIL_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_util.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_util.h"
+
+file GFX_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx.c"
+file GFX_COLOR_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_color.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_color.c"
+file GFX_CONTEXT_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_context.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_context.c"
+file GFX_DEFAULT_IMPL_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_default_impl.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_default_impl.c"
+file GFX_DISPLAY_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_display.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_display.c"
+template GFX_DISPLAY_DEF_C "$HARMONY_VERSION_PATH/framework/gfx/hal/templates/gfx_display_def.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/hal/gfx_display_def.c"
+file GFX_DRIVER_INTERFACE_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_driver_interface.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_driver_interface.c"
+template GFX_DRIVER_DEF_C "$HARMONY_VERSION_PATH/framework/gfx/hal/templates/gfx_driver_def.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/hal/gfx_driver_def.c"
+template GFX_PROCESSOR_DEF_C "$HARMONY_VERSION_PATH/framework/gfx/hal/templates/gfx_processor_def.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/hal/gfx_processor_def.c"
+file GFX_GET_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_get.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_get.c"
+file GFX_INTERFACE_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_interface.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_interface.c"
+file GFX_LAYER_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_layer.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_layer.c"
+file GFX_PIXEL_BUFFER_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_pixel_buffer.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_pixel_buffer.c"
+file GFX_PROCESSOR_INTERFACE_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_processor_interface.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_processor_interface.c"
+file GFX_RECT_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_rect.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_rect.c"
+file GFX_UTIL_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_util.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_util.c"
+file GFX_SET_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_set.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_set.c"
+
+ifblock GFX_HAL_DRAW_PIPELINE_ENABLED
+file GFX_DRAW_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw.h"
+file GFX_DRAW_ARC_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_arc.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_arc.h"
+file GFX_DRAW_BLIT_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_blit.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_blit.h"
+file GFX_DRAW_CIRCLE_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_circle.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_circle.h"
+file GFX_DRAW_ELLIPSE_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_ellipse.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_ellipse.h"
+file GFX_DRAW_LINE_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_line.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_line.h"
+file GFX_DRAW_PIXEL_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_pixel.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_pixel.h"
+file GFX_DRAW_RECT_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_rect.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_pixel.h"
+file GFX_DRAW_STRETCHBLIT_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_draw_stretchblit.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_draw_stretchblit.h"
+file GFX_MATH_H "$HARMONY_VERSION_PATH/framework/gfx/hal/inc/gfx_math.h" to "$PROJECT_HEADER_FILES/framework/gfx/hal/gfx_math.h"
+
+file GFX_COLOR_BLEND_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_color_blend.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_color_blend.c"
+file GFX_COLOR_CONVERT_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_color_convert.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_color_convert.c"
+file GFX_COLOR_LERP_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_color_lerp.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_color_lerp.c"
+file GFX_COLOR_VALUE_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_color_value.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_color_value.c"
+file GFX_DRAW_ARC_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_arc.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_arc.c"
+file GFX_DRAW_BLIT_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_blit.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_blit.c"
+file GFX_DRAW_CIRCLE_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_circle.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_circle.c"
+file GFX_DRAW_ELLIPSE_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_ellipse.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_ellipse.c"
+file GFX_DRAW_LINE_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_line.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_line.c"
+file GFX_DRAW_PIXEL_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_pixel.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_pixel.c"
+file GFX_DRAW_RECT_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_rect.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_rect.c"
+file GFX_DRAW_STRETCHBLIT_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_draw_stretchblit.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_draw_stretchblit.c"
+file GFX_MATH_C "$HARMONY_VERSION_PATH/framework/gfx/hal/src/gfx_math.c" to "$PROJECT_SOURCE_FILES/framework/gfx/hal/gfx_math.c"
+endif
+
+template GFX_CONFIG_H "$HARMONY_VERSION_PATH/framework/gfx/hal/templates/gfx_config.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/hal/gfx_config.h"
+
+endif

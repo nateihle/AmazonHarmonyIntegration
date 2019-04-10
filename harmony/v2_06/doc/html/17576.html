@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="11907.html">Dual Data Rate (DDR) SDRAM Peripheral Library</a> &gt; <a href="17585.html">Using the Library</a> &gt; <a href="17576.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17579.html">Previous</a> | <a href="17585.html">Up</a> | <a href="17570.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DDR How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+General Configuration</div>
+<p class="Element10">
+General configuration of the SDRAM controller includes the following:
+<ul class="Element638">
+<li class="Element608">On-Die-Termination (ODT) settings for data reads and writes</li>
+<li class="Element608">Endianness</li>
+<li class="Element608">DDR type (DDR2 or DDR3)</li>
+<li class="Element608">Rate mode (full or half)</li>
+</ul></p><div class="Element15">
+Target Arbitration</div>
+<p class="Element10">
+Initializing the arbitration parameters for each target is a two-step procedure. First, the minimum number of uninterrupted bursts (without interference from another target) is programmed, using the <a href="18758.html">PLIB_DDR_MinLimit</a> function. Then the number of bursts within a specific time-out period is set using the <a href="18808.html">PLIB_DDR_ReqPeriod</a> and <a href="18757.html">PLIB_DDR_MinCommand</a> functions. The relative time-outs and number of bursts between targets determine the total bandwidth allocation.&nbsp;</p>
+<p class="Element10">
+For details, refer to the <strong>&quot;DDR SDRAM&quot;</strong> chapter in the specific device data sheet and <strong>Section 55. &quot;DDR2 SDRAM Controller&quot;</strong> (DS60001321) in the <i>&quot;PIC32 Family Reference Manual&quot;</i>.</p><div class="Element15">
+SDRAM Addressing</div>
+<p class="Element10">
+The address used by the CPU to access the SDRAM must be converted into a format understood by the SDRAM. The SDRAM uses bank, row, column and chip select bits to access data within the memory. The SDRAM addressing functions use shift and mask operations to translate the CPU address into bank, row, column and chip-select. There are four addressing functions, one each for bank, row, column and chip select. Each function takes mask and shift arguments. The mask parameter determines the number of bits that make up the address component, and the shift parameter determines where in the 32-bit CPU address the component is located. Refer to the DDR SDRAM Family Reference Manual for more details and examples.</p><div class="Element15">
+PHY Initialization</div>
+<p class="Element10">
+The PHY controls the physical interface from the PIC32 to SDRAM. ODT is provided by the pads, and can be enabled or disabled using the PHY initialization functions. Setting ODT correctly for the platform can improve signal integrity by minimizing signal reflection. Enabling/disabling ODT and setting the impedance is done using the following functions:
+<ul class="Element638">
+<li class="Element608"><a href="18782.html">PLIB_DDR_PHY_OdtEnable</a></li>
+<li class="Element608"><a href="18781.html">PLIB_DDR_PHY_OdtDisable</a></li>
+</ul>Similarly, the pad drive strength can be set using the PLIB_DDR_PHY_DriveStrengthSet function.&nbsp;</p>
+<p class="Element10">
+Fine tuning of the ODT impedance and drive strength can be performed using the calibration functions <a href="18778.html">PLIB_DDR_PHY_OdtCal</a> and <a href="18772.html">PLIB_DDR_PHY_DrvStrgthCal</a>.&nbsp;</p>
+<p class="Element10">
+The SDRAM PHY contains Self-Calibration-Logic (SCL) that is run automatically during initialization. Various SCL parameters can be set using the following functions:
+<ul class="Element638">
+<li class="Element608"><a href="18790.html">PLIB_DDR_PHY_SCLEnable</a> - enables SCL for a specific Chip Select</li>
+<li class="Element608"><a href="18786.html">PLIB_DDR_PHY_ReadCASLatencySet</a> - sets the read CAS latency during SCL</li>
+<li class="Element608"><a href="18794.html">PLIB_DDR_PHY_WriteCASLatencySet</a> - sets the write CAS latency during SCL</li>
+<li class="Element608"><a href="18780.html">PLIB_DDR_PHY_OdtCSEnable</a> - enables ODT on Chip Select during SCL</li>
+<li class="Element608"><a href="18789.html">PLIB_DDR_PHY_SCLDelay</a> - sets the SCL delay</li>
+</ul></p><div class="Element15">
+SDRAM Timing</div>
+<p class="Element10">
+Several timing parameters must be initialized for the SDRAM interface to operate correctly. These include:
+<ul class="Element638">
+<li class="Element608">Refresh interval and delay</li>
+<li class="Element608">Read and write delays</li>
+<li class="Element608">Precharge delays</li>
+<li class="Element608">Addressing delays</li>
+<li class="Element608">Bank activate delays</li>
+</ul>Timing parameters for specific SDRAMs are provided in the SDRAM data sheet. These are passed to the SDRAM timing initialization functions along with the controller clock period. The initialization functions then calculate the delays and set the controller timing registers to the correct values. Refer to <strong>Section 55. &quot;DDR2 SDRAM Controller&quot;</strong> (DS60001321)in the <i>&quot;PIC32 Family Reference Manual&quot;</i> for details.</p><div class="Element15">
+SDRAM Initialization</div>
+<p class="Element10">
+The SDRAM is initialized by writing a series of commands to internal registers of the SDRAM itself. The register command interface is encoded on the control and address lines to the SDRAM. The SDRAM controller includes a series of registers that are initialized and transmitted to the SDRAM using the SDRAM initialization functions.&nbsp;</p>
+<p class="Element10">
+The sequence is as follows:
+<ol class="Element638">
+<li value="1" class="Element608">Write the initialization words to the host command registers using the <a href="18735.html">PLIB_DDR_CmdDataWrite</a> function.</li>
+<li value="2" class="Element608">Set the number of commands with the <a href="18759.html">PLIB_DDR_NumHostCmdsSet</a> function.</li>
+<li value="3" class="Element608">Write the commands to the SDRAM using <a href="18733.html">PLIB_DDR_CmdDataSend</a>.</li>
+<li value="4" class="Element608">Wait for the SDRAM to acknowledge valid initialization using <a href="18732.html">PLIB_DDR_CmdDataIsComplete</a>.</li>
+<li value="5" class="Element608">Enable the SDRAM for normal operation with the <a href="18737.html">PLIB_DDR_ControllerEnable</a> function.</li>
+</ol>The initialization command sequence is specified in the data sheet of the SDRAM device. An example initialization sequence is provided in <strong>Section 55. &quot;DDR2 SDRAM Controller&quot;</strong> (DS60001321) of the <i>&quot;PIC32 Family Reference Manual&quot;</i>.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="11907.html">Dual Data Rate (DDR) SDRAM Peripheral Library</a> &gt; <a href="17585.html">Using the Library</a> &gt; <a href="17576.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DDR How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

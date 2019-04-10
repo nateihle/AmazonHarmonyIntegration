@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>bt_a2dp_get_stream_state Macro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; A2DP Data Types and Constants &gt; <a href="05137.html">bt_a2dp_get_stream_state Macro</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="05136.html">Previous</a> | <a href="06308.html">Up</a> | <a href="05139.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_a2dp_get_stream_state Topic Title: bt_a2dp_get_stream_state Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+bt_a2dp_get_stream_state Macro</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">#define</span></strong> <strong><span style="color: #000000">bt_a2dp_get_stream_state</span></strong>(mgr, strm_handle) <a href="05308.html">bt_avdtp_get_stream_state</a>(mgr-&gt;avdtp_mgr, strm_handle)</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+brief Get local stream state. ingroup a2dp&nbsp;</p>
+<p class="Element10">
+details This function returns local state of a stream specified by the p strm_handle. No request is sent to the remote party.&nbsp;</p>
+<p class="Element10">
+param mgr A2DP manager. param strm_handle Stream handle.&nbsp;</p>
+<p class="Element10">
+return The state of the stream. The result will be one of the following values: @arg <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a>: The stream is idle. This can mean two things. The stream specified by p strm_handle does not exist or the stream is closed. @arg <a href="04743.html">AVDTP_STREAM_OPENING_TRANSPORT_CHANNELS</a>: The stream is opening transport channels. @arg <a href="04741.html">AVDTP_STREAM_CLOSING_TRANSPORT_CHANNELS</a>: The stream is closing transport channels. @arg <a href="04746.html">AVDTP_STREAM_STATE_CONFIGURED</a>: The stream has been configured. @arg <a href="04748.html">AVDTP_STREAM_STATE_OPEN</a>: The stream has been opened. @arg <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a>: The stream has been started. Depending on the local SEP type (source or sink) it means that the stream is can send or receive media packets. @arg <a href="04745.html">AVDTP_STREAM_STATE_CLOSING</a>: The stream is closing. This means that all transport channels associated with the stream are being closed. After they have been closed the stream goes to <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a> state. @arg <a href="04744.html">AVDTP_STREAM_STATE_ABORTING</a>: The stream is aborting. This means that all transport channels associated with the stream are being closed. After they have been closed the stream goes to <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a> state.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; A2DP Data Types and Constants &gt; <a href="05137.html">bt_a2dp_get_stream_state Macro</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_a2dp_get_stream_state Topic Title: bt_a2dp_get_stream_state Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_IPF_UnProtectMemoryVolatile Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08806.html">SPI PIC32WK IPF Flash Driver Library</a> &gt; <a href="08809.html">Library Interface</a> &gt; c) Other Functions &gt; <a href="10310.html">DRV_IPF_UnProtectMemoryVolatile Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="10307.html">Previous</a> | <a href="08809.html">Up</a> | <a href="10311.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_IPF_UnProtectMemoryVolatile@DRV_HANDLE@DRV_IPF_BLOCK_COMMAND_HANDLE *@uintptr_t@DRV_IPF_PROT_MODE Topic Title: DRV_IPF_UnProtectMemoryVolatile Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_IPF_UnProtectMemoryVolatile Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">DRV_IPF_UnProtectMemoryVolatile</span></strong>(
+    <a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">clientHandle</span></strong>, 
+    <a href="10252.html">DRV_IPF_BLOCK_COMMAND_HANDLE</a> * <strong><span style="color: #000000">commandHandle</span></strong>, 
+    uintptr_t <strong><span style="color: #000000">memAddress</span></strong>, 
+    <a href="10303.html">DRV_IPF_PROT_MODE</a> <strong><span style="color: #000000">protMode</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This API is used to un-protect the memory block to which a given memory address belongs. Both read and write protection mode is supported. The memory will be protected until the next power cycle.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In-package flash driver open function must be called and a valid client handle must be available.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+clientHandle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+A valid open-instance handle, returned from the driver's open function&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+commandHandle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to an argument that will contain the return buffer handle&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+memAddress&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Memory address which belongs to the memory block which needs to be un-protected&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+protMode&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Read or write protect mode. If a block needs to be un-protected for both read and write, then both enum values can be ORed and passed to the function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If the memory block a client is trying to unprotect, is protected by some other client, then memory unprotection will not executed. The function will return without unprotecting.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00845');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00845"><pre class="Element12">uintptr_t memAddr = IPF_ADDRESS_UNPROTECT;
+<a href="10303.html">DRV_IPF_PROT_MODE</a>    protMode = DRV_IPF_WRITE_PROTECT;
+<a href="10252.html">DRV_IPF_BLOCK_COMMAND_HANDLE</a> commandHandle;
+MY_APP_OBJ myAppObj;
+
+<i><span style="color: #008000">// myIPFHandle is the handle returned</span></i>
+<i><span style="color: #008000">// by the DRV_IPF_Open function.</span></i>
+
+<i><span style="color: #008000">// Client registers an event handler with driver</span></i>
+
+<a href="10265.html">DRV_IPF_BlockEventHandlerSet</a>(myIPFHandle,
+                APP_IPFEventHandler, (uintptr_t)&amp;myAppObj);
+
+DRV_IPF_UnProtectMemoryVolatile( myIPFHandle, commandHandle,
+                                        memAddr, protMode );
+
+<strong><span style="color: #000080">if</span></strong>(<a href="10253.html">DRV_IPF_BLOCK_COMMAND_HANDLE_INVALID</a> == commandHandle)
+{
+    <i><span style="color: #008000">// Error handling here</span></i>
+}
+
+<i><span style="color: #008000">// Event is received when</span></i>
+<i><span style="color: #008000">// the buffer is processed.</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_IPFEventHandler(<a href="10254.html">DRV_IPF_BLOCK_EVENT</a> event,
+        <a href="10252.html">DRV_IPF_BLOCK_COMMAND_HANDLE</a> commandHandle, uintptr_t contextHandle)
+{
+    <i><span style="color: #008000">// contextHandle points to myAppObj.</span></i>
+
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_IPF_EVENT_BLOCK_COMMAND_COMPLETE:
+
+            <i><span style="color: #008000">// This means the memory unprotection is complete.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> DRV_IPF_EVENT_BLOCK_COMMAND_ERROR:
+
+            <i><span style="color: #008000">// Error handling here.</span></i>
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08806.html">SPI PIC32WK IPF Flash Driver Library</a> &gt; <a href="08809.html">Library Interface</a> &gt; c) Other Functions &gt; <a href="10310.html">DRV_IPF_UnProtectMemoryVolatile Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_IPF_UnProtectMemoryVolatile@DRV_HANDLE@DRV_IPF_BLOCK_COMMAND_HANDLE *@uintptr_t@DRV_IPF_PROT_MODE Topic Title: DRV_IPF_UnProtectMemoryVolatile Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,12 @@
+config USE_APP_GLOBAL_EVENT
+    bool
+    
+ifblock USE_APP_GLOBAL_EVENT
+
+add "^#include \"/utilities/mhc/config/gencode/framework/global_event/config/global_event_macros.ftl\">" to list APP_FREEMARKER_MACROS
+
+template GLOBAL_EVENT_H  "$HARMONY_VERSION_PATH/utilities/mhc/config/gencode/framework/global_event/global_event.h.ftl" to "$PROJECT_HEADER_FILES/app/global_event.h"
+template GLOBAL_EVENT_C  "$HARMONY_VERSION_PATH/utilities/mhc/config/gencode/framework/global_event/global_event.c.ftl" to "$PROJECT_SOURCE_FILES/app/global_event.c"
+
+endif
+

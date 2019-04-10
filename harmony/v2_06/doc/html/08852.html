@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Block Operation Functions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23370.html">SRAM Driver Library</a> &gt; <a href="08864.html">Using the Library</a> &gt; <a href="08857.html">How the Library Works</a> &gt; <a href="08852.html">Client Block Operation Functions</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08853.html">Previous</a> | <a href="08857.html">Up</a> | <a href="08861.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SRAM Client Block Operation Functions Topic Title: Client Block Operation Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Block Operation Functions</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A block is a unit that represents the minimum amount of data that can be written or read. The block sizes may differ for write and read operations. The <a href="11045.html">DRV_SRAM_GeometryGet</a> function can be used to read out the geometry of the SRAM Media. The geometry indicates the number of read, write, and erase regions; blocks per region; and the size of each block.&nbsp;</p>
+<p class="Element10">
+The <a href="11058.html">DRV_SRAM_Write</a> and <a href="11056.html">DRV_SRAM_Read</a> functions are used to write and read the data to/from SRAM media. These functions block operations until the requested amount of data is transferred. If an event handler has been registered to receive the driver events, then the event handler will be invoked from within these functions. The driver provides events (<a href="11040.html">DRV_SRAM_EVENT</a>) that indicate the completion of the requests.&nbsp;</p>
+<p class="Element10">
+The following steps can be performed for a simple block data transfer operation:
+<ol class="Element636">
+<li value="1" class="Element606">Make sure the system has completed the necessary initialization of the SRAM driver.</li>
+<li value="2" class="Element606">Open the driver using <a href="11055.html">DRV_SRAM_Open</a> with the necessary intent.</li>
+<li value="3" class="Element606">Register an event handler callback by using the function <a href="11044.html">DRV_SRAM_EventHandlerSet</a>.</li>
+<li value="4" class="Element606">Request for block operation by using the functions <a href="11058.html">DRV_SRAM_Write</a> and <a href="11056.html">DRV_SRAM_Read</a> with the appropriate parameters.</li>
+<li value="5" class="Element606">Wait for the event handler callback to occur and check the status of the block operation by using the callback function parameter of type DRV_SRAM_ EVENT.</li>
+<li value="6" class="Element606">After performing the required block operations, the client can close the driver by using the function <a href="11030.html">DRV_SRAM_Close</a>.</li>
+</ol>&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">uint8_t myBuffer[MY_BUFFER_SIZE];</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">uint32_t blockStart = 0;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">uint32_t nBlock = 2;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"><a href="11031.html">DRV_SRAM_COMMAND_HANDLE</a> commandHandle;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">MY_APP_OBJ myAppObj;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// mySRAMHandle is the handle returned by the <a href="11055.html">DRV_SRAM_Open</a></span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// function.</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"><a href="11044.html">DRV_SRAM_EventHandlerSet</a>(</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> mySRAMHandle,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> APP_SRAMEventHandler,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> (uintptr_t)&amp;myAppObj);</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"><a href="11056.html">DRV_SRAM_Read</a>(</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> mySRAMHandle,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> &amp;commandHandle,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> &amp;myBuffer,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> blockStart,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> nBlock);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">if(<a href="11032.html">DRV_SRAM_COMMAND_HANDLE_INVALID</a> == commandHandle)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // Error handling here</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">else</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // Read operation completed successfully.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// Event is invoked from within the <a href="11056.html">DRV_SRAM_Read</a> function when</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// the read operation processing is complete.</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void APP_SRAMEventHandler</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">(</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="11040.html">DRV_SRAM_EVENT</a> event,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="11031.html">DRV_SRAM_COMMAND_HANDLE</a> commandHandle,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> uintptr_t contextHandle</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // contextHandle points to myAppObj.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> switch(event)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> case DRV_SRAM_EVENT_COMMAND_COMPLETE:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // This means the data was transferred.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> case DRV_SRAM_EVENT_COMMAND_ERROR:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // Error handling here.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> default:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23370.html">SRAM Driver Library</a> &gt; <a href="08864.html">Using the Library</a> &gt; <a href="08857.html">How the Library Works</a> &gt; <a href="08852.html">Client Block Operation Functions</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SRAM Client Block Operation Functions Topic Title: Client Block Operation Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

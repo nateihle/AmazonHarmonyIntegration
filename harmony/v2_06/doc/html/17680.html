@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Transmit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a> &gt; <a href="17680.html">Transmit</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17655.html">Previous</a> | <a href="17676.html">Up</a> | <a href="17673.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Transmit Topic Title: Transmit)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Transmit</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element103"><div class="Element102"><pre class="Element102" style="font-family: Verdana,Arial,Helvetica,sans-serif;"><span class="Element146">#include &quot;<a href="19116.html">plib_eth.h</a>&quot;</span>
+
+<span class="Element146">/***********************************************************************</span></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02116');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02116"><pre class="Element12"><i><span style="color: #008000">//</span></i>
+*/
+
+<strong><span style="color: #000080">void</span></strong> my_ETH_Transmit(ETH_MODULE_ID id, eth_buffer_descriptor_t *pArrDcpt, uint8_t *pArrBuff,
+                     uint8_t nArrayItems, uint16_t *pArrSize)
+{
+    <i><span style="color: #008000">//Input Parameters:</span></i>
+    <i><span style="color: #008000">//   *pArrDcpt : pointer to an array that holds free descriptors</span></i>
+    <i><span style="color: #008000">//   *pArrBuff: pointer to an array that holds buffers to be transmitted</span></i>
+    <i><span style="color: #008000">//   *pArrSize: pointer to an array that holds the sizes of the buffers to be transmitted</span></i>
+    <i><span style="color: #008000">//   nArrayItems: number of buffers to be transmitted</span></i>
+    <i><span style="color: #008000">//</span></i>
+    <i><span style="color: #008000">// Before attempting to transmit, the data must be placed into a packet</span></i>
+    <i><span style="color: #008000">// buffer (list) and the point(s) must be placed into transmit descriptor(s)</span></i>
+    <i><span style="color: #008000">// Refer to the DRV_ETH or the device family reference manual for more information</span></i>
+
+    <strong><span style="color: #000080">extern</span></strong> <strong><span style="color: #000080">void</span></strong>* VA_TO_PA(<strong><span style="color: #000080">char</span></strong>* pBuff); <i><span style="color: #008000">// extern function that returns the physical</span></i>
+                                        <i><span style="color: #008000">// address of the input virtual address parameter</span></i>
+
+    uint16_t ix;                       <i><span style="color: #008000">// loop index</span></i>
+    eth_buffer_descriptor_t *pEDcpt;   <i><span style="color: #008000">// current Ethernet descriptor</span></i>
+    eth_buffer_descriptor_t *tailDcpt; <i><span style="color: #008000">// last Ethernet descriptor</span></i>
+    uint8_t *pBuff;                    <i><span style="color: #008000">// current data buffer to be transmitted</span></i>
+    uint16_t *pSize;                   <i><span style="color: #008000">// current data buffer size</span></i>
+
+    pEDcpt=pArrDcpt;
+    pBuff=pArrBuff;
+    pSize=pArrSize;
+    tailDcpt=0;
+
+    <strong><span style="color: #000080">for</span></strong>(ix=0; ix&lt; nArrayItems; ix++, pEDcpt++, pBuff++, pSize++)
+    {
+        <i><span style="color: #008000">// pass the descriptor to hw, use linked descriptors, set proper size</span></i>
+        pEDcpt-&gt;pEDBuff = (uint8_t *)VA_TO_PA(pBuff); <i><span style="color: #008000">// set buffer</span></i>
+        pEDcpt-&gt;w=0;                                  <i><span style="color: #008000">// clear all the fields</span></i>
+        pEDcpt-&gt;NPV=1;                                <i><span style="color: #008000">// set next pointer valid</span></i>
+        pEDcpt-&gt;EOWN=1;                               <i><span style="color: #008000">// set hw ownership</span></i>
+        pEDcpt-&gt;bCount = *pSize;                      <i><span style="color: #008000">// set proper size</span></i>
+        <strong><span style="color: #000080">if</span></strong>(tailDcpt)
+        {
+            tailDcpt-&gt;next_ed = VA_TO_PA(&amp;pEDcpt);
+        }
+        tailDcpt=pEDcpt;
+    }
+    <i><span style="color: #008000">// at this moment pEDcpt is an extra descriptor we use to end the descriptors list</span></i>
+    pEDcpt-&gt;w=0;                                                  <i><span style="color: #008000">// software ownership</span></i>
+    tailDcpt-&gt;next_ed= VA_TO_PA(&amp;pEDcpt);
+    pArrDcpt[0].SOP=1;                                            <i><span style="color: #008000">// start of packet</span></i>
+    pArrDcpt[nArrayItems-1].EOP=1;                                <i><span style="color: #008000">// end of packet</span></i>
+
+    PLIB_ETH_TransmitPacketDescStartAddrSet(id, VA_TO_PA(pArrDcpt)); <i><span style="color: #008000">// set the transmit address</span></i>
+    PLIB_ETH_TransmitRequestToSendIsEnabled(id);                     <i><span style="color: #008000">// set the TXRTS</span></i>
+
+    <i><span style="color: #008000">// the ETHC will transmit the buffers we just programmed</span></i>
+    <i><span style="color: #008000">/* do something else in between */</span></i>
+    <strong><span style="color: #000080">while</span></strong> (PLIB_ETH_TxRTSIsEnabled(id))
+    {
+       <i><span style="color: #008000">//Wait until transmit is not busy</span></i>
+    }
+
+    <i><span style="color: #008000">// check the ETHSTAT register to see the transfer result</span></i>
+ }
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a> &gt; <a href="17680.html">Transmit</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Transmit Topic Title: Transmit)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

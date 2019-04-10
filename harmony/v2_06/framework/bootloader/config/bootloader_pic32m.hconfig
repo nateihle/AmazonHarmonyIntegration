@@ -1,0 +1,273 @@
+
+#############################################################################################
+# ENUM Options
+#############################################################################################
+enum BOOTLOADER_TYPES
+    "USART"
+    || "I2C"
+     || "USB_HOST"
+     || "USB_DEVICE"
+      || "ETHERNET_UDP_PULL"
+      || "SD_CARD"
+
+################################################################
+
+menu "Bootloader Library"
+
+config USE_BOOTLOADER
+    bool "Use Bootloader Library?"
+    default n
+      
+config BOOTLOADER_TYPE 
+    string "Bootloader Type"
+    default "USART"
+    range BOOTLOADER_TYPES
+    depends on USE_BOOTLOADER
+
+choice
+prompt "Bootloader or Application?" 
+
+default CUSTOM_BOOTLOADER_PROGRAM_SPACE
+depends on USE_BOOTLOADER
+config CUSTOM_BOOTLOADER_PROGRAM_SPACE
+     bool "Build an Application Linker Script?" 
+          ---help---
+     This creates a linker script file (.ld) with program memory region outside that of the bootloader. This file will be added to your project so that the application can be programmed via a bootloader.
+     ---endhelp---
+
+config USE_BOOTLOADER_LIBRARY
+    bool "Build a Bootloader?"
+    select USE_BSP_NEEDED
+    ---help---
+    This adds the proper files to a project to setup an application as a bootloader. This creates a linker script file (.ld) with program memory region inside that of the bootloader region. The program will then be ready to act as a bootloader accepting a program with that of the "application linker script".
+    ---endhelp---
+
+endchoice
+
+ifblock USE_SPI_FLASH = n
+    config USE_LIVE_UPDATE
+        bool "Use Live Update"
+        default n
+        depends on PIC32MZ
+        depends on USE_BOOTLOADER_LIBRARY
+        ---help---
+        This enables the Live Update feature for bootloader or an application.
+        ---endhelp---
+endif
+
+choice
+prompt "LiveUpdate Switcher or Application"
+
+default USE_LIVE_UPDATE_APPLICATION
+depends on USE_LIVE_UPDATE
+
+config USE_LIVE_UPDATE_SWITCHER
+    bool "Build a LiveUpdate Switcher"
+    ---help---
+    This swaps the memory of the flash panel after reset if a live update has taken place inside the application.
+    ---endhelp---
+
+config USE_LIVE_UPDATE_APPLICATION
+    bool "Build a LiveUpdate Application"
+    ---help---
+    This generates a Liveupdate application which has programming capability to the opposite flash panel of the program flash memory. It also generatesa application linker script file (.ld) with program memory region inside that of the program flash region.
+    ---endhelp---
+
+endchoice
+
+config PROG_FLASH_ID_SIZE
+    hex
+    default 0x10
+    ---help---
+    This config specifies the size of the program flash id structure which stores the checksum and id for swapping the panels.
+    ---endhelp---
+
+ifblock USE_LIVE_UPDATE = n
+    config USE_SPI_FLASH
+        bool "Program External SPI FLASH?"
+        default n
+        depends on USE_BOOTLOADER_LIBRARY
+         ---help---
+         This programs an external SPI FLASH with binary data as opposed to the PIC32 memory.
+         ---endhelp---
+    endif
+
+config DATASTREAM_I2C_USED
+    bool
+    depends on USE_BOOTLOADER_LIBRARY
+    default y if BOOTLOADER_TYPE = "I2C"
+    select USE_DRV_I2C_NEEDED
+
+config DATASTREAM_USART_USED
+    bool
+    depends on USE_BOOTLOADER_LIBRARY
+    default y if BOOTLOADER_TYPE = "USART"
+    select BSP_USART_BRIDGE_NEEDED
+    select USE_DRV_USART_NEEDED
+    select USE_DRV_USART_STATIC_NEEDED
+    set DRV_USART_INTERRUPT_MODE to n if USE_DRV_USART_NEEDED
+    set DRV_USART_BAUD_RATE_IDX0 to 115200 if USE_DRV_USART_NEEDED
+    select USE_SYS_RESET_NEEDED
+
+config DATASTREAM_USBHOST_USED
+    bool
+    depends on USE_BOOTLOADER_LIBRARY
+    default y if BOOTLOADER_TYPE = "USB_HOST"
+    select USE_USB_STACK_NEEDED
+    select DRV_USB_HOST_SUPPORT_NEEDED
+    select USB_HOST_USE_MSD
+    select USE_SYS_RESET_NEEDED
+
+comment "Make sure USB Host is setup properly in MHC. msd_basic demo config can be used for reference"
+     depends on DATASTREAM_USBHOST_USED
+     
+config DATASTREAM_USBDEVICE_USED
+    bool
+    depends on USE_BOOTLOADER_LIBRARY
+    default y if BOOTLOADER_TYPE = "USB_DEVICE"
+    select USE_USB_STACK_NEEDED
+    select DRV_USB_DEVICE_SUPPORT_NEEDED
+    select USB_DEVICE_USE_HID_NEEDED
+    select USE_SYS_RESET_NEEDED
+
+comment "Make sure USB HID Device is setup properly in MHC. hid_basic demo config can be used for reference"
+     depends on DATASTREAM_USBDEVICE_USED
+     
+config DATASTREAM_UDP_USED
+    bool
+    depends on USE_BOOTLOADER_LIBRARY
+    default y if BOOTLOADER_TYPE = "ETHERNET_UDP_PULL"
+    select USE_TCPIP_STACK_NEEDED
+    select USE_SYS_RESET_NEEDED
+
+comment "Make sure TCPIP UDP is setup properly in MHC. Bootloader basic demo MHC config can be used for reference"
+     depends on DATASTREAM_UDP_USED
+
+ifblock BOOTLOADER_TYPE = "ETHERNET_UDP_PULL"
+    config BOOTLOADER_PORT_NUMBER
+          string "UDP Port"
+          default "6234" 
+          depends on USE_BOOTLOADER_LIBRARY
+          ---help---
+          UDP Port Number to be used with Bootloader
+         ---endhelp---
+endif
+
+config DATASTREAM_SDCARD_USED
+    bool
+    depends on USE_BOOTLOADER_LIBRARY
+    default y if BOOTLOADER_TYPE = "SD_CARD"
+    select DRV_SDHC_NEEDED if HAVE_SDHC
+    select DRV_SDCARD_NEEDED if !HAVE_SDHC
+    select USE_SYS_RESET_NEEDED
+
+ifblock BOOTLOADER_TYPE = "USB_HOST" || BOOTLOADER_TYPE = "SD_CARD"
+    config BOOTLOADER_IMAGE_FILENAME
+        string "File name to load from drive"
+        default "image.hex"
+        depends on USE_BOOTLOADER_LIBRARY
+endif
+    
+config BOOTLOADER_SIZE
+    hex
+    depends on USE_BOOTLOADER_LIBRARY
+    default 0x14000 if BOOTLOADER_TYPE = "USB_HOST"
+    default 0x13000 if BOOTLOADER_TYPE = "ETHERNET_UDP_PULL"
+    default 0x7000 if BOOTLOADER_TYPE = "USB_DEVICE"
+    default 0x3000 if BOOTLOADER_TYPE = "USART" || BOOTLOADER_TYPE = "I2C"
+    
+config BOOTLOADER_ELENGTH
+    hex
+    depends on USE_BOOTLOADER_LIBRARY
+    default 0x0200 if BOOT_ADDR_SIZE = 0xbf0
+    default 0x0200 if BOOTLOADER_TYPE = "USART" || BOOTLOADER_TYPE = "I2C"
+    default 0x1000 if BOOTLOADER_TYPE = "USB_HOST" || BOOTLOADER_TYPE = "ETHERNET_UDP_PULL" || BOOTLOADER_TYPE = "USB_DEVICE"
+
+source "$HARMONY_VERSION_PATH/framework/bootloader/config/bootloader_legacy.hconfig"
+
+endmenu
+
+ifblock (USE_BOOTLOADER_LIBRARY)
+    ###################################Bootloader Linker Scripts########################################
+    ifblock PIC32MZ = y
+        ifblock (USE_LIVE_UPDATE_APPLICATION = n) && (USE_SPI_FLASH = n)
+            template BOOTLOADER_LINKER_LD1 "$HARMONY_VERSION_PATH/framework/bootloader/templates/btl_mz.ld.ftl" to "$PROJECT_LINKER_FILES/system_config/$CONFIGURATION/btl_mz.ld"
+        endif
+    endif
+
+    ifblock (PIC32MZ = n) && (USE_SPI_FLASH = n)
+        template BOOTLOADER_LINKER_LD3 "$HARMONY_VERSION_PATH/framework/bootloader/templates/btl_mx.ld.ftl" to "$PROJECT_LINKER_FILES/system_config/$CONFIGURATION/btl_mx.ld"
+    endif
+
+    ifblock CUSTOM_BOOTLOADER_PROGRAM_SPACE = n
+        add "<#include \"/framework/bootloader/templates/bootloader_init_data.c.ftl\">"  to list SYSTEM_INIT_C_MODULE_INITIALIZATION_DATA
+        add "<#include \"/framework/bootloader/templates/bootloader_init.c.ftl\">"  to list SYSTEM_INIT_C_INITIALIZE_MIDDLEWARE
+        add "<#include \"/framework/bootloader/templates/bootloader_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_LIB_TASKS
+        add "<#include \"/framework/bootloader/templates/bootloader_config.h.ftl\">"  to list SYSTEM_CONFIG_H_MIDDLEWARE_CONFIGURATION 
+
+        ifblock USE_LIVE_UPDATE_APPLICATION = n
+            add "<#include \"/framework/bootloader/templates/bootloader_app_callback_func.c.ftl\">"  to list APP0_C_CALLBACK_FUNCTIONS
+            add "<#include \"/framework/bootloader/templates/bootloader_app_initialize.c.ftl\">"  to list APP0_C_INITIALIZE
+            add "<#include \"/framework/bootloader/templates/bootloader_app_service_tasks.c.ftl\">"  to list APP0_C_TASKS_STATE_SERVICE_TASKS
+        endif
+    endif
+endif
+
+ifblock (CUSTOM_BOOTLOADER_PROGRAM_SPACE) || (USE_LIVE_UPDATE_APPLICATION)
+    ###################################Linker Scripts########################################
+    ifblock PIC32MZ = y
+        add "<#include \"/framework/bootloader/templates/bootloader_sys_init.c.ftl\">"  to list SYSTEM_INIT_C_SYSTEM_INITIALIZATION
+        template BOOTLOADER_LINKER_LD2 "$HARMONY_VERSION_PATH/framework/bootloader/templates/btl_mz.ld.ftl" to "$PROJECT_LINKER_FILES/system_config/$CONFIGURATION/app_mz.ld"
+    endif
+
+    ifblock PIC32MZ = n
+        template BOOTLOADER_LINKER_LD4 "$HARMONY_VERSION_PATH/framework/bootloader/templates/btl_mx.ld.ftl" to "$PROJECT_LINKER_FILES/system_config/$CONFIGURATION/app_mx.ld"
+    endif
+endif
+
+ifblock (USE_BOOTLOADER_LIBRARY)
+    ####################################Source Files########################################
+    file BOOTLOADER_H "$HARMONY_VERSION_PATH/framework/bootloader/src/bootloader.h" to "$PROJECT_HEADER_FILES/framework/bootloader/src/bootloader.h"
+    file BOOTLOADER_SYS_FS_H "$HARMONY_VERSION_PATH/framework/system/fs/sys_fs.h" to "$PROJECT_HEADER_FILES/framework/system/fs/sys_fs.h"
+    file BOOTLOADER_C "$HARMONY_VERSION_PATH/framework/bootloader/src/bootloader.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/bootloader.c"
+
+    ifblock (USE_SPI_FLASH)
+        file BOOTLOADER_EXTERNAL_FLASH_C "$HARMONY_VERSION_PATH/framework/bootloader/src/external_flash.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/external_flash.c"
+    endif
+
+    ifblock USE_SPI_FLASH = n
+        file BOOTLOADER_NVM_H "$HARMONY_VERSION_PATH/framework/bootloader/src/nvm.h" to "$PROJECT_HEADER_FILES/framework/bootloader/src/nvm.h"
+        file BOOTLOADER_NVM_C "$HARMONY_VERSION_PATH/framework/bootloader/src/nvm.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/nvm.c"
+    endif
+
+    ####################################DataStream Files########################################
+    file BOOTLOADER_DATASTREAM_H "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream.h" to "$PROJECT_HEADER_FILES/framework/bootloader/src/datastream.h"
+
+    ifblock BOOTLOADER_TYPE != "USB_HOST" && BOOTLOADER_TYPE != "SD_CARD"
+        file BOOTLOADER_DATASTREAM_C "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream/datastream.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/datastream/datastream.c"
+    endif
+
+    ifblock BOOTLOADER_TYPE = "I2C"
+        file BOOTLOADER_DRIVERI2C_C "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream/datastream_i2c.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/datastream/datastream_i2c.c"
+    endif
+
+    ifblock BOOTLOADER_TYPE = "USB_HOST"
+        file BOOTLOADER_DRIVERUSBH_C "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream/datastream_usb_host.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/datastream/datastream_usb_host.c"
+    endif
+
+    ifblock BOOTLOADER_TYPE = "USART"
+        file BOOTLOADER_DRIVERUSART_C "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream/datastream_usart.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/datastream/datastream_usart.c"
+    endif
+
+    ifblock BOOTLOADER_TYPE = "USB_DEVICE"
+        file BOOTLOADER_DRIVERUSBDEVICE_C "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream/datastream_usb_hid.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/datastream/datastream_usb_hid.c"
+    endif
+
+    ifblock BOOTLOADER_TYPE = "ETHERNET_UDP_PULL"
+        file BOOTLOADER_DRIVERUDPPULL_C "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream/datastream_udp.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/datastream/datastream_udp.c"
+    endif
+
+    ifblock BOOTLOADER_TYPE = "SD_CARD"
+        file BOOTLOADER_DRIVERSDCARD_C "$HARMONY_VERSION_PATH/framework/bootloader/src/datastream/datastream_sdcard.c" to "$PROJECT_SOURCE_FILES/framework/bootloader/src/datastream/datastream_sdcard.c"
+    endif
+endif

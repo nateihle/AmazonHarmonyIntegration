@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>BM64_a2dp_hfp</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04855.html">Bluetooth Demonstrations</a> &gt; <a href="03484.html">Demonstrations</a> &gt; <a href="03457.html">BM64 Driver Demonstrations</a> &gt; <a href="03458.html">BM64_a2dp_hfp</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03457.html">Previous</a> | <a href="03457.html">Up</a> | <a href="03459.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS BLUETOOTH BM64_a2dp_hfp Topic Title: BM64_a2dp_hfp)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+BM64_a2dp_hfp</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In this demonstration application, the BM64 Module Daughter Board, installed on the PIC32 Bluetooth Audio Development Kit (BTADK), is used to stream A2DP audio from a Bluetooth host, such as a smartphone, to a pair of headphones connected to the Audio DAC Daughter Board which comes with the BTADK.&nbsp;</p>
+<p class="Element10">
+The demonstration can also automatically answer a voice call coming in via Hands-Free Protocol (HFP), interrupting (and pausing) any A2DP streaming in progress. Local audio is input using a microphone connected to the MIC <a href="13954.html">IN</a> input of the BM64 Module Daughter Board. When the call is terminated, streaming resumes.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+This application runs on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a>, which contains a PIC32MX470F512L microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 96 MHz with the following features:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD</li>
+<li class="Element600">Six push buttons (SW1-SW6)</li>
+<li class="Element600">Five LEDs</li>
+<li class="Element600">USB Device and Host interfaces</li>
+<li class="Element600">Two X32 sockets, one for Bluetooth module and a second for a codec or DAC</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+</p>
+<ol class="Element630">
+<li value="1" class="Element600">The PIC32 Bluetooth Audio Development Kit comes with a BTM805 Bluetooth Daughter Board and an AK4384 Audio DAC daughter Board; however, you must replace the BTM805 daughter board with the daughter board for the BM64, and the AK4384 DAC with the AK4954A Codec Daughter Board, if applicable.</li>
+<li value="2" class="Element600">The USB Device and Host interfaces are not used in this application.</li>
+</ol><p class="Element68">
+&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Surrounding the PIC32MX470F512L microcontroller are a set of headers, which accept various plug-in modules (PIM), including one for a PIC32MX270F512L PIM as a second configuration for this project.&nbsp;</p>
+<p class="Element10">
+The following figure illustrates the application architecture. </p><p class="Element10" style="text-align: center;">
+<img src="APPS Bluetooth bm64_a2dp_arch.png" border="0" alt="" title=""></p><p class="Element10">
+The PIC32 microcontroller (MCU) runs the application code, and communicates with the BM64 over a USART interface operating at 115,200 baud. The BM64 module contains its own Bluetooth stack, so it is unnecessary to include a software Bluetooth stack in the PIC32 MCU. The program takes up about 40% of the PIC32MX470F512 microcontroller’s program space, and 27% of its RAM.&nbsp;</p>
+<p class="Element10">
+The interface between the PIC32 MCU and the LCD is an 8-bit parallel master port (PMP). The program uses the MPLAB Harmony v2.0 Graphics Library to draw on the screen. The buttons are also interfaced using GPIO pins.&nbsp;</p>
+<p class="Element10">
+As with any MPLAB Harmony application, the <a href="23925.html">SYS_Initialize</a> function, which is located in the <span class="Element146">system_init.c</span> source file, makes calls to initialize various subsystems, such as the clock, ports, board support package (BSP), BM64, codec, PMP, timers, graphics, and interrupts.&nbsp;</p>
+<p class="Element10">
+The BM64 and codec drivers, graphics, timers, and the application state machines are all updated through calls located in the <a href="24151.html">SYS_Tasks</a> function in system_tasks.c file. Interrupt handlers in the <span class="Element146">system_interrupt.c</span> file are used for the four DMA channels (only channels 0 and 1 are used), the USART, and the two timers.&nbsp;</p>
+<p class="Element10">
+The application code is contained in two source files, <span class="Element146">app.c</span> and <span class="Element146">audio.c</span>. The former contains the application state machine (APP_Tasks). It first initializes the application, sets up a periodic timing callback, and then waits for the BM64 driver’s internal state machine to complete initialization (indicated by the function DRV_BT_GetPowerStatus returning RV_BT_STATUS_READY ). At that point the application calls a function called audioStart which initiates audio processing.&nbsp;</p>
+<p class="Element10">
+Meanwhile, the audio state machine in audio.c has received a handle to the BM64 driver by calling DRV_BT_Open, and then setting callbacks for two event handlers (AUDIO_BT_RxBufferEventHandler for buffer event handling, and _audioEventHandler for general event handling). After that it gets a handle to the codec driver by calling its DRV_CODEC_Open function with a mode of DRV_IO_INTENT_WRITE. Then it registers an event handler, AUDIO_CODEC_TxBufferEventHandler as a callback with the codec driver. Then, it waits for the application to call audioStart before it makes its first call to DRV_BT_BufferAddRead to request audio samples from the BM64.&nbsp;</p>
+<p class="Element10">
+The event handler callback is given control whenever a buffer has been processed. By default two sets of buffers are used (AUDIO_QUEUE_SIZE = 2), each with 1250 32-bit samples; however, simply by changing the queue size a circular buffer scheme can be used instead. As each buffer is handed off to thebe sent to the codec, the other one becomes available to be filled by the BM64.&nbsp;</p>
+<p class="Element10">
+The BM64 and codec drivers interface with their respective I2S interfaces via DMA, but this is largely transparent to the application, as it is all taken care of by MPLAB Harmony.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">Uses the <a href="04856.html">BM64 Bluetooth Driver Library</a> to read audio samples from the BM64</li>
+<li class="Element600">Use of either a “ping-pong” or circular buffer scheme</li>
+<li class="Element600">At a lower level, the BM64 driver uses the <a href="27174.html">USART Driver Library</a> to talk to the BM64 module</li>
+<li class="Element600">Uses the AK4954 or <a href="03266.html">AK4384 Codec Driver Library</a> to write samples to the AK4384 DAC or AK4954 Codec</li>
+<li class="Element600">At a lower level, using the <a href="13740.html">I2S Driver Library</a> between the BM64 and BM64 driver, and the AK4384 or AK4954 Codec Library and the AK4384 DAC or AK4954 Codec</li>
+<li class="Element600">Use of “ping-pong” audio buffers</li>
+<li class="Element600">Sending and receiving characters between the USART of the PIC32 MCU and the BM64 (see <a href="27174.html">USART Driver Library</a>)</li>
+<li class="Element600">Displays graphics on the 220x176 LCD of the PIC32 Bluetooth Audio Development Kit using the MPLAB Harmony Graphics Library (see <a href="12777.html">MPLAB Harmony Graphics Composer Suite</a>) and the Parallel Master Port (see <a href="17353.html">PMP Driver Library</a>)</li>
+<li class="Element600">Processing of button pushes on the PIC32 Bluetooth Audio Development Kit using a state machine for contact debouncing (see <a href="21623.html">Ports Peripheral Library</a>)</li>
+<li class="Element600">Use of two timers: one as a periodic 1 ms timer for the application, and a second used by the BM64 driver (see <a href="08887.html">Timer Driver Library</a>)</li>
+</ul><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+When building a new application, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project</i>. Select the desired processor (PICMX470F512L or PIC32MX270F512L), and the PIC32MX Bluetooth Audio Development Kit. Click the MPLAB Harmony icon to start the MPLAB Harmony Configurator (MHC). Under BSP Configuration, select the PIC32 Bluetooth Audio Development Kit (BM64+AK4384), (BM64+AK4954), or PIC32MX270F512L w/ Bluetooth Audio Development Kit (BM64+AK4384) as appropriate for the hardware.&nbsp;</p>
+<p class="Element10">
+Open the <i>Harmony Configurator Framework &gt; Drivers</i> section, and then expand <i>Bluetooth &gt; BM64</i> and select <i>Use BM64 Driver?</i>. A sub-menu will appear with all options selected. Since you will only be using HFP, A2DP, and AVRCP protocols, clear the BLE Features? check box. Leaving the HFP, A2DP, AVRCP Protocols selected will by default bring in the drivers for both the codec and the I2S (and I2C driver, if using the AK4954).&nbsp;</p>
+<p class="Element10">
+If using the AK4384 DAC, expand <i>Drivers &gt;CODEC &gt; Use Codec AK4384?</i>, which should already be selected. Select <strong>Specify MCLK value</strong>, and enter 256. Expand <i>Use Bit Banged SPI Control Interface</i> and also <i>Code AK4384 Driver Instance 0</i>. Change the Timer driver (used for bit banging) instance to 1. If using the AK4954 Codec instead, expand<i> Drivers &gt;CODEC &gt; Use Codec AK4954?</i>, which should already be selected. Select <strong>Specify MCLK value</strong>, and enter 256. Then expand <i>Drivers &gt; Use I2C</i>, which should also already be selected, and check the box Include Force Write I2C Function.&nbsp;</p>
+<p class="Element10">
+Under I2S, Use I2S Driver should already be selected. Under <i>Sampling Rate</i>, enter 44100. Expand <i>I2S Driver Instance 1</i>, and change Transmit DMA Channel to 1, and Receive DMA Channel to 3.&nbsp;</p>
+<p class="Element10">
+You will also want to go into the Timer section, select a second timer (change Number of Timer Instances from 1 to 2), and then within TMR Driver Instance 1, change the Timer Module ID to TMR_ID_2, and the Prescale value to TMR_PRESCALE_VALUE_1.&nbsp;</p>
+<p class="Element10">
+In the USART section, Use USART Driver? should already be selected. The default parameters are okay as is.&nbsp;</p>
+<p class="Element10">
+Under <i>System Services &gt;DMA</i>, Use DMA System Service should already be selected. Change the Number of DMA Channel Instances to 4 and press <strong>Enter</strong>. Under DMA Channel Instance 0, change the Interrupt Priority to INT_PRIORITY_LEVEL2. Under DMA Channel Instance 1, change the Interrupt Priority to INT_PRIORITY_LEVEL4. Under DMA Channel Instances 2 and 3, change the Interrupt Priority to INT_DISABLE_INTERRUPT.&nbsp;</p>
+<p class="Element10">
+If your application is going to be using graphics, as this one does, within Graphics Stack, select <strong>Use Graphics Stack?</strong>. Further down, within <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <strong>Enable Touch</strong> since the LCD on the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Since you are using the LCD, you will also need to go back to the Drivers section, and within PMP, select <strong>Use PMP Driver?</strong>. Expand that section, and change the value of Strobe Wait Sates to PMP_STROBE_WAIT_4.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03459.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Bluetooth Demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03460.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03461.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04855.html">Bluetooth Demonstrations</a> &gt; <a href="03484.html">Demonstrations</a> &gt; <a href="03457.html">BM64 Driver Demonstrations</a> &gt; <a href="03458.html">BM64_a2dp_hfp</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS BLUETOOTH BM64_a2dp_hfp Topic Title: BM64_a2dp_hfp)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

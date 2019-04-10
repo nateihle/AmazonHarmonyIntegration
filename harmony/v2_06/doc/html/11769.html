@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Byte-by-Byte (Single Client)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11774.html">Common Data Transfer Models</a> &gt; <a href="11769.html">Byte-by-Byte (Single Client)</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11774.html">Previous</a> | <a href="11774.html">Up</a> | <a href="11779.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Byte-by-Byte (Single Client) Topic Title: Byte-by-Byte (Single Client))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Byte-by-Byte (Single Client)</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The byte-by-byte data transfer model provides a very simple mechanism for transferring data to and receiving data from a driver. It is very similar to the method commonly used by simple serial devices such as a USART that have transmitter and receiver FIFO buffers. This method transfers data one byte (or word) at a time until the driver’s FIFO is either full (if transmitting data) or empty (if receiving data), as shown in the following examples.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Reading Data Using the Byte-by-Byte Model</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00137');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00137"><pre class="Element12"><strong><span style="color: #000080">char</span></strong> buffer[MY_BUFFER_SIZE];
+<strong><span style="color: #000080">int</span></strong>  count;
+
+<strong><span style="color: #000080">for</span></strong> (count=0; count &lt; MY_BUFFER_SIZE; count++)
+{
+    <strong><span style="color: #000080">if</span></strong> (DRV_USART_ReceiverBufferIsEmpty(myUsart))
+    {
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        buffer[count] = DRV_USART_ByteRead(myUsart);
+    }
+}</pre></div></div>
+<p class="Element10">
+The previous example code assumes the USART driver has been successfully opened and the handle was stored in the <span class="Element146">myUsart</span> variable. The <span class="Element146">for</span> loop counts from 0 through MY_BUFFER_SIZE, unless the driver runs out of data. Each time through the loop, the code calls the <a href="11510.html">DRV_USART_ReceiverBufferIsEmpty</a> function to see if there is any data available. If there is no data available in the driver’s receiver buffer FIFO (indicated by <a href="11510.html">DRV_USART_ReceiverBufferIsEmpty</a> returning true), the loop is aborted and the count is not incremented. If data is available in the driver’s FIFO (indicated by <a href="11510.html">DRV_USART_ReceiverBufferIsEmpty</a> returning false), the example calls the driver’s DRV_USART_ByteRead function and stores the data returned into the current position in the buffer, indexed by the count variable. Then, the <span class="Element146">for</span> loop increments <span class="Element146">count</span> before checking the loop exit condition and potentially starting over. When this loop exits, either because <span class="Element146">count</span> reached MY_BUFFER_SIZE or because the driver had no more data available, the buffer contains count bytes of data received from the driver.&nbsp;</p>
+<p class="Element10">
+A very similar method is used to transmit data to the driver.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Writing Data Using the Byte-by-Byte Model</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00138');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00138"><pre class="Element12"><strong><span style="color: #000080">char</span></strong> *buffer = “Hello World\n”;
+<strong><span style="color: #000080">int</span></strong>   count;
+
+<strong><span style="color: #000080">for</span></strong> (count=0; count &lt; strlen(buffer); count++)
+{
+    <strong><span style="color: #000080">if</span></strong> (DRV_USART_TransmitBufferIsFull(myUsart))
+    {
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        DRV_USART_ByteWrite(myUsart, buffer[count]);
+    }
+}</pre></div></div>
+<p class="Element10">
+Again, it is assumed that the USART driver was previously opened and a valid <span class="Element146">myUsart</span> handle obtained. The <span class="Element146">for</span> loop counts from 0 through <span class="Element146">strlen(buffer)</span>, unless it fills the driver’s transmitter buffer FIFO first. Each time through the loop, it checks to see if the driver’s transmitter FIFO is full. If it is (as indicated by <a href="11518.html">DRV_USART_TransmitBufferIsFull</a> returning true), it aborts the loop and does not increment the <span class="Element146">count</span> variable. If the driver’s transmitter FIFO buffer is not full, it will then call DRV_USART_ByteWrite to send the byte of data in <span class="Element146">buffer</span> currently indexed by the <span class="Element146">count</span> variable. It will then increment the <span class="Element146">count</span> variable, check the loop exit condition and potentially start over. When the loop exits, <span class="Element146">count</span> bytes of data from <span class="Element146">buffer</span> have been sent from <span class="Element146">buffer</span> to the driver’s transmitter FIFO.&nbsp;</p>
+<p class="Element10">
+This data transfer model has the advantage that it is usually very lightweight and simple to implement, resulting in very little RAM and Flash required by the driver. However, this data transfer model is only safe for usage with single client drivers or with multiple client drivers that have been successfully opened in DRV_IO_INTENT_EXCLUSIVE mode. It is not safe for use with multiple clients or in a preemptive multi-tasking environment because it requires calling multiple functions to completely read or write a buffer of data. Refer to the <a href="11784.html">Interrupt and Thread Safety</a> section for an explanation on the types of issues that could occur in that environment.&nbsp;</p>
+<p class="Element10">
+Also, this data transfer model is not particularly easy to use, as it requires the caller to manage and adjust its current buffer pointer each time the loop exits. A synchronous file system style read/write data transfer model, described in the next section, may be simpler and safer from a caller’s point of view, especially when used in a RTOS environment.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11774.html">Common Data Transfer Models</a> &gt; <a href="11769.html">Byte-by-Byte (Single Client)</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Byte-by-Byte (Single Client) Topic Title: Byte-by-Byte (Single Client))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

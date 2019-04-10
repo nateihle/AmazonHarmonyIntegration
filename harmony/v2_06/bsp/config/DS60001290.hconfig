@@ -1,0 +1,117 @@
+choice
+    prompt "Select BSP To Use For $DEVICE Device"
+    depends on USE_BSP
+    default BSP_PIC32MX_125_SK
+    ---help---
+    IDH_HTML_BSP_Board_Support_Packages
+    ---endhelp---
+
+	
+config BSP_PIC32MX_125_SK
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    set POSCMOD optionally to "XT" if BSP_PIC32MX_125_SK
+    set FPLLIDIV optionally to "DIV_2" if BSP_PIC32MX_125_SK
+    set UPLLIDIV optionally to "DIV_2" if BSP_PIC32MX_125_SK
+    bool "PIC32MX 1/2/5 Starter Kit"
+    ---help---
+    IDH_HTML_BSP_pic32mx_125_sk
+    ---endhelp---
+
+config BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_12MHz
+    select BSP_BT_AUDIO_DK_BOARD
+    set POSCMOD optionally to "HS" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK
+    set FPLLIDIV optionally to "DIV_3" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK
+    set UPLLIDIV optionally to "DIV_3" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK
+    bool "PIC32MX270F512L w/ Bluetooth Audio Development Kit (AK4384)"
+    ---help---
+    IDH_HTML_BSP_pic32mx270f512l_pim_bt_audio_dk
+    ---endhelp---
+
+config BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_AK4642
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_12MHz
+    select BSP_BT_AUDIO_DK_AK4642_BOARD
+    set POSCMOD optionally to "HS" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_AK4642
+    set FPLLIDIV optionally to "DIV_3" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_AK4642
+    set UPLLIDIV optionally to "DIV_3" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_AK4642
+    bool "PIC32MX270F512L w/ Bluetooth Audio Development Kit (AK4642)"
+    ---help---
+    IDH_HTML_BSP_pic32mx270f512l_pim_bt_audio_dk_ak4642
+    ---endhelp---
+
+config BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_BM64
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_12MHz
+    select BSP_BT_AUDIO_DK_BM64_BOARD
+    set POSCMOD optionally to "HS" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_BM64
+    set FPLLIDIV optionally to "DIV_3" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_BM64
+    set UPLLIDIV optionally to "DIV_3" if BSP_PIC32MX270F512L_PIM_BT_AUDIO_DK_BM64
+    bool "PIC32MX270F512L w/ Bluetooth Audio Development Kit (BM64+AK4384)"
+    ---help---
+    IDH_HTML_BSP_pic32mx270f512l_pim_bt_audio_dk_bm64
+    ---endhelp---
+
+config BSP_PIC32MX_125_SK_MEB
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    set POSCMOD optionally to "XT" if BSP_PIC32MX_125_SK_MEB
+    set FPLLIDIV optionally to "DIV_2" if BSP_PIC32MX_125_SK_MEB
+    set UPLLIDIV optionally to "DIV_2" if BSP_PIC32MX_125_SK_MEB
+	bool "PIC32MX 1/2/5 Starter Kit w/ Multimedia Expansion Board (MEB)"
+    ---help---
+    IDH_HTML_BSP_pic32mx_125_sk_meb
+    ---endhelp---
+
+config BSP_PIC32MX_125_SK_LCC_PICTAIL_QVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+	select USE_GFX_TRULY_32_240X320_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_LCC_NEEDED if BSP_GRAPHICS_NEEDED
+	set POSCMOD optionally to "XT" if BSP_PIC32MX_125_SK_LCC_PICTAIL_QVGA
+    set FPLLIDIV optionally to "DIV_2" if BSP_PIC32MX_125_SK_LCC_PICTAIL_QVGA
+    set UPLLIDIV optionally to "DIV_2" if BSP_PIC32MX_125_SK_LCC_PICTAIL_QVGA
+    bool "PIC32MX 1/2/5 Starter Kit w/ LCC Pictail+ and QVGA glass"
+    ---help---
+    IDH_HTML_BSP_pic32mx_125_sk_lcc_pictail_qvga
+    ---endhelp---
+
+config BSP_CUSTOM
+    depends on USE_BSP
+    bool "Custom"
+
+	
+endchoice	
+
+
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_125_sk/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_125_sk+lcc_pictail+qvga/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx_125_sk+meb/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx270f512l_pim+bt_audio_dk/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx270f512l_pim+bt_audio_dk+ak4642/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/pic32mx270f512l_pim+bt_audio_dk+bm64/config/bsp.hconfig"
+
+config BSP_DS60001290_COMMON
+    set JTAGEN optionally to "OFF"
+    set ICESEL optionally to "ICS_PGx2" if USE_BSP
+    set FNOSC optionally to "PRIPLL" if USE_BSP
+    set FNOSC optionally to "FRCPLL" if !USE_BSP
+    set POSCMOD optionally to "OFF" if !USE_BSP
+    set FPLLIDIV optionally to "DIV_2" if !USE_BSP
+    set FPLLODIV optionally to "DIV_2"
+    set UPLLIDIV optionally to "DIV_2" if !USE_BSP
+    set FSOSCEN optionally to "OFF"
+    set FPBDIV optionally to "DIV_1"
+    set FWDTEN optionally to "OFF"
+    set UPLLEN optionally to "ON" if USE_BSP
+    bool
+    default y if USE_BSP
+

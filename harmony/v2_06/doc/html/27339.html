@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initializing the Device Layer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27319.html">USB Device Layer Library</a> &gt; <a href="27348.html">Using the Library</a> &gt; <a href="27338.html">How the Library Works</a> &gt; <a href="27340.html">Library Initialization</a> &gt; <a href="27339.html">Initializing the Device Layer</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27337.html">Previous</a> | <a href="27340.html">Up</a> | <a href="27331.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEVLAYER Initializing the Device Layer Topic Title: Initializing the Device Layer)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initializing the Device Layer</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+With the USB Device Master Descriptor and the Function Driver Registration Table available, the application can now create the Device Layer Initialization Data structure. This data structure is a <a href="27825.html">USB_DEVICE_INIT</a> type and contains the information need to initialize the Device Layer and the USB Controller Driver. The Device Layer uses the USB Controller Driver initialization data to initialize the USB Controller driver. The actual initialization is performed by calling the <a href="27841.html">USB_DEVICE_Initialize</a> function. This function returns a Device Layer System Module Object which must be used with the other Device Layer System Routines (such as the <a href="27928.html">USB_DEVICE_Tasks</a> and USB_DEVICE_Tasks_ISR functions). In case of PIC32MX device, the Device Layer requires the allocation of an endpoint table. This table (an array of type uint8_t) should aligned at a 512 byte aligned address boundary. Its size should be USB_DEVICE_ENDPOINT_TABLE_SIZE. The table is not required for PIC32MZ devices. The value of USB_DEVICE_ENDPOINT_TABLE_SIZE while designing for PIC32MZ device will be automatically set to '0'.&nbsp;</p>
+<p class="Element10">
+The following code shows an example of initializing the Device Layer. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04334');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04334"><pre class="Element12"><i><span style="color: #008000">/****************************************************
+ * Endpoint Table needed by the Device Layer.
+ ****************************************************/</span></i>
+
+uint8_t __attribute__((aligned(512))) endpointTable[USB_DEVICE_ENDPOINT_TABLE_SIZE];
+
+<i><span style="color: #008000">/*************************************************
+ * USB Device Layer Initialization.
+ **************************************************/</span></i>
+
+USB_DEVICE_INIT usbDevInitData =
+{
+    <i><span style="color: #008000">/* System module initialization */</span></i>
+    .moduleInit = {SYS_MODULE_POWER_RUN_FULL},
+
+     <i><span style="color: #008000">/* Identifies peripheral (PLIB-level) ID */</span></i>
+    .usbID = USB_ID_1,
+
+    <i><span style="color: #008000">/* Stop in idle */</span></i>
+    .stopInIdle = <strong><span style="color: #000080">false</span></strong>,
+
+    <i><span style="color: #008000">/* Stop in sleep */</span></i>
+    .suspendInSleep = <strong><span style="color: #000080">false</span></strong>,
+
+    <i><span style="color: #008000">/* Interrupt source */</span></i>
+    .interruptSource = INT_SOURCE_USB_1,
+
+    <i><span style="color: #008000">/* Endpoint Table */</span></i>
+    .endpointTable = endpointTable,
+
+    <i><span style="color: #008000">/* Number of function drivers registered to this instance of the
+    USB device layer */</span></i>
+    .registeredFuncCount = 2,
+
+    <i><span style="color: #008000">/* Function driver table registered to this instance of the USB device layer*/</span></i>
+    .registeredFunctions = (USB_DEVICE_FUNCTION_REGISTRATION_TABLE*)funcRegistrationTable,
+
+    <i><span style="color: #008000">/* Pointer to USB Descriptor structure */</span></i>
+    .usbMasterDescriptor = (USB_DEVICE_MASTER_DESCRIPTOR*)&amp;usbMasterDescriptor
+};
+
+<i><span style="color: #008000">/****************************************
+ * System Initialization Routine
+ ****************************************/</span></i>
+<strong><span style="color: #000080">void</span></strong> SYS_Initialize ( <strong><span style="color: #000080">void</span></strong> * data )
+{
+     <i><span style="color: #008000">/* Set up cache and wait states for maximum performance. */</span></i>
+    SYS_DEVCON_Initialize(SYS_DEVCON_INDEX_0, (SYS_MODULE_INIT *)&amp;devconInit);
+    SYS_DEVCON_PerformanceConfig(80000000);
+
+    <i><span style="color: #008000">/* Initialize the BSP */</span></i>
+    BSP_Initialize( );
+
+     <i><span style="color: #008000">/* Initialize the USB device layer */</span></i>
+    sysObjects.usbDevObject = USB_DEVICE_Initialize (USB_DEVICE_INDEX_0 ,
+                                                    ( SYS_MODULE_INIT* ) &amp; usbDevInitData);
+
+    <i><span style="color: #008000">/* check if the object returned by the device layer is valid */</span></i>
+    SYS_ASSERT((SYS_MODULE_OBJ_INVALID != sysObjects.usbDevObject), &quot;Invalid USB DEVICE object&quot;);
+
+    <i><span style="color: #008000">/* Initialize the Application */</span></i>
+    APP_Initialize ( );
+
+    <i><span style="color: #008000">/* Initialize the interrupt system  */</span></i>
+    SYS_INT_Initialize();
+
+       <i><span style="color: #008000">/* set priority for USB interrupt source */</span></i>
+    SYS_INT_VectorPrioritySet(INT_VECTOR_USB, INT_PRIORITY_LEVEL3);
+
+    <i><span style="color: #008000">/* set sub-priority for USB interrupt source */</span></i>
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_USB, INT_SUBPRIORITY_LEVEL3);
+
+    <i><span style="color: #008000">/* Initialize the global interrupts */</span></i>
+    SYS_INT_Enable();
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27319.html">USB Device Layer Library</a> &gt; <a href="27348.html">Using the Library</a> &gt; <a href="27338.html">How the Library Works</a> &gt; <a href="27340.html">Library Initialization</a> &gt; <a href="27339.html">Initializing the Device Layer</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEVLAYER Initializing the Device Layer Topic Title: Initializing the Device Layer)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

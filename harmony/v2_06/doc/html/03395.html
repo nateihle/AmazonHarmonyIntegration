@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>mac_audio_hi_res</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03395.html">mac_audio_hi_res</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03393.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03396.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO mac_audio_hi_res Topic Title: mac_audio_hi_res)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+mac_audio_hi_res</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This demonstration application uses the USB Audio 2.0 Device class to implement a speaker. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This demonstration can be used only with an Apple® Mac® personal computer such as the Apple MacBook Air® OS X 10.9.4 with iTunes® 11.2.1 or VLC media player version 2.2.1. Any versions prior to those listed may not work with this demonstration.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Architecture</div>
+<p class="Element10">
+This application runs on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a> and uses the following features:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD</li>
+<li class="Element600">Three push buttons (SW1-2 and SW4)</li>
+<li class="Element600">Five LEDs</li>
+<li class="Element600">USB Device interface</li>
+<li class="Element600">AK4384 Audio DAC Daughter Board mounted on X32 socket</li>
+</ul><p class="Element10">
+Surrounding the PIC32MX470F512L microcontroller are a set of headers, which accept various plug-in modules (PIM), including one for a PIC32MZ2048EFH144 PIM (which has 2 MB of flash and 512 KB of RAM) which Is used instead of the on-board X32 PIC32MX470F512L.&nbsp;</p>
+<p class="Element10">
+The program takes up only about 10% (202K) of the PIC32MZ2048EFH144 microcontroller’s program space, and 6% (33K) of its RAM. The 64 audio buffers take up 12K of that, and another 7K is used by graphics. The heap uses an additional 16K, with its size based on the graphics taking up about 6K of that.&nbsp;</p>
+<p class="Element10">
+The following figure illustrates the application architecture. </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO mac_audio_hi_res Architecture Diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+The PIC32 microcontroller (MCU) runs the application code.&nbsp;</p>
+<p class="Element10">
+The interface between the PIC32 MCU and the LCD is an 8-bit parallel master port (PMP). The program uses the MPLAB Harmony v2.0 <a href="12784.html">Graphics Library</a> to draw on the screen. The buttons are also interfaced using GPIO pins.&nbsp;</p>
+<p class="Element10">
+The audio interface between the PIC32 and the AK4384 DAC uses a I2S interface. The default configuration is set up for 24-bit and 192,000 samples/second. 192K, or high-definition audio, is four times the 48K standard normally used for professional audio recording. The higher bit depth (24) provides a significantly better (49 dB) signal to quantization noise ratio than 16-bits.&nbsp;</p>
+<p class="Element10">
+The Master Clock (MCLK) signal used by the DAC is generated by the Reference Clock section of the PIC32. For a sample rate of 192 kHz it is 48,000 times 128, or 24,576,000 Hz. (The 128 value is set up in MHC as the Sampling Rate Multiplier.) MCLK, or REFCLKO, is generated from the 198 MHz SPLL clock using the formula as shown below. The desired clock can not be obtained exactly, but instead the resulting rate (192046 Hz) is 0.024% high. </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO mac_audio_hi_res mclk calc-192000.png" border="0" alt="" title=""></p><p class="Element10">
+As with any MPLAB Harmony application, the <a href="23925.html">SYS_Initialize</a> function, which is located in the <span class="Element146">system_init.c</span> source file, makes calls to initialize various subsystems, such as the clock, ports, board support package (BSP), USB, AK4384 DAC, I2S, PMP, DMA, timers, graphics, and interrupts.&nbsp;</p>
+<p class="Element10">
+The USB 2.0 driver, AK4384 driver, graphics, and the application state machines are all updated through calls located in the <a href="24151.html">SYS_Tasks</a> function in the <span class="Element146">system_tasks.c</span> file. Interrupt handlers in the <span class="Element146">system_interrupt.c</span> file are used for the two DMA channels, port change notices, and two timers.&nbsp;</p>
+<p class="Element10">
+The application code is contained in the several source files. The application’s state machine (APP_Tasks) is contained in <span class="Element146">app.c</span>. It first initializes the application, which includes getting a handle to the USB Device driver via a call to <a href="27899.html">USB_DEVICE_Open</a>. It then sets up an event handler APP_UsbDeviceEventCallBack for endpoint 0 (control events).&nbsp;</p>
+<p class="Element10">
+Once the device has been configured, the application gets a handle to the AK4384 driver by calling DRV_CODEC_Open, and sets up an event handler APP_CodecBufferEventHandler to get buffer-related events. It then submits a request to get USB 2.0 audio from the host PC using the call <a href="27596.html">USB_DEVICE_AUDIO_V2_Read</a>.&nbsp;</p>
+<p class="Element10">
+When data is available from the USB host, it is sent to the AK4384 DAC via a call to DRV_CODEC_BufferAddWrite. A set of circular buffers are used, and the number of available buffers is continually compared with upper and lower limits, with feedback given back to the PC whether to speed up, slow down or remain the same via a call to <a href="27611.html">USB_DEVICE_AUDIO_V2_Write</a>.&nbsp;</p>
+<p class="Element10">
+The app state machine also calls APP_ButtonTask in <span class="Element146">btad_buttons.c</span> to process any pending button requests, which will be either for mute on/off (SW4), or volume level changes (SW1/SW2). Any status change will be reflected in a screen update processed in display.c.&nbsp;</p>
+<p class="Element10">
+This application uses USB Audio Class 2.0, which uses sends a frame every 125 µs, eight times faster than USB Audio Class 1.0, which is limited to a frame very 1 ms. So USB Audio Class 2.0 allows audio formats as high as 384K samples per second, compared to a maximum of 96K samples per second for the 1.0 standard.&nbsp;</p>
+<p class="Element10">
+In this application, we are using up to a maximum of 24-bits and 192K samples per second, limited by the AK4383 DAC. The nominal number of bytes transferred per frame is set at 192, so in 1 ms you have 192*4(bytes/sample)*2(channels) or 192000 32-bit samples per second per channel. (The 24-bit audio is carried inside a 32-bit frame.) This represents a bandwidth of 12MB/s (plus overhead).&nbsp;</p>
+<p class="Element10">
+A total of 64 200-byte buffers, using 12K of RAM, are made available in the receive queue. (The eight extra bytes are allowed for tuning.) So they will be rotated every 8 ms.&nbsp;</p>
+<p class="Element10">
+Although the AK4642 Codec Driver interfaces with the codec via I2S and DMA, and the USB also uses the DMA, which is largely transparent to the application, it is all taken care of by MPLAB Harmony.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">Uses the <a href="27238.html">USB Audio 2.0 Device Library</a> to receive audio samples from the host PC over the USB 2.0 audio interface</li>
+<li class="Element600">Uses the <a href="03266.html">AK4384 Codec Driver Library</a> to write audio samples to the AK4384 DAC</li>
+<li class="Element600">At a lower level, uses the <a href="13740.html">I2S Driver Library</a> between the codec library and the DAC for audio</li>
+<li class="Element600">Use of a circular buffer queue with a throttling mechanism</li>
+<li class="Element600">Displays graphics on the 220x176 LCD of the PIC32 Bluetooth Audio Development Kit using the MPLAB Harmony Graphics Library (see <a href="12777.html">MPLAB Harmony Graphics Composer Suite</a>) and the Parallel Master Port (see <a href="17353.html">PMP Driver Library</a>)</li>
+<li class="Element600">Processing of button pushes on the PIC32 Bluetooth Audio Development Kit (see <a href="21622.html">Ports Peripheral Library</a>)</li>
+<li class="Element600">Use of two timers: one as a periodic 1 ms timer for the application, and a second used by the AK4384 driver (see <a href="08887.html">Timer Driver Library</a>)</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+When building a new application, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project</i>. Select the PIC32MX Bluetooth Audio Development Kit and the configuration audio_bt_dk. Click the MPLAB Harmony icon to start the MPLAB Harmony Configurator (MHC).&nbsp;</p>
+<p class="Element10">
+Expand <i>Drivers &gt;CODEC</i> and select <strong>Use Codec AK4384?</strong>. Select <strong>Specify MCLK value</strong>, and enter <strong>128</strong>. Expand <i>Use Bit Banged SPI Control Interface</i> and also <i>Code AK4384 Driver Instance 0</i>. Change the Timer driver (used for bit banging) instance to 1.&nbsp;</p>
+<p class="Element10">
+Under <i>I2S</i>, select <strong>Use I2S Driver?</strong>. Select <strong>DMA Mode</strong>, along with Transmit DMA Support, Use DMA Channel Chaining, and Enable DMA Channel Interrupts. Under <i>Sampling Rate</i>, enter <strong>44100</strong>. For Master Clock\Bit Clock Ratio, enter 2. Expand <i>I2S Driver Instance 1</i>, and for Audio Communication Width, choose SPI_AUDIO_COMMUNICATIONS_32DATA_32FIFO_32CHANNEL. Change Queue Size Transmit to 64.&nbsp;</p>
+<p class="Element10">
+In the Timer section, select a second timer (change Number of Timer Instances from 1 to 2), and then change the Timer Module ID for TMR Driver Instance 0 to TMR_ID_2, and the Timer Module ID for TMR Driver Instance 1 to TMR_ID_4.&nbsp;</p>
+<p class="Element10">
+Under <i>Harmony Framework Configuration &gt;USB Library</i>, select <strong>Use USB Stack?</strong>. Expand <i>Select Host</i> or <i>Device Stack</i>. USB Device should already be selected. Change the Number of Endpoints Used to 23. Under <i>USB Device Instance 0</i>, expand <i>Function 1</i>. Change the Device Class to AUDIO_2_0. Change the Number of Interfaces to 2, Speed to USB_SPEED_HIGH, Audio Read Queue Size to 64, and Audio Write Queue Size to 2. Change the Product ID Selection to “mac_audio_hi_res_demo”, which will fill in the Vendor and Product ID fields.&nbsp;</p>
+<p class="Element10">
+Under <i>System Services &gt;DMA</i>, select <strong>Use DMA System Services</strong>. Change the Number of DMA Channel Instances to 2 and press <strong>Enter</strong>. Under both DMA Channel Instances 0 and 1, change the Interrupt Priority to INT_PRIORITY_LEVEL_5.&nbsp;</p>
+<p class="Element10">
+If your application is going to be using graphics, as this one does, within <i>Graphics Stack</i>, select <strong>Use Graphics Stack?</strong>. Further down, within <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <strong>Enable Touch</strong> since the LCD on the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Since you are using the LCD, you will also need to go back to the Drivers section, and within <i>PMP</i>, select <strong>Use PMP Driver?</strong>. Expand that section, and change the value of Strobe Wait Sates to PMP_STROBE_WAIT_4.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03396.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the High-resolution Audio Demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03397.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03398.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions about how to build and run the High-resolution Audio Demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03395.html">mac_audio_hi_res</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO mac_audio_hi_res Topic Title: mac_audio_hi_res)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

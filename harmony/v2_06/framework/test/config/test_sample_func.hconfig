@@ -1,0 +1,63 @@
+menu "Sample Functional Test"
+
+config USE_SAMPLE_FUNC_TEST
+    bool "Use Sample Functional Test?"
+    default y if TEST_NUMBER_0_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_1_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_2_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_3_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_4_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_5_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_6_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_7_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_8_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_9_SELECTED  = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_10_SELECTED = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_11_SELECTED = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_12_SELECTED = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_13_SELECTED = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_14_SELECTED = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default y if TEST_NUMBER_15_SELECTED = "Sample Module Functional Test 0" || TEST_NUMBER_0_SELECTED = "Sample Module Functional Test 1"
+    default n
+    ---help---
+    The sample functional test is used to test the functionality of the sample library.
+    ---endhelp---
+
+config TEST_SAMPLE_FUNC_NUMBER
+    int "Number of sample functional test instances?"
+    depends on USE_SAMPLE_FUNC_TEST
+    range 1 2
+    default 1
+    ---help---
+    Defines the number of instances of the sample functional test to use.
+    ---endhelp---
+
+config TEST_SAMPLE_FUNC_LIB_INSTANCES_NUMBER
+    int "Number of sample library instances to test?"
+    depends on USE_SAMPLE_FUNC_TEST
+    range 1 2
+    default 2
+    ---help---
+    Defines the number of instances of the sample library that will be tested.
+    ---endhelp---
+
+config TEST_SAMPLE_MAX_ITERATIONS
+    int "Number of sample functional test iterations?"
+    depends on USE_SAMPLE_FUNC_TEST
+    range 1 50
+    default 5
+    ---help---
+    Defines the number of times the sample functional test will repeat.
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/test/config/test_sample_func_idx.hconfig.ftl" 2 instances
+
+endmenu
+
+
+ifblock USE_SAMPLE_FUNC_TEST
+file TEST_SAMPLE_FUNCTIONAL_H "$HARMONY_VERSION_PATH/framework/test/test_sample_functional.h"     to "$PROJECT_HEADER_FILES/framework/test/test_sample_functional.h"
+file TEST_DRV_SAMPLE_FUNCTIONAL_H "$HARMONY_VERSION_PATH/framework/test/test_drv_sample_functional.h"     to "$PROJECT_HEADER_FILES/framework/test/test_drv_sample_functional.h"
+file TEST_SAMPLE_FUNCTIONAL_C "$HARMONY_VERSION_PATH/framework/test/src/test_sample_functional.c" to "$PROJECT_SOURCE_FILES/framework/test/src/test_sample_functional.c"
+endif
+

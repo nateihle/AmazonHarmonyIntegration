@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Event Handling</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27287.html">Event Handling</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27283.html">Previous</a> | <a href="27322.html">Up</a> | <a href="27290.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Event Handling Topic Title: Event Handling)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Event Handling</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In MLA, users handle events inside the USER_USB_CALLBACK_EVENT_HANDLER function. Whereas in MPLAB Harmony, the user application client will have to register an event handler with the USB device stack using the <a href="27738.html">USB_DEVICE_EventHandlerSet</a> function. All USB bus events are then forwarded to this user registered event handler function.&nbsp;</p>
+<p class="Element10">
+The following code shows an example of registering the event handler for the MPAB Harmony stack using the <a href="27738.html">USB_DEVICE_EventHandlerSet</a> function. In the example, the <a href="27738.html">USB_DEVICE_EventHandlerSet</a> function is the application event handler. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04304');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04304"><pre class="Element12"><i><span style="color: #008000">/* Open the Device Layer */</span></i>
+
+USB_DEVICE_HANDLE usbDeviceHandle;
+
+usbDeviceHandle = USB_DEVICE_Open(USB_DEVICE_INDEX_0, DRV_IO_INTENT_READWRITE);
+
+<i><span style="color: #008000">/* Register an event handler */</span></i>
+
+USB_DEVICE_EventHandlerSet(usbDeviceHandle, APP_USBDeviceEventHandler, 0);</pre></div></div>
+<p class="Element10">
+The following code shows the implementation of the APP_USBDeviceEventHandler function. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04305');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04305"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> APP_USBDeviceEventHandler ( USB_DEVICE_EVENT event, <strong><span style="color: #000080">void</span></strong> * eventData, uintptr_t context )
+{
+    <strong><span style="color: #000080">switch</span></strong> ( event )
+    {
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_SOF:
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_RESET:
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_CONFIGURED:
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_POWER_DETECTED:
+
+            <i><span style="color: #008000">/* VBUS was detected. We can attach the device */</span></i>
+            USB_DEVICE_Attach(appData.deviceHandle);
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_POWER_REMOVED:
+
+            <i><span style="color: #008000">/* VBUS is not available any more. Detach the device. */</span></i>
+            USB_DEVICE_Detach(appData.deviceHandle);
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_SUSPENDED:
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_RESUMED:
+
+    <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_ERROR:
+
+    <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27287.html">Event Handling</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Event Handling Topic Title: Event Handling)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

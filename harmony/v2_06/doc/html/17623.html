@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Source/Destination/Peripheral Data Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17623.html">Source/Destination/Peripheral Data Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17622.html">Previous</a> | <a href="17616.html">Up</a> | <a href="17624.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Source/Destination/Peripheral Data Management Topic Title: Source/Destination/Peripheral Data Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Source/Destination/Peripheral Data Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This topic describes the data configuration.</p><div class="Element15">
+Source/Destination Transfer Size Configuration</div>
+<p class="Element10">
+In supported devices, each channel can be programmed to read a particular sized data from a source, and write in a particular size to a destination. Both the source and destination sizes are configurable. Use the <a href="18941.html">PLIB_DMA_ChannelXSourceSizeSet</a> Function and the <a href="18900.html">PLIB_DMA_ChannelXDestinationSizeSet</a> Function for read size and write size configuration, respectively. For example, the source size can be 200 bytes and the destination size can be 100 bytes. However, it is logical to have both set to the same value. In some devices, the amount of data that needs to be transferred is independent of the source and destination, and is called transfer count. In such devices use the <a href="18948.html">PLIB_DMA_ChannelXTransferCountSet</a> Function to set the total amount of data (block transfer data).</p><div class="Element15">
+Cell Size Configuration</div>
+<p class="Element10">
+In supported devices, when DMA transfer is initiated, the amount of data configured for a cell transfer will be delivered to the destination per trigger. This can be configured using the <a href="18887.html">PLIB_DMA_ChannelXCellSizeSet</a> Function.</p><div class="Element15">
+Channel Data Size</div>
+<p class="Element10">
+The DMA controller can handle both byte and word (16-bit) transactions. Each DMA channel is individually configurable for the data size using the <a href="18895.html">PLIB_DMA_ChannelXDataSizeSelect</a> Function.</p><div class="Element15">
+Source/Destination Pointer Read</div>
+<p class="Element10">
+In supported devices, the application can read the byte in source/destination to which the DMA core is currently pointing. This can be done using the <a href="18939.html">PLIB_DMA_ChannelXSourcePointerGet</a> Function and the <a href="18898.html">PLIB_DMA_ChannelXDestinationPointerGet</a> Function for source and destination, respectively.</p><div class="Element15">
+DMA Source/Destination/Peripheral Data Control</div>
+<p class="Element10">
+After setting the source/destination address the amount of data that needs to be transferred is set in a DMA operation.&nbsp;</p>
+<p class="Element10">
+However, prior to that the data transaction type (byte/word) needs to be configured on certain devices.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01909');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01909"><pre class="Element12"><i><span style="color: #008000">// Set channel-3 transactions as byte transactions</span></i>
+PLIB_DMA_ChannelXDataSizeSelect ( DMA_ID_0, DMA_CHANNEL_3, DMA_CHANNEL_DATA_8 );
+<i><span style="color: #008000">// Set channel-3 transactions as 16-bit transactions</span></i>
+PLIB_DMA_ChannelXDataSizeSelect ( DMA_ID_0, DMA_CHANNEL_3, DMA_CHANNEL_DATA_16 );
+<i><span style="color: #008000">// Get the current data size configured</span></i>
+<strong><span style="color: #000080">if</span></strong>( DMA_CHANNEL_BYTE == PLIB_DMA_ChannelXDataSizeGet ( DMA_ID_0, DMA_CHANNEL_3 ))
+{
+<i><span style="color: #008000">// application code</span></i>
+}</pre></div></div>
+<p class="Element10">
+<strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01910');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01910"><pre class="Element12"><i><span style="color: #008000">// Set the transfer count to 100.</span></i>
+PLIB_DMA_ChannelXTransferCountSet ( DMA_ID_0, DMA_CHANNEL_3, 100 );</pre></div></div>
+<p class="Element10">
+Some high-end microcontrollers (especially PIC32 devices) use the method of cell transfer and block transfer. A cell transfer is the amount of data a DMA channel transfers per an event. In such microcontrollers the application can configure the sizes of the source and destination (per channel basis). A block transfer is defined as the number of bytes transferred when a channel is enabled. A block transfer is comprised of several cell transfers. For example, if the source and destination size is 100 and the cell size is 10, it will take 10 cell transfers to complete the block transfer, which is 100 bytes (larger of source or destination sizes).&nbsp;</p>
+<p class="Element10">
+DMA cell transfer configuration Example: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01911');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01911"><pre class="Element12"><i><span style="color: #008000">// Set the source size to be 100</span></i>
+PLIB_DMA_ChannelXSourceSizeSet ( DMA_ID_0, DMA_CHANNEL_3, 100 );
+<i><span style="color: #008000">// Set the destination size to be 100</span></i>
+PLIB_DMA_ChannelXDestinationSizeSet ( DMA_ID_0, DMA_CHANNEL_3, 100 );
+<i><span style="color: #008000">// Set the cell size to be 10</span></i>
+PLIB_DMA_ChannelXCellSizeSet ( DMA_ID_0, DMA_CHANNEL_3, 10 );</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17623.html">Source/Destination/Peripheral Data Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Source/Destination/Peripheral Data Management Topic Title: Source/Destination/Peripheral Data Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16593.html">Adding New Libraries</a> &gt; <a href="16611.html">Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16599.html">Previous</a> | <a href="16593.html">Up</a> | <a href="16613.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates Topic Title: Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+To insert the template into MHC, we need to do one of two things:</p>
+<ul class="Element630">
+<li class="Element600">Use the &quot;template&quot; keyword in hconfig, or</li>
+<li class="Element600">Include this template into another template</li>
+</ul><p class="Element10">
+Since the <span class="Element146">system_config.h</span> file draws config options from many templates, we will include our template in the top-level <span class="Element146">system_config.ftl</span>. It is located in the <span class="Element146">$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config</span> directory. </p><p class="Element10" style="text-align: center;">
+<img src="MHC Insert FreeMarker Figure 1.png" border="0" alt="" title=""></p><p class="Element10">
+This top-level template simply includes all of the module-specific templates that contribute to the <span class="Element146">system_config.h</span> file. The included files are logically organized within the top-level template. For the following example, we will add our template in the driver configuration section. </p><p class="Element10" style="text-align: center;">
+<img src="MHC Insert FreeMarker Figure 2.png" border="0" alt="" title=""></p><p class="Element10">
+When we generate the code, we see our config options are now in <span class="Element146">system_config.h</span>. </p><p class="Element10" style="text-align: center;">
+<img src="MHC Insert FreeMarker Figure 3.png" border="0" alt="" title=""></p><p class="Element10">
+Code generation for the rest of the system files follows the same process. A library typically needs to insert code into the following template system configuration template files: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="35%" style="border:none;">
+<div class="Element68">
+<span class="Element146">system_config.h.ftl</span>&nbsp;</div></td><td class="Element67" valign="top" width="65%" style="border:none;">
+<div class="Element68">
+Configuration item definitions&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="35%" style="border:none;">
+<div class="Element68">
+<span class="Element146">system_definitions.h.ftl</span>&nbsp;</div></td><td class="Element67" valign="top" width="65%" style="border:none;">
+<div class="Element68">
+Configuration data types, object handles, and include statements&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="35%" style="border:none;">
+<div class="Element68">
+<span class="Element146">system_init.c.ftl</span>&nbsp;</div></td><td class="Element67" valign="top" width="65%" style="border:none;">
+<div class="Element68">
+Init data structure definition and call to initialize function&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="35%" style="border:none;">
+<div class="Element68">
+<span class="Element146">system_interrupt.c.ftl</span>&nbsp;</div></td><td class="Element67" valign="top" width="65%" style="border:none;">
+<div class="Element68">
+Raw ISR and call to tasks function, if interrupt driven&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="35%" style="border:none;">
+<div class="Element68">
+<span class="Element146">system_tasks.c.ftl</span>&nbsp;</div></td><td class="Element67" valign="top" width="65%" style="border:none;">
+<div class="Element68">
+Call to tasks function, if polled&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+It will be necessary to modify each of the above templates to include the module-specific templates for any new libraries. It is also necessary to carefully review each top-level template to determine the appropriate location at which to include the module-specific templates and then test the code that is generated to ensure that it does not contain any FreeMarker engine error messages and that it functions as expected.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16593.html">Adding New Libraries</a> &gt; <a href="16611.html">Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates Topic Title: Insert the New FreeMarker Templates into the MPLAB Harmony Top-level Templates)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

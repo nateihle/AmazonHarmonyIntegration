@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="27282.html">USB Demonstrations</a> &gt; <a href="04143.html">Demonstrations</a> &gt; <a href="04144.html">Device</a> &gt; <a href="04205.html">msd_fs_spiflash</a> &gt; <a href="04208.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04207.html">Previous</a> | <a href="04205.html">Up</a> | <a href="04209.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS USB msd_fs_spiflash_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This demonstration shows an example of:</p>
+<ul class="Element630">
+<li class="Element600">Accessing the media attached to PIC32 by multiple clients</li>
+<li class="Element600">Application running on the PIC32 firmware accesses the media using the MPLAB Harmony File System</li>
+</ul><p class="Element10">
+When connected to the USB Host the very first time, the user is expected to format the media and create a file named <span class="Element146">FILE.TXT</span> in the root directory of the media. The user can update the file to provide input for the application to glow the LEDs present on the development kit. The application running on the PIC32 reads and interprets the data present in the file and accordingly turns ON or OFF the LEDs LED8 and LED9 of the development kit. The format of input in the file <span class="Element146">FILE.TXT</span> should be as follows:</p>
+<ul class="Element630">
+<li class="Element600">For turning ON an LED:
+<ul class="Element631">
+<li class="Element601">LED8:1</li>
+<li class="Element601">LED9:1</li>
+</ul></li>
+<li class="Element600">For turning OFF an LED:
+<ul class="Element631">
+<li class="Element601">LED8:0</li>
+<li class="Element601">LED9:0</li>
+</ul></li>
+</ul><p class="Element10">
+After having set the appropriate values in the file, the user can then press and release the wwitch SW1 located on the development kit for the MPLAB Harmony File System running on the PIC32 to act upon the contents of the file.&nbsp;</p>
+<p class="Element10">
+The FS state machine of the demonstration is only triggered by the switch SW1. When the user presses and releases SW1 the following occurs:</p>
+<ul class="Element630">
+<li class="Element600">LED5 is turned ON to indicate that the FS state machine is running</li>
+<li class="Element600">The USB is detached</li>
+<li class="Element600">The file system on the SPI Flash is mounted</li>
+<li class="Element600">The contents of <span class="Element146">FILE.TXT</span> is read and acted upon. Depending on the values set in the file, the LEDs are either turned ON or OFF.</li>
+<li class="Element600">Next, the file system is unmounted and the USB is reattached</li>
+<li class="Element600">LED5 is turned OFF to indicate that FS state machine is no longer running</li>
+<li class="Element600">If LED6 is turned ON during any part of the demonstration, this indicates the demonstration has failed</li>
+</ul></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="27282.html">USB Demonstrations</a> &gt; <a href="04143.html">Demonstrations</a> &gt; <a href="04144.html">Device</a> &gt; <a href="04205.html">msd_fs_spiflash</a> &gt; <a href="04208.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS USB msd_fs_spiflash_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

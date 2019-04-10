@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Using GUIBuilder to Create Screens/Dialog Boxes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22950.html">Start-to-End Example of SEGGER emWin Graphics with MPLAB Harmony</a> &gt; <a href="22946.html">SEGGER emWin GUI Application Design Process</a> &gt; <a href="22947.html">Using GUIBuilder to Create Screens/Dialog Boxes</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22922.html">Previous</a> | <a href="22946.html">Up</a> | <a href="22924.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN SEGGER emWin GUIBuilder Example Topic Title: Using GUIBuilder to Create Screens/Dialog Boxes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Using GUIBuilder to Create Screens/Dialog Boxes</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The GUIBuilder utility is a tool for creating dialogs without any knowledge of the C programming language. Instead of writing source code, the widgets can be placed and sized by drag and drop.</p><div class="Element15">
+GUIBuilder Interface</div>
+<p class="Element10">
+As shown in the following figure, the GUIBuilder Utility window is divided into five areas:
+<ul class="Element630">
+<li class="Element600">Menu bar</li>
+<li class="Element600">Widget selection bar</li>
+<li class="Element600">Object tree</li>
+<li class="Element600">Widget properties</li>
+<li class="Element600">Editor</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN GUIBuilder Interface.png" border="0" alt="" title=""></p><div class="Element15">
+Steps to Design a Screen</div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Start the GUIBuilder utility.</li>
+<li value="2" class="Element600">To create a screen/dialog, add a parent widget. Add a Framewin widget by clicking <strong>Framewin Dialog</strong> from the widget selection bar. The new widget will appear in the top left corner of the Editor pane, as shown in the following figure.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Framewin Dialog Button.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="3" class="Element600">Next, we will modify the properties of the Framewin widget. Do the following to edit the name of the widget:
+<ul class="Element630">
+<li class="Element600">Click the cell containing the text “Framewin”</li>
+<li class="Element600">Replace the text “Framewin” with “HomeScreen”</li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Modify Framewin Widget.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">This screen widget needs to cover the complete display (Resolution 480x272) of the demonstration board. Resize the screen by editing the value of xSize and ySize property of the widget to 480 and 272, respectively.</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Modify Framewin Widget Size.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="4" class="Element600">Add text to the screen by clicking the <strong>Text</strong> widget from widget selection bar, as shown in the following figure.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Text Widget.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="5" class="Element600">Edit the properties of the text, as follows:
+<ul class="Element630">
+<li class="Element600">Right click the Text widget box and select <strong>Set Text</strong></li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Text Widget Set Text.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Click the Content cell and change the value to MPLAB Harmony</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Text Widget Set Content.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Change the position of the text widget by setting the value of properties xPos and yPos to 200 and 50, respectively</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Text Widget Set xyPos.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="6" class="Element600">From the widget selection bar, add a button widget by clicking <strong>Button</strong>. The Button widget appears in the left top corner of the HomeScreen screen/dialog, as shown in the following figure.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Button Widget.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="7" class="Element600">Edit the properties of Button widget, as follows:
+<ul class="Element630">
+<li class="Element600">Right click the button from the HomeScreen screen and select <strong>Set Text</strong></li>
+<li class="Element600">Set the properties of the button widget xPos, yPos, xSize, ySize, and Text to 400, 180, 60, 60, and Next, respectively.</li>
+</ul></li>
+<li value="8" class="Element600">Save the screen design by selecting <i>File &gt; Save</i> from the Menu bar. Alternately, you can also use the keyboard shortcut Ctrl + S to save the project. By default, this will save the screen/dialog design as the C file <span class="Element146">HomeScreenDLG.c</span> at same location as GUIBuilder. The following figure shows the designed screen/dialog.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN HomeScreen.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="9" class="Element600">Next, create another screen using two widgets: Framewin and Button with the properties of each widget as follows:
+<ul class="Element630">
+<li class="Element600">Framewin widget properties</li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Framewin Widget Properties.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Button widget properties</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Button Widget Properties.png" border="0" alt="" title=""></p><p class="Element10">
+The designed screen will look like the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Screen2DLG.c Screen.png" border="0" alt="" title=""></p><p class="Element10">
+By default, saving this screen will generate a file named <span class="Element146">Screen2DLG.c</span> at the same location as GUIBuilder.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22950.html">Start-to-End Example of SEGGER emWin Graphics with MPLAB Harmony</a> &gt; <a href="22946.html">SEGGER emWin GUI Application Design Process</a> &gt; <a href="22947.html">Using GUIBuilder to Create Screens/Dialog Boxes</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN SEGGER emWin GUIBuilder Example Topic Title: Using GUIBuilder to Create Screens/Dialog Boxes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

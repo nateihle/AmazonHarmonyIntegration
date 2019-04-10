@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Module Tasks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="11792.html">Module Tasks</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11790.html">Previous</a> | <a href="11804.html">Up</a> | <a href="11791.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Module Tasks Topic Title: Module Tasks)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Module Tasks</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The function signature of a module’s tasks function is defined by a pointer data type that is defined by the system module interface header, in the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> file, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Module Tasks Function Signature</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00124');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00124"><pre class="Element12"><i><span style="color: #008000">// *****************************************************************************</span></i>
+<i><span style="color: #008000">/* System Module Tasks Routine Pointer
+
+  Function:
+    void (* SYS_MODULE_TASKS_ROUTINE) ( SYS_MODULE_OBJ object )
+
+  Summary:
+    Pointer to a routine that performs the tasks necessary to maintain a state
+    machine in a module.
+
+  Description:
+    This data type is a pointer to a routine that performs the tasks necessary
+    to maintain a state machine in a module (driver, library, or application).
+
+  Preconditions:
+    The low-level board initialization must have been completed and the module's
+    initialization function must have been called before the system can call the
+    tasks routine for any module.
+
+  Parameters:
+    object          - Handle to the module instance
+
+  Returns:
+    None.
+
+  Remarks:
+    If the module is interrupt driven, the system will call this routine from
+    an interrupt context.
+*/</span></i>
+
+<strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">void</span></strong> (* SYS_MODULE_TASKS_ROUTINE) ( SYS_MODULE_OBJ object );</pre></div></div>
+<p class="Element10">
+An implementation of a module’s tasks function might look like the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Sample Module Tasks Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00125');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00125"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> SAMPLE_Tasks( SYS_MODULE_OBJ object )
+{
+    SAMPLE_MODULE_DATA     *pObj  = (SAMPLE_MODULE_DATA *)object;
+
+    <i><span style="color: #008000">// Sample Module State Machine</span></i>
+    <strong><span style="color: #000080">switch</span></strong> ( pObj-&gt;state )
+    {
+        <strong><span style="color: #000080">case</span></strong> SAMPLE_STATE_INITIALIZE:
+        {
+            pObj-&gt;status = SYS_STATUS_READY;
+            pObj-&gt;state  = SAMPLE_STATE_PROCESS;
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">case</span></strong> SAMPLE_STATE_PROCESS:
+        {
+            <strong><span style="color: #000080">if</span></strong> (pObj-&gt;dataNewIsValid &amp;&amp; !pObj-&gt;dataProcessedIsValid)
+            {
+                pObj-&gt;dataProcessed         = pObj-&gt;dataNew;
+                pObj-&gt;dataNewIsValid        = <strong><span style="color: #000080">false</span></strong>;
+                pObj-&gt;dataProcessedIsValid  = <strong><span style="color: #000080">true</span></strong>;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">default</span></strong>:
+        {
+            pObj-&gt;status = SYS_STATUS_ERROR;
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+    }
+
+    <strong><span style="color: #000080">return</span></strong>;
+}</pre></div></div>
+<p class="Element10">
+As shown by the previous sample code, the object handle returned from the initialize function is passed into the tasks function and cast back into a pointer to the module’s internal data structure type. This allows the function to access the instance-specific data it contains. The module may then utilize the data to determine what its next appropriate action may be. This is often implemented using a state variable (<span class="Element146">pObj-&gt;state</span>) and a switch statement with different states defined by an enumeration.&nbsp;</p>
+<p class="Element10">
+Each case in the switch statement corresponds to a different state transition that the module’s state machine can make. The module’s initialize function placed the state machine in its initial state (SAMPLE_STATE_INITIALIZE). The initialize state transitions to the next state (SAMPLE_STATE_PROCESS) automatically and, as a side effect, changes the module’s status to ready (SYS_STATUS_READY). Therefore, the next time the tasks function is called, it is in the process state and is ready to process data.&nbsp;</p>
+<p class="Element10">
+In the process state, the sample module checks to see if it has any valid new data (using the Boolean flag <span class="Element146">pObj-&gt;dataNewIsValid</span>) and if it is able to process that new data. It can only process one data item at a time. So, if it does not currently have any processed data (as indicated by the <span class="Element146">pObj-&gt;dataProcessedIsValid</span> Boolean flag being false), it can then it processes the new data item and update the Boolean flags.&nbsp;</p>
+<p class="Element10">
+In this sample module, the initialize state transition is not really necessary and could have been eliminated by appropriately setting the module’s status variable in the initialize function. Also, the default case is unnecessary and should never occur, although it can be used for error handling. The only active state transition occurs in the process state and it never transitions out of that state to a new one.&nbsp;</p>
+<p class="Element10">
+It is important to notice that the state machine checks status flags before taking any action. This prevents it from taking action until some change has occurred, which allows it to be polled from the main super loop. The flags in the sample module are modified by the module’s API functions, when a client calls them. However, these flags could just as easily have been hardware interrupt flags. If that were the case, this state machine could just as easily be called from an ISR, which is exactly how it would be called in an interrupt-driven configuration. In that configuration, testing the interrupt flag could be redundant. But, doing so is safer as it avoids taking inappropriate actions if spurious interrupts occur or if the interrupt vector is shared between multiple interrupt sources. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Use of the switch-case technique is not a requirement, but it is a convenient way to explain the purpose of the tasks function. Simpler and more sophisticated techniques are possible. Any method that correctly implements the necessary state machine logic is acceptable.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+For a complete working example, refer to the sample module library, located in the <span class="Element146">&lt;install-dir&gt;/framework/sample</span> folder.&nbsp;</p>
+<p class="Element10">
+A module’s tasks function may assume that the initialize function has been called once (and only once) before the tasks function is called. But, it must not associate any meaning to when or how often the tasks function is called. It cannot assume that it is called before or after any other tasks has been called and it cannot assume it has been called once for every time any other tasks function has been called. It is entirely possible (particularly in a RTOS-based system) that the module’s tasks function is running at a different priority level and is called more frequently or less frequently than other tasks functions in the system. It is also possible that it may be called from within an ISR, but only if it was designed to support an ISR. It is possible to design a tasks function that has no associated interrupt. Every time it is called, a module’s tasks function must use current state or status to determine the appropriate state transition to make or if it needs to make any transition at all. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Any module that has a state machine must implement a tasks function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="11792.html">Module Tasks</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Module Tasks Topic Title: Module Tasks)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

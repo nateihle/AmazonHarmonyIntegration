@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>USB Buffers and the Buffer Descriptor Table (BDT)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27451.html">USB Peripheral Library</a> &gt; <a href="18116.html">Using the Library</a> &gt; <a href="18101.html">How the Library Works</a> &gt; <a href="18111.html">USB Buffers and the Buffer Descriptor Table (BDT)</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18101.html">Previous</a> | <a href="18101.html">Up</a> | <a href="18114.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USB USB Buffers and the Buffer Descriptor Table (BDT) Topic Title: USB Buffers and the Buffer Descriptor Table (BDT))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+USB Buffers and the Buffer Descriptor Table (BDT)</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+All USB endpoints are implemented using buffers and control bits in RAM. Both software and the USB module have access to these buffers and control bits. To arbitrate this access a semaphore flag system is used.&nbsp;</p>
+<p class="Element10">
+Each endpoint can be configured for transmit only, receive only or transmit <i>and</i> receive. Transmit and receive functions have separate buffers. For each buffer there is a Buffer Descriptor (BD) in the Buffer Descriptor Table (BDT). On most devices the BDT has room for two transmit and two receive buffers for each endpoint, supporting ping-pong buffering. Buffer descriptors must be aligned on 512 byte boundaries to enable the USB module to correctly read each entry.&nbsp;</p>
+<p class="Element10">
+The starting address of the Buffer Descriptor Table is set by the<strong> </strong><a href="21164.html">PLIB_USB_BDTBaseAddressSet</a>. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03581');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03581"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> USB_MAX_EP_NUMBER 15
+
+<strong><span style="color: #000080">#define</span></strong> BDT_NUM_ENTRIES      (((USB_MAX_EP_NUMBER + 1) * 4)-2)
+
+<strong><span style="color: #000080">volatile</span></strong> <strong><span style="color: #000080">union</span></strong> USB_BDT_ENTRY_TAG gBDT[BDT_NUM_ENTRIES] __attribute__ (( aligned (512) ));</pre></div></div>
+<p class="Element10">
+Each Buffer Descriptor entry in the BDT has a <strong>bufferAddress</strong> pointer to the Buffer Descriptor's buffer in memory (RAM or FLASH).&nbsp;</p>
+<p class="Element10">
+The following figure shows the structure for PIC32 devices. These devices support ping-pong buffering for all endpoints. </p><p class="Element10" style="text-align: center;">
+<strong>Buffer Descriptor Table and Endpoint Buffers</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="PIC32 BDT Diagram.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+With 16 endpoints (Endpoints 0 - 15 ) there are 64 possible entries in the Buffer Descriptor Table: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03582');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03582"><pre class="Element12">  <i><span style="color: #008000">//                                            (Even,Odd) or (Ping,Pong)</span></i>
+  <i><span style="color: #008000">//                                               (RX,TX) |</span></i>
+  <i><span style="color: #008000">//                           (EP0      to       EPn)  |  |</span></i>
+  <strong><span style="color: #000080">volatile</span></strong> USB_BDT_ENTRY myBDT[(USB_MAX_EP_NUMBER + 1)][2][2] __attribute__ (( aligned (512) ));</pre></div></div>
+<p class="Element10">
+Peripheral library functions are provided to support reading each BD while hiding the details of BDT addressing that can change when ping-pong buffering is disabled for one or more endpoints. The format of Buffer Descriptors vary from family to family and it is not important to know the differences, since peripheral library functions hide these details. To understand the information stored in each Buffer Descriptor Table entry it is informative to look at the C language description for one family of devices. (All device families support the same information but with different ways of packing the data into memory.)&nbsp;</p>
+<p class="Element10">
+For PIC32 devices each BD is 8 bytes long and is described by this C code: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03583');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03583"><pre class="Element12">    <strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">union</span></strong> _USB_BDT_ENTRY __attribute__ ((packed))
+    {
+        uint64_t          dlValue;        <i><span style="color: #008000">//Double Long Integer Value</span></i>
+        uint32_t           lValue[2];     <i><span style="color: #008000">//Long  Integer Values</span></i>
+        uint16_t           sValue[4];     <i><span style="color: #008000">//Short Integer Values</span></i>
+        <strong><span style="color: #000080">struct</span></strong> __attribute__ ((packed))
+        {
+            USB_BD_STATUS  bufferStatus;  <i><span style="color: #008000">//(RW) Buffer Status</span></i>
+            uint16_t       byteCount:10;  <i><span style="color: #008000">//(RW) Byte Count</span></i>
+            uint8_t                 : 6;  <i><span style="color: #008000">//(  ) Reserved</span></i>
+            uint32_t       bufferAddress; <i><span style="color: #008000">//(RW) Buffer Address in Data Ram or Flash</span></i>
+        };
+    } USB_BDT_ENTRY;</pre></div></div>
+<p class="Element10">
+For transmit buffers, byteCount, is set to the length of the buffer using <a href="21169.html">PLIB_USB_BufferByteCountSet</a>. For receive buffers <a href="21169.html">PLIB_USB_BufferByteCountSet</a> is used to set the maximum allowable receive data length. <a href="21168.html">PLIB_USB_BufferByteCountGet</a> is used to determine how many bytes were actually transmitted or received. The memory address of each buffer is found in bufferAddress. The functions <a href="21166.html">PLIB_USB_BufferAddressSet</a> and <a href="21165.html">PLIB_USB_BufferAddressGet</a> support this field in the Buffer Descriptor.&nbsp;</p>
+<p class="Element10">
+Buffer status is stored in the 16 least significant bits of each BDT entry: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03584');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03584"><pre class="Element12">    <strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">union</span></strong> _USB_BD_STATUS __attribute__ ((packed))
+    {
+        uint16_t       sValue;                  <i><span style="color: #008000">//Short Integer Value</span></i>
+        <strong><span style="color: #000080">struct</span></strong> __attribute__ ((packed))
+        {
+            uint8_t                         :2; <i><span style="color: #008000">//(  )Reserved</span></i>
+            uint8_t    stallEnable          :1; <i><span style="color: #008000">//( W) Buffer Stall Enable</span></i>
+            uint8_t    dataToggleSyncEnable :1; <i><span style="color: #008000">//( W) Data Toggle Synch Enable</span></i>
+            uint8_t                         :1; <i><span style="color: #008000">//(  ) Reserved</span></i>
+            uint8_t                         :1; <i><span style="color: #008000">//(  ) Reserved</span></i>
+            uint8_t    dataToggle           :1; <i><span style="color: #008000">//(RW) Data Toggle Synch Value</span></i>
+            uint8_t    uSBOwnsBuffer        :1; <i><span style="color: #008000">//(RW) USB Ownership of buffer and BDT entry</span></i>
+        };
+        <strong><span style="color: #000080">struct</span></strong> __attribute__ ((packed))
+        {
+            uint8_t                         :2; <i><span style="color: #008000">//(  ) Reserved</span></i>
+            uint8_t    packetID             :4; <i><span style="color: #008000">//(R ) Packet Identifier (PID)</span></i>
+        };
+    } USB_BD_STATUS;</pre></div></div>
+<p class="Element10">
+The fields stallEnable and dataToggleSyncEnable in the Buffer Descriptor status structure are writeable but not readable. The function <a href="21185.html">PLIB_USB_BufferStallEnable</a> sets the stallEnable bit. (Hardware will clear the bit after receiving a SETUP token from the host.) The functions <a href="21176.html">PLIB_USB_BufferDataToggleSyncEnable</a> and <a href="21175.html">PLIB_USB_BufferDataToggleSyncDisable</a> manipulate dataToggleSyncEnable .&nbsp;</p>
+<p class="Element10">
+On a read from the status structure stallEnable and dataToggleSyncEnable and the next two (reserved) bits are replaced by the Packet Identifier (PID), called packetID in the structure. The function <a href="21180.html">PLIB_USB_BufferPIDGet</a> reads packetID.&nbsp;</p>
+<p class="Element10">
+The rest of the status structure is writeable and readable: dataToggle and uSBOwnsBuffer.&nbsp;</p>
+<p class="Element10">
+The dataToggle (DATA0 or DATA1) of a receive buffer is determined by using <a href="21173.html">PLIB_USB_BufferDataToggleGet</a>. For transmit buffers the dataToggle value is set using <a href="21174.html">PLIB_USB_BufferDataToggleSelect</a> .&nbsp;</p>
+<p class="Element10">
+The field uSBOwnsBuffer is used by both software and the USB module as a semaphore. The function <a href="21182.html">PLIB_USB_BufferReleaseToUSB</a> releases the buffer to the USB module and the function <a href="21181.html">PLIB_USB_BufferReleasedToSW</a> returns a Boolean true when the buffer is released back to software by the USB module. As long as <a href="21181.html">PLIB_USB_BufferReleasedToSW</a> returns false, software should not change the Buffer Descriptor Table entry or its associated buffer.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27451.html">USB Peripheral Library</a> &gt; <a href="18116.html">Using the Library</a> &gt; <a href="18101.html">How the Library Works</a> &gt; <a href="18111.html">USB Buffers and the Buffer Descriptor Table (BDT)</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USB USB Buffers and the Buffer Descriptor Table (BDT) Topic Title: USB Buffers and the Buffer Descriptor Table (BDT))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

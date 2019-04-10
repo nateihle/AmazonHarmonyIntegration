@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Upgrade Using HTTP Web Server</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13094.html">Volume VII: Utilities</a> &gt; <a href="28681.html">WiFi Utilities</a> &gt; <a href="28683.html">WINC1500 Firmware Update Guide</a> &gt; <a href="08979.html">OTA Firmware Upgrade</a> &gt; <a href="08982.html">Upgrade Using HTTP Web Server</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08979.html">Previous</a> | <a href="08979.html">Up</a> | <a href="08983.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 FUG Upgrade Using HTTP Web Server Topic Title: Upgrade Using HTTP Web Server)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Upgrade Using HTTP Web Server</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This example demonstrates how to update the firmware of the WINC1500 PICtail via OTA. The update downloads the WINC1500 OTA firmware binary file, <span class="Element146">m2m_ota_3a0.bin</span>, from OTA Download Web server to your MPLAB Harmony device. You can then upload a new firmware image to the OTA Download Web server. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The out-of-box the example demonstration supports OTA firmware binary upgrade with its console command, <span class="Element146">ota &lt;address of http server&gt;</span>. No additional system configuration option is needed.<br>Examples:<br>ota http://192.168.1.107/m2m_ota_3a0.bin<br>or<br>ota https://192.168.1.107/m2m_ota_3a0.bin&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Start MPLAB X IDE and open the MPLAB Harmony project, by selecting one of the projects from the following figures, and then build and run to install the demonstration to the target hardware development board. Once the demonstration is running, go to the serial console and enter the OTA command to start the HTTP Firmware Update for WINC1500.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="DRV WINC1500 FUG FW Update Projects 1.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRV WINC1500 FUG FW Update Projects 2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRV WINC1500 FUG FW Update Projects 3.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRV WINC1500 FUG FW Update Projects 4.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="2" class="Element600">From the serial terminal console, issue the command, <span class="Element146">ota http://xxx.xxx.xxx.xxx/m2m_ota_3a0.bin</span> (where <span class="Element146">xxx.xxx.xxx.xxx</span> is the IP address of the HTTP/HTTPS Web server) to start the OTA firmware update.</li>
+</ol></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04518');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04518"><pre class="Element12">TCP/IP Stack: Initialization Started
+WINC1500: Initializing...
+SYS_Initialize: The MPFS2 File System is mounted
+====================================
+*** Wi-Fi TCP/IP Web Server Demo ***
+====================================
+Chip ID 1503a0
+DriverVerInfo: 0x13521352
+WINC1500 Firmware Data:
+Firmware Ver: 19.5.2 SVN Rev 14274
+Firmware Built at Jan 26 2017 Time 22:13:34
+Firmware Min Driver Ver: 19.3.0
+Driver Ver: 19.5.2 SVN Rev 14200
+Driver SVN URL branches/WIFIIOT-1660_19_5_2_RC6
+Driver Built at Feb 10 2017 Time 13:53:00
+Module MAC: F8:F0:05:F2:6C:BB
+POWER SAVE Disabled
+Start Wi-Fi Connection...
+TCP/IP Stack: Initialization Ended - success
+  Interface WINC1500 on host MCHPBOARD_W     - NBNS enabled
+&gt;Wi-Fi Connected
+WINC1500 IPv4 Address: 192.168.1.5
+&gt;ota http:<i><span style="color: #008000">//192.168.1.2/m2m_ota_3a0.bin</span></i>
+echoing target URL: http:<i><span style="color: #008000">//192.168.1.2/m2m_ota_3a0_RC7_Final_OTA.bin</span></i>
+&gt;Wi-Fi Disconnected
+WINC1500: NVM operation succeeded
+WINC1500: De-initializing...
+WINC1500: Initializing...
+Chip ID 1503a0
+DriverVerInfo: 0x13521352
+WINC1500 Firmware Data:
+Firmware Ver: 19.5.2 SVN Rev 14274
+Firmware Built at Jan 26 2017 Time 22:13:34
+Firmware Min Driver Ver: 19.3.0
+Driver Ver: 19.5.2 SVN Rev 14200
+Driver SVN URL branches/WIFIIOT-1660_19_5_2_RC7
+Driver Built at Feb 10 2017 Time 13:53:00
+Module MAC: F8:F0:05:F2:6C:BB
+POWER SAVE Disabled
+Start Wi-Fi Connection...
+Wi-Fi Connected
+Wi-Fi IP is 192.168.1.5
+OtaUpdateCb: UpdateStatusType = 1, UpdateStatus = 0
+OtaUpdateCb: m2m_ota_switch_firmware starts
+OtaUpdateCb: UpdateStatusType = 2, UpdateStatus = 0
+OtaUpdateCb: OTA complete, please reset your board</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13094.html">Volume VII: Utilities</a> &gt; <a href="28681.html">WiFi Utilities</a> &gt; <a href="28683.html">WINC1500 Firmware Update Guide</a> &gt; <a href="08979.html">OTA Firmware Upgrade</a> &gt; <a href="08982.html">Upgrade Using HTTP Web Server</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 FUG Upgrade Using HTTP Web Server Topic Title: Upgrade Using HTTP Web Server)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

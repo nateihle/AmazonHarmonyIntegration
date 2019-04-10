@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17723.html">Previous</a> | <a href="17736.html">Up</a> | <a href="17719.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Before enabling the I2C module the caller must initialize basic configuration, clock frequency, and Slave address recognition features (see <a href="17719.html">Initializing the I2C</a>).&nbsp;</p>
+<p class="Element10">
+After the module has been enabled, it can begin monitoring the bus as a slave device waiting to be addressed by an external master (see <a href="17728.html">Operating as a Slave Receiver</a>). A slave device only transfers data on the bus when it has been addressed by a master (see <a href="17729.html">Operating as a Slave Transmitter</a>). If the module is used to start a transfer, it is operating as a master. A master addresses a slave and controls the transfer of data by providing the clock (see <a href="17727.html">Operating as a Master Transmitter</a> and <a href="17726.html">Operating as a Master Receiver</a>).&nbsp;</p>
+<p class="Element10">
+Some operations in the I2C library initiate actions on the I2C bus that require time to complete. Also, some events occur asynchronously on the bus. In each of these cases, the module causes either a &quot;master&quot;, &quot;slave&quot;, or &quot;error&quot; interrupt. <a href="17720.html">Interrupt State Machine</a> describes the different states that can cause an interrupt and show what causes the transition from one state to another. <a href="17716.html">Handling Errors</a> describes the various errors that can occur and how to deal with them.&nbsp;</p>
+<p class="Element10">
+Data transfers on the I2C bus must follow specific formats defined by the I2C bus protocol. (Refer to <a href="17713.html">Forming Transfers</a> for details) </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The I2C peripheral library does not directly respond to interrupts. The client software (usually a driver, middleware<span style="color: #FFFFFF">_</span>layer, or application) should implement the Interrupt Service Routine (ISR) and call the I2C library's interface routines from that ISR to manage the state of the I2C module.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Usage Model</div>
+<p class="Element10">
+The following diagram illustrates the library usage model for the I2C Peripheral Library. </p><p class="Element10" style="text-align: center;">
+<img src="Library Usage Model.png" border="0" alt="" title=""></p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17719.html">Initializing the I2C</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+To initialize the I2C module, perform the following sequence:
+<ol class="Element638">
+<li value="1" class="Element608">Select the desired general configuration options using General Initialization Functions (see the <a href="17722.html">Library Interface</a> section) to select the desired operation of the following features:
+<ul class="Element639">
+<li class="Element609">Slave Clock Stretching</li>
+<li class="Element609">General Call Address Recognition</li>
+<li class="Element609">System Management Bus (SMBus) Support</li>
+<li class="Element609">High Frequency Operation</li>
+<li class="Element609">Reserved Address Protection</li>
+<li class="Element609">Stop-in-Idle Operation</li>
+</ul></li>
+<li value="2" class="Element608">Program the Baud Rate Generator to set the desired baud rate using the <a href="19532.html">PLIB_I2C_BaudRateSet</a> function.</li>
+<li value="3" class="Element608">If operating in slave mode, set the desired slave address using the <a href="19603.html">PLIB_I2C_SlaveAddress7BitSet</a> function (for 7-bit mode operation) or <a href="19600.html">PLIB_I2C_SlaveAddress10BitSet</a> function (for 10-bit mode operation).</li>
+<li value="4" class="Element608">If running in an interrupt-driven environment, clear... <a href="17719.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17728.html">Operating as a Slave Receiver</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Before enabling the module, the module's &quot;local&quot; slave address and mask should be programmed using the <a href="19603.html">PLIB_I2C_SlaveAddress7BitSet</a> function or the <a href="19600.html">PLIB_I2C_SlaveAddress10BitSet</a> function, depending on the desired address width. If slave address masking is supported on the chosen processor the &quot;don't care bits&quot; mask can be set using the <a href="19627.html">PLIB_I2C_SlaveMask7BitSet</a> function or the <a href="19625.html">PLIB_I2C_SlaveMask10BitSet</a> function, also depending on the desired address width. Once the I2C module has been enabled, it will begin waiting for an I2C master to address it. When the programmed local slave address is recognized (ignoring any bits in the programmed mask value, if supported), the module will... <a href="17728.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17729.html">Operating as a Slave Transmitter</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Once an external master has addressed the I2C module (see <a href="17728.html">Operating as a Slave Receiver</a>) with the read-write bit set (as determined by calling the <a href="19628.html">PLIB_I2C_SlaveReadIsRequested</a> function), software can begin transmitting data to the master.<br><strong>Preconditions</strong>
+<ol class="Element639">
+<li value="1" class="Element609">The module must have had its basic options and clock frequency initialized and have been enabled(see <a href="17719.html">Initializing the I2C</a>)</li>
+<li value="2" class="Element609">An external master must have started a transfer.</li>
+<li value="3" class="Element609">The address of the transfer must have matched with the address slave programmed into the I2C module (see <a href="17724.html">Managing Slave Addresses</a>).</li>
+<li value="4" class="Element609">A slave read must have been requested (as previously described).</li>
+</ol>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17727.html">Operating as a Master Transmitter</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Whenever the I2C module initiates a transfer on the bus, it is acting as master. A transfer can be initiated any time the bus is idle. If two masters attempt to initiate transfers at nearly the same time, one of them will lose arbitration at some point during the transfer and must retry the transfer later when the bus becomes idle. The winner of arbitration can continue, without any data loss.<br>An I2C bus transfer always begins with a Start condition, followed by one or two properly formatted bytes containing the 7-bit or 10-bit target slave address (address of the... <a href="17727.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17726.html">Operating as a Master Receiver</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Any time the I2C module initiates a transfer on the bus, it is acting as a master. A transfer can be initiated any time the bus is idle. If two masters attempt to initiate transfers at nearly the same time, one of them will lose arbitration and must retry the transfer later when the bus becomes idle. The winner of arbitration can continue, without any data loss.<br>An I2C bus transfer always begins with a Start condition, followed by a 7-bit or 10-bit (1-byte or 2-byte) target slave address. Therefore, every master transfer starts off transmitting at least one byte.... <a href="17726.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17720.html">Interrupt State Machine</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The I2C state machine can be used in either a polled or an interrupt-driven manner. However, even when polled, software must check the state of the master, slave, and error interrupt flags to identify when a state transition occurs.<br>The I2C module can cause three different interrupts:
+<ul class="Element639">
+<li class="Element609">Slave Interrupt - A byte was sent or received in Slave mode</li>
+<li class="Element609">Master Interrupt - A bus action has completed in Master mode</li>
+<li class="Element609">Error Interrupt - An error has occurred in any mode (see <a href="17716.html">Handling Errors</a>)</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17724.html">Managing Slave Addresses</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+An I2C address identifies which slave device is being targeted by a master device on a transfer-by-transfer basis. I2C addresses can be either 7-bits or 10-bits, as shown in the following sections, 7-Bit Slave Addresses and 10-Bit Slave Addresses.<br>Addresses that are 7-bits long are sent in a single byte where bit 0 identifies the direction of the remaining data in the transfer. Addresses that are 10-bits long are sent in two bytes using a reserved range in the 7-bit address space (addresses 0x78 through 0x7C) to encode the two high-order bits (bits A9 and A8) in the first byte.... <a href="17724.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17713.html">Forming Transfers</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong><u>Forming Transfers</u></strong><br>Transfers are formed by chaining the basic &quot;building blocks&quot; shown in the following transfer format legend.<br><img src="Transfer Format Legend.png" border="0" alt="" title=""><br><strong>The following are all valid I2C transfer formats:</strong>
+<ul class="Element639">
+<li class="Element609">This format allows a master to transmit <i>n</i> bytes of data to an I2C slave supporting a 7-bit address.</li>
+</ul><img src="Master Transmit 7-Bit.png" border="0" alt="" title="">
+<ul class="Element639">
+<li class="Element609">This format allows a master to receive <i>n</i>+1 bytes of data from a &quot;streaming&quot; slave. Such a slave has no internal addressing capability. That is, it has no internal registers or addresses. It can only &quot;stream&quot; data to a master that reads from it.</li>
+</ul><img src="Master Receive Only 7-bit.png" border="0" alt="" title="">
+<ul class="Element639">
+<li class="Element609">This format allows a master to write <i>n</i> bytes of... <a href="17713.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17716.html">Handling Errors</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+There are three basic types of errors that can occur during various I2C operations:
+<ul class="Element630">
+<li class="Element600">Transmitter Overflow</li>
+<li class="Element600">Receiver Overflow</li>
+<li class="Element600">Arbitration Loss</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17730.html">Other Features</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

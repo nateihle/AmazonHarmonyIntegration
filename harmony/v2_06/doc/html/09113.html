@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_AK4384_Open Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13058.html">Codec Driver Libraries</a> &gt; <a href="03266.html">AK4384 Codec Driver Library</a> &gt; <a href="08306.html">Library Interface</a> &gt; b) Client Setup Functions &gt; <a href="09113.html">DRV_AK4384_Open Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="09116.html">Previous</a> | <a href="08306.html">Up</a> | <a href="09078.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_AK4384_Open@SYS_MODULE_INDEX@DRV_IO_INTENT Topic Title: DRV_AK4384_Open Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_AK4384_Open Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">DRV_AK4384_Open</span></strong>(
+    <strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> <strong><span style="color: #000000">iDriver</span></strong>, 
+    <strong><span style="color: #000080">const</span></strong> <a href="10240.html">DRV_IO_INTENT</a> <strong><span style="color: #000000">ioIntent</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine opens the specified AK4384 driver instance and provides a handle that must be provided to all other client-level operations to identify the caller and the instance of the driver. The ioIntent parameter defines how the client interacts with this driver instance.&nbsp;</p>
+<p class="Element10">
+The DRV_IO_INTENT_BLOCKING and DRV_IO_INTENT_NONBLOCKING ioIntent options are not relevant to this driver. All the data transfer functions of this driver are non blocking.&nbsp;</p>
+<p class="Element10">
+Only DRV_IO_INTENT_WRITE is a valid ioIntent option as AK4384 is DAC only.&nbsp;</p>
+<p class="Element10">
+Specifying a DRV_IO_INTENT_EXCLUSIVE will cause the driver to provide exclusive access to this client. The driver cannot be opened by any other client.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Function <a href="09104.html">DRV_AK4384_Initialize</a> must have been called before calling this function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+drvIndex&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the object instance to be opened<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+ioIntent&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Zero or more of the values from the enumeration <a href="10240.html">DRV_IO_INTENT</a> &quot;ORed&quot; together to indicate the intended use of the driver. See function description for details.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If successful, the routine returns a valid open-instance handle (a number identifying both the caller and the module instance).&nbsp;</p>
+<p class="Element10">
+If an error occurs, the return value is <a href="10089.html">DRV_HANDLE_INVALID</a>. Errors can occur under following conditions:
+<ul class="Element635">
+<li class="Element605">if the number of client objects allocated via <a href="09077.html">DRV_AK4384_CLIENTS_NUMBER</a> is insufficient</li>
+<li class="Element605">if the client is trying to open the driver but driver has been opened exclusively by another client</li>
+<li class="Element605">if the driver hardware instance being opened is not initialized or is invalid</li>
+<li class="Element605">if the ioIntent options passed are not relevant to this driver</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The handle returned is valid until the <a href="09078.html">DRV_AK4384_Close</a> routine is called. This routine will NEVER block waiting for hardware.If the requested intent flags are not supported, the routine will return <a href="10089.html">DRV_HANDLE_INVALID</a>. This function is thread safe in a RTOS application. It should not be called in an ISR.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00384');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00384"><pre class="Element12"><a href="10088.html">DRV_HANDLE</a> handle;
+
+handle = DRV_AK4384_Open(<a href="09091.html">DRV_AK4384_INDEX_0</a>, DRV_IO_INTENT_EXCLUSIVE);
+<strong><span style="color: #000080">if</span></strong> (<a href="10089.html">DRV_HANDLE_INVALID</a> == handle)
+{
+    <i><span style="color: #008000">// Unable to open the driver</span></i>
+    <i><span style="color: #008000">// May be the driver is not initialized or the initialization</span></i>
+    <i><span style="color: #008000">// is not complete.</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13058.html">Codec Driver Libraries</a> &gt; <a href="03266.html">AK4384 Codec Driver Library</a> &gt; <a href="08306.html">Library Interface</a> &gt; b) Client Setup Functions &gt; <a href="09113.html">DRV_AK4384_Open Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_AK4384_Open@SYS_MODULE_INDEX@DRV_IO_INTENT Topic Title: DRV_AK4384_Open Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

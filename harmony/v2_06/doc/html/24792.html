@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Berkeley Changes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24792.html">Berkeley Changes</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24791.html">Previous</a> | <a href="24798.html">Up</a> | <a href="24794.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING Berkeley Changes Topic Title: Berkeley Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Berkeley Changes</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Berkeley API include file has been renamed to <span class="Element146"><a href="04840.html">berkeley_api.h</a></span> (formerly <span class="Element146">BerkeleyAPI.h</span>). The following changes are included:
+<ul class="Element630">
+<li class="Element600">IPv6 Support – Support for IPv6 has been added</li>
+<li class="Element600"><a href="22969.html">setsockopt</a>, <a href="12220.html">getsockopt</a>, <a href="12204.html">gethostbyname</a> have been added</li>
+</ul>API functionality has changed in the following ways to bring the MPLAB Harmony implementation to be more in line with industry standard Berkeley Socket API specification.
+<ul class="Element630">
+<li class="Element600"><i>errno</i> – APIs now report specific error codes through a global variable: errno. This variable is only valid between calls to the Berkeley API, and is currently not tread safe, there is on errno variable shared across all threads.</li>
+<li class="Element600"><i>bind</i> – bind now supports binding to a specific IP address. If an invalid address is specified the function will now return an error and set errno accordingly</li>
+<li class="Element600"><i>accept</i> – accept no longer returns <a href="14398.html">INVALID_SOCKET</a> on error but <a href="23071.html">SOCKET_ERROR</a> and errno is set to the specific error.</li>
+<li class="Element600"><i>connect</i> - connect no longer returns <a href="14398.html">INVALID_SOCKET</a> on error but <a href="23071.html">SOCKET_ERROR</a> and errno is set to the specific error. In addition, connect does not return <a href="23069.html">SOCKET_CNXN_IN_PROGRESS</a>; instead, <a href="23071.html">SOCKET_ERROR</a> is returned and errno is set to EINPROGRESS. Finally, connect now supports setting a specific local IP address; if the IP address is invalid, the <a href="23071.html">SOCKET_ERROR</a> is returned and errno is set with the error.</li>
+<li class="Element600"><i><a href="22956.html">sendto</a></i> – <a href="22956.html">sendto</a> now supports sending from a specific IP address. If an invalid address is specified, the function returns <a href="23071.html">SOCKET_ERROR</a> and sets errno.</li>
+</ul></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24792.html">Berkeley Changes</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING Berkeley Changes Topic Title: Berkeley Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

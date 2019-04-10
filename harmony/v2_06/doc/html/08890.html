@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Buffer Queue Transfer Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08909.html">Using the Library</a> &gt; <a href="08902.html">How the Library Works</a> &gt; <a href="08890.html">Buffer Queue Transfer Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08899.html">Previous</a> | <a href="08902.html">Up</a> | <a href="08898.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USART Buffer Queue Data Transfer Model Topic Title: Buffer Queue Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Buffer Queue Transfer Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+To use the buffer queue data transfer model, the <a href="11473.html">DRV_USART_BUFFER_QUEUE_SUPPORT</a> configuration macro should be true. The file,<span class="Element146"> drv_usart_buffer_queue.c</span>, should be included in the application project. If the DMA-enabled buffer queue model is required, the <span class="Element146">drv_usart_buffer_queue_dma.c</span> file (<i>and not</i> the <span class="Element146">drv_usart_buffer_queue.c</span> ) should be included in the application project. The DMA and non-DMA buffer queue model API is the same. The driver can support the non-DMA buffer queue data transfer model along with the file I/O type read/write data transfer model. The byte transfer model cannot be enabled if the buffer queue data transfer model is enabled.&nbsp;</p>
+<p class="Element10">
+The <a href="11474.html">DRV_USART_BufferAddRead</a> and <a href="11475.html">DRV_USART_BufferAddWrite</a> functions represent the buffer queue data transfer model. These functions are always non-blocking. The Buffer Queue Data Transfer Model employs queuing of read and write request. Each driver instance contains a read and write queue. The size of the read queue is determined by the queueSizeRead member of the DRV_USART_INIT data structure. The size of the write queue is determined by the queueSizeWrite member of the DRV_USART_INIT data structure. The driver provides driver events (DRV_USART_BUFFER_EVENT) that indicates termination of the buffer requests.&nbsp;</p>
+<p class="Element10">
+When the driver is configured for Interrupt mode operation (that is defined and registered by the driver client), the buffer event handler executes in an interrupt context. Calling computationally intensive or hardware polling routines within the event handlers is not recommended. Calling interrupt unsafe functions in the event handler when the driver is configured for Interrupt mode could result in unpredictable system behavior.&nbsp;</p>
+<p class="Element10">
+When the driver adds request to the queue, it returns a buffer handle. This unique handle allows the client to track the request as it progresses through the queue. The buffer handle is returned with the buffer event and expires when the event associated with the buffer has been generated and the event handler returns. The following code shows an example of using the buffer queue data transfer model. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01187');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01187"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example of using the
+ * Buffer Queue Data Transfer Model. */</span></i>
+DRV_HANDLE usartHandle1;
+uint8_t myData1[10], myData2[10];
+uint8_t myData3[10], myData4[10];
+size_t bytesProcessed;
+DRV_USART_BUFFER_HANDLE bufferHandle1, bufferHandle2;
+DRV_USART_BUFFER_HANDLE bufferHandle3, bufferHandle4;
+
+
+<i><span style="color: #008000">/* The driver is opened in non blocking mode */</span></i>
+usartHandle1 = DRV_USART_Open(DRV_USART_0,
+        DRV_IO_INTENT_READWRITE|DRV_IO_INTENT_NONBLOCKING);
+
+<i><span style="color: #008000">/* Check if the driver was opened successfully */</span></i>
+<strong><span style="color: #000080">if</span></strong>(DRV_HANDLE_INVALID == usartHandle1)
+{
+    <i><span style="color: #008000">/* The driver could not be opened successfully */</span></i>
+}
+
+<i><span style="color: #008000">/* Register a Buffer Event Handler with USART driver.
+ * This event handler function will be called whenever
+ * there is a buffer event.  An application defined
+ * context can also be specified. This is returned when
+ * the event handler is called.
+ * */</span></i>
+DRV_USART_BufferEventHandlerSet(usartHandle1,
+        APP_USARTBufferEventHandler, NULL);
+
+
+<i><span style="color: #008000">/* Queue up two buffers for transmit */</span></i>
+DRV_USART_BufferAddWrite(usartHandle1, &amp;bufferHandle1, myData1, 10);
+DRV_USART_BufferAddWrite(usartHandle1, &amp;bufferHandle2, myData2, 10);
+
+<i><span style="color: #008000">/* Queue up two buffers for receive */</span></i>
+DRV_USART_BufferAddRead(usartHandle1, &amp;bufferHandle3, myData3, 10);
+DRV_USART_BufferAddRead(usartHandle1, &amp;bufferHandle4, myData4, 10);
+
+<i><span style="color: #008000">/* This is application USART Driver Buffer Event Handler */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_USARTBufferEventHandler(DRV_USART_BUFFER_EVENT event,
+        DRV_USART_BUFFER_HANDLE bufferHandle, uintptr_t contextHandle)
+{
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_USART_BUFFER_EVENT_COMPLETE:
+            <i><span style="color: #008000">/* This means the data was transferred */</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">case</span></strong> DRV_USART_BUFFER_EVENT_ERROR:
+            <i><span style="color: #008000">/* Error handling here. */</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08909.html">Using the Library</a> &gt; <a href="08902.html">How the Library Works</a> &gt; <a href="08890.html">Buffer Queue Transfer Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USART Buffer Queue Data Transfer Model Topic Title: Buffer Queue Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

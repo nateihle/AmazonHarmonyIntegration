@@ -1,0 +1,77 @@
+config USE_DRV_SST25_NEEDED
+    bool
+
+enum DRV_SST25_MODE
+    "STATIC"
+    || "DYNAMIC"
+    
+config USE_DRV_SST25
+    bool "Use SST25 Driver?"
+    depends on HAVE_SPI
+    default n if !USE_DRV_SST25_NEEDED
+    default y if USE_DRV_SST25_NEEDED
+    select DRV_SPI_USE_DRIVER_NEEDED
+    ---help---
+    IDH_HTML_SST25_Driver_Library
+    ---endhelp---
+
+config DRV_SST25_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_SST25
+    range DRV_SST25_MODE
+    default "DYNAMIC"
+    persistent
+    ---help---
+    IDH_HTML_SST25_Driver_Library
+    ---endhelp---
+    
+config DRV_SST25_INSTANCES_NUMBER
+    int "Number of SST25 Driver Instances"
+    depends on USE_DRV_SST25
+    range 1 2
+    default 1
+    ---help---
+    IDH_HTML_DRV_SST25_INSTANCES_NUMBER
+    ---endhelp---
+ 
+config DRV_SST25_CLIENTS_NUMBER
+    int "Number of SST25 Driver Clients"
+    depends on USE_DRV_SST25
+    default 1
+    ---help---
+    IDH_HTML_DRV_SST25_CLIENTS_NUMBER
+    ---endhelp---
+    
+config DRV_SST25_QUEUE_DEPTH_COMBINED
+    int "Number of SST25 Buffer Objects"
+    depends on USE_DRV_SST25 
+    default 5
+    ---help---
+    IDH_HTML_DRV_SST25_QUEUE_DEPTH_COMBINED
+    ---endhelp---
+
+config USE_DRV_SST25_SYS_FS_REGISTER
+    bool "Register with File System?"
+    depends on USE_DRV_SST25
+    select USE_SYS_FS_NEEDED
+    select DRIVER
+    default n
+    ---help---
+      IDH_HTML_DRV_SST25_SYS_FS_REGISTER
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25/config/drv_sst25_idx.ftl" 3 instances
+
+ifblock USE_DRV_SST25
+
+add "<#include \"/framework/driver/spi_flash/sst25/templates/drv_sst25.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/spi_flash/sst25/templates/drv_sst25_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/spi_flash/sst25/templates/drv_sst25_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/spi_flash/sst25/templates/drv_sst25.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_SST25_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25/drv_sst25.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/sst25/drv_sst25.h"
+file DRV_SST25_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25/src/drv_sst25_local.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/sst25/src/drv_sst25_local.h"
+file DRV_SST25_MAP_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25/src/drv_sst25_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/sst25/src/drv_sst25_variant_mapping.h"
+file DRV_SST25_C "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25/src/dynamic/drv_sst25.c" to "$PROJECT_SOURCE_FILES/framework/driver/spi_flash/sst25/src/dynamic/drv_sst25.c"
+
+endif

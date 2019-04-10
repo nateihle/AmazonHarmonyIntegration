@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>MPLAB Harmony TCP/IP Stack Access Changes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24797.html">MPLAB Harmony TCP/IP Stack Access Changes</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24804.html">Previous</a> | <a href="24798.html">Up</a> | <a href="24809.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING MPLAB Harmony TCP/IP Stack Access Changes Topic Title: MPLAB Harmony TCP/IP Stack Access Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+MPLAB Harmony TCP/IP Stack Access Changes</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The TCP/IP Stack include header file, <span class="Element146"><a href="26193.html">tcpip_manager.h</a></span>, has been updated as follows.&nbsp;</p>
+<p class="Element10">
+Direct access to the internally maintained stack structures has been removed. To access the information for a specific network interface a handle must be obtained using the interface name. For example: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04192');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04192"><pre class="Element12">TCPIP_NET_HANDLE hNet = TCPIP_STACK_NetHandleGet(&quot;PIC32INT&quot;);</pre></div></div>
+<p class="Element10">
+or </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04193');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04193"><pre class="Element12">TCPIP_NET_HANDLE hNet = TCPIP_STACK_NetHandleGet(&quot;MRF24W&quot;);</pre></div></div>
+<p class="Element10">
+Once a handle to the interface has been obtained, different parameters of that network interface can be queried and set. For example:
+<ul class="Element630">
+<li class="Element600"><a href="26756.html">TCPIP_STACK_NetAddress</a>(<a href="26238.html">TCPIP_NET_HANDLE</a> netH) – returns the network interface address</li>
+<li class="Element600"><a href="26762.html">TCPIP_STACK_NetAddressGateway</a>(<a href="26238.html">TCPIP_NET_HANDLE</a> netH) – returns the interface gateway address</li>
+</ul>Refer to the <span class="Element146"><a href="26193.html">tcpip_manager.h</a></span> file for a complete list of functions. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The <a href="26238.html">TCPIP_NET_HANDLE</a> is an opaque data type.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The well known names of the network interfaces are currently in the file, <span class="Element146"><a href="24942.html">tcpip.h</a></span>.&nbsp;</p>
+<p class="Element10">
+The exact header file that exposes the network interfaces names may change in the future; however, the names of the supported network interfaces will be retained.&nbsp;</p>
+<p class="Element10">
+Use the file, <span class="Element146">network_config.h</span>, as an example.&nbsp;</p>
+<p class="Element10">
+Refer to the file, <span class="Element146">main_demo.c</span>, for an example of how to use the interface handle functions.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24797.html">MPLAB Harmony TCP/IP Stack Access Changes</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING MPLAB Harmony TCP/IP Stack Access Changes Topic Title: MPLAB Harmony TCP/IP Stack Access Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

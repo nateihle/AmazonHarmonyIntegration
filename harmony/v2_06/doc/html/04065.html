@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04062.html">wifi_sta_wolfssl_demo</a> &gt; <a href="04065.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04064.html">Previous</a> | <a href="04062.html">Up</a> | <a href="04070.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP WiFi Sta WOLFSSL Demo_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The demonstration does the following:</p>
+<ul class="Element630">
+<li class="Element600">Scans the area and triggers the connection with the Home AP stored in flash memory.</li>
+<li class="Element600">The default configuration of the Home AP is stored in flash memory, and this configuration can be updated with console commands.</li>
+<li class="Element600">After connecting with the Home AP, the connection status can be verified by running <strong>ping</strong>.</li>
+<li class="Element600">Opens the secure web page by running the wolfSSL command.</li>
+</ul><p class="Element10">
+Use the following procedure to run the demonstration:&nbsp;</p>
+<p class="Element10">
+1. Load the demonstration project into MPLAB X IDE.&nbsp;</p>
+<p class="Element10">
+2. Connect the mini-B debugger port on- the starter kit to a USB port on the development computer using the USB cable provided in the kit.&nbsp;</p>
+<p class="Element10">
+3. Build, download, and run the demonstration project on the board.</p>
+<ul class="Element630">
+<li class="Element600">When the demonstration runs, it scans for APs and connects with the saved configuration of the Home AP. If the configured AP is not available in the scan list, the device will be in scanning phase only.</li>
+<li class="Element600">After connecting with the Home AP, the DUT (PIC32WK Wi-Fi) will get the IP address from the AP (if DHCP is enabled) or the default IP-address, 192.168.1.150.</li>
+</ul><p class="Element10">
+4. Use console commands to get the connection status details. Run <strong>netinfo</strong> to display these connection details.&nbsp;</p>
+<p class="Element10">
+<span class="Element146">---------- Interface &lt;wlan0/PIC32WK&gt; ----------</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Host Name: MCHPBOARD_WK - NBNS disabled</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">IPv4 Address: 192.168.1.101</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Mask: 255.255.255.0</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Gateway: 192.168.1.1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">DNS: 192.168.1.1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">MAC Address: 54:8c:a0:00:f3:82</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">dhcp is ON</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Link is UP</span>&nbsp;</p>
+<p class="Element10">
+5. Run <strong>wlan open</strong> to open the access to give Wi-Fi commands, and then run <strong>wlan macinfo</strong> to see the Wi-Fi module status.&nbsp;</p>
+<p class="Element10">
+-<span class="Element146">---WIFI MAC configuration----</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">BootMode: STA</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">HTTP: Enable</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">OTA: Enable</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SSID: PINGD</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">PSK: 12345678</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Mode: 0x79</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">The above Configuration is Saved in Flash</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">****************************************************</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">----MAC Connected to AP with following Details----</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SSID from MAC:PINGD</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">PSK: 12345678</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Mode: 0x79</span>&nbsp;</p>
+<p class="Element10">
+6. After connecting the third-party personal computer/laptop to the same Home AP, run <strong>ping</strong> to verify the simple data connection process between the DUT and the computer/laptop.&nbsp;</p>
+<p class="Element10">
+7. To access the content of the Web page, run <strong>openurl <i>&lt;url&gt;</i></strong>, where <i>&lt;url&gt;</i> must be a fully formed URL.</p>
+<ul class="Element630">
+<li class="Element600">Example: <strong>openurl http://google.com/</strong> or <strong>openurl https://google.com/</strong></li>
+<li class="Element600">The following shows an example of accessing a secure and a non-secure Web page by running the <strong>openurl</strong> command.</li>
+</ul><p class="Element10">
+<img src="WM32_WifFi_Starter_Kit15.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+8. Run <strong>stats</strong> to retrieve the statistics from running the previous <strong>openurl</strong> command. Examples of statistics are how long each phase of the connection took, and how many bytes were transferred.&nbsp;</p>
+<p class="Element10">
+<img src="WM32_WifFi_Starter_Kit16.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+9. After running the openurl command, the demonstration makes a DNS query. Open a connection to the requested URL and run an http PUT command.</p>
+<ul class="Element630">
+<li class="Element600">The results are sent to the serial port. If an https URL is specified, the connection will first undergo SSL negotiation before running the http PUT command.</li>
+</ul></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04062.html">wifi_sta_wolfssl_demo</a> &gt; <a href="04065.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP WiFi Sta WOLFSSL Demo_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

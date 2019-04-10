@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="03341.html">Examples</a> &gt; <a href="03624.html">Peripheral Library Examples</a> &gt; <a href="06511.html">CAN Peripheral Library Examples</a> &gt; <a href="03511.html">Demonstrations</a> &gt; <a href="03512.html">echo_send</a> &gt; <a href="03515.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03514.html">Previous</a> | <a href="03512.html">Up</a> | <a href="03507.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS CAN echo_send_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following tools are required to run this demonstration:</p>
+<ul class="Element630">
+<li class="Element600">MPLAB X IDE</li>
+<li class="Element600">MPLAB XC32 C/C++ Compiler</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Prior to using this demonstration, it is recommended to review the MPLAB Harmony <a href="04283.html">Release Notes</a> for the specific versions. A PDF copy of the release notes is provided in the <span class="Element146">&lt;install-dir&gt;/doc</span> folder of your installation.&nbsp;</div></td></tr></table></div></div>
+
+<ul class="Element630">
+<li class="Element600">One of the following:
+<ul class="Element631">
+<li class="Element601">PIC32MX1/2/5 Starter Kit</li>
+<li class="Element601">CAN/LIN PICtail Plus Daughter Board and PIC32 USB Starter Kit II combination</li>
+<li class="Element601">PIC32MZ EF Starter Kit and PIC32MZ Starter Kit Adapter Board combination</li>
+<li class="Element601">PIC32MK GP Development Board</li>
+</ul></li>
+<li class="Element600">One Microchip CAN BUS Analyzer (APGDT002) or equivalent</li>
+<li class="Element600">One DB9 cable</li>
+<li class="Element600">Two USB A-to-B mini cables</li>
+<li class="Element600">A personal computer</li>
+</ul><div class="Element15">
+Hardware Example</div>
+<p class="Element10">
+The following figure illustrates the hardware setup for the PIC32MX1/2/5 Starter Kit.&nbsp;</p>
+<p class="Element10">
+<img src="APPS CAN HW Setup.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+Refer to <i>&quot;CAN BUS Analyzer User's Guide&quot;</i> (DS50001848) for further operating instructions regarding the CAN BUS Analyzer.&nbsp;</p>
+<p class="Element10">
+For more information on the CAN Bus, visit: <a href="#" onclick="openExternalLink('http://www.can-cia.org');"><img src="indicator_external_link.gif" border="0" alt="" title="">http://www.can-cia.org/</a>&nbsp;</p>
+<p class="Element10">
+Do the following to run the demonstration:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Connect one end of the DB9 cable to the starter kit and the other end to the CAN BUS Analyzer.</li>
+<li value="2" class="Element600">Connect the USB cables to J3 on the starter kit and to the CAN BUS Analyzer.</li>
+<li value="3" class="Element600">Open the CAN BUS Analyzer software.</li>
+<li value="4" class="Element600">Configure the Analyzer for the Baud Rate Selected inside MHC (1 Mbps Typical), Normal Operation, Termination Resistor: ON.</li>
+</ol><p class="Element10">
+<img src="APPS CAN Figure 1.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="5" class="Element600">Start MPLAB X IDE and open the project, <span class="Element146">echo_send.X</span>.</li>
+<li value="6" class="Element600">Program the starter kit.</li>
+<li value="7" class="Element600">Open the Rolling Trace window in the CAN BUS Analyzer software.</li>
+<li value="8" class="Element600">LED1 must be ON by default. Press switch 1 to see the output in the trace window. Note: While switch is pressed LED should turn OFF.</li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+When the switch is pressed, the LED should turn OFF.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="9" class="Element600">Press the button(s) on the starter kit to see the output in the trace window.</li>
+<li value="10" class="Element600">Open the Transmit window.</li>
+<li value="11" class="Element600">To get a response from the starter kit, the following address must be used: ID = 0x201. Following the address, enter the DLC, which is the Data Length Code (the number of bytes to follow). For example, if 0x201, DLC, Byte1, Byte2, Byte3, Byte4 was entered, the starter kit will respond with: 0x102, DLC, Byte1, Byte2, Byte3, Byte4.</li>
+</ol><div class="Element15">
+Demonstration Output</div>
+<p class="Element10">
+The following figure shows the Rolling Trace send/receive output from the CAN Bus Analyzer.&nbsp;</p>
+<p class="Element10">
+<img src="APPS CAN Figure 2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Button Press Mapping</strong>&nbsp;</p>
+<p class="Element10">
+SW1 Press<strong> - </strong>0x12C, 2, 0x11, 0x222.&nbsp;</p>
+<p class="Element10">
+The following figure shows the Rolling Trace output message.&nbsp;</p>
+<p class="Element10">
+<img src="APPS CAN Figure 3.png" border="0" alt="" title="">&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="03341.html">Examples</a> &gt; <a href="03624.html">Peripheral Library Examples</a> &gt; <a href="06511.html">CAN Peripheral Library Examples</a> &gt; <a href="03511.html">Demonstrations</a> &gt; <a href="03512.html">echo_send</a> &gt; <a href="03515.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS CAN echo_send_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

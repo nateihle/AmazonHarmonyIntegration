@@ -1,0 +1,156 @@
+menu "CMP"
+    depends on HAVE_CMP
+
+enum DRV_CMP_MODE
+    "STATIC"
+    
+enum DRV_CMP_PINS
+    "C1INA"
+    || "C1INB"
+    || "C1INC"
+    || "C1IND"
+    || "C2INA"
+    || "C2INB"
+    || "C2INC"
+    || "C2IND"
+    || "C3INA"
+    || "C3INB"
+    || "C3INC"
+    || "C3IND"
+    || "C1INP"
+    || "C1INM"
+    || "C2INP"
+    || "C2INM"
+    || "C1IN1+"
+    || "C1IN1-"
+    || "C1IN2-"
+    || "C1IN3-"
+    || "C1IN4-"
+    || "C2IN1+"
+    || "C2IN1-"
+    || "C2IN2-"
+    || "C2IN3-"
+    || "C2IN4-"
+    || "C3IN1+"
+    || "C3IN1-"
+    || "C3IN2-"
+    || "C3IN3-"
+    || "C3IN4-"
+    || "C4IN1+"
+    || "C4IN1-"
+    || "C4IN2-"
+    || "C4IN3-"
+    || "C4IN4-"
+    || "C5IN1+"
+    || "C5IN1-"
+    || "C5IN2-"
+    || "C5IN3-"
+    || "C5IN4-"
+    || "NONE"
+    
+config DRV_CVREF_ENABLE
+    bool "Use CVREF?"
+#PIC32MK devices doesn't support CVREF module and hence masked, this masks all options related to CVREF for PIC32MK.
+    depends on !PIC32MK
+    default n
+    ---help---
+    IDH_HTML_PLIB_CMP_CVREF_Enable_CMP_MODULE_ID
+    ---endhelp---
+
+config DRV_CMP_CVREF_VOLTAGE_SOURCE
+    string "CVREF Voltage Source"
+    depends on DRV_CVREF_ENABLE
+    range CMP_CVREF_VOLTAGE_SOURCE
+    default "CMP_CVREF_VOLTAGE_SOURCE_VDD"
+    ---help---
+    IDH_HTML_CMP_CVREF_VOLTAGE_SOURCE
+    ---endhelp---
+
+config DRV_CMP_CVREF
+    string "CVref voltage"
+    depends on DRV_CVREF_ENABLE	
+    range CMP_CVREF_REFERENCE_SELECT
+    default "CMP_CVREF_RESISTOR_LADDER_VOLTAGE"
+
+config DRV_CMP_CVREF_VALUE
+    string "CVref Resistor Ladder Value"
+    depends on DRV_CVREF_ENABLE
+    range CMP_CVREF_VALUE
+    default "CMP_CVREF_VALUE_0"
+    ---help---
+    IDH_HTML_CMP_CVREF_VALUE
+    ---endhelp---
+
+config DRV_CMP_IVREF
+    string "IVref voltage"
+    depends on DRV_CVREF_ENABLE	
+    range CMP_CVREF_BANDGAP_SELECT
+    default "CMP_CVREF_BANDGAP_1_2V"
+
+
+config DRV_CMP_CVREF_WIDE_RANGE
+    bool "Wide Range Enable"
+    depends on DRV_CVREF_ENABLE
+    default n
+
+config DRV_CMP_CVREF_OE
+    bool "Enable Voltage Referece On CVREFOUT Pin"
+    depends on DRV_CVREF_ENABLE
+    default n
+    
+config USE_DRV_CMP
+    bool "Use CMP Driver?"
+    select DRIVER
+    default n
+    ---help---
+    IDH_HTML_Comparator_Peripheral_Library
+    ---endhelp---
+
+config DRV_CMP_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_CMP
+    range DRV_CMP_MODE
+    default "STATIC"
+    persistent
+    ---help---
+    IDH_HTML_Comparator_Peripheral_Library
+    ---endhelp---
+
+config DRV_CMP_INTERRUPT_MODE
+    bool "Interrupt Mode"
+    depends on USE_DRV_CMP
+    default n
+    ---help---
+    Checking this option would enable interrupt mode of the   module and place necessary calls in the driver.
+    ---endhelp---
+
+config DRV_CMP_INCLUDE_INTERRUPT_SERVICE
+    bool
+    depends on USE_DRV_CMP
+    depends on DRV_CMP_DRIVER_MODE = "STATIC"
+    depends on DRV_CMP_INTERRUPT_MODE
+    select USE_SYS_INT_NEEDED
+    default y
+    
+config DRV_CMP_INSTANCES_NUMBER
+    int "Number of CMP Driver Instances"
+    depends on USE_DRV_CMP
+    range 1 CMP_NUMBER_OF_MODULES
+    default CMP_NUMBER_OF_MODULES
+    ---help---
+    Sets up the maximum number of hardware instances that can be supported. 
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/cmp/config/drv_cmp_idx.ftl" 5 instances
+
+endmenu
+
+
+ifblock USE_DRV_CMP || DRV_CVREF_ENABLE
+
+add "<#include \"/framework/driver/cmp/templates/drv_cmp_static_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+
+template CMP_STATIC_DRV_C "$HARMONY_VERSION_PATH/framework/driver/cmp/templates/drv_cmp_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/cmp/src/drv_cmp_static.c"
+template CMP_STATIC_DRV_H "$HARMONY_VERSION_PATH/framework/driver/cmp/templates/drv_cmp_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/cmp/drv_cmp_static.h"
+endif
+

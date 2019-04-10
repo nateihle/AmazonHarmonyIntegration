@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>State Machine Programming Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11800.html">State Machine Programming Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11799.html">Previous</a> | <a href="11786.html">Up</a> | <a href="11767.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE State Machine Programming Model Topic Title: State Machine Programming Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+State Machine Programming Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Why does MPLAB Harmony utilize a state machine-based programming model?&nbsp;</p>
+<p class="Element10">
+The state machine programming model may seem a bit unfamiliar if you are not used to dividing up the job that your software performs into expeditious tasks. However, it soon becomes necessary in the polled <i>super loop</i> environment with which most embedded developers are very familiar. Once an application acquires a significant set of capabilities, the processing required by all of the necessary modules becomes too much to simply do one thing at a time, as shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE State Machine Programming Model.png" border="0" alt="" title=""></p><p class="Element10">
+In this example, an application utilizes a graphics library, a TCP/IP networking stack and a UART driver working within the same main loop. In this system it is very likely that by the time the graphics library finishes drawing a complete screen image, followed by the TCP/IP stack processing a large network packet, the SPI driver sending audio data to a Codec is going to underflow. Even if the SPI driver is interrupt-driven, it must still work out of a buffer that is very likely filled with data and managed by an application or other module that executes in the polled loop. Unfortunately, just using a bigger buffer is ultimately a losing proposition.&nbsp;</p>
+<p class="Element10">
+In this situation it becomes very difficult, if not impossible, to effectively share the processor execution bandwidth between these different modules. Also, simply using a faster processor will not always solve this issue. The root cause of the problem is not the processor speed or memory size. It is the one-thing-at-a-time blocking approach being used. Such libraries frequently spend a large amount of time polling in a loop, doing nothing but waiting for something to occur in the real world. The problem is often not the processor workload; it is the time spent <i>busy waiting</i>.&nbsp;</p>
+<p class="Element10">
+To solve this problem, a library’s work must be broken down into smaller tasks that can be performed from start-to-finish in an acceptable amount of time. Any time a library must wait for some significant period of time for something to occur, it should not monopolize the CPU and block the rest of the system. Instead, it should release the processor to do something useful and let the rest of the system execute. To do this requires either the capabilities of an operating system (discussed in <a href="11784.html">Interrupt and Thread Safety</a>), or it requires breaking up the application’s job into smaller tasks and using a state machine methodology to step through these short tasks as it transitions from one state to another. This is the reason why MPLAB Harmony libraries are designed using a state machine-based model, which facilitates the creation of incredibly capable systems, either with or without an OS.&nbsp;</p>
+<p class="Element10">
+The best way to understand the overall picture of how a MPLAB Harmony system executes is to examine a strictly polled configuration, as shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE State Machine Polled Configuration.png" border="0" alt="" title=""></p><p class="Element10">
+This diagram shows a simplified view of a polled super loop system with three library modules. Each library has its own state machine. Before entering the main loop, the system calls the initialize function for each library module. This puts each library’s state machine in its initial state. Then, the system enters the main loop where it repeatedly and endlessly calls each library’s tasks function. Each library’s tasks function checks the current state of the driver and, if it has some work to do, performs the next task necessary to keep that library running. If a library’s current state indicates that it has no work to do, its tasks function does nothing and returns immediately. This method keeps all of the libraries in the system running by allowing them to share the processor and only use it when they have work to do.&nbsp;</p>
+<p class="Element10">
+While explained in more detail in <a href="11784.html">Interrupt and Thread Safety</a>, it is also worth noting here that libraries use this same mechanism when they are interrupt-driven or in a RTOS environment.&nbsp;</p>
+<p class="Element10">
+When interrupt-driven, a library’s tasks function is no longer called from the main loop. Instead, it is called from the appropriate Interrupt Service Routine (ISR). It behaves in exactly the same way (checking its state, which includes its interrupt flag if it has an associated interrupt) and only taking action when appropriate. Checking the flag may seem redundant since the ISR is only called when it is set, but it is also more robust as it avoids taking inappropriate action when a spurious interrupt occurs or if ISR vectors are shared between multiple interrupt flags as they are in some processors.&nbsp;</p>
+<p class="Element10">
+When operating in a RTOS-based environment, a library’s tasks function can either be interrupt-driven as described previously or polled. If it is polled, it is polled from loop within a RTOS thread and it works exactly the same as if it were polled from a <i>bare metal</i> (i.e., no OS) super loop.&nbsp;</p>
+<p class="Element10">
+The only differences between polled super loop-driven, interrupt-driven, and RTOS-driven operation of a library is that it has to be configured correctly at build time to use the OSAL and/or enable and disable its interrupt(s) when appropriate. These configuration options affect how certain internal functions are implemented, but they do not change the logic or fundamental operation of the library itself.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11800.html">State Machine Programming Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE State Machine Programming Model Topic Title: State Machine Programming Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

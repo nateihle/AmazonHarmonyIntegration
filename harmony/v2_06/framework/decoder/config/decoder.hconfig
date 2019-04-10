@@ -1,0 +1,407 @@
+menu "Decoder"
+---help---
+IDH_HTML_HARMONY_Decoder_Libraries_Help
+---endhelp---
+
+menu "Audio Decoders"
+---help---
+IDH_HTML_HARMONY_Decoder_Libraries_Help
+---endhelp---
+
+config USE_DECODER
+bool "Use Audio Decoder Libraries?"
+default n
+---help---
+IDH_HTML_HARMONY_Decoder_Libraries_Help
+---endhelp---
+    config USE_WMA_DECODER
+    bool "Use WMA Decoder Library (premium purchase)"
+    default n
+	---help---
+	IDH_HTML_WMA_Decoder_Library
+	---endhelp---
+    depends on USE_DECODER
+        config WMA_DECODER_LIB_SELECT
+        string "WMA Library"
+        depends on USE_DECODER && USE_WMA_DECODER && PIC32MZ
+        range WMA_LIB_TARGET
+        default "microAptiv Library"
+
+    config USE_MP3_DECODER
+    bool "Use MP3 Decoder Library (premium purchase)"
+    default n
+	---help---
+	IDH_HTML_MP3_Decoder_Library
+	---endhelp---
+    depends on USE_DECODER
+        config MP3_DECODER_LIB_SELECT
+        string "MP3 Library"
+        depends on USE_DECODER && USE_MP3_DECODER && PIC32MZ
+        range MP3_DECODER_LIB
+        default "Advanced Library (MPEG 1/2/2.5)"
+	
+    config USE_AAC_DECODER
+    bool "Use AAC Decoder Library (premium purchase)"
+    default n
+	---help---
+	IDH_HTML_AAC_Decoder_Library
+	---endhelp---
+    depends on USE_DECODER
+        config AAC_DECODER_LIB_SELECT
+        string "AAC Library"
+        depends on USE_DECODER && USE_AAC_DECODER && PIC32MZ
+        range DECODER_LIB_TARGET
+        default "microAptiv Library"
+
+    config USE_OGG_SPEEX_DECODER
+    bool "Use Ogg-Speex Decoder Library"
+    default n
+	---help---
+	IDH_HTML_Speex_Decoder_Library
+	---endhelp---
+    depends on USE_DECODER
+	
+	config USE_OGG_OPUS_DECODER
+	bool "Use Ogg-Opus Decoder Library"
+	default n
+	---help---
+	IDH_HTML_Opus_Decoder_Library
+	---endhelp---
+	depends on USE_DECODER
+
+    config USE_FLAC_DECODER
+    bool "Use Flac Decoder Library"
+    default n
+	---help---
+	IDH_HTML_FLAC_Decoder_Library
+	---endhelp---
+    depends on USE_DECODER
+    
+    config USE_WAV_STREAMING
+    bool "Use WAV AUDIO stream"
+    default n
+    depends on USE_DECODER
+
+    config USE_ADPCM_STREAMING
+    bool "Use ADPCM AUDIO stream"
+    default n
+    depends on USE_DECODER
+	
+endmenu
+
+ifblock (USE_DECODER)
+template AUDIO_DECODER_H_FTL "$HARMONY_VERSION_PATH/framework/decoder/templates/audio_decoders.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/decoder/audio_decoder.h"
+endif
+
+ifblock (USE_DECODER && USE_AAC_DECODER)
+
+file DECODER_PREMIUM_AAC_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_aac/aac_lib_api.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/aac/aac_lib_api.h"
+file DECODER_PREMIUM_AAC_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_aac/support/aac_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/aac/aac_dec.h"
+file DECODER_PREMIUM_AAC_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_aac/support/aac_dec.c" to "$PROJECT_SOURCE_FILES/framework/decoder/premium/aac/aac_dec.c"
+
+ifblock (PIC32MX)
+library LIB_PREMIUM_AAC_DECODER_MX "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/aac_pic32mx/aac_adts_mx.a"
+endif
+
+ifblock(PIC32MZ)
+    ifblock(AAC_DECODER_LIB_SELECT = "microAptiv Library")
+    library LIB_PREMIUM_AAC_DECODER_MZ_MICROAPTIV "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/aac_microaptiv/aac_adts_microaptiv.a"
+    endif
+
+    ifblock(AAC_DECODER_LIB_SELECT = "PIC32MX Library")
+    library LIB_PREMIUM_AAC_DECODER_MZ "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/aac_pic32mx/aac_adts_mx.a"
+    endif
+endif
+
+endif
+
+ifblock (USE_DECODER && USE_MP3_DECODER)
+
+file DECODER_PREMIUM_MP3_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/support/mp3_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/mp3/mp3_dec.h"
+file DECODER_PREMIUM_ID3_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/support/id3.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/mp3/id3.h"
+file DECODER_PREMIUM_UTILS_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/utils/utils.h" to "$PROJECT_HEADER_FILES/framework/decoder/utils/utils.h"
+file DECODER_PREMIUM_ID3_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/support/id3.c" to "$PROJECT_SOURCE_FILES/framework/decoder/premium/mp3/id3.c"
+file DECODER_PREMIUM_UTILS_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/utils/utils.c" to "$PROJECT_SOURCE_FILES/framework/decoder/utils/utils.c"
+
+ifblock (PIC32MX)
+library LIB_PREMIUM_MP3_DECODER_MX "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/mp3_pic32mx/MP3_Compact_Decoder_mx.a"
+file DECODER_PREMIUM_MP3_MX_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/mp3_advanced_lib_api.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/mp3/mp3_advanced_lib_api.h"
+file DECODER_PREMIUM_MP3_SUPPORT_MX_C "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/support/mp3_dec_advanced.c" to "$PROJECT_SOURCE_FILES/framework/decoder/premium/mp3/mp3_dec_advanced.c"
+endif
+
+ifblock(PIC32MZ)
+    ifblock(MP3_DECODER_LIB_SELECT = "Efficient Library (MPEG 1, microAptiv only, 10% cycles reduction)")
+    library LIB_PREMIUM_MP3_DECODER_MZ "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/mp3_microaptiv/MP3_Compact_Decoder_microaptiv.a"
+    file DECODER_PREMIUM_MP3_MICROAPTIV_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/mp3_microaptiv_lib_api.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/mp3/mp3_microaptiv_lib_api.h"
+    file DECODER_PREMIUM_MP3_SUPPORT_MICROAPTIV_C "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/support/mp3_dec_microaptiv.c" to "$PROJECT_SOURCE_FILES/framework/decoder/premium/mp3/mp3_dec_microaptiv.c"
+    endif
+
+    ifblock(MP3_DECODER_LIB_SELECT = "Advanced Library (MPEG 1/2/2.5)")
+    library LIB_PREMIUM_MP3_DECODER_MZ_Advanced "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/mp3_pic32mx/MP3_Compact_Decoder_mx.a"
+    file DECODER_PREMIUM_MP3_ADVANCED_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/mp3_advanced_lib_api.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/mp3/mp3_advanced_lib_api.h"
+    file DECODER_PREMIUM_MP3_SUPPORT_ADVANCED_C "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_mp3/support/mp3_dec_advanced.c" to "$PROJECT_SOURCE_FILES/framework/decoder/premium/mp3/mp3_dec_advanced.c"
+    endif
+endif
+
+endif
+
+ifblock (USE_DECODER && USE_WMA_DECODER)
+
+file DECODER_PREMIUM_WMA_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_wma/wma_lib_api.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/wma/wma_lib_api.h"
+file DECODER_PREMIUM_WMA_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_wma/support/wma_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/premium/wma/wma_dec.h"
+file DECODER_PREMIUM_WMA_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/premium/decoder_wma/support/wma_dec.c" to "$PROJECT_SOURCE_FILES/framework/decoder/premium/wma/wma_dec.c"
+
+ifblock (PIC32MX)
+library LIB_PREMIUM_WMA_DECODER_MX "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/wma_pic32mx/WMA_decoder_mx.a"
+endif
+
+ifblock(PIC32MZ)
+    ifblock(WMA_DECODER_LIB_SELECT = "microAptiv Library")
+    library LIB_PREMIUM_WMA_DECODER_MZ_MICROAPTIV "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/wma_microaptiv/WMA_decoder_microaptiv.a"
+    endif
+
+    ifblock(WMA_DECODER_LIB_SELECT = "PIC32MX Library")
+    library LIB_PREMIUM_WMA_DECODER_MZ "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/wma_pic32mx/WMA_decoder_mx.a"
+    endif
+
+    ifblock(WMA_DECODER_LIB_SELECT = "mClass Library")
+    library LIB_PREMIUM_WMA_DECODER_MZ_MCLASS "$HARMONY_VERSION_PATH/bin/framework/decoder/premium/wma_mclass/WMA_decoder_mclass.a"
+    endif
+endif
+
+endif
+
+ifblock (USE_DECODER && USE_WAV_STREAMING)
+file DECODER_WAV_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/wav/wav_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/wav/wav_dec.h"
+file DECODER_WAV_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/wav/wav_dec.c" to "$PROJECT_SOURCE_FILES/framework/decoder/wav/wav_dec.c"
+endif
+
+ifblock (USE_DECODER && USE_OGG_SPEEX_DECODER)
+file DECODER_SPEEX_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/speex_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/speex/speex_dec.h"
+file DECODER_SPEEX_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/speex_dec.c" to "$PROJECT_SOURCE_FILES/framework/decoder/speex/speex_dec.c"
+library LIB_SPEEX_DECODER "$HARMONY_VERSION_PATH/bin/framework/decoder/speex_decoder.a"
+endif
+
+ifblock (USE_DECODER && USE_OGG_OPUS_DECODER)
+file DECODER_OPUS_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/support/opus_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/opus/opus_dec.h"
+file DECODER_OPUS_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/support/opus_dec.c" to "$PROJECT_SOURCE_FILES/framework/decoder/opus/opus_dec.c"
+library LIB_OPUS_DECODER "$HARMONY_VERSION_PATH/bin/framework/decoder/opus_decoder.a"
+endif
+
+ifblock (USE_DECODER && USE_FLAC_DECODER)
+file DECODER_FLAC_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/flac_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/flac_dec.h"
+file DECODER_FLAC_SUPPORT_C "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/flac_dec.c" to "$PROJECT_SOURCE_FILES/framework/decoder/flac/flac_dec.c"
+library LIB_FLAC_DECODER "$HARMONY_VERSION_PATH/bin/framework/decoder/flac.a"
+endif
+
+ifblock (USE_DECODER && USE_ADPCM_STREAMING)
+file DECODER_ADPCM_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/adpcm/adpcm_dec.h" to "$PROJECT_HEADER_FILES/framework/decoder/adpcm/adpcm_dec.h"
+file DECODER_ADPCM_C "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/adpcm/adpcm_dec.c" to "$PROJECT_SOURCE_FILES/framework/decoder/adpcm/adpcm_dec.c"
+endif
+
+
+enum DECODER_LIB_TARGET
+    "PIC32MX Library"
+    || "microAptiv Library"
+
+enum WMA_LIB_TARGET
+    "PIC32MX Library"
+    || "microAptiv Library"
+    || "mClass Library"
+
+enum MP3_DECODER_LIB
+    "Advanced Library (MPEG 1/2/2.5)"
+    || "Efficient Library (MPEG 1, microAptiv only, 10% cycles reduction)"
+
+ifblock (USE_DECODER && USE_OGG_OPUS_DECODER)
+file DECODER_OPUS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/include/opus.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/include/opus.h"
+file DECODER_OPUS_CUSTOM_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/include/opus_custom.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/include/opus_custom.h" 
+file DECODER_OPUS_DEFINES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/include/opus_defines.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/include/opus_defines.h"    
+file DECODER_OPUS_MULTISTREAM_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/include/opus_multistream.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/include/opus_multistream.h"   
+file DECODER_OPUS_TYPES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/include/opus_types.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/include/opus_types.h"  
+file DECODER_KISS_FFT_GUTS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/_kiss_fft_guts.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/_kiss_fft_guts.h" 
+file DECODER_ARCH_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/arch.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/arch.h"
+file DECODER_BANDS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/bands.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/bands.h"
+file DECODER_CELT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/celt.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/celt.h"
+file DECODER_CELT_LPC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/celt_lpc.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/celt_lpc.h"
+file DECODER_CPU_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/cpu_support.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/cpu_support.h"
+file DECODER_CWRS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/cwrs.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/cwrs.h"
+file DECODER_ECINTRIN_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/ecintrin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/ecintrin.h"
+file DECODER_ENTCODE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/entcode.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/entcode.h"
+file DECODER_ENTDEC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/entdec.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/entdec.h"
+file DECODER_ENTENC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/entenc.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/entenc.h"
+file DECODER_FIXED_DEBUG_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/fixed_debug.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/fixed_debug.h"
+file DECODER_FIXED_GENERIC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/fixed_generic.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/fixed_generic.h"
+file DECODER_FLOAT_CAST_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/float_cast.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/float_cast.h"
+file DECODER_KISS_FFT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/kiss_fft.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/kiss_fft.h"
+file DECODER_LAPLACE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/laplace.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/laplace.h"
+file DECODER_MATHOPS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mathops.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mathops.h"
+file DECODER_MDCT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mdct.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mdct.h"
+file DECODER_MFRNGCOD_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mfrngcod.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mfrngcod.h"
+file DECODER_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mips/celt_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mips/celt_mipsr1.h"
+file DECODER_FIXED_GENERIC_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mips/fixed_generic_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mips/fixed_generic_mipsr1.h"
+file DECODER_KISS_FFT_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mips/kiss_fft_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mips/kiss_fft_mipsr1.h"
+file DECODER_MDCT_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mips/mdct_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mips/mdct_mipsr1.h"
+file DECODER_PITCH_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mips/pitch_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mips/pitch_mipsr1.h"
+file DECODER_VQ_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/mips/vq_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/mips/vq_mipsr1.h"
+file DECODER_MODES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/modes.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/modes.h"
+file DECODER_OS_SUPPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/os_support.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/os_support.h"
+file DECODER_PITCH_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/pitch.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/pitch.h"
+file DECODER_QUANT_BANDS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/quant_bands.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/quant_bands.h"
+file DECODER_CELT_RATE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/rate.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/rate.h"
+file DECODER_STACK_ALLOC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/stack_alloc.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/stack_alloc.h"
+file DECODER_STATIC_MODES_FIXED_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/static_modes_fixed.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/static_modes_fixed.h"
+file DECODER_STATIC_MODES_FLOAT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/static_modes_float.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/static_modes_float.h"
+file DECODER_STATIC_VQ_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/vq.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/vq.h"
+file DECODER_CELT_LPC_SSE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/x86/celt_lpc_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/x86/celt_lpc_sse.h"
+file DECODER_PITCH_SSE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/x86/pitch_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/x86/pitch_sse.h"
+file DECODER_X86CPU_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/celt/x86/x86cpu.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/celt/x86/x86cpu.h"
+file DECODER_SILK_API_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/API.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/API.h"
+file DECODER_SILK_INLINES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/Inlines.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/Inlines.h"
+file DECODER_SILK_MACRO_COUNT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/MacroCount.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/MacroCount.h"
+file DECODER_SILK_MACRO_DEBUG_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/MacroDebug.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/MacroDebug.h"
+file DECODER_SILK_PLC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/PLC.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/PLC.h"
+file DECODER_SIGPROC_FIX_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/SigProc_FIX.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/SigProc_FIX.h"
+file DECODER_SILK_CONTROL_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/control.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/control.h"
+file DECODER_SILK_DEBUG_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/debug.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/debug.h"
+file DECODER_SILK_DEFINE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/define.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/define.h"
+file DECODER_SILK_ERRORS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/errors.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/errors.h"
+file DECODER_MAIN_FIX_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/fixed/main_FIX.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/fixed/main_FIX.h"
+file DECODER_NOISE_SHAPE_ANALYSIS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/fixed/mips/noise_shape_analysis_FIX_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/fixed/mips/noise_shape_analysis_FIX_mipsr1.h"
+file DECODER_PREFILTER_FIX_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/fixed/mips/prefilter_FIX_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/fixed/mips/prefilter_FIX_mipsr1.h"
+file DECODER_WRPED_AUTO_CORR_FIX_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/fixed/mips/warped_autocorrelation_FIX_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/fixed/mips/warped_autocorrelation_FIX_mipsr1.h"
+file DECODER_STRCUTS_FIX_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/fixed/structs_FIX.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/fixed/structs_FIX.h"
+file DECODER_SIGPROC_FLP_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/float/SigProc_FLP.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/float/SigProc_FLP.h"
+file DECODER_MAIN_FLP_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/float/main_FLP.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/float/main_FLP.h"
+file DECODER_STRUCTS_FLP_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/float/structs_FLP.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/float/structs_FLP.h"
+file DECODER_MACROS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/macros.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/macros.h"
+file DECODER_MAIN_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/main.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/main.h"
+file DECODER_NSQ_DEL_DEC_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/mips/NSQ_del_dec_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/mips/NSQ_del_dec_mipsr1.h"
+file DECODER_MACROS_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/mips/macros_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/mips/macros_mipsr1.h"
+file DECODER_SIGPROC_FIX_MIPSR1_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/mips/sigproc_fix_mipsr1.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/mips/sigproc_fix_mipsr1.h"
+file DECODER_PITCH_EST_DEFINES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/pitch_est_defines.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/pitch_est_defines.h"
+file DECODER_RESAMPLER_PRIVATE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/resampler_private.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/resampler_private.h"
+file DECODER_RESAMPLER_ROM_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/resampler_rom.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/resampler_rom.h"
+file DECODER_RESAMPLER_STRUCTS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/resampler_structs.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/resampler_structs.h"
+file DECODER_STRUCTS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/structs.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/structs.h"
+file DECODER_TABLES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/tables.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/tables.h"
+file DECODER_TUNING_PARAMETERS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/tuning_parameters.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/tuning_parameters.h"
+file DECODER_SILK_TYPEDEF_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/typedef.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/typedef.h"
+file DECODER_SILK_SIGPROC_FIX_SSE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/x86/SigProc_FIX_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/x86/SigProc_FIX_sse.h"
+file DECODER_MAIN_SSE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/silk/x86/main_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/silk/x86/main_sse.h"
+file DECODER_ANALYSIS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/src/analysis.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/src/analysis.h"
+file DECODER_MLP_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/src/mlp.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/src/mlp.h"
+file DECODER_OPUS_PRIVATE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/src/opus_private.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/src/opus_private.h"
+file DECODER_TANSIG_PRIVATE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/opus/src/src/tansig_table.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/opus/src/src/tansig_table.h"
+file DECODER_OGG_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/ogg/ogg.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/ogg/ogg.h"
+endif
+
+ifblock (USE_DECODER && USE_OGG_SPEEX_DECODER)
+file DECODER_SPEEX_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex.h"
+file DECODER_SPEEX_BITS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex_bits.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex_bits.h"
+file DECODER_SPEEX_CALLBACKS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex_callbacks.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex_callbacks.h"
+file DECODER_SPEEX_CONFIG_TYPES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex_config_types.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex_config_types.h"
+file DECODER_SPEEX_HEADER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex_header.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex_header.h"
+file DECODER_SPEEX_STEREO_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex_stereo.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex_stereo.h" 
+file DECODER_SPEEX_TYPES_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex_types.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex_types.h"  
+file DECODER_SPEEX_SPEEX_CONFIG "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/include/speex/speex_config.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/include/speex/speex_config.h"
+file DECODER_SPEEX__KISS_FFT_GUTS "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/_kiss_fft_guts.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/_kiss_fft_guts.h"
+file DECODER_SPEEX_ARCH "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/arch.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/arch.h"
+file DECODER_SPEEX_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/bfin.h"
+file DECODER_SPEEX_CB_SEARCH "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/cb_search.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/cb_search.h"
+file DECODER_SPEEX_CB_SEARCH_ARM4 "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/cb_search_arm4.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/cb_search_arm4.h"
+file DECODER_SPEEX_CB_SEARCH_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/cb_search_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/cb_search_bfin.h"
+file DECODER_SPEEX_CB_SEARCH_SSE "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/cb_search_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/cb_search_sse.h"
+file DECODER_SPEEX_FFTWRAP "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/fftwrap.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/fftwrap.h"
+file DECODER_SPEEX_FILTERS "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/filters.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/filters.h"
+file DECODER_SPEEX_FILTERS_ARM4 "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/filters_arm4.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/filters_arm4.h"
+file DECODER_SPEEX_FILTERS_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/filters_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/filters_bfin.h"
+file DECODER_SPEEX_FILTERS_SSE "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/filters_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/filters_sse.h"
+file DECODER_SPEEX_FIXED_ARM4 "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/fixed_arm4.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/fixed_arm4.h"
+file DECODER_SPEEX_FIXED_ARM5E "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/fixed_arm5e.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/fixed_arm5e.h"
+file DECODER_SPEEX_FIXED_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/fixed_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/fixed_bfin.h"
+file DECODER_SPEEX_FIXED_DEBUG "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/fixed_debug.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/fixed_debug.h"
+file DECODER_SPEEX_FIXED_GENERIC "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/fixed_generic.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/fixed_generic.h"
+file DECODER_SPEEX_KISS_FFT "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/kiss_fft.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/kiss_fft.h"
+file DECODER_SPEEX_KISS_FFTR "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/kiss_fftr.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/kiss_fftr.h"
+file DECODER_SPEEX_LPC "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/lpc.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/lpc.h"
+file DECODER_SPEEX_LPC_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/lpc_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/lpc_bfin.h"
+file DECODER_SPEEX_LSP "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/lsp.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/lsp.h"
+file DECODER_SPEEX_LSP_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/lsp_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/lsp_bfin.h"
+file DECODER_SPEEX_LTP "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/ltp.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/ltp.h"
+file DECODER_SPEEX_LTP_ARM4 "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/ltp_arm4.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/ltp_arm4.h"
+file DECODER_SPEEX_LTP_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/ltp_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/ltp_bfin.h"
+file DECODER_SPEEX_LTP_SSE "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/ltp_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/ltp_sse.h"
+file DECODER_SPEEX_MATH_APPROX "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/math_approx.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/math_approx.h"
+file DECODER_SPEEX_MISC_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/misc_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/misc_bfin.h"
+file DECODER_SPEEX_MODES "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/modes.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/modes.h"
+file DECODER_SPEEX_NB_CELP "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/nb_celp.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/nb_celp.h"
+file DECODER_SPEEX_OS_SUPPORT "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/os_support.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/os_support.h"
+file DECODER_SPEEX_QUANT_LSP "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/quant_lsp.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/quant_lsp.h"
+file DECODER_SPEEX_QUANT_LSP_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/quant_lsp_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/quant_lsp_bfin.h"
+file DECODER_SPEEX_SB_CELP "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/sb_celp.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/sb_celp.h"
+file DECODER_SPEEX_SMALLFT "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/smallft.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/smallft.h"
+file DECODER_SPEEX_STACK_ALLOC "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/stack_alloc.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/stack_alloc.h"
+file DECODER_SPEEX_VBR "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/vbr.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/vbr.h"
+file DECODER_SPEEX_VORBIS_PSY "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/vorbis_psy.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/vorbis_psy.h"
+file DECODER_SPEEX_VQ "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/vq.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/vq.h"
+file DECODER_SPEEX_VQ_ARM4 "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/vq_arm4.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/vq_arm4.h"
+file DECODER_SPEEX_VQ_BFIN "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/vq_bfin.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/vq_bfin.h"
+file DECODER_SPEEX_VQ_SSE "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/speex/libspeex/vq_sse.h" to "$PROJECT_HEADER_FILES/framework/decoder/audio_decoders/speex/libspeex/vq_sse.h"
+endif
+
+ifblock (USE_DECODER && USE_FLAC_DECODER)
+file DECODER_FLAC_ALL_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/all.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/all.h"
+file DECODER_FLAC_ASSERT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/assert.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/assert.h"
+file DECODER_FLAC_CALLBACK_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/callback.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/callback.h"
+file DECODER_FLAC_EXPORT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/export.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/export.h"
+file DECODER_FLAC_FORMAT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/format.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/format.h"
+file DECODER_FLAC_METADATA_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/metadata.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/metadata.h"
+file DECODER_FLAC_ORDINALS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/ordinals.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/ordinals.h"
+file DECODER_FLAC_STREAM_DECODER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/stream_decoder.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/stream_decoder.h"
+file DECODER_FLAC_STREAM_ENCODER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/FLAC/stream_encoder.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/FLAC/stream_encoder.h"
+file DECODER_FLAC_CONFIG_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/config.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/config.h"
+file DECODER_FLAC_PRIVATE_ALL_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/all.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/all.h"
+file DECODER_FLAC_BITMATH_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/bitmath.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/bitmath.h"
+file DECODER_FLAC_BITREADER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/bitreader.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/bitreader.h"
+file DECODER_FLAC_BITWRITER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/bitwriter.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/bitwriter.h"
+file DECODER_FLAC_CPU_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/cpu.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/cpu.h"
+file DECODER_FLAC_CRC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/crc.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/crc.h"
+file DECODER_FLAC_FIXED_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/fixed.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/fixed.h"
+file DECODER_FLAC_FLOAT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/float.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/float.h"
+file DECODER_FLAC_PRIVATE_FORMAT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/format.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/format.h"
+file DECODER_FLAC_LPC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/lpc.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/lpc.h"
+file DECODER_FLAC_MACROS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/macros.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/macros.h"
+file DECODER_FLAC_MD5_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/md5.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/md5.h"
+file DECODER_FLAC_MEMORY_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/memory.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/memory.h"
+file DECODER_FLAC_PRIVATE_METADATA_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/metadata.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/metadata.h"
+file DECODER_FLAC_OGG_DECODER_ASPECT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/ogg_decoder_aspect.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/ogg_decoder_aspect.h"
+file DECODER_FLAC_OGG_ENCODER_ASPECT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/ogg_encoder_aspect.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/ogg_encoder_aspect.h"
+file DECODER_FLAC_OGG_HELPER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/ogg_helper.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/ogg_helper.h"
+file DECODER_FLAC_OGG_MAPPING_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/ogg_mapping.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/ogg_mapping.h"
+file DECODER_FLAC_PRIVATE_STREAM_ENCODER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/stream_encoder.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/stream_encoder.h"
+file DECODER_FLAC_STREAM_ENCODER_FRAMING_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/stream_encoder_framing.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/stream_encoder_framing.h"
+file DECODER_FLAC_WINDOW_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/private/window.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/private/window.h"
+file DECODER_FLAC_PROTECTED_ALL_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/protected/all.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/protected/all.h"
+file DECODER_FLAC_PROTECTED_STREAM_DECODER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/protected/stream_decoder.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/protected/stream_decoder.h"
+file DECODER_FLAC_PROTECTED_STREAM_ENCODER_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/protected/stream_encoder.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/protected/stream_encoder.h"
+file DECODER_FLAC_ALLOC_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/alloc.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/alloc.h"
+file DECODER_FLAC_COMPAT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/compat.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/compat.h"
+file DECODER_FLAC_ENDSWAP_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/endswap.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/endswap.h"
+file DECODER_FLAC_GETOPT_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/getopt.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/getopt.h"
+file DECODER_FLAC_GRABBAG_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/grabbag.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/grabbag.h"
+file DECODER_FLAC_CUESHEET_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/grabbag/cuesheet.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/grabbag/cuesheet.h"
+file DECODER_FLAC_FILE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/grabbag/file.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/grabbag/file.h"
+file DECODER_FLAC_PICTURE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/grabbag/picture.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/grabbag/picture.h"
+file DECODER_FLAC_REPLAYGAIN_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/grabbag/replaygain.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/grabbag/replaygain.h"
+file DECODER_FLAC_SEEKTABLE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/grabbag/seektable.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/grabbag/seektable.h"
+file DECODER_FLAC_SHARE_MACROS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/macros.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/macros.h"
+file DECODER_FLAC_PRIVATE_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/private.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/private.h"
+file DECODER_FLAC_REPLAYGAIN_ANALYSIS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/replaygain_analysis.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/replaygain_analysis.h"
+file DECODER_FLAC_REPLAYGAIN_SYNTHESIS_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/replaygain_synthesis.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/replaygain_synthesis.h"
+file DECODER_FLAC_SAFE_STR_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/safe_str.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/safe_str.h"
+file DECODER_FLAC_UTF8_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/utf8.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/utf8.h"
+file DECODER_FLAC_WIN_UTF8_IO_H "$HARMONY_VERSION_PATH/framework/decoder/audio_decoders/flac/include/share/win_utf8_io.h" to "$PROJECT_HEADER_FILES/framework/decoder/flac/include/share/win_utf8_io.h"
+endif 
+ 
+endmenu

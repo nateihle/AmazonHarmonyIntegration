@@ -1,0 +1,16 @@
+menu "dotstack"
+
+config USE_DRV_BLUETOOTH_DOTSTACK_NEEDED
+    bool
+
+config USE_DRV_BLUETOOTH_DOTSTACK
+    bool "Use Searan dotstack Driver?"
+    default n if !USE_DRV_BLUETOOTH_DOTSTACK_NEEDED
+    default y if USE_DRV_BLUETOOTH_DOTSTACK_NEEDED
+    ---help---
+    ---endhelp---
+endmenu
+
+ifblock USE_DRV_BLUETOOTH_DOTSTACK
+endif
+

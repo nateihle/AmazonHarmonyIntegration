@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>aria_flash</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03686.html">aria_flash</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03685.html">Previous</a> | <a href="03738.html">Up</a> | <a href="03687.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_flash Topic Title: aria_flash)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+aria_flash</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Applications that use large bitmap images or multiple page menu screens, which require several images or large or multiple font packages, etc., have a very large memory requirement for their graphics resources. In such applications, storing these graphics resources on-chip may result in insufficient memory or may be prohibitive to a possible cost benefit. A solution is to store the graphics resources to off-chip memory, such as non-volatile memory, thereby preserving the on-chip memory for program memory and allowing for more complex functional features.&nbsp;</p>
+<p class="Element10">
+The aria_flash application flashes the <span class="Element146">.hex</span> file containing the binary data of the external graphics resources, in this case <span class="Element146">SQI.hex</span>, into the external non-volatile memory. The resource file is copied from the computer to a USB Flash drive or SD card, which has a FAT32 file system installed. The USB Flash drive/SD card is then plugged into the MEB II development board and the application scans the MSD for the resource file. The aria_flash application copies the resource file sector by sector and flashes the binary resource content onto the SQI Flash external memory.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The aria_flash application uses the USB and SD card file systems in MPLAB Harmony and the SPI and USB drivers to scan the MSD for a <span class="Element146">.hex</span> file with resources and reads them sector by sector and programs the external non-volatile SQI memory. The <a href="12784.html">Graphics Library</a> is used to render graphics to the display. Using the DMA, the Low-Cost Controllerless (LCC) Display Driver continuously transfers frame data from the frame buffer out to the LCD display.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input through the integrated touch screen on the display panel. Touch input from the touch controller goes through the I2C port, and the <a href="13983.html">Input System Service</a> acquires the touch input information from the Touch and I2C drivers. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly.&nbsp;</p>
+<p class="Element10">
+<strong>pic23mz_ef_sk_meb2_sqi</strong> &nbsp;</p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_flash pic23mz_ef_sk_meb2_sqi_aria_flash.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>pic32mz_da_sk_intddr_meb2_sqi</strong> </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_flash pic32mz_da_sk_intddr_meb2_sqi aria_flash.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+<strong>pic32mz_da_sk_extddr_meb2_sqi</strong> </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_flash pic32mz_da_sk_extddr_meb2_sqi aria_flash.png" border="0" alt="" title=""></p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">USB file system and peripheral</li>
+<li class="Element600">SD card file system and <a href="23141.html">SPI Driver</a></li>
+<li class="Element600"><a href="12771.html">Aria User Interface Library</a></li>
+<li class="Element600"><a href="13983.html">Input System Service</a></li>
+<li class="Element600"><a href="13090.html">Touch Driver</a></li>
+<li class="Element600"><a href="07980.html">DMA System Service</a></li>
+<li class="Element600"><a href="13729.html">I2C Driver</a></li>
+<li class="Element600">External SQI memory</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+
+<ul class="Element630">
+<li class="Element600">“Use Graphics Stack” is selected in the <a href="16809.html">MPLAB Harmony Configurator (MHC)</a>, which enables the Graphics and Touch libraries and drivers for the <a href="04862.html">Board Support Package (BSP)</a>.</li>
+<li class="Element600">The heap size is set to 204800 bytes to ensure enough memory for dynamic allocations. This is done by setting the size in MHC through the following menu selection: <i>Device &amp; Project Configuration &gt; Project Configuration &gt; XC32 (Global Options) &gt; xc32-ld &gt; General</i>.</li>
+<li class="Element600">USB Stack and USB Host Mode Driver</li>
+<li class="Element600">SD card and SPI Driver selection</li>
+<li class="Element600">SQI external memory support: Since a formal SQI driver is not available in MPLAB Harmony, the external memory programmer uses the <a href="23263.html">SQI Peripheral Library</a>. Please note that the source and header file for SQI enabling have been manually included in the project within <span class="Element146">SourceFiles/drv_nvm_flash_sqi_sst26.c</span> and <span class="Element146">HeaderFiles/drv_nvm_flash_sqi_sst26.h</span>.</li>
+</ul></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03687.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Aria Flash demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03688.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03689.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to use the Aria Flash demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03686.html">aria_flash</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_flash Topic Title: aria_flash)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

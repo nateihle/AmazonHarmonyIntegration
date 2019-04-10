@@ -1,0 +1,446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Creating the Project in MPLAB and MPLAB Harmony</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16640.html">Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</a> &gt; <a href="16641.html">Creating the Project in MPLAB and MPLAB Harmony</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16640.html">Previous</a> | <a href="16640.html">Up</a> | <a href="16670.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Creating the Project in MPLAB and MPLAB Harmony Topic Title: Creating the Project in MPLAB and MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Creating the Project in MPLAB and MPLAB Harmony</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Getting Started</div>
+<p class="Element10">
+The pre-installed project, 3rd_party_display_start can be used as a basis for the work discussed in this tutorial. Be sure to copy this project to a place in the MPLAB Harmony directory hierarchy that is just as deep. If this is not done, all the relative paths in the project’s configuration will no longer find the project’s files and nothing will build.&nbsp;</p>
+<p class="Element10">
+For example, copying <span class="Element146">3rd_party_display_start</span> into a directory .<span class="Element146">\apps\3rd_party_display</span> will not work, since the target directory is one level higher in MPLAB Harmony’s directory hierarchy. The directory <span class="Element146">.\apps\gfx\3rd_party_display</span> will work since it is at the same level in the hierarchy.&nbsp;</p>
+<p class="Element10">
+There is an extra file in the<span class="Element146"> .\apps\examples\3rd_party_display_start</span> file (<span class="Element146">xc32_vm.nn_pic32mx_include_assert.h</span>) , which provides the modification to the compiler’s<span class="Element146"> assert.h</span> as discussed in Volume 1 of MPLAB Harmony’s documentation (<a href="04261.html">Creating Your First Project</a>). This modification supports producing breakpoints under the debugger when an assert fails, which can be very useful in debugging the code. Simply use this file to replace <span class="Element146">./xc32/vm.nn/pic32mx/include/assert.h,where m.nn represents the version number of the compiler you are using.</span>&nbsp;</p>
+<p class="Element10">
+For first time users of the PIC32MZ product line and MPLAB Harmony should create the starting the project from scratch. Follow the instructions in “Creating Your First Project”, which is found in Volume 1: Getting Started With MPLAB Harmony Libraries and Applications. Call the new project <i><span class="Element146">3rdPartyDisplay</span></i> instead of <i>Heartbeat</i>.&nbsp;</p>
+<p class="Element10">
+In Part 1, Step 3 of the Creating Your First Project, use a different application name than “heartbeat.&quot; For example accept the default “app”, then replace “heartbeat” with the new application name in the tutorial code examples. If the default application name “app” is used then “heartbeat” is replaced by “app” in the code examples. The header file heartbeat.h would be named <span class="Element146">app.h</span> instead and it should contain:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">typedef enum</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Application's state machine's initial state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> APP_STATE_INIT=0,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> APP_STATE_SERVICE_TASKS,</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: Define states used by the application state machine. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> APP_RESTART_TIMER</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">} APP_STATES;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Here the enum is called<span class="Element146"> APP_STATES</span> instead of <span class="Element146">HEARTBEAT_STATES</span> and the state <span class="Element146">APP_RESTART_TIMER</span> replaces the state <span class="Element146">HEARTBEAT_RESTART_TIMER</span>. The structure <span class="Element146">HEARTBEAT_DATA</span> is now called <span class="Element146">APP_DATA</span>:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">typedef struct</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* The application's current state */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> APP_STATES state;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: Define any additional data used by the application. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="24169.html">SYS_TMR_HANDLE</a> hDelayTimer; // Handle for delay timer</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">} APP_DATA;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The same principle applies to <span class="Element146">app.c</span> (instead of <span class="Element146">heartbeat.c </span>in the tutorial). The structure heartbeatData is now called appData. The source file <span class="Element146">app.c</span> should contain:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Check the application's current state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> switch ( appData.state )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Application's initial state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> case APP_STATE_INIT:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> bool appInitialized = true;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if (appInitialized)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.hDelayTimer = <a href="24160.html">SYS_TMR_DelayMS</a>(HEARTBEAT_DELAY);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if (appData.hDelayTimer != <a href="24170.html">SYS_TMR_HANDLE_INVALID</a>)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> { // Valid handle returned</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="05089.html">BSP_LEDOn</a>(HEARTBEAT_LED);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.state = APP_STATE_SERVICE_TASKS;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.state = APP_STATE_SERVICE_TASKS;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> case APP_STATE_SERVICE_TASKS:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if (<a href="24161.html">SYS_TMR_DelayStatusGet</a>(appData.hDelayTimer))</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> { // Single shot timer has now timed out.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="05092.html">BSP_LEDToggle</a>(HEARTBEAT_LED);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.state = APP_RESTART_TIMER;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: implement your application state machine.*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> case APP_RESTART_TIMER:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> { // Create a new timer</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.hDelayTimer = <a href="24160.html">SYS_TMR_DelayMS</a>(HEARTBEAT_DELAY);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if (appData.hDelayTimer != <a href="24170.html">SYS_TMR_HANDLE_INVALID</a>)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> { // Valid handle returned</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.state = APP_STATE_SERVICE_TASKS;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* The default state should never be executed. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> default:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: Handle error in application's state machine. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+At the end of the<i> Creating Your First Project</i> tutorial, the project supports a HyperTerminal console on a PC, which can be used to display diagnostic messages. The project will also support the advanced error handling (asserts and exceptions) that MPLAB Harmony provides.&nbsp;</p>
+<p class="Element10">
+When running this application, verify that the HyperTerminal application (115200 baud, 8 bits, no stop bits) sees an initialization message of, <i>Application created Mar 1 2018 15:09:50 initialized!</i> at startup, where the date and time report when the <span class="Element146">app.c</span> file was last compiled. This message originates in the application initialization function:&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void APP_Initialize ( void )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="23965.html">SYS_MESSAGE</a>(&quot;\r\nApplication created &quot; __DATE__ &quot; &quot; __TIME__ &quot; initialized!\r\n&quot;);</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> //Test out error handling</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // assert(0);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // uint8_t x, y, z;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // x = 1;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // y = 0;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // z = x/y;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // <a href="23672.html">SYS_DEBUG_PRINT</a>(SYS_ERROR_DEBUG,&quot;x: %d, y: %d, z: %d\r\n&quot;,x,y,z);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Place the App state machine in its initial state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.state = APP_STATE_INIT;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: Initialize your application's state machine and other</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> * parameters.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Verify that asserts and exception handling work before proceeding. Uncomment the assert and test. Then comment out the assert and uncomment the {…} clause to test out exceptions. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If this is the first time hooking up a HyperTerminal session to the EF Starter Kit using the MCP2221, see Part 3 of the Creating Your First Project tutorial in Volume 1 of MPLAB Harmony’s documentation. This part of the tutorial shows how to hookup the EF Starter Kit to your PC. It also discusses in Steps 11 and 12 how to setup your HyperTerminal application.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Setting Up Pins using the MPLAB Harmony Graphical Pin Manager</div>
+<p class="Element10">
+Since a pre-defined Board Support Package is not available, pin assignments will have to be manually entered into the Pin Manger using the “Pin Settings” tab. Load the startup project, either from a copy made from<span class="Element146"> .\apps\examples\3rd_party_display_start</span> or one created from scratch. Then run MPLAB Harmony Configurator: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG MPLAB HArmony configurator.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+From MPLAB Harmony Configurator, select the Pin Settings tab: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Pin Settings tab.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+Make these modifications to the pin table: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG pin table1.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG pin table2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The pins labeled USART to USB Bridge (BSP) support the MCP2221 USART to USB device on the EF Starter Kit board. It provides a HyperTerminal interface on the PC. This is setup in the <span class="Element146">3rd_party_diaplay_start</span> project.&nbsp;</p>
+<p class="Element10">
+Be sure the touch interrupt event interrupt (pin 104, CTP_INT_BAR) pin is pulled high (CNPU enabled), otherwise touch event interrupts will never fire: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG pin settings.png" border="0" alt="" title=""></p><div class="Element15">
+Setting up Graphics</div>
+<p class="Element10">
+In MPLAB Harmony Configurator, under the Options tab:<img src="MHGC UG Options tab.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+open <i>Harmony Framework Configuration &gt; Graphics Stack </i>and enable the Graphics Stack with the following settings.&nbsp;</p>
+<p class="Element10">
+First select a “Custom Display” as the display type.&nbsp;</p>
+<p class="Element10">
+Then enter the dimensions of the Mikroe display (800x480). </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Custom display.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The display can be set in MHC’s Display Manager.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG Display manager.png" border="0" alt="" title=""></p><p class="Element10">
+Enable the Graphics Stack using the MHC’s Options tab, it is easier to do the basic display setup here. Later the Display Manager will be used to tune the display’s timing (syncs plus front porches and back porches) so that all 800x480 pixels are correctly displayed. For now, accept the default display timings.The equivalent setup using the Display Manager is: </p><p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG Display manager display settings.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The Mikroe display uses a SSD1963 graphics controller to run the TFT display, which is supported in MPLAB Harmony. This graphics controller is connected to the EF host using the Parallel Master Port (PMP), I2C, and GPIO peripherals. (For details, see the Setting Up Pins using the MPLAB Harmony Graphical Pin Manager section above.)&nbsp;</p>
+<p class="Element10">
+Under <i>Graphics Stack &gt; Graphics Controller</i>, select the SSD1963 graphics controller, enable the controller’s backlight PWM. Change the pixel clock from the default to 30 MHz and click “Execute” to compute the Pixel Clock Prescaler value. Finally, since the system clock for the EF host runs at 200 MHz, add an additional NOP for correct Write Strobe timing. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG select ssd1963 controller.png" border="0" alt="" title=""></p><p class="Element10">
+Finally, verify <i>Use Touch System Service?</i> (Deprecated) is enabled: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Use touch system service.png" border="0" alt="" title=""></p><p class="Element10">
+When finished, re-generate the code to capture these new settings using the <i>Generate Code</i> button in MPLAB Harmony Configurator. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG generate code button.png" border="0" alt="" title=""></p><p class="Element10">
+Be sure to use the Prompt Merge For All Differences merge strategy to maintain code customizations installed outside of MHC.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+After regenerating the project, you will have to customize the <span class="Element146">system_init.c</span> file, found in the project under <span class="Element146">Source Files / app / system_config / &lt;target_configuration&gt;</span>, where <span class="Element146">&lt;target_configuration&gt;</span> is typically &quot;default&quot;. Move the <span class="Element146"><a href="24061.html">SYS_PORTS_Initialize</a></span> call from the middle of <span class="Element146"><a href="23925.html">SYS_Initialize</a></span> to between <span class="Element146"><a href="23707.html">SYS_DEVCON_PerformanceConfig</a></span> and <span class="Element146"><a href="05079.html">BSP_Initialize</a></span>.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The Old location: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG OldLocation code block.png" border="0" alt="" title=""></p><p class="Element10">
+The New location is: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG NewLocation code block.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Tuning Display Timing Using Display Manager</div>
+<p class="Element10">
+The next step is to tune the timing of the display using the Display Manger to prevent the edges of the screen from being clipped. A rectangle needs to be drawn on the edges of the screen. Then by building and running the application, we can see if any parts of the border rectangle are clipped or missing. A different color is needed for each of the four sides of the border rectangle, as in some cases the display controller’s memory pointers can “wrap” a pixel from one side of the display to the opposite side. If all the sides are the same color this would not be apparent. Here is the screen to implement in the Screen Designer panel: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Screen designer panel.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Each side of the border will require a custom color scheme. The border is created by drawing four separate lines using four separate line widgets. Examine how line widgets are colored by dragging a line widget from the Widget Toolbox panel onto the Screen Designer panel and then pick the Properties Editor Panel for that widget. Click on the “?” to the right of the Scheme property. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Scheme property.png" border="0" alt="" title=""></p><p class="Element10">
+This will bring up the “Line Widget Scheme Helper” window: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Line widget scheme helper.png" border="0" alt="" title=""></p><p class="Element10">
+If the Background and Shape of the widget are colored with the same color, different for each side, then the four edges of the display are easily marked. Using the same colors for the line, and the widget’s background, allows the use of the size and position of the line widget rather than the line’s coordinates to mark that edge of the display.&nbsp;</p>
+<p class="Element10">
+To create the display, within MHC, launch the Graphics Composer. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC Ug launch graphics composer.png" border="0" alt="" title=""></p><p class="Element10">
+Using the Scheme panel, create four new color schemes. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Scheme panel.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG Creating New color Schemes.png" border="0" alt="" title=""></p><p class="Element10">
+Next, drag a line widget onto the display four times and edit each widget’s properties to create and position each edge of the display’s border: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Properties editor for widgets.png" border="0" alt="" title=""></p><p class="Element10">
+Note that the “Line” coordinates are set to [0,0,0,0] since it is the size of the widget rather than the widget’s line that marks each border line. The lines in these widgets are not used. Each widget’s position and size mark an edge of the display, not the line. Re-generate the application and then run it. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG generate code button for widgets.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG run main project.png" border="0" alt="" title=""></p><p class="Element10">
+The HyperTerminal application (115200 baud, 8 bits, no stop bits) should show the following when the application boots up: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG hyperterminal application.png" border="0" alt="" title=""></p><p class="Element10">
+Examine the border of the resulting display,note that the top edge of the border is completely missing and the left edge is about half the width desired, compared to the right and bottom edges. To fix this the display timings need to be adjusted using the Display Manager: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG display timings in display manager.png" border="0" alt="" title=""></p><p class="Element10">
+If this is the first time using the Display Manger, Volume 1 of MPLAB Harmony’s documentation has a Display Manager Quick Start Guide and Volume III has the MPLAB Harmony Display Manager User’s Guide. Increase the Horizonal Pulse Width by two clocks, re-generate, and then run. The left border should be fully visible. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG number44.png" border="0" alt="" title=""></p><p class="Element10">
+Next, tune the Vertical Pulse Width. Gradually increasing it to move the top border line down until it is fully visible. (22 <a href="13056.html">H</a>-syncs seems to be the correct value.) </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG number22.png" border="0" alt="" title=""></p><p class="Element10">
+After each adjustment re-generate, build and run, then examine the resulting display. Stop when all borders are fully visible and there are no “dead” (black) pixels on the display.&nbsp;</p>
+<p class="Element10">
+In the Display Manger, the final, optimal, settings for the display are: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Display manager display settings screen.png" border="0" alt="" title=""></p><p class="Element10">
+When finished, the display should be: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG display screen.png" border="0" alt="" title=""></p><p class="Element10">
+A picture of each edge through a 10x power loupe verifies that each edge is exactly 4 pixels wide and there are no “dead” (black) pixels between the edges of the display and the colored border.&nbsp;</p>
+<p class="Element10">
+The Mikroe board uses a Riverdi RVT50AQTNWC00 display.&nbsp;</p>
+<p class="Element10">
+Table 8.3 of its datasheet covers display timing: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG table for mikroe.png" border="0" alt="" title=""></p><p class="Element10">
+Some explanation is required to match up this data with the Display Manager’s settings. Back porch timings are not shown in the table, but can be calculated by subtracting the HS/VS pulse width from the HS/VS Blanking:&nbsp;</p>
+<p class="Element10">
+HS Back Porch = HS Blanking – HS pulse width = Thbp = Thb – Thfp&nbsp;</p>
+<p class="Element10">
+VS Back Porch = VS Blanking – VS pulse width = Tvbp = Tvb – Tvfp&nbsp;</p>
+<p class="Element10">
+The DCLK Frequency typical value of 30 MHz has already been used in setting up the display pixel clock speed. However, using the “Typ” (Typical) values, and the calculated Thbp and Tvbp values from the equations above, the timing will not work. The timing values that work for this tutorial meet the minimum or maximum range shown above with one exception:&nbsp;</p>
+<p class="Element10">
+The “One Horizontal Line” timing, Th, has a minimum of 889 pixel clocks, but the one in use is:&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Th = Thpw + Thbp + 800 pixels+ Thfp = 44 + 2 +800 + 2 = 848 pixel clocks &lt; 889&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+which is 41 pixel clocks (4.6%) below the minimum Th of 889 shown in Table 8.3 above.&nbsp;</p>
+<p class="Element10">
+Results may vary on your display. This was tested on two different boards with the same results. Starting out with the default display timings and then iteratively tuning them to reduce pixel clipping and dead pixels, as discussed above, will provide the optimal display timings for the hardware regardless of the final settings.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16640.html">Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</a> &gt; <a href="16641.html">Creating the Project in MPLAB and MPLAB Harmony</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Creating the Project in MPLAB and MPLAB Harmony Topic Title: Creating the Project in MPLAB and MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

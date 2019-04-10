@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX251F128H_DEVCON
+	bool
+	select HAVE_DEVCON
+	default n
+
+config DEVCON_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_DEVCON_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/devcon/processor/devcon_p32mx251f128h.h" to "$PROJECT_HEADER_FILES/framework/peripheral/devcon/processor/devcon_p32mx251f128h.h"
+
+endif

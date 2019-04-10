@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>recv Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="04839.html">Berkeley Module</a> &gt; <a href="24564.html">Library Interface</a> &gt; a) Functions &gt; <a href="22377.html">recv Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16309.html">Previous</a> | <a href="24564.html">Up</a> | <a href="22378.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: recv@SOCKET@char*@int@int Topic Title: recv Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+recv Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">recv</span></strong>(
+    <a href="23067.html">SOCKET</a> <strong><span style="color: #000000">s</span></strong>, 
+    <strong><span style="color: #000080">char</span></strong>* <strong><span style="color: #000000">buf</span></strong>, 
+    <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">len</span></strong>, 
+    <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">flags</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The recv() function is used to receive incoming data that has been queued for a socket. This function can be used with both datagram and stream socket. If the available data is too large to fit in the supplied application buffer buf, excess bytes are discarded in case of <a href="23044.html">SOCK_DGRAM</a> type sockets. For <a href="23045.html">SOCK_STREAM</a> types, the data is buffered internally so the application can retrieve all data by multiple calls of <a href="22378.html">recvfrom</a>.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The connect function should be called for TCP and UDP sockets. Server side, accept function should be called.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+s&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Socket descriptor returned from a previous call to socket&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+buf&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Application data receive buffer&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+len&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Buffer length in bytes&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+flags&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+No significance in this implementation&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If the recv function is successful, the socket is valid and it has pending data:
+<ul class="Element630">
+<li class="Element600">The supplied buffer is non NULL and has non zero length, the function will return the number of bytes copied to the application buffer.</li>
+<li class="Element600">The supplied buffer is NULL or has zero length then no data will be copied and the function will return the number of bytes pending in the socket buffer.</li>
+</ul>&nbsp;</p>
+<p class="Element10">
+A return value of <a href="23071.html">SOCKET_ERROR</a> (-1) indicates an error condition (and errno set accordingly). errno is set to EWOULDBLOCK if there is no data pending in the socket buffer.&nbsp;</p>
+<p class="Element10">
+A value of zero indicates socket has been shutdown by the peer.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="04839.html">Berkeley Module</a> &gt; <a href="24564.html">Library Interface</a> &gt; a) Functions &gt; <a href="22377.html">recv Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: recv@SOCKET@char*@int@int Topic Title: recv Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

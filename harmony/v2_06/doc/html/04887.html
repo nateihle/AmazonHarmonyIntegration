@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Optimizing the Bootloader</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04887.html">Optimizing the Bootloader</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04871.html">Previous</a> | <a href="04884.html">Up</a> | <a href="04885.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Optimizing the Bootloader Topic Title: Optimizing the Bootloader)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Optimizing the Bootloader</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+By selecting a different optimization level, or by adding features to the Bootloader, the size of the Bootloader will change. These changes may require adjustments to the linker scripts of the Bootloader and the Application.&nbsp;</p>
+<p class="Element10">
+The following example will take a PIC32MX USB Device Bootloader, and set optimizations to save space. When the Bootloader is compiled with the default, <span class="Element146">-O1</span>, optimization, it takes 24944 bytes of Flash. This can be seen in the following figure, which graphically shows the mapping of the Bootloader functions and Flash usage. </p><p class="Element10" style="text-align: center;">
+<img src="BOOTLOADER Picture6.png" border="0" alt="" title=""></p><p class="Element10">
+When the optimizations are set to <span class="Element146">-Os</span>, and MIPS16 code is generated, the Bootloader code size shrinks to 15328 bytes, as shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="BOOTLOADER Picture7.png" border="0" alt="" title=""></p><p class="Element10">
+Because the Bootloader now ends at a lower address in Program Flash, the space can now be reclaimed for the application. Due to Flash page sizing, the application linker script must take the ending address of the Bootloader, and round it up to the start address of the next page. In this case, the new start address for the application can be 0x9D004000.&nbsp;</p>
+<p class="Element10">
+The MIPS32 core requires that Interrupt Vector Tables (IVTs) be placed on a 4 KB boundary, Therefore, the IVT for the Application can now be placed at 0x9D005000, or any address above that in Program Flash that ends in 0x000.&nbsp;</p>
+<p class="Element10">
+The three lines to change in the application linker script are as follows, with the changes note in <strong>bold</strong> type: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="46%">
+<div class="Element66">
+Original Line of Code&nbsp;</div></td><td class="Element65" valign="top" width="54%">
+<div class="Element66">
+Modified Line of Code&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+<span class="Element146">_ebase_address = 0x9D008000;</span>&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+<span class="Element146">_ebase_address = 0x9D00<strong>5</strong>000;</span>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+<span class="Element146">_RESET_ADDR = (0x9D007000);</span>&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+<span class="Element146">_RESET_ADDR = (0x9D00<strong>4</strong>000);</span>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+<span class="Element146">kseg0_program_mem (rx) : ORIGIN = (0x9D000000 + 0x7000), LENGTH = 0x80000 - 0x7000</span>&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+<span class="Element146">kseg0_program_mem (rx) : ORIGIN = (0x9D000000 + 0x<strong>4</strong>000), LENGTH = 0x80000 - 0x<strong>4</strong>000</span>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04887.html">Optimizing the Bootloader</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Optimizing the Bootloader Topic Title: Optimizing the Bootloader)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17869.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17878.html">Previous</a> | <a href="17878.html">Up</a> | <a href="17872.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<span style="color: #000000"><strong>Hardware Abstraction Model</strong></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The Prefetch Cache module is a performance enhancing module included in some microcontrollers. When running at high clock rates, wait states must be inserted into program Flash memory (PFM) read transactions to meet the access time of the PFM. Wait states can be hidden to the core by prefetching and storing instructions in a temporary holding area that the CPU can access quickly.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">There are two main functions that the Prefetch Cache module performs: Caching instructions when they are accessed, and prefetching instructions from the PFM before they are needed.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The cache holds a subset of the cacheable memory in temporary holding spaces known as cache lines. Each cache line has a tag describing what it is currently holding, and the address where it is mapped. Normally, the cache lines just hold a copy of what is currently in memory to make data available to the CPU without wait states.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">CPU-requested data may or may not be in the cache. A cache-miss occurs if the CPU requests cacheable data that is not in the cache. In this case, a read is performed to the PFM at the correct address, the data is supplied to the cache and to the CPU. A cache-hit occurs if the cache contains the data that the CPU requests. In the case of a cache-hit, data is supplied to the CPU without wait states.</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #000000">The second main function of the Prefetch Cache module is to prefetch CPU instructions. The module calculates the address of the next cache line and performs a read of the PFM to get the next cache line. This line is placed into a prefetch cache buffer in anticipation of executing straight-line code.</span> </p><p class="Element10" style="text-align: center;">
+<img src="pcache4.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>Cache Control</strong>&nbsp;</p>
+<p class="Element10">
+This library provides a set of functions to control the behavior of the overall Cache Module. Those functions include:
+<ul class="Element630">
+<li class="Element600">Setting or reading the number of clock wait cycles</li>
+<li class="Element600">Setting or reading the number of cache lines allocated to data</li>
+<li class="Element600">Controlling which cache lines are invalidated on a PFM write cycle</li>
+</ul><strong>Cache Line Operations</strong>&nbsp;</p>
+<p class="Element10">
+This library provides a set of functions to read, write and control the behavior of individual Cache Lines. Operations on individual Cache Lines are performed using a two-step process:
+<ol class="Element630">
+<li value="1" class="Element600">Select the individual cache line with <a href="20125.html">PLIB_PCACHE_CacheLineSelect</a>.</li>
+<li value="2" class="Element600">Perform the required cache line operation using any of the routines in the <a href="17860.html">Cache Line Operations</a> section. The operations available are:
+<ul class="Element630">
+<li class="Element600">Set the cache line to data or instruction type</li>
+<li class="Element600">Mark the cache line as valid or invalid</li>
+<li class="Element600">Lock or unlock the cache line</li>
+<li class="Element600">Read or write the Flash type (boot or program) associated with the cache line</li>
+<li class="Element600">Read or write the address associated with the cache line</li>
+<li class="Element600">Read or write the mask field to force a match between the cache line and multiple physical addresses</li>
+<li class="Element600">Read or write any individual word in the cache line data array</li>
+</ul></li>
+</ol>Once the operation is performed, the cache line remains selected until <a href="20113.html">PLIB_PCACHE_CacheLineDeselect</a> is performed. Only one cache line can be selected at a time.&nbsp;</p>
+<p class="Element10">
+<strong>Cache Status</strong>&nbsp;</p>
+<p class="Element10">
+The cache maintains a count of hits and misses for profiling purposes. The cache hit counter increments each time the processor issues an instruction fetch or load that hits the prefetch cache from a cacheable region. Similarly, the cache miss counter increments each time the processor issues an instruction fetch or load that misses the prefetch cache from a cacheable region. Accesses to non-cacheable regions do not affect the counters. These values can be read or written using the Cache Status routines.&nbsp;</p>
+<p class="Element10">
+The cache uses a Least Recently Used (LRU) algorithm to replace cache lines on a miss. The specific algorithm may vary between devices. In some devices, the state of the LRU algorithm encoding bits can be read with <a href="20177.html">PLIB_PCACHE_LeastRecentlyUsedStateRead</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Prefetch Control</strong>&nbsp;</p>
+<p class="Element10">
+Predictive prefetch is controlled by the Prefetch Control routines. Devices with no L1 CPU cache can prefetch from cacheable or non-cacheable regions or both. Devices with L1 CPU cache can prefetch from any address, CPU instructions or CPU instructions and data. Predictive prefetch can be disabled for either type of device.&nbsp;</p>
+<p class="Element10">
+<strong>Prefetch Status</strong>&nbsp;</p>
+<p class="Element10">
+The Prefetch Cache module maintains a count of prefetch aborts for profiling purposes. The prefetch abort counter is incremented each time a prefetch is aborted due to a non-sequential instruction fetch, load or store. This value can be read or written using the Prefetch Status routines.&nbsp;</p>
+<p class="Element10">
+<strong>Flash ECC</strong>&nbsp;</p>
+<p class="Element10">
+On some devices, the Flash ECC module has the ability to detect single and double bit errors on PFM reads. When a single bit error is detected, the error is corrected and the Single Error Correction (SEC) counter is decremented. When the SEC counter reaches zero, an interrupt is generated to the CPU. The user has the ability to enable or disable the SEC interrupt. It is disabled by default. The user may set the SEC counter value at any time. The maximum counter value may be device-specific and is defined for each processor by the <a href="20178.html">PLIB_PCACHE_MAX_SEC_COUNT</a> constant.&nbsp;</p>
+<p class="Element10">
+When a double bit error is detected, the device will set the DED status to true and generate a bus exception to the initiator.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17869.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

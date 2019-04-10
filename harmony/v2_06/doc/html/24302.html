@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="12133.html">File System Service Library</a> &gt; <a href="24308.html">File System Service Library Porting Guide</a> &gt; <a href="24302.html">Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24292.html">Previous</a> | <a href="24308.html">Up</a> | <a href="24311.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM FS Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>MLA Initialization (Legacy code):</strong>&nbsp;</p>
+<p class="Element10">
+In legacy MLA code, the initialization involves modification of the header file <span class="Element146">HardwareProfile.h</span>. The header file has definitions for the SPI modules used (SPI1 or SPI2), configuration for SPI module, clock frequency, pin mapping for SD card, and pin remapping for SPI (SDI, SDO and SCLK pins). The following two images illustrate these modifications.&nbsp;</p>
+<p class="Element10">
+<img src="MLA_Init_1.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<img src="MLA_Init_2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+Inside the main function, the initialization of interrupts and the clock occurs in a series of function calls. Then, the media detect function is called for the media used. Later, the FS init function is called, which internally performs the disk mount, and if the mount process and FS initialization is successful, the functions returns as '1'.&nbsp;</p>
+<p class="Element10">
+<img src="MLA_Init_3.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>MPLAB Harmony Initialization:</strong>&nbsp;</p>
+<p class="Element10">
+In the case of MPLAB Harmony, the initialization is done by the <a href="23925.html">SYS_Initialize</a> function, which is called from the main function.&nbsp;</p>
+<p class="Element10">
+Inside the <a href="23925.html">SYS_Initialize</a> function, the BSP, interrupt, clock, port remapping, driver initialization, FS initialization and application-specific initialization is done. All initialization is done by calling specific system function calls, as shown in the following image. For more information, refer to the demonstration code provided as a part of the MPLAB Harmony release package.&nbsp;</p>
+<p class="Element10">
+<img src="Harmony_Init_1.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+The SPI module selection and configuration of the SPI module is done through the SPI driver initialization structure. Similarly, the selection of pins related to SD card functionality and the selection of the SPI clock frequency is done through the SD card driver initialization structure. The initialization structures are passed as input parameters during driver initialization function calls. There are no <span class="Element146">#define</span> used, as was done in the case of legacy MLA code.&nbsp;</p>
+<p class="Element10">
+<img src="Harmony_Init_2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+Since MPLAB Harmony supports multiple file systems, there is a structure which needs to be defined and then passed as an input parameter to the SYS_FS_Init function.&nbsp;</p>
+<p class="Element10">
+<img src="Harmony_Init_3.png" border="0" alt="" title="">&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="12133.html">File System Service Library</a> &gt; <a href="24308.html">File System Service Library Porting Guide</a> &gt; <a href="24302.html">Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM FS Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

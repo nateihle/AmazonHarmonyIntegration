@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Multiple Implementations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11775.html">Configuration and Implementations</a> &gt; <a href="11794.html">Multiple Implementations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11776.html">Previous</a> | <a href="11775.html">Up</a> | <a href="11782.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Multiple Implementations Topic Title: Multiple Implementations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Multiple Implementations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+As described in <a href="11783.html">Interface vs. Implementation</a>, the features and functionality provided by a driver are defined by its interface, not by any specific implementation of that driver. And, due to the flexibility and configurability provided by MPLAB Harmony and the MHC, it is possible to provide multiple implementations of the driver that are optimized for different hardware or different purposes. To support the selection and management of such implementations, the MHC provides the ability to select different source files, based upon configuration choices made by the user. (Refer to the <a href="07406.html">MPLAB Harmony Configurator Developer’s Guide</a> for instructions on how to develop the Hconfig files to support this capability.)&nbsp;</p>
+<p class="Element10">
+Because different implementation variants provided the same interface (and thus, define the same interface functions), they are mutually exclusive. Only one implementation of a specific diver (or other library) can be included in the system at a time. Variant implementations of a MPLAB Harmony driver (or other library) are usually defined for one of three reasons:</p>
+<ul class="Element630">
+<li class="Element600">Targeted/optimized usage</li>
+<li class="Element600">Integration of dependencies</li>
+<li class="Element600">Static implementations</li>
+</ul><p class="Element10">
+A targeted implementation is optimized for a specific usage or hardware selection. It can make use of hardware acceleration (for example built-in DMA support) or simply eliminate functionality that is not required for a specific usage.&nbsp;</p>
+<p class="Element10">
+Integrated implementations may combine multiple libraries or driver <i>stacks</i> into a single driver, improving efficiency and reducing code size at the cost of the flexibility provided by a stack. For example, a SPI Codec driver would normally utilize the SPI driver to access its Codec over the SPI bus so that it can switch SPI bus drivers, if necessary. However, a integrated SPI Codec driver may directly utilize the SPI peripheral itself, integrating the SPI driver functionality to save code size and achieve better performance at the cost of being able to switch to a different type of SPI peripheral.&nbsp;</p>
+<p class="Element10">
+Refer to <a href="11801.html">Static Implementations</a> for details.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11775.html">Configuration and Implementations</a> &gt; <a href="11794.html">Multiple Implementations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Multiple Implementations Topic Title: Multiple Implementations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03877.html">Micrium uC/OS-III Demonstrations</a> &gt; <a href="03878.html">usb</a> &gt; <a href="03881.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03880.html">Previous</a> | <a href="03878.html">Up</a> | <a href="03894.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS Micrium uC_OS_III usb_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Power the board, open the demonstration with MPLAB X IDE, and then build and load the demonstration. A USB keyboard will be emulated when a micro USB cable is plugged in to the starter kit. Keystrokes, a-z and 1-9, will be sent when the push button SW3 is pressed. The user LED, D3, will toggle every 500 ms.&nbsp;</p>
+<p class="Element10">
+There are three tasks and four interrupts used in this application/system.&nbsp;</p>
+<p class="Element10">
+SystemUSBDeviceTask is the highest priority task and is responsible for getting all USB data queued up by the application ready for sending over the USB by calling the appropriate MPLAB Harmony USB stack function. ApplicationUSBDeviceTask is the next highest priority task. ApplicationUSBDeviceTask emulates the keyboard key presses when it detects that the push button SW3 is being pressed. ApplicationLEDblinkTask is the lowest priority task and toggles the user LED, D3, every 500 ms.&nbsp;</p>
+<p class="Element10">
+CPU core timer hardware interrupt is used by the RTOS to source the RTOS Tick. The Timer2 hardware interrupt is used to call the MPLAB Harmony Timer Driver function. USB general event interrupt is used to call the appropriate MPLAB Harmony USB driver function, which takes all USB data queued up by the application and physically writes it out to the USB hardware. The SYSCALL general exception is invoked by the RTOS and is used to process the task context switch routine.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03877.html">Micrium uC/OS-III Demonstrations</a> &gt; <a href="03878.html">usb</a> &gt; <a href="03881.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS Micrium uC_OS_III usb_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

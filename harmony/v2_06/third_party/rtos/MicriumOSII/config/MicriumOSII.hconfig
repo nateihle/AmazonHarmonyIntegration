@@ -1,0 +1,1236 @@
+menu "RTOS Configuration"
+menu "uC/OS-II Features"
+    ---help---
+    <p><strong>uC/OS-II - Features</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Compile-time configuration allows users to determine which features to enable and those features that are not needed. With compile-time configuration, the code and data sizes of uC/OS-II (i.e., its footprint) can be reduced by enabling only the desired functionality.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC generates the uC/OS-II os_cfg.h file from this compile-time configuration.</div>
+<div>
+	&nbsp;</div>
+<p>For more information, refer to http://www.micrium.com/rtos/ucosii/overview/</p>
+    ---endhelp---
+    
+config UCOSII_CPU_HOOKS_EN
+    bool "Use uC/OS-II hooks"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Use uC/OS-II hooks</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	OS_CPU_HOOKS_EN indicates whether OS_CPU_C.C declares the hook function (when set to 1) or not (when set to 0) </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	uC/OS-II expects the presence of nine functions that can be defined either in the port (i.e., in OS_CPU_C.C) or by the application code.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_CPU_HOOKS_EN to 1/0 to enable/disable hooks.</div>
+    ---endhelp---
+
+config UCOSII_APP_HOOKS_EN
+    bool "Use application specific hooks"
+    default n
+    persistent
+    ---help---
+<p><strong>uC/OS-II - Use application specific hooks</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies that application-defined hooks can be called from uC/OS-II's hooks. This allows the application code to extend the functionality of uC/OS-II. </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_APP_HOOKS_EN to 1/0 to enable/disable application specific hooks.</div>
+    ---endhelp---
+
+config UCOSII_DEBUG_EN
+    bool "Enable debug variables"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Enable debug variables</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	When set to 1, this #define adds ROM constants located in OS_DEBUG.C to help support kernel aware debuggers. </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_DEBUG_EN to 1/0 to enable/disable application specific hooks.</div>
+    ---endhelp---
+
+config UCOSII_ARG_CHK_EN
+    bool "Use argument checking"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Use argument checking</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Determines whether the user wants most of uC/OS-II functions to perform argument checking. When selected, uC/OS-II ensures that pointers passed to functions are non-NULL, that arguments passed are within allowable range, that options are valid, and more. When disabled, those arguments are not checked and the amount of code space and processing time required by uC/OS-II is reduced. You would disable this option only if you are certain that the arguments are correct.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	uC/OS-II performs argument checking in over 40 functions. Therefore, you can save a few hundred bytes of code space by disabling this check. However, you should always enable argument checking until you are certain the code can be trusted.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_ARG_CHK_EN to 1/0 to enable/disable argument checking.</div>
+    ---endhelp---
+
+  config UCOSII_EVENT_MULTI_EN
+    bool "Include code for OSEventPendMulti()"
+    depends on UCOSII_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSEventPendMulti()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSEventPendMulti().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_EVENT_MULTI_EN to 1/0 to include/exclude OSEventPendMulti().</div>
+    ---endhelp---
+
+config UCOSII_EVENT_NAME_SIZE
+    int "Event Name Size"
+    depends on UCOSII_TMR_EN
+    default 16
+    ---help---
+<p><strong>uC/OS-II - Event Name Size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This constant determines whether names can be assigned to either a semaphore, a mutex, a mailbox or a message queue.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_EVENT_NAME_EN to 16 by default.</div>
+    ---endhelp---
+
+config UCOSII_LOWEST_PRIO
+    int "Lowest Task Priority"
+    default 63
+    ---help---
+<p><strong>uC/OS-II - Lowest Task Priority</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	OS_LOWEST_PRIO specifies the lowest task priority (i.e., highest number) that you intend to use in your
+application and is provided to reduce the amount of RAM needed by μC/OS-II. Remember that
+μC/OS-II priorities can go from 0 (highest priority) to a maximum of 254 (lowest possible priority).</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+      uC/OS-II reserves priorities OS_LOWEST_PRIO and OS_LOWEST_PRIO–1 for itself; OS_LOWEST_PRIO is reserved for the idle task, OS_TaskIdle(), and OS_LOWEST_PRIO–1  is reserved for the statistic task, OS_TaskStat(). </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_LOWEST_PRIO to default value of 63.</div>
+    ---endhelp---
+  
+config UCOSII_MAX_EVENTS
+    int "Maximum Number of Events Control Block"
+    default 1
+    ---help---
+<p><strong>uC/OS-II - Maximum Number of Events Control Block</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	OS_MAX_EVENTS specifies the maximum number of event control blocks that can be allocated. An event control block is needed for every message mailbox, message queue, mutual exclusion semaphore, or semaphore object.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MAX_EVENTS to 1.</div>
+    ---endhelp---
+
+config UCOSII_MAX_FLAGS
+    int "Maximum number of event flags"
+    default 1
+    ---help---
+<p><strong>uC/OS-II - Maximum number of event flags</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	OS_MAX_FLAGS specifies the maximum number of event flags that you need in your application. OS_MAX_FLAGS must be greater than 0.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MAX_FLAGS to specified value.</div>
+    ---endhelp---
+
+config UCOSII_MAX_MEM_PART
+    int "Maximum number of memory partitions"
+    default 1
+    ---help---
+<p><strong>uC/OS-II - Maximum number of memory partitions</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	specifies the maximum number of memory partitions that your application can create./div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MAX_MEM_PART to specified value.</div>
+    ---endhelp---
+ 
+config UCOSII_QS
+    int "Maximum number of message queues"
+    default 1
+    ---help---
+<p><strong>uC/OS-II - Maximum number of message queues</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	 specifies the maximum number of message queues that your application can create.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MAX_QS to 1/0 to specified value.</div>
+    ---endhelp---
+    
+config UCOSII_TASKS
+    int "Maximum number of application tasks"
+    default 5
+    ---help---
+<p><strong>uC/OS-II - Maximum number of application tasks</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	 specifies the maximum number of application tasks that can exist in your application.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MAX_TASKS to specified value.</div>
+    ---endhelp---
+  
+config UCOSII_TASK_IDLE_STK_SIZE
+    int "Size of the uC/OS-II idle-task stack"
+    default 128
+    ---help---
+<p><strong>uC/OS-II - Size of the uC/OS-II idle-task stack</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	specifies the size of the uC/OS-II idle-task stack.</div>
+<div>
+	&nbsp;</div>
+<div>
+	The size is specified not in bytes but in number of elements. This is because a stack is declared to be of type OS_STK.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_IDLE_STK_SIZE to specified value.</div>
+    ---endhelp---
+  
+config UCOSII_TASK_STAT_EN
+    bool "Include statistic task"
+    default n
+    ---help---
+<p><strong>uC/OS-II - Include statistic task</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	specifies whether or not you can enable the uC/OS-II statistic task.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_STAT_EN to 1/0 to include/exclude statistic task.</div>
+    ---endhelp---
+  
+config UCOSII_TASK_STAT_STK_SIZE
+    int "Size of the uC/OS-II statistic-task stack"
+    default 512
+    ---help---
+<p><strong>uC/OS-II - Size of the uC/OS-II statistic-task stack</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	specifies the size of the uC/OS-II statistic-task stack.The size is specified not in bytes but in number of elements.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_STAT_STK_SIZE to specified value.</div>
+    ---endhelp---
+
+config UCOSII_SCHED_LOCK_EN
+    bool "Include Scheduler Lock/Unlock"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include Scheduler Lock/Unlock</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This constant enables (when set to 1) or disables (when set to 0) code generation for the two functions OSSchedLock() and OSSchedUnlock().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable variable OS_SCHED_LOCK_EN to 1/0 to iInclude/exclude Scheduler Lock/Unlock.</div>
+    ---endhelp---
+    
+config UCOSII_OS_TICKS_PER_SEC
+    int "Ticks per second"
+    default 1000
+    ---help---
+<p><strong>uC/OS-II - Ticks per second</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	specifies the rate at which you call OSTimeTick(). </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TICKS_PER_SEC to specified value.</div>
+    ---endhelp---
+
+config UCOSII_MBOX_EN
+    bool "Include message-mailbox services"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include message-mailbox services</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This constant enables (when set to 1) or disables (when set to 0) the code generation of all message-mailbox services and data structure.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MBOX_EN to 1/0 to include/exclude message-mailbox services.</div>
+    ---endhelp---
+
+config UCOSII_MBOX_ACCEPT_EN
+    bool "Include code for OSMboxAccept()"
+    depends on UCOSII_MBOX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMboxAccept()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+    This constant enables (when set to 1) or disables (when set to 0) the code generation of the function OSMboxAccept().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MBOX_ACCEPT_EN to 1/0 to include/exclude OSMboxAccept().</div>
+    ---endhelp---
+   
+config UCOSII_MBOX_DEL_EN
+    bool "Include code for OSMboxDel()"
+    depends on UCOSII_MBOX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMboxDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This constant enables (when set to 1) or disables (when set to 0) the code generation of the function OSMboxDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MBOX_DEL_EN to 1/0 to include/exclude OSMboxDel().</div>
+    ---endhelp---
+    
+config UCOSII_MBOX_POST_EN
+    bool "Include code for OSMboxPost()"
+    depends on UCOSII_MBOX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMboxPost()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the function OSMboxPost().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MBOX_POST_EN to 1/0 to include/exclude OSMboxPost().</div>
+    ---endhelp---
+
+config UCOSII_MBOX_POST_OPT_EN
+    bool "Include code for OSMboxPostOpt()"
+    depends on UCOSII_MBOX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMboxPostOpt()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the function OSMboxPostOpt().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MBOX_POST_OPT_EN to 1/0 to enable or disable the code generation of OSMboxPostOpt().</div>
+    ---endhelp---
+
+config UCOSII_MBOX_QUERY_EN
+    bool "Include code for OSMboxQuery()"
+    depends on UCOSII_MBOX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMboxQuery()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMboxQuery().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MBOX_QUERY_EN to 1/0 to include/exclude OSMboxQuery().</div>
+    ---endhelp---
+
+config UCOSII_MBOX_PEND_ABORT_EN
+    bool "Include code for OSMboxPendAbort()"
+    depends on UCOSII_MBOX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMboxPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMboxPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MBOX_PEND_ABORT_EN to 1/0 to include/exclude OSMboxPendAbort().</div>
+    ---endhelp---
+ 
+config UCOSII_FLAG_EN
+    bool "Include EVENT FLAGS"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include EVENT FLAGS</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) code generation of all the event-flag services and data structures.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_FLAG_EN to 1/0 to include/exclude EVENT FLAGS.</div>
+    ---endhelp---
+  
+config UCOSII_FLAG_WAIT_CLR_EN
+    bool "Include wait for event flags"
+    depends on UCOSII_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include wait for event flags</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation used to wait for event flags to be 0 instead of 1.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_FLAG_WAIT_CLR_EN to 1/0 to enable or disable the code generation used to wait for event flags to be 0 instead of 1.</div>
+    ---endhelp---
+
+config UCOSII_FLAG_ACCEPT_EN
+    bool "Include code for OSFlagAccept()"
+    depends on UCOSII_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSFlagAccept()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSFlagAccept().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_FLAG_ACCEPT_EN to 1/0 to include/exclude OSFlagAccept().</div>
+    ---endhelp---
+ 
+ config UCOSII_FLAG_DEL_EN
+    bool "Include code for OSFlagDel()"
+    depends on UCOSII_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSFlagDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSFlagDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_FLAG_DEL_EN to 1/0 to include/exclude OSFlagDel().</div>
+    ---endhelp---
+
+ config UCOSII_FLAG_QUERY_EN
+    bool "Include code for OSFlagQuery()"
+    depends on UCOSII_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSFlagQuery()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSFlagQuery().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_FLAG_QUERY_EN to 1/0 to include/exclude OSFlagQuery().</div>
+    ---endhelp---
+ 
+config UCOSII_MEM_EN
+    bool "Use MEMORY MANAGER"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Use MEMORY MANAGER</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) all code generation of the uC/OS-II partition-memory manager and its associated data structures.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MEM_EN to 1/0 to include/exclude code for the uC/OS-II partition-memory manager.</div>
+    ---endhelp---
+
+config UCOSII_MEM_QUERY_EN
+    bool "Include code for OSMemQuery()"
+    depends on UCOSII_MEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMemQuery()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMemQuery().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MEM_QUERY_EN to 1/0 to include/exclude OSMemQuery().</div>
+    ---endhelp---
+ 
+config UCOSII_MUTEX_EN
+    bool "Include MUTEX"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include MUTEX</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of all mutual-exclusion-semaphore services and data structures.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MUTEX_EN to 1/0 to include/exclude MUTEX.</div>
+    ---endhelp---
+
+config UCOSII_MUTEX_ACCEPT_EN
+    bool "Include code for OSMutexAccept()"
+    depends on UCOSII_MUTEX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMutexAccept()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMutexAccept().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MUTEX_ACCEPT_EN to 1/0 to include/exclude OSMutexAccept().</div>
+    ---endhelp---
+     
+config UCOSII_MUTEX_DEL_EN
+    bool "Include code for OSMutexDel()"
+    depends on UCOSII_MUTEX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMutexDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMutexDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MUTEX_DEL_EN to 1/0 to include/exclude OSMutexDel().</div>
+    ---endhelp---
+
+config UCOSII_MUTEX_QUERY_EN
+    bool "Include code for OSMutexQuery()"
+    depends on UCOSII_MUTEX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSMutexQuery()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMutexQuery().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_MUTEX_QUERY_EN to 1/0 to include/exclude OSMutexQuery().</div>
+    ---endhelp---
+
+config UCOSII_Q_EN
+    bool "Include QUEUES"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include QUEUES</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of all message-queue services and data structures.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_Q_EN to 1/0 to include/exclude QUEUES.</div>
+    ---endhelp---
+
+config UCOSII_Q_DEL_EN
+    bool "Include code for OSTaskDel()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTaskDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_Q_DEL_EN to 1/0 to include/exclude OSTaskDel().</div>
+    ---endhelp---
+
+config UCOSII_Q_ACCEPT_EN
+    bool "Include code for OSQAccept()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSQAccept()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of the OSQAccept() function.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_Q_ACCEPT_EN to 1/0 to include/exclude the OSQAccept().</div>
+    ---endhelp---
+
+config UCOSII_Q_FLUSH_EN
+    bool "Include code for OSQFlush()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSQFlush()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQFlush().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_Q_FLUSH_EN to 1/0 to include/exclude OSQFlush().</div>
+    ---endhelp---
+   
+config UCOSII_Q_POST_EN
+    bool "Include code for OSQPost()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSQPost()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQPostOpt().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_Q_POST_EN to 1/0 to include/exclude OSQPostOpt().</div>
+    ---endhelp---
+
+config UCOSII_Q_POST_FRONT_EN
+    bool "Include code for OSQPostFront()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSQPostFront()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQPostFront().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_Q_POST_FRONT_EN include/exclude OSQPostOpt().</div>
+    ---endhelp---
+      
+config UCOSII_Q_POST_OPT_EN
+    bool "Include code for OSQPostOpt()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSQPostOpt()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQPostOpt().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_Q_POST_OPT_EN to 1/0 to include/exclude OSQPostOpt().</div>
+    ---endhelp---
+ 
+config UCOSII_Q_QUERY_EN
+    bool "Include code for OSQQuery()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSQQuery()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQQuery().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_CFG_TASK_SUSPEND_EN to 1/0 to include/exclude OSQQuery().</div>
+    ---endhelp---
+
+config UCOSII_Q_PEND_ABORT_EN
+    bool "Include code for OSQPendAbort()"
+    depends on UCOSII_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSQPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_CFG_TASK_SUSPEND_EN to 1/0 to include/exclude OSQPendAbort().</div>
+    ---endhelp---
+     
+config UCOSII_SEM_EN
+    bool "Include SEMAPHORES"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include SEMAPHORES</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) all code generation of the uC/OS-II semaphore manager and its associated data structures.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_SEM_EN to 1/0 to include/exclude SEMAPHORES.</div>
+    ---endhelp---
+        
+config UCOSII_SEM_DEL_EN
+    bool "Include code for OSSemDel()"
+    depends on UCOSII_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSSemDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSSemDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_SEM_DEL_EN to 1/0 to include/exclude OSSemDel().</div>
+    ---endhelp---
+        
+config UCOSII_SEM_QUERY_EN
+    bool "Include code for OSSemQuery()"
+    depends on UCOSII_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSSemQuery()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of OSSemQuery() function.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_SEM_QUERY_EN to 1/0 to include/exclude OSSemQuery().</div>
+    ---endhelp---
+    
+config UCOSII_SEM_ACCEPT_EN
+    bool "Include code for OSSemAccept()"
+    depends on UCOSII_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSSemAccept()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSSemAccept().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_SEM_ACCEPT_EN to 1/0 to include/exclude OSSemAccept().</div>
+    ---endhelp---
+
+config UCOSII_SEM_PEND_ABORT_EN
+    bool "Include code for OSSemPendAbort()"
+    depends on UCOSII_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSSemPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSSemPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_SEM_PEND_ABORT_EN to 1/0 to include/exclude OSSemPendAbort().</div>
+    ---endhelp---
+
+config UCOSII_SEM_SET_EN
+    bool "Include code for OSSemSet()"
+    depends on UCOSII_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSSemSet()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSSemSet().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_SEM_SET_EN to 1/0 to include/exclude OSSemSet().</div>
+    ---endhelp---
+   
+   
+endmenu # Features
+
+    config UCOSII_TICK_INTERRUPT
+        select USE_SYS_INT_NEEDED
+        bool "Tick interrupt"
+        default y
+        persistent
+        ---help---
+<p><strong>uC/OS-II - Tick Interrupt</strong></p>
+<div>
+	&nbsp;</div>
+<div>Enables (when set to 1) or disables (when set to 0) the code generation of the system interrupt services.</div>
+<div>&nbsp;</div>
+<div>MHC sets the system service preprocessor variable SYS_INT to TRUE.</div>
+        ---endhelp---
+
+config UCOSII_TASK_CHANGE_PRIO_EN
+    bool "Include code for OSTaskChangePrio()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskChangePrio()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the function OSTaskChangePrio(). </div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_CHANGE_PRIO_EN to 1/0 to include/exclude OSTaskChangePrio().</div>
+    ---endhelp---
+  
+config UCOSII_TASK_CREATE_EN
+    bool "Include code for OSTaskCreate()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskCreate()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the function OSTaskCreate(). </div>/div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_CREATE_EN to 1/0 to include/exclude OSTaskCreate().</div>
+    ---endhelp---
+
+config UCOSII_TASK_CREATE_EXT_EN
+    bool "Include code for OSTaskCreateExt()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskCreateExt()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the function OSTaskCreateExt(). </div>/div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_CREATE_EN to 1/0 to include/exclude OSTaskCreateExt().</div>
+    ---endhelp---
+
+config UCOSII_TASK_STAT_STK_CHK_EN
+    bool " Check task stacks from statistic"
+    default y
+    ---help---
+<p><strong>uC/OS-II -  Check task stacks from statistic</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Allows the statistic task to determine the actual stack usage of each active task.If OS_TASK_STAT_EN is set to 0 (the statistic task is not enabled) but, you can call OS_TaskStatStkChk() yourself from one of your tasks. If OS_TASK_STAT_EN is set to 1, stack sizes will be determined every second by the statistic task.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_STAT_STK_CHK_EN to specified value.</div>
+    ---endhelp---
+    
+config UCOSII_TASK_DEL_EN
+    bool "Include code for OSTaskDel()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	 Enables (when set to 1) or disables (when set to 0) code generation of the function OSTaskDel().</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_DEL_EN to 1/0 to include/exclude OSTaskDel().</div>
+    ---endhelp---
+
+config UCOSII_TASK_NAME_SIZE
+    int "size of a task name"
+    depends on UCOSII_TASK_CREATE_EN
+    default 1
+    ---help---
+<p><strong>uC/OS-II - size of a task name</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies the size of task name size </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_NAME_SIZE to specified value.</div>
+    ---endhelp---
+
+config UCOSII_TASK_PROFILE_EN
+    bool "Include profiling"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include profiling</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Allows variables to be allocated in each task’s OS_TCB that hold performance data about each task.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_PROFILE_EN to 1/0 to include/exclude profiling.</div>
+    ---endhelp---
+
+config UCOSII_TASK_SUSPEND_EN
+    bool "Include code for OSTaskSuspend(),OSTaskResume()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskSuspend() OSTaskResume()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) code generation of the functions OSTaskSuspend() and OSTaskResume()</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_SUSPEND_EN to include/exclude OSTaskSuspend(),OSTaskResume()</div>
+    ---endhelp---
+
+config UCOSII_TASK_QUERY_EN
+    bool "Include code for OSTaskQuery()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskQuery()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) code generation of the function OSTaskQuery()</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_QUERY_EN to the include/exclude OSTaskQuery().</div>
+    ---endhelp---
+
+config UCOSII_TASK_SW_HOOK_EN
+    bool "Include code for OSTaskSwHook()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTaskSwHook()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) code generation of the function OSTaskSwHook().When set to 0, this constant allows you to omit OSTaskSwHook() from your code. This configuration constant was added to reduce the amount of overhead during a context switch in applications that doesn’t require the context switch hook. Of course, you will also need to remove the calls to OSTaskSwHook() from OSTaskStartHighRdy(), OSCtxSw() and OSIntCtxSw() in OS_CPU_A.ASM.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_SW_HOOK_EN to the include/exclude OSTaskSwHook().</div>
+    ---endhelp---
+    
+config UCOSII_TIME_DLY_HMSM_EN
+    bool "Include code for OSTimeDlyHMSM()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTimeDlyHMSM()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the function OSTimeDlyHMSM().</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TIME_DLY_HMSM_EN to the include/exclude OSTimeDlyHMSM().</div>
+    ---endhelp---
+    
+config UCOSII_TIME_DLY_RESUME_EN
+    bool "Include code for OSTimeDlyResume()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTimeDlyResume()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the function OSTimeDlyResume().</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TIME_DLY_RESUME_EN to the include/exclude OSTimeDlyResume().</div>
+    ---endhelp---
+
+config UCOSII_TIME_GET_SET_EN
+    bool "Include code for Time Get/Set Functions"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for functions OSTimeGet() and OSTimeSet(()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the functions OSTimeGet() and OSTimeSet().</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TIME_GET_SET_EN to the include/exclude functions OSTimeGet() and OSTimeSet().</div>
+    ---endhelp---
+
+config UCOSII_TIME_TICK_HOOK_EN
+    bool "Include code for OSTimeTickHook()"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include code for OSTimeTickHook()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Normally, uC/OS-II requires the presence of a function called OSTimeTickHook() which is called at the very beginning of the tick ISR. When set to 0, this constant allows you to omit OSTimeTickHook() from your code. This configuration constant was added to reduce the amount of overhead during a tick ISR in applications that doesn’t require this hook.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TIME_TICK_HOOK_EN to the include/exclude function OSTimeTickHook().</div>
+    ---endhelp---
+
+config UCOSII_TMR_EN
+    bool "Include Timers"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include Timers</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables (when set to 1) or disables (when set to 0) the code generation of the timer management services.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TMR_EN to the include/exclude Timers.</div>
+    ---endhelp---
+
+config UCOSII_TASK_TMR_STK_SIZE
+    int "Timer task stack size"
+    depends on UCOSII_TMR_EN
+    default 128
+    ---help---
+<p><strong>uC/OS-II - Timer task stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	 Specifies the size of the uC/OS-II timer task stack</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TASK_TMR_STK_SIZE to specified value.</div>
+    ---endhelp---
+
+config UCOSII_TMR_CFG_MAX
+    int "Maximum number of timers"
+    depends on UCOSII_TMR_EN
+    default 2
+    ---help---
+<p><strong>uC/OS-II - Maximum number of timers</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Determines the maximum number of timers you can have in your application. </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TMR_CFG_MAX to specified value.</div>
+    ---endhelp---
+
+config UCOSII_TMR_CFG_NAME_SIZE
+    int "size of a timer name"
+    depends on UCOSII_TMR_EN
+    default 16
+    ---help---
+<p><strong>uC/OS-II - size of a timer name</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	size of a timer name. </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TMR_CFG_NAME_SIZE to specified value.</div>
+    ---endhelp---
+
+config UCOSII_TMR_CFG_WHEEL_SIZE
+    int "Size of timer wheel"
+    depends on UCOSII_TMR_EN
+    default 2
+    ---help---
+<p><strong>uC/OS-II - Size of timer wheel</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Timers are updated using a rotating wheel. This ‘wheel’ allows to reduce the number of timers that need to be updated by the timer manager task. The size of the wheel should be a fraction of the number of timers you have in your application. </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variableOS_TMR_CFG_WHEEL_SIZE to specified value.</div>
+    ---endhelp---
+
+config UCOSII_TICK_STEP_EN
+    bool "Enable tick stepping"
+    default y
+    ---help---
+<p><strong>uC/OS-II - Include tick stepping</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	uC/OS-View (a Micrium product that allows you to display run-time data about your tasks on a Windows-based PC) can now ‘halt’ uC/OS-II’s tick processing and allow you to issue ‘step’ commands from uC/OS-View. In other words, uC/OS-View can prevent uC/OS-II from calling OSTimeTick() so that timeouts and time delays are no longer processed. However, though a keystroke from uC/OS-View, you can execute a single tick at a time. If OS_TIME_TICK_HOOK_EN (see below) is set to 1, OSTimeTickHook() is still executed at the regular tick rate in case you have time critical items to take care of in your application.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TICK_STEP_EN to 1/0 to enable/disable Tick Stepping</div>
+    ---endhelp---
+
+config UCOSII_TMR_CFG_TICKS_PER_SEC
+    int "Rate of timer management"
+    depends on UCOSII_TMR_EN
+    default 1
+    ---help---
+<p><strong>uC/OS-II - Rate of timer management</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Determines the rate at which timers are updated (in Hz). </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-II preprocessor variable OS_TMR_CFG_TICKS_PER_SEC to specified value.</div>
+    ---endhelp---
+ 
+endmenu # Portable library functions
+
+
+template UCOSII_OS_CFG_H     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/templates/os_cfg.h.ftl"     to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/os_cfg.h"
+template UCOSII_APP_CFG_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/templates/app_cfg.h.ftl"    to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/app_cfg.h"
+    
+file UCOSII_OS_CORE_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_core.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_core.c"
+file UCOSII_OS_FLAG_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_flag.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_flag.c"
+file UCOSII_OS_MEM_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_mem.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_mem.c"
+file UCOSII_OS_MBOX_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_mem.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_mbox.c"
+file UCOSII_OS_MUTEX_C   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_mutex.c"   to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_mutex.c"
+file UCOSII_OS_Q_C       "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_q.c"       to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_q.c"
+file UCOSII_OS_SEM_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_sem.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_sem.c"
+file UCOSII_OS_TASK_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_task.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_task.c"
+file UCOSII_OS_TIME_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_time.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_time.c"
+file UCOSII_OS_TMR_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/os_tmr.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos-II/os_tmr.c"
+
+file UCOSII_OS_H         "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source/ucos_ii.h"    to "$PROJECT_HEADER_FILES/micrium/ucos-II/ucos_ii.h"
+
+file UCOSII_CPU_DEF_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU/cpu_def.h"             to "$PROJECT_HEADER_FILES/micrium/ucos_cpu/cpu_def.h"
+
+file UCOSII_LIB_MEM_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-LIB/lib_mem.c"            to "$PROJECT_SOURCE_FILES/micrium/ucos_lib/lib_mem.c" 
+file UCOSII_LIB_STR_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-LIB/lib_str.c"            to "$PROJECT_SOURCE_FILES/micrium/ucos_lib/lib_str.c"   
+
+file UCOSII_LIB_MEM_H     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-LIB/lib_mem.h"            to "$PROJECT_HEADER_FILES/micrium/ucos_lib/lib_mem.h" 
+file UCOSII_LIB_STR_H     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-LIB/lib_str.h"            to "$PROJECT_HEADER_FILES/micrium/ucos_lib/lib_str.h"   
+
+file UCOSII_PIC32MX_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU/MIPS32-4K/MPLAB-PIC32-GCC/cpu_a.s" to "$PROJECT_SOURCE_FILES/micrium/ucos_cpu/pic32mx/cpu_a.s" if PIC32MX
+file UCOSII_PIC32MX_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU/MIPS32-4K/MPLAB-PIC32-GCC/cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos_cpu/pic32mx/cpu.h"   if PIC32MX
+
+file UCOSII_PIC32MZ_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU/MIPS32-M14KEc/MPLAB-PIC32-GCC/cpu_a.s" to "$PROJECT_SOURCE_FILES/micrium/ucos_cpu/pic32mz/cpu_a.s" if PIC32MZ
+file UCOSII_PIC32MZ_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU/MIPS32-M14KEc/MPLAB-PIC32-GCC/cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos_cpu/pic32mz/cpu.h"   if PIC32MZ
+
+file UCOSII_PIC32MX_OS_CPU_C_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_cpu_c.c" to "$PROJECT_SOURCE_FILES/micrium/ucos-II/pic32mx/os_cpu_c.c" if PIC32MX
+file UCOSII_PIC32MX_OS_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_cpu_a.S" to "$PROJECT_SOURCE_FILES/micrium/ucos-II/pic32mx/os_cpu_a.S" if PIC32MX
+file UCOSII_PIC32MX_OS_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos-II/pic32mx/os_cpu.h"   if PIC32MX
+file UCOSII_PIC32MX_OS_DBG_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_dbg.c"   to "$PROJECT_HEADER_FILES/micrium/ucos-II/pic32mx/os_dbg.c"   if PIC32MX
+
+file UCOSII_PIC32MZ_OS_CPU_C_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-M14KEc/ExternalInterruptController/MPLAB-PIC32-GCC/os_cpu_c.c" to "$PROJECT_SOURCE_FILES/micrium/ucos-II/pic32mz/os_cpu_c.c" if PIC32MZ
+
+file UCOSII_PIC32MZ_OS_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-M14KEc/ExternalInterruptController/MPLAB-PIC32-GCC/os_cpu_a.S" to "$PROJECT_SOURCE_FILES/micrium/ucos-II/pic32mz/os_cpu_a.S" if PIC32MZ
+
+file UCOSII_PIC32MZ_OS_CPU_A_INC "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-M14KEc/ExternalInterruptController/MPLAB-PIC32-GCC/os_dbg.c" to "$PROJECT_HEADER_FILES/micrium/ucos-II/pic32mz/os_dbg.c" if PIC32MZ
+
+file UCOSII_PIC32MZ_OS_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-M14KEc/ExternalInterruptController/MPLAB-PIC32-GCC/os_cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos-II/pic32mz/os_cpu.h"   if PIC32MZ
+
+file PIC32_CORE_TIMER_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/CoreTimer.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/CoreTimer.h" 
+file PIC32_INT_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/INT.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/INT.h" 
+file PIC32_ADC10_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/adc10.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/adc10.h" 
+file PIC32_OSC_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/osc.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/osc.h" 
+file PIC32_PORTS_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/ports.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/ports.h" 
+file PIC32_SYSTEM_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/system.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/system.h" 
+file PIC32_TIMER_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/timer.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/timer.h" 
+file PIC32_UART_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/uart.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32/uart.h" 
+
+file UCLIB_LIB_DEF_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-LIB/lib_def.h" to "$PROJECT_HEADER_FILES/third_party/rtos/MicriumOSII/Software/uC-LIB/lib-def.h" 
+
+compiler UCOSII_PIC32MX_COMPILER_INCLUDEPATH_1 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU/MIPS32-4K/MPLAB-PIC32-GCC"                                          if PIC32MX
+compiler UCOSII_PIC32MX_COMPILER_INCLUDEPATH_2 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC"               if PIC32MX
+compiler UCOSII_PIC32MZ_COMPILER_INCLUDEPATH_1 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU/MIPS32-M14KEc/MPLAB-PIC32-GCC"                                       if PIC32MZ
+compiler UCOSII_PIC32MZ_COMPILER_INCLUDEPATH_2 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Ports/MIPS32-M14KEc/ExternalInterruptController/MPLAB-PIC32-GCC"  if PIC32MZ
+compiler UCOSII_COMPILER_INCLUDEPATH_1       includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS-II/Source"
+compiler UCOSII_COMPILER_INCLUDEPATH_2       includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-CPU"
+compiler UCOSII_COMPILER_INCLUDEPATH_3       includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uC-LIB"
+compiler UCOSII_COMPILER_INCLUDEPATH_4       includepath "$PROJECT_HEADER_FILES/rtos_config/$CONFIGURATION"
+compiler UCOSII_COMPILER_INCLUDEPATH_5	     includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/CPU/Microchip/PIC32"
+
+assembler ASSEMBLER_UCOSII_CRT0_MZ_DEFINE_1 define "PIC32MZ" if PIC32MZ
+assembler ASSEMBLER_UCOSII_CRT0_MZ_DEFINE_2 define "PIC32_SRS_SET_COUNT=8" if PIC32MZ
+assembler ASSEMBLER_UCOSII_CRT0_MZ_DEFINE_3 define "INIT_MMU_MZ_FIXED" if PIC32MZ
+assembler ASSEMBLER_UCOSII_CRT0_MZ_DEFINE_4 define "INIT_L1_CACHE" if PIC32MZ
+assembler ASSEMBLER_UCOSII_UCOSIICRT0_MZ_DEFINE_5 define "INIT_SSX" if PIC32MZ
+assembler ASSEMBLER_UCOSII_CRT0_MZ_DEFINE_6 define "INIT_DSPR2" if PIC32MZ
+
+assembler ASSEMBLER_UCOSII_CRT0_MX_DEFINE_1 define "PIC32MX" if PIC32MX
+assembler ASSEMBLER_UCOSII_CRT0_MX_DEFINE_2 define "PIC32_SRS_SET_COUNT=2" if PIC32MX
+
+assembler UCOSII_PIC32MZ_ASSEMBLER_INCLUDEPATH includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS_II/Ports/MIPS32-M14KEc/ExternalInterruptController/MPLAB-PIC32-GCC" if PIC32MZ
+
+assembler UCOSII_PIC32MX_ASSEMBLER_INCLUDEPATH includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/Software/uCOS_II/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC" if PIC32MX
+

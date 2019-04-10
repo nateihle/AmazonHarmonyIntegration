@@ -1,0 +1,36 @@
+config IN_TCPIP_USE_V4
+    bool "IPv4 support"
+    default y
+    ---help---
+         This product is available for license from InterNiche Technologies. http://www.iniche.com
+    ---endhelp---
+
+config IN_TCPIP_USE_ARP
+    bool "ARP"
+    depends on IN_TCPIP_USE_V4
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_DHCP
+    bool "DHCP support"
+    depends on IN_TCPIP_USE_V4
+    default y
+    ---help---
+        DHCP to get address
+    ---endhelp---
+
+config IN_TCPIP_USE_DHCP_DEBUG
+    bool "Debug output for DHCP"
+    depends on IN_TCPIP_USE_DHCP
+    default n
+
+config IN_TCPIP_USE_ICMP
+    bool "Full ICMP support"
+    depends on IN_TCPIP_USE_V4
+    default y
+    ---help---
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/autoip4.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/tcpip/iniche/config/igmpv3.hconfig"

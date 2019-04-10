@@ -1,0 +1,14 @@
+config GFX_DRV_GENERIC_STATIC_FRAME_BUFFER
+	bool "Static Frame Buffer?"
+	default n
+	
+config GFX_DRV_GENERIC_COLOR_MODE
+	depends on GFX_DRV_GENERIC_STATIC_FRAME_BUFFER
+    string "Frame Buffer Color Mode"
+    range GFX_LAYER_COLOR_MODE
+	default "GFX_COLOR_MODE_RGB_565"
+
+ifblock USE_DRV_GFX_GENERIC
+template DRV_GFX_GENERIC_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/generic/templates/drv_gfx_generic.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/generic/drv_gfx_generic.h"
+template DRV_GFX_GENERIC_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/generic/templates/drv_gfx_generic.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/generic/drv_gfx_generic.c"
+endif

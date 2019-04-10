@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Flash ECC Operations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17870.html">How the Library Works</a> &gt; <a href="17868.html">Flash ECC Operations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17877.html">Previous</a> | <a href="17870.html">Up</a> | <a href="17863.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE Flash ECC Operations Topic Title: Flash ECC Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Flash ECC Operations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Prefetch Cache module may handle and report information about two error types: ECC Double-bit Error Detected (DED) and ECC Single-bit Error Corrected (SEC).&nbsp;</p>
+<p class="Element10">
+A read from the Flash memory that results in a program Flash memory ECC DED causes the Prefetch Cache module to return a bus exception to the initiator. An ECC DED will also set the DED status bit. The state of the DED status bit may be read using the <a href="20165.html">PLIB_PCACHE_FlashDEDStatusGet</a> function.&nbsp;</p>
+<p class="Element10">
+A single-bit error read from the Flash memory is not a critical error, and as such is reported as an interrupt. The user has the option to enable or disable the SEC interrupt, and to set the number of SEC events that must occur before an SEC interrupt is generated. An SEC interrupt is generated when all of the following conditions are met:
+<ul class="Element630">
+<li class="Element600">The Flash SEC counter is zero</li>
+<li class="Element600">The Flash SEC interrupt is enabled</li>
+<li class="Element600">An SEC event occurs</li>
+</ul>The Flash SEC counter is decremented once each time an SEC event occurs, and holds at zero. When a Flash SEC interrupt is triggered, the Flash SEC status bit is set. Once an SEC interrupt occurs, the Flash SEC status must be cleared by software and the Flash SEC counter must be reloaded by software.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Set Flash SEC to Interrupt after three SEC events</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02996');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02996"><pre class="Element12">PLIB_PCACHE_FlashSECStatusClear();
+PLIB_PCACHE_FlashSECCountSet(3);
+PLIB_PCACHE_FlashSECIntEnable();</pre></div></div>
+<p class="Element10">
+It is possible to generate an SEC interrupt for testing purposes by enabling the Flash SEC interrupt and setting the Flash SEC status while the Flash SEC counter is zero.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Generate an SEC Interrupt</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02997');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02997"><pre class="Element12">PLIB_PCACHE_FlashSECStatusClear();
+PLIB_PCACHE_FlashSECCountSet(0);
+PLIB_PCACHE_FlashSECIntEnable();
+PLIB_PCACHE_FlashSECStatusSet();</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17870.html">How the Library Works</a> &gt; <a href="17868.html">Flash ECC Operations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE Flash ECC Operations Topic Title: Flash ECC Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

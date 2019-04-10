@@ -1,0 +1,74 @@
+ifblock DRV_CAMERA_DEVICE = "OVM7690"
+menu "OVM7690"
+
+config USE_DRV_OVM7690_NEEDED
+    bool
+
+config USE_DRV_OVM7690
+    bool "Use OVM7690 Driver?"
+    default y if USE_DRV_OVM7690_NEEDED
+    select USE_DRV_I2C_NEEDED
+    select USE_SYS_DMA_NEEDED
+    ---help---
+    IDH_HTML_DRV_OVM7690_Driver_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_OVM7690
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_OVM7690_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_OVM7690_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_OVM7690_RTOS = "Standalone"
+    default 1024
+
+config DRV_OVM7690_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_OVM7690_RTOS = "Standalone"
+    default 1
+
+config DRV_OVM7690_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_OVM7690_RTOS = "Standalone"
+    default y
+
+config DRV_OVM7690_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_OVM7690_RTOS = "Standalone"
+    depends on DRV_OVM7690_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_OVM7690_DMA_INSTANCE
+    int "DMA Instance"
+    depends on USE_DRV_OVM7690
+    range 0 0 if DRV_DMA_INSTANCES_NUMBER = 1
+    range 0 1 if DRV_DMA_INSTANCES_NUMBER = 2
+    range 0 2 if DRV_DMA_INSTANCES_NUMBER = 3
+    range 0 3 if DRV_DMA_INSTANCES_NUMBER = 4
+    range 0 4 if DRV_DMA_INSTANCES_NUMBER = 5
+    range 0 5 if DRV_DMA_INSTANCES_NUMBER = 6
+    range 0 6 if DRV_DMA_INSTANCES_NUMBER = 7
+    range 0 7 if DRV_DMA_INSTANCES_NUMBER = 8
+    default 0
+
+
+endmenu
+
+ifblock USE_DRV_OVM7690
+
+add "<#include \"/framework/driver/camera/ovm7690/config/drv_ovm7690.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/camera/ovm7690/config/drv_ovm7690_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/camera/ovm7690/config/drv_ovm7690_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/camera/ovm7690/config/drv_ovm7690.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_CAMERA_OVM7690_H "$HARMONY_VERSION_PATH/framework/driver/camera/ovm7690/drv_camera_ovm7690.h" to "$PROJECT_HEADER_FILES/framework/driver/camera/ovm7690/drv_camera_ovm7690.h"
+file DRV_CAMERA_OVM7690_C "$HARMONY_VERSION_PATH/framework/driver/camera/ovm7690/src/drv_camera_ovm7690.c" to "$PROJECT_SOURCE_FILES/framework/driver/camera/ovm7690/src/drv_camera_ovm7690.c"
+endif
+endif
+

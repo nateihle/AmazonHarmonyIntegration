@@ -1,0 +1,266 @@
+// =============================================================================
+// 
+// CSR tracking information, report this in case of problems:
+//   $Revision: #16 $
+//   Built Wed Jan  8 17:19:14 2014 GMT
+//   Checked-in $DateTime: 2014/01/08 17:30:56 $
+//   $File: //depot/bc/gemini-a08/dev/patches/8241/pb-109.psr $
+// 
+// Patch is for build 8241 gem_5hci_rom_bt4.0_gemA08_1106290711_dspm_encr128
+// 
+// Issues patched: RMA-50, B-79226, B-104898, B-105729, B-106483, B-108091,
+//                 B-108660, B-111318, B-112673, B-121084, B-126600,
+//                 B-136251
+// 
+// Documentation from pb-109.pb
+// ----------------------------
+// 
+// General purpose patch and PSKEY bundle for CSR8811 and CSR8311 A08.
+// 
+// Documentation from pb-109-common.pb
+// -----------------------------------
+// 
+// General patch bundle for Gemini-A08 (build ID 8241)
+// Patches and keys in here should be common to all
+// package variants.
+// 
+// Documentation from bt_pskeys.pb
+// -------------------------------
+// 
+// Issues patched: B-112673
+// 
+// Non-default PSKEY settings aimed at improving Bluetooth performance.
+// These are recommended for all users of this device regardless of
+// package or application.
+// 
+// Note that some of these settings may depend on the presence of other
+// PSKEYs and/or patches.
+// 
+// Documentation from rt_zero.xap
+// ------------------------------
+// 
+// Issues patched: B-106483
+// 
+// Issuing the TX DATA radiotest functions inadvertently caused
+// the BLE power table configuration to be used instead of BR/EDR
+// 
+// Documentation from race_condition_stop_adv.xap
+// ----------------------------------------------
+// 
+// Issues patched: B-105729
+// 
+// When BlueCore is performing Bluetooth low energy advertising whilst
+// performing some other activity simultaneously like being slave of a
+// BR/EDR link, it is possible that BlueCore might become unresponsive
+// when the host disables advertising or when connectable-directed
+// advertising times out in case BlueCore was performing
+// connectable-directed advertising.
+// 
+// Documentation from data_unpause.xap
+// -----------------------------------
+// 
+// Issues patched: B-108091, B-108660
+// 
+// Where encryption was refreshed, a Bluecore LE slave could sometimes
+// transmit data too soon. This could lead to the master of the link
+// disconnecting with a mic error.
+// 
+// Documentation from rebuffer_commands.xap
+// ----------------------------------------
+// 
+// Issues patched: B-104898
+// 
+// When BlueCore receives an HCI command that it can't process immediately
+// because it is busy doing some other operation on the link the command
+// was destined for, BlueCore would try to buffer the command but due to a
+// fault in BlueCore firmware, BlueCore could try to process this buffered
+// command too soon i.e. before the ongoing operation has finished. In this
+// case BlueCore would try buffering the command again and could fail to do
+// so and reject the command with reason "command disallowed"
+// 
+// Documentation from patch_reset_auto_enc_refresh_tmr.xap
+// -------------------------------------------------------
+// 
+// Issues patched: B-121084
+// 
+// BlueCore does not clear some state associated with encryption 
+// refresh on a HCI reset. Consequently a fast cycle of connections 
+// with encryption and HCI resets can cause BlueCore to become unresponsive.
+// 
+// Documentation from patch_radiotest_tx_start.c
+// ---------------------------------------------
+// 
+// Issues patched: RMA-50
+// 
+// On some CSR8xxx devices the chip isn’t always successful in acquiring 
+// a lock to the specified frequency when in radiotest mode and running 
+// the transmit test. When this issue occurs it is not possible to perform 
+// a crystal trim. This issue is only affecting chips in Radiotest mode 
+// executing the TX test(TXSTART)
+// 
+// Documentation from ssp_ra_ret.xap
+// ---------------------------------
+// 
+// Issues patched: B-136251
+// 
+// With secure simple pairing enabled on a BlueCore device acting as responder 
+// during pairing, the device can become unresponsive to HCI commands if the 
+// initiator retries the pairing procedure after a failed numeric comparison.
+// 
+// Documentation from patch_ble_connection_crc.xap
+// -----------------------------------------------
+// 
+// Patch for B-114030
+// In the process of establishing a Bluetooth low energy connection as either 
+// master or slave of the connection, BlueCore does not consider the connection
+// as being in the established state until receives a packet with a valid CRC 
+// (whereas it should consider the connection as established even on receiving
+// a packet with invalid CRC).
+// 
+// Documentation from shunt_h4_h4ds.xap
+// ------------------------------------
+// 
+// Issues patched: B-79226
+// 
+// In Bluecore firmware, On Chip SBC encoding support was not added for H4
+// and H4DS host transports
+// 
+// Documentation from patch_avoid_spurious_emissions.c
+// ---------------------------------------------------
+// 
+// Issues patched: B-111318
+// 
+// In certain BC7's a small peak in Tx output power might be seen at the
+// start of the Tx ramp profile. Although this peak is too small to cause
+// any spurious emissions it has led to one model of tester seeing the Tx
+// output peak as the start of the Tx packet, which resulted in the tester
+// being unable to measure the Tx packet correctly.
+// 
+// Documentation from patch_rx_medium_rate_stats.xap
+// -------------------------------------------------
+// 
+// Issues patched: B-126600
+// 
+// BlueCore implements the Bluetooth spec feature Channel Quality Driven Data
+// Rate (CQDDR). This allows a device that's receiving data to tell the device
+// sending data whether higher bandwidth (less robust) packets or more robust
+// (lower bandwidth) packets are preferred. This is done by measuring the error
+// rate on received packets.
+// 
+// Tests have shown that when receiving data on an EDR link, BlueCore is
+// reluctant to signal that it would prefer 2 Mbps packets over 3 Mbps packets.
+// This reluctance can mean that the link can sometimes operate in a regime
+// where the packet loss rate (PLR) is unacceptably high.
+// 
+// Version information for input files
+// -----------------------------------
+// 
+// Created by patchmaker.pl Revision: #56  Date: 2013/12/05 
+// 
+// Input file: pb-109.pb
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/pb-109.pb
+// File revision: 1
+// 
+// Input file: pb-109-common.pb
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/pb-109-common.pb
+// File revision: 15
+// 
+// Input file: bt_pskeys.pb
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/bt_pskeys.pb
+// File revision: 3
+// 
+// Input file: rt_zero.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/rt_zero.xap
+// File revision: 3
+// 
+// Input file: ../patch_utils.inc
+// Depot file: //depot/bc/gemini-a08/dev/patches/patch_utils.inc
+// File revision: 1
+// 
+// Input file: race_condition_stop_adv.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/race_condition_stop_adv.xap
+// File revision: 3
+// 
+// Input file: data_unpause.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/data_unpause.xap
+// File revision: 7
+// 
+// Input file: rebuffer_commands.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/rebuffer_commands.xap
+// File revision: 3
+// 
+// Input file: patch_reset_auto_enc_refresh_tmr.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/patch_reset_auto_enc_refresh_tmr.xap
+// File revision: 3
+// 
+// Input file: patch_radiotest_tx_start.c
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/patch_radiotest_tx_start.c
+// File revision: 1
+// 
+// Input file: ssp_ra_ret.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/ssp_ra_ret.xap
+// File revision: 1
+// 
+// Input file: patch_ble_connection_crc.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/patch_ble_connection_crc.xap
+// File revision: 2
+// 
+// Input file: shunt_h4_h4ds.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/shunt_h4_h4ds.xap
+// File revision: 6
+// 
+// Input file: patch_avoid_spurious_emissions.c
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/patch_avoid_spurious_emissions.c
+// File revision: 3
+// 
+// Input file: patch_rx_medium_rate_stats.xap
+// Depot file: //depot/bc/gemini-a08/dev/patches/8241/patch_rx_medium_rate_stats.xap
+// File revision: 1
+
+// explicit, PSKEY_RX_MR_SAMP_CONFIG (0x003c, 60), 1 words
+&003c = 0426
+
+// patch_hardware_0, PSKEY_PATCH50 (0x212c, 8492), 16 words
+&212c = 0000 c47d 5714 0018 ff2b ff0e d800 7918 009e 0018 ff2b ff0e c500 8018 00e2 7080
+
+// patch_hardware_1, PSKEY_PATCH51 (0x212d, 8493), 25 words
+&212d = 0002 5b79 0014 e700 9525 011b 0626 089a 0af4 0218 ff2b ff0e 5b00 4318 009e 0014 011b 0826 0218 ff2b ff0e 5c00 8218 00e2 a63a
+
+// patch_hardware_2, PSKEY_PATCH52 (0x212e, 8494), 38 words
+&212e = 0002 d0a7 0316 0318 ff2b ff0e 2300 0618 009e e199 14f4 e119 0812 8000 00c0 10f0 061b 0212 0100 ffc0 0780 0af0 0316 0010 0318 ff2b ff0e 3800 1318 009e f70f 0218 ff2b ff0e d100 ac18 00e2 cf53
+
+// patch_hardware_3, PSKEY_PATCH53 (0x212f, 8495), 26 words
+&212f = 0003 c916 0114 0027 0517 2b00 a484 06f0 2b00 a914 0527 0114 02e0 0014 0127 0014 0227 0323 e315 0318 ff2b ff0e c900 1d18 00e2 cb5f
+
+// patch_hardware_4, PSKEY_PATCH54 (0x2130, 8496), 24 words
+&2130 = 0002 ca7a 0018 ff2b ff0e 8400 cb18 009e ea00 5f11 0100 0080 0524 0100 00b0 ea00 5f21 0218 ff2b ff0e ca00 7d18 00e2 2513
+
+// patch_hardware_5, PSKEY_PATCH55 (0x2131, 8497), 25 words
+&2131 = 0003 fe75 eb00 c114 0218 ff2b ff0e 6700 e718 009e ea00 6714 0218 ff2b ff0e 6700 e718 009e 0318 ff2b ff0e fe00 7a18 00e2 0c6f
+
+// patch_hardware_8, PSKEY_PATCH58 (0x2134, 8500), 19 words
+&2134 = 0001 1a6f 051b 0116 0284 03f0 0310 0122 0110 071b 0100 8922 0118 ff2b ff0e 1a00 7318 00e2 d58c
+
+// patch_hardware_9, PSKEY_PATCH59 (0x2135, 8501), 22 words
+&2135 = 0001 14d1 ff40 0627 0523 091b 0116 0284 07f0 0310 0122 5f16 4800 00b4 5f26 0118 ff2b ff0e 1500 d418 00e2 f7fe
+
+// patch_hardware_10, PSKEY_PATCH60 (0x2136, 8502), 20 words
+&2136 = 0003 f9a5 0318 ff2b ff0e f900 f018 009e e199 04f4 4000 ff14 f90f 0318 ff2b ff0e f900 7318 00e2 aec3
+
+// patch_hardware_11, PSKEY_PATCH61 (0x2137, 8503), 9 words
+&2137 = 0001 e8f2 0118 ff2b ff0e e900 f618 00e2 5830
+
+// patch_hardware_13, PSKEY_PATCH63 (0x2139, 8505), 27 words
+&2139 = 0001 8d02 0018 ff2b ff0e d600 cc18 009e 0118 ff2b ff0e 7900 3118 009e e199 09f4 e100 b219 0316 fe27 0216 ff27 ff0e fe9f 0114 f80f d06f
+
+// patch_hardware_14, PSKEY_PATCH64 (0x213a, 8506), 37 words
+&213a = 0000 d5ae 0118 ff2b ff0e 6a00 e418 009e e199 15f4 0513 7700 b580 02f4 0534 e119 0016 0434 f825 0116 08a0 f835 021b 0126 0018 ff2b ff0e d600 bf18 00e2 0018 ff2b ff0e d600 bc18 00e2 c32a
+
+// patch_hardware_15, PSKEY_PATCH65 (0x213b, 8507), 31 words
+&213b = 0001 8cae 0af0 e100 a315 0118 ff2b ff0e 6900 a518 009e f80f 049b 0bf0 e100 a114 e500 ed10 0018 ff2b ff0e d600 8c18 009e 0118 ff2b ff0e 8d00 cc18 00e2 dfa7
+
+// patch_radiotest_tx_start, PSKEY_PATCH107 (0x21fb, 8699), 20 words
+&21fb = f000 3215 0800 00b4 f000 3225 f000 3215 f800 ffc4 f000 3225 f000 3215 0800 00b4 f000 3225 00e2 49e0
+
+// patch_lc_init_radio, PSKEY_PATCH112 (0x2200, 8704), 7 words
+&2200 = f100 cf15 01b4 f100 cf25 00e2 9dd1

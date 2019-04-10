@@ -1,0 +1,244 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Module Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="11790.html">Module Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11804.html">Previous</a> | <a href="11804.html">Up</a> | <a href="11792.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Module Initialization Topic Title: Module Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Module Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The function signature of a module’s initialize function is defined by a pointer data type that is defined by the system module interface header, in the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> file, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Module Initialization Function Signature</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00120');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00120"><pre class="Element12"><i><span style="color: #008000">/*******************************************************************************
+  System Module Initialization Function Pointer
+
+  Function Pointer:
+    SYS_MODULE_OBJ (* SYS_MODULE_INITIALIZE_ROUTINE) (
+                        const SYS_MODULE_INDEX index,
+                        const SYS_MODULE_INIT * const init )
+
+  Description:
+    This data type is a pointer to a function that initializes a system module
+    (driver, library, or system-maintained application).
+
+  Preconditions:
+    The low-level processor and board initialization must be completed before the
+    system can call the initialization functions for any modules.
+
+  Parameters:
+    index           - Zero-based index of the module instance to be initialized.
+
+    init            - Pointer to the data structure containing any data
+                      necessary to initialize the module. This pointer may
+                      be null if no data is required.
+
+  Returns:
+    A handle to the instance of the module that was initialized.  This handle is
+    a necessary parameter to all of the other system level routines for that
+    module.
+
+  Remarks:
+    This function will normally only be called once during system initialization.
+*/</span></i>
+
+<strong><span style="color: #000080">typedef</span></strong> SYS_MODULE_OBJ (* SYS_MODULE_INITIALIZE_ROUTINE) (
+                           <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX index,
+                           <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> init );</pre></div></div>
+<p class="Element10">
+An implementation of a module’s initialization function might look like the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Sample Module Initialization Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00121');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00121"><pre class="Element12">SYS_MODULE_OBJ SAMPLE_Initialize ( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX index,
+                                   <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> init )
+{
+    SAMPLE_MODULE_DATA      *pObj  = (SAMPLE_MODULE_DATA *)&amp;gObj[index];
+    SAMPLE_MODULE_INIT_DATA *pInit = (SAMPLE_MODULE_INIT_DATA *)init;
+
+    <i><span style="color: #008000">/* Initialize module object. */</span></i>
+
+    pObj-&gt;state                 = SAMPLE_STATE_INITALIZE;
+    pObj-&gt;status                = SYS_STATUS_BUSY;
+    pObj-&gt;dataNewIsValid        = <strong><span style="color: #000080">false</span></strong>;
+    pObj-&gt;dataProcessedIsValid  = <strong><span style="color: #000080">false</span></strong>;
+
+    <strong><span style="color: #000080">if</span></strong> ( null != init )
+    {
+        pObj-&gt;dataNew           = pInit-&gt;dataSome;
+        pObj-&gt;dataNewIsValid    = <strong><span style="color: #000080">true</span></strong>;
+    }
+
+    <strong><span style="color: #000080">return</span></strong> (SYS_MODULE_OBJ)pObj;
+}</pre></div></div>
+<p class="Element10">
+Ignoring the index parameter and the return value for now, you can see from the sample code above that a module’s initialization function accepts a pointer to an initial data (<span class="Element146">init</span>) structure, casts the pointer to a new type, and then stores data from the <span class="Element146">init</span> structure into an internal module object structure. Because of the requirement for consistency in function signature, the initialize function for any module must use a common data type for the <span class="Element146">init</span> data pointer parameter. This data type, shown in the following example, is also defined in the <span class="Element146"><a href="23966.html">sys_module.h</a></span> header file.&nbsp;</p>
+<p class="Element10">
+<strong><a href="23969.html">SYS_MODULE_INIT</a> Structure</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00122');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00122"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">union</span></strong>
+{
+    uint8_t         value;
+
+    <strong><span style="color: #000080">struct</span></strong>
+    {
+        uint8_t     powerState  : 4;
+
+        uint8_t     reserved    : 4;
+    }sys;
+
+} SYS_MODULE_INIT;</pre></div></div>
+<p class="Element10">
+The <a href="23969.html">SYS_MODULE_INIT</a> structure allows the system to pass in a pass in a parameter (the <span class="Element146">powerState</span> member) to identify the requested initial power state of the module. The following values and labels are predefined (in <span class="Element146">system_module.h</span>) to provide a common set of power states for all modules.&nbsp;</p>
+<p class="Element10">
+<strong>Predefined Power States</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="20%">
+<div class="Element66">
+Volume&nbsp;</div></td><td class="Element65" valign="top" width="40%">
+<div class="Element66">
+Label&nbsp;</div></td><td class="Element65" valign="top" width="40%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+0&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+<a href="23980.html">SYS_MODULE_POWER_OFF</a>&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Module Power-off state code.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+1&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+<a href="23982.html">SYS_MODULE_POWER_SLEEP</a>&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Module Sleep state code.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+2&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+<a href="23979.html">SYS_MODULE_POWER_IDLE_STOP</a>&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Module Idle-Stop state code.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+3&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+<a href="23978.html">SYS_MODULE_POWER_IDLE_RUN</a>&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Module Idle-Run state code.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+4 through 14&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+&lt;Module-specific Definition&gt;&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Module-specific meaning.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+15&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+<a href="23981.html">SYS_MODULE_POWER_RUN_FULL</a>&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Module Run-Full state code.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Note:</strong> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Refer to the Help documentation for each individual label for a more detailed description of what each value indicates. See Framework Help &gt; System Service Libraries Help &gt; <a href="24420.html">System Service Overview</a>.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Using a pointer to this structure as the <span class="Element146">init</span> parameter allows system code to treat all modules in a consistent way. However, any specific module or implementation of a module may have its own unique <span class="Element146">init</span> data requirements and may define its own unique structure type. Unfortunately, the C language does not provide a syntactical mechanism for managing this sort of polymorphism. Polymorphism is an object oriented programming (OOP) concept that allows different types (or classes) of data (or other objects) to support multiple forms. To achieve this flexibility in the C language, the module must cast the pointer to an internally defined data type. But, it is reasonable to think of the <a href="23969.html">SYS_MODULE_INIT</a> structure as a base class, extended as necessary by any individual module class or implementation to contain the specific additional initialization data it requires. While this is a slight abuse of the C language, it works as required as long as the first member of any module’s extended <span class="Element146">init</span> structure is a <a href="23969.html">SYS_MODULE_INIT</a> structure, which is (of course) a requirement of any MPLAB Harmony module.&nbsp;</p>
+<p class="Element10">
+Whether or not a module requires any initialization data, the primary purpose of its initialization function is to place the module’s state machine into its initial state. In the sample module initialization function above, the following line of code does this. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00123');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00123"><pre class="Element12">pObj-&gt;state = SAMPLE_STATE_INITALIZE;</pre></div></div>
+<p class="Element10">
+In this line, state is simply a structure member variable used to keep track of the current state of the module’s state machine and the SAMPLE_STATE_INITIALIZE value is its initial state. This variable is contained within in a structure and accessed using the <span class="Element146">pObj</span> pointer along with all other variables that are specific to a single instance of the driver module. This allows an instance of a driver to be referenced by a single driver <i>object</i> pointer, which is cast to the <a href="23975.html">SYS_MODULE_OBJ</a> data type and returned from the driver’s initialize function to be used by the system to identify an instance of the driver and passed into the driver’s other system interface functions to access its instance-specific data. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Any module that has a state machine must implement an initialize function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="11790.html">Module Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Module Initialization Topic Title: Module Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

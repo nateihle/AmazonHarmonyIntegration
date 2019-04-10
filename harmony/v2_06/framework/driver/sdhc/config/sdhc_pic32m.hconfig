@@ -1,0 +1,239 @@
+menu "SD Host Controller"
+    depends on HAVE_SDHC
+
+enum DRV_SDHC_IDX
+    "DRV_SDHC_INDEX_0"
+    
+enum DRV_SDHC_IMPLEMENTATION
+    "DYNAMIC"
+
+enum DRV_SDHC_TRANSFER_MODE_TYPES
+    "PIO"
+    || "ADMA"
+
+enum DRV_SDHC_BUS_SPEED_TYPES
+    "DEFAULT_SPEED"
+    || "HIGH_SPEED"
+
+enum DRV_SDHC_BUS_TRANSFER_WIDTH_TYPES
+    "1-bit"
+    || "4-bit"
+
+config DRV_SDHC_NEEDED
+    bool 
+	
+config USE_DRV_SDHC
+    bool "Use SDHC Driver?"
+    select DRIVER
+    select USE_SYS_INT_NEEDED
+    select USE_SYS_TMR_NEEDED
+    select USE_DRV_TMR_NEEDED
+    default n if !DRV_SDHC_NEEDED
+	default y if DRV_SDHC_NEEDED
+    ---help---
+    IDH_HTML_Secure_Digital__SD__Card_Driver_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_SDHC
+    depends on USE_3RDPARTY_RTOS
+    depends on DRV_SDHC_IMPL = "DYNAMIC"
+
+config DRV_SDHC_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config DRV_SDHC_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_SDHC_RTOS = "Standalone"
+    default 1024
+
+config DRV_SDHC_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_SDHC_RTOS = "Standalone"
+    default 1
+
+config DRV_SDHC_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_SDHC_RTOS = "Standalone"
+    default y
+
+config DRV_SDHC_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_SDHC_RTOS = "Standalone"
+    depends on DRV_SDHC_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_SDHC_IMPL
+    string "Driver Implementation"
+    depends on USE_DRV_SDHC
+    persistent
+    range DRV_SDHC_IMPLEMENTATION
+    default "DYNAMIC"
+    ---help---
+    IDH_HTML_Secure_Digital__SD__Card_Driver_Library
+    ---endhelp---
+
+config DRV_SDHC_SDCDEN
+    bool "Use Card Detect (SDCD#) Pin"
+	depends on USE_DRV_SDHC
+	default n
+    ---help---
+    This option when selected enables SDHC to use the SDCD# pin to determine the presence of the SD Card.
+    ---endhelp---
+
+comment "****Warning: When using a Micro SD card, SDWP# is not required.****"
+	depends on USE_DRV_SDHC
+    depends on DRV_SDHC_SDWPEN = "y"
+	
+config DRV_SDHC_SDWPEN
+    bool "Use Write Protect (SDWP#) Pin"
+	depends on USE_DRV_SDHC
+	default n
+    ---help---
+    This option when selected enables SDHC to take control of SDWP# pin
+    ---endhelp---
+	
+config DRV_SDHC_INTERRUPT_MODE
+    bool "Interrupt Mode"
+    depends on USE_DRV_SDHC
+    persistent
+    default y
+
+config DRV_SDHC_INTERRUPT_SOURCE
+    string "Interrupt Source"
+    depends on USE_DRV_SDHC
+    depends on DRV_SDHC_INTERRUPT_MODE
+    persistent
+    default "INT_SOURCE_SDHC"
+    range INT_SOURCE
+
+config DRV_SDHC_INTERRUPT_VECTOR
+    string "Interrupt Vector"
+    depends on USE_DRV_SDHC
+    depends on DRV_SDHC_INTERRUPT_MODE
+    persistent
+    default "INT_VECTOR_SDHC"
+    range INT_VECTOR
+
+config DRV_SDHC_INT_PRIORITY
+    string "Interrupt Priority"
+    depends on USE_DRV_SDHC
+    depends on DRV_SDHC_INTERRUPT_MODE
+    range INT_PRIORITY_LEVEL
+    default "INT_PRIORITY_LEVEL1"
+    ---help---
+    IDH_HTML_INT_PRIORITY_LEVEL
+    ---endhelp---
+
+config DRV_SDHC_INT_SUB_PRIORITY
+    string "Interrupt Sub-priority"
+    depends on USE_DRV_SDHC
+    depends on DRV_SDHC_INTERRUPT_MODE
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+    ---help---
+    IDH_HTML_INT_SUBPRIORITY_LEVEL
+    ---endhelp---
+
+config DRV_SDHC_INT_IPL
+    string
+    depends on USE_DRV_SDHC
+    depends on DRV_SDHC_INTERRUPT_MODE
+    default "0" if DRV_SDHC_INT_PRIORITY = "INT_DISABLE_INTERRUPT"
+    default "1" if DRV_SDHC_INT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_SDHC_INT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_SDHC_INT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_SDHC_INT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_SDHC_INT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_SDHC_INT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_SDHC_INT_PRIORITY = "INT_PRIORITY_LEVEL7"
+   
+config DRV_SDHC_ISR_VECTOR
+    string
+    depends on USE_DRV_SDHC
+    depends on DRV_SDHC_INTERRUPT_MODE
+    default "_SDHC_VECTOR"
+
+config DRV_SDHC_CLIENTS_NUMBER
+    int "Number of SDHC Driver Clients"
+    depends on USE_DRV_SDHC
+    default 1
+    ---help---
+      IDH_HTML_DRV_SDHC_CLIENTS_NUMBER
+    ---endhelp---
+
+config DRV_SDHC_BUFFER_OBJECT_NUMBER
+    int "Number of SDHC Buffer Objects"
+    depends on USE_DRV_SDHC
+    range 1 10
+    default 5
+    ---help---
+      IDH_HTML_DRV_SDHC_BUFFER_OBJECT_NUMBER
+    ---endhelp---
+
+config DRV_SDHC_SDHC_BUS_SPEED
+    string "Maximum Bus Speed"
+    depends on USE_DRV_SDHC
+    default "DEFAULT_SPEED"
+    range DRV_SDHC_BUS_SPEED_TYPES
+    ---help---
+      IDH_HTML_DRV_SDHC_BUS_SPEED
+    ---endhelp---
+
+config DRV_SDHC_TRANSFER_MODE
+    string "Data Transfer Mode"
+    depends on USE_DRV_SDHC
+    default "ADMA"
+    persistent
+    range DRV_SDHC_TRANSFER_MODE_TYPES
+    ---help---
+      IDH_HTML_DRV_SDHC_TRANSFER_MODE
+    ---endhelp---
+
+config DRV_SDHC_TRANSFER_BUS_WIDTH
+    string "Data Transfer Bus Width"
+    depends on USE_DRV_SDHC
+    default "4-bit"
+    range DRV_SDHC_BUS_TRANSFER_WIDTH_TYPES
+    ---help---
+      IDH_HTML_DRV_SDHC_TRANSFER_WIDTH
+    ---endhelp---
+
+config DRV_SDHC_INSTANCES_NUMBER
+    int
+    depends on USE_DRV_SDHC
+    default 1	
+    ---help---
+      IDH_HTML_DRV_SDHC_INSTANCES_NUMBER
+    ---endhelp---
+    
+config DRV_SDHC_SYS_FS_REGISTER
+    bool "Register with File System?"
+    depends on USE_DRV_SDHC
+    select USE_SYS_FS_NEEDED
+    select DRIVER
+    default y
+    ---help---
+      IDH_HTML_DRV_SDHC_SYS_FS_REGISTER
+    ---endhelp---
+endmenu
+
+add "<#include \"/framework/driver/sdhc/templates/drv_sdhc_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+
+ifblock USE_DRV_SDHC
+
+add "<#include \"/framework/driver/sdhc/templates/drv_sdhc.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/sdhc/templates/drv_sdhc_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/sdhc/templates/drv_sdhc.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_SDHC_H "$HARMONY_VERSION_PATH/framework/driver/sdhc/drv_sdhc.h" to "$PROJECT_HEADER_FILES/framework/driver/sdhc/drv_sdhc.h"
+file DRV_SDHC_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/sdhc/src/drv_sdhc_local.h" to "$PROJECT_HEADER_FILES/framework/driver/sdhc/drv_sdhc_local.h"
+file DRV_SDHC_VARIANT_MAPPING_H "$HARMONY_VERSION_PATH/framework/driver/sdhc/src/drv_sdhc_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/sdhc/drv_sdhc_variant_mapping.h"
+file DRV_SDHC_HOST_H "$HARMONY_VERSION_PATH/framework/driver/sdhc/src/drv_sdhc_host.h" to "$PROJECT_HEADER_FILES/framework/driver/sdhc/drv_sdhc_host.h"
+file DRV_SDHC_HOST_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/sdhc/src/drv_sdhc_host_local.h" to "$PROJECT_HEADER_FILES/framework/driver/sdhc/drv_sdhc_host_local.h"
+file DRV_SDHC_C "$HARMONY_VERSION_PATH/framework/driver/sdhc/src/drv_sdhc.c" to "$PROJECT_SOURCE_FILES/framework/driver/sdhc/src/drv_sdhc.c"
+file DRV_SDHC_HOST_C "$HARMONY_VERSION_PATH/framework/driver/sdhc/src/drv_sdhc_host.c" to "$PROJECT_SOURCE_FILES/framework/driver/sdhc/src/drv_sdhc_host.c"
+endif

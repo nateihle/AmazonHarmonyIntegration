@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17830.html">Using the Library</a> &gt; <a href="17821.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17824.html">Previous</a> | <a href="17830.html">Up</a> | <a href="17827.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all modes are available on all devices. Please refer to the specific device data sheet to determine the supported modes.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+All of the interface functions in this library are classified according to:
+<ul class="Element630">
+<li class="Element600">General Setup: These routines deal with general setup of Output Compare module</li>
+<li class="Element600">Compare/PWM Mode: These routines facilitate the selection of a Compare/PWM mode and setting up the compare values</li>
+<li class="Element600">Timer: These functions deal with configuring the timer, selection of the clock source, and setting up a synchronous or asynchronous mode of operation for the OC module</li>
+<li class="Element600">Power-Saving Modes:
+<ul class="Element630">
+<li class="Element600">Sleep Mode: The Output Compare module output is driven to the same state as it was in prior to the device entering Sleep mode. In PWM Fault mode, Fault detection is active. A Fault forces output of the OC module to tri-state or to a fixed predetermined state.</li>
+<li class="Element600">Idle Mode: The Output Compare module can be configured to suspend its operations or continue its operations. If the Output Compare module suspends its operations, it has the same behavior as it does in Sleep mode.</li>
+</ul></li>
+<li class="Element600">Faults: These functions are used to select Fault inputs and identify occurrences of Faults when the Output Compare module functions in PWM mode</li>
+<li class="Element600">Exists: These functions notify whether or not a particular feature is present on a device</li>
+</ul>The following sections provide examples that depict the use of interface functions to perform general tasks such as initialization and set up of the Output Compare module and setting up the Output Compare module in different compare modes.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17827.html">Single Compare Set High Mode</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The Single Compare Set High mode sets the output of the Output Compare module 'High' at a compare match event. This section illustrates the steps required to configure the Output Compare module in Single Compare Set High mode.<br><strong>Example:</strong> &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17828.html">Single Compare Toggle Mode</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The Single Compare Toggle mode toggles the output of the Output Compare module at each compare match event. This section illustrates the steps required to configure the Output Compare module in Single Compare Toggle mode.<br><strong>Example:</strong> &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17815.html">Dual Compare Continuous Mode</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+In this mode, the Output Compare module output is driven 'High' on a compare match with the buffer value and driven 'Low' on a compare match with the pulse-width value. A continuous stream of pulses is generated. This section illustrates the steps required to configure the Output Compare module in Dual Compare Continuous Pulse mode.<br><strong>Example:</strong> &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17826.html">PWM Mode with Enabled Faults</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section illustrates the steps required to configure the Output Compare module in PWM mode. &nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17830.html">Using the Library</a> &gt; <a href="17821.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

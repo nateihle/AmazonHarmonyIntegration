@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Atomicity</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="11766.html">Atomicity</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11784.html">Previous</a> | <a href="11784.html">Up</a> | <a href="14395.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Atomicity Topic Title: Atomicity)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Atomicity</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The English word <i>atomic</i> derives from a Greek word meaning <i>indivisible</i>. A sequence of instructions that is indivisible once started and cannot be interrupted until it has completed is called atomic. A data item is considered atomic if it cannot be subdivided as it is read or written. These are critical concepts for all software, including real-time embedded systems, because interrupts and context switches can occur at particularly inopportune times and potentially cause data corruption or incorrect behavior or even complete system failure. Such possibilities must be prevented to guarantee correct and robust functioning of the system.&nbsp;</p>
+<p class="Element10">
+When a processor is reset, interrupts are disabled and the processor executes instructions one after the next and will continue to do so until powered off or reset. Therefore, all code is effectively atomic in a polled environment where interrupts are globally disabled. In such a strictly polled configuration, conflicts due to non-atomic accesses to resources shared between clients and drivers do not occur. </p><p class="Element10" style="text-align: center;">
+<strong>Polled Configuration</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE Polled Configuration.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+Even though different clients may call the same driver function and access, the same resources that are also accessed by the driver’s tasks function, all functions are called from the context of the main system loop and only one such access will occur at a time and it will complete without interruption.&nbsp;</p>
+<p class="Element10">
+However, once interrupts are enabled, there is a very limited set of situations where atomicity can be guaranteed. The execution of a single instruction is atomic. When an interrupt occurs, an instruction will either execute completely or it will not be started. Interrupts are synchronized to the instruction flow and they effectively occur between the instructions. Or, more accurately, the CPU can only respond to an interrupt after completing the instruction it is currently decoding and executing. That may seem to be obvious, but it is the basis for all atomicity of both data items and sequences of instructions in a computing system.&nbsp;</p>
+<p class="Element10">
+Atomicity is also guaranteed when reading or writing a single data word with a single instruction. A data word contains the same number of bits as the data bus width. In a correctly functioning system, a data value that is the width of the processor’s data bus (or less if half word or smaller values are supported, as they are on PIC32 microcontrollers) will be read or written in its entirety. The data word will never be partially read or partially written.&nbsp;</p>
+<p class="Element10">
+However, if a variable, data structure, or array is larger than a single data word (for example, a 64-bit value on a 32-bit processor), it will take more than one instruction to read or write the entire value and interrupts could occur in between those instructions. If that happens, it is possible that part of the data value could be changed by the interrupt and may not be consistent with the part that was read before the interrupt (or written after the interrupt) when the sequence of instructions completes. Such data types should not be considered atomic. Instruction sequences that access them should be protected to guarantee that there is no possibility of corruption.&nbsp;</p>
+<p class="Element10">
+Even if a data type is atomic (only one word or less in size), it may still be necessary to protect a code sequence that performs a read-modify-write operation on it because almost all read-modify-write operations require execution of multiple instructions, which could be interrupted. This concern applies to both data stored in memory (in variables, structures, arrays, and buffers) as well as registers (or SFRs). If non-atomic accesses are made to these resources from both an ISR and the main loop or from more than a single thread context when using a RTOS, that resource is considered shared and access to it must be made atomic by guarding or protecting it as described in the following sections.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="11766.html">Atomicity</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Atomicity Topic Title: Atomicity)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

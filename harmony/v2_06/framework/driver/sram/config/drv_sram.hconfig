@@ -1,0 +1,79 @@
+menu "SRAM"
+
+enum DRV_SRAM_MODE
+     "DYNAMIC"
+
+enum DRV_SRAM_MEDIA_BLOCK_SIZE
+       "512"
+       ||"256"
+       ||"128"
+       ||"64"
+       ||"32"
+       ||"16"
+       ||"8"
+       ||"4"
+       ||"1"
+
+config DRV_SRAM_NEEDED
+    bool
+
+config USE_DRV_SRAM
+    bool "Use SRAM Driver?"
+    select DRIVER
+    default n if !DRV_SRAM_NEEDED
+    default y if DRV_SRAM_NEEDED
+    ---help---
+      IDH_HTML_SRAM_Driver_Library
+    ---endhelp---
+
+config DRV_SRAM_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_SRAM
+    range DRV_SRAM_MODE
+    default "DYNAMIC"
+    persistent
+    ---help---
+    IDH_HTML__SRAM_Driver_Library
+    ---endhelp---
+
+config DRV_SRAM_INSTANCES_NUMBER
+    int "Number of driver instances"
+    depends on USE_DRV_SRAM
+    default 1
+    range 1 2
+    ---help---
+      IDH_HTML_DRV_SRAM_INSTANCES_NUMBER
+    ---endhelp---
+
+config DRV_SRAM_CLIENTS_NUMBER
+    int "Number of Driver Clients"
+    depends on USE_DRV_SRAM
+    default 1
+    ---help---
+      IDH_HTML_DRV_SRAM_CLIENTS_NUMBER
+    ---endhelp---
+
+config USE_DRV_SRAM_DISABLE_ERROR_CHECK
+    bool "Disable Error Checks?"
+    depends on USE_DRV_SRAM
+    default n
+    ---help---
+      IDH_HTML_DRV_SRAM_DISABLE_ERROR_CHECK
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/sram/config/drv_sram_idx.ftl" 2 instances
+
+endmenu
+
+ifblock USE_DRV_SRAM
+
+add "<#include \"/framework/driver/sram/config/drv_sram.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/sram/config/drv_sram_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/sram/config/drv_sram.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+
+file DRV_SRAM_H "$HARMONY_VERSION_PATH/framework/driver/sram/drv_sram.h" to "$PROJECT_HEADER_FILES/framework/driver/sram/drv_sram.h"
+file DRV_SRAM_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/sram/src/drv_sram_local.h" to "$PROJECT_HEADER_FILES/framework/driver/sram/src/drv_sram_local.h"
+file DRV_SRAM_MAP_H "$HARMONY_VERSION_PATH/framework/driver/sram/src/drv_sram_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/sram/src/drv_sram_variant_mapping.h"
+template DRV_SRAM_C "$HARMONY_VERSION_PATH/framework/driver/sram/src/dynamic/drv_sram.c.ftl" to "$PROJECT_SOURCE_FILES/framework/driver/sram/src/dynamic/drv_sram.c"
+
+endif

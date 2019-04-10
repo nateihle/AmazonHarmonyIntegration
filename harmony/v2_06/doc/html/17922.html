@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Ports Control</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17914.html">How the Library Works</a> &gt; <a href="17922.html">Ports Control</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17914.html">Previous</a> | <a href="17914.html">Up</a> | <a href="17923.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS Ports Control Topic Title: Ports Control)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Ports Control</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>Port Functions Usage:</strong>
+<ul class="Element630">
+<li class="Element600">Port Read - Ports can be read at byte/word level using <a href="20395.html">PLIB_PORTS_Read</a>, and at the bit/pin level using <a href="20385.html">PLIB_PORTS_PinGet</a></li>
+<li class="Element600">Port Write - Ports can be written to at byte/word level using <a href="20401.html">PLIB_PORTS_Write</a> and at the bit/pin level using <a href="20394.html">PLIB_PORTS_PinWrite</a>. The function <a href="20391.html">PLIB_PORTS_PinSet</a> can be used to set a specific bit/pin of a port. A mask-based PORTx write can be accomplished using the function <a href="20399.html">PLIB_PORTS_Set</a> with the appropriate mask as a parameter along with the value.</li>
+<li class="Element600">Port Clear - Ports can be cleared at byte/word level using <a href="20342.html">PLIB_PORTS_Clear</a> with appropriate mask as a parameter and at the bit/pin level using <a href="20382.html">PLIB_PORTS_PinClear</a></li>
+<li class="Element600">Port Direction - The ports read direction can be set at byte/word level using <a href="20348.html">PLIB_PORTS_DirectionInputSet</a> and at the bit/pin level using <a href="20383.html">PLIB_PORTS_PinDirectionInputSet</a>. Similarly, the ports write direction can be set at the byte/word level using <a href="20349.html">PLIB_PORTS_DirectionOutputSet</a> and at the bit/pin level using <a href="20384.html">PLIB_PORTS_PinDirectionOutputSet</a>. The direction information can be read using <a href="20347.html">PLIB_PORTS_DirectionGet</a>.</li>
+<li class="Element600">Port Toggle - Ports can be toggled at the byte/word level using <a href="20400.html">PLIB_PORTS_Toggle</a> with the appropriate mask as a parameter and at the bit/pin level using <a href="20393.html">PLIB_PORTS_PinToggle</a></li>
+<li class="Element600">Port Open Drain - Ports can be enabled for open-drain functionality at the byte/word level using the interface <a href="20375.html">PLIB_PORTS_OpenDrainEnable</a> and at the bit/pin level using <a href="20390.html">PLIB_PORTS_PinOpenDrainEnable</a>. Similarly, the ports can be disabled for open-drain functionality at the byte/word level using <a href="20374.html">PLIB_PORTS_OpenDrainDisable</a> and at the bit/pin level using <a href="20389.html">PLIB_PORTS_PinOpenDrainDisable</a>.</li>
+</ul><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03056');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03056"><pre class="Element12"><i><span style="color: #008000">// PORT Direction setting for output</span></i>
+   PLIB_PORTS_DirectionOutputSet(MY_PORTS_INSTANCE, MY_CHANNEL, (PORTS_DATA_MASK)0xFFFF);
+
+<i><span style="color: #008000">// Writing a value into a PORT</span></i>
+   PLIB_PORTS_Write(MY_PORTS_INSTANCE, MY_CHANNEL, (PORTS_DATA_TYPE)0x1234);
+
+<i><span style="color: #008000">// PORT Direction setting for input</span></i>
+   PLIB_PORTS_DirectionInputSet(MY_PORTS_INSTANCE, MY_CHANNEL, (PORTS_DATA_MASK)0xFFFF);
+
+<i><span style="color: #008000">// Reading back the previously written value</span></i>
+   PORTS_DATA_TYPE readData = PLIB_PORTS_Read(MY_PORTS_INSTANCE, MY_CHANNEL);
+
+<i><span style="color: #008000">// Clearing the PORT</span></i>
+   PLIB_PORTS_Clear(MY_PORTS_INSTANCE, MY_CHANNEL, (PORTS_DATA_MASK)0x00FF);
+
+<i><span style="color: #008000">// Writing the value based on the mask, only 0x34 gets written to the PORT</span></i>
+   PLIB_PORTS_Set(MY_PORTS_INSTANCE, MY_CHANNEL, 0x1234, (PORTS_DATA_MASK)0x00FF);
+
+<i><span style="color: #008000">// Toggling a PORT</span></i>
+   PLIB_PORTS_Toggle(MY_PORTS_INSTANCE, MY_CHANNEL, (PORTS_DATA_MASK)0x00FF);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17914.html">How the Library Works</a> &gt; <a href="17922.html">Ports Control</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS Ports Control Topic Title: Ports Control)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

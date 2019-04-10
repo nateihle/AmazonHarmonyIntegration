@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX130F128H_CDAC
+	bool
+	select HAVE_CDAC
+	default n
+
+config CDAC_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_CDAC_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cdac/processor/cdac_p32mx130f128h.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cdac/processor/cdac_p32mx130f128h.h"
+
+endif

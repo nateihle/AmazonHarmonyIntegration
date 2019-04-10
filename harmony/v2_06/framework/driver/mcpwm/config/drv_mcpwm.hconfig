@@ -1,0 +1,245 @@
+menu "MCPWM"
+    depends on HAVE_MCPWM
+
+enum DRV_MCPWM_MODE
+    "STATIC"
+
+    
+config USE_DRV_MCPWM
+    bool "Use MCPWM Driver?"
+	select DRIVER
+    default n
+    ---help---
+    IDH_HTML_MCPWM_Peripheral_Library
+    ---endhelp---
+
+config DRV_MCPWM_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_MCPWM
+    range DRV_MCPWM_MODE
+    default "STATIC"
+    persistent
+    ---help---
+    IDH_HTML_MCPWM_Peripheral_Library
+    ---endhelp---
+
+menu "Global Setup"
+    depends on USE_DRV_MCPWM
+
+config DRV_MCPWM_STOP_IN_IDLE_MODE
+    bool "Stop In Idle Mode"
+    depends on USE_DRV_MCPWM
+    ---help---
+    IDH_HTML_DRV_MCPWM_IDLE_MODE
+    ---endhelp---
+	
+	menu "Primary Timer Setup"
+		depends on USE_DRV_MCPWM
+		
+		config DRV_MCPWM_PRIMARY_CLOCK_PRESCALER
+			string "Clock Prescaler"
+			depends on USE_DRV_MCPWM
+			range MCPWM_CLOCK_DIVIDER
+			default "MCPWM_CLOCK_DIVIDE_BY_1"
+			---help---
+			IDH_HTML_MCPWM_PRIMARY_TIMER_SETUP
+			---endhelp---
+		
+		config DRV_MCPWM_PRIMARY_TIMER_PERIOD
+			int "Primary Timer PWM Period"
+			depends on USE_DRV_MCPWM
+			range 8 65535
+			default 8
+			---help---
+			IDH_HTML_MCPWM_PRIMARY_TIMER_SETUP
+			---endhelp---
+	endmenu
+	
+	menu "Secondary Timer Setup"
+		depends on USE_DRV_MCPWM
+		
+		config DRV_MCPWM_SECONDARY_CLOCK_PRESCALER
+			string "Clock Prescaler"
+			depends on USE_DRV_MCPWM
+			range MCPWM_CLOCK_DIVIDER
+			default "MCPWM_CLOCK_DIVIDE_BY_1"
+			---help---
+			IDH_HTML_MCPWM_SECONDARY_TIMER_SETUP
+			---endhelp---
+		
+		config DRV_MCPWM_SECONDARY_TIMER_PERIOD
+			int "Secondary Timer PWM Period"
+			depends on USE_DRV_MCPWM
+			range 8 65535
+			default 8
+			---help---
+			IDH_HTML_MCPWM_SECONDARY_TIMER_SETUP
+			---endhelp---
+	endmenu
+	
+	menu "Primary Special Event Trigger Setup"
+		depends on USE_DRV_MCPWM
+		
+		config DRV_MCPWM_PRIMARY_SEVT_COMPARE_VALUE
+			int "Primary Special Event Compare Value"
+			depends on USE_DRV_MCPWM
+			range 0 65535
+			default 0
+			---help---
+			IDH_HTML_MCPWM_PRIMARY_SEVT_SETUP
+			---endhelp---
+		
+		
+		config DRV_MCPWM_PRIMARY_SEVT_POSTSCALER
+			string "Primary Special Event Trigger Post-scaler"
+			depends on USE_DRV_MCPWM
+			range MCPWM_TRIGGER_DIVIDER
+			default "MCPWM_TRIGGER_DIVIDE_BY_1"
+			---help---
+			IDH_HTML_MCPWM_PRIMARY_SEVT_SETUP
+			---endhelp---
+					
+		config DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_ENABLE
+			bool "Primary Special Event Trigger Interrupt Enable"
+			depends on USE_DRV_MCPWM
+			default n
+			---help---
+			IDH_HTML_MCPWM_PRIMARY_SEVT_SETUP
+			---endhelp---
+			
+		config DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY
+			string "Interrupt Priority"
+			depends on USE_DRV_MCPWM
+			depends on DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_ENABLE
+			range INT_PRIORITY_LEVEL
+			default "INT_PRIORITY_LEVEL1"
+			
+		config DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_SUBPRIORITY
+			string "Interrupt Sub-Priority"
+			depends on USE_DRV_MCPWM
+			depends on DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_ENABLE
+			range INT_SUBPRIORITY_LEVEL
+			default "INT_SUBPRIORITY_LEVEL0"
+		
+		config DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY_NUM
+			string
+			depends on USE_DRV_MCPWM
+			depends on DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_ENABLE 
+			default "0" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_DISABLE_INTERRUPT"
+			default "1" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+			default "2" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+			default "3" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+			default "4" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+			default "5" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+			default "6" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+			default "7" if DRV_MCPWM_PRIMARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+			
+	endmenu
+	
+	menu "Secondary Special Event Trigger Setup"
+		depends on USE_DRV_MCPWM
+		
+		config DRV_MCPWM_SECONDARY_SEVT_COMPARE_VALUE
+			int "Secondary Special Event Compare Value"
+			depends on USE_DRV_MCPWM
+			range 0 65535
+			default 0
+			---help---
+			IDH_HTML_MCPWM_SECONDARY_SEVT_SETUP
+			---endhelp---
+		
+		config DRV_MCPWM_SECONDARY_SEVT_POSTSCALER
+			string "Secondary Special Event Trigger Post-scaler"
+			depends on USE_DRV_MCPWM
+			range MCPWM_TRIGGER_DIVIDER
+			default "MCPWM_TRIGGER_DIVIDE_BY_1"
+			---help---
+			IDH_HTML_MCPWM_SECONDARY_SEVT_SETUP
+			---endhelp---
+		
+		config DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_ENABLE	
+			bool "Secondary Special Event Trigger Interrupt Enable"
+			depends on USE_DRV_MCPWM
+			default n
+			---help---
+			IDH_HTML_MCPWM_SECONDARY_SEVT_SETUP
+			---endhelp---
+			
+		config DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY
+			string "Interrupt Priority"
+			depends on USE_DRV_MCPWM
+			depends on DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_ENABLE
+			range INT_PRIORITY_LEVEL
+			default "INT_PRIORITY_LEVEL1"
+			
+		config DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_SUBPRIORITY
+			string "Interrupt Sub-Priority"
+			depends on USE_DRV_MCPWM
+			depends on DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_ENABLE
+			range INT_SUBPRIORITY_LEVEL
+			default "INT_SUBPRIORITY_LEVEL0"	
+		
+		config DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY_NUM
+			string
+			depends on USE_DRV_MCPWM
+			depends on DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_ENABLE 
+			default "0" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_DISABLE_INTERRUPT"
+			default "1" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+			default "2" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+			default "3" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+			default "4" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+			default "5" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+			default "6" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+			default "7" if DRV_MCPWM_SECONDARY_SEVT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+	
+	
+	
+	endmenu
+	
+	
+
+menu "Chop Clock Generator Setup"
+		depends on USE_DRV_MCPWM
+		
+		config DRV_MCPWM_CHOP_CLOCK_PRESCALER
+			int "Chop Clock Prescaler"
+			depends on USE_DRV_MCPWM
+			range 2 1023
+			default 2
+			---help---
+			IDH_HTML_MCPWM_CHOP_CLOCK_PRESCALER
+			---endhelp---
+		
+		config DRV_MCPWM_CHOP_CLOCK_ENABLE			
+			bool "Chop Clock Enable"
+			depends on USE_DRV_MCPWM
+			range MCPWM_CHOP_CLOCK_CONTROL
+			default n
+			---help---
+			IDH_HTML_MCPWM_CHOP_CLOCK_SETUP
+			---endhelp---
+endmenu	
+	
+endmenu		
+config DRV_MCPWM_CHANNEL_INSTANCES_NUMBER
+    int "Number of MCPWM Channel Instances"
+    depends on USE_DRV_MCPWM
+    range 1 12
+    default 12
+
+source "$HARMONY_VERSION_PATH/framework/driver/mcpwm/config/drv_mcpwm_idx.ftl" 12 instances
+
+endmenu
+
+ifblock USE_DRV_MCPWM
+file DRV_MCPWM_H "$HARMONY_VERSION_PATH/framework/driver/mcpwm/drv_mcpwm.h" to "$PROJECT_HEADER_FILES/framework/driver/mcpwm/drv_mcpwm.h"
+add "<#include \"/framework/driver/mcpwm/templates/drv_mcpwm_system_definitions_includes.h.ftl\">"  to list SYSTEM_DEFINITIONS_H_INCLUDES
+add "<#include \"/framework/driver/mcpwm/templates/drv_mcpwm_system_config.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+add "<#include \"/framework/driver/mcpwm/templates/drv_mcpwm_system_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+
+
+template MCPWM_STATIC_DRV_C "$HARMONY_VERSION_PATH/framework/driver/mcpwm/templates/drv_mcpwm_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/mcpwm/src/drv_mcpwm_static.c"
+template MCPWM_STATIC_DRV_H "$HARMONY_VERSION_PATH/framework/driver/mcpwm/templates/drv_mcpwm_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/mcpwm/drv_mcpwm_static.h"
+
+
+endif

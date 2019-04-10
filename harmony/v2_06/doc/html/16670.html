@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Supporting the Focal Tech FT5x06 Capacitive Touch Controller</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16640.html">Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</a> &gt; <a href="16670.html">Supporting the Focal Tech FT5x06 Capacitive Touch Controller</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16641.html">Previous</a> | <a href="16640.html">Up</a> | <a href="16654.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Supporting the Focal Tech FT5x06 Capacitive Touch Controller Topic Title: Supporting the Focal Tech FT5x06 Capacitive Touch Controller)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Supporting the Focal Tech FT5x06 Capacitive Touch Controller</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Microchip (Atmel) and Focal Tech are key providers of capacitive touch controllers. Focal Tech FT5x06 touch controllers are found on many of the displays used by Microchip customers, so a third-party display with a Focal Tech capacitive touch controller is a good choice for this tutorial.&nbsp;</p>
+<p class="Element10">
+MPLAB Harmony provides these touch controller drivers: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG touch drivers.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+The Generic Touch Driver outlines the generic Touch Driver API supported by MPLAB Harmony. It provides a template that can serve as the base for a custom-built driver for the FT5x06 touch controller.&nbsp;</p>
+<p class="Element10">
+A faster way to support the Focal Tech FT5x06 is to find a similar device that is already supported in MPLAB Harmony and simply modify the driver code for that device. This eliminates having to write all the supporting code needed to fit the new driver into MPLAB Harmony. Capacitive touch devices typically have an I2C interface with the host, and an interrupt signal that is driven low to alert the host that a touch event has been detected. In response to this external interrupt the host uses the I2C interface with the device to query the device and read the (x,y) pixel coordinates of the touch event.&nbsp;</p>
+<p class="Element10">
+The FT5x06 command interface is closest to the MTCH6303 interface since it requires a write command followed by a read command to get the touch event. (The MTCH6301 only requires the read message.) The other thing to be aware of is the data order coming from the chip.&nbsp;</p>
+<p class="Element10">
+FT5x06 Memory: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG operating mode register map1.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG operating mode register map2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG operating mode register map3.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="MHGC UG operating mode register map4.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Modifying MPLAB Harmony’s MTCH6303 Touch Driver for the Focal Tech FT5x06</div>
+<p class="Element10">
+The first step towards supporting the FT5x06 is to add a MTCH6303 driver to the application, and then modify the MTCH6303’s code to support the FT5x06. To support the FT5x06, we will add a C preprocessor #if defined(FT_SUPPORT)…#else…#endif clauses to the code and then define FT_SUPPORT in the project’s C compiler properties.&nbsp;</p>
+<p class="Element10">
+To add the MTCH6303 touch driver, make the following changes to the project’s MHC settings: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG adding the touch driver.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+Be sure to increase the event queue depth from the default of 10 to something larger, here it is 25. The controller’s CTP-INT# (CTP_INT_BAR in the Pin Settings table) is connected to INT0, so change the external interrupt source to INT_SOURCE_EXTERNAL_0.&nbsp;</p>
+<p class="Element10">
+Next, enable the I2C driver, using a bit-banged implementation: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG enable I2C.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+The Interrupt System Service is enabled, with an Interrupt Priority of 5, connected to INT0, and triggered on a falling edge (since CTP-INT# is active low): </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG interrupt system service.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+Re-generate the application to implement these changes to the application.&nbsp;</p>
+<p class="Element10">
+Rather than edit the application’s MTCH6303 driver code, install the modified driver from the tutorial project found in .<span class="Element146">\apps\examples\3rdPartyDisplay</span>. Copy the code found in directory&nbsp;</p>
+<p class="Element10">
+<span class="Element146">.\apps\examples\3rdPartyDisplay\firmware\src\system_config\default\framework\driver\touch\mtch6303</span>&nbsp;</p>
+<p class="Element10">
+into the same folder in the project.&nbsp;</p>
+<p class="Element10">
+To keep these changes in the code whenever the project is regenerated, always choose the “Prompt Merge For All Differences” merge strategy and simply close all the windows related to the MTCH6303 driver. These changes are identified by // CUSTOM CODE – DO NOT DELETE … // END OF CUSTOM CODE flags in the code. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Ignore all proposed changes for the following files:<br>• <span class="Element146">drv_mtch6303_static.h</span><br>• <span class="Element146">drv_mtch6303_static.c</span><br>• <span class="Element146">drv_mtch6303_static_local.h</span>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+To enable Focal Tech support in the modified driver, open the project’s configuration and define FT_SUPPORT in the C compiler section. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG preprocessing and messages.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><div class="Element15">
+Adding a Touch Test Widget</div>
+<p class="Element10">
+Bring up MHC’s Graphics Composer again and add a Touch Test widget to the screen. Resize the widget to cover most of the display. Next, create another color scheme, and customize it to see the cross hairs for all touch measurements reported by the widget.&nbsp;</p>
+<p class="Element10">
+The TouchTest Widget has the following color scheme: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG touch test widget.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+First, create a new scheme, call it TouchTestScheme: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG create new scheme.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+Edit the Foreground and Background colors so that both are red. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC scheme editor.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+Finally, edit the properties for the Touch Test widget to have a Line border, and to use the TouchTestScheme color scheme: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG touch test widget properties editor.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The Screen Designer panel should show: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC Ug Screen Designer panel updated.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+Close the Graphics Composer window and save the modifications to the graphics design. Re-generate the application’s code and then build and load the application.</p><div class="Element15">
+Testing the Final Application</div>
+<p class="Element10">
+Here is what the display should look like during a touch event: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC Ug Touch event screen.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Completed Tutorial Project</div>
+<p class="Element10">
+The completed tutorial project can be found in .\apps\examples\3rdPartyDisplay.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16640.html">Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</a> &gt; <a href="16670.html">Supporting the Focal Tech FT5x06 Capacitive Touch Controller</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Supporting the Focal Tech FT5x06 Capacitive Touch Controller Topic Title: Supporting the Focal Tech FT5x06 Capacitive Touch Controller)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

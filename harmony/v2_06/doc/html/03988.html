@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04045.html">wifi_easy_configuration</a> &gt; <a href="03988.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03987.html">Previous</a> | <a href="04045.html">Up</a> | <a href="04046.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP pic32_eth_wifi_easy_configuration_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+</p>
+<ol class="Element630">
+<li value="1" class="Element600">Refer to <a href="04044.html">Wi-Fi Console Commands</a> for information on the commands that enable control over the Wi-Fi settings.</li>
+<li value="2" class="Element600">WINC1500 SoftAP mode can support only one Station client connection.</li>
+</ol><p class="Element68">
+&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The demonstration does the following:</p>
+<ul class="Element630">
+<li class="Element600">Scans the area and stores the list of Access Points in memory</li>
+<li class="Element600">Switches to SoftAP mode allowing another device to<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>to it (smartphone or personal computer)</li>
+<li class="Element600">After a smartphone or personal computer wirelessly connects to the MRF24WN or WINC1500, a web page is served to it</li>
+<li class="Element600">That web page will display the access point (AP) list (from step 1).</li>
+<li class="Element600">From the smartphone you can select the desired AP and command the MRF24WN or WINC1500 to<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>to that AP</li>
+<li class="Element600">The MRF24WN or WINC1500 will<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>to the selected AP and store the configuration information in non-volatile memory</li>
+</ul><p class="Element10">
+Use the following procedure to run the demonstration:&nbsp;</p>
+<p class="Element10">
+1. Load the demonstration project into MPLAB X IDE.&nbsp;</p>
+<p class="Element10">
+2. Connect the mini-B/micro B debugger port on-board the starter kit to a USB port on the development computer by using the USB cable provided in the kit.&nbsp;</p>
+<p class="Element10">
+3. Build, download, and run the demonstration project on the board.&nbsp;</p>
+<p class="Element10">
+4. When the demonstration runs, it scans for local access points and outputs the results to the serial console. After the scan results, the MRF24WN or WINC1500 goes into SoftAP mode (it behaves like an access point) and outputs the following to the serial console:&nbsp;</p>
+<p class="Element10">
+<img src="mrf24wg_serial_2.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+The output of the serial console for the MRF24WN module is shown as follows:&nbsp;</p>
+<p class="Element10">
+<img src="mrf24wn_serial_4.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+5. From a smartphone or personal computer,<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>to the ’MCHPSoftAP’ network, which is the SoftAP network started by the demonstration. Then, bring up a web page by entering the IP address of the SoftAP network into the smartphone browser. This is the IP address displayed in step 4 (e.g., 192.168.1.1). When the web page is displayed, on the right top corner of the page, there are three widgets to verify connectivity with the board.</p>
+<ul class="Element630">
+<li class="Element600">LED - This is in blinking mode.</li>
+<li class="Element600">Button - This changes position when the buttons on the target board is pressed.</li>
+<li class="Element600">Random Number - This displays random numbers generated by the target board.</li>
+</ul><p class="Element10">
+On the web page:&nbsp;</p>
+<p class="Element10">
+a. Select <strong>Network Configuration</strong>, and then <strong>Scan for Wireless Networks</strong>. The MRF24WN or WINC1500 will display the list of wireless networks on the web page.&nbsp;</p>
+<p class="Element10">
+b. Select the desired AP to which the MRF24WN or WINC1500 should<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>by clicking the name of the AP.&nbsp;</p>
+<p class="Element10">
+c. The MRF24WN or WINC1500 will then<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>to that Access Point and write the configuration information to non-volatile memory.&nbsp;</p>
+<p class="Element10">
+<img src="reconnection_5.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+d. The console output will show the new connection taking place.&nbsp;</p>
+<p class="Element10">
+<img src="reconnection_serial_6.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+6. If you rerun the demonstration, it will automatically connect the selected AP, as the configuration data stored in non-volatile memory will be used to reconnect to the desired AP.&nbsp;</p>
+<p class="Element10">
+a. Connect the PC to the same AP to which the board is connected.&nbsp;</p>
+<p class="Element10">
+b. Open the serial terminal as described in step 2, and get the IP address that the board had gotten from the newly selected AP.&nbsp;</p>
+<p class="Element10">
+c. Type this IP address into the browser and the demo web page should come up on the browser.&nbsp;</p>
+<p class="Element10">
+d. Try monitoring the LED and Switch through the newly established connection.&nbsp;</p>
+<p class="Element10">
+7. To reset and run the demonstration from the beginning:&nbsp;</p>
+<p class="Element10">
+a. Erase the stored configuration by bringing up the demonstration.&nbsp;</p>
+<p class="Element10">
+b. At the command line type <strong>deleteconf</strong>&nbsp;</p>
+<p class="Element10">
+<img src="APPS WIFI wifi_easyconfig_demo_main.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<img src="APPS WIFI wifi_easyconfig_demo_network_configuration.png" border="0" alt="" title="">&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04045.html">wifi_easy_configuration</a> &gt; <a href="03988.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP pic32_eth_wifi_easy_configuration_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

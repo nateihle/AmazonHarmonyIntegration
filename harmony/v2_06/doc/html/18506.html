@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_CAN_FilterToChannelLink Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; h) Message Filtering Functions &gt; <a href="18506.html">PLIB_CAN_FilterToChannelLink Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18505.html">Previous</a> | <a href="17498.html">Up</a> | <a href="18509.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_CAN_FilterToChannelLink@CAN_MODULE_ID@CAN_FILTER@CAN_FILTER_MASK@CAN_CHANNEL Topic Title: PLIB_CAN_FilterToChannelLink Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_CAN_FilterToChannelLink Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">PLIB_CAN_FilterToChannelLink</span></strong>(
+    <a href="06712.html">CAN_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    <a href="06689.html">CAN_FILTER</a> <strong><span style="color: #000000">filter</span></strong>, 
+    <a href="06690.html">CAN_FILTER_MASK</a> <strong><span style="color: #000000">mask</span></strong>, 
+    <a href="06513.html">CAN_CHANNEL</a> <strong><span style="color: #000000">channel</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function links a filter to a channel. A filter is typically linked to a receive channel. This allows the channel to receive messages accepted by the filter. A filter can also be linked to a transmit channel if the transmit channel is configured for remote request transmit. In this case, a message accepted by the filter will automatically cause the linked transmit channel to transmit CAN messages that are buffered in the channel. Note that a filter should be enabled using the <a href="18503.html">PLIB_CAN_FilterEnable</a> function after the filter has been linked to the desired channel.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Filter should have been disabled using the <a href="18502.html">PLIB_CAN_FilterDisable</a> function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired CAN module&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+filter&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired CAN Filter&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+<a href="16341.html">mask</a>&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the mask to be used with this filter&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+channel&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the channel to be linked to this filter. If a transmit channel is linked, the transmit channel should have its remote transmit request feature enabled.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This feature may not be available on all devices. Please refer to the specific device data sheet to determine availability or use <a href="18479.html">PLIB_CAN_ExistsFilterToChannelLink</a> in your application to determine whether this feature is available.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01722');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01722"><pre class="Element12"><i><span style="color: #008000">// Configure CAN_ID_1 filter 3 to accept extended ID messages</span></i>
+<i><span style="color: #008000">// with EID 0x1D400 and link the filter to CAN_ID_1 Channel 5.</span></i>
+<i><span style="color: #008000">// Note the sequence in which the steps are performed.</span></i>
+<i><span style="color: #008000">// Disable the filter and check if its disabled.</span></i>
+<i><span style="color: #008000">// Configure the filter. Link it to the Channel and then</span></i>
+<i><span style="color: #008000">// enable the filter.</span></i>
+
+<a href="18502.html">PLIB_CAN_FilterDisable</a>(CAN_ID_1, CAN_FILTER3);
+
+<strong><span style="color: #000080">while</span></strong>(<a href="18504.html">PLIB_CAN_FilterIsDisabled</a>(CAN_ID_1, CAN_FILTER3) == <strong><span style="color: #000080">false</span></strong>);
+
+<a href="18501.html">PLIB_CAN_FilterConfigure</a>(CAN_ID_1, CAN_FILTER3, 0x1D400, CAN_EID);
+
+PLIB_CAN_FilterToChannelLink(CAN_ID_1, CAN_FILTER3, CAN_FILTER_MASK0,
+    CAN_CHANNEL5);
+
+<a href="18503.html">PLIB_CAN_FilterEnable</a>(CAN_ID_1, CAN_FILTER3);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; h) Message Filtering Functions &gt; <a href="18506.html">PLIB_CAN_FilterToChannelLink Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_CAN_FilterToChannelLink@CAN_MODULE_ID@CAN_FILTER@CAN_FILTER_MASK@CAN_CHANNEL Topic Title: PLIB_CAN_FilterToChannelLink Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

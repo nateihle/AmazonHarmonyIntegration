@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Asynchronous Counter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27080.html">Timer Peripheral Library</a> &gt; <a href="18071.html">Using the Library</a> &gt; <a href="18059.html">How the Library Works</a> &gt; <a href="18048.html">Asynchronous Counter</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18069.html">Previous</a> | <a href="18059.html">Up</a> | <a href="18056.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB TMR Asynchronous Counter Topic Title: Asynchronous Counter)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Asynchronous Counter</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Asynchronous Counter operation provides the following capabilities:
+<ul class="Element630">
+<li class="Element600">The timer can operate in Sleep mode and can generate an interrupt on a period match</li>
+<li class="Element600">The processor can wake up from Sleep on the timer interrupt</li>
+<li class="Element600">The timer can be clocked from the Secondary Oscillator for real-time clock applications</li>
+</ul><strong>Setup</strong>&nbsp;</p>
+<p class="Element10">
+Use the following steps for Asynchronous Counter setup:
+<ol class="Element630">
+<li value="1" class="Element600">Some timer modules support multiple resolutions, which can be selected using <a href="21037.html">PLIB_TMR_Mode16BitEnable</a> or <a href="21038.html">PLIB_TMR_Mode32BitEnable</a>.</li>
+<li value="2" class="Element600">The period register value can be set using <a href="21040.html">PLIB_TMR_Period16BitSet</a> or <a href="21042.html">PLIB_TMR_Period32BitSet</a>. Use the appropriate function based on the resolution of the timer.</li>
+<li value="3" class="Element600">Set the start value of the timer using <a href="21012.html">PLIB_TMR_Counter16BitSet</a> and <a href="21015.html">PLIB_TMR_Counter32BitSet</a>.</li>
+<li value="4" class="Element600">Some timer modules can select an external clock as its input source. Use <a href="21009.html">PLIB_TMR_ClockSourceSelect</a> to select the external clock source.</li>
+<li value="5" class="Element600">For Asynchronous mode operation, the clock source is not synchronized with the internal clock. Use <a href="21007.html">PLIB_TMR_ClockSourceExternalSyncDisable</a> to disable the synchronization of the external clock source.</li>
+<li value="6" class="Element600">The prescaler for the clock can be selected using <a href="21045.html">PLIB_TMR_PrescaleSelect</a>. Pass in the desired prescaler into the function from the enumeration <a href="27098.html">TMR_PRESCALE</a>.</li>
+<li value="7" class="Element600">Clear the timer register using <a href="21010.html">PLIB_TMR_Counter16BitClear</a> or <a href="21013.html">PLIB_TMR_Counter32BitClear</a>.</li>
+<li value="8" class="Element600">Start the timer once the setup is complete using <a href="21046.html">PLIB_TMR_Start</a>. The timer operation can be stopped using <a href="21047.html">PLIB_TMR_Stop</a>.</li>
+</ol><strong>Example: Asynchronous Counter Setup</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03469');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03469"><pre class="Element12"><i><span style="color: #008000">// Where MY_TMR_INSTANCE, is the timer instance selected for use by the application</span></i>
+<i><span style="color: #008000">// developer.</span></i>
+
+<i><span style="color: #008000">// Stop the timer</span></i>
+PLIB_TMR_Stop(MY_TIMER_INSTANCE);
+
+<i><span style="color: #008000">// Set the prescaler, and set the clock source as external and disable synchronization</span></i>
+PLIB_TMR_PrescaleSelect(MY_TIMER_INSTANCE, TMR_PRESCALE_VALUE_64);
+PLIB_TMR_ClockSourceSelect(MY_TIMER_INSTANCE, TMR_CLOCK_SOURCE_EXTERNAL_INPUT_PIN);
+PLIB_TMR_ClockSourceExternalSyncDisable(MY_TIMER_INSTANCE);
+
+<i><span style="color: #008000">// Clear the timer</span></i>
+PLIB_TMR_Counter16BitClear(MY_TIMER_INSTANCE);
+
+<i><span style="color: #008000">// Load the period register</span></i>
+PLIB_TMR_Period16BitSet(MY_TIMER_INSTANCE, 0x7F);
+
+<i><span style="color: #008000">// Start the timer</span></i>
+PLIB_TMR_Start(MY_TIMER_INSTANCE);</pre></div></div>
+<p class="Element10">
+A timer interrupt is generated if enabled, when the timer count matches the period value if available, or when the counter overflows. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all features are available on all devices. Refer to the<strong> &quot;Timer&quot;</strong> chapters in the specific device data sheet for availability.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27080.html">Timer Peripheral Library</a> &gt; <a href="18071.html">Using the Library</a> &gt; <a href="18059.html">How the Library Works</a> &gt; <a href="18048.html">Asynchronous Counter</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB TMR Asynchronous Counter Topic Title: Asynchronous Counter)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

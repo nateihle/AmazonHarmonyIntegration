@@ -1,0 +1,57 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ0512EFF100_ETH
+	bool
+	select HAVE_ETH
+	default y
+
+config ETH_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum ETH_MODULE_ID exclusive
+	"ETH_ID_0"
+
+ifblock PROJECT_STANDALONE
+file PLIB_ETH_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/processor/eth_p32mz0512eff100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/processor/eth_p32mz0512eff100.h"
+
+file PLIB_ETH_PAUSETIMER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_PauseTimer_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_PauseTimer_Default.h"
+file PLIB_ETH_ENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_Enable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_Enable_Default.h"
+file PLIB_ETH_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_StopInIdle_Default.h"
+file PLIB_ETH_TRANSMITRTS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_TransmitRTS_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_TransmitRTS_Default.h"
+file PLIB_ETH_RECEIVEENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_ReceiveEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_ReceiveEnable_Default.h"
+file PLIB_ETH_AUTOFLOWCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_AutoFlowControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_AutoFlowControl_Default.h"
+file PLIB_ETH_MANUALFLOWCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_ManualFlowControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_ManualFlowControl_Default.h"
+file PLIB_ETH_RXBUFFERCOUNTDECREMENT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_RxBufferCountDecrement_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_RxBufferCountDecrement_Default.h"
+file PLIB_ETH_RECEIVEBUFFERSIZE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_ReceiveBufferSize_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_ReceiveBufferSize_Default.h"
+file PLIB_ETH_TXPACKETDESCRIPTORADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_TxPacketDescriptorAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_TxPacketDescriptorAddress_Default.h"
+file PLIB_ETH_RXPACKETDESCRIPTORADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_RxPacketDescriptorAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_RxPacketDescriptorAddress_Default.h"
+file PLIB_ETH_HASHTABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_HashTable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_HashTable_Default.h"
+file PLIB_ETH_PATTERNMATCH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_PatternMatch_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_PatternMatch_Default.h"
+file PLIB_ETH_RXFILTERPATTERNMATCH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_RxFilterPatternMatch_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_RxFilterPatternMatch_Default.h"
+file PLIB_ETH_RECEIVEFILTERS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_ReceiveFilters_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_ReceiveFilters_Default.h"
+file PLIB_ETH_RECEIVEWMARKS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_ReceiveWmarks_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_ReceiveWmarks_Default.h"
+file PLIB_ETH_INTERRUPT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_Interrupt_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_Interrupt_Default.h"
+file PLIB_ETH_ETHERNETCONTROLLERSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_EthernetControllerStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_EthernetControllerStatus_Default.h"
+file PLIB_ETH_RECEIVEOVERFLOWCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_ReceiveOverflowCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_ReceiveOverflowCount_Default.h"
+file PLIB_ETH_FRAMESTRANSMITTEDOK_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_FramesTransmittedOK_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_FramesTransmittedOK_Default.h"
+file PLIB_ETH_COLLISIONCOUNTS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_CollisionCounts_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_CollisionCounts_Default.h"
+file PLIB_ETH_FRAMEXRECEIVEDOK_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_FramexReceivedOK_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_FramexReceivedOK_Default.h"
+file PLIB_ETH_FCSERRORCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_FCSErrorCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_FCSErrorCount_Default.h"
+file PLIB_ETH_ALIGNMENTERRORCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_AlignmentErrorCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_AlignmentErrorCount_Default.h"
+file PLIB_ETH_MAC_RESETS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MAC_Resets_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MAC_Resets_Default.h"
+file PLIB_ETH_MAC_CONFIGURATION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MAC_Configuration_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MAC_Configuration_Default.h"
+file PLIB_ETH_INTERPACKETGAPS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_InterPacketGaps_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_InterPacketGaps_Default.h"
+file PLIB_ETH_COLLISIONWINDOW_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_CollisionWindow_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_CollisionWindow_Default.h"
+file PLIB_ETH_RETRANSMISSIONMAXIMUM_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_RetransmissionMaximum_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_RetransmissionMaximum_Default.h"
+file PLIB_ETH_MAXFRAMELENGTH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MaxFrameLength_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MaxFrameLength_Default.h"
+file PLIB_ETH_RMII_SUPPORT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_RMII_Support_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_RMII_Support_Default.h"
+file PLIB_ETH_MAC_TESTING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MAC_Testing_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MAC_Testing_Default.h"
+file PLIB_ETH_MIIM_CONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MIIM_Config_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MIIM_Config_Default.h"
+file PLIB_ETH_MIIMSCANMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MIIMScanMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MIIMScanMode_Default.h"
+file PLIB_ETH_MIIMREADWRITE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MIIMReadWrite_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MIIMReadWrite_Default.h"
+file PLIB_ETH_MIIMADDRESSES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MIIMAddresses_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MIIMAddresses_Default.h"
+file PLIB_ETH_MIIWRITEREADDATA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MIIWriteReadData_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MIIWriteReadData_Default.h"
+file PLIB_ETH_MIIM_INDICATORS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_MIIM_Indicators_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_MIIM_Indicators_Default.h"
+file PLIB_ETH_STATIONADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/templates/eth_StationAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/templates/eth_StationAddress_Default.h"
+endif

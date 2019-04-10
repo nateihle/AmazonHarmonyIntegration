@@ -1,0 +1,77 @@
+enum DRV_GFX_ILI9488_RGB_BGR
+    "RGB"
+    || "BGR"
+
+enum DRV_GFX_ILI9488_ROW_ADDRESS_ORDER
+    "Top to Bottom"
+    || "Bottom to Top"
+
+enum DRV_GFX_ILI9488_COL_ADDRESS_ORDER
+    "Left to Right"
+    || "Right to Left"
+
+enum DRV_GFX_ILI9488_ROW_COLUMN_EXCHANGE
+    "Normal Mode"
+    || "Reverse Mode"
+
+enum DRV_GFX_ILI9488_PIXEL_BUFFER_OPTIONS
+    "Pixel"
+    || "Line"
+
+enum DRV_GFX_ILI9488_DRV_SPI_INDEX
+    "0"
+    || "1"
+    || "2"
+    || "3"
+    || "4"
+    || "5"
+
+menu "Driver Settings"
+---help---
+    IDH_HTML_GFXLIB_ILI9488_Display_Controller_Driver_Library
+---endhelp---
+
+ifblock DRV_GFX_CONTROLLER_TYPE = "ILI9488 (SPI 4-LINE)"
+config DRV_GFX_ILI9488_SPI_PORT
+	string "SPI Port Index"
+	range DRV_GFX_ILI9488_DRV_SPI_INDEX
+	default "0"
+endif
+
+config DRV_GFX_ILI9488_PIXEL_BUFFER
+	string "Draw Buffer Size"
+	range DRV_GFX_ILI9488_PIXEL_BUFFER_OPTIONS
+	default "Line"
+
+config DRV_GFX_ILI9488_MADCTL_RGB_BGR
+	string "RGB/BGR Order"
+	range DRV_GFX_ILI9488_RGB_BGR
+	default "BGR" if USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE_NEEDED
+	default "RGB"
+
+config DRV_GFX_ILI9488_MADCTL_ROW_COLUMN_EXCHANGE
+	string "Row Column Exchange"
+	range DRV_GFX_ILI9488_ROW_COLUMN_EXCHANGE
+	default "Normal Mode"
+
+config DRV_GFX_ILI9488_MADCTL_COL_ADDRESS_ORDER
+	string "Column address order"
+    range DRV_GFX_ILI9488_COL_ADDRESS_ORDER
+	default "Right to Left" if USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE_NEEDED
+	default "Left to Right"
+
+config DRV_GFX_ILI9488_MADCTL_ROW_ADDRESS_ORDER
+	string "Row address order"
+	range DRV_GFX_ILI9488_ROW_ADDRESS_ORDER
+	default "Top to Bottom"
+
+endmenu
+
+template DRV_GFX_ILI9488_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ili9488/templates/drv_gfx_ili9488.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/ili9488/drv_gfx_ili9488.h"
+template DRV_GFX_ILI9488_COMMON_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ili9488/templates/drv_gfx_ili9488_common.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/ili9488/drv_gfx_ili9488_common.h"
+template DRV_GFX_ILI9488_CMD_DEFS_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ili9488/templates/drv_gfx_ili9488_cmd_defs.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/ili9488/drv_gfx_ili9488_cmd_defs.h"
+template DRV_GFX_ILI9488_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ili9488/templates/drv_gfx_ili9488.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/ili9488/drv_gfx_ili9488.c"
+
+ifblock DRV_GFX_CONTROLLER_TYPE = "ILI9488 (SPI 4-LINE)"
+template DRV_GFX_ILI9488_HW_DBIC "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ili9488/templates/drv_gfx_ili9488_spi.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/ili9488/drv_gfx_ili9488_intf.c"
+endif

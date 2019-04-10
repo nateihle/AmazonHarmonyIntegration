@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>4.5.1: Support Required Configuration Options</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07114.html">4.5: Support Build Time Configuration Options</a> &gt; <a href="07125.html">4.5.1: Support Required Configuration Options</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07114.html">Previous</a> | <a href="07114.html">Up</a> | <a href="07124.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Required Configuration Options Topic Title: 4.5.1: Support Required Configuration Options)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+4.5.1: Support Required Configuration Options</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Required configuration options do not have default definitions. The user must define them to build the library or application. Use of such options must be minimized and clearly documented. It is preferable to utilize the compiler’s preprocessor capabilities to test for appropriate definition of required configuration options before they are used and provide a meaningful explanation to the user (via <span class="Element146">#error</span> or <span class="Element146">#warning</span> directives) if they are not correctly defined (see the following example).&nbsp;</p>
+<p class="Element10">
+<strong>Example: Providing an Error for Required Options</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00117');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00117"><pre class="Element12"><i><span style="color: #008000">/* The DRV_USART_INTERRUPT_DRIVEN option must be defined as &quot;true&quot; if this driver is
+   used in a interrupt-driven mode or as &quot;false&quot; if used in a polled mode. */</span></i>
+<strong><span style="color: #000080">#ifndef</span></strong> DRV_USART_INTERRUPT_DRIVEN
+    <strong><span style="color: #000080">#error</span></strong> &quot;DRV_USART_INTERRUPT_DRIVEN must be defined as either true or false&quot;
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07114.html">4.5: Support Build Time Configuration Options</a> &gt; <a href="07125.html">4.5.1: Support Required Configuration Options</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Required Configuration Options Topic Title: 4.5.1: Support Required Configuration Options)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

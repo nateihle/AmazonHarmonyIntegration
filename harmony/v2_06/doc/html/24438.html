@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>System Interaction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="27082.html">Timer System Service Library</a> &gt; <a href="24443.html">Using the Library</a> &gt; <a href="24430.html">How the Library Works</a> &gt; <a href="24438.html">System Interaction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24430.html">Previous</a> | <a href="24430.html">Up</a> | <a href="24437.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM TMR System Interaction Topic Title: System Interaction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+System Interaction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10" style="text-align: justify;">
+<strong>Initialization and Reinitialization:</strong>&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The SYS module performs the initialization and the reinitialization of the Timer System Service. During initialization the following information is populated into the internal data structures from the init structure <a href="24172.html">SYS_TMR_INIT</a> passed as a parameter:</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="21%">
+<div class="Element66">
+Initialization Member&nbsp;</div></td><td class="Element65" valign="top" width="79%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+<span class="Element146">moduleInit</span>&nbsp;</div></td><td class="Element67" valign="top" width="79%">
+<div class="Element68">
+System module initialization of the power state&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+<span class="Element146">drvIndex</span>&nbsp;</div></td><td class="Element67" valign="top" width="79%">
+<div class="Element68">
+Timer driver module/instance index, the same index used to initialize the timer driver&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+<span class="Element146">tmrFreq</span>&nbsp;</div></td><td class="Element67" valign="top" width="79%">
+<div class="Element68">
+Required System Timer frequency in Hertz, which is the base frequency for all of the system time-keeping.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The <a href="24176.html">SYS_TMR_Initialize</a> API returns a handle of the type <a href="23975.html">SYS_MODULE_OBJ</a>. After this, the object handle returned by the Initialize interface would be used by the other system interfaces such as SYS_TMR_Reinitialize, <a href="24159.html">SYS_TMR_Deinitialize</a>, <a href="24185.html">SYS_TMR_Status</a>, and <a href="24188.html">SYS_TMR_Tasks</a>. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If an attempt is made to initialize the SYS TMR module if it is already initialized, will safely return without modifying the behavior of the system.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example for Timer System Service initialization</strong>: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04144');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04144"><pre class="Element12">SYS_MODULE_OBJ  objectHandle;
+SYS_TMR_INIT    initConfig;
+
+<i><span style="color: #008000">// Populate the SYS TMR initialization structure</span></i>
+initConfig.moduleInit.value     = SYS_MODULE_POWER_RUN_FULL;
+initConfig.drvIndex             = DRV_TMR_INDEX_0;
+initConfig.tmrFreq          = 1000;
+
+objectHandle = SYS_TMR_Initialize( SYS_TMR_INDEX_0, ( SYS_MODULE_INIT * )&amp;initConfig );
+<strong><span style="color: #000080">if</span></strong>( SYS_MODULE_OBJ_INVALID == objectHandle )
+{
+    <i><span style="color: #008000">// Handle error</span></i>
+}</pre></div></div>
+<p class="Element10">
+<strong>Sample initialization sequence in polling environment:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04145');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04145"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> SYS_Initialize( SYS_INIT_DATA *data )
+{
+    <i><span style="color: #008000">/* Application Initialization */</span></i>
+    App_Init();
+
+    <i><span style="color: #008000">/* Initialize the Timer driver */</span></i>
+    drvTmrObject = DRV_TMR_Initialize( DRV_TMR_INDEX_0, (SYS_MODULE_INIT *)&amp;tmrInitData );
+
+    <i><span style="color: #008000">/* Initialize the SYS TMR Module */</span></i>
+    sysTmrObject = SYS_TMR_Initialize( SYS_TMR_INDEX_0, (SYS_MODULE_INIT *)&amp;sysTmrInitData );
+}</pre></div></div>
+<p class="Element10">
+<strong>Sample initialization sequence in an interrupt driven environment:'</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04146');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04146"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> SYS_Initialize( SYS_INIT_DATA *data )
+{
+    <i><span style="color: #008000">/* Application Initialization */</span></i>
+    App_Init();
+
+    <i><span style="color: #008000">/* Initialize the Timer driver */</span></i>
+    drvTmrObject = DRV_TMR_Initialize( DRV_TMR_INDEX_0, ( SYS_MODULE_INIT * )&amp;tmrInitData );
+
+    <i><span style="color: #008000">/* Initialize the SYS TMR Module */</span></i>
+    sysTmrObject = SYS_TMR_Initialize( SYS_TMR_INDEX_0, ( SYS_MODULE_INIT * )&amp;sysTmrInitData );
+
+<i><span style="color: #008000">/* Set the Timer Interrupt priority, sub-priority if supported by the device */</span></i>
+    SYS_INT_VectorPrioritySet(INT_VECTOR_T1, INT_PRIORITY_LEVEL1 );
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_T1, INT_SUBPRIORITY_LEVEL1 );
+
+    <i><span style="color: #008000">/* Initialize the interrupt sub system module */</span></i>
+    SYS_INT_Initialize();
+}</pre></div></div>
+<p class="Element10">
+<strong>Deinitialization:</strong>&nbsp;</p>
+<p class="Element10">
+The deinitialize operation (<a href="24159.html">SYS_TMR_Deinitialize</a>) places the module in inactive state. Once the initialize operation has been called, the deinitialize operation must be called before the initialize is called again. If the operation requires time to allow the hardware to complete, this will be reported by the <a href="24185.html">SYS_TMR_Status</a> operation.&nbsp;</p>
+<p class="Element10">
+<strong>Status:</strong>&nbsp;</p>
+<p class="Element10">
+Status of the system timer module can be checked using <a href="24185.html">SYS_TMR_Status</a> interface. After the initialization, reinitialization or the deinitialization activities the System timer Service status can be retrieved and checked for further actions.&nbsp;</p>
+<p class="Element10">
+<strong>Tasks Routine:</strong>&nbsp;</p>
+<p class="Element10">
+The system will call <a href="24188.html">SYS_TMR_Tasks</a> from System Task Service. This interface gets the system timer module into running mode. This interface needs to be called after the timer driver is successfully initialized.&nbsp;</p>
+<p class="Element10">
+<strong>Sample call order:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04147');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04147"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> SYS_Tasks( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* Call Driver TMR Tasks API */</span></i>
+    DRV_TMR_Tasks( drvTmrObject );
+
+    <i><span style="color: #008000">/* Call SYS TMR Tasks API */</span></i>
+    SYS_TMR_Tasks( sysTmrObject );
+
+    <i><span style="color: #008000">/* Call the Application Tasks */</span></i>
+    App_Tasks();
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="27082.html">Timer System Service Library</a> &gt; <a href="24443.html">Using the Library</a> &gt; <a href="24430.html">How the Library Works</a> &gt; <a href="24438.html">System Interaction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM TMR System Interaction Topic Title: System Interaction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

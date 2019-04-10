@@ -1,0 +1,70 @@
+menu "S25FL SQI Flash Driver"
+    depends on HAVE_SQI
+
+enum DRV_S25FL_MODE
+    "DYNAMIC"
+	
+config DRV_S25FL_NEEDED
+    bool 
+	
+config USE_DRV_S25FL
+    bool "Use S25FL Driver?"
+    select DRIVER
+    select DRV_SQI_NEEDED
+    select USE_SYS_TMR_NEEDED
+    default n if !DRV_S25FL_NEEDED
+	default y if DRV_S25FL_NEEDED
+    ---help---
+      IDH_HTML__S25FL__Driver_Library
+    ---endhelp---
+
+config DRV_S25FL_INSTANCES_NUMBER
+    int "Number of SQI Flash Driver Instances"
+    depends on USE_DRV_S25FL
+    range 1 2
+    default 1
+    ---help---
+      IDH_HTML_DRV_S25FL_INSTANCES_NUMBER
+    ---endhelp---
+
+enum DRV_S25FL_IDX
+    "DRV_S25FL_INDEX_0"
+
+config DRV_S25FL_INDEX
+    string
+    depends on USE_DRV_S25FL
+    range DRV_S25FL_IDX
+    default "DRV_S25FL_INDEX_0"
+    ---help---
+      IDH_HTML_DRV_S25FL_INDEX_0
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/s25fl/config/drv_s25fl_idx_pic32m.ftl" 2 instances
+
+config USE_DRV_S25FL_SYS_FS_REGISTER
+    bool "Register with File System?"
+    depends on USE_DRV_S25FL
+    select USE_SYS_FS_NEEDED
+    select DRIVER
+    default n
+    ---help---
+      IDH_HTML_DRV_S25FL_SYS_FS_REGISTER
+    ---endhelp---
+
+endmenu
+
+ifblock USE_DRV_S25FL
+
+add "<#include \"/framework/driver/sqi_flash/s25fl/config/drv_s25fl.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/sqi_flash/s25fl/config/drv_s25fl_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/sqi_flash/s25fl/config/drv_s25fl_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/sqi_flash/s25fl/config/drv_s25fl.h.ftl\">"  to list SYSTEM_CONFIG_H_GLOBAL_INCLUDES
+add "#include \"driver/sqi_flash/s25fl/drv_s25fl.h\"" to list SYSTEM_DEFINITIONS_H_INCLUDES
+
+file DRV_S25FL_H "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/s25fl/drv_s25fl.h" to "$PROJECT_HEADER_FILES/framework/driver/sqi_flash/s25fl/drv_s25fl.h"
+file DRV_S25FL_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/s25fl/src/drv_s25fl_local.h" to "$PROJECT_HEADER_FILES/framework/driver/sqi_flash/s25fl/src/drv_s25fl_local.h"
+file DRV_S25FL_MAP_H "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/s25fl/src/drv_s25fl_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/sqi_flash/s25fl/src/drv_s25fl_variant_mapping.h"
+file DRV_S25FL_C "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/s25fl/src/dynamic/drv_s25fl.c" to "$PROJECT_SOURCE_FILES/framework/driver/sqi_flash/s25fl/src/dynamic/drv_s25fl.c"
+
+endif
+

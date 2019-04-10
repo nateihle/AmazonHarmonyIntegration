@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initialization and Tasks</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07980.html">Direct Memory Access (DMA) System Service Library</a> &gt; <a href="24286.html">Using the Library</a> &gt; <a href="24279.html">How the Library Works</a> &gt; <a href="24280.html">Initialization and Tasks</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24279.html">Previous</a> | <a href="24279.html">Up</a> | <a href="24272.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM DMA Initialization Topic Title: Initialization and Tasks)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initialization and Tasks</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Initialization Function Usage</div>
+<p class="Element10">
+The DMA subsystem is initialized by calling the initialization routine. The routine also enables the DMA module.&nbsp;</p>
+<p class="Element10">
+<i>Function Name:</i> <a href="23738.html">SYS_DMA_Initialize</a>&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03909');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03909"><pre class="Element12"><i><span style="color: #008000">//To Enable the Stop in Idle mode feature</span></i>
+
+SYS_MODULE_OBJ objectHandle;
+SYS_DMA_INIT initParam;
+
+initParam.sidl = SYS_DMA_SIDL_ENABLE;
+
+objectHandle = SYS_DMA_Initialize((SYS_MODULE_INIT*)&amp;initParam;);
+<strong><span style="color: #000080">if</span></strong>(SYS_MODULE_OBJ_INVALID == objectHandle)
+{
+<i><span style="color: #008000">// Handle error</span></i>
+}</pre></div></div>
+<div class="Element15">
+Task Function Usage</div>
+<p class="Element10">
+The task routine implements the data transfer state machine and returns a callback on the completion, abortion, or error in a data transfer.&nbsp;</p>
+<p class="Element10">
+<i>Function Name:</i> SYS_DMA_Tasks&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03910');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03910"><pre class="Element12"><i><span style="color: #008000">// 'objectHandle' Returned from SYS_DMA_Initialize</span></i>
+<i><span style="color: #008000">// Following is the DMA Channel 3 ISR</span></i>
+
+<strong><span style="color: #000080">void</span></strong> __ISR(_DMA3_VECTOR, ipl1AUTO) _IntHandlerSysDmaCh0(<strong><span style="color: #000080">void</span></strong>)
+{
+    SYS_DMA_Tasks(objectHandle, DMA_CHANNEL_3);
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Use SYS_DMA_Tasks(objectHandle) for devices that have a common interrupt vector for all DMA channels.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<i>Function Name:</i> <a href="23742.html">SYS_DMA_TasksError</a>&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03911');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03911"><pre class="Element12"><i><span style="color: #008000">// 'object' Returned from SYS_DMA_Initialize</span></i>
+    <strong><span style="color: #000080">while</span></strong> (<strong><span style="color: #000080">true</span></strong>)
+    {
+        SYS_DMA_TasksError (object);
+        <i><span style="color: #008000">// Do other tasks</span></i>
+    }</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The <a href="23742.html">SYS_DMA_TasksError</a> function should be used in Synchronous (polling) mode only. This function should not be called from an ISR.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<i>Function Name:</i> <a href="23744.html">SYS_DMA_TasksISR</a>&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03912');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03912"><pre class="Element12"><i><span style="color: #008000">// 'object' Returned from SYS_DMA_Initialize</span></i>
+<i><span style="color: #008000">// Channel 3 is setup for receiving data by USART peripheral in interrupt mode</span></i>
+
+<i><span style="color: #008000">// Following is the DMA Channel 3 ISR</span></i>
+
+<strong><span style="color: #000080">void</span></strong> __ISR(_DMA3_VECTOR,ipl5) _InterruptHandler_BT_USART_RX_DMA_CHANNEL(<strong><span style="color: #000080">void</span></strong>)
+{
+ SYS_DMA_TasksISR(object, DMA_CHANNEL_3);
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The <a href="23744.html">SYS_DMA_TasksISR</a> function should be used in Asynchronous (interrupt) mode only. This function should not be called from the <a href="24151.html">SYS_Tasks</a> function.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<i>Function Name:</i> <a href="23743.html">SYS_DMA_TasksErrorISR</a>&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03913');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03913"><pre class="Element12"><i><span style="color: #008000">// 'object' Returned from SYS_DMA_Initialize</span></i>
+<i><span style="color: #008000">// Channel 3 is setup for receiving data by USART peripheral in interrupt mode</span></i>
+
+<i><span style="color: #008000">// Following is the DMA Channel 3 ISR</span></i>
+
+<strong><span style="color: #000080">void</span></strong> __ISR(_DMA3_VECTOR,ipl5) _InterruptHandler_BT_USART_RX_DMA_CHANNEL(<strong><span style="color: #000080">void</span></strong>)
+{
+ SYS_DMA_TasksErrorISR(object, DMA_CHANNEL_3);
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The <a href="23743.html">SYS_DMA_TasksErrorISR</a> function should be used in Asynchronous (interrupt) mode only. This function should not be called from the <a href="24151.html">SYS_Tasks</a> function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07980.html">Direct Memory Access (DMA) System Service Library</a> &gt; <a href="24286.html">Using the Library</a> &gt; <a href="24279.html">How the Library Works</a> &gt; <a href="24280.html">Initialization and Tasks</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM DMA Initialization Topic Title: Initialization and Tasks)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

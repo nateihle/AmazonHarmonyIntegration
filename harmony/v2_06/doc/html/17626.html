@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Transfer/Abort (Asynchronous) Trigger Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17626.html">Transfer/Abort (Asynchronous) Trigger Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17627.html">Previous</a> | <a href="17616.html">Up</a> | <a href="17617.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Transfer/Abort (Asynchronous) Trigger Management Topic Title: Transfer/Abort (Asynchronous) Trigger Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Transfer/Abort (Asynchronous) Trigger Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+DMA Start IRQ</div>
+<p class="Element10">
+Each channel can be configured to initiate a DMA transaction based on the interrupt from a source. This can be enabled/disable per channel basis. To initiate a DMA transfer upon an interrupt trigger, the IRQ number needs to be configured as the start IRQ for this channel. Which source can act as the start IRQ is device-dependent. In certain devices, any of the available IRQs can be configured as the starting IRQ, while in other devices, there is restriction on which interrupt source can act as the start IRQ. Refer to the specific device data sheet to determine feature availability.&nbsp;</p>
+<p class="Element10">
+The starting IRQ is enabled by the <a href="18952.html">PLIB_DMA_ChannelXTriggerEnable</a> function. A DMA channel can be configured to start a DMA transfer based on the event on an IRQ using the <a href="18946.html">PLIB_DMA_ChannelXStartIRQSet</a> function.</p><div class="Element15">
+DMA Abort IRQ</div>
+<p class="Element10">
+Each channel can be configured to abort a DMA transaction based on the interrupt from a source. This can be enabled/disabled per channel basis. To abort a DMA transfer upon an interrupt trigger, the IRQ number needs to be configured as the abort IRQ for this channel.&nbsp;</p>
+<p class="Element10">
+The abort IRQ is enabled by the <a href="18952.html">PLIB_DMA_ChannelXTriggerEnable</a> function. A DMA channel can be configured to abort a DMA transfer based on the event on an IRQ using the ChannelXAbortIRQSet function.</p><div class="Element15">
+DMA Pattern Matching Termination</div>
+<p class="Element10">
+Pattern Match Termination mode allows the user to end a transfer if a byte of data written during a transaction matches a specific pattern. This feature is useful in applications where a variable data size is required and eases the setup of the DMA channel. The UART module is a good example of where this can be effectively used. For details about the pattern data configuration refer to <a href="17598.html">Channel Management</a><strong>.</strong>&nbsp;</p>
+<p class="Element10">
+DMA Pattern match mode is enabled using the <a href="18952.html">PLIB_DMA_ChannelXTriggerEnable</a> function<strong>. </strong>It can also be disabled using the <a href="18951.html">PLIB_DMA_ChannelXTriggerDisable</a> function<strong>.</strong></p><div class="Element15">
+DMA Transfer/Abort (Asynchronous) Configuration</div>
+<p class="Element10">
+A DMA transfer can also be triggered/aborted asynchronously by using an interrupt event. The interrupt event required to initiate/abort a DMA transfer for a channel needs to be set. Prior to this, the start IRQ and abort IRQ both need to be enabled.&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong>: &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01899');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01899"><pre class="Element12"><i><span style="color: #008000">// Enable the start IRQ. An interrupt event can trigger a DMA transfer.</span></i>
+PLIB_DMA_ChannelXTriggerEnable ( DMA_ID_0, DMA_CHANNEL_3, DMA_CHANNEL_TRIGGER_TRANSFER_START );
+<i><span style="color: #008000">// Enable the abort IRQ. An interrupt event can abort a DMA transfer on channel-3</span></i>
+PLIB_DMA_ChannelXTriggerEnable ( DMA_ID_0, DMA_CHANNEL_3, DMA_CHANNEL_TRIGGER_TRANSFER_ABORT );
+<i><span style="color: #008000">// Set the start IRQ to UART-2 RX Interrupt</span></i>
+PLIB_DMA_ChannelXStartIRQSet ( DMA_ID_0, DMA_CHANNEL_3, DMA_TRIGGER_USART_2_RECEIVE );
+<i><span style="color: #008000">// Set the abort IRQ to UART-2 error Interrupt</span></i>
+PLIB_DMA_ChannelXAbortIRQSet ( DMA_ID_0, DMA_CHANNEL_3, DMA_TRIGGER_USART_2_ERROR );</pre></div></div>
+<p class="Element10">
+In some devices, abort IRQ trigger is not supported. Refer to the specific device data sheet to determine availability.</p><div class="Element15">
+DMA Transfer Pattern Match Abort Configuration</div>
+<p class="Element10">
+The DMA transfer can also be aborted on a pattern match trigger (supported on PIC32 devices). Refer to Transfer/Abort (Asynchronous) Trigger Management for more information on pattern match abort. To use this feature, it must first be enabled. The pattern data needs to be programmed for the required channel. Once this is done, when a DMA transfer is in progress on that particular channel, if the DMA controller comes across the data matching the programmed data the transfer is automatically aborted.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01900');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01900"><pre class="Element12"><i><span style="color: #008000">// Enable the pattern match abort for channel-3</span></i>
+PLIB_DMA_ChannelXTriggerEnable ( DMA_ID_0, DMA_CHANNEL_3, DMA_CHANNEL_TRIGGER_PATTERN_MATCH_ABORT );
+<i><span style="color: #008000">// Set a pattern data to match</span></i>
+PLIB_DMA_ChannelXPatternDataSet ( DMA_ID_0, DMA_CHANNEL_3, 0xEE );</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17626.html">Transfer/Abort (Asynchronous) Trigger Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Transfer/Abort (Asynchronous) Trigger Management Topic Title: Transfer/Abort (Asynchronous) Trigger Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

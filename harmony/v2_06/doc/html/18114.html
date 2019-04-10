@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>USB Setup Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27451.html">USB Peripheral Library</a> &gt; <a href="18116.html">Using the Library</a> &gt; <a href="18101.html">How the Library Works</a> &gt; <a href="18114.html">USB Setup Example</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18111.html">Previous</a> | <a href="18101.html">Up</a> | <a href="18092.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USB USB Setup Example Topic Title: USB Setup Example)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+USB Setup Example</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Following is an example of how to set up the USB module: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03585');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03585"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> USB_MAX_EP_NUMBER 15
+
+<strong><span style="color: #000080">#define</span></strong> BDT_NUM_ENTRIES      (((USB_MAX_EP_NUMBER + 1) * 4)-2)
+
+<strong><span style="color: #000080">volatile</span></strong> <strong><span style="color: #000080">union</span></strong> USB_BDT_ENTRY_TAG gBDT[BDT_NUM_ENTRIES] __attribute__ (( aligned (512) ));
+
+<strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> bufferTransactionCount[BDT_NUM_ENTRIES];
+
+    <i><span style="color: #008000">// Turn off USB module</span></i>
+    PLIB_USB_Disable( usbID );
+
+    <i><span style="color: #008000">// Set up the Hardware</span></i>
+    <strong><span style="color: #000080">if</span></strong> ( usbModuleSetup.StopInIdle )
+    {
+        PLIB_USB_StopInIdleEnable( usbID );
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        PLIB_USB_StopInIdleDisable( usbID );
+    }
+
+    <strong><span style="color: #000080">if</span></strong> ( usbModuleSetup.SuspendInSleep )
+    {
+        PLIB_USB_AutoSuspendEnable( usbID );
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        PLIB_USB_AutoSuspendDisable( usbID );
+    }
+
+    PLIB_USB_OperatingModeSelect( usbID, usbModuleSetup.OpMode );
+
+    PLIB_USB_PingPongModeSelect( usbID, usbModuleSetup.ppMode );
+
+    <i><span style="color: #008000">// Reset all ping pong buffers to &quot;Even&quot;</span></i>
+    PLIB_USB_PingPongFreeze( usbID );
+    PLIB_USB_PingPongUnfreeze( usbID );
+
+    <i><span style="color: #008000">// Interrupt flag cleared on the safer side</span></i>
+    IFS1bits.USBIF = 0;
+
+    <i><span style="color: #008000">// Enable USB module interrupts</span></i>
+    PLIB_USB_InterruptEnable( usbID, DRV_USB_GEN_INT_ENABLES );
+
+    <i><span style="color: #008000">// Disable all OTG interrupts</span></i>
+    PLIB_USB_OTG_InterruptDisable( usbID, DRV_USB_OTB_INT_ENABLES );
+
+    <i><span style="color: #008000">// Enable all Error interrupts</span></i>
+    PLIB_USB_ErrorInterruptEnable( usbID, DRV_USB_ERR_INT_ENABLES );
+
+    <i><span style="color: #008000">// Enable the interrupt source in case of interrupt mode</span></i>
+    IEC1bits.USBIE = 1;
+
+    <i><span style="color: #008000">// Setting the Interrupt Priority in case of interrupt mode.</span></i>
+    IPC11bits.USBIP = 4;
+
+    <i><span style="color: #008000">// Initialize BDT</span></i>
+    <strong><span style="color: #000080">for</span></strong> ( iEntry = 0; iEntry &lt; BDT_NUM_ENTRIES; iEntry++ )
+    {
+        gBDT[iEntry].lValue[0] = 0ul;
+        gBDT[iEntry].lValue[1] = 0ul;
+
+        bufferTransactionCount[iEntry] = 0;
+    }<i><span style="color: #008000">//end for ( iEntry = 0; iEntry &lt; BDT_NUM_ENTRIES; iEntry++ )</span></i>
+
+    <i><span style="color: #008000">// Inform USB module of BDT's address in memory</span></i>
+    PLIB_USB_BDTBaseAddressSet( usbID , (<strong><span style="color: #000080">void</span></strong> *)((uint32_t)KVA_TO_PA(gBDT)) );
+
+    <i><span style="color: #008000">/***********************/</span></i>
+    <i><span style="color: #008000">/* SET UP ENDPOINT ZERO */</span></i>
+    <i><span style="color: #008000">/***********************/</span></i>
+    PLIB_USB_BufferAddressSet( usbID, (<strong><span style="color: #000080">void</span></strong>*)gBDT, PLIB_USB_PingPongModeGet( usbID ),
+                               0, USB_BUFFER_RX, USB_BUFFER_EVEN, pSetupRcvBuffer );
+
+    <i><span style="color: #008000">// Configure Endpoint Zero control register</span></i>
+    PLIB_USB_EP0LSDirectConnectDisable( usbID );   <i><span style="color: #008000">// For Hosts, included for completeness</span></i>
+    PLIB_USB_EP0NakRetryEnable( usbID );           <i><span style="color: #008000">// For Hosts, included for completeness</span></i>
+    PLIB_USB_EPnControlTransferEnable( usbID, 0 ); <i><span style="color: #008000">// Enable control transfers</span></i>
+    PLIB_USB_EPnRxSelect( usbID, 0, USB_EP_RX );   <i><span style="color: #008000">// Enable receive</span></i>
+    PLIB_USB_EPnHandshakeEnable( usbID, 0 );       <i><span style="color: #008000">// Enable handshaking</span></i>
+
+    <i><span style="color: #008000">// Set up Endpoint Zero's receive buffer BDT entries</span></i>
+    ppMode = PLIB_USB_PingPongModeGet( usbID ); <i><span style="color: #008000">// Ping Pong Mode needed for BDT entry indexing</span></i>
+
+    <i><span style="color: #008000">// Clear PID bits</span></i>
+    PLIB_USB_BufferPIDBitsClear(usbID,(<strong><span style="color: #000080">void</span></strong>*)gBDT,ppMode,0,USB_BUFFER_RX,USB_BUFFER_EVEN); <i><span style="color: #008000">//Rx0</span></i>
+
+    <i><span style="color: #008000">// Disable buffer stall</span></i>
+    PLIB_USB_BufferStallDisable(usbID,(<strong><span style="color: #000080">void</span></strong>*)gBDT,ppMode,0,USB_BUFFER_RX,USB_BUFFER_EVEN); <i><span style="color: #008000">//Rx0</span></i>
+
+    <i><span style="color: #008000">// Enable Data Toggle Synchronization</span></i>
+    PLIB_USB_BufferDataToggleSyncEnable(usbID,(<strong><span style="color: #000080">void</span></strong>*)gBDT,ppMode,0,USB_BUFFER_RX,USB_BUFFER_EVEN); <i><span style="color: #008000">//Rx0</span></i>
+
+    <i><span style="color: #008000">// Set Data0/1 to Data0</span></i>
+    PLIB_USB_BufferDataToggleSelect(usbID,(<strong><span style="color: #000080">void</span></strong>*)gBDT,ppMode,0,USB_BUFFER_RX,USB_BUFFER_EVEN,USB_BUFFER_DATA0); <i><span style="color: #008000">//Rx0</span></i>
+
+    <i><span style="color: #008000">// Setup packets have 8 bytes of data payload</span></i>
+    PLIB_USB_BufferByteCountSet(usbID,(<strong><span style="color: #000080">void</span></strong>*)gBDT,ppMode,0,USB_BUFFER_RX,USB_BUFFER_EVEN,8);
+
+    <i><span style="color: #008000">// Release buffers to USB module</span></i>
+    PLIB_USB_BufferReleaseToUSB(usbID,(<strong><span style="color: #000080">void</span></strong>*)gBDT,ppMode,0,USB_BUFFER_RX,USB_BUFFER_EVEN);
+
+    PLIB_USB_Enable( gDrvUSBObj[hDriver].usbID ); <i><span style="color: #008000">// Turn on USB module</span></i></pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27451.html">USB Peripheral Library</a> &gt; <a href="18116.html">Using the Library</a> &gt; <a href="18101.html">How the Library Works</a> &gt; <a href="18114.html">USB Setup Example</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USB USB Setup Example Topic Title: USB Setup Example)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

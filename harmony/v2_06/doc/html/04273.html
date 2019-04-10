@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Step 6: Integrating Mutiple Modules</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04295.html">Using MHC Application Templates to Create an Application</a> &gt; <a href="04273.html">Step 6: Integrating Mutiple Modules</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04272.html">Previous</a> | <a href="04295.html">Up</a> | <a href="04274.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH MHC APP TEMPLATE Step 6: Integrating Multiple Modules Topic Title: Step 6: Integrating Mutiple Modules)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Step 6: Integrating Mutiple Modules</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+When building an application, it is possible to select more than one module. For example, you can choose the SPI and USART modules in one application and modify the code with multiple modules to communicate with each other as producers and consumers.&nbsp;</p>
+<p class="Element10">
+As an example, the RTCC System Service can be added to the project as a producer, as shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="ARCH MHC APP TEMPLATE Adding Modules.png" border="0" alt="" title=""></p><p class="Element10">
+After regenerating the code, modify the APP_RTCC_TIMESTAMP_Callback function to make it a ‘producer’. This function will put data into the array that the USART task checks. Then, modify the USART task to be the ‘consumer’. Note that the RTCC state machine will never quit because the code that increments the index for the timestamp array has been abandoned. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00037');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00037"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> APP_RTCC_TIMESTAMP_Callback(SYS_RTCC_ALARM_HANDLE handle, uintptr_t context)
+{
+    <i><span style="color: #008000">/* save typing and help readability */</span></i>
+    timestampsT *times = (timestampsT *)context;
+
+    <i><span style="color: #008000">/* the handle will tell us it is our handle – check data sent */</span></i>
+    <strong><span style="color: #000080">if</span></strong> ((handle == appHandle) &amp;&amp; times &amp;&amp; !appData.tx_count)
+    {
+        SYS_RTCC_BCD_TIME timestamp;
+        SYS_RTCC_STATUS status = SYS_RTCC_TimeGet(&amp;timestamp);
+        <strong><span style="color: #000080">if</span></strong> (SYS_RTCC_STATUS_OK == status)
+        {
+            <i><span style="color: #008000">/* get the seconds out that is in BDC and set the flag */</span></i>
+            app_tx_buf[0]= ((timestamp &gt;&gt; 8) &amp; 0xF) + ‘0’;
+            appData.tx_count = 1;
+        }
+    }
+}</pre></div></div>
+<p class="Element10">
+Modify the USART_Task so that it watches the tx_count, which is now just a flag for data present. If there is data, it will be sent out the USART and tx_count will be marked as clear. By default, the RTCC System Service is only running once per second. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00038');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00038"><pre class="Element12"><strong><span style="color: #000080">static</span></strong> <strong><span style="color: #000080">void</span></strong> USART_Task (<strong><span style="color: #000080">void</span></strong>)
+{
+   <strong><span style="color: #000080">if</span></strong> (appData.tx_count)
+       {
+           <strong><span style="color: #000080">if</span></strong>(!DRV_USART_TransmitBufferIsFull(appData.handleUSART0))
+           {
+            DRV_USART_WriteByte(appData.handleUSART0, app_tx_buf[0]);
+            appData.tx_count = 0;
+        }
+       }
+}</pre></div></div>
+<p class="Element10">
+Now the USART will output 0-9 at each second.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04295.html">Using MHC Application Templates to Create an Application</a> &gt; <a href="04273.html">Step 6: Integrating Mutiple Modules</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH MHC APP TEMPLATE Step 6: Integrating Multiple Modules Topic Title: Step 6: Integrating Mutiple Modules)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

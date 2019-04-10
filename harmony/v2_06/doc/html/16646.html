@@ -1,0 +1,297 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GPU Hardware Accelerated Features</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16646.html">GPU Hardware Accelerated Features</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16666.html">Previous</a> | <a href="16636.html">Up</a> | <a href="16653.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG GPU Hardware Accelerated Features Topic Title: GPU Hardware Accelerated Features)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+GPU Hardware Accelerated Features</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+On the PIC32MZ DA devices, the on-board 2D Graphics Processing Unit (GPU) peripheral allows certain features to be accelerated. These features are:</p>
+<ul class="Element630">
+<li class="Element600">Line draw</li>
+<li class="Element600">Single-color rectangle fill</li>
+<li class="Element600">Image Blit</li>
+</ul><p class="Element10">
+Once configured, these features are supported by the Hardware Abstraction Layer (HAL) and can be enabled or disabled at run-time. When disabled, the HAL falls back to the software-based algorithms, and relies on the CPU to perform the features.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><div class="Element15">
+Configuring for GPU Hardware Acceleration</div>
+<p class="Element10">
+The Nano2D library, is the driver library that permits hardware acceleration via the GPU. To make sure the Nano2D library is configured as part of your application, make sure to enable this in the MPLAB Harmony Configurator (MHC) under <i>Graphics Stack &gt; Use Graphics Stack &gt; Graphics Processor &gt; Select Processor Type &gt; NANO 2D</i>. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Selecting Processor.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><div class="Element15">
+Enabling/Disabling GPU Hardware Acceleration at Runtime</div>
+<p class="Element10">
+Once configured, the hardware acceleration via the GPU is enabled by default at launch. The hardware acceleration can subsequently be turned on or off at runtime by calling the following lines of code:&nbsp;</p>
+<p class="Element10">
+Enable acceleration:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">GFX_Set(GFXF_DRAW_PIPELINE_MODE, GFX_PIPELINE_GCUGPU);</span>&nbsp;</p>
+<p class="Element10">
+Disable acceleration:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">GFX_Set(GFXF_DRAW_PIPELINE_MODE, GFX_PIPELINE_GCU);</span>&nbsp;</p>
+<p class="Element10">
+This change takes effect immediately for subsequent draw instructions into HAL.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><div class="Element15">
+Line Draw and Rectangle Fill Hardware Acceleration</div>
+<p class="Element10">
+When the GPU hardware acceleration is enabled, line draw and rectangle fill features are automatically supported. This is supported by HAL function calls<span class="Element146"> <a href="12398.html">GFX_DrawLine</a></span> and <span class="Element146">GFX_RectFill</span>. The actual routing of the call between the hardware accelerated support versus the software-based algorithmic support is abstracted from the caller.&nbsp;</p>
+<p class="Element10">
+The following table displays performance improvement by comparing the frame update rate of rectangular fills of varying sizes with, and without hardware acceleration. The table shows that the higher the frame update rate, the better the performance. The measurement is performed using the entire Harmony Graphics Stack but with most Aria draw pipeline features disabled, so that the focus is on HAL performance.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="21%">
+<div class="Element66">
+Rect Fill Size&nbsp;</div></td><td class="Element65" valign="top" width="25%">
+<div class="Element66">
+No Acceleration Frame Update Frequency (Hz)&nbsp;</div></td><td class="Element65" valign="top" width="29%">
+<div class="Element66">
+Hardware accelerated Frame Update Frequency (Hz)&nbsp;</div></td><td class="Element65" valign="top" width="25%">
+<div class="Element66">
+Performance Improvement&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+60x60&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+101&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+160&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+58.4%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+100x100&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+37&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+158&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+327.0%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+140x140&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+19&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+157&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+726.3%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+180x180&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+11&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+156&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+1318.2%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="21%">
+<div class="Element68">
+220x220&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+8&nbsp;</div></td><td class="Element67" valign="top" width="29%">
+<div class="Element68">
+155&nbsp;</div></td><td class="Element67" valign="top" width="25%">
+<div class="Element68">
+1837.5%&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The HAL uses a software algorithm for rectangle fill sizes below 50x50, as the CPU is able to perform the operation faster than the GPU below that size.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Image Blit Hardware Acceleration</div>
+<p class="Element10">
+The only way Image Blits significantly leverage hardware acceleration is via the block transfer of image data that has been preprocessed into DDR/Internal SRAM memory into frame buffer memory. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The GPU is able to interpret and transfer pixel data in RGB565 or RGBA8888 format only.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The following table displays performance improvement by comparing the frame update rate of the image blit of the same 100x100 image in varying formats with, and without GPU acceleration. The table shows that the higher the frame update rate, the better the performance. There is a marked performance increase when using the preprocessing method (despite the amount of image data is doubled in RGBA8888 versus RGB565).&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="45%">
+<div class="Element66">
+Image Format (100x100)&nbsp;</div></td><td class="Element65" valign="top" width="20%">
+<div class="Element66">
+No Acceleration Frame Update Frequency (Hz)&nbsp;</div></td><td class="Element65" valign="top" width="16%">
+<div class="Element66">
+GPU Frame Update Frequency (Hz)&nbsp;</div></td><td class="Element65" valign="top" width="18%">
+<div class="Element66">
+Performance Improvement&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="45%">
+<div class="Element68">
+RGB565 raw pixels&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+37&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+60&nbsp;</div></td><td class="Element67" valign="top" width="18%">
+<div class="Element68">
+62.1%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="45%">
+<div class="Element68">
+RGB565 with RLE compression&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+26&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+34&nbsp;</div></td><td class="Element67" valign="top" width="18%">
+<div class="Element68">
+30.8%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="45%">
+<div class="Element68">
+JPEG (24-bit)&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+17&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+22&nbsp;</div></td><td class="Element67" valign="top" width="18%">
+<div class="Element68">
+29.4%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="45%">
+<div class="Element68">
+PNG (32-bit)&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+13&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+15&nbsp;</div></td><td class="Element67" valign="top" width="18%">
+<div class="Element68">
+15.4%&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="45%">
+<div class="Element68">
+Preprocessed RGBA8888 raw pixels&nbsp;</div></td><td class="Element67" valign="top" width="20%">
+<div class="Element68">
+29&nbsp;</div></td><td class="Element67" valign="top" width="16%">
+<div class="Element68">
+161&nbsp;</div></td><td class="Element67" valign="top" width="18%">
+<div class="Element68">
+455.2%&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The GPU works best with image sizes in powers of two (such as 128x128 instead of 125x105). Images with sizes that are not a power of two may be rendered with artifacts. This is often a case-by-case situation and the way to remedy this is to pad the memory footprint up to the nearest power of two.&nbsp;</p>
+<p class="Element10">
+Prior to application use, images stored in flash storage will need to be preprocessed, converting them from the original format into a raw bitmap. There are two methods to achieve this:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Calling from application code: The API GFXU_Preprocess Image can be used to preprocess an image asset to a target memory location (DDR or internal SRAM) while specifying the destination color mode (RGB565 or RGBA8888). The application developer will need to manage the target memory and be careful not to stomp on other critical memory structures such as the frame buffer, or the GPU’s command buffer. Power of two padding can be enabled via the API.</li>
+<li value="2" class="Element600">The application developer can also use the Image Assets options within the <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> (MHGC) to specify that certain image assets should be preprocessed at application launch. This can be achieved by enabling image preprocessing as shown under the Preprocessing sub-section of the Image Asset window as shown in the following figure:</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="MHGC UG ImageAssetsWindow2.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+For more information, see Image Assets and DDR Organizer under the Graphics Composer Asset Management section above.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="16653.html">Image Preprocessing Memory Management</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This sections describes preprocessing.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16646.html">GPU Hardware Accelerated Features</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG GPU Hardware Accelerated Features Topic Title: GPU Hardware Accelerated Features)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,22 @@
+config IN_TCPIP_USE_SNMP
+    bool "SNMP"
+    default n
+    ---help---
+         This product is available for license from InterNiche Technologies. http://www.iniche.com
+    ---endhelp---
+
+config IN_TCPIP_USE_SNMP_SOCKETS
+    bool "sockets API not lightweight"
+    depends on IN_TCPIP_USE_SNMP
+    default y
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_SNMP_V1
+    bool "V1"
+    depends on IN_TCPIP_USE_SNMP
+    default y
+    ---help---
+      Support v1
+    ---endhelp---
+

@@ -1,0 +1,198 @@
+config USE_DRV_TOUCH_ADC_UPDATED_NEEDED
+    bool
+
+config USE_DRV_TOUCH_ADC_UPDATED
+    bool "Use Touch ADC Driver?"
+    default n if !USE_DRV_TOUCH_ADC_UPDATED_NEEDED
+    default y if USE_DRV_TOUCH_ADC_UPDATED_NEEDED
+    select DRV_ADC_USE_DRIVER_NEEDED
+    select USE_SYS_TOUCH_CALIBRATION_NEEDED
+    select USE_SYS_TOUCH_NEEDED
+    select USE_SYS_INT_NEEDED
+    ---help---
+    IDH_HTML_ADC_Touch_Driver_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_TOUCH_ADC_RTOS_UPDATED
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_TOUCH_ADC_RTOS_TASK_SIZE_UPDATED
+    int "Task Size"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    default 1024
+
+config DRV_TOUCH_ADC_RTOS_TASK_PRIORITY_UPDATED
+    int "Task Priority"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    default 1
+
+config DRV_TOUCH_ADC_RTOS_USE_DELAY_UPDATED
+    bool "Use Task Delay?"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    default y
+
+config DRV_TOUCH_ADC_RTOS_DELAY_UPDATED
+    int "Task Delay"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    depends on DRV_TOUCH_ADC_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+menu "Calibration Setup"
+        depends on USE_DRV_TOUCH_ADC_UPDATED
+
+config DRV_TOUCH_ADC_CAL_ULX_SAMPLE_UPDATED
+    string "Upper Left X Sample (ULX) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x00C0 if USE_GFX_TRULY_32_240X320
+    default 0x0099 if USE_GFX_POWERTIP_43_480X272
+    default 0x00ad if USE_GFX_TRULY_7_800X480
+    default 0x00aa if USE_GFX_TRULY_57_640X480
+    default 0x00C0 if USE_GFX_TRULY_32_240X320
+    default 0x0099 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_ULY_SAMPLE_UPDATED
+    string "Upper Left Y Sample (ULY) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x00D4 if USE_GFX_TRULY_32_240X320
+    default 0x00FF if USE_GFX_POWERTIP_43_480X272
+    default 0x033f if USE_GFX_TRULY_7_800X480
+    default 0x0349 if USE_GFX_TRULY_57_640X480
+    default 0x00D4 if USE_GFX_TRULY_32_240X320
+    default 0x00FF if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_URX_SAMPLE_UPDATED
+    string "Upper Right X Sample (URX) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x037C if USE_GFX_TRULY_32_240X320
+    default 0x0369 if USE_GFX_POWERTIP_43_480X272
+    default 0x03ac if USE_GFX_TRULY_7_800X480
+    default 0x038a if USE_GFX_TRULY_57_640X480
+    default 0x037C if USE_GFX_TRULY_32_240X320
+    default 0x0369 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_URY_SAMPLE_UPDATED
+    string "Upper Right X Sample (URY) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x00D7 if USE_GFX_TRULY_32_240X320
+    default 0x00F1 if USE_GFX_POWERTIP_43_480X272
+    default 0x0363 if USE_GFX_TRULY_7_800X480
+    default 0x0349 if USE_GFX_TRULY_57_640X480
+    default 0x00D7 if USE_GFX_TRULY_32_240X320
+    default 0x00F1 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LRX_SAMPLE_UPDATED
+    string "Lower Right X Sample (LRX) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x035A if USE_GFX_TRULY_32_240X320
+    default 0x0368 if USE_GFX_POWERTIP_43_480X272
+    default 0x0378 if USE_GFX_TRULY_7_800X480
+    default 0x0374 if USE_GFX_TRULY_57_640X480
+    default 0x035A if USE_GFX_TRULY_32_240X320
+    default 0x0368 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LRY_SAMPLE_UPDATED
+    string "Lower Right Y Sample (LRY) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x0333 if USE_GFX_TRULY_32_240X320
+    default 0x033C if USE_GFX_POWERTIP_43_480X272
+    default 0x00d4 if USE_GFX_TRULY_7_800X480
+    default 0x00ce if USE_GFX_TRULY_57_640X480
+    default 0x0333 if USE_GFX_TRULY_32_240X320
+    default 0x033C if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LLX_SAMPLE_UPDATED
+    string "Lower Left X Sample (LLX) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x00B9 if USE_GFX_TRULY_32_240X320
+    default 0x00AC if USE_GFX_POWERTIP_43_480X272
+    default 0x0081 if USE_GFX_TRULY_7_800X480
+    default 0x00a8 if USE_GFX_TRULY_57_640X480
+    default 0x00B9 if USE_GFX_TRULY_32_240X320
+    default 0x00AC if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LLY_SAMPLE_UPDATED
+    string "Lower Left Y Sample (LLY) "
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0x0350 if USE_GFX_TRULY_32_240X320
+    default 0x032A if USE_GFX_POWERTIP_43_480X272
+    default 0x00e2 if USE_GFX_TRULY_7_800X480
+    default 0x00ce if USE_GFX_TRULY_57_640X480
+    default 0x0350 if USE_GFX_TRULY_32_240X320
+    default 0x032A if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+endmenu
+
+config DRV_TOUCH_ADC_INPUT_SCAN_X_INSTANCE_UPDATED
+    int "Analog Input Scan X Instance "
+    depends on USE_DRV_ADC
+        depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0
+
+config DRV_TOUCH_ADC_INPUT_SCAN_Y_INSTANCE_UPDATED
+    int "Analog Input Scan Y Instance "
+    depends on USE_DRV_ADC
+        depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 0
+
+config DRV_TOUCH_ADC_TOUCH_DIAMETER_UPDATED
+    int "Touch Diameter"
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    default 10
+
+config DRV_TOUCH_ADC_SAMPLE_POINTS_UPDATED
+    int "Sample Points"
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    range 1 10
+    default 4
+
+config DRV_TOUCH_ADC_CALIBRATION_DELAY_UPDATED
+    int "Calibration Delay"
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    range 1 400
+    default 300
+	
+config DRV_TOUCH_ADC_CALIBRATION_SCALE_FACTOR
+    int "Calibration Scale Factor"
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    range 1 256
+    default 8
+
+config DRV_TOUCH_ADC_CALIBRATION_INSET_FACTOR_UPDATED
+    int "Calibration Inset Factor"
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    range 1 256
+    default 20
+
+config DRV_TOUCH_ADC_PRESS_THRESHOLD_UPDATED
+    int "Press Threshold"
+    depends on USE_DRV_TOUCH_ADC_UPDATED
+    range 0 256
+    default 256
+
+ifblock USE_DRV_TOUCH_ADC_UPDATED
+
+add "<#include \"/framework/driver/touch/touch_adc/templates/drv_touch_adc_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/touch/touch_adc/templates/drv_touch_adc_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/touch/touch_adc/templates/drv_touch_adc_initialize.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+
+template DRV_TOUCH_ADC_C_UPDATED "$HARMONY_VERSION_PATH/framework/driver/touch/touch_adc/templates/drv_touch_adc.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/touch_adc/src/drv_touch_adc.c"
+template DRV_TOUCH_ADC_H_UPDATED "$HARMONY_VERSION_PATH/framework/driver/touch/touch_adc/templates/drv_touch_adc.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/touch_adc/drv_touch_adc.h"
+
+endif
+
+

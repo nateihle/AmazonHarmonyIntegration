@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>aria_touchadc_calibrate</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03722.html">aria_touchadc_calibrate</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03721.html">Previous</a> | <a href="03738.html">Up</a> | <a href="03723.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_touchadc_calibrate Topic Title: aria_touchadc_calibrate)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+aria_touchadc_calibrate</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This application is an example on how to calibrate a resistive touch overlay using the Aria Graphics Library and the Harmony <span class="Element146">drv_touchadc.c</span> driver on PIC32MZ EF and PIC32MX parts. Calibration flash storage is not available for pic32mx_usb_sk2_lcc_pictail_qvga, pic32mx_usb_sk2_lcc_pictail_wqvga, and pic32mz_ef_sk_s1d_pictail_wqvga configurations.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+In all configurations, the application consists of the Aria Graphics Library, Input System Services, and application calibration logic. The Aria Graphics Library is used to establish the UI presentation. Input System Services is used to interface with the resistive touch overlay and implement a 4-point calibration method.&nbsp;</p>
+<p class="Element10">
+The graphic design layout consists of three screens. The TouchWidget screen has two buttons which provide a transition to the Calibration and KeyPad. The KeyPad screen as an array of buttons used to verify touch response, and a TouchWidget button which transitions to the TouchWidget screen. The Calibration screen renders four sequential touch points (crosshairs) to the display 10% from each corner of the display. The user is guided to press and release a stylus at the center of each cross hair. On release, the cross-hair turns green and the coordinate location is displayed for each image point touched. Once calibrated, the calibration data is used immediately by the application and saved to the external SRAM.&nbsp;</p>
+<p class="Element10">
+This Demonstration uses the Harmony<span class="Element146"> drv_touchadc.c</span> driver coupled with a method to obtain, use, and store calibration data.&nbsp;</p>
+<p class="Element10">
+These are the key points:</p>
+<ul class="Element630">
+<li class="Element600">Two-touch Interrupt versus polling driver for PIC32MZ EF and PIC32MX</li>
+<li class="Element600">MHC calibration settings for program flash storage persistence</li>
+<li class="Element600">External SRAM storage example</li>
+<li class="Element600">Calibration verification</li>
+<li class="Element600">Input System Services</li>
+</ul><p class="Element10">
+The following figure shows the various software and hardware components used by this application. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_touchadc_calibrate architecture block diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+<strong>pic32mx_usb_sk2_lcc_pictail_qvga, pic32mx_usb_sk2_lcc_pictail_wqvga</strong>&nbsp;</p>
+<p class="Element10">
+For this configuration, the aria_touchadc_calibrate application uses the Graphics Library to render graphics to the display. The Graphics Library draws the widgets and images to the write frame buffer that is stored in the external SRAM. Using the DMA, the Low-Cost Controllerless (LCC)display driver continuously transfers frame data from the read frame buffer out to the LCD display. The write and read frame buffers are swapped when the Graphics Library is done rendering to the write frame buffer, and the LC driver is done transferring the frame data from the read frame buffer. The display has a built-in SSD1289 TCON Driver, which is initiated by the LCC Driver.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input by measuring the voltages from the display panel. The voltage signal is measured by the ADC and interpreted by the touch driver, and the Input System Service acquires the touch input information from the touch driver. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_touchadc_calibrate pic32mx_usb_sk2_lcc_pictail_qvga.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mx_usb_sk2_meb</strong>&nbsp;</p>
+<p class="Element10">
+For this configuration, the display is driven by a SSD1926 display controller (located on the underside of the Multimedia Expansion Board II (MEB II)) that interfaces to the PIC32MX MCU through the PMP. The MCU-SSD1926 interface consists of 16 PMP data pins (PMP0-15), these are the Read Strobe pin, Write Strobe pin, Data/Command_Bar pin, and the Chip_Select_Bar pin. The PMP peripheral is driven by PMP PLIB calls. As the Graphics Library draws the widgets and images, the graphics library uses the SSD19126 display controller driver APIs to command the pixel and rectangle draws. The display has a built-in SSD1289 timing controller, which is managed by the SSD1289 Timing Controller (TCON) Driver through GPIO pins. The SSD1289 TCON Driver is initiated by the SSD1926 display graphics controller driver.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input by measuring the voltages from the display panel. The voltage signal is measured by the ADC and interpreted by the touch driver, and the Input System Service acquires the touch input information from the touch driver. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_touchadc_calibrate pic32mx_usb_sk2_meb.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mx_usb_sk2_s1d_pictail_wqvga, pic32mx_usbsk2_s1d_pictail_wvga</strong>&nbsp;</p>
+<p class="Element10">
+For this configuration, the display is driven by the EPSON SID13517 display controller (located on the Graphics Controller PICtail Plus Epson S1D13517 Daughter Board) that interfaces to the PIC32MX MCU through the PMP. The MCU-S1D13517 interface consists of 16t PMP data pins (PMP0-15), these are the Read Strobe pin, Write Strobe pin, Data/Command_Bar pin, and Chip_Select_Bar pin. The PMP peripheral is driven by PMP PLIB calls. As the Graphics Library draws the widgets and images, the graphics library uses the S1D13517display controller driver APIs to command the pixel and rectangle draws.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input by measuring the voltages from the display panel. The voltage signal is measured by the ADC and interpreted by the touch driver, and the Input System Service acquires the touch input information from the touch driver. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_touchadc_calibrate pic32mx_usb_sk2_s1d_pictail_wqvga and pic32mz_ef_sk_s1d_pictail_wqvga.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mx_usb_sk2_ssd_pictail_qvga</strong>&nbsp;</p>
+<p class="Element10">
+For this configuration, the display is driven by a SSD1926 display controller (located on the underside of the Multimedia Expansion Board II (MEB II)) that interfaces to the PIC32MX MCU through the PMP. The MCU-SSD1926 interface consists of 16 PMP data pins (PMP0-15), these are the Read Strobe pin, Write Strobe pin, Data/Command_Bar pin, and Chip_Select_Bar pin. The PMP peripheral is driven by PMP PLIB calls. As the Graphics Library draws the widgets and images, the graphics library uses the SSD19126 display controller driver APIs to command the pixel and rectangle draws. The display has a built-in SSD1289 timing controller, which is managed by the SSD1289 Timing Controller (TCON) Driver through the GPIO pins. The SSD1289 TCON Driver is initiated by the SSD1926 display graphics controller driver.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input by measuring the voltages from the display panel. The voltage signal is measured by the ADC and interpreted by the touch driver, and the Input System Service acquires the touch input information from the touch driver. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_touchadc_calibrate pic32mx_usb_sk2_ssd_pictail_qvga.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mz_ef_sk_s1d_pictail_wqvga</strong>&nbsp;</p>
+<p class="Element10">
+For this configuration, the display is driven by the APSON SID13517 display controller (located on the Graphics Controller PICtail Plus Epson S1D13517 Daughter Board) that interfaces to the PIC32MX MCU through the PMP. The MCU-S1D13517 interface cosists of 16t PMP data pins (PMP0-15), these are the Read Strobe pin, Write Strobe pin, Data/Command_Bar pin, and Chip_Select_Bar pin. The PMP peripheral is driven by PMP PLIB calls. As the Graphics Library draws the widgets and images, the graphics library uses the S1D13517display controller driver APIs to command the pixel and rectangle draws.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input by measuring the voltages from the display panel. The voltage signal is measured by the ADC and interpreted by the touch driver, and the Input System Service acquires the touch input information from the touch driver. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_touchadc_calibrate pic32mx_usb_sk2_s1d_pictail_wqvga and pic32mz_ef_sk_s1d_pictail_wqvga2.png" border="0" alt="" title=""></p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">RGB565 Color Mode (PIC32MZ EF)</li>
+<li class="Element600">Internal Flash Asset Storage</li>
+<li class="Element600">Single Display Layer</li>
+<li class="Element600">User Interface Tree Hierarchy</li>
+<li class="Element600">TouchTest Widget</li>
+<li class="Element600">Keypad Widget</li>
+<li class="Element600">Resistive Touch</li>
+</ul><div class="Element15">
+Tools Differences</div>
+<p class="Element10">
+All configurations</p>
+<ul class="Element630">
+<li class="Element600"><i>Use Graphics Stack</i> is selected in MHC. This enables the graphics and touch libraries and drivers for the BSP.</li>
+<li class="Element600">The Input System Service and Input Driver is selected. The touch driver used is the Touch ADC Driver, please refer to the ADC Touch Driver Library and ADC Driver Library.</li>
+<li class="Element600">The heap size is set to 100268 bytes to ensure enough memory for dynamic allocations. This is done in the MPLAB Harmony Configurator (MHC) by setting the size in Device &amp; Project Configuration &gt; Project Configuration&gt;XC32 (Global Options)&gt;xc32-id&gt;General.</li>
+</ul><p class="Element10">
+pic32mx _usb_sk2_lcc_pictail_qvga&nbsp;</p>
+<p class="Element10">
+pic32mx_usb_sk2_lcc_pictail_wqvga&nbsp;</p>
+<p class="Element10">
+pic32mx_usb_sk2_meb&nbsp;</p>
+<p class="Element10">
+pic32mx_usb_sk2_s1d_pictal_wqvga&nbsp;</p>
+<p class="Element10">
+pic32mx_usb_sk2_s1d_pictal_wvga&nbsp;</p>
+<p class="Element10">
+pic32mx_usb_sk2_ssd_pictail_qvga&nbsp;</p>
+<p class="Element10">
+pic32mz_ef_sk_s1d_pictail_wqvga</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03723.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Aria TouchADC Calibrate demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03724.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03725.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to use the Aria TouchADC Calibrate demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03722.html">aria_touchadc_calibrate</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_touchadc_calibrate Topic Title: aria_touchadc_calibrate)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

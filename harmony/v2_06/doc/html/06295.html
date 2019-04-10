@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuring the MHC</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06295.html">Configuring the MHC</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="06294.html">Previous</a> | <a href="06294.html">Up</a> | <a href="06288.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BTLIB Configuring the MHC Topic Title: Configuring the MHC)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuring the MHC</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following figure shows a typical MHC configuration. Selecting &quot;Use Bluetooth Library&quot; in MHC adds the Searan Dotstack Bluetooth Library to the project and enables a menu of selections used to configure the application, as follows.
+<ul class="Element631">
+<li class="Element601">A text string &quot;Broadcast Name (Char limit: 18) - The name of the device used to advertise to other nearby devices. This defines the BT_CONNECTION_NAME macro.</li>
+<li class="Element601">The &quot;Bluetooth Base Address&quot; must be an 8-digit Hex value (C-style, as shown), representing the first eight digits of the Bluetooth MAC address. The complete MAC address is suffixed by four more digits, which are generated either as random digits (when &quot;Enable Random Addressing&quot; is selected, as shown) or manually entered in the &quot;Bluetooth Suffix Address&quot; (when &quot;Enable Random Addressing&quot; is not selected).</li>
+<li class="Element601">&quot;Max Number of Bluetooth Connections&quot;, gives the maximum number of SPP connections</li>
+<li class="Element601">&quot;Radio Driver&quot; select the desired type from the menu:
+<ul class="Element632">
+<li class="Element602">CSR8811 - for the CSR88xx/BTM805 Radio module</li>
+<li class="Element602">RDA Radio</li>
+<li class="Element602">CC2564/PAN13xx Radio module</li>
+<li class="Element602">IS1662/MFR4662 Radio module</li>
+</ul></li>
+<li class="Element601">&quot;Enable Manual Pairing&quot; forces the Bluetooth Stack to always request a manual pairing sequence using a pin code, rather than automatic pairing</li>
+<li class="Element601">Selecting &quot;Use Serial Port Profile (SPP)&quot; and/or &quot;Use A2DP/AVRCP Profile&quot; indicates which version of the library to use to support the selected profile(s)</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="BTLIB bluetooth_stack_mhc.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The following macros are generated to <span class="Element146">system_config.h</span>:
+<ul class="Element631">
+<li class="Element601">BT_DEVICE_DESIGN_ID - defined as the Bluetooth Base Address</li>
+<li class="Element601">BT_DEVICE_ID_2LSB_RANDOMIZE - Boolean indicating a random 4-digit suffix</li>
+<li class="Element601">BT_DEVICE_ID_2LSB - manual entry of the suffix</li>
+<li class="Element601">BT_CONTROLLER - indicates the radio module being used</li>
+<li class="Element601">BT_MAX_SPP_PORTS - provides the maximum number of SPP connections</li>
+</ul></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06295.html">Configuring the MHC</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BTLIB Configuring the MHC Topic Title: Configuring the MHC)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

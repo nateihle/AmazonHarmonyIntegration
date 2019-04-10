@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX420F032H_EBI
+	bool
+	select HAVE_EBI
+	default n
+
+config EBI_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_EBI_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/processor/ebi_p32mx420f032h.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/processor/ebi_p32mx420f032h.h"
+
+endif

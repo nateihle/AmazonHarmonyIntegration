@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Assigning Buffer Memory</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17496.html">Initialization of CAN</a> &gt; <a href="17476.html">Assigning Buffer Memory</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17506.html">Previous</a> | <a href="17496.html">Up</a> | <a href="17481.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Assigning Buffer Memory Topic Title: Assigning Buffer Memory)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Assigning Buffer Memory</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The CAN module requires RAM memory to store received messages and queue message that need to be transmitted. The total amount of memory required depends on the size of each channel. While each channel has a minimum size of one message buffer (16 bytes), to simplify usage issues, channels should be used in a sequentially ascending order starting with channel 0.&nbsp;</p>
+<p class="Element10">
+To better understand the buffer memory requirements of the CAN module, consider the following examples:&nbsp;</p>
+<p class="Element10">
+<strong>Example 1:</strong> Two transmit channels (each with eight message buffers) and one full receive channel (with 10 message buffers):
+<ul class="Element637">
+<li class="Element607">Two transmit channels with eight message buffers: 2 * 8 * 16 = 256 bytes</li>
+<li class="Element607">One receive channel with 10 message buffers: 1 * 10 * 16 = 160 bytes</li>
+<li class="Element607">Total memory required in bytes = 416 bytes</li>
+</ul><strong>Example 2:</strong> Four transmit channels (two with eight message buffers and other two with 10 message buffers) and two full receive channels (one with 10 message buffers and one with 20 message buffers):
+<ul class="Element637">
+<li class="Element607">Two transmit channels with eight message buffers: 2 * 8 * 16 = 256 bytes</li>
+<li class="Element607">Two transmit channels with 10 message buffers: 2 * 10 * 16 = 320 bytes</li>
+<li class="Element607">One receive channel with 10 message buffers: 1 * 10 * 16 = 160 bytes</li>
+<li class="Element607">One receive channel with 20 message buffers: 1 * 20 * 16 = 320 bytes</li>
+<li class="Element607">Total memory required in bytes = 1056 bytes</li>
+</ul><strong>Example 3:</strong> One transmit channel (with maximum message buffers) and two receive Channels (one full receive with 10 message buffers and one data-only channel with maximum message buffers):
+<ul class="Element637">
+<li class="Element607">One transmit channel with maximum (32) message buffers: 1 * 32 * 16 = 512 bytes</li>
+<li class="Element607">One receive channel with 10 message buffers: 1 * 10 * 16 = 160 bytes</li>
+<li class="Element607">One data-only receive channel with 32 message buffers: 1 * 32 * 8 = 256 bytes</li>
+<li class="Element607">Total memory required in bytes = 928 bytes</li>
+</ul>The <a href="18510.html">PLIB_CAN_MemoryBufferAssign</a> function is used to assign a memory buffer to the CAN module, which is shown in the following example. &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01655');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01655"><pre class="Element12">    <i><span style="color: #008000">/* Assign the buffer area to the CAN module.
+     * In this case assign enough memory for 2
+     * channels, each with 8 message buffers.*/</span></i>
+
+    uint8_t MY_CAN_MessageFifoArea[2 * 8 * 16];
+    PLIB_CAN_MemoryBufferAssign(CAN_ID_1, MY_CAN_MessageFifoArea);
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17496.html">Initialization of CAN</a> &gt; <a href="17476.html">Assigning Buffer Memory</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Assigning Buffer Memory Topic Title: Assigning Buffer Memory)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

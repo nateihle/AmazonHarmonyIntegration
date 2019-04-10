@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>MPLAB Harmony TCP/IP Stack Storage Changes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24807.html">MPLAB Harmony TCP/IP Stack Storage Changes</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24794.html">Previous</a> | <a href="24798.html">Up</a> | <a href="24800.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING MPLAB Harmony TCP/IP Stack Storage Changes Topic Title: MPLAB Harmony TCP/IP Stack Storage Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+MPLAB Harmony TCP/IP Stack Storage Changes</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+MPLAB Harmony TCP/IP Stack Storage Changes</div>
+<p class="Element10">
+The V5 TCP/IP Stack include header file, <span class="Element146">tcpip_storage.h</span>, <i>does not</i> exist in the MPLAB Harmony TCP/IP Stack.&nbsp;</p>
+<p class="Element10">
+<strong>The TCP/IP Stack storage has become obsolete and is no longer maintained</strong>. This is mainly due to the way the dynamic initialization of the stack is done in the V5 TCP/IP Stack:
+<ul class="Element630">
+<li class="Element600">Each module has its own initialization data</li>
+<li class="Element600">There are many parameters that could be relevant for an application and that may require storage besides the IP address, IP Mask, or SSID, etc.</li>
+<li class="Element600">The data is passed dynamically at the stack initialization. There is no longer a &quot;build time&quot; set of parameters against which to check at stack configuration (although support for a default configuration set at build time is present). The actual data contents are the application's responsibility.</li>
+<li class="Element600">A system database service will be added that will use the File System. The database service will maintain configurations for all the modules in the system, including the TCP/IP. The system database service API will be available to the applications as well for storing/retrieving proprietary information.</li>
+<li class="Element600">The parameter, TCPIP_STACK_USE_STORAGE, in the file, <span class="Element146">tcpip_config.h</span>, should not be enabled. Future plans call for this service to be removed from the distribution.</li>
+</ul></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24807.html">MPLAB Harmony TCP/IP Stack Storage Changes</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING MPLAB Harmony TCP/IP Stack Storage Changes Topic Title: MPLAB Harmony TCP/IP Stack Storage Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

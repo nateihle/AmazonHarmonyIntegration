@@ -1,0 +1,125 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MK1024GPE100_CMP
+	bool
+	select HAVE_CMP
+	default y
+
+config CMP_NUMBER_OF_MODULES
+	int
+	default 5
+
+enum CMP_MODULE_ID exclusive
+	"CMP_ID_1"
+	|| "CMP_ID_2"
+	|| "CMP_ID_3"
+	|| "CMP_ID_4"
+	|| "CMP_ID_5"
+
+enum CMP_CVREF_VOLTAGE_SOURCE_NEG_REFERENCE
+	"CMP_CVREF_VOLTAGE_SOURCE_NEG_REFERENCE_NONE"
+
+enum CMP_MASK_C
+	"CMP_MASK_C_NONE"
+
+enum CMP_MASK_B
+	"CMP_MASK_B_NONE"
+
+enum CMP_MASK_A
+	"CMP_MASK_A_NONE"
+
+enum CMP_SPEED_POWER
+	"CMP_SPEED_POWER_NONE"
+
+enum CMP_FILTER_CLOCK
+	"CMP_FILTER_CLOCK_NONE"
+
+enum CMP_CLOCK_DIVIDE
+	"CMP_CLOCK_DIVIDE_NONE"
+
+enum CMP_CVREF_VALUE
+	"CMP_CVREF_VALUE_NONE"
+
+enum CMP_CVREF_VOLTAGE_SOURCE
+	"CMP_CVREF_VOLTAGE_SOURCE_NONE"
+
+enum CMP_INTERRUPT_EVENT
+	"CMP_INTERRUPT_GENERATION_DISABLED"
+	|| "CMP_INTERRUPT_GENERATION_LOW_TO_HIGH"
+	|| "CMP_INTERRUPT_GENERATION_HIGH_TO_LOW"
+	|| "CMP_INTERRUPT_GENERATION_BOTH"
+
+enum CMP_INVERTING_INPUT
+	"CMP_INVERTING_INPUT_1"
+	|| "CMP_INVERTING_INPUT_2"
+	|| "CMP_INVERTING_INPUT_3"
+	|| "CMP_INVERTING_INPUT_4"
+
+enum CMP_NON_INVERTING_INPUT
+	"CMP_NON_INVERTING_INPUT_1"
+	|| "CMP_NON_INVERTING_INPUT_CDAC"
+
+enum CMP_CVREF_REFERENCE_SELECT
+	"CMP_CVREF_REFERENCE_SELECT_NONE"
+
+enum CMP_CVREF_BANDGAP_SELECT
+	"CMP_CVREF_BANDGAP_SELECT_NONE"
+
+enum CMP_OUTPUT_FILTER_CLK_DIV
+	"CMP_OUTPUT_FILTER_CLK_DIV_1"
+	|| "CMP_OUTPUT_FILTER_CLK_DIV_2"
+	|| "CMP_OUTPUT_FILTER_CLK_DIV_4"
+	|| "CMP_OUTPUT_FILTER_CLK_DIV_8"
+	|| "CMP_OUTPUT_FILTER_CLK_DIV_16"
+	|| "CMP_OUTPUT_FILTER_CLK_DIV_32"
+	|| "CMP_OUTPUT_FILTER_CLK_DIV_64"
+	|| "CMP_OUTPUT_FILTER_CLK_DIV_128"
+
+enum CMP_OUTPUT_FILTER_CLK_SOURCE
+	"CMP_OUTPUT_FILTER_CLK_SYSCLK"
+	|| "CMP_OUTPUT_FILTER_CLK_PBCLK2"
+	|| "CMP_OUTPUT_FILTER_CLK_REFCLK3"
+	|| "CMP_OUTPUT_FILTER_CLK_TMR2"
+	|| "CMP_OUTPUT_FILTER_CLK_TMR3"
+	|| "CMP_OUTPUT_FILTER_CLK_TMR4"
+	|| "CMP_OUTPUT_FILTER_CLK_TMR5"
+
+enum CMP_OUTPUT_MASK_SOURCE
+	"CMP_OUTPUT_MASK_SOURCE_NONE"
+
+enum CMP_INV_AND_GATE_OUTPUT_TO_OR_GATE_INPUT
+	"CMP_INV_AND_GATE_OUTPUT_TO_OR_GATE_INPUT_NONE"
+
+enum CMP_NON_INV_AND_GATE_OUTPUT_TO_OR_GATE_INPUT
+	"CMP_NON_INV_AND_GATE_OUTPUT_TO_OR_GATE_INPUT_NONE"
+
+enum CMP_OUTPUT_MASKING_LEVEL
+	"CMP_OUTPUT_MASKING_LEVEL_NONE"
+
+enum CMP_MASK_ANDOR_LOGIC
+	"CMP_MASK_ANDOR_LOGIC_NONE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_CMP_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/processor/cmp_p32mk1024gpe100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/processor/cmp_p32mk1024gpe100.h"
+
+file PLIB_CMP_COMPARATORENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_ComparatorEnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_ComparatorEnableControl_Default.h"
+file PLIB_CMP_COMPARATOROUTPUTENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_ComparatorOutputEnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_ComparatorOutputEnableControl_Default.h"
+file PLIB_CMP_INVERTOUTPUTSELECTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_InvertOutputSelectControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_InvertOutputSelectControl_Default.h"
+file PLIB_CMP_OUTPUTSTATUSGET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_OutputStatusGet_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_OutputStatusGet_Default.h"
+file PLIB_CMP_INTERRUPTEVENTSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_InterruptEventSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_InterruptEventSelect_Default.h"
+file PLIB_CMP_NONINVERTINGINPUTSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_NonInvertingInputSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_NonInvertingInputSelect_Default.h"
+file PLIB_CMP_INVERTINGINPUTSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_InvertingInputSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_InvertingInputSelect_Default.h"
+file PLIB_CMP_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_StopInIdle_Default.h"
+file PLIB_CMP_CVREFENABLECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_CVREFEnableControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_CVREFEnableControl_Unsupported.h"
+file PLIB_CMP_CVREFOUTPUTENABLECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_CVREFOutputEnableControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_CVREFOutputEnableControl_Unsupported.h"
+file PLIB_CMP_CVREFWIDERANGECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_CVREFWideRangeControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_CVREFWideRangeControl_Unsupported.h"
+file PLIB_CMP_CVREFVOLTAGERANGESELECT_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_CVREFVoltageRangeSelect_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_CVREFVoltageRangeSelect_Unsupported.h"
+file PLIB_CMP_CVREFREFVOLTAGERANGESELECT_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_CVREFRefVoltageRangeSelect_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_CVREFRefVoltageRangeSelect_Unsupported.h"
+file PLIB_CMP_CVREFBGREFVOLTAGERANGESELECT_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_CVREFBGRefVoltageRangeSelect_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_CVREFBGRefVoltageRangeSelect_Unsupported.h"
+file PLIB_CMP_CVREFVALUESELECT_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_CVREFValueSelect_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_CVREFValueSelect_Unsupported.h"
+file PLIB_CMP_COMPARATOREVENTSTATUSGET_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_ComparatorEventStatusGet_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_ComparatorEventStatusGet_Default.h"
+file PLIB_CMP_COMPARATOROUTPUTDIGITALFILTER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_ComparatorOutputDigitalFilter_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_ComparatorOutputDigitalFilter_Default.h"
+file PLIB_CMP_OPAMPOUTPUTENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_OpAmpOutputEnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_OpAmpOutputEnableControl_Default.h"
+file PLIB_CMP_OPAMPENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_OpAmpEnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_OpAmpEnableControl_Default.h"
+file PLIB_CMP_COMPARATOROUTPUTMASKING_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/cmp/templates/cmp_ComparatorOutputMasking_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/cmp/templates/cmp_ComparatorOutputMasking_Unsupported.h"
+endif

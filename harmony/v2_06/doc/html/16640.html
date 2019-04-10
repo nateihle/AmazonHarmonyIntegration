@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16640.html">Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16653.html">Previous</a> | <a href="16636.html">Up</a> | <a href="16641.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Creating a MPLAB Harmony Graphics Application Using a Third-Party Display Topic Title: Creating a MPLAB Harmony Graphics Application Using a Third-Party Display)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Introduction</div>
+<p class="Element10">
+Creating a new MPLAB Harmony graphics application using a Microchip board and a Microchip display is very simple: A new MPLAB Harmony application is created and the Board Support Package (BSP) belonging to the hardware configuration is selected. If the project is using a third-party display then there are more steps and this tutorial will provide an example of the process.&nbsp;</p>
+<p class="Element10">
+This tutorial shows how to connect a third-party display to the PIC32MZ Embedded Connectivity with Floating Point Unit (EF) Starter Kit board (EF Starter Kit) using two Microchip Adapter boards and a custom ribbon cable. It shows how to setup the pinouts, configure graphics, and adapt an existing MPLAB Harmony capacitive touch driver to support the display board’s capacitive touch controller.</p><div class="Element15">
+Prerequisites</div>
+<p class="Element10">
+Before beginning this tutorial, ensure that the MPLAB X IDE is installed along with the necessary language tools as described in <a href="04279.html">Volume I: Getting Started With MPLAB Harmony</a> &gt; Prerequisites. In addition, ensure that MPLAB Harmony is installed on the hard drive, and that the correct MPLAB Harmony Configurator (MHC) plug-in is installed in the MPLAB X IDE.&nbsp;</p>
+<p class="Element10">
+A basic familiarity with application development under MPLAB X and MPLAB Harmony is required, including how to use MPLAB Harmony Configurator (MHC). There are introductory videos on Microchip’s YouTube channel for those who have never used MPLAB Harmony. The first video to watch is <a href="#" onclick="openExternalLink('https://www.youtube.com/watch?v=wwoJcJHyomE');"><img src="indicator_external_link.gif" border="0" alt="" title="">Getting Started with MPLAB Harmony</a>. There is also a <a href="04261.html">Creating Your First Project</a> tutorial in Volume 1 of MPLAB Harmony’s documentation.&nbsp;</p>
+<p class="Element10">
+For first time users of MPLAB Harmony Graphics there is a video series on YouTube. The first video is <a href="#" onclick="openExternalLink('https://www.youtube.com/watch?v=Hd2ga9NwGJM&amp;t=7s');"><img src="indicator_external_link.gif" border="0" alt="" title="">MM MPLAB® Harmony Edition - Ep. 7 - MPLAB Harmony Graphics Composer Suite</a>. In Volume 1 of MPLAB Harmony’s documentation there are Quick Start tutorials covering graphics, located at Quick Start Guides &gt; <a href="22365.html">Graphics and Touch Quick Start Guides.</a></p><div class="Element15">
+Tutorial Resources</div>
+<p class="Element10">
+The folder<span class="Element146"> ./apps/examples</span> in MPLAB Harmony has a project that can be copied and used as the base of this tutorial, <span class="Element146">3rd_party_display_start</span>, and a project that represents the completed project from this tutorial, <span class="Element146">3rd_party_display.</span>&nbsp;</p>
+<p class="Element10">
+This is what you will find in the<span class="Element146"> ./apps/examples</span> folder under Harmony 2.06:&nbsp;</p>
+<p class="Element10">
+3rd_party_display&nbsp;</p>
+<p class="Element10">
+3rd_party_display_start&nbsp;</p>
+<p class="Element10">
+creating_your_first_project&nbsp;</p>
+<p class="Element10">
+peripheral&nbsp;</p>
+<p class="Element10">
+events_testbed&nbsp;</p>
+<p class="Element10">
+system </p><p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+If there are difficulties then compare the completed project with the current project.</p><div class="Element15">
+Tutorial Hardware</div>
+<p class="Element10">
+Of all the PIC32MZ devices available today, the PIC32MZ EF family is the best candidate for this effort. The EF family does not have on-chip graphics controller or Graphics Processing Unit (GPU), which makes it a less expensive and lower power solution for use with a display that has a built-in controller.&nbsp;</p>
+<p class="Element10">
+Mikroelektronika (Mikroe) offers a prototype display that can be used using a ribbon cable between the display and the EF host. This third party (non-Microchip) board serves as the basis for this tutorial. The ‘TFT PROTO 5&quot; Capacitive’ display costs around 100USD and is available for order online (<a href="#" onclick="openExternalLink('https://www.mikroe.com/tft-proto-5-capacitive-board');"><img src="indicator_external_link.gif" border="0" alt="" title="">https://www.mikroe.com/tft-proto-5-capacitive-board</a>). It has an 800x480 pixel WVGA display, driven by an SSD1963 graphics controller. The SSD1963 graphics controller is already supported in MPLAB Harmony. It has a Focal Tech FT5x06 capacitive touch controller. This tutorial will cover how to design the pin-out between the EF host and display board, as well as how to adapt an existing MPLAB Harmony capacitive touch driver (<a href="#" onclick="openExternalLink('http://www.microchip.com/Developmenttools/ProductDetails.aspx?PartNO=DV102013');"><img src="indicator_external_link.gif" border="0" alt="" title="">MTCH6303</a>) to support the Focal Tech touch controller.&nbsp;</p>
+<p class="Element10">
+For this tutorial the following hardware will be used:</p>
+<ol class="Element630">
+<li value="1" class="Element600">PIC32MZ Embedded Connectivity with Floating Point Unit (EF) Starter Kit board (Part # <a href="#" onclick="openExternalLink('http://www.microchip.com/developmenttools/productdetails.aspx?partno=dm320007');"><img src="indicator_external_link.gif" border="0" alt="" title="">DM320007</a>).</li>
+<li value="2" class="Element600">Starter Kit I/O Expansion Board (Part # <a href="#" onclick="openExternalLink('http://www.microchip.com/developmenttools/productdetails.aspx?partno=dm320002');"><img src="indicator_external_link.gif" border="0" alt="" title="">DM320002</a>) – this provides the 0.1” headers we need to connect up the display using a ribbon cable or 0.1&quot; jumpers.</li>
+<li value="3" class="Element600">PIC32MZ Starter Kit Adaptor Board (Part # <a href="#" onclick="openExternalLink('http://www.microchip.com/developmenttools/productdetails.aspx?partno=ac320006');"><img src="indicator_external_link.gif" border="0" alt="" title="">AC320006</a>) – this provides an 168 to 132 pin adapter to adapt the 168-pin connector on the EF starter kit with the 132 pin connector on the I/O Expansion Board.</li>
+<li value="4" class="Element600"><a href="#" onclick="openExternalLink('https://www.mikroe.com/tft-proto-5-capacitive-board');"><img src="indicator_external_link.gif" border="0" alt="" title="">Mikroelektronika TFT PROTO 5&quot; Capacitive display</a>.</li>
+<li value="5" class="Element600">40 to 50 pin ribbon cable to connect the I/O Expansion Board to the display, or a set of colored 0.1&quot; jumpers.</li>
+</ol><p class="Element10">
+Here is how the hardware is assembled: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Hardware Assembly.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The connectors that route signals from the EF pins to the display’s ribbon cable are: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Connectors that route signals.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The EF Starter Kit + 168-132 Pin Adapter + I/0 Expansion board can host any number of prototype hardware configurations. A spreadsheet has been developed that maps every pin of the EF device to a pin on the I/O Expansion board, with one final spreadsheet tab that provides the pin outs for the ribbon cable that connects the display to the I/O Expansion Board. (The spreadsheet is found in the Zip file <span class="Element146">.\apps\examples\3rd_party_display\pinouts.zip</span>.) The picture above shows the board connectors used in getting from a pin on the EF device to a pin on the display’s ribbon connector.&nbsp;</p>
+<p class="Element10">
+This spreadsheet has the following tabs:</p>
+<ol class="Element630">
+<li value="1" class="Element600"><strong>Sorted by Skit J1 Pins</strong> – This tab maps EF pins to pins on the J1 (168 pin) connector on the 168-132 pin adapter. It also maps the 168-pin J1 connecter to the J2 132-pin connecter. Pins are sorted by the pin order on the Starter Kit 168-pin J1 connector.</li>
+<li value="2" class="Element600"><strong>Sorted by Device Pins</strong> – A copy of the first tab, sorted by EF device pins.</li>
+<li value="3" class="Element600"><strong>Sorted by Adaptor J2 Pins</strong> – A copy of the first tab, sorted by the pins on the J2 132-pin adaptor.</li>
+<li value="4" class="Element600"><strong>PIC32 IO Expansion Pin Out</strong> – Provides the pin out of the I/O Expansion Board from the 132-pin J1 connector to the 0.1” pitch headers on the board (J10,J11).</li>
+<li value="5" class="Element600"><strong>End to End</strong> – maps the EF device pins to the 0.1” pitch headers on the I/O Expansion Board. This tab can be reused to map out other application pin outs.</li>
+<li value="6" class="Element600"><strong>Mikroe Display</strong> – Provides the pin outs for the 40-pin ribbon cable connector (CN3) on the display board.</li>
+<li value="7" class="Element600"><strong>End to End by Device Pins</strong> – This tab combines Tab 4 with Tab 6. It shows how to build a ribbon cable between the I/O Expansion Board and the display. On this tab the rows belonging to EF device pins that aren’t part of the ribbon cable are hidden for the sake of simplicity.</li>
+</ol><p class="Element10">
+Tab 7 of the spreadsheet shows: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Spreadsheet page 7.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The ribbon cable for this project is constructed using the map from J10 Pin#/J11 Pin # to the TFT Proto 5” Pin #. For example, the first line of the Tab 7 shows that pin 7 of the J10 header on the I/O expansion board is connected to pin 18 of the display connector, thereby connecting PMPD5 (PMP data pin 5) on the device to TFT-D5 on the display.&nbsp;</p>
+<p class="Element10">
+Note: display pins with a “#” suffix indicate that the signal is active low (# = bar).&nbsp;</p>
+<p class="Element10">
+TFT-Dn display pins are part of the SSD1963 display controller’s Parallel Master Port (PMP) interface. Other TFT-* pins are part of the controller to host interface. For example, TFT-WR# is connected to the controller’s WRbar (write strobe bar) pin, which is called WR_STROBE_BAR in the MPLAB Harmony Graphical Pin Manager. (Setting up the project’s pins using the Pin Manager is discussed later in the tutorial.)&nbsp;</p>
+<p class="Element10">
+On the display connector FT5x06 capacitive touch controller pins are called CTP-*. There is an I2C clock pin (CTP-SCL), I2C data pin (CTP-SDA), an interrupt pin to alert the host of a touch event (CTP-INT#), and reset/wakeup pins (CTP-RST#/CTP-WAKE#).</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="16641.html">Creating the Project in MPLAB and MPLAB Harmony</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="16670.html">Supporting the Focal Tech FT5x06 Capacitive Touch Controller</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Microchip (Atmel) and Focal Tech are key providers of capacitive touch controllers. Focal Tech FT5x06 touch controllers are found on many of the displays used by Microchip customers, so a third-party display with a Focal Tech capacitive touch controller is a good choice for this tutorial.<br>MPLAB Harmony provides these touch controller drivers: </p><p class="Element207" style="text-align: center;">
+<img src="MHGC UG touch drivers.png" border="0" alt="" title=""><br><br>&nbsp;</p><p class="Element207">
+The Generic Touch Driver outlines the generic Touch Driver API supported by MPLAB Harmony. It provides a template that can serve as the base for a custom-built driver for the FT5x06 touch controller.<br>A faster way to support the Focal Tech FT5x06 is to find a similar... <a href="16670.html">more</a>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16640.html">Creating a MPLAB Harmony Graphics Application Using a Third-Party Display</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Creating a MPLAB Harmony Graphics Application Using a Third-Party Display Topic Title: Creating a MPLAB Harmony Graphics Application Using a Third-Party Display)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

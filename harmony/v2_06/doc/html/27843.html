@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>USB_DEVICE_IRP Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27319.html">USB Device Layer Library</a> &gt; <a href="27343.html">Library Interface</a> &gt; g) Data Types and Constants &gt; <a href="27843.html">USB_DEVICE_IRP Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27933.html">Previous</a> | <a href="27343.html">Up</a> | <a href="27844.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB_DEVICE_IRP Topic Title: USB_DEVICE_IRP Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+USB_DEVICE_IRP Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> <strong><span style="color: #000000">_USB_DEVICE_IRP</span></strong> {
+  <strong><span style="color: #000080">void</span></strong> * <strong><span style="color: #000000">data</span></strong>;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">size</span></strong>;
+  <a href="27847.html">USB_DEVICE_IRP_STATUS</a> <strong><span style="color: #000000">status</span></strong>;
+  <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">callback</span></strong>)(<strong><span style="color: #000080">struct</span></strong> _USB_DEVICE_IRP * irp);
+  <a href="27844.html">USB_DEVICE_IRP_FLAG</a> <strong><span style="color: #000000">flags</span></strong>;
+  uintptr_t <strong><span style="color: #000000">userData</span></strong>;
+  uint32_t <strong><span style="color: #000000">privateData</span></strong>[3];
+} USB_DEVICE_IRP;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+USB Device Mode I/O Request Packet&nbsp;</p>
+<p class="Element10">
+This structure defines the USB Device Mode IRP data structure.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void * data;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the data buffer&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned int size;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Size of the data buffer&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+USB_DEVICE_IRP_STATUS status;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Status of the IRP&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void (* callback)(struct _USB_DEVICE_IRP * irp);&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+IRP Callback. If this is NULL,
+<ul class="Element630">
+<li class="Element600">then there is no callback generated</li>
+</ul>&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+USB_DEVICE_IRP_FLAG flags;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Request specific flags&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uintptr_t userData;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+User data&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint32_t privateData[3];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+The following members should not be modified by the client&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27319.html">USB Device Layer Library</a> &gt; <a href="27343.html">Library Interface</a> &gt; g) Data Types and Constants &gt; <a href="27843.html">USB_DEVICE_IRP Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB_DEVICE_IRP Topic Title: USB_DEVICE_IRP Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Asserts Under the Debugger</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04247.html">Part II: Debugging With Your Project</a> &gt; <a href="04246.html">Tutorial Steps</a> &gt; <a href="04243.html">Asserts Under the Debugger</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04246.html">Previous</a> | <a href="04246.html">Up</a> | <a href="04242.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Debugging Asserts Under the Debugger Topic Title: Asserts Under the Debugger)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Asserts Under the Debugger</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Launch MPLAB X IDE and load the project you created in <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a>.</li>
+<li value="2" class="Element600">Open <span class="Element146">heartbeat.c</span>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Debugger Browse Open heartbeat.c.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="3" class="Element600">Add <span class="Element146">assert(0);</span> to the start of the HEARTBEAT_Initialize function, as shown in <span style="color: #FF0000">red</span> in the following code example.</li>
+</ol><p class="Element10">
+<span class="Element146"> void HEARTBEAT_Initialize ( void )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <span style="color: #FF0000">assert(0);</span></span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Place the App state machine in its initial state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> heartbeatData.state = HEARTBEAT_STATE_INIT;</span></p>
+<ol class="Element630">
+<li value="4" class="Element600">Build and run the application. You will see that the LED no longer flashes. This is because the assert(0) fired, and the application is now in an infinite loop within the compiler’s built-in assert function. However, if we hadn’t installed an assert(0) in the code in the first place, how would we know what happened? This is where the debugger can help.</li>
+<li value="5" class="Element600">As shown in the following figure, if you press and hold the Ctrl key and hover your cursor over the assert call, the Macro assert appears. However, where is this <span class="Element146">#define</span> located?</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Debugger Mouseover Assert Call.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="6" class="Element600">Press and hold the Ctrl key and click the assert call. This will open the <span class="Element146">assert.h</span> file that provides the definition of the assert. As shown in the next example, in the header file you can see how the assert is defined.</li>
+</ol><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00029');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00029"><pre class="Element12">  <strong><span style="color: #000080">extern</span></strong> <strong><span style="color: #000080">void</span></strong> __attribute__((noreturn)) _fassert(<strong><span style="color: #000080">int</span></strong>, <strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong> *, <strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong> *, <strong><span style="color: #000080">const</span></strong> <strong><span style="color: #000080">char</span></strong>*);
+  <strong><span style="color: #000080">#define</span></strong> __assert(line,file,expression,func)  \
+    _fassert(line,file,expression,func)
+  <strong><span style="color: #000080">#define</span></strong> assert(expr)     \
+    ((<strong><span style="color: #000080">void</span></strong>)((expr) ? 0 : (__assert (__LINE__, __FILE__, #expr, __ASSERT_FUNC), 0)))</pre></div></div>
+
+<ol class="Element630">
+<li value="7" class="Element600">The function _fassert is the built-in assert handler provided by the compiler. Modify the file to allow the debugger to fire a breakpoint when running the debugger (when defined(__DEBUG) is true) by adding the code shown in <span style="color: #FF0000">red </span>in the following example.</li>
+</ol><p class="Element10">
+<span class="Element146"> #if defined(NDEBUG) || !defined(__DEBUG)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> # define __conditional_software_breakpoint(X) ((void)0)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> #else</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> # define __conditional_software_breakpoint(X) \</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> ((X) ? \</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> (void) 0 : \</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> __builtin_software_breakpoint())</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // Added to support debugger:</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> # undef assert</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> # define assert(expr) __conditional_software_breakpoint(expr)</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // End of addition</span></span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> #endif</span></p>
+<ol class="Element630">
+<li value="8" class="Element600">Save your edits to <span class="Element146">assert.h</span> by pressing Ctrl+S and closing the window.</li>
+<li value="9" class="Element600">Build and run the project under the debugger by clicking <strong>Debug Project</strong>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Debug Project.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="10" class="Element600">The debugger should now stop at the assert(0) call. So by a slight modification to the compiler’s <span class="Element146">assert.h</span> file, the debugger now stops with a breakpoint at the location of the failing assert.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Debugger Stop at Assert Call.png" border="0" alt="" title=""></p><p class="Element10">
+For more information on how to use the built-in debugger in the MPLAB X IDE, refer to the IDE’s built-in help (<i>Help Menu &gt; Tool Help Contents &gt; MPLAB X IDE &gt;</i>)for these topics:</p>
+<ul class="Element630">
+<li class="Element600">Tutorial &gt; Running and Debugging Code</li>
+<li class="Element600">Basic Tasks &gt; Debug Run code</li>
+<li class="Element600">Basic Tasks &gt; Control Program Execution with Breakpoints</li>
+<li class="Element600">Basic Tasks &gt; Step Through Code</li>
+<li class="Element600">Basic Tasks &gt; Watch Symbol Value Change</li>
+<li class="Element600">Basic Tasks &gt; Watch Local Variable Values Change</li>
+</ul><div class="Element15">
+SYS_ASSERT Macro</div>
+<p class="Element10">
+MPLAB Harmony uses a <a href="23485.html">SYS_ASSERT</a> macro in many places. Other libraries may have a localized assert. For example, the Graphics Library has its own macro <a href="12228.html">GFX_ASSERT</a>, which can help with debugging graphics development. By default, these macros are not defined. You can turn <a href="23485.html">SYS_ASSERT</a> on by the simply including the following code in your <span class="Element146">system_config.h</span> file, which is located in <span class="Element146">Header Files &gt; app &gt; system_config &gt; default</span>). </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00030');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00030"><pre class="Element12"><i><span style="color: #008000">/*** Application Instance 0 Configuration ***/</span></i>
+<i><span style="color: #008000">// CUSTOM CODE - DO NOT DELETE</span></i>
+<strong><span style="color: #000080">#define</span></strong> HEARTBEAT_LED BSP_LED_1
+<strong><span style="color: #000080">#define</span></strong> HEARTBEAT_DELAY 500 <i><span style="color: #008000">// milliseconds</span></i>
+<strong><span style="color: #000080">#if</span></strong> defined( SYS_ASSERT )
+<strong><span style="color: #000080">#undef</span></strong> SYS_ASSERT
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#define</span></strong> SYS_ASSERT(test,message) assert(test)
+
+<i><span style="color: #008000">// END OF CUSTOM CODE</span></i></pre></div></div>
+<p class="Element10">
+This code converts all of the MPLAB Harmony SYS_ASSERTs found into simple assert calls. However, this can greatly affect how the code works, depending on where the SYS_ASSERTs are located. Therefore, this method is best used sparingly.&nbsp;</p>
+<p class="Element10">
+For more information on the <a href="23485.html">SYS_ASSERT</a> macro, refer to <i>Volume V: MPLAB Harmony Framework &gt; System Services Library Help &gt; System Service Overview &gt; <a href="24452.html">Using the SYS_ASSERT Macro</a></i>. By default, <a href="23485.html">SYS_ASSERT</a> is not defined. There are two alternatives provided in the MPLAB Harmony documentation, one for the debugger and a second for running outside of the debugger (stand-alone). Combining these two yields: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00031');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00031"><pre class="Element12"><strong><span style="color: #000080">#include</span></strong> &quot;system/debug/sys_debug.h&quot;
+
+<strong><span style="color: #000080">#if</span></strong> !defined(NDEBUG)
+  <i><span style="color: #008000">/*** SYS_DEBUG_Breakpoint Definition ***/</span></i>
+  <strong><span style="color: #000080">#if</span></strong> defined(__DEBUG)
+    <strong><span style="color: #000080">#define</span></strong> SYS_DEBUG_Breakpoint()  __asm__ <strong><span style="color: #000080">volatile</span></strong> (&quot; sdbbp 0&quot;)
+  <strong><span style="color: #000080">#else</span></strong>
+    <strong><span style="color: #000080">#define</span></strong> SYS_DEBUG_BreakPoint()
+  <strong><span style="color: #000080">#endif</span></strong><i><span style="color: #008000">//defined(__DEBUG)</span></i>
+
+  <i><span style="color: #008000">/*** SYS_ASSERT Definition ***/</span></i>
+  <strong><span style="color: #000080">#if</span></strong> defined( SYS_ASSERT )
+  <i><span style="color: #008000">//Remove prior definition – necessary to prevent ugly builds</span></i>
+    <strong><span style="color: #000080">#undef</span></strong> SYS_ASSERT
+  <strong><span style="color: #000080">#endif</span></strong>
+  <strong><span style="color: #000080">#if</span></strong> defined(__DEBUG)
+  <i><span style="color: #008000">//SYS_ASSERT for the debugger</span></i>
+    <strong><span style="color: #000080">#define</span></strong> SYS_ASSERT(test, message) \
+               <strong><span style="color: #000080">do</span></strong>{ <strong><span style="color: #000080">if</span></strong>(!(test)) SYS_DEBUG_Breakpoint(); }<strong><span style="color: #000080">while</span></strong>(<strong><span style="color: #000080">false</span></strong>)
+  <strong><span style="color: #000080">#else</span></strong>
+  <i><span style="color: #008000">//SYS_ASSERT for Standalone:</span></i>
+    <strong><span style="color: #000080">#define</span></strong> SYS_ASSERT(test, message) \
+                <strong><span style="color: #000080">do</span></strong>{ <strong><span style="color: #000080">if</span></strong>(!(test)){ \
+                        SYS_MESSAGE((message)); \
+                        SYS_MESSAGE(&quot;\r\n&quot;); \
+                        <strong><span style="color: #000080">while</span></strong>(1);} \
+                  }<strong><span style="color: #000080">while</span></strong>(<strong><span style="color: #000080">false</span></strong>)
+  <strong><span style="color: #000080">#endif</span></strong><i><span style="color: #008000">//defined(__DEBUG)</span></i>
+
+<strong><span style="color: #000080">#endif</span></strong><i><span style="color: #008000">//!defined(NDEBUG)</span></i>
+</pre></div></div>
+<p class="Element10">
+The details of how to enable <a href="23965.html">SYS_MESSAGE</a> to allow output to a HyperTerminal are discussed in <i>Part II: Debugging With Your First Project &gt; <a href="04254.html">Part III: Debugging While Running Stand-alone</a></i>.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04247.html">Part II: Debugging With Your Project</a> &gt; <a href="04246.html">Tutorial Steps</a> &gt; <a href="04243.html">Asserts Under the Debugger</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Debugging Asserts Under the Debugger Topic Title: Asserts Under the Debugger)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

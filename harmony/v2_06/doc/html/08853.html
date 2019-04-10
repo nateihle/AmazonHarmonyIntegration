@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Core Functions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23370.html">SRAM Driver Library</a> &gt; <a href="08864.html">Using the Library</a> &gt; <a href="08857.html">How the Library Works</a> &gt; <a href="08853.html">Client Core Functions</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08863.html">Previous</a> | <a href="08857.html">Up</a> | <a href="08852.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SRAM Client Core Functions Topic Title: Client Core Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Core Functions</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>Opening the driver</strong>&nbsp;</p>
+<p class="Element10">
+For the application to start using an instance of the module, it must call the function <a href="11055.html">DRV_SRAM_Open</a> and obtain a valid driver handle. The application client uses this driver handle to access the driver functions.&nbsp;</p>
+<p class="Element10">
+For the various options available for I/O INTENT, please refer to Data Types and Constants in the Library Interface section.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">handle = <a href="11055.html">DRV_SRAM_Open</a>(<a href="11046.html">DRV_SRAM_INDEX_0</a>, DRV_IO_INTENT_EXCLUSIVE);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">if (<a href="10089.html">DRV_HANDLE_INVALID</a> == handle)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Call until the function returns a valid handle. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">else</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Do further processing. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+<strong>Closing the driver</strong>&nbsp;</p>
+<p class="Element10">
+This function closes an opened-instance of the SRAM Media driver. This invalidates the driver handle. The application must open the driver again to obtain a valid handle.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"><a href="10088.html">DRV_HANDLE</a> handle; // Returned from <a href="11055.html">DRV_SRAM_Open</a></span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"><a href="11030.html">DRV_SRAM_Close</a>(handle);</span>&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23370.html">SRAM Driver Library</a> &gt; <a href="08864.html">Using the Library</a> &gt; <a href="08857.html">How the Library Works</a> &gt; <a href="08853.html">Client Core Functions</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SRAM Client Core Functions Topic Title: Client Core Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

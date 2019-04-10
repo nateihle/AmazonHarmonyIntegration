@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>aria_basic_motion</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03666.html">aria_basic_motion</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03665.html">Previous</a> | <a href="03738.html">Up</a> | <a href="03667.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_basic_motion Topic Title: aria_basic_motion)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+aria_basic_motion</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This application demonstrates basic motion through the use of Graphics Suite’s ImageSequenceWidget. The demonstration spins a set of 3D images and cycles through a set of battery level image presentations. The demonstration also shows the use of a 480x272x1 (8-bit) frame buffer, in a double buffered configuration, using a 256 custom generated color palette created from colors obtained from the User Interface (UI) designer-based graphic image assets. The demonstration illustrates that two buffers (261 KB total) of internal SRAM is sufficient to produce appealing, low-memory use applications.&nbsp;</p>
+<p class="Element10">
+The following key features of this demonstration application include:</p>
+<ul class="Element630">
+<li class="Element600">Using motion to show double buffering</li>
+<li class="Element600">Double buffering in internal SRAM</li>
+<li class="Element600">New tool that generates a <a href="16645.html">global palette</a>, so that this can be an easy process without apparent color loss in many graphic schemes</li>
+</ul><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The following figure shows the various software and hardware components used by this application for the pic32mz_ef_sk_meb2 target configuration. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_basic_motion pic32mz_ef_sk_meb2 (CLUT).png" border="0" alt="" title=""></p><p class="Element10">
+The aria_basic_motion application uses the MPLAB Harmony <a href="12784.html">Graphics Library</a> to render graphics to the display. The Graphics Library draws the widgets and images as 8-bit indices to an 8-bit frame buffer, which is stored in the internal SRAM of the PIC32 device. Using the DMA, the Low-Cost Controllerless (LCC) Display Driver continuously transfers the frame data to the LCD display. During display refresh, the LCC driver performs a 16-bit color lookup using the indices stored in the refreshable framebuffer.&nbsp;</p>
+<p class="Element10">
+The final RGB565 color is derived from a custom palette Color Look-up Table (CLUT). The global palette is created for the entire application. It is created using the new palette generation tool which is capable of extracting colors from existing User Interface (UI) assets to establish a color array specific to the application with no wasted color positions.&nbsp;</p>
+<p class="Element10">
+The application is touch enabled. It features user touch input through the integrated touch screen on the display panel. Touch input from the touch controller goes through the I2C port, and the Input System Service acquires the touch input information from the Touch and I2C Drivers. The <a href="13983.html">Input System Service</a> sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly.&nbsp;</p>
+<p class="Element10">
+In addition, the application uses the Timer System Service and core timer manage clock ticks for image motion control.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">8-bit Custom Palette created using the new palette tool</li>
+<li class="Element600">2 Framebuffers (double-buffered UI)</li>
+<li class="Element600">Graphic designer image assets</li>
+<li class="Element600">Internal memory – low memory framebuffer footprint 261 KB</li>
+<li class="Element600">LCC CLUT lookup driver – 8-bit index to 16-bit RGB565 color</li>
+<li class="Element600">Graphics Image Sequence Widget</li>
+</ul><div class="Element15">
+Tools Setup</div>
+
+<ul class="Element630">
+<li class="Element600">Enable Graphics Stack</li>
+<li class="Element600">Enable Graphics Controller
+<ul class="Element631">
+<li class="Element601">Low-Cost Controllerless</li>
+<li class="Element601">Framebuffer Mode – Double-Buffer</li>
+<li class="Element601">Select Palette Mode</li>
+</ul></li>
+<li class="Element600">Enable Global Palette
+<ul class="Element631">
+<li class="Element601">Use Harmony Graphics Composer tool</li>
+<li class="Element601">Auto-Calculate Global Palette after creating UI elements</li>
+</ul></li>
+</ul></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03667.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Aria Basic Motion demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03668.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03669.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to use the Aria Basic Motion demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03666.html">aria_basic_motion</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_basic_motion Topic Title: aria_basic_motion)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

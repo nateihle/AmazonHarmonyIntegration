@@ -1,0 +1,10 @@
+config DRV_ADCP_ID
+    string
+    depends on USE_DRV_ADC
+	depends on DRV_ADC_TYPE_ADCP
+    range ADCP_MODULE_ID	
+    default "ADC_ID_1"	
+
+comment "**** Warning: Driver implementation is not available. Only pin management functionality is enabled in this release. ****"
+    depends on DRV_ADC_TYPE_ADCP	
+	

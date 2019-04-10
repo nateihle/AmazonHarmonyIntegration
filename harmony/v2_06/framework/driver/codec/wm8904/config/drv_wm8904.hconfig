@@ -1,0 +1,125 @@
+enum DRV_WM8904_IMPLEMENTATION
+    "DYNAMIC"
+
+enum DRV_WM8904_MASTER_SLAVE
+    "MASTER"
+
+enum DRV_WM8904_AUDIO_DATA_FORMATS
+    "DATA_16_BIT_LEFT_JUSTIFIED"
+    || "DATA_16_BIT_I2S"
+    || "DATA_32_BIT_LEFT_JUSTIFIED"
+    || "DATA_32_BIT_I2S"
+
+ifblock SELECT_DRV_WM8904=y      
+config USE_DRV_CODEC_WM8904
+    depends on SELECT_DRV_WM8904
+    depends on HAVE_I2S	
+    depends on HAVE_I2C
+    bool
+    select DRIVER
+    select USE_DRV_I2S_NEEDED
+    select USE_DRV_I2C_NEEDED
+    select USE_DRV_TMR_NEEDED
+    select DRV_I2C_INTERRUPT_MODE_NEEDED
+    set DRV_DMA_INSTANCES_NUMBER to "2"
+    select USE_SYS_CLK_DYNAMIC_NEEDED
+    select USE_SYS_CLK
+    default y if SELECT_DRV_WM8904	
+    default n if !SELECT_DRV_WM8904 
+    ---help---
+    IDH_HTML_WM8904_Driver_Library
+    ---endhelp---
+endif	
+
+config DRV_CODEC_WM8904_IMPL
+    string "Driver Implementation"
+    depends on SELECT_DRV_WM8904    	
+    depends on USE_DRV_CODEC_WM8904
+    range DRV_WM8904_IMPLEMENTATION
+    default "DYNAMIC"
+    persistent
+    ---help---
+    IDH_HTML_WM8904_Driver_Library
+    ---endhelp---
+
+config DRV_CODEC_WM8904_MODE
+    string "Master or slave mode"
+    depends on SELECT_DRV_WM8904    	
+    depends on USE_DRV_CODEC_WM8904
+    range DRV_WM8904_MASTER_SLAVE
+    default "MASTER"
+    persistent
+    ---help---
+    IDH_HTML_DRV_CODEC_WM8904_MODE
+    ---endhelp---
+
+config DRV_WM8904_CLIENTS_NUMBER
+    int "Number of WM8904 Driver Clients"
+    depends on USE_DRV_CODEC_WM8904
+	range 1 2
+    default 1
+    ---help---
+    IDH_HTML_WM8904_Driver_Library
+    ---endhelp---
+
+config DRV_WM8904_INSTANCES_NUMBER
+    depends on SELECT_DRV_WM8904
+    depends on USE_DRV_CODEC_WM8904
+    range 1 DRV_WM8904_INSTANCES_NUMBER
+    default 1
+    persistent
+    ---help---
+    IDH_HTML_WM8904_Driver_Library
+    ---endhelp---
+
+config DRV_WM8904_BAUD_RATE
+    int "Sampling Rate"
+    depends on SELECT_DRV_WM8904
+    depends on USE_DRV_CODEC_WM8904
+    default 48000
+    ---help---
+    IDH_HTML_DRV_WM8904_BAUD_RATE
+    ---endhelp---
+
+config DRV_WM8904_AUDIO_DATA_FORMAT
+    string "Audio data format"
+    depends on SELECT_DRV_WM8904
+    depends on USE_DRV_CODEC_WM8904
+    range DRV_WM8904_AUDIO_DATA_FORMATS
+    default "DATA_16_BIT_I2S"
+    ---help---
+    IDH_HTML_DRV_WM8904_AUDIO_DATA_FORMAT
+    ---endhelp---
+
+comment "(for 24-bit data, use one of the 32-bit formats)"
+
+config DRV_WM8904_VOLUME
+    int "Volume for the Codec in the range 0 (Min) - 255(Max)"
+    depends on SELECT_DRV_WM8904
+    depends on USE_DRV_CODEC_WM8904
+    range 0 255
+    default 120
+    ---help---
+    IDH_HTML_DRV_WM8904_VOLUME
+    ---endhelp---
+
+config DRV_WM8904_ENABLE_MIC_INPUT
+    bool "Enable microphone input?"
+    default n 
+    ---help---
+    IDH_HTML_DRV_WM8904_ENABLE_MIC_INPUT
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/codec/wm8904/config/drv_wm8904_idx.ftl" 1 instances    	
+
+ifblock USE_DRV_CODEC_WM8904=y && SELECT_DRV_WM8904=y
+add "<#include \"/framework/driver/codec/wm8904/templates/drv_wm8904_system_definitions.h.ftl\">" to list SYSTEM_DEFINITIONS_H_INCLUDES
+add "<#include \"/framework/driver/codec/wm8904/templates/drv_wm8904.c.ftl\">" to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/codec/wm8904/templates/drv_wm8904_init.c.ftl\">" to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/codec/wm8904/templates/drv_wm8904_tasks.c.ftl\">" to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/codec/wm8904/templates/drv_wm8904.h.ftl\">" to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_CODEC_WM8904 "$HARMONY_VERSION_PATH/framework/driver/codec/wm8904/drv_wm8904.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/wm8904/drv_wm8904.h"
+file DRV_CODEC_WM8904_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/codec/wm8904/src/drv_wm8904_local.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/wm8904/drv_wm8904_local.h"
+file DRV_CODEC_WM8904_I2C_MAPPING_H "$HARMONY_VERSION_PATH/framework/driver/codec/wm8904/drv_codec_i2c_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/wm8904/drv_codec_i2c_mapping.h"
+endif	

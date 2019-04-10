@@ -1,0 +1,31 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX775F256H_BMX
+	bool
+	select HAVE_BMX
+	default y
+
+config BMX_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum BMX_MODULE_ID exclusive
+	"BMX_ID_0"
+
+ifblock PROJECT_STANDALONE
+file PLIB_BMX_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/processor/bmx_p32mx775f256h.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/processor/bmx_p32mx775f256h.h"
+
+file PLIB_BMX_ARBITRATIONMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_ArbitrationMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_ArbitrationMode_Default.h"
+file PLIB_BMX_DATARAMWAITSTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_DataRamWaitState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_DataRamWaitState_Default.h"
+file PLIB_BMX_PROGRAMFLASHMEMORYCACHEDMA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_ProgramFlashMemoryCacheDma_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_ProgramFlashMemoryCacheDma_Default.h"
+file PLIB_BMX_BUSEXCEPTIONIXI_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_BusExceptionIXI_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_BusExceptionIXI_Default.h"
+file PLIB_BMX_BUSEXCEPTIONICD_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_BusExceptionICD_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_BusExceptionICD_Default.h"
+file PLIB_BMX_BUSEXCEPTIONDMA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_BusExceptionDMA_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_BusExceptionDMA_Default.h"
+file PLIB_BMX_BUSEXCEPTIONDATA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_BusExceptionData_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_BusExceptionData_Default.h"
+file PLIB_BMX_BUSEXCEPTIONINSTRUCTION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_BusExceptionInstruction_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_BusExceptionInstruction_Default.h"
+file PLIB_BMX_PROGRAMFLASHPARTITION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_ProgramFlashPartition_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_ProgramFlashPartition_Default.h"
+file PLIB_BMX_DATARAMPARTITION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_DataRAMPartition_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_DataRAMPartition_Default.h"
+file PLIB_BMX_PROGRAMFLASHMEMORYSIZE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_ProgramFlashMemorySize_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_ProgramFlashMemorySize_Default.h"
+file PLIB_BMX_DATARAMSIZE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_DataRAMSize_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_DataRAMSize_Default.h"
+file PLIB_BMX_PROGRAMFLASHBOOTSIZE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/bmx/templates/bmx_ProgramFlashBootSize_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/bmx/templates/bmx_ProgramFlashBootSize_Default.h"
+endif

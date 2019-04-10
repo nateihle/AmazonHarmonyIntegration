@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_ADCP_Configure Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17452.html">Library Interface</a> &gt; a) Configuration Functions &gt; <a href="18347.html">PLIB_ADCP_Configure Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17452.html">Previous</a> | <a href="17452.html">Up</a> | <a href="18354.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_ADCP_Configure@ADCP_MODULE_ID@ADCP_VREF_SOURCE@bool@bool@bool@ADCP_CLOCK_SOURCE@int8_t@int8_t@int8_t@int8_t Topic Title: PLIB_ADCP_Configure Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_ADCP_Configure Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">PLIB_ADCP_Configure</span></strong>(
+    <a href="03188.html">ADCP_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    <a href="03246.html">ADCP_VREF_SOURCE</a> <strong><span style="color: #000000">voltageRefSelect</span></strong>, 
+    <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">boostVref</span></strong>, 
+    <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">fractionalOutputOn</span></strong>, 
+    <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">stopInIdle</span></strong>, 
+    <a href="03101.html">ADCP_CLOCK_SOURCE</a> <strong><span style="color: #000000">adcClockSource</span></strong>, 
+    int8_t <strong><span style="color: #000000">adcClockDivider</span></strong>, 
+    int8_t <strong><span style="color: #000000">oversampleDigFilterSamTime</span></strong>, 
+    int8_t <strong><span style="color: #000000">earlyIntEnable</span></strong>, 
+    int8_t <strong><span style="color: #000000">class2and3SampleTime</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function configures all ADC parameters common to all inputs. This configuration must occur prior to enabling the ADC and therefore must be called when the ADC is disabled.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The module is disabled when calling this function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the ADCP instance&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+voltageRefSelect&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+VREF Source Selection&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+boostVref&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Enables the VREF boost if <a href="27119.html">TRUE</a>.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+Use when VREFH&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+VREFL &lt; .64 (AVDD - AVSS)&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+fractionalOutputOn&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+sets output to a fractional format if <a href="27119.html">TRUE</a>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+stopInIdle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+sets ADC to stop when device is in idle mode if <a href="27119.html">TRUE</a>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+adcClockSource&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Clock source selection&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+adcClockDivider&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Clock source divider. Values range from 0 to 254.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+oversampleDigFilterSamTime&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the delay (sample time) between automatically generated oversampling filter triggers. Values range from 0 to 31 for 1.5 TAD to 32.5 TAD respectively.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+earlyIntEnable&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the number of clocks prior to the actual arrival of data that the ADRDY bit is set. Range is 0 to 7. Used to generate an early interrupt.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+class2and3SampleTime&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Set the sample time for Class 2 and Class 3 inputs. Range is 0 to 255 for a sample time of 1 to 256, respectively.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function must be called when the ADC is disabled.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01592');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01592"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADCP_INSTANCE, is the ADCP instance selected for use by the</span></i>
+<i><span style="color: #008000">// application developer.</span></i>
+
+<i><span style="color: #008000">// Configure the ADC</span></i>
+PLIB_ADCP_Configure( MY_ADCP_INSTANCE,
+        ADCP_VREF_VREFP_VREFN,  <i><span style="color: #008000">// VREF+ and VREF- as reference</span></i>
+        <a href="12128.html">FALSE</a>,          <i><span style="color: #008000">// No VREF boost</span></i>
+        <a href="27119.html">TRUE</a>,           <i><span style="color: #008000">// Use fractional format</span></i>
+        <a href="27119.html">TRUE</a>,           <i><span style="color: #008000">// Do stop in idle</span></i>
+        ADCP_CLK_SRC_SYSCLK,    <i><span style="color: #008000">// SYSCLK is the clock source</span></i>
+        3,              <i><span style="color: #008000">// TAD = 1/SYSCLK * 2 * 3</span></i>
+                        <i><span style="color: #008000">// or ADC Clock = SYSCLK / (2 * 3)</span></i>
+        2,              <i><span style="color: #008000">// 2 + 1.5 = 3.5 TAD between</span></i>
+                        <i><span style="color: #008000">// oversampling triggers</span></i>
+        0,              <i><span style="color: #008000">// No early interrupt.</span></i>
+        3 );            <i><span style="color: #008000">// 3 + 1 = 4 TAD for Class 2 and 3</span></i>
+                        <i><span style="color: #008000">// Sample Time.</span></i>
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+<a href="18354.html">PLIB_ADCP_Enable</a>(MY_ADCP_INSTANCE);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17452.html">Library Interface</a> &gt; a) Configuration Functions &gt; <a href="18347.html">PLIB_ADCP_Configure Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_ADCP_Configure@ADCP_MODULE_ID@ADCP_VREF_SOURCE@bool@bool@bool@ADCP_CLOCK_SOURCE@int8_t@int8_t@int8_t@int8_t Topic Title: PLIB_ADCP_Configure Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

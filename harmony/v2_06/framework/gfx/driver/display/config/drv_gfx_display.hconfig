@@ -1,0 +1,354 @@
+config DRV_GFX_DISPLAY_DESC
+    string
+    
+config DRV_GFX_DISPLAY_DEF
+    string
+    
+config DRV_GFX_DISPLAY_TYPE
+    depends on USE_GFX_STACK
+    string "Select Display Type"
+    range DRV_GFX_DISPLAYS
+    default "PDA TM4301B 4.3-inch 480x272 (WQVGA) with PCAP" if USE_GFX_PDA_TM4301B_480X272_NEEDED
+    default "PDA TM5000 5-inch 800x480 (WVGA) with PCAP" if USE_GFX_PDA_TM5000_800X480_NEEDED
+    default "Truly 7-inch 800x480 (WVGA)" if USE_GFX_TRULY_7_800X480_NEEDED
+    default "Truly 5.7-inch 640x480 (VGA)" if USE_GFX_TRULY_57_640X480_NEEDED
+    default "Truly 3.2-inch 240x320 (QVGA)" if USE_GFX_TRULY_32_240X320_NEEDED
+    default "Powertip 4.3-inch 480x272 (WQVGA)" if USE_GFX_POWERTIP_43_480X272_NEEDED
+    default "LTS 4.3-inch 480x272 (WQVGA) with RTP" if USE_GFX_LTS_43_480X272_RTP_NEEDED
+    default "Newhaven 5.0-inch 800x480 (WVGA) with PCAP" if USE_GFX_NEWHAVEN_50_800X480_PCAP_NEEDED
+    default "Newhaven 4.3-inch 480x272 (WQVGA) with PCAP" if USE_GFX_NEWHAVEN_43_480X272_PCAP_NEEDED
+    default "Crystal Fontz 2-inch 176x220" if USE_GFX_CRYSTAL_2_176x220_NEEDED
+    default "maXTouch Xplained Pro 3.5-inch 320x480 (SPI 4-LINE)" if USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE_NEEDED
+
+    default "Custom Display"
+    ---help---
+     IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+comment "WARNING: maXTouch Xplained Pro 3.5-inch 320x480 (SPI 4-LINE) requires the ILI9488 (SPI 4-LINE) driver"
+    depends on USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE = y && DRV_GFX_CONTROLLER_TYPE != "ILI9488 (SPI 4-LINE)"
+
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/display/config/drv_gfx_display_types.hconfig"
+
+menu "Resolution" depends on USE_GFX_STACK
+    
+config DRV_GFX_DISPLAY_SUPPORTS_TOUCH
+	bool
+    default y if USE_GFX_PDA_TM5000_800X480
+    default y if USE_GFX_PDA_TM4301B_480X272
+    default y if USE_GFX_TRULY_7_800X480
+    default y if USE_GFX_TRULY_57_640X480
+    default y if USE_GFX_TRULY_32_240X320
+    default y if USE_GFX_POWERTIP_43_480X272
+    default y if USE_GFX_LTS_43_480X272_RTP
+    default y if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default y if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default n if USE_GFX_CRYSTAL_2_176x220
+    default y if USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE
+    default y
+
+config DRV_GFX_DISPLAY_WIDTH
+    int "Width"
+    default 800 if USE_GFX_PDA_TM5000_800X480
+    default 480 if USE_GFX_PDA_TM4301B_480X272
+    default 800 if USE_GFX_TRULY_7_800X480
+    default 640 if USE_GFX_TRULY_57_640X480
+    default 240 if USE_GFX_TRULY_32_240X320
+    default 480 if USE_GFX_POWERTIP_43_480X272
+    default 480 if USE_GFX_LTS_43_480X272_RTP
+    default 800 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 480 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 176 if USE_GFX_CRYSTAL_2_176x220
+    default 320 if USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE
+    default 320
+    
+config DRV_GFX_DISPLAY_HEIGHT
+    int "Height"
+    default 480 if USE_GFX_PDA_TM5000_800X480
+    default 272 if USE_GFX_PDA_TM4301B_480X272
+    default 480 if USE_GFX_TRULY_7_800X480
+    default 480 if USE_GFX_TRULY_57_640X480
+    default 320 if USE_GFX_TRULY_32_240X320
+    default 272 if USE_GFX_POWERTIP_43_480X272
+    default 272 if USE_GFX_LTS_43_480X272_RTP
+    default 480 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 272 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 220 if USE_GFX_CRYSTAL_2_176x220
+    default 480 if USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE
+    default 200
+    
+config DRV_GFX_DISPLAY_TOTAL_PIXELS
+    int "Total Pixels (pixels)"
+    persistent
+    default 0
+    
+endmenu
+
+config DRV_GFX_DISPLAY_ORIENTATION
+    depends on USE_GFX_STACK
+    persistent
+    string "Orientation"
+    default "0" if USE_GFX_PDA_TM5000_800X480
+    default "0" if USE_GFX_PDA_TM4301B_480X272
+    default "0"  if USE_GFX_TRULY_7_800X480
+    default "0"  if USE_GFX_TRULY_57_640X480
+    default "0" if USE_GFX_TRULY_32_240X320
+    default "0"  if USE_GFX_POWERTIP_43_480X272
+    default "0"  if USE_GFX_LTS_43_480X272_RTP
+    default "0"  if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default "0"  if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default "0" if USE_GFX_CRYSTAL_2_176x220
+    default "0" if USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE
+    range DRV_GFX_ORIENTATION
+    default "0"
+
+comment "The Graphics Library is expected to handle orientation in the current release.  For Aria, orientation can be adjusted from within Graphics Composer"
+    depends on USE_GFX_STACK
+    
+config DRV_GFX_DISPLAY_DATA_WIDTH
+    depends on USE_GFX_STACK
+    int "Data Width"
+    range 8 24
+    default 16 if USE_GFX_PDA_TM5000_800X480
+    default 16 if USE_GFX_PDA_TM4301B_480X272
+    default 16 if USE_GFX_TRULY_7_800X480
+    default 16 if USE_GFX_TRULY_57_640X480
+    default 18 if USE_GFX_TRULY_32_240X320
+    default 16 if USE_GFX_POWERTIP_43_480X272
+    default 16 if USE_GFX_LTS_43_480X272_RTP
+    default 16 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 16 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 8 if USE_GFX_CRYSTAL_2_176x220
+    default 16
+    
+menu "Horizontal Settings" depends on USE_GFX_STACK
+    
+config DRV_GFX_DISPLAY_HOR_PULSE_WIDTH
+    int "Horizontal Pulse Width"
+    default 48 if USE_GFX_PDA_TM5000_800X480
+    default 41 if USE_GFX_PDA_TM4301B_480X272
+    default 128 if USE_GFX_TRULY_7_800X480
+    default 30 if USE_GFX_TRULY_57_640X480
+    default 25 if USE_GFX_TRULY_32_240X320
+    default 42 if USE_GFX_POWERTIP_43_480X272
+    default 41 if USE_GFX_LTS_43_480X272_RTP
+    default 48 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 41 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 25 if USE_GFX_CRYSTAL_2_176x220
+    default 42
+    
+config DRV_GFX_DISPLAY_HOR_BACK_PORCH
+    int "Horizontal Back Porch"
+    default 40 if USE_GFX_PDA_TM5000_800X480
+    default 2 if USE_GFX_PDA_TM4301B_480X272
+    default 129 if USE_GFX_TRULY_7_800X480
+    default 128 if USE_GFX_TRULY_57_640X480
+    default 5 if USE_GFX_TRULY_32_240X320
+    default 2 if USE_GFX_POWERTIP_43_480X272
+    default 40 if USE_GFX_LTS_43_480X272_RTP
+    default 40 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 2 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 5 if USE_GFX_CRYSTAL_2_176x220
+    default 2
+    
+config DRV_GFX_DISPLAY_HOR_FRONT_PORCH
+    int "Horizontal Front Porch"
+    default 42 if USE_GFX_PDA_TM5000_800X480
+    default 2 if USE_GFX_PDA_TM4301B_480X272
+    default 2 if USE_GFX_TRULY_7_800X480
+    default 2 if USE_GFX_TRULY_57_640X480
+    default 10 if USE_GFX_TRULY_32_240X320
+    default 2 if USE_GFX_POWERTIP_43_480X272
+    default 5 if USE_GFX_LTS_43_480X272_RTP
+    default 42 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 2 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 10 if USE_GFX_CRYSTAL_2_176x220
+    default 2
+    
+endmenu
+
+menu "Vertical Settings" depends on USE_GFX_STACK
+    
+config DRV_GFX_DISPLAY_VER_PULSE_WIDTH
+    int "Vertical Pulse Width"
+    default 3 if USE_GFX_PDA_TM5000_800X480
+    default 10 if USE_GFX_PDA_TM4301B_480X272
+    default 2 if USE_GFX_TRULY_7_800X480
+    default 3 if USE_GFX_TRULY_57_640X480
+    default 4 if USE_GFX_TRULY_32_240X320
+    default 10 if USE_GFX_POWERTIP_43_480X272
+    default 10 if USE_GFX_LTS_43_480X272_RTP
+    default 3 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 10 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 4 if USE_GFX_CRYSTAL_2_176x220
+    default 10
+    
+config DRV_GFX_DISPLAY_VER_BACK_PORCH
+    int "Vertical Back Porch"
+    default 36 if USE_GFX_PDA_TM5000_800X480
+    default 2 if USE_GFX_PDA_TM4301B_480X272
+    default 41 if USE_GFX_TRULY_7_800X480
+    default 35 if USE_GFX_TRULY_57_640X480
+    default 0 if USE_GFX_TRULY_32_240X320
+    default 2 if USE_GFX_POWERTIP_43_480X272
+    default 8 if USE_GFX_LTS_43_480X272_RTP
+    default 36 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 2 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 0 if USE_GFX_CRYSTAL_2_176x220
+    default 2
+    
+config DRV_GFX_DISPLAY_VER_FRONT_PORCH
+    int "Vertical Front Porch"
+    default 13 if USE_GFX_PDA_TM5000_800X480
+    default 2 if USE_GFX_PDA_TM4301B_480X272
+    default 2 if USE_GFX_TRULY_7_800X480
+    default 7 if USE_GFX_TRULY_57_640X480
+    default 2 if USE_GFX_TRULY_32_240X320
+    default 2 if USE_GFX_POWERTIP_43_480X272
+    default 8 if USE_GFX_LTS_43_480X272_RTP
+    default 13 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 2 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 2 if USE_GFX_CRYSTAL_2_176x220
+    default 2
+    
+endmenu
+    
+config DRV_GFX_DISPLAY_INV_LSHIFT
+    depends on USE_GFX_STACK
+    int "Inverting Level Shift"
+    default 0 if USE_GFX_PDA_TM5000_800X480
+    default 0 if USE_GFX_PDA_TM4301B_480X272
+    default 0 if USE_GFX_TRULY_7_800X480
+    default 1 if USE_GFX_TRULY_57_640X480
+    default 1 if USE_GFX_TRULY_32_240X320
+    default 0 if USE_GFX_POWERTIP_43_480X272
+    default 0 if USE_GFX_LTS_43_480X272_RTP
+    default 0 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 0 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 1 if USE_GFX_CRYSTAL_2_176x220
+    default 0
+    
+config DRV_GFX_DISPLAY_PIXEL_CLOCK_FACTOR
+    depends on USE_GFX_STACK
+    int "Pixel Clock Factor"
+    default 0 if USE_GFX_PDA_TM5000_800X480
+    default 0 if USE_GFX_PDA_TM4301B_480X272
+    default 0 if USE_GFX_TRULY_7_800X480
+    default 0 if USE_GFX_TRULY_57_640X480
+    default 0 if USE_GFX_TRULY_32_240X320
+    default 0 if USE_GFX_POWERTIP_43_480X272
+    default 0 if USE_GFX_LTS_43_480X272_RTP
+    default 4 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 0 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 0 if USE_GFX_CRYSTAL_2_176x220
+    default 0
+    
+#config DRV_GFX_DISPLAY_DATA_WIDTH
+#    int "Data Width (bits)"
+#    depends on USE_GFX_STACK
+#   default 8
+    
+config DRV_GFX_DISPLAY_LCD_TYPE
+    depends on USE_GFX_STACK
+    string "LCD Type"
+    range DRV_GFX_DISPLAY_LCD_TYPES
+    default "GFX_LCD_TFT"
+    
+menu "Backlight Settings" depends on USE_GFX_STACK
+    
+config DRV_GFX_DISPLAY_BACKLIGHT_ENABLE_LEVEL
+    int "Backlight Enable Level (0 for low, 1 for high)"
+    range 0 1
+    default 1 if USE_GFX_PDA_TM5000_800X480
+    default 1 if USE_GFX_PDA_TM4301B_480X272
+    default 1 if USE_GFX_TRULY_7_800X480
+    default 1 if USE_GFX_TRULY_57_640X480
+    default 0 if USE_GFX_TRULY_32_240X320
+    default 1 if USE_GFX_POWERTIP_43_480X272
+    default 1 if USE_GFX_LTS_43_480X272_RTP
+    default 1 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 1 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 0 if USE_GFX_CRYSTAL_2_176x220
+    default 1
+    
+config DRV_GFX_DISPLAY_BACKLIGHT_DISABLE_LEVEL
+    int "Backlight Disable Level (0 for low, 1 for high)"
+    range 0 1
+    default 0 if USE_GFX_PDA_TM5000_800X480
+    default 0 if USE_GFX_PDA_TM4301B_480X272
+    default 0 if USE_GFX_TRULY_7_800X480
+    default 0 if USE_GFX_TRULY_57_640X480
+    default 1 if USE_GFX_TRULY_32_240X320
+    default 0 if USE_GFX_POWERTIP_43_480X272
+    default 0 if USE_GFX_LTS_43_480X272_RTP
+    default 0 if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default 0 if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default 1 if USE_GFX_CRYSTAL_2_176x220
+    default 0
+    
+endmenu
+    
+menu "Touch Settings" depends on USE_GFX_STACK
+    
+config DRV_GFX_DISPLAY_REQUIRE_CALIBRATION_POINTS
+    bool "Requires Calibration Points?"
+    default n if USE_GFX_PDA_TM5000_800X480
+    default n if USE_GFX_PDA_TM4301B_480X272
+    default y if USE_GFX_TRULY_7_800X480
+    default y if USE_GFX_TRULY_57_640X480
+    default y if USE_GFX_TRULY_32_240X320
+    default y if USE_GFX_POWERTIP_43_480X272
+    default y if USE_GFX_LTS_43_480X272_RTP
+    default n if USE_GFX_NEWHAVEN_50_800X480_PCAP
+    default n if USE_GFX_NEWHAVEN_43_480X272_PCAP
+    default n if USE_GFX_CRYSTAL_2_176x220
+    default n
+
+config DRV_GFX_DISPLAY_REQUIRE_SWAP_X_Y
+    bool "Swap X and Y Axis?"
+    default n
+
+endmenu
+
+menu "Polarity" depends on USE_GFX_STACK
+    
+config DRV_GFX_DISPLAY_VSYNC_NEGATIVE_POLARITY
+    bool "Negative VSYNC Polarity?"
+    default n
+
+config DRV_GFX_DISPLAY_HSYNC_NEGATIVE_POLARITY
+    bool "Negative HSYNC Polarity?"
+    default n
+    
+endmenu
+
+config DRV_GFX_DISPLAY_USE_DATA_ENABLE
+    bool "Use Data Enable?"
+    depends on USE_GFX_STACK
+    default y
+
+config DRV_GFX_DISPLAY_DATA_ENABLE_POSITIVE_POLARITY
+    bool "Positive Data Enable Polarity?"
+    depends on USE_GFX_STACK && DRV_GFX_DISPLAY_USE_DATA_ENABLE
+    default y
+
+config DRV_GFX_DISPLAY_USE_RESET
+    bool "Use Reset?"
+    depends on USE_GFX_STACK
+    default y
+
+config DRV_GFX_DISPLAY_RESET_POSITIVE_POLARITY
+    bool "Positive Reset Polarity?"
+    depends on DRV_GFX_DISPLAY_USE_RESET
+    default y
+
+config DRV_GFX_DISPLAY_USE_CHIP_SELECT
+    bool "Use Chip Select?"
+    depends on USE_GFX_STACK
+    default y
+
+config DRV_GFX_DISPLAY_CHIP_SELECT_POSITIVE_POLARITY
+    bool "Positive Chip Select Polarity?"
+    depends on DRV_GFX_DISPLAY_USE_CHIP_SELECT
+    default y if USE_GFX_POWERTIP_43_480X272
+    default n

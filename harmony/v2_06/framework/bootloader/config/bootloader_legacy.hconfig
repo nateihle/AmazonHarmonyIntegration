@@ -1,0 +1,31 @@
+#############################################################################################
+# ENUM Options
+#############################################################################################
+enum BOOTLOADER_TRIGGER_TYPES
+    "BUTTON"
+    || "MEMORY"
+    || "NONE"
+################################################################
+
+menu "Legacy Bootloader Options"
+
+config BOOTLOADER_TRIGGER_TYPE
+      string "Trigger Type"
+      default "NONE"
+      range BOOTLOADER_TRIGGER_TYPES
+      depends on USE_BOOTLOADER_LIBRARY
+      ---help---
+      On startup of the bootloader a trigger will start the program in bootloader mode.
+     ---endhelp---
+
+ifblock BOOTLOADER_TRIGGER_TYPE = "MEMORY"
+config BOOTLOADER_TRIGGER_MEMORY
+      string "Memory To Check"
+      default "0x9D000000" 
+      depends on USE_BOOTLOADER_LIBRARY
+      ---help---
+      On startup of the bootloader if the memory region has data in it than the bootloader will jump to the application.
+     ---endhelp---
+endif
+
+endmenu

@@ -1,0 +1,52 @@
+ifblock BSP_CHIPKIT_WF32
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_CHIPKIT_WF32
+
+config BSP_CONFIGURE_CHIPKIT_WF32
+    depends on USE_BSP
+    depends on BSP_CHIPKIT_WF32
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "8000000"
+    select BSP_USE_USBSWITCH
+    set BSP_PIN_91_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_91_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_92_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_92_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_17_FUNCTION_NAME to "BSP_LED_3" 
+    set BSP_PIN_17_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_38_FUNCTION_NAME to "BSP_LED_4" 
+    set BSP_PIN_38_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_87_FUNCTION_NAME to "BSP_LED_5" 
+    set BSP_PIN_87_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_10_FUNCTION_NAME to "BSP_LED_6" 
+    set BSP_PIN_10_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_20_FUNCTION_NAME to "USB_VBUS_SWITCH" 
+    set BSP_PIN_20_FUNCTION_TYPE to "VBUS" 	
+    bool
+    ---help---
+    IDH_HTML_BSP_chipkit_wf32
+    ---endhelp---
+endmenu
+
+menu "Custom Board Configurations for chipKIT WF32"
+    depends on USE_BSP
+    depends on BSP_CHIPKIT_WF32
+
+import BSP_CHIPKIT_WF32_IMPORT_ICB "Select Custom Configuration To Import" 
+    depends on USE_BSP
+    depends on BSP_CHIPKIT_WF32
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_chipkit_wf32_H "$HARMONY_VERSION_PATH/bsp/chipkit_wf32/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_chipkit_wf32_C "$HARMONY_VERSION_PATH/bsp/chipkit_wf32/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_chipkit_wf32 includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif

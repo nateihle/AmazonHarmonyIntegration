@@ -1,0 +1,123 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ1064DAG169_GLCD
+	bool
+	select HAVE_GLCD
+	default y
+
+config GLCD_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum GLCD_MODULE_ID exclusive
+	"GLCD_ID_0"
+
+enum GLCD_RGB_MODE
+	"GLCD_RGB_MODE_PARALLEL_RGB565"
+	|| "GLCD_RGB_MODE_PARALLEL_RGB888"
+	|| "GLCD_RGB_MODE_SERIAL_RGB_3"
+	|| "GLCD_RGB_MODE_SERIAL_RGBA_4"
+	|| "GLCD_RGB_MODE_SERIAL_12BIT"
+	|| "GLCD_RGB_MODE_YUYV_16BIT"
+	|| "GLCD_RGB_MODE_BT_656"
+
+enum GLCD_SIGNAL_POLARITY
+	"GLCD_POLARITY_POSITIVE"
+	|| "GLCD_PIXEL_CLOCK_POLARITY_NEGATIVE"
+	|| "GLCD_DE_POLARITY_NEGATIVE"
+	|| "GLCD_HSYNC_POLARITY_NEGATIVE"
+	|| "GLCD_VSYNC_POLARITY_NEGATIVE"
+
+enum GLCD_LAYER_ID
+	"GLCD_LAYER_ID_0"
+	|| "GLCD_LAYER_ID_1"
+	|| "GLCD_LAYER_ID_2"
+	|| "GLCD_LAYER_ID_MAX"
+
+enum GLCD_LAYER_COLOR_MODE
+	"GLCD_LAYER_COLOR_MODE_LUT8"
+	|| "GLCD_LAYER_COLOR_MODE_RGBA5551"
+	|| "GLCD_LAYER_COLOR_MODE_RGBA8888"
+	|| "GLCD_LAYER_COLOR_MODE_RGB332"
+	|| "GLCD_LAYER_COLOR_MODE_RGB565"
+	|| "GLCD_LAYER_COLOR_MODE_ARGB8888"
+	|| "GLCD_LAYER_COLOR_MODE_L8"
+	|| "GLCD_LAYER_COLOR_MODE_L1"
+	|| "GLCD_LAYER_COLOR_MODE_L4"
+	|| "GLCD_LAYER_COLOR_MODE_YUYV"
+	|| "GLCD_LAYER_COLOR_MODE_RGB888"
+
+enum GLCD_LAYER_SRC_BLEND_FUNC
+	"GLCD_LAYER_SRC_BLEND_BLACK"
+	|| "GLCD_LAYER_SRC_BLEND_WHITE"
+	|| "GLCD_LAYER_SRC_BLEND_ALPHA_SRC"
+	|| "GLCD_LAYER_SRC_BLEND_ALPHA_GBL"
+	|| "GLCD_LAYER_SRC_BLEND_ALPHA_SRCGBL"
+	|| "GLCD_LAYER_SRC_BLEND_INV_SRC"
+	|| "GLCD_LAYER_SRC_BLEND_INV_GBL"
+	|| "GLCD_LAYER_SRC_BLEND_INV_SRCGBL"
+	|| "GLCD_LAYER_SRC_BLEND_ALPHA_DST"
+	|| "GLCD_LAYER_SRC_BLEND_INV_DST"
+
+enum GLCD_LAYER_DEST_BLEND_FUNC
+	"GLCD_LAYER_DEST_BLEND_BLACK"
+	|| "GLCD_LAYER_DEST_BLEND_WHITE"
+	|| "GLCD_LAYER_DEST_BLEND_ALPHA_SRC"
+	|| "GLCD_LAYER_DEST_BLEND_ALPHA_GBL"
+	|| "GLCD_LAYER_DEST_BLEND_ALPHA_SRCGBL"
+	|| "GLCD_LAYER_DEST_BLEND_INV_SRC"
+	|| "GLCD_LAYER_DEST_BLEND_INV_GBL"
+	|| "GLCD_LAYER_DEST_BLEND_INV_SRCGBL"
+	|| "GLCD_LAYER_DEST_BLEND_ALPHA_DST"
+	|| "GLCD_LAYER_DEST_BLEND_INV_DST"
+
+enum GLCD_IRQ_TRIGGER_CONTROL
+	"GLCD_IRQ_TRIGGER_LEVEL"
+	|| "GLCD_IRQ_TRIGGER_EDGE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_GLCD_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/processor/glcd_p32mz1064dag169.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/processor/glcd_p32mz1064dag169.h"
+
+file PLIB_GLCD_RGBSEQUENTIALMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_RGBSequentialMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_RGBSequentialMode_Default.h"
+file PLIB_GLCD_FORMATTINGCLOCKDIVIDECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_FormattingClockDivideControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_FormattingClockDivideControl_Default.h"
+file PLIB_GLCD_YUVOUTPUTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_YUVOutputControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_YUVOutputControl_Default.h"
+file PLIB_GLCD_FORCEOUTPUTBLANKCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_ForceOutputBlankControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_ForceOutputBlankControl_Default.h"
+file PLIB_GLCD_PALETTEGAMMARAMPCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_PaletteGammaRampControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_PaletteGammaRampControl_Default.h"
+file PLIB_GLCD_SIGNALPOLARITYMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_SignalPolarityMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_SignalPolarityMode_Default.h"
+file PLIB_GLCD_SINGLECYCLEPERLINEVSYNCCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_SingleCyclePerLineVsyncControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_SingleCyclePerLineVsyncControl_Default.h"
+file PLIB_GLCD_DITHERINGCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_DitheringControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_DitheringControl_Default.h"
+file PLIB_GLCD_CURSORCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_CursorControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_CursorControl_Default.h"
+file PLIB_GLCD_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_EnableControl_Default.h"
+file PLIB_GLCD_CLOCKDIVIDER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_ClockDivider_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_ClockDivider_Default.h"
+file PLIB_GLCD_LINESPREFETCH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LinesPrefetch_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LinesPrefetch_Default.h"
+file PLIB_GLCD_BACKGROUNDCOLOR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_BackgroundColor_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_BackgroundColor_Default.h"
+file PLIB_GLCD_RESOLUTIONXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_ResolutionXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_ResolutionXY_Default.h"
+file PLIB_GLCD_FRONTPORCHXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_FrontPorchXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_FrontPorchXY_Default.h"
+file PLIB_GLCD_BLANKINGXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_BlankingXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_BlankingXY_Default.h"
+file PLIB_GLCD_BACKPORCHXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_BackPorchXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_BackPorchXY_Default.h"
+file PLIB_GLCD_CURSORXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_CursorXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_CursorXY_Default.h"
+file PLIB_GLCD_LAYERCOLORMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerColorMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerColorMode_Default.h"
+file PLIB_GLCD_LAYERSRCBLENDFUNCMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerSrcBlendFuncMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerSrcBlendFuncMode_Default.h"
+file PLIB_GLCD_LAYERDESTBLENDFUNCMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerDestBlendFuncMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerDestBlendFuncMode_Default.h"
+file PLIB_GLCD_LAYERGLOBALALPHA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerGlobalAlpha_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerGlobalAlpha_Default.h"
+file PLIB_GLCD_LAYERPREMULTIPLYIMAGEALPHACONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerPreMultiplyImageAlphaControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerPreMultiplyImageAlphaControl_Default.h"
+file PLIB_GLCD_LAYERFORCEWITHGLOBALALPHACONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerForceWithGlobalAlphaControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerForceWithGlobalAlphaControl_Default.h"
+file PLIB_GLCD_LAYERBILINEARFILTERCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerBilinearFilterControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerBilinearFilterControl_Default.h"
+file PLIB_GLCD_LAYERCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerControl_Default.h"
+file PLIB_GLCD_LAYERSTARTXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerStartXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerStartXY_Default.h"
+file PLIB_GLCD_LAYERSIZEXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerSizeXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerSizeXY_Default.h"
+file PLIB_GLCD_LAYERBASEADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerBaseAddress_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerBaseAddress_Default.h"
+file PLIB_GLCD_LAYERSTRIDE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerStride_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerStride_Default.h"
+file PLIB_GLCD_LAYERRESXY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LayerResXY_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LayerResXY_Default.h"
+file PLIB_GLCD_HSYNCINTERRUPTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_HSyncInterruptControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_HSyncInterruptControl_Default.h"
+file PLIB_GLCD_VSYNCINTERRUPTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_VSyncInterruptControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_VSyncInterruptControl_Default.h"
+file PLIB_GLCD_IRQTRIGGERCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_IRQTriggerControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_IRQTriggerControl_Default.h"
+file PLIB_GLCD_VERTICALBLANKINGACTIVESTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_VerticalBlankingActiveState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_VerticalBlankingActiveState_Default.h"
+file PLIB_GLCD_DESIGNALLEVEL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_DESignalLevel_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_DESignalLevel_Default.h"
+file PLIB_GLCD_HSYNCSIGNALLEVEL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_HSyncSignalLevel_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_HSyncSignalLevel_Default.h"
+file PLIB_GLCD_VSYNCSIGNALLEVEL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_VSyncSignalLevel_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_VSyncSignalLevel_Default.h"
+file PLIB_GLCD_LASTROWSTATE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_LastRowState_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_LastRowState_Default.h"
+file PLIB_GLCD_GLOBALCOLORLUT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_GlobalColorLUT_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_GlobalColorLUT_Default.h"
+file PLIB_GLCD_CURSORDATA_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_CursorData_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_CursorData_Default.h"
+file PLIB_GLCD_CURSORLUT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/glcd/templates/glcd_CursorLUT_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/glcd/templates/glcd_CursorLUT_Default.h"
+endif

@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuring the Hardware</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="03906.html">SPI Driver Demonstrations</a> &gt; <a href="03913.html">Demonstrations</a> &gt; <a href="03923.html">spi_multislave</a> &gt; <a href="03925.html">Configuring the Hardware</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03924.html">Previous</a> | <a href="03923.html">Up</a> | <a href="03926.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS SPIDRV spi_multislave_config Topic Title: Configuring the Hardware)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuring the Hardware</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Required Hardware</div>
+<p class="Element10">
+This demonstration requires the following hardware:</p>
+<ul class="Element630">
+<li class="Element600"><a href="05031.html">PIC32MZ EF Starter Kit</a></li>
+<li class="Element600"><a href="05035.html">PIC32MZ Starter Kit Adapter Board</a></li>
+<li class="Element600"><a href="05073.html">Starter Kit I/O Expansion Board</a></li>
+</ul><p class="Element10">
+SPI1, SPI2 and SPI3 modules are used in this demonstration as Master, Slave 1 and Slave 2 respectively. In addition, two GPIO pins are used to control the Slave Select (/SSx) pins.&nbsp;</p>
+<p class="Element10">
+PIC32MZ devices support the Peripheral Pin Select (PPS) feature. The SPI Pins of the SPI modules on this device must be configured using the PPS. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+To know more about the PIC32MZ PPS feature and pin configuration, please refer to <strong>Section 12.3 &quot;Peripheral Pin Select (PPS)&quot;</strong> in the <strong>&quot;I/O Ports&quot;</strong> chapter of the specific device data.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+PIC32MZ EF Starter Kit Configuration</div>
+
+<ol class="Element630">
+<li value="1" class="Element600">Short the pins on the J10 and J11 headers of the Starter Kit I/O Expansion Board, as follows:</li>
+</ol>
+<ul class="Element630">
+<li class="Element600">Pin 41 (J10), pin 23 (J10) and pin 48 (J11): SCK1, SCK2, and SCK3</li>
+<li class="Element600">Pin 43 (J10), pin 24 (J10) and pin 52 (J11): SDO1, SDI2, and SDI3</li>
+<li class="Element600">Pin 44 (J10), pin 25 (J10) and pin 37 (J11): SDI1, SDO2, and SDO3</li>
+<li class="Element600">Pin 34 (J10) and pin 26 (J10): RH10 and SS2</li>
+<li class="Element600">Pin 33 (J10) and pin 46 (J11): RH15 and SS3</li>
+</ul>
+<ol class="Element630">
+<li value="2" class="Element600">Next, attach the starter kit and the Starter Kit I/O Expansion Board, as shown in the following figure.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="pic32mz_ec_sk+IO_exp+Adapter.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>PIC32MZ EF Pin Mapping</strong>&nbsp;</p>
+<p class="Element10">
+The following table illustrates how the SPI1, SPI2, and SPI3 pins for the PIC32MZ EF devices are mapped and connected to each other through the Starter Kit I/O Expansion Board. </p><p class="Element10" style="text-align: center;">
+<img src="APPS SPI Driver Config Table 1.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="03906.html">SPI Driver Demonstrations</a> &gt; <a href="03913.html">Demonstrations</a> &gt; <a href="03923.html">spi_multislave</a> &gt; <a href="03925.html">Configuring the Hardware</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS SPIDRV spi_multislave_config Topic Title: Configuring the Hardware)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

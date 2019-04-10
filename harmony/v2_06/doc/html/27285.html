@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Demonstration Application Logic</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27297.html">Source Code Analysis</a> &gt; <a href="27285.html">Demonstration Application Logic</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27288.html">Previous</a> | <a href="27297.html">Up</a> | <a href="27295.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Demonstration Application Logic Topic Title: Demonstration Application Logic)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Demonstration Application Logic</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The application logic in the MLA &quot;Device – CDC – Basic Demo&quot; demonstration application is implemented in the ProcessIO function (see line 819 of the project <span class="Element146">main.c</span> file). This function is called periodically via the application <span class="Element146">while(1)</span> loop (see line 521 of <span class="Element146">main.c</span>). The ProcessIO function calls the getsUSBUSART, putrsUSBUSART, and putUSBUSART functions to transfer data over the CDC Device Interface. The USBUSARTIsTxTrfReady function checks if the CDC function driver is ready to accept data for transmission. The CDCTxService function maintains the CDC function driver transmit state machine and is called periodically through the ProcessIO function (see line 870 of <span class="Element146">main.c</span>).&nbsp;</p>
+<p class="Element10">
+In the MPLAB Harmony project, the appData object defined in the <span class="Element146">app.h</span> file serves as a container for all application global data. The APP_StateReset function in the <span class="Element146">app.c</span> file is called by the application and returns true if the device is not configured. This then causes the application state machine to reset.&nbsp;</p>
+<p class="Element10">
+The MPLAB Harmony application logic state machine (the APP_Tasks function) is implemented in <span class="Element146">app.c</span>. The MPLAB Harmony USB Device Stack requires the application logic to be coded as a state machine that yields to the system periodically. In this state machine, the MPLAB Harmony USB Device Stack application must first open the USB Device Layer to access the functionality of the Device Layer. This is done through the <a href="27899.html">USB_DEVICE_Open</a> function. This step is not required in the MLA USB Device Stack application. The MPLAB Harmony USB Device Stack application can then wait for the device to be configured.&nbsp;</p>
+<p class="Element10">
+In the MPLAB Harmony USB Device application, the device is attached to the bus when VBUS power is detected. This is done by calling the <a href="27487.html">USB_DEVICE_Attach</a> function in the USB_DEVICE_EVENT_POWER_DETECTED function in APP_USBDeviceEventHandler function. The equivalent MLA USB Device Stack function is the USBDeviceAttach function. The <a href="27655.html">USB_DEVICE_CDC_Read</a> and <a href="27672.html">USB_DEVICE_CDC_Write</a> functions are called to transfer data over the CDC interface. The following table lists some of the MLA USB CDC function driver routines and their equivalents in the MPLAB Harmony CDC Function Driver API. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="17%">
+<div class="Element66">
+MLA USB CDC Function Driver Routine&nbsp;</div></td><td class="Element65" valign="top" width="83%">
+<div class="Element66">
+MPLAB Harmony CDC Function Driver Routine&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="17%">
+<div class="Element68">
+getsUSBUSART&nbsp;</div></td><td class="Element67" valign="top" width="83%">
+<div class="Element68">
+<a href="27655.html">USB_DEVICE_CDC_Read</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="17%">
+<div class="Element68">
+putUSBUSART&nbsp;</div></td><td class="Element67" valign="top" width="83%">
+<div class="Element68">
+<a href="27672.html">USB_DEVICE_CDC_Write</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="17%">
+<div class="Element68">
+putrsUSBUSART&nbsp;</div></td><td class="Element67" valign="top" width="83%">
+<div class="Element68">
+<a href="27672.html">USB_DEVICE_CDC_Write</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="17%">
+<div class="Element68">
+CDCTxService&nbsp;</div></td><td class="Element67" valign="top" width="83%">
+<div class="Element68">
+No equivalent routine. In the MPLAB Harmony USB Device Stack Framework, function driver state machine is updated by the Device Layer.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="17%">
+<div class="Element68">
+USBUSARTIsTxTrfReady&nbsp;</div></td><td class="Element67" valign="top" width="83%">
+<div class="Element68">
+No equivalent routine. In the MPLAB Harmony USB Device Stack Framework, all data transfers are scheduled in a queue. The application does not need to check if the transmit state machine is ready. The application must use function driver events to check when a transfer is complete.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+In the MLA USB CDC Function Driver, the getsUSBUSART function returns zero if no data has been received. In MPLAB Harmony CDC Function driver, the application must schedule a read with the <a href="27655.html">USB_DEVICE_CDC_Read</a> function, and then wait for the read complete event.&nbsp;</p>
+<p class="Element10">
+In the MLA USB CDC Function Driver, the application uses the USBUSARTIsTxTrfReady function to check if the CDC function is ready to transmit data. In the MPLAB Harmony CDC Function driver, the application does not need to check for transmit status. It schedules a write transfer request through the <a href="27672.html">USB_DEVICE_CDC_Write</a> function. If the request is added successfully to the queue, the application receives a valid transfer handle. The completion the transfer is indicated by an event. The MPLAB Harmony <a href="27655.html">USB_DEVICE_CDC_Read</a> and the <a href="27672.html">USB_DEVICE_CDC_Write</a> functions add transfer requests to a queue. The size of the queue is configurable. The MLA USB CDC Function driver does not support queuing.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27297.html">Source Code Analysis</a> &gt; <a href="27285.html">Demonstration Application Logic</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Demonstration Application Logic Topic Title: Demonstration Application Logic)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

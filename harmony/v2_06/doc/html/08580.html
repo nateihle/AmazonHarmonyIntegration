@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Transfer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13729.html">I2C Driver Library Help</a> &gt; <a href="08593.html">Using the Library</a> &gt; <a href="08585.html">How the Library Works</a> &gt; <a href="08580.html">Client Transfer</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08578.html">Previous</a> | <a href="08585.html">Up</a> | <a href="08581.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV I2C Client Transfer Topic Title: Client Transfer)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Transfer</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Core Functionality</div>
+<p class="Element10">
+Client basic functionality provides an extremely basic interface for the driver operation.&nbsp;</p>
+<p class="Element10">
+The following diagram illustrates the byte/word model used for the data transfer. </p><p class="Element10" style="text-align: center;">
+<img src="I2C DRV i2c_client_model.png" border="0" alt="" title=""></p><div class="Element15">
+Client Data Transfer Functionality</div>
+<p class="Element10">
+Applications using the I2C driver need to perform the following:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary initialization and the <a href="10120.html">DRV_I2C_Tasks</a> should either be running in polled environment, or in an interrupt environment.</li>
+<li value="2" class="Element605">Open the driver using <a href="10114.html">DRV_I2C_Open</a> with the necessary intent.</li>
+<li value="3" class="Element605">Add a buffer using the <a href="10117.html">DRV_I2C_Receive</a>, <a href="10122.html">DRV_I2C_Transmit</a>, and <a href="10124.html">DRV_I2C_TransmitThenReceive</a> functions. An optional callback can be provided that will be called when the buffer/job is complete using <a href="10094.html">DRV_I2C_BufferEventHandlerSet</a>.</li>
+<li value="4" class="Element605">Check for the current transfer status using <a href="10121.html">DRV_I2C_TransferStatusGet</a> or wait for the callback to be called with buffer transfer status set to DRV_I2C_BUFFER_EVENT_COMPLETE or DRV_I2C_BUFFER_EVENT_ERROR.</li>
+<li value="5" class="Element605">Buffer status DRV_I2C_BUFFER_EVENT_COMPLETE implies that the I2C transaction has been completed without any errors. Buffer status DRV_I2C_BUFFER_EVENT_ERROR indicates that the I2C transaction was aborted and the entire contents of the buffer were not transferred.</li>
+<li value="6" class="Element605">In Master mode, common cases for DRV_I2C_BUFFER_EVENT_ERROR to be set are:
+<ul class="Element636">
+<li class="Element606">Slave is non-operational</li>
+<li class="Element606">Slave is performing an internal operation and cannot accept any more I2C messages from the Master until the operation completes. In such a case, if the Master tries to address the Slave and is attempting to transfer data, the Slave NACKs the transfer. This will result in the Master prematurely terminating the transaction and setting the DRV_I2C_BUFFER_EVENT_FLAG. In the application level, the Master can continuously attempt to send the transaction until transfer status changes from for DRV_I2C_BUFFER_EVENT_ERROR to DRV_I2C_BUFFER_EVENT_COMPLETE. This will in effect perform the so-called &quot;Acknowledge Polling&quot;. An example of a Slave device that depicts this behavior is an EEPROM.</li>
+</ul></li>
+<li value="7" class="Element605">The client will be able to close the driver using <a href="10096.html">DRV_I2C_Close</a> when required.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00628');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00628"><pre class="Element12"><i><span style="color: #008000">/*  This example demonstrates the I2C driver setup of one instance of I2C acting
+    as a Master to another instance of the I2C Driver acting as a Slave.
+    In the Slave initialization data structure in system_init.c, the member
+    operationStarting should be assigned a function pointer. This function will
+    be called when the Slave receives an address match. Based on the R/W bit in
+    the address, the transmit or receive function will be called by the Slave
+    (e.g., .operationStarting = APP_SlaveDataforMaster) */</span></i>
+
+SYS_MODULE_OBJ i2cMasterObject;
+
+SYS_MODULE_OBJ i2cSlaveObject;
+
+
+<i><span style="color: #008000">/* function prototype of callback function */</span></i>
+<strong><span style="color: #000080">void</span></strong> I2CMasterOpStatusCb ( DRV_I2C_BUFFER_EVENT event,
+                           DRV_I2C_BUFFER_HANDLE bufferHandle,
+                           uintptr_t context);
+
+<strong><span style="color: #000080">int</span></strong> main( <strong><span style="color: #000080">void</span></strong> )
+{
+    <strong><span style="color: #000080">while</span></strong> ( 1 )
+    {
+        appTask ();
+    }
+}
+
+<strong><span style="color: #000080">void</span></strong> appTask ()
+{
+    <strong><span style="color: #000080">#define</span></strong> MY_BUFFER_SIZE             5
+    <strong><span style="color: #000080">#define</span></strong> RTCC_SLAVE_ADDRESS        0xDE
+
+    <i><span style="color: #008000">/* initialize slave address value */</span></i>
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">char</span></strong> address             =    RTCC_SLAVE_ADDRESS;
+
+    <i><span style="color: #008000">/*Initialize myBuffer with MY_BUFFER_SIZE bytes of valid data */</span></i>
+    <strong><span style="color: #000080">char</span></strong> myBuffer[MY_BUFFER_SIZE] = { 11, 22, 33, 44, 55};
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> numBytes;
+
+    DRV_HANDLE drvI2CMasterHandle;        <i><span style="color: #008000">//Returned from DRV_I2C_Open for I2C Master</span></i>
+    DRV_I2C_BUFFER_HANDLE bufHandle_M1;   <i><span style="color: #008000">//Returned from calling a Data Transfer function</span></i>
+    uintptr_t i2cOpStatus;                <i><span style="color: #008000">//Operation status of I2C operation returned from callback</span></i>
+
+    DRV_HANDLE drvI2CSlaveHandle;         <i><span style="color: #008000">//Returned from DRV_I2C_Open for I2C Slave</span></i>
+    DRV_I2C_BUFFER_HANDLE bufHandle_S1;   <i><span style="color: #008000">//Returned from calling a Data Transfer function</span></i>
+    DRV_I2C_BUFFER_HANDLE bufHandle_S2;   <i><span style="color: #008000">//Returned from calling a Data Transfer function</span></i>
+
+
+
+    <strong><span style="color: #000080">while</span></strong>( 1 )
+    {
+        <strong><span style="color: #000080">switch</span></strong>( state )
+        {
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_INIT:
+            {
+                <i><span style="color: #008000">/* Initialize the Master I2C Driver */</span></i>
+                i2cMasterObject = DRV_I2C_Initialize( DRV_I2C_INDEX_0, (SYS_MODULE_INIT *)&amp;drvI2C0InitData );
+
+                <i><span style="color: #008000">/* Initialize the Slave I2C Driver */</span></i>
+                i2cSlaveObject  = DRV_I2C_Initialize(DRV_I2C_INDEX_1, (SYS_MODULE_INIT *)&amp;drvI2C1InitData);
+
+                <i><span style="color: #008000">/* Check for the System Status */</span></i>
+                <strong><span style="color: #000080">if</span></strong>( SYS_STATUS_READY != DRV_I2C_Status( i2cObject ) )
+                <strong><span style="color: #000080">return</span></strong> 0;
+
+                <i><span style="color: #008000">/* Open the Driver for I2C Master */</span></i>
+                drvI2CMasterHandle = DRV_I2C_Open( DRV_I2C_INDEX_0,DRV_IO_INTENT_WRITE );
+
+                <strong><span style="color: #000080">if</span></strong> ( drvI2CMasterHandle != (DRV_HANDLE)NULL )
+                {
+                    <i><span style="color: #008000">/* event-handler set up receive callback from DRV_I2C_Tasks */</span></i>
+                    <i><span style="color: #008000">/* Event handler need to be set up only if needed */</span></i>
+                    DRV_I2C_BufferEventHandlerSet(drvI2CMasterHandle, I2CMasterOpStatusCb, i2cOpStatus );
+
+                    <i><span style="color: #008000">/* Update the state to transfer data */</span></i>
+                    state = APP_STATE_DATA_PUT;
+                }
+                <strong><span style="color: #000080">else</span></strong>
+                {
+                    state = APP_STATE_ERROR;
+                }
+
+                <i><span style="color: #008000">/* Open the I2C Driver for Slave on the same device */</span></i>
+                drvI2CSlaveHandle = DRV_I2C_Open( DRV_I2C_INDEX_1,DRV_IO_INTENT_WRITE );
+
+                <strong><span style="color: #000080">if</span></strong> ( drvI2CMasterHandle != (DRV_HANDLE)NULL )
+                {
+                    <i><span style="color: #008000">/* event-handler set up receive callback from DRV_I2C_Tasks */</span></i>
+                    <i><span style="color: #008000">/* Event handler need to be set up only if needed */</span></i>
+                    DRV_I2C_BufferEventHandlerSet(drvI2CMasterHandle, I2CMasterOpStatusCb, i2cOpStatus );
+
+                    <i><span style="color: #008000">/* Update the state to transfer data */</span></i>
+                    state = APP_STATE_DATA_PUT;
+                }
+                <strong><span style="color: #000080">else</span></strong>
+                {
+                    state = APP_STATE_ERROR;
+                }
+
+
+                <strong><span style="color: #000080">break</span></strong>;
+            }
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_DATA_PUT:
+            {
+                <i><span style="color: #008000">/* I2C master writes data onto I2C bus */</span></i>
+                bufHandle_M1 = DRV_I2C_Transmit ( drvI2CMasterHandle , address, &amp;myBuffer[], 5, NULL );
+
+                <i><span style="color: #008000">/* Update the state to status check */</span></i>
+                state = APP_STATE_DATA_CHECK;
+                <strong><span style="color: #000080">break</span></strong>;
+            }
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_DATA_CHECK:
+            {
+                <i><span style="color: #008000">/* Check for the successful data transfer */</span></i>
+                <strong><span style="color: #000080">if</span></strong>( DRV_I2C_BUFFER_EVENT_COMPLETE == DRV_I2C_TransferStatusGet
+                                                     (drvI2CMasterHandle, bufHandle_M1) )
+                {
+                    <i><span style="color: #008000">/* Do this repeatedly */</span></i>
+                    state = APP_STATE_DATA_PUT;
+                }
+                <strong><span style="color: #000080">break</span></strong>;
+            }
+            <strong><span style="color: #000080">case</span></strong> APP_STATE_ERROR:
+            {
+
+                <i><span style="color: #008000">//include any error handling routines here</span></i>
+
+                <strong><span style="color: #000080">break</span></strong>;
+            }
+            <strong><span style="color: #000080">default</span></strong>:
+            {
+                <strong><span style="color: #000080">break</span></strong>;
+            }
+    }
+}
+
+<i><span style="color: #008000">/****************************************************************************/</span></i>
+<i><span style="color: #008000">//  Function: I2CMasterOpStatusCb</span></i>
+<i><span style="color: #008000">//</span></i>
+<i><span style="color: #008000">//  Callback called in Master mode from the DRV_I2C_Tasks function. This</span></i>
+<i><span style="color: #008000">//  callback is invoked when the Master has to indicate to the application</span></i>
+<i><span style="color: #008000">//  that the BUFFER event is COMPLETE or there was an error in transmission.</span></i>
+<i><span style="color: #008000">//****************************************************************************/</span></i>
+
+<strong><span style="color: #000080">void</span></strong> I2CMasterOpStatusCb (    DRV_I2C_BUFFER_EVENT event,
+                            DRV_I2C_BUFFER_HANDLE bufferHandle,
+                            uintptr_t context)
+{
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_I2C_BUFFER_EVENT_COMPLETE:
+            <i><span style="color: #008000">//this indicates that the I2C transaction has completed</span></i>
+            <i><span style="color: #008000">//DRV_I2C_BUFFER_EVENT_COMPLETE can be handled in the callback</span></i>
+            <i><span style="color: #008000">//or by checking for this event using the API DRV_I2C_BufferStatus</span></i>
+            <i><span style="color: #008000">/* include any callback event handling code here if needed */</span></i>
+        <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">case</span></strong> DRV_I2C_BUFFER_EVENT_ERROR:
+            <i><span style="color: #008000">//this indicates that the I2C transaction has completed</span></i>
+            <i><span style="color: #008000">//and a STOP condition has been asserted on the bus.</span></i>
+            <i><span style="color: #008000">//However the slave has NACKED either the address or data</span></i>
+            <i><span style="color: #008000">//byte.</span></i>
+            <i><span style="color: #008000">/* include any callback event handling code here if needed */</span></i>
+        <strong><span style="color: #000080">default</span></strong>:
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+
+}
+
+<i><span style="color: #008000">//****************************************************************************/</span></i>
+<i><span style="color: #008000">//  Function: APP_SlaveDataforMaster</span></i>
+<i><span style="color: #008000">//</span></i>
+<i><span style="color: #008000">//  Callback function from DRV_I2C_Tasks when operating as a Slave. When an</span></i>
+<i><span style="color: #008000">//  address match is received by the Slave, this callback is executed and</span></i>
+<i><span style="color: #008000">//  the buffer event depends on the R/W bit. If R/W = 0, DRV_I2C_Receive is</span></i>
+<i><span style="color: #008000">//  called implying the Slave is going to read data send from the Master.</span></i>
+<i><span style="color: #008000">//  If R/W = 1, DRV_I2C_Transmit is called implying the Slave is going to send</span></i>
+<i><span style="color: #008000">//  data to the Master.</span></i>
+<i><span style="color: #008000">//****************************************************************************/</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_SlaveDataforMaster(DRV_I2C_BUFFER_EVENT event, <strong><span style="color: #000080">void</span></strong> * context)
+{
+    <strong><span style="color: #000080">switch</span></strong> (event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_I2C_BUFFER_SLAVE_READ_REQUESTED:
+            deviceAddressPIC32 = PIC32_SLAVE_ADDRESS;
+
+            bufHandle_S1 = DRV_I2C_Receive( drvI2CSlaveHandle,
+                                            deviceAddressPIC32,
+                                            &amp;SlaveRxbuffer[0],
+                                            NUMBER_OF_UNKNOWN_BYTES_TO_SLAVE,
+                                            NULL );
+
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">case</span></strong> DRV_I2C_BUFFER_SLAVE_WRITE_REQUESTED:
+            deviceAddressPIC32 = PIC32_SLAVE_ADDRESS;
+
+            bufHandle_S2 = DRV_I2C_Transmit ( drvI2CSlaveHandle,
+                                              deviceAddressPIC32,
+                                              &amp;SlaveTxbuffer[0],
+                                              NUMBER_OF_UNKNOWN_BYTES_TO_SLAVE,
+                                              NULL );
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+
+}
+
+<strong><span style="color: #000080">void</span></strong> __ISR(_I2C_2_VECTOR, ipl4AUTO) _IntHandlerDrvI2CInstance0(<strong><span style="color: #000080">void</span></strong>)
+{
+   DRV_I2C_Tasks(i2cMasterObject);
+}
+
+<strong><span style="color: #000080">void</span></strong> __ISR(_I2C1_SLAVE_VECTOR, ipl6AUTO) _IntHandlerDrvI2CSlaveInstance1(<strong><span style="color: #000080">void</span></strong>)
+{
+    DRV_I2C_Tasks(i2cSlaveObject);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13729.html">I2C Driver Library Help</a> &gt; <a href="08593.html">Using the Library</a> &gt; <a href="08585.html">How the Library Works</a> &gt; <a href="08580.html">Client Transfer</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV I2C Client Transfer Topic Title: Client Transfer)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="12132.html">File System Demonstrations</a> &gt; <a href="03638.html">Demonstrations</a> &gt; <a href="03646.html">nvm_sdcard_fat_multi_disk</a> &gt; <a href="03635.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03634.html">Previous</a> | <a href="03646.html">Up</a> | <a href="03648.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS FS demo_nvm_sdcard_fat_multi_disk_running Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Select the MPLAB X IDE project configuration:</p>
+<ul class="Element630">
+<li class="Element600">pic32mx795_pim_e16_int_dyn (for PIC32MX devices)</li>
+<li class="Element600">pic32mx795_pim_e16_int_dyn_freertos (for PIC32MX devices)</li>
+<li class="Element600">pic32mx470_pim_e16_int_dyn (for PIC32MX devices)</li>
+<li class="Element600">pic32mz_ec_sk_int_dyn (for PIC32MZ EC devices)</li>
+<li class="Element600">pic32mz_ef_sk_int_dyn (for PIC32MZ EF devices)</li>
+<li class="Element600">pic32mz_ef_sk_int_dyn_freertos (for PIC32MZ EF devices)</li>
+</ul><p class="Element10">
+Insert the SD card, which contains the file <span class="Element146">FILE.TXT</span> and the file contains &quot;abc&quot; (some arbitrary existing content). </p><p class="Element10" style="text-align: justify;">
+Compile the selected configuration in the MPLAB X IDE project and run the code. After a few seconds, once the LED is illuminated, remove the SD card from the Board and insert it into the SD card reader on a personal computer. Examine the contents of the file named <span class="Element146">FILE.TXT</span>. The file should contain the string &quot;This data from NVM Disk Test is successful&quot;.</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="55%">
+<div class="Element66">
+Demonstration Board&nbsp;</div></td><td class="Element65" valign="top" width="23%">
+<div class="Element66">
+Demonstration Success&nbsp;</div></td><td class="Element65" valign="top" width="22%">
+<div class="Element66">
+Demonstration Failure&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="55%">
+<div class="Element68">
+Explorer 16 Development Board&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+LED5 (D5)&nbsp;</div></td><td class="Element67" valign="top" width="22%">
+<div class="Element68">
+LED6 (D6)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="55%">
+<div class="Element68">
+PIC32MZ EC Starter Kit<br>PIC32MZ EF Starter Kit&nbsp;</div></td><td class="Element67" valign="top" width="23%">
+<div class="Element68">
+Green LED&nbsp;</div></td><td class="Element67" valign="top" width="22%">
+<div class="Element68">
+Red LED&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>About the demonstration:</strong>&nbsp;</p>
+<p class="Element10">
+This demonstration shows an example of:</p>
+<ul class="Element630">
+<li class="Element600">Implementing a multi-disk demonstration with FAT12 on internal Flash memory (NVM) and FAT File system (FAT16/FAT32) on a SD card</li>
+<li class="Element600">Opening two files from two different disks, read content of file from first disk and write into the file of second disk</li>
+<li class="Element600">Closing the files</li>
+</ul><p class="Element10">
+The demonstration contains a FAT12 disk image consisting of a Master Boot Record (MBR) sector, Logical Boot Sector, File Allocation Table, Root Directory Area, placed in the internal Flash memory (NVM). Also, a SD card is used as another disk, which might have FAT16 or FAT32 implemented on it (depends on the formatting of SD card).The demonstration searches the NVM media for a file named <span class="Element146">FILE.TXT</span>, opens and reads the contents of the file in NVM and copies the contents to <span class="Element146">FILE.TXT</span> to the SD Card. Once the copy is successful, an additional string &quot;Test is successful&quot; is added to the file. If the write operation is successful, LED indication is provided.&nbsp;</p>
+<p class="Element10">
+The demonstration application logic is implemented as a state machine in the APP_Tasks function in the file <span class="Element146">main.c</span>.</p>
+<ol class="Element630">
+<li value="1" class="Element600">The first disk is mounted using the <a href="23902.html">SYS_FS_Mount</a> function. The <span class="Element146">/dev/nvma1</span> path instructs the mount command to mount a internal Flash volume. The volume is mounted against a FAT type file system and mounted at <span class="Element146">/mnt/myDrive1/</span>.</li>
+<li value="2" class="Element600">If the mount is successful, the second disk is mounted using the <a href="23902.html">SYS_FS_Mount</a> function. The <span class="Element146">/dev/mmcblka1</span> path instructs the mount command to mount a SD card volume. The volume is mounted against a FAT type file system and mounted at <span class="Element146">/mnt/myDrive2/</span>.</li>
+<li value="3" class="Element600">If the mount is successful, the application opens the root directory of <span class="Element146">/mnt/myDrive1/</span> with the function <a href="23762.html">SYS_FS_DirOpen</a>.</li>
+<li value="4" class="Element600">If the directory open is successful, the application searches for the file, <span class="Element146">FILE.TXT</span>, using the wildcard character <span class="Element146">FIL*.*</span>. The function used for directory search is <a href="23765.html">SYS_FS_DirSearch</a>.</li>
+<li value="5" class="Element600">If the directory search returns a file found, the directory is closed with the function <a href="23759.html">SYS_FS_DirClose</a>. Also, the searched file name is compared with the <span class="Element146">FILE.TXT</span> name.</li>
+<li value="6" class="Element600">If the file name matches successfully, the application opens the file, <span class="Element146">FILE.TXT</span>, from <span class="Element146">/mnt/myDrive1/</span> for reading and <span class="Element146">FILE.TXT</span> from<span class="Element146"> /mnt/myDrive2/</span> for writing with a <a href="23836.html">SYS_FS_FileOpen</a> function.</li>
+<li value="7" class="Element600">If the file open is successful, the application reads 27 Bytes from <span class="Element146">FILE.TXT</span> of internal Flash volume using <a href="23838.html">SYS_FS_FileRead</a>.</li>
+<li value="8" class="Element600">If the read is successful, the application closes <span class="Element146">FILE.TXT</span> from internal Flash volume and then writes the 27 bytes into <span class="Element146">FILE.TXT</span> of SD card volume using <a href="23848.html">SYS_FS_FileWrite</a>.</li>
+<li value="9" class="Element600">If the write is successful, a character and string are written to the file using <a href="23827.html">SYS_FS_FileCharacterPut</a> and <a href="23843.html">SYS_FS_FileStringPut</a>.</li>
+<li value="10" class="Element600">If the write is successful, the application closes <span class="Element146">FILE.TXT</span> from the SD card volume.</li>
+<li value="11" class="Element600">If file close is successful, a LED indicates the success of the operation.</li>
+</ol></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="12132.html">File System Demonstrations</a> &gt; <a href="03638.html">Demonstrations</a> &gt; <a href="03646.html">nvm_sdcard_fat_multi_disk</a> &gt; <a href="03635.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS FS demo_nvm_sdcard_fat_multi_disk_running Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,21 @@
+enum DRV_GFX_TCON_LIST
+        "SSD1289"
+	
+config DRV_GFX_TCON_SSD_1289_NEEDED
+    bool
+	default n
+	
+config DRV_GFX_TCON_ENABLE
+    bool "Use Timing Controller?"
+	default y if DRV_GFX_TCON_SSD_1289_NEEDED
+    default n	
+	
+config DRV_GFV_TCON
+	string "Select Timing Controller" range DRV_GFX_TCON_LIST
+	depends on DRV_GFX_TCON_ENABLE
+	default "SSD1289" if DRV_GFX_TCON_SSD_1289_NEEDED = y
+	default "SSD1289"
+			
+menu "SSD1289" depends on DRV_GFV_TCON = "SSD1289"
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/tcon/ssd1289/config/tcon_ssd1289.hconfig"
+endmenu

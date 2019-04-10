@@ -1,0 +1,88 @@
+menu "GENERIC"
+
+config USE_DRV_TOUCH_GENERIC_NEEDED
+    bool
+
+config USE_DRV_TOUCH_GENERIC
+    bool "Use GENERIC Driver?"
+    select USE_SYS_TOUCH_NEEDED
+    select USE_SYS_INT_NEEDED
+    select USE_EXT_INT_NEEDED
+    default y if USE_DRV_TOUCH_GENERIC_NEEDED
+    default n
+    ---help---
+    IDH_HTML_DRV_Generic_Touch_Driver_API
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_TOUCH_GENERIC
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_TOUCH_GENERIC_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_TOUCH_GENERIC_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_TOUCH_GENERIC_RTOS = "Standalone"
+    default 1024
+
+config DRV_TOUCH_GENERIC_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_TOUCH_GENERIC_RTOS = "Standalone"
+    default 1
+
+config DRV_TOUCH_GENERIC_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_TOUCH_GENERIC_RTOS = "Standalone"
+    default y
+
+config DRV_TOUCH_GENERIC_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_TOUCH_GENERIC_RTOS = "Standalone"
+    depends on DRV_TOUCH_GENERIC_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_TOUCH_GENERIC_TASK_QUEUE_SIZE
+    int "Task Queue Size"
+    depends on USE_DRV_TOUCH_GENERIC
+    default 9
+
+config DRV_TOUCH_GENERIC_INSTANCES_NUMBER
+    int "Number of Instances"
+    depends on USE_DRV_TOUCH_GENERIC
+    default 1
+
+config DRV_TOUCH_GENERIC_CLIENTS_NUMBER
+    int "Number of Clients"
+    depends on USE_DRV_TOUCH_GENERIC
+    default 1
+
+config DRV_TOUCH_GENERIC_INTERRUPT_MODE
+    bool "Interrupt Mode"
+    depends on USE_DRV_TOUCH_GENERIC
+    default n
+
+config DRV_TOUCH_GENERIC_INTERRUPT_SOURCE
+    string "External Interrupt Source"
+    depends on DRV_TOUCH_GENERIC_INTERRUPT_MODE
+    range DRV_TOUCH_INT_SOURCE_EXTERNAL
+    default "INT_SOURCE_EXTERNAL_1" 
+
+endmenu
+
+ifblock USE_DRV_TOUCH_GENERIC
+
+add "<#include \"/framework/driver/touch/generic/config/drv_touch_generic.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/touch/generic/config/drv_touch_generic_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/touch/generic/config/drv_touch_generic_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/touch/generic/config/drv_touch_generic.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_GENERIC_H "$HARMONY_VERSION_PATH/framework/driver/touch/generic/drv_touch_generic.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/generic/drv_touch_generic.h"
+file DRV_GENERIC_TOUCH_H "$HARMONY_VERSION_PATH/framework/driver/touch/drv_touch.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/drv_touch.h"
+file DRV_GENERIC_C "$HARMONY_VERSION_PATH/framework/driver/touch/generic/src/drv_touch_generic.c" to "$PROJECT_SOURCE_FILES/framework/driver/touch/generic/src/drv_touch_generic.c"
+endif
+
+

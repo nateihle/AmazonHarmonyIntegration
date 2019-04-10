@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Example Code for Complete Operation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a> &gt; <a href="08718.html">Example Code for Complete Operation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08714.html">Previous</a> | <a href="08726.html">Up</a> | <a href="08716.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP Example Code for Complete Operation Topic Title: Example Code for Complete Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Example Code for Complete Operation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This example code will write 100 bytes of data twice (i.e., repeat once) in the memory location starting from 0x0206, and then it will be read in the buffer, myReadBuffer. The modes selected for this transfer are:
+<ul class="Element635">
+<li class="Element605">Non-blocking</li>
+<li class="Element605">No Interrupt</li>
+<li class="Element605">PMP Master Mode 2</li>
+<li class="Element605">Address Auto-increment</li>
+<li class="Element605">No Address/Data Lines Multiplexing</li>
+<li class="Element605">8-bit data</li>
+</ul><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00727');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00727"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> main(<strong><span style="color: #000080">void</span></strong>)
+{
+DRV_PMP_INIT     init;
+SYS_MODULE_OBJ   object;
+SYS_STATUS       pmpStatus;
+DRV_HANDLE       handle;
+DRV_PMP_MODE_CONFIG config;
+<strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">char</span></strong> myReadBuffer[300], myWriteBuffer[100];
+uint32_t deviceAddress, nBytes, repeatCount, i;
+uint32_t writeID, readID;
+DRV_PMP_TRANSFER_STATUS writeStatus=0, readStatus=0;
+
+
+<i><span style="color: #008000">// populate the PMP init configuration structure</span></i>
+    init.inputBuffer = PMP_INPUT_BUFFER_TTL;
+    init.polarity.addressLatchPolarity = PMP_POLARITY_ACTIVE_HIGH;
+    init.polarity.rwStrobePolarity = PMP_POLARITY_ACTIVE_LOW;
+    init.polarity.writeEnableStrobePolarity = PMP_POLARITY_ACTIVE_LOW;
+    init.polarity.chipselect1Polarity = PMP_POLARITY_ACTIVE_HIGH;
+    init.polarity.chipselect2Polarity = PMP_POLARITY_ACTIVE_LOW;
+    init.ports.addressPortsMask = PMP_PMA0_PORT | PMP_PMA1_PORT | PMP_PMA2_TO_PMA13_PORTS;
+    init.ports.readWriteStrobe = PORT_ENABLE;
+    init.ports.writeEnableStrobe = PORT_ENABLE;
+    init.moduleInit.value = SYS_MODULE_POWER_RUN_FULL;
+    init.pmpID            = PMP_ID_0;
+    init.stopInIdle       = <strong><span style="color: #000080">false</span></strong>;
+    init.muxMode          = PMP_MUX_NONE;
+
+object = DRV_PMP_Initialize (DRV_PMP_INDEX_0, (SYS_MODULE_INIT *)&amp;init);
+
+pmpStatus = DRV_PMP_Status(object);
+
+<strong><span style="color: #000080">if</span></strong> ( SYS_STATUS_READY != pmpStatus)
+{
+    <i><span style="color: #008000">// Handle error</span></i>
+}
+
+<i><span style="color: #008000">// Open the instance DRV_PMP_INDEX_0 with Non-blocking and Shared intent</span></i>
+handle = DRV_PMP_Open(DRV_PMP_INDEX_0, DRV_IO_INTENT_SHARED | DRV_IO_INTENT_NONBLOCKING);
+
+<strong><span style="color: #000080">if</span></strong>( handle == DRV_HANDLE_INVALID )
+{
+    <i><span style="color: #008000">// Client cannot open the instance.</span></i>
+}
+
+config.chipSelect = PMCS1_AND_PMCS2_AS_CHIP_SELECT;
+config.endianMode = LITTLE_ENDIAN;
+config.incrementMode = PMP_ADDRESS_AUTO_INCREMENT;
+config.intMode =  PMP_INTERRUPT_NONE;
+config.pmpMode = PMP_MASTER_READ_WRITE_STROBES_INDEPENDENT; <i><span style="color: #008000">//Master Mode 2</span></i>
+config.portSize =  PMP_DATA_SIZE_8_BITS;
+config.waitStates.dataHoldWait = PMP_DATA_HOLD_2;
+config.waitStates.dataWait = PMP_DATA_WAIT_THREE;
+config.waitStates.strobeWait = PMP_STROBE_WAIT_5;
+
+<i><span style="color: #008000">// Configure the client</span></i>
+DRV_PMP_ModeConfig ( handle, config );
+
+deviceAddress = 0x0206;
+nBytes = 100;
+repeatCount = 0x01;
+<strong><span style="color: #000080">for</span></strong> (i=0; i&lt;nBytes; i++)
+{
+   myWriteBuffer[i]=i*5+7;
+}
+
+writeID = DRV_PMP_Write ( handle, deviceAddress, &amp;myWriteBuffer[0], nBytes, repeatCount);
+readID = DRV_PMP_Read ( handle, deviceAddress, &amp;myReadBuffer[0], nBytes*2);
+
+
+<strong><span style="color: #000080">while</span></strong>(!((writeStatus == PMP_TRANSFER_FINISHED)&amp;&amp;(readStatus == PMP_TRANSFER_FINISHED)))
+{
+    DRV_PMP_Tasks (object);
+
+    writeStatus = DRV_PMP_TransferStatus( DRV_PMP_INDEX_0, writeID);
+    readStatus = DRV_PMP_TransferStatus( DRV_PMP_INDEX_0, readID);
+}
+
+<strong><span style="color: #000080">while</span></strong>(1);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a> &gt; <a href="08718.html">Example Code for Complete Operation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP Example Code for Complete Operation Topic Title: Example Code for Complete Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,513 @@
+config USE_LIBARIA
+    bool "Use Aria User Interface Library?"
+    default y if MHGC_ENABLE
+    default n
+	
+menu "Aria Library RTOS Configuration"
+    depends on USE_LIBARIA
+    depends on USE_3RDPARTY_RTOS
+
+config LIBARIA_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config USE_LIBARIA_RTOS_EXTENSIONS
+    bool "Use Aria Library RTOS Extensions?"
+    depends on LIBARIA_RTOS = "Standalone"
+    default y
+
+config LIBARIA_RTOS_FULL_BLOCKING
+    bool "Full Blocking?"
+    depends on USE_LIBARIA_RTOS_EXTENSIONS
+    default y
+
+config LIBARIA_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on LIBARIA_RTOS = "Standalone"
+    default 1024
+
+config LIBARIA_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on LIBARIA_RTOS = "Standalone"
+    default 1
+
+config LIBARIA_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on LIBARIA_RTOS = "Standalone"
+    default n if LIBARIA_RTOS_FULL_BLOCKING
+    default y
+
+config LIBARIA_RTOS_DELAY
+    int "Task Delay"
+    depends on LIBARIA_RTOS = "Standalone"
+    depends on LIBARIA_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config LIBARIA_GENERATE_EVENTS
+	depends on USE_LIBARIA
+	bool "Generate Events?"
+	default y if MHGC_ENABLE
+	default y
+
+config LIBARIA_GENERATE_MACROS
+	depends on USE_LIBARIA
+	bool "Generate Macros?"
+	default y if MHGC_ENABLE
+	default y
+	
+config LIBARIA_GENERATE_TOUCH
+	depends on USE_LIBARIA
+	bool "Use Touch System Service? (Deprecated)"
+	select BSP_TOUCH_INPUT_NEEDED
+    default n
+    
+config LIBARIA_USE_SYSINPUT
+    depends on USE_LIBARIA
+    bool "Use Input System Service?"
+	select BSP_TOUCH_INPUT_SYSTEM_SERVICE_NEEDED
+    default y if MHGC_ENABLE && DRV_GFX_DISPLAY_SUPPORTS_TOUCH && !LIBARIA_GENERATE_TOUCH
+    default n
+
+config LIBARIA_DEMO_MODE_ENABLED
+	depends on USE_LIBARIA
+    select USE_SYS_TMR_NEEDED
+	bool "Enable Demo Mode?"
+	default n
+    ---help---
+    IDH_HTML_QSG_Enabling_Demo_Mode_in_a_MPLAB_Harmony_Graphics_Application
+    ---endhelp---
+
+menu "Demo Mode Options" depends on LIBARIA_DEMO_MODE_ENABLED
+
+config LIBARIA_DEMO_MODE_RECORD
+    depends on LIBARIA_DEMO_MODE_ENABLED
+    bool "Record Input Events?"
+    default n
+
+config LIBARIA_DEMO_MODE_RECORD_TICK_PERIOD_MS
+    depends on LIBARIA_DEMO_MODE_RECORD
+    int "Record Tick Period (ms)"
+    default 10
+
+config LIBARIA_DEMO_MODE_MAX_EVENTS
+    depends on LIBARIA_DEMO_MODE_ENABLED
+    int "Maximum number of events"
+    default 500
+
+config LIBARIA_DEMO_MODE_IDLE_TIMEOUT_SECS
+    depends on LIBARIA_DEMO_MODE_ENABLED
+    int "Idle Timeout (seconds)"
+    default 20
+
+config LIBARIA_DEMO_MODE_REPLAY_DELAY_SECS
+    depends on LIBARIA_DEMO_MODE_ENABLED
+    int "Replay Delay (seconds)"
+    default 5
+
+endmenu
+	
+menu "Widget Flags" depends on USE_LIBARIA
+
+config LIBARIA_WIDGET_ARC_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Arc Widget?"
+
+config LIBARIA_WIDGET_BAR_GRAPH_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Bar Graph Widget?"
+
+config LIBARIA_WIDGET_BUTTON_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Button Widget?"
+
+config LIBARIA_WIDGET_CHECKBOX_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Check Box Widget?"
+	
+config LIBARIA_WIDGET_CIRCLE_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Circle Widget?"
+
+config LIBARIA_WIDGET_CIRCULAR_GAUGE_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Circular Gauge Widget?"
+
+config LIBARIA_WIDGET_CIRCULAR_SLIDER_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Circular Slider Widget?"
+	
+config LIBARIA_WIDGET_DRAWSURFACE_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Draw Surface Widget?"
+	
+config LIBARIA_WIDGET_IMAGE_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Image Widget?"
+    
+config LIBARIA_WIDGET_IMAGEPLUS_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Image Plus Widget?"
+	
+config LIBARIA_WIDGET_IMAGESEQUENCE_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Image Sequence Widget?"
+	
+config LIBARIA_WIDGET_GRADIENT_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Gradient Widget?"
+	
+config LIBARIA_WIDGET_GROUPBOX_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Group Box Widget?"
+	
+config LIBARIA_WIDGET_KEYPAD_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Key Pad Widget?"
+	
+config LIBARIA_WIDGET_LABEL_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Label Widget?"
+	
+config LIBARIA_WIDGET_LINE_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Line Widget?"
+
+config LIBARIA_WIDGET_LINE_GRAPH_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Line Graph Widget?"
+	
+config LIBARIA_WIDGET_LIST_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable List Widget?"
+	
+config LIBARIA_WIDGET_LISTWHEEL_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable List Wheel Widget?"
+
+config LIBARIA_WIDGET_PIE_CHART_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Pie Chart Widget?"
+	
+config LIBARIA_WIDGET_PROGRESSBAR_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Progress Bar Widget?"
+	
+config LIBARIA_WIDGET_RADIAL_MENU_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Radial Menu Widget?"
+
+config LIBARIA_WIDGET_RADIOBUTTON_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Radio Button Widget?"
+	
+config LIBARIA_WIDGET_RECTANGLE_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Rectangle Widget?"
+	
+config LIBARIA_WIDGET_SCROLLBAR_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Scroll Bar Widget?"
+	
+config LIBARIA_WIDGET_SLIDER_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Slider Widget?"
+	
+config LIBARIA_WIDGET_TEXTFIELD_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Text Field Widget?"
+	
+config LIBARIA_WIDGET_TOUCHTEST_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Touch Test Widget?"
+	
+config LIBARIA_WIDGET_WINDOW_ENABLED
+	depends on USE_LIBARIA
+	default y
+	bool "Enable Window Widget?"
+	
+endmenu
+
+ifblock USE_LIBARIA
+add "<#include \"/framework/gfx/libaria/config/libaria_init.c.ftl\">"  to list SYSTEM_INIT_C_INITIALIZE_MIDDLEWARE
+add "<#assign LIBARIA_TASKS = \"TASK_CALL_NO_RTOS\"><#include \"/framework/gfx/libaria/config/libaria_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_LIB_TASKS
+
+template LIBARIA_HARMONY_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_harmony.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_harmony.h"
+template LIBARIA_HARMONY_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_harmony.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_harmony.c"
+template LIBARIA_CONFIG_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_config.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_config.h"
+
+ifblock MHGC_ENABLE
+template LIBARIA_INIT_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_init.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_init.h"
+template LIBARIA_INIT_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_init.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_init.c"
+endif
+
+ifblock USE_LIBARIA && USE_3RDPARTY_RTOS
+file LIBARIA_RTOS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/libaria_rtos.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_rtos.h"
+file LIBARIA_EVENT_RTOS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_event_rtos.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_event_rtos.h"
+file LIBARIA_INPUT_RTOS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_input_rtos.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_input_rtos.h"
+file LIBARIA_CONTEXT_RTOS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_context_rtos.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_context_rtos.h"
+endif
+
+ifblock LIBARIA_DEMO_MODE_ENABLED
+template LIBARIA_DEMO_MODE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_demo_mode.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_demo_mode.h"
+template LIBARIA_DEMO_MODE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_demo_mode.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_demo_mode.c"
+endif
+
+file LIBARIA_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/libaria.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria.h"
+
+file LIBARIA_ARRAY_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_array.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_array.h"
+file LIBARIA_COMMON_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_common.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_common.h"
+file LIBARIA_CONTEXT_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_context.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_context.h"
+file LIBARIA_DRAW_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_draw.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_draw.h"
+file LIBARIA_EDITWIDGET_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_editwidget.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_editwidget.h"
+file LIBARIA_EVENT_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_event.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_event.h"
+file LIBARIA_GLOBAL_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_global.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_global.h"
+file LIBARIA_INPUT_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_input.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_input.h"
+file LIBARIA_LAYER_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_layer.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_layer.h"
+file LIBARIA_MATH_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_math.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_math.h"
+file LIBARIA_LIST_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_list.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_list.h"
+file LIBARIA_RECTARRAY_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_rectarray.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_rectarray.h"
+file LIBARIA_SCHEME_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_scheme.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_scheme.h"
+file LIBARIA_SCREEN_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_screen.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_screen.h"
+file LIBARIA_STRING_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_string.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_string.h"
+file LIBARIA_UTILS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_utils.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_utils.h"
+file LIBARIA_WIDGET_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget.h"
+file LIBARIA_WIDGET_SKIN_CLASSIC_COMMON_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_skin_classic_common.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_skin_classic_common.h"
+
+file LIBARIA_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria.c"
+file LIBARIA_ARRAY_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_array.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_array.c"
+file LIBARIA_CONTEXT_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_context.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_context.c"
+file LIBARIA_CONTEXT_PAINT_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_context_paint.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_context_paint.c"
+file LIBARIA_DRAW_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_draw.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_draw.c"
+file LIBARIA_EDITWIDGET_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_editwidget.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_editwidget.c"
+file LIBARIA_EVENT_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_event.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_event.c"
+file LIBARIA_INPUT_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_input.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_input.c"
+file LIBARIA_LAYER_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_layer.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_layer.c"
+file LIBARIA_LIST_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_list.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_list.c"
+file LIBARIA_RECTARRAY_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_rectarray.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_rectarray.c"
+file LIBARIA_SCHEME_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_scheme.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_scheme.c"
+file LIBARIA_SCREEN_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_screen.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_screen.c"
+file LIBARIA_STRING_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_string.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_string.c"
+file LIBARIA_UTILS_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_utils.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_utils.c"
+file LIBARIA_WIDGET_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget.c"
+file LIBARIA_WIDGET_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_skin_classic.c"
+file LIBARIA_WIDGET_SKIN_CLASSIC_COMMON_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_skin_classic_common.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_skin_classic_common.c"
+
+ifblock LIBARIA_WIDGET_ARC_ENABLED
+file LIBARIA_WIDGET_ARC_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_arc.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_arc.h"
+file LIBARIA_WIDGET_ARC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_arc.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_arc.c"
+file LIBARIA_WIDGET_ARC_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_arc_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_arc_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_BAR_GRAPH_ENABLED
+file LIBARIA_WIDGET_BAR_GRAPH_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_bar_graph.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_bar_graph.h"
+file LIBARIA_WIDGET_BAR_GRAPH_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_bar_graph.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_bar_graph.c"
+file LIBARIA_WIDGET_BAR_GRAPH_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_bar_graph_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_bar_graph_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_BUTTON_ENABLED
+file LIBARIA_WIDGET_BUTTON_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_button.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_button.h"
+file LIBARIA_WIDGET_BUTTON_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_button.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_button.c"
+file LIBARIA_WIDGET_BUTTON_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_button_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_button_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_CHECKBOX_ENABLED
+file LIBARIA_WIDGET_CHECKBOX_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_checkbox.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_checkbox.h"
+file LIBARIA_WIDGET_CHECKBOX_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_checkbox.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_checkbox.c"
+file LIBARIA_WIDGET_CHECKBOX_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_checkbox_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_checkbox_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_CIRCLE_ENABLED
+file LIBARIA_WIDGET_CIRCLE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_circle.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_circle.h"
+file LIBARIA_WIDGET_CIRCLE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_circle.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_circle.c"
+file LIBARIA_WIDGET_CIRCLE_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_circle_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_circle_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_CIRCULAR_GAUGE_ENABLED
+file LIBARIA_WIDGET_CIRCULAR_GAUGE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_circular_gauge.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_circular_gauge.h"
+file LIBARIA_WIDGET_CIRCULAR_GAUGE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_circular_gauge.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_circular_gauge.c"
+file LIBARIA_WIDGET_CIRCULAR_GAUGE_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_circular_gauge_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_circular_gauge_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_CIRCULAR_SLIDER_ENABLED
+file LIBARIA_WIDGET_CIRCULAR_SLIDER_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_circular_slider.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_circular_slider.h"
+file LIBARIA_WIDGET_CIRCULAR_SLIDER_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_circular_slider.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_circular_slider.c"
+file LIBARIA_WIDGET_CIRCULAR_SLIDER_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_circular_slider_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_circular_slider_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_DRAWSURFACE_ENABLED
+file LIBARIA_WIDGET_DRAWSURFACE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_drawsurface.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_drawsurface.h"
+file LIBARIA_WIDGET_DRAWSURFACE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_drawsurface.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_drawsurface.c"
+file LIBARIA_WIDGET_DRAWSURFACE_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_drawsurface_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_drawsurface_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_GRADIENT_ENABLED
+file LIBARIA_WIDGET_GRADIENT_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_gradient.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_gradient.h"
+file LIBARIA_WIDGET_GRADIENT_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_gradient.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_gradient.c"
+file LIBARIA_WIDGET_GRADIENT_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_gradient_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_gradient_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_GROUPBOX_ENABLED
+file LIBARIA_WIDGET_GROUPBOX_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_groupbox.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_groupbox.h"
+file LIBARIA_WIDGET_GROUPBOX_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_groupbox.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_groupbox.c"
+file LIBARIA_WIDGET_GROUPBOX_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_groupbox_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_groupbox_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_IMAGE_ENABLED
+file LIBARIA_WIDGET_IMAGE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_image.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_image.h"
+file LIBARIA_WIDGET_IMAGE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_image.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_image.c"
+file LIBARIA_WIDGET_IMAGE_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_image_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_image_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_IMAGEPLUS_ENABLED
+file LIBARIA_WIDGET_IMAGEPLUS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_imageplus.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_imageplus.h"
+file LIBARIA_WIDGET_IMAGEPLUS_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_imageplus.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_imageplus.c"
+file LIBARIA_WIDGET_IMAGEPLUS_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_imageplus_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_imageplus_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_IMAGESEQUENCE_ENABLED
+file LIBARIA_WIDGET_IMAGESEQUENCE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_imagesequence.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_imagesequence.h"
+file LIBARIA_WIDGET_IMAGESEQUENCE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_imagesequence.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_imagesequence.c"
+file LIBARIA_WIDGET_IMAGESEQUENCE_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_imagesequence_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_imagesequence_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_KEYPAD_ENABLED
+file LIBARIA_WIDGET_KEYPAD_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_keypad.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_keypad.h"
+file LIBARIA_WIDGET_KEYPAD_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_keypad.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_keypad.c"
+file LIBARIA_WIDGET_KEYPAD_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_keypad_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_keypad_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_LABEL_ENABLED
+file LIBARIA_WIDGET_LABEL_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_label.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_label.h"
+file LIBARIA_WIDGET_LABEL_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_label.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_label.c"
+file LIBARIA_WIDGET_LABEL_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_label_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_label_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_LINE_ENABLED
+file LIBARIA_WIDGET_LINE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_line.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_line.h"
+file LIBARIA_WIDGET_LINE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_line.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_line.c"
+file LIBARIA_WIDGET_LINE_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_line_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_line_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_LINE_GRAPH_ENABLED
+file LIBARIA_WIDGET_LINE_GRAPH_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_line_graph.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_line_graph.h"
+file LIBARIA_WIDGET_LINE_GRAPH_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_line_graph.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_line_graph.c"
+file LIBARIA_WIDGET_LINE_GRAPH_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_line_graph_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_line_graph_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_LIST_ENABLED
+file LIBARIA_WIDGET_LIST_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_list.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_list.h"
+file LIBARIA_WIDGET_LIST_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_list.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_list.c"
+file LIBARIA_WIDGET_LIST_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_list_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_list_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_LISTWHEEL_ENABLED
+file LIBARIA_WIDGET_LISTWHEEL_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_listwheel.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_listwheel.h"
+file LIBARIA_WIDGET_LISTWHEEL_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_listwheel.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_listwheel.c"
+file LIBARIA_WIDGET_LISTWHEEL_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_listwheel_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_listwheel_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_PIE_CHART_ENABLED
+file LIBARIA_WIDGET_PIE_CHART_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_pie_chart.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_pie_chart.h"
+file LIBARIA_WIDGET_PIE_CHART_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_pie_chart.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_pie_chart.c"
+file LIBARIA_WIDGET_PIE_CHART_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_pie_chart_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_pie_chart_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_PROGRESSBAR_ENABLED
+file LIBARIA_WIDGET_PROGRESSBAR_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_progressbar.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_progressbar.h"
+file LIBARIA_WIDGET_PROGRESSBAR_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_progressbar.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_progressbar.c"
+file LIBARIA_WIDGET_PROGRESSBAR_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_progressbar_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_progressbar_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_RADIAL_MENU_ENABLED
+file LIBARIA_WIDGET_RADIAL_MENU_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_radial_menu.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_radial_menu.h"
+file LIBARIA_WIDGET_RADIAL_MENU_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_radial_menu.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_radial_menu.c"
+file LIBARIA_WIDGET_RADIAL_MENU_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_radial_menu_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_radial_menu_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_RADIOBUTTON_ENABLED
+file LIBARIA_WIDGET_RADIOBUTTON_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_radiobutton.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_radiobutton.h"
+file LIBARIA_RADIOBUTTON_GROUP_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_radiobutton_group.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_radiobutton_group.h"
+file LIBARIA_WIDGET_RADIOBUTTON_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_radiobutton.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_radiobutton.c"
+file LIBARIA_WIDGET_RADIOBUTTON_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_radiobutton_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_radiobutton_skin_classic.c"
+file LIBARIA_RADIOBUTTON_GROUP_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_radiobutton_group.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_radiobutton_group.c"
+endif
+
+ifblock LIBARIA_WIDGET_RECTANGLE_ENABLED
+file LIBARIA_WIDGET_RECTANGLE_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_rectangle.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_rectangle.h"
+file LIBARIA_WIDGET_RECTANGLE_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_rectangle.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_rectangle.c"
+file LIBARIA_WIDGET_RECTANGLE_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_rectangle_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_rectangle_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_SCROLLBAR_ENABLED
+file LIBARIA_WIDGET_SCROLLBAR_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_scrollbar.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_scrollbar.h"
+file LIBARIA_WIDGET_SCROLLBAR_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_scrollbar.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_scrollbar.c"
+file LIBARIA_WIDGET_SCROLLBAR_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_scrollbar_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_scrollbar_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_SLIDER_ENABLED
+file LIBARIA_WIDGET_SLIDER_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_slider.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_slider.h"
+file LIBARIA_WIDGET_SLIDER_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_slider.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_slider.c"
+file LIBARIA_WIDGET_SLIDER_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_slider_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_slider_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_TEXTFIELD_ENABLED
+file LIBARIA_WIDGET_TEXTFIELD_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_textfield.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_textfield.h"
+file LIBARIA_WIDGET_TEXTFIELD_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_textfield.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_textfield.c"
+file LIBARIA_WIDGET_TEXTFIELD_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_textfield_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_textfield_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_TOUCHTEST_ENABLED
+file LIBARIA_WIDGET_TOUCHTEST_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_touchtest.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_touchtest.h"
+file LIBARIA_WIDGET_TOUCHTEST_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_touchtest.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_touchtest.c"
+file LIBARIA_WIDGET_TOUCHTEST_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_touchtest_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_touchtest_skin_classic.c"
+endif
+
+ifblock LIBARIA_WIDGET_WINDOW_ENABLED
+file LIBARIA_WIDGET_WINDOW_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/inc/libaria_widget_window.h" to "$PROJECT_HEADER_FILES/framework/gfx/libaria/libaria_widget_window.h"
+file LIBARIA_WIDGET_WINDOW_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_window.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_window.c"
+file LIBARIA_WIDGET_WINDOW_SKIN_CLASSIC_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/src/libaria_widget_window_skin_classic.c" to "$PROJECT_SOURCE_FILES/framework/gfx/libaria/libaria_widget_window_skin_classic.c"
+endif
+
+ifblock MHGC_ENABLE
+ifblock LIBARIA_GENERATE_EVENTS
+template LIBARIA_EVENTS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_events.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_events.h"
+template LIBARIA_EVENTS_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_events.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_events.c"
+endif
+
+ifblock LIBARIA_GENERATE_MACROS
+template LIBARIA_MACROS_H "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_macros.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_macros.h"
+template LIBARIA_MACROS_C "$HARMONY_VERSION_PATH/framework/gfx/libaria/templates/libaria_macros.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/libaria/libaria_macros.c"
+endif
+endif
+
+endif

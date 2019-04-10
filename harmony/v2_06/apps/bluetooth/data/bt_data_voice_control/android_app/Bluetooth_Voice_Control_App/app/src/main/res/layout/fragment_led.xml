@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+ >
+
+<!--  
+ <LinearLayout 
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:id="@+id/ll_buttons"
+        android:paddingTop="15dp"
+        > 
+
+        <Button 
+            android:id="@+id/button_led1" 
+            android:layout_width="0.0dip" android:layout_height="fill_parent" 
+            android:text="@string/button_led1" 
+            android:layout_weight="1.0"
+            /> 
+
+        <Button 
+            android:id="@+id/button_led2" 
+            android:layout_width="0.0dip" android:layout_height="fill_parent" 
+            android:text="@string/button_led2" 
+            android:layout_weight="1.0"
+            /> 
+
+    </LinearLayout> 
+    
+  <LinearLayout 
+        android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:id="@+id/ll2_buttons"
+        android:layout_below="@id/ll_buttons"
+        android:paddingTop="10dp"
+        > 
+
+        <Button 
+            android:id="@+id/button_led3" 
+            android:layout_width="0.0dip" android:layout_height="fill_parent" 
+            android:text="@string/button_led3" 
+            android:layout_weight="1.0"
+            /> 
+
+        <Button 
+            android:id="@+id/button_led4" 
+            android:layout_width="0.0dip" android:layout_height="fill_parent" 
+            android:text="@string/button_led4" 
+            android:layout_weight="1.0"
+            /> 
+
+    </LinearLayout> 
+-->
+  <LinearLayout 
+      android:id="@+id/ll_led_id"
+      	android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:gravity="center_horizontal"   
+        android:paddingTop="20dip"
+        >
+      <TextView android:text="@string/led"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dip"/>
+      <EditText android:id="@+id/led_id_input"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/enter_led_id"
+          android:maxLength="2"
+          android:inputType="number"
+          android:imeOptions="actionSend"
+          /><!-- range [0,31] -->
+  </LinearLayout>
+
+  <LinearLayout 
+      android:id="@+id/ll_name_bt"
+      	android:orientation="horizontal" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:gravity="center_horizontal"
+        android:layout_below="@id/ll_led_id"
+        android:paddingTop="20dip"
+        >
+      <TextView android:text="@string/rename_bt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20dip"/>
+      <EditText android:id="@+id/bt_name_input"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/enter_bt_name"
+          
+          android:inputType="text"
+          android:imeOptions="actionSend"
+          /><!-- range [0,31] -->
+  </LinearLayout>
+  
+  <LinearLayout android:id="@+id/track_disp"
+      android:orientation="vertical" 
+      	android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:gravity="center_vertical"
+        android:layout_below="@id/ll_name_bt"
+        android:paddingTop="20dip">
+      <Button android:id="@+id/audio_track_bt" 
+          android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:text="@string/audio_track"/>
+      <TextView android:id="@+id/track_info"
+          android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:textSize="15dip"
+        android:background="@drawable/text_border"
+        android:gravity="center_horizontal"
+         />
+  </LinearLayout>
+</RelativeLayout>

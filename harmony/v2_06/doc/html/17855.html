@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuring a Library</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17368.html">Peripheral Library Overview</a> &gt; <a href="17855.html">Configuring a Library</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17856.html">Previous</a> | <a href="17368.html">Up</a> | <a href="17905.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OVERVIEW Configuring the Library Topic Title: Configuring a Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuring a Library</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Peripheral library interfaces are common across all supported processors. But, their implementations are part specific and are provided in two forms that must normally be used together to avoid the possibility of build errors.&nbsp;</p>
+<p class="Element10">
+The first form of the PLIB implementation is as a set of C-language &quot;inline&quot; functions found in <span class="Element146">.h</span> header files in the <span class="Element146">&lt;install-dir&gt;/framework/peripheral</span> folder in the MPLAB Harmony installation. The correct implementation template files for the functions supported by each variant of a feature found on a selected processor is selected and included in the header file hierarchy when a PLIB interface header is included in a source file that uses it (either directly or by including <span class="Element146">peripheral.h</span>). The second form in which the peripheral library implementations are provided is as a set of part-specific prebuilt binary library <span class="Element146">.a</span> files (available in the <span class="Element146">&lt;install-dir&gt;/bin/framework/peripheral</span> folder in the MPLAB Harmony installation.&nbsp;</p>
+<p class="Element10">
+To ensure that your MPLAB Harmony project builds correctly (regardless of the level of optimization selected), you must do two things. You must include the appropriate PLIB interface header file (either by including <span class="Element146">peripheral.h</span> or the specific PLIB interface header) in any C-language file that calls a PLIB function. And, you must include the appropriate prebuilt binary library file (the one whose file name includes the appropriate part name) for the processor you selected in your MPLAB X IDE project.&nbsp;</p>
+<p class="Element10">
+Both of these steps are necessary because the compiler decides at build time if it will generate an actual function call to each PLIB function or if it will generate the function directly in line with the code that calls it. When the optimization level is high enough, the compiler will directly generate the PLIB function code inline with the calling code and no prebuilt library would be required. But, if the compiler &quot;judges&quot; that the function is too large to inline (or if optimizations are turned off), it will generate an actual function call. When this happens, the prebuilt library is required or the linker will generate an error when it tries to link the function call to an actual implementation. Since the compiler makes this determination for each function call it encounters, the safest choice is to always include the prebuilt binary <span class="Element146">.a</span> file in your project.&nbsp;</p>
+<p class="Element10">
+Fortunately, the MPLAB Harmony installation provides prebuilt binary <span class="Element146">.a</span> forms of the peripheral libraries that were built using a &quot;-O3&quot; level of optimization so that users of free versions of the compiler, which do not support this advanced level of optimization, can benefit from them. This level of optimization usually provides the best over-all compromise between code size and speed. However, if a different level of optimization is desired, users of the pro version of the compiler can rebuild the peripheral library <span class="Element146">.a</span> file using the MPLAB X IDE project provided in the <span class="Element146">&lt;install-dir&gt;/build/framework/peripheral </span>folder of the MPLAB Harmony installation.&nbsp;</p>
+<p class="Element10">
+To build the binary <span class="Element146">.a</span> form of the peripheral libraries, the PLIBs require the project to define two macros before any file that includes any PLIB header. These macros are used to enable or disable the &quot;inline&quot; attribute on the peripheral library function definitions so that they can be built into a binary <span class="Element146">.a</span> file that exports the PLIB API function symbols. These macros, their usage, and their default definitions are described as follows.</p><div class="Element15">
+Macro:</div>
+<p class="Element10">
+PLIB_INLINE_API</p><div class="Element15">
+Summary:</div>
+<p class="Element10">
+Determines if PLIB interface (API) functions are treated by the compiler as inline or extern (called) functions.</p><div class="Element15">
+Description:</div>
+<p class="Element10">
+This macro is used as an attribute of every peripheral library interface (API) function. Its default definition allows the compiler to choose to either generate the function directly in line with the calling code or to generate an actual function call which must later be linked to an actual function implementation, based on the size of the code generated with the current optimization settings.</p><div class="Element15">
+Remarks:</div>
+<p class="Element10">
+The default definition of this macro is: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01404');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01404"><pre class="Element12"><strong><span style="color: #000080">#ifndef</span></strong> PLIB_INLINE_API
+    <strong><span style="color: #000080">#define</span></strong> PLIB_INLINE_API <strong><span style="color: #000080">extern</span></strong> <strong><span style="color: #000080">inline</span></strong>
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<p class="Element10">
+To build a binary <span class="Element146">.a</span> form of the peripheral libraries, define this macro as shown in the following example to export all PLIB API functions so that calls to them can be linked to the library generated. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01405');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01405"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> PLIB_INLINE_API  <strong><span style="color: #000080">extern</span></strong></pre></div></div>
+<div class="Element15">
+Macro:</div>
+<p class="Element10">
+PLIB_INLINE</p><div class="Element15">
+Summary:</div>
+<p class="Element10">
+Determines if PLIB support functions are generated as static inline or extern inline functions.</p><div class="Element15">
+Description:</div>
+<p class="Element10">
+This macro is used as an attribute of every peripheral library (PLIB) support function. PLIB support functions are functions that are called by the PLIB interface (API) functions, but are not themselves intended to be exported as PLIB interface functions. This macro’s default definition prevents the compiler from generating superfluous error messages that would occur if the PLIB support functions were declared with a different scope (static versus extern) from the PLIB interface functions, which would occur when the PLIB headers are included in calling code.&nbsp;</p>
+<p class="Element10">
+This superfluous error message would occur because, the support functions do not need to be exported when a binary <span class="Element146">.a</span> file is generated (and, thus should be declared with &quot;static&quot; scope). But, the compiler would detect the mismatch between the scope of the support functions when the API functions are declared with external scope when the PLIBs are directly included in calling code.</p><div class="Element15">
+Remarks:</div>
+<p class="Element10">
+The default definition of this macro is: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01406');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01406"><pre class="Element12"><strong><span style="color: #000080">#ifndef</span></strong> PLIB_INLINE
+    <strong><span style="color: #000080">#define</span></strong> PLIB_INLINE <strong><span style="color: #000080">extern</span></strong> <strong><span style="color: #000080">inline</span></strong>
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<p class="Element10">
+To build a binary <span class="Element146">.a</span> form of the peripheral libraries, define this macro as shown in the following example. This prevents the binary <span class="Element146">.a</span> library from exporting all PLIB support functions, dramatically reducing the size of the generated library’s symbol table. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01407');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01407"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> PLIB_INLINE  <strong><span style="color: #000080">static</span></strong> <strong><span style="color: #000080">inline</span></strong></pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17368.html">Peripheral Library Overview</a> &gt; <a href="17855.html">Configuring a Library</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OVERVIEW Configuring the Library Topic Title: Configuring a Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

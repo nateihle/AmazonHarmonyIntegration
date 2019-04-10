@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Bootloader Sizing and Optimization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04871.html">Bootloader Sizing and Optimization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04872.html">Previous</a> | <a href="04884.html">Up</a> | <a href="04887.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Sizing and Optimization Topic Title: Bootloader Sizing and Optimization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Bootloader Sizing and Optimization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The example <span style="color: #000000">Bootloader</span>s provided in the <span class="Element146">apps/bootloader/basic</span> folder have optimization settings for use by most MPLAB XC32 C/C++ Compiler users, which is <span class="Element146">–O1</span>. However, in terms of size, this option does not produce the most optimal code. The following table lists the various <span style="color: #000000">Bootloader</span>s, and their current size (based on Boot Flash size).&nbsp;</p>
+<p class="Element10">
+<strong>Flash Usage Based on Optimization in Bytes</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="14%">
+<div class="Element66">
+Peripheral&nbsp;</div></td><td class="Element65" valign="top" width="41%">
+<div class="Element66">
+Device Family&nbsp;</div></td><td class="Element65" valign="top" width="10%">
+<div class="Element66">
+-O1&nbsp;</div></td><td class="Element65" valign="top" width="10%">
+<div class="Element66">
+-Os&nbsp;</div></td><td class="Element65" valign="top" width="9%">
+<div class="Element66">
+-Os MIPS16&nbsp;</div></td><td class="Element65" valign="top" width="17%">
+<div class="Element66">
+-Os microAptiv&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+SD Card&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MZ<strong><sup>(1)</sup></strong>&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+134968&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+122496&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+52110&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+UART&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MX<strong><sup>(1)</sup></strong>&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+7376&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+6892&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+5696&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+N/A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+UART&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MZ<strong><sup>(1)</sup></strong>&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+12796&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+12228&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+10460&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+USB Device&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MX&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+24944&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+22932&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+15328&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+N/A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+USB Device&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MZ<strong><sup>(1)</sup></strong>&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+38104&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+34976&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+26164&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+USB Host&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MX&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+76156&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+66968&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+42808&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+N/A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+USB Host&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MZ<strong><sup>(1)</sup></strong>&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+85512&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+75944&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+53444&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+UDP&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MX&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+73740&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+72416&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+48804&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+N/A&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="14%">
+<div class="Element68">
+UDP&nbsp;</div></td><td class="Element67" valign="top" width="41%">
+<div class="Element68">
+PIC32MZ<strong><sup>(1)</sup></strong>&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+90704&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+79856&nbsp;</div></td><td class="Element67" valign="top" width="9%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="17%">
+<div class="Element68">
+Not Functional<strong><sup>(2)</sup></strong>&nbsp;</div></td></tr></table></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element635">
+<li value="1" class="Element605">The Bootloader resides entirely in Boot Flash. No Program Flash is in use.</li>
+<li value="2" class="Element605">The UDP <span style="color: #000000">Bootloader</span> does not compile for PIC32MZ devices when microMIPS is selected.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Application Interrupt Vector Table Placement</div>
+<p class="Element10">
+Beginning in MPLAB Harmony v1.08, the application linker scripts are able to have the interrupt vector table within the kseg0_program_mem, along with the rest of the application code. Generally, this means that it can be placed anywhere within the application code, and only the _ebase_address value in the application linker script needs to be updated.&nbsp;</p>
+<p class="Element10">
+Within the MIPS core, the base address of the interrupt vector table is set by the Ebase register (CP0 Register 15, Select 1). Because of the definition of this register, the interrupt vector table must be aligned on a 4K boundary. This applies to all PIC32 devices. The <span style="color: #000000">Bootloader</span> will take the start of application Program Memory as the start of the application itself. This means that the interrupt vector table will need to be located at least at the next 4K boundary after that starting address.</p><div class="Element15">
+Debugging with a Bootloader and an Application</div>
+<p class="Element10">
+When developing a system that uses both an application and a <span style="color: #000000">Bootloader</span>, it is useful to be able to run both as separate projects, but have them both in the device. This involves setting the <span style="color: #000000">Bootloader</span> as a loadable project to the application. The steps to add the <span style="color: #000000">Bootloader</span> as the loadable project, are as follows.
+<ol class="Element635">
+<li value="1" class="Element605">Right-click the application project’s <span class="Element146">Loadables</span> folder, and select <strong>Add Loadable Project…</strong>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="BOOTLOADER Debugging Step 1.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element635">
+<li value="2" class="Element605">Navigate to the project folder of the Bootloader, selecting the correct configuration if there are multiple configurations, and click <strong>Add</strong>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="BOOTLOADER Debugging Step 2.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element635">
+<li value="3" class="Element605">When the program is built, it will generate a single hex file that contains the combined Bootloader and application.</li>
+<li value="4" class="Element605">When debugging the program, both will be programmed into the PIC32. However, the Bootloader will be executed, and the PIC32 will halt when it reaches the main function of the application. To step through the Bootloader, it is necessary to set a breakpoint in the <span style="color: #000000">Bootloader</span> code.</li>
+</ol></p><div class="Element15">
+Commonly Encountered Situations</div>
+<p class="Element10">
+When creating the Bootloader and the application, you may encounter some of these situations while combining the two, and errors may be generated by the linker.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04871.html">Bootloader Sizing and Optimization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Sizing and Optimization Topic Title: Bootloader Sizing and Optimization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,767 @@
+#Created by proc_hconfig_gen $Revision: 1.00 
+
+config FAMILY
+	bool
+	select DS60001156
+	select PIC32MX
+	select HAVE_JTAG
+	select HAVE_TRACE
+	select HAVE_APPIO
+	select NO_CRYPTO
+	default y
+
+enum DEVCFG_FSRSSEL
+	 "PRIORITY_0"
+	 || "PRIORITY_1"
+	 || "PRIORITY_2"
+	 || "PRIORITY_3"
+	 || "PRIORITY_4"
+	 || "PRIORITY_5"
+	 || "PRIORITY_6"
+	 || "PRIORITY_7"
+
+enum DEVCFG_FMIIEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FETHIO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FCANIO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FUSBIDIO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FVBUSONIO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FPLLIDIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_3"
+	 || "DIV_4"
+	 || "DIV_5"
+	 || "DIV_6"
+	 || "DIV_10"
+	 || "DIV_12"
+
+enum DEVCFG_FPLLMUL
+	 "MUL_15"
+	 || "MUL_16"
+	 || "MUL_17"
+	 || "MUL_18"
+	 || "MUL_19"
+	 || "MUL_20"
+	 || "MUL_21"
+	 || "MUL_24"
+
+enum DEVCFG_UPLLIDIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_3"
+	 || "DIV_4"
+	 || "DIV_5"
+	 || "DIV_6"
+	 || "DIV_10"
+	 || "DIV_12"
+
+enum DEVCFG_UPLLEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_FPLLODIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_4"
+	 || "DIV_8"
+	 || "DIV_16"
+	 || "DIV_32"
+	 || "DIV_64"
+	 || "DIV_256"
+
+enum DEVCFG_FNOSC
+	 "FRC"
+	 || "FRCPLL"
+	 || "PRI"
+	 || "PRIPLL"
+	 || "SOSC"
+	 || "LPRC"
+	 || "FRCDIV16"
+	 || "FRCDIV"
+
+enum DEVCFG_FSOSCEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_IESO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_POSCMOD
+	 "EC"
+	 || "XT"
+	 || "HS"
+	 || "OFF"
+
+enum DEVCFG_OSCIOFNC
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FPBDIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_4"
+	 || "DIV_8"
+
+enum DEVCFG_FCKSM
+	 "CSECME"
+	 || "CSECMD"
+	 || "CSDCMD"
+
+enum DEVCFG_WDTPS
+	 "PS1"
+	 || "PS2"
+	 || "PS4"
+	 || "PS8"
+	 || "PS16"
+	 || "PS32"
+	 || "PS64"
+	 || "PS128"
+	 || "PS256"
+	 || "PS512"
+	 || "PS1024"
+	 || "PS2048"
+	 || "PS4096"
+	 || "PS8192"
+	 || "PS16384"
+	 || "PS32768"
+	 || "PS65536"
+	 || "PS131072"
+	 || "PS262144"
+	 || "PS524288"
+	 || "PS1048576"
+
+enum DEVCFG_FWDTEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_DEBUG
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_ICESEL
+	 "ICS_PGx1"
+	 || "ICS_PGx2"
+
+enum DEVCFG_PWP
+	 "OFF"
+	 || "PWP4K"
+	 || "PWP8K"
+	 || "PWP12K"
+	 || "PWP16K"
+	 || "PWP20K"
+	 || "PWP24K"
+	 || "PWP28K"
+	 || "PWP32K"
+	 || "PWP36K"
+	 || "PWP40K"
+	 || "PWP44K"
+	 || "PWP48K"
+	 || "PWP52K"
+	 || "PWP56K"
+	 || "PWP60K"
+	 || "PWP64K"
+	 || "PWP68K"
+	 || "PWP72K"
+	 || "PWP76K"
+	 || "PWP80K"
+	 || "PWP84K"
+	 || "PWP88K"
+	 || "PWP92K"
+	 || "PWP96K"
+	 || "PWP100K"
+	 || "PWP104K"
+	 || "PWP108K"
+	 || "PWP112K"
+	 || "PWP116K"
+	 || "PWP120K"
+	 || "PWP124K"
+	 || "PWP128K"
+	 || "PWP132K"
+	 || "PWP136K"
+	 || "PWP140K"
+	 || "PWP144K"
+	 || "PWP148K"
+	 || "PWP152K"
+	 || "PWP156K"
+	 || "PWP160K"
+	 || "PWP164K"
+	 || "PWP168K"
+	 || "PWP172K"
+	 || "PWP176K"
+	 || "PWP180K"
+	 || "PWP184K"
+	 || "PWP188K"
+	 || "PWP192K"
+	 || "PWP196K"
+	 || "PWP200K"
+	 || "PWP204K"
+	 || "PWP208K"
+	 || "PWP212K"
+	 || "PWP216K"
+	 || "PWP220K"
+	 || "PWP224K"
+	 || "PWP228K"
+	 || "PWP232K"
+	 || "PWP236K"
+	 || "PWP240K"
+	 || "PWP244K"
+	 || "PWP248K"
+	 || "PWP252K"
+	 || "PWP256K"
+	 || "PWP260K"
+	 || "PWP264K"
+	 || "PWP268K"
+	 || "PWP272K"
+	 || "PWP276K"
+	 || "PWP280K"
+	 || "PWP284K"
+	 || "PWP288K"
+	 || "PWP292K"
+	 || "PWP296K"
+	 || "PWP300K"
+	 || "PWP304K"
+	 || "PWP308K"
+	 || "PWP312K"
+	 || "PWP316K"
+	 || "PWP320K"
+	 || "PWP324K"
+	 || "PWP328K"
+	 || "PWP332K"
+	 || "PWP336K"
+	 || "PWP340K"
+	 || "PWP344K"
+	 || "PWP348K"
+	 || "PWP352K"
+	 || "PWP356K"
+	 || "PWP360K"
+	 || "PWP364K"
+	 || "PWP368K"
+	 || "PWP372K"
+	 || "PWP376K"
+	 || "PWP380K"
+	 || "PWP384K"
+	 || "PWP388K"
+	 || "PWP392K"
+	 || "PWP396K"
+	 || "PWP400K"
+	 || "PWP404K"
+	 || "PWP408K"
+	 || "PWP412K"
+	 || "PWP416K"
+	 || "PWP420K"
+	 || "PWP424K"
+	 || "PWP428K"
+	 || "PWP432K"
+	 || "PWP436K"
+	 || "PWP440K"
+	 || "PWP444K"
+	 || "PWP448K"
+	 || "PWP452K"
+	 || "PWP456K"
+	 || "PWP460K"
+	 || "PWP464K"
+	 || "PWP468K"
+	 || "PWP472K"
+	 || "PWP476K"
+	 || "PWP480K"
+	 || "PWP484K"
+	 || "PWP488K"
+	 || "PWP492K"
+	 || "PWP496K"
+	 || "PWP500K"
+	 || "PWP504K"
+	 || "PWP508K"
+	 || "PWP512K"
+
+enum DEVCFG_BWP
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_CP
+	 "ON"
+	 || "OFF"
+
+menu "DEVCFG3"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config USERID
+	hex "User ID (USERID)"
+	default 0xffff
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FSRSSEL
+	string "SRS Select (FSRSSEL)"
+	range DEVCFG_FSRSSEL
+	default "PRIORITY_7"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FMIIEN
+	string "Ethernet RMII/MII Enable (FMIIEN)"
+	range DEVCFG_FMIIEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FETHIO
+	string "Ethernet I/O Pin Select (FETHIO)"
+	range DEVCFG_FETHIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FCANIO
+	string "CAN I/O Pin Select (FCANIO)"
+	range DEVCFG_FCANIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FUSBIDIO
+	string "USB USID Selection (FUSBIDIO)"
+	range DEVCFG_FUSBIDIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FVBUSONIO
+	string "USB VBUS ON Selection (FVBUSONIO)"
+	range DEVCFG_FVBUSONIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG2"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FPLLIDIV
+	string "PLL Input Divider (FPLLIDIV)"
+	range DEVCFG_FPLLIDIV
+	default "DIV_12"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FPLLMUL
+	string "PLL Multiplier (FPLLMUL)"
+	range DEVCFG_FPLLMUL
+	default "MUL_24"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config UPLLIDIV
+	string "USB PLL Input Divider (UPLLIDIV)"
+	range DEVCFG_UPLLIDIV
+	default "DIV_12"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config UPLLEN
+	string "USB PLL Enable (UPLLEN)"
+	range DEVCFG_UPLLEN
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FPLLODIV
+	string "System PLL Output Clock Divider (FPLLODIV)"
+	range DEVCFG_FPLLODIV
+	default "DIV_256"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG1"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FNOSC
+	string "Oscillator Selection Bits (FNOSC)"
+	range DEVCFG_FNOSC
+	default "FRCDIV"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FSOSCEN
+	string "Secondary Oscillator Enable (FSOSCEN)"
+	range DEVCFG_FSOSCEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config IESO
+	string "Internal/External Switch Over (IESO)"
+	range DEVCFG_IESO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config POSCMOD
+	string "Primary Oscillator Configuration (POSCMOD)"
+	range DEVCFG_POSCMOD
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config OSCIOFNC
+	string "CLKO Output Signal Active on the OSCO Pin (OSCIOFNC)"
+	range DEVCFG_OSCIOFNC
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FPBDIV
+	string "Peripheral Clock Divisor (FPBDIV)"
+	range DEVCFG_FPBDIV
+	default "DIV_8"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FCKSM
+	string "Clock Switching and Monitor Selection (FCKSM)"
+	range DEVCFG_FCKSM
+	default "CSDCMD"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config WDTPS
+	string "Watchdog Timer Postscaler (WDTPS)"
+	range DEVCFG_WDTPS
+	default "PS1048576"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config FWDTEN
+	string "Watchdog Timer Enable (FWDTEN)"
+	range DEVCFG_FWDTEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG0"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config DEBUG
+	string "Background Debugger Enable (DEBUG)"
+	range DEVCFG_DEBUG
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config ICESEL
+	string "ICE/ICD Comm Channel Select (ICESEL)"
+	range DEVCFG_ICESEL
+	default "ICS_PGx2"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config PWP
+	string "Program Flash Write Protect (PWP)"
+	range DEVCFG_PWP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config BWP
+	string "Boot Flash Write Protect bit (BWP)"
+	range DEVCFG_BWP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+config CP
+	string "Code Protect (CP)"
+	range DEVCFG_CP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX764F128L
+	---endhelp---
+
+endmenu
+
+
+config BOOTSEL
+	string
+
+config HSUARTEN
+	string
+
+config SOSCSEL
+	string
+
+config INT_VECT_CORE_TIMER
+	string
+	default "0"
+config INT_VECT_CORE_SOFTWARE_0
+	string
+	default "1"
+config INT_VECT_CORE_SOFTWARE_1
+	string
+	default "2"
+config INT_VECT_EXTERNAL_0
+	string
+	default "3"
+config INT_VECT_TIMER_1
+	string
+	default "4"
+config INT_VECT_INPUT_CAPTURE_1
+	string
+	default "5"
+config INT_VECT_OUTPUT_COMPARE_1
+	string
+	default "6"
+config INT_VECT_EXTERNAL_1
+	string
+	default "7"
+config INT_VECT_TIMER_2
+	string
+	default "8"
+config INT_VECT_INPUT_CAPTURE_2
+	string
+	default "9"
+config INT_VECT_OUTPUT_COMPARE_2
+	string
+	default "10"
+config INT_VECT_EXTERNAL_2
+	string
+	default "11"
+config INT_VECT_TIMER_3
+	string
+	default "12"
+config INT_VECT_INPUT_CAPTURE_3
+	string
+	default "13"
+config INT_VECT_OUTPUT_COMPARE_3
+	string
+	default "14"
+config INT_VECT_EXTERNAL_3
+	string
+	default "15"
+config INT_VECT_TIMER_4
+	string
+	default "16"
+config INT_VECT_INPUT_CAPTURE_4
+	string
+	default "17"
+config INT_VECT_OUTPUT_COMPARE_4
+	string
+	default "18"
+config INT_VECT_EXTERNAL_4
+	string
+	default "19"
+config INT_VECT_TIMER_5
+	string
+	default "20"
+config INT_VECT_INPUT_CAPTURE_5
+	string
+	default "21"
+config INT_VECT_OUTPUT_COMPARE_5
+	string
+	default "22"
+config INT_VECT_SPI_1
+	string
+	default "23"
+config INT_VECT_I2C_3
+	string
+	default "24"
+config INT_VECT_I2C_1A
+	string
+	default "24"
+config INT_VECT_SPI_3
+	string
+	default "24"
+config INT_VECT_SPI_1A
+	string
+	default "24"
+config INT_VECT_UART_1
+	string
+	default "24"
+config INT_VECT_UART_1A
+	string
+	default "24"
+config INT_VECT_I2C_1
+	string
+	default "25"
+config INT_VECT_CHANGE_NOTICE
+	string
+	default "26"
+config INT_VECT_ADC
+	string
+	default "27"
+config INT_VECT_PMP
+	string
+	default "28"
+config INT_VECT_COMPARATOR_1
+	string
+	default "29"
+config INT_VECT_COMPARATOR_2
+	string
+	default "30"
+config INT_VECT_I2C_4
+	string
+	default "31"
+config INT_VECT_I2C_2A
+	string
+	default "31"
+config INT_VECT_SPI_2
+	string
+	default "31"
+config INT_VECT_SPI_2A
+	string
+	default "31"
+config INT_VECT_UART_3
+	string
+	default "31"
+config INT_VECT_UART_2A
+	string
+	default "31"
+config INT_VECT_I2C_5
+	string
+	default "32"
+config INT_VECT_I2C_3A
+	string
+	default "32"
+config INT_VECT_SPI_4
+	string
+	default "32"
+config INT_VECT_SPI_3A
+	string
+	default "32"
+config INT_VECT_UART_2
+	string
+	default "32"
+config INT_VECT_UART_3A
+	string
+	default "32"
+config INT_VECT_I2C_2
+	string
+	default "33"
+config INT_VECT_FAIL_SAFE_MONITOR
+	string
+	default "34"
+config INT_VECT_RTCC
+	string
+	default "35"
+config INT_VECT_DMA_0
+	string
+	default "36"
+config INT_VECT_DMA_1
+	string
+	default "37"
+config INT_VECT_DMA_2
+	string
+	default "38"
+config INT_VECT_DMA_3
+	string
+	default "39"
+config INT_VECT_USB_1
+	string
+	default "45"
+config INT_VECT_CAN_1
+	string
+	default "46"
+config INT_VECT_ETH
+	string
+	default "48"
+config INT_VECT_UART_4
+	string
+	default "49"
+config INT_VECT_UART_1B
+	string
+	default "49"
+config INT_VECT_UART_6
+	string
+	default "50"
+config INT_VECT_UART_2B
+	string
+	default "50"
+config INT_VECT_UART_5
+	string
+	default "51"
+config INT_VECT_UART_3B
+	string
+	default "51"
+config INT_VECT_FCE
+	string
+	default "44"
+
+config PFM_ADDR_START
+	string
+	default "0x1d000000"
+config PFM_ADDR_END
+	string
+	default "0x1d020000"
+config PFM_ADDR_SIZE
+	string
+	default "0x20000"
+config SRAM_ADDR_START
+	string
+	default "0x0"
+config SRAM_ADDR_END
+	string
+	default "0x8000"
+config SRAM_ADDR_SIZE
+	string
+	default "0x8000"
+config BOOT_ADDR_START
+	string
+	default "0x1fc00000"
+config BOOT_ADDR_END
+	string
+	default "0x1fc02ff0"
+config BOOT_ADDR_SIZE
+	string
+	default "0x2ff0"

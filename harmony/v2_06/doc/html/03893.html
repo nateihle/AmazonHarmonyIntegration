@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03894.html">OPENRTOS Demonstrations</a> &gt; <a href="03890.html">cdc_msd_basic</a> &gt; <a href="03893.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03892.html">Previous</a> | <a href="03890.html">Up</a> | <a href="03895.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS OPENRTOS cdc_msd_basic_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This USB Host demonstration application exercises the CDC and MSD interfaces on the attached composite USB device.</p>
+<ol class="Element630">
+<li value="1" class="Element600">Open the project in MPLAB X IDE and select the desired project configuration.</li>
+<li value="2" class="Element600">Build the code and program the device.</li>
+<li value="3" class="Element600">Follow the directions for setting up and running the <a href="04138.html">cdc_serial_emulator_msd</a> USB device demonstration.</li>
+<li value="4" class="Element600">Connect the UART (P1) port on the Explorer 16 Development Board (running the cdc_serial_emulator_msd demonstration) to a USB Host personal computer via a commercially available Serial-to-USB Dongle.</li>
+<li value="5" class="Element600">Start a terminal program on the USB Host personal computer and select the Serial-to-USB Dongle as the communication port. Select the baud rate as 9600, no parity, 1 Stop bit and no flow control.</li>
+<li value="6" class="Element600">Connect the mini – B connector on the USB PICtail Plus Daughter Board, of the <a href="04138.html">cdc_serial_emulator_msd</a> demonstration setup, to the Type-A USB host connector on the starter kit.</li>
+<li value="7" class="Element600">A prompt (DATA :) will be displayed immediately on the terminal emulation program.</li>
+<li value="8" class="Element600">Type a string less than 12 characters and press the &lt;Enter&gt; key. The string entered here will be stored in the MSD device in a file named <span class="Element146">file.txt</span>.</li>
+<li value="9" class="Element600">Step 8 can be repeated. Data entered in the prompt will be appended to the file.</li>
+<li value="10" class="Element600">Unplug the USB Device from the Host and<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>it a personal computer host to examine the contents of the Mass Storage Device. This should contain a file named <span class="Element146">file.txt</span> and this should contain the data that was entered at the terminal program prompt.</li>
+</ol><div class="Element15">
+Tasks</div>
+<p class="Element10">
+This USB Host demonstration application contains four tasks. Descriptions of these tasks is as follows:</p>
+<ul class="Element630">
+<li class="Element600">The FrameworkTasks task is created in the <a href="24151.html">SYS_Tasks</a> function. This task calls the USB Host Layer Tasks function (<a href="28370.html">USB_HOST_Tasks</a>). The priority of this task is designed to be the lowest when compared to the priorities of other tasks. Hence this tasks runs when all other tasks are either in blocked state or not ready to run.</li>
+<li class="Element600">The APP_USB_HOST_Open task is created in the APP_Tasks function. This task creates all the semaphores and message queues needed for the application. It creates two tasks that implement the application logic. It attempts to open the Host Layer and then enable USB Host Operation. The task then resumes the two application logic tasks and suspends itself.</li>
+<li class="Element600">The APP_USBHostCDCTask Task is created in the APP_USB_HOST_Open task. It blocks on xSemaphoreUSBCDCAttach semaphore. This semaphore is given in the Application CDC Class Driver event handler when a CDC device is enumerated. The task then prints a prompt and schedules a read from the CDC interface of the attached USB device. When data is available, it posts the xSemaphoreCDCReadComplete semaphore.</li>
+<li class="Element600">The APP_USBHostMSDTask Task is created in the APP_USB_HOST_Open task. It blocks on the xSemaphoreUSBMSDAttach semaphore. This semaphore is given in the Application MSD event Handler when a MSD device is enumerated. The task then mounts the attached storage media and then blocks on the xSemaphoreCDCReadComplete semaphore. The xSemaphoreCDCReadComplete semaphore is given by the APP_USBHostCDCTask task when the CDC Host has received data. The APP_USBHostMSDTask Task will then open a file on the mounted drive and will append the data (received from CDC) in the file. It closes the file, and then appends on xSemaphoreCDCReadComplete semaphore again.</li>
+</ul></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03894.html">OPENRTOS Demonstrations</a> &gt; <a href="03890.html">cdc_msd_basic</a> &gt; <a href="03893.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS OPENRTOS cdc_msd_basic_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

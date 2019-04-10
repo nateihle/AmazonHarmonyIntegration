@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Adding Additional Configurations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27030.html">Adding Additional Configurations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27031.html">Previous</a> | <a href="16814.html">Up</a> | <a href="27042.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Adding Additional Configurations Topic Title: Adding Additional Configurations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Adding Additional Configurations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+It is usually easiest to create a bare-metal polled configuration first because you can more easily debug the harness, test, and library state machines. Once you have a good functional test that passes when running polled, add an interrupt driven configuration and ensure that the library works as expected when interrupt driven. If the library under test does not have an associated interrupt, a timer interrupt can be used to simulate an interrupt driven mode as is done in the “sample” module. While this is not strictly necessary for libraries that are not intended to run in an interrupt-driven mode, it can help make the library more robust.&nbsp;</p>
+<p class="Element10">
+Once bare metal testing is completed, create RTOS-based configurations and test the library in a polled, multi-threaded environment. Verify thread safety and proper blocking operation and experiment with different relative thread priorities between the test and library threads. Then, add another configuration to test the library running interrupt-driven in an RTOS environment. There are unique issues possible in each of these environments and testing in all of then will create the most reliable library. Also, while use of the MPLAB Harmony OSAL will help make your library RTOS-independent, but it is best to create test configurations for every supported RTOS to verify that there are no resource conflicts or unique issues between the library and a specific supported RTOS.&nbsp;</p>
+<p class="Element10">
+Refer to <a href="13089.html">Tips and Tricks</a> for the process to add additional configurations.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27030.html">Adding Additional Configurations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Adding Additional Configurations Topic Title: Adding Additional Configurations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

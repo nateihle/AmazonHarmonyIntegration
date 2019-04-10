@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Module Events</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17492.html">Handling Events</a> &gt; <a href="17504.html">Module Events</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17482.html">Previous</a> | <a href="17492.html">Up</a> | <a href="17483.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Module Events Topic Title: Module Events)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Module Events</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The CAN module has various sources of events, which includes the channel events. The <a href="18513.html">PLIB_CAN_ModuleEventEnable</a> function can be used to enable and disable module level events. Enabling a module event will cause the CAN module to generate a CPU interrupt, as shown in the following code example. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01669');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01669"><pre class="Element12"><i><span style="color: #008000">// Enable CAN1 module Transmit Event and Receive Events.</span></i>
+<i><span style="color: #008000">// Disable Receive Overflow event and operation</span></i>
+<i><span style="color: #008000">// mode change event.</span></i>
+PLIB_CAN_ModuleEventEnable(CAN_ID_1, (CAN_TX_EVENT | CAN_RX_EVENT));
+PLIB_CAN_ModuleEventDisable(CAN_ID_1,
+    (CAN_OPERATION_MODE_CHANGE_EVENT | CAN_RX_OVERFLOW_EVENT));</pre></div></div>
+<p class="Element10">
+The <a href="18514.html">PLIB_CAN_ModuleEventGet</a> function can be used to check if any module level events are active. This is shown in the following code example. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01670');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01670"><pre class="Element12"><i><span style="color: #008000">// Check if the CAN Module 1 Receive event</span></i>
+<i><span style="color: #008000">// or if Transmit event is active</span></i>
+<strong><span style="color: #000080">if</span></strong>((PLIB_CAN_ModuleEventGet(CAN_ID_1) &amp; (CAN_RX_EVENT | CAN_TX_EVENT)) != 0)
+{
+    <i><span style="color: #008000">// Handle the Receive or Transmit module Event here.</span></i>
+}</pre></div></div>
+<p class="Element10">
+The CAN module also provides code to indicate the highest priority pending event in the CAN module. The <a href="18517.html">PLIB_CAN_PendingEventsGet</a> function can be used to read and analyze this code, as shown in the following code example. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01671');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01671"><pre class="Element12"><i><span style="color: #008000">/* Implement a switch to check and process any active CAN module events */</span></i>
+CAN_EVENT_CODE eventCode;
+
+eventCode = PLIB_CAN_PendingEventsGet(CAN_ID_1);
+
+<strong><span style="color: #000080">switch</span></strong>(eventCode)
+{
+    <strong><span style="color: #000080">case</span></strong> CAN_NO_EVENT:
+        <i><span style="color: #008000">/* Procedure to handle no CAN events */</span></i>
+        <strong><span style="color: #000080">break</span></strong>;
+    <strong><span style="color: #000080">case</span></strong> CAN_WAKEUP_EVENT:
+        <i><span style="color: #008000">/* Procedure to handle device wake-up on CAN bus activity event */</span></i>
+        <strong><span style="color: #000080">break</span></strong>;
+    <strong><span style="color: #000080">default</span></strong>:
+        <strong><span style="color: #000080">break</span></strong>;
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17509.html">Using the Library</a> &gt; <a href="17494.html">How the Library Works</a> &gt; <a href="17492.html">Handling Events</a> &gt; <a href="17504.html">Module Events</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CAN Module Events Topic Title: Module Events)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

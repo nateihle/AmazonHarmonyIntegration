@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Module Status</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="11791.html">Module Status</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11792.html">Previous</a> | <a href="11804.html">Up</a> | <a href="11789.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Module Status Topic Title: Module Status)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Module Status</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The function signature of a module’s status function is defined by a pointer data type that is defined by the system module interface header, in the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> file, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Module Status Function Signature</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00126');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00126"><pre class="Element12"><i><span style="color: #008000">// *****************************************************************************</span></i>
+<i><span style="color: #008000">/* System Module Status Routine Pointer
+
+  Function:
+    SYS_STATUS (* SYS_MODULE_STATUS_ROUTINE) ( SYS_MODULE_OBJ object )
+
+  Summary:
+    Pointer to a function that gets the current status of a module.
+
+  Description:
+    This data type is a pointer to a function that gets the current status of a
+    system module (driver, library, or application).
+
+  Preconditions:
+    The low-level board initialization must have been completed and the module's
+    initialization function must have been called before the system can call the
+    status function for any module.
+
+  Parameters:
+    object          - Handle to the module instance
+
+  Returns:
+    One of the possible status codes from SYS_STATUS
+
+  Remarks:
+    A module's status function can be used to determine when any of the
+    other system level operations has completed as well as to obtain general
+    status of the module.
+    If the status function returns SYS_STATUS_BUSY, a previous operation
+    has not yet completed. Once the status function returns SYS_STATUS_READY,
+    any previous operations have completed.
+    The value of SYS_STATUS_ERROR is negative (-1). A module may define
+    module-specific error values of less or equal SYS_STATUS_ERROR_EXTENDED
+    (-10).
+    The status function must NEVER block.
+    If the status function returns an error value, the error may be cleared by
+    calling the reinitialize function. If that fails, the deinitialize
+    function will need to be called, followed by the initialize function to
+    return to normal operations.
+*/</span></i>
+
+<strong><span style="color: #000080">typedef</span></strong> SYS_STATUS (* SYS_MODULE_STATUS_ROUTINE) (  SYS_MODULE_OBJ object );</pre></div></div>
+<p class="Element10">
+An implementation of a module’s status function might look like the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Sample Module Status Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00127');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00127"><pre class="Element12">SYS_STATUS SAMPLE_Status ( SYS_MODULE_OBJ object )
+{
+    SAMPLE_MODULE_DATA     *pObj  = (SAMPLE_MODULE_DATA *)object;
+
+    <strong><span style="color: #000080">return</span></strong> pObj-&gt;status;
+}</pre></div></div>
+<p class="Element10">
+In most cases, a module’s status function will just return the current value of the status variable in the module-instance data structure referred to by the object handle. However, it is possible to deduce the module instance’s current status using more complex logic. But, be aware of potential race conditions that could be caused by checking multiple individual variables and/or hardware status flags.&nbsp;</p>
+<p class="Element10">
+A module’s status function must return a value from the <a href="24144.html">SYS_STATUS</a> enumeration (or an extension of it), as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong><a href="24144.html">SYS_STATUS</a> Enumeration</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00128');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00128"><pre class="Element12"><i><span style="color: #008000">// *****************************************************************************</span></i>
+<i><span style="color: #008000">/* System Module Status
+
+  Summary:
+    Identifies the current status/state of a system module
+
+  Description:
+    This enumeration identifies the current status/state of a system module
+    (driver, library, or application).
+
+  Remarks:
+    This enumeration is the return type for the system-level status routine
+    defined by each driver, library, or application (for example, DRV_I2C_Status).
+*/</span></i>
+
+<strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">enum</span></strong>
+{
+    <i><span style="color: #008000">/* Indicates that a non-system defined error has occurred.  The caller
+       must call an extended status routine for the module in question to
+       identify the error. */</span></i>
+    SYS_STATUS_ERROR_EXTENDED   = -10,
+
+    <i><span style="color: #008000">/* An unspecified error has occurred. */</span></i>
+    SYS_STATUS_ERROR            = -1,
+
+    <i><span style="color: #008000">/* The module has not yet been initialized. */</span></i>
+    SYS_STATUS_UNINITIALIZED    = 0,
+
+    <i><span style="color: #008000">/* An operation is currently in progress. */</span></i>
+    SYS_STATUS_BUSY             = 1,
+
+    <i><span style="color: #008000">/* Any previous operations have completed and the module is ready for
+       additional operations. */</span></i>
+    SYS_STATUS_READY            = 2,
+
+    <i><span style="color: #008000">/* Indicates that the module is in a non-system defined ready/run state.
+       The caller must call an extended status routine for the module in
+       question to identify the state. */</span></i>
+    SYS_STATUS_READY_EXTENDED   = 10
+
+} SYS_STATUS;</pre></div></div>
+<p class="Element10">
+However, a module may define its own module-specific status enumerations that extend the system status enumeration by equating their values and defining new values in the extended error and ready ranges, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Sample Module Specific Status Enumeration</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00129');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00129"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">enum</span></strong>
+{
+    SAMPLE_STATUS_ERROR_PARITY     = SYS_STATUS_ERROR_EXTENDED - 2,
+    SAMPLE_STATUS_ERROR_UNDERRUN   = SYS_STATUS_ERROR_EXTENDED - 1,
+    SAMPLE_STATUS_ERROR_OVERFLOW   = SYS_STATUS_ERROR_EXTENDED,
+    SAMPLE_STATUS_ERROR            = SYS_STATUS_ERROR,
+    SAMPLE_STATUS_UNINITIALIZED    = SYS_STATUS_UNINITIALIZED,
+    SAMPLE_STATUS_BUSY             = SYS_STATUS_BUSY,
+    SAMPLE_STATUS_READY            = SYS_STATUS_READY,
+    SAMPLE_STATUS_READY_BUS_IDLE   = SYS_STATUS_READY_EXTENDED,
+    SAMPLE_STATUS_READY_RECEIVING  = SYS_STATUS_READY_EXTENDED + 1,
+    SAMPLE_STATUS_READY_SENDING    = SYS_STATUS_READY_EXTENDED + 2
+
+} SAMPLE_STATUS;</pre></div></div>
+<p class="Element10">
+This allows the module to utilize its own status labels internally in its implementation code and allows its clients to do the same when using the module’s API while still allowing the system to utilize the standard values or to check for error ranges below SYS_STATUS_ERROR or ready ranges above SYS_STATUS_READY. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Any module that has a state machine must implement a status function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="11791.html">Module Status</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Module Status Topic Title: Module Status)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

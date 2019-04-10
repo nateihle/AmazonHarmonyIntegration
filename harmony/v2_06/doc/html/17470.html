@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Memory Access Control</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="04857.html">BMX Peripheral Library</a> &gt; <a href="17473.html">Using the Library</a> &gt; <a href="17466.html">How the Library Works</a> &gt; <a href="17470.html">Memory Access Control</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17457.html">Previous</a> | <a href="17466.html">Up</a> | <a href="17459.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB BMX Memory Access Control Topic Title: Memory Access Control)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Memory Access Control</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Bus Matrix allows the programmer to partition program Flash memory into user and kernel partitions. It also allows the programmer to partition data RAM into user and kernel partitions, each of which can be sub-divided into program and data partitions. At reset, the entire program Flash memory is one kernel partition and the entire data RAM is one kernel data partition.</p><div class="Element15">
+Program Flash Memory Partitioning</div>
+<p class="Element10">
+Partitioning of the program Flash memory is accomplished by setting the offset of the user partition within the program Flash memory using the <a href="18435.html">PLIB_BMX_ProgramFlashPartitionSet</a> function. The size of the program Flash memory varies among devices, but can be retrieved with the <a href="18433.html">PLIB_BMX_ProgramFlashMemorySizeGet</a> function. The offset must be a multiple of the program Flash memory block size. The program Flash memory block size may vary among devices. If programmed with a value that is not a multiple of the block size, the value will automatically be truncated to a block size boundary. At reset, the entire program Flash memory is mapped to Kernel mode.&nbsp;</p>
+<p class="Element10">
+<img src="bmx8.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+<strong>Example: Create a User Mode Partition of 12K in Program Flash Memory</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01622');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01622"><pre class="Element12">size_t pfmSize;
+size_t userSize = (6 * PLIB_PCACHE_PFM_BLOCK_SIZE);
+size_t userOffset;
+
+<i><span style="color: #008000">// Get size of PFM</span></i>
+pfmSize = PLIB_BMX_ProgramFlashMemorySizeGet();
+userOffset = pfmSize - userSize;
+<strong><span style="color: #000080">if</span></strong> (userOffset &gt; 0)
+{
+    PLIB_BMX_ProgramFlashPartitionSet(userOffset);
+}</pre></div></div>
+<div class="Element15">
+Data RAM Memory Partitioning</div>
+<p class="Element10">
+The Data RAM Can be partitioned into four sections:
+<ul class="Element636">
+<li class="Element606">Kernel Data</li>
+<li class="Element606">Kernel Program</li>
+<li class="Element606">User Data</li>
+<li class="Element606">User Program</li>
+</ul>Similar to the program Flash memory partitioning, the data RAM partitions are created by setting the base addresses of the various partitions. The BMX Peripheral Library provides a function to set all of the partitions at once. The size of the data RAM varies among devices, but may be retrieved with the <a href="18404.html">PLIB_BMX_DataRAMSizeGet</a> function. The partitions must be a multiple of the Data RAM memory block size. The data RAM memory block size may vary among devices. If programmed with a value that is not a multiple of the block size, the partition will automatically be truncated to a block size boundary. At reset, the entire data RAM is mapped to Kernel mode. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+At Reset, the entire data RAM is mapped to Kernel mode and all of the offsets are set to zero. To partition the data RAM, all of the offsets must be programmed. If any of the offsets are set to zero, the entire data RAM is allocated to kernel data.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<img src="bmx9.png" border="0" alt="" title=""> </p><p class="Element10" style="text-align: center;">
+<strong>Example: RAM Partitioned as Kernel Data, Kernel Program, User Data and User Program</strong></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01623');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01623"><pre class="Element12"><i><span style="color: #008000">//Total Data RAM = 32KB.</span></i>
+size_t totalRamSize;
+size_t kernProgOffset;
+size_t userDataOffset;
+size_t userProgOffset;
+
+size_t kernDataRamSize = (3 * PLIB_PCACHE_DRM_BLOCK_SIZE); <i><span style="color: #008000">//Kernel Data RAM = 6KB</span></i>
+size_t kernProgRamSize = (2 * PLIB_PCACHE_DRM_BLOCK_SIZE); <i><span style="color: #008000">//Kernel Program RAM = 4KB</span></i>
+size_t userDataRamSize = (6 * PLIB_PCACHE_DRM_BLOCK_SIZE); <i><span style="color: #008000">//User Data RAM = 12KB</span></i>
+size_t userProgRamSize = (5 * PLIB_PCACHE_DRM_BLOCK_SIZE); <i><span style="color: #008000">//User Program RAM = 10KB</span></i>
+
+<i><span style="color: #008000">//Get Size of Data RAM</span></i>
+totalRamSize = PLIB_BMX_DataRAMSizeGet();
+
+<i><span style="color: #008000">//Verify our partition sizes fit our RAM</span></i>
+<strong><span style="color: #000080">if</span></strong> ((kernDataRamSize + kernProgRamSize + userDataRamSize + userProgRamSize) != totalRamSize)
+{
+    printf(&quot;RAM Partitioning Error\n&quot;);
+    <strong><span style="color: #000080">return</span></strong> -1;
+}
+
+kernProgOffset = kernDataRamSize;
+userDataOffset = kernDataRamSize + kernProgRamSize;
+userProgOffset = userDataOffset + userDataRamSize;
+
+PLIB_BMX_DataRAMPartitionSet(kernProgOffset, userDataOffset, userProgOffset);
+</pre></div></div>
+<p class="Element10" style="text-align: center;">
+<strong>Example: Determine the size of Data RAM partitions</strong></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01624');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01624"><pre class="Element12">size_t kernProgOffset;
+size_t userDataOffset;
+size_t userProgOffset;
+size_t kernDataPart;
+size_t kernProgPart;
+size_t userDataPart;
+size_t userProgPart;
+size_t totalRamSize;
+</pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01625');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01625"><pre class="Element12">totalRamSize = PLIB_BMX_DataRAMSizeGet();
+kernProgOffset = PLIB_BMX_DataRAMKernelProgramOffsetGet();
+userDataOffset = PLIB_BMX_DataRAMUserDataOffsetGet();
+userProgOffset = PLIB_BMX_DataRAMUserProgramOffsetGet();
+
+kernDataPart = kernProgOffset;
+kernProgPart = userDataOffset - kernProgOffset;
+userDataPart = userProgOffset - userDataOffset;
+userProgPart = totalRamSize - userProgOffset;</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="04857.html">BMX Peripheral Library</a> &gt; <a href="17473.html">Using the Library</a> &gt; <a href="17466.html">How the Library Works</a> &gt; <a href="17470.html">Memory Access Control</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB BMX Memory Access Control Topic Title: Memory Access Control)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

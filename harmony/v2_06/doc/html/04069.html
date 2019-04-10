@@ -1,0 +1,251 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04066.html">wifi_staap_demo</a> &gt; <a href="04069.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04068.html">Previous</a> | <a href="04066.html">Up</a> | <a href="04054.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP Wi-Fi Staap Demo_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The demonstration does the following:&nbsp;</p>
+<p class="Element10">
+The PIC32WK Wi-Fi DUT starts as OOBAP (out-of-box Access Point) for configuring the Home AP credentials (such as SSID and password), and then switches to STA mode for automatically connecting to the configured Home Access Point (AP) without any user trigger.&nbsp;</p>
+<p class="Element10">
+<strong>AP (OOBAP) mode</strong>&nbsp;</p>
+<ul class="Element630">
+<li class="Element600">Starts the device in OOBAP mode, with the configuration stored in flash memory, or with the default configuration if the flash configuration is not available.</li>
+<li class="Element600">The PIC32WK Wi-Fi OOBAP accepts connections from another third-party STA and accepts only one connection.</li>
+<li class="Element600">The OOBAP can be started only in Open mode.</li>
+<li class="Element600">The default configuration of the AP is stored in flash memory, and this configuration can also be updated with console commands.</li>
+<li class="Element600">The connection status can be verified by the connected STA by running <strong>ping</strong>.</li>
+<li class="Element600">In connected STA, the user can access the OOBAP IP address in any browser that will serve the Web pages.</li>
+<li class="Element600">From the Web pages, the user can configure the Home AP credentials.</li>
+<li class="Element600">The configuration details are stored in in-package flash (IPF).</li>
+</ul><p class="Element10">
+<strong>STA mode</strong></p>
+<ul class="Element630">
+<li class="Element600">Scans the area and triggers the connection with the Home AP stored in flash memory.</li>
+<li class="Element600">The default configuration of the Home AP is stored in flash memory, and this configuration can be updated with console commands or by using the Web page.</li>
+<li class="Element600">After connecting with the Home AP, connection status can be verified by running <strong>ping</strong>.</li>
+<li class="Element600">After connecting the DUT (PIC32WK) and the third-party personal computer/laptop to the Home AP, the demonstration can be verified.</li>
+<li class="Element600">The third-party personal computer/laptop can access the DUT IP-address in any browser that will serve the Web pages. That Web page will display the Welcome screen along with a random seed number on the page.</li>
+<li class="Element600">From the third-party personal computer/laptop, you can scan for the wireless networks and select the desired AP, or directly give the desired AP configuration and request the Wi-Fi module to connect to that AP. The DUT will connect to that AP and store the configuration information in flash memory.</li>
+</ul><p class="Element10">
+Use the following procedure to run the demonstration:&nbsp;</p>
+<p class="Element10">
+1. Load the demonstration project into MPLAB X IDE.&nbsp;</p>
+<p class="Element10">
+2. Connect the mini-B debugger port on-the starter kit to a USB port on the development computer by using the USB cable provided in the kit.&nbsp;</p>
+<p class="Element10">
+3. Build, download, and run the demonstration project on the board.</p>
+<ul class="Element630">
+<li class="Element600">When the demonstration runs, the DUT boots-up in OOBAP mode for configuring the Home AP credential.</li>
+</ul><p class="Element10">
+4. Run <strong>netinfo</strong> to display the network details as shown below&nbsp;</p>
+<p class="Element10">
+<span class="Element146">---------- Interface &lt;wlan0/PIC32WK&gt; ----------</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Host Name: MCHPBOARD_WK - NBNS disabled</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">IPv4 Address: 192.168.3.1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Mask: 255.255.255.0</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Gateway: 192.168.3.1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">DNS: 192.168.3.1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">MAC Address: 54:8c:a0:00:f3:4e</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">dhcps is ON</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">dhcp is disabled</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Link is UP</span>&nbsp;</p>
+<p class="Element10">
+5. Run <strong>wlan open</strong> to open the access to give Wi-Fi commands, and then run <strong>wlan macinfo</strong> to see the Wi-Fi module status.&nbsp;</p>
+<p class="Element10">
+<span class="Element146">----WIFI MAC configuration----</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">BootMode: AP</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">HTTP: Enable</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">OTA: Enable</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SSID: AP_PINGDEMO</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Security: NONE</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">The above Configuration is Saved in Flash</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">****************************************************</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">----MAC Started as AP with following Details----</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SSID from MAC: AP_PINGDEMO</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Security: NONE</span>&nbsp;</p>
+<ul class="Element630">
+<li class="Element600">OOBAP default SSID is “microchip” and IP address is “192.168.3.1”.</li>
+</ul><p class="Element10">
+6. Connect the third-party personal computer/laptop (STA) to the PIC32WK OOBAP.&nbsp;</p>
+<p class="Element10">
+7. In the third-party personal computer/laptop, enter the IP-address of the OOBAP in the browser to get served with Web pages.</p>
+<ul class="Element630">
+<li class="Element600">The following default web-page displays firmware build details and a random number.</li>
+</ul><p class="Element10">
+<img src="WM32_WifFi_Starter_Kit17.png" border="0" alt="" title=""></p>
+<ul class="Element630">
+<li class="Element600">The Network Configuration page, shown in the following, gives the option to configure the OOBAP manually.</li>
+</ul><p class="Element10">
+<img src="WM32_WifFi_Starter_Kit12.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+8. Enter the Home AP Wi-Fi configuration details (SSID and Security) and click OK to save the details in in-package flash(IPF). The DUT OOBAP will automatically trigger a soft reboot.&nbsp;</p>
+<p class="Element10">
+9. If the user wants to scan to get the Home AP availability in the vicinity of the DUT, trigger the scan from <strong>Scan for Wireless Networks</strong>. After a successful scan, the Web page updates the scan results. In the scan results list, click the Home AP. This will send the configuration details (SSID and Security) and save the details in in-package flash (IPF). The DUT OOBAP will automatically trigger a soft reboot.&nbsp;</p>
+<p class="Element10">
+<img src="WM32_WifFi_Starter_Kit13.png" border="0" alt="" title="">&nbsp;</p>
+<ul class="Element630">
+<li class="Element600">After the reboot, the DUT starts in STA mode and starts the connection procedure to the above configured Home AP. The DUT scans for the configured Home AP. If the Home AP is available in the scan results, the DUT will then connect to it. Otherwise the device will be in scanning phase only.</li>
+<li class="Element600">After connecting with the Home AP, the DUT will get the IP address from the AP (if DHCP is enabled) or the default IP address, 192.168.1.150.</li>
+</ul><p class="Element10">
+10. Use console commands to get the connection status details. Run <strong>netinfo</strong> to show these connection details.&nbsp;</p>
+<p class="Element10">
+<span class="Element146">---------- Interface &lt;wlan0/PIC32WK&gt; ----------</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Host Name: MCHPBOARD_WK - NBNS disabled</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">IPv4 Address: 192.168.1.101</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Mask: 255.255.255.0</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Gateway: 192.168.1.1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">DNS: 192.168.1.1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">MAC Address: 54:8c:a0:00:f3:82</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">dhcp is ON</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Link is UP</span>&nbsp;</p>
+<p class="Element10">
+11. Run <strong>wlan open</strong> to open the access to give Wi-Fi commands, and then run <strong>wlan macinfo</strong> to see the Wi-Fi module status.&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> ----WIFI MAC configuration----</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">BootMode: STA</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">HTTP: Enable</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">OTA: Enable</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SSID: PINGD</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Security: NONE</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">The above Configuration is Saved in Flash</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">****************************************************</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">----MAC Connected to AP with following Details----</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SSID from MAC:PINGD</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Security: NONE</span>&nbsp;</p>
+<p class="Element10">
+12. After connecting the third-party personal computer/laptop to the same Home AP, run <strong>ping</strong> to verify the simple data connection process between the DUT and the computer/laptop.&nbsp;</p>
+<p class="Element10">
+13. Enter the IP-address of the DUT in the browser to get served with Web pages.</p>
+<ul class="Element630">
+<li class="Element600">The following default web-page displays firmware build details and a random number.</li>
+</ul><p class="Element10">
+<img src="WM32_WifFi_Starter_Kit14.png" border="0" alt="" title=""></p>
+<ul class="Element630">
+<li class="Element600">The Network Configuration page gives the option to trigger the scan in the Wi-Fi module. After a successful scan, the page updates with scan results.</li>
+</ul><p class="Element10">
+14. On the Network Configuration page, click <strong>Scan for Wireless Networks</strong> to start the scan. After a successful scan, the Web page updates the scan results. You can choose the desired AP from the scan list to connect the DUT, or click <strong>Other Network</strong> to enter the AP configuration manually.&nbsp;</p>
+<p class="Element10">
+<img src="WM32_WifFi_Starter_Kit5.png" border="0" alt="" title="">&nbsp;</p>
+<ul class="Element630">
+<li class="Element600">The DUT will connect with the given configuration and save the configuration information in flash memory.</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+When rerunning the demonstration, the Wi-Fi module connects with the last saved configuration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04066.html">wifi_staap_demo</a> &gt; <a href="04069.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP Wi-Fi Staap Demo_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21490.html">PMP Peripheral Library</a> &gt; <a href="17902.html">Using the Library</a> &gt; <a href="17891.html">How the Library Works</a> &gt; <a href="17892.html">Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17891.html">Previous</a> | <a href="17891.html">Up</a> | <a href="17903.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PMP Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The important configurations to look for are as follows.</p><div class="Element15">
+Operating Mode</div>
+<p class="Element10">
+Depending on the device, the PMP module can function in Master modes 1 or 2, buffered/enhanced slave mode or the legacy slave mode. To set the PMP module in the appropriate mode, use <a href="20287.html">PLIB_PMP_OperationModeSelect</a>.</p><div class="Element15">
+Multiplexing Mode</div>
+<p class="Element10">
+Depending on the application requirement or hardware arrangement, the data lines can be used to multiplex the addressing information. Various multiplexing modes supported are listed by <a href="21581.html">PMP_MUX_MODE</a>. Use <a href="20285.html">PLIB_PMP_MultiplexModeSelect</a> to select the appropriate multiplexing mode.</p><div class="Element15">
+Chip Select Mode</div>
+<p class="Element10">
+As needed, the Chip Select lines can be made to function as Chip Select or as address lines. Use <a href="20211.html">PLIB_PMP_ChipSelectFunctionSelect</a> to select the required functionality of Chip Select lines.</p><div class="Element15">
+Interrupt Mode</div>
+<p class="Element10">
+PMP generates interrupts based on the option selected for the interrupt mode. Interrupts can be enabled, disabled, generated at the end of a read or write cycle, or when other events occur. Use the <a href="20278.html">PLIB_PMP_InterruptModeSelect</a> to select these options.</p><div class="Element15">
+Address Increment Mode</div>
+<p class="Element10">
+After every read/write cycle, the PMP module can be configured to automatically increment or decrement the address it is accessing. Use <a href="20202.html">PLIB_PMP_AddressIncrementModeSelect</a> to select this option.&nbsp;</p>
+<p class="Element10">
+To initialize the PMP module, perform the following sequence:
+<ol class="Element630">
+<li value="1" class="Element600">Select the desired initialization options using the General Initialization Functions (see the <a href="17894.html">Library Interface</a> section) to select the desired operation of the following features:
+<ul class="Element630">
+<li class="Element600">Operating mode</li>
+<li class="Element600">Multiplexing mode</li>
+<li class="Element600">Chip Select mode</li>
+<li class="Element600">Interrupt mode</li>
+<li class="Element600">Address Incrementing mode</li>
+<li class="Element600">Stop-in-Idle operation</li>
+</ul></li>
+<li value="2" class="Element600">Program the wait states of the PMP module. Refer to Wait States Initialization Functions in the <a href="17894.html">Library Interface</a> section for an example.</li>
+<li value="3" class="Element600">If operating in Master mode, set the desired address (8-bit in this case, the size may vary depending on the application) using <a href="20210.html">PLIB_PMP_AddressSet</a>.</li>
+<li value="4" class="Element600">If running in an interrupt-driven environment, clear any pending interrupts and enable the appropriate (master, slave, and error) PMP interrupts.</li>
+</ol></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Refer to the <strong>&quot;Interrupt Controller&quot;</strong> chapter in the specific device data sheet for details.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="5" class="Element600">Enable the module for operation using <a href="20227.html">PLIB_PMP_Enable</a>.</li>
+</ol><strong>Example</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02915');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02915"><pre class="Element12"><i><span style="color: #008000">// Configure General PMP Options</span></i>
+<i><span style="color: #008000">// Select the PMP operation mode</span></i>
+PLIB_PMP_OperationModeSelect( PMP_ID_0, PMP_MASTER_READ_WRITE_STROBES_INDEPENDENT  );
+<i><span style="color: #008000">// Set the multiplexing to none. Address and data lines are not multiplexed.</span></i>
+PLIB_PMP_MultiplexModeSelect( PMP_ID_0, PMP_MUX_NONE );
+<i><span style="color: #008000">// Select the function of chip-select lines</span></i>
+PLIB_PMP_ChipSelectFunctionSelect( PMP_ID_0, PMCS1_PMCS2_AS_ADDRESS_LINES );
+<i><span style="color: #008000">// Select the interrupt mode</span></i>
+PLIB_PMP_InterruptModeSelect( PMP_ID_0, PMP_INTERRUPT_NONE );
+<i><span style="color: #008000">// disable the auto increment/decrement of address after each read/write</span></i>
+PLIB_PMP_AddressIncrementModeSelect( PMP_ID_0, PMP_ADDRESS_INCREMENT_DECREMENT_DISABLE );
+<i><span style="color: #008000">// Enable stop in Idle mode.</span></i>
+PLIB_PMP_StopInIdleEnable( PMP_ID_0 );
+<i><span style="color: #008000">// Set Desired Wait State Values</span></i>
+<i><span style="color: #008000">// Set the data wait states</span></i>
+PLIB_PMP_WaitStatesDataSetUpSelect( PMP_ID_0, PMP_DATA_WAIT_FOUR );
+<i><span style="color: #008000">// Set the strobe wait states</span></i>
+PLIB_PMP_WaitStatesStrobeSelect( PMP_ID_0, PMP_STROBE_WAIT_1 );
+<i><span style="color: #008000">// Set the data hold wait states.</span></i>
+PLIB_PMP_WaitStatesDataHoldSelect( PMP_ID_0, PMP_DATA_HOLD_1 );
+<i><span style="color: #008000">// Set the appropriate address (MASTER only)</span></i>
+PLIB_PMP_AddressSet ( PMP_ID_0, 0x12 );
+
+<i><span style="color: #008000">// Optional:  Clear and enable interrupts before enabling the PMP module.</span></i>
+<i><span style="color: #008000">// Enable the module</span></i>
+PLIB_PMP_Enable( PMP_ID_0 );</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Refer to the <strong>&quot;Interrupt Controller&quot;</strong> chapter in the specific device data sheet for details on how to clear and enable the PMP module interrupts.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21490.html">PMP Peripheral Library</a> &gt; <a href="17902.html">Using the Library</a> &gt; <a href="17891.html">How the Library Works</a> &gt; <a href="17892.html">Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PMP Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>HTTP Changes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24794.html">HTTP Changes</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24792.html">Previous</a> | <a href="24798.html">Up</a> | <a href="24807.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING HTTP Changes Topic Title: HTTP Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+HTTP Changes</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+HTTP Changes</div>
+<p class="Element10">
+The TCP/IP Stack include header file, <span class="Element146"><a href="13680.html">http.h</a></span>, has been updated as follows.&nbsp;</p>
+<p class="Element10">
+<strong>Function Name Changes</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="40%">
+<div class="Element66">
+Prior Function Name&nbsp;</div></td><td class="Element65" valign="top" width="60%">
+<div class="Element66">
+New Function Name&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+HTTPExecutePost&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="25753.html">TCPIP_HTTP_PostExecute</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+HTTPExecuteGet&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="25550.html">TCPIP_HTTP_GetExecute</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+HTTPNeedsAuth&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="25547.html">TCPIP_HTTP_FileAuthenticate</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+HTTPCheckAuth&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="25775.html">TCPIP_HTTP_UserAuthenticate</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+HTTPReadPostPair&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="25755.html">TCPIP_HTTP_PostReadPair</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+HTTPPrint_varname(...)&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="25757.html">TCPIP_HTTP_Print_varname</a>(…)&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+All of the functions that the HTTP exposes as its API now take a first parameter, a HTTP connection handle, named <a href="13682.html">HTTP_CONN_HANDLE</a>. This allows a cleaner and better behavior in both multi-threaded environments and in the situation where we it may be desired to run multiple instances of the HTTP process itself, allowing for serving multiple independent connections.&nbsp;</p>
+<p class="Element10">
+For example, the HTTP functions now appear as:
+<ul class="Element630">
+<li class="Element600"><a href="25548.html">TCPIP_HTTP_FileInclude</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle, const uint8_t* cFile) ;</li>
+<li class="Element600"><a href="25550.html">TCPIP_HTTP_GetExecute</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+<li class="Element600"><a href="25753.html">TCPIP_HTTP_PostExecute</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+<li class="Element600"><a href="25495.html">TCPIP_HTTP_CurrentConnectionFileGet</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+<li class="Element600"><a href="25491.html">TCPIP_HTTP_CurrentConnectionCallbackPosGet</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+</ul>Support has been added for the HTTP module client to store/retrieve its own connection related data. For example:
+<ul class="Element630">
+<li class="Element600"><a href="25515.html">TCPIP_HTTP_CurrentConnectionUserDataSet</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle, const void* uData);</li>
+<li class="Element600"><a href="25514.html">TCPIP_HTTP_CurrentConnectionUserDataGet</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+</ul><u>HTTP Print</u>&nbsp;</p>
+<p class="Element10">
+Also, the functions exposed in <span class="Element146">http_print.h</span> take the connection handle parameter. For example:
+<ul class="Element630">
+<li class="Element600">TCPIP_HTTP_Print(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle, uint32_t callbackID);</li>
+<li class="Element600">TCPIP_HTTP_Print_hellomsg(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+</ul>These changes affect all of the function calls in the file, <span class="Element146">custom_http_app.c</span>, such as:
+<ul class="Element630">
+<li class="Element600"><a href="25550.html">TCPIP_HTTP_GetExecute</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+<li class="Element600"><a href="25753.html">TCPIP_HTTP_PostExecute</a>(<a href="13682.html">HTTP_CONN_HANDLE</a> connHandle);</li>
+</ul>To port an existing application, the extra parameter will have to be added. The connection handle is passed to the application as part of the HTTP callback. The modifications should be minimal and possible using an editor without any other impact.&nbsp;</p>
+<p class="Element10">
+Please note that the MPFS2 generator utility (<span class="Element146">mpfs2.jar</span>) has been updated to support the new HTTP API.&nbsp;</p>
+<p class="Element10">
+See the list of the complete API changes in <span class="Element146"><a href="13680.html">http.h</a></span> and <span class="Element146">http_print.h</span>.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24794.html">HTTP Changes</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING HTTP Changes Topic Title: HTTP Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>LIBRARY_UNDER_TEST Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27024.html">Test Libraries Help</a> &gt; <a href="27023.html">Test Harness Library</a> &gt; <a href="27013.html">Library Interface</a> &gt; e) Test Harness Initialization Data Types &gt; <a href="16304.html">LIBRARY_UNDER_TEST Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27070.html">Previous</a> | <a href="27013.html">Up</a> | <a href="27026.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: LIBRARY_UNDER_TEST Topic Title: LIBRARY_UNDER_TEST Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+LIBRARY_UNDER_TEST Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> <strong><span style="color: #000000">_library_under_test</span></strong> {
+  <a href="23974.html">SYS_MODULE_INITIALIZE_ROUTINE</a> <strong><span style="color: #000000">initialize</span></strong>;
+  <a href="23983.html">SYS_MODULE_REINITIALIZE_ROUTINE</a> <strong><span style="color: #000000">reinitialize</span></strong>;
+  <a href="23967.html">SYS_MODULE_DEINITIALIZE_ROUTINE</a> <strong><span style="color: #000000">deinitialize</span></strong>;
+  <a href="23984.html">SYS_MODULE_STATUS_ROUTINE</a> <strong><span style="color: #000000">status</span></strong>;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">numberOfInstances</span></strong>;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">numberOfTasks</span></strong>;
+  <a href="23985.html">SYS_MODULE_TASKS_ROUTINE</a> <strong><span style="color: #000000">tasks</span></strong>[<a href="27029.html">TEST_HARNESS_MAX_NUM_TASKS_PER_LIBRARY</a>];
+  <a href="23969.html">SYS_MODULE_INIT</a> * <strong><span style="color: #000000"><a href="13976.html">initData</a></span></strong>[<a href="27028.html">TEST_HARNESS_MAX_NUM_INSTANCES_PER_LIBRARY</a>];
+} LIBRARY_UNDER_TEST;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This is type LIBRARY_UNDER_TEST.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_INITIALIZE_ROUTINE initialize;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the library's initialization routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_REINITIALIZE_ROUTINE reinitialize;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the library's reinitialization routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_DEINITIALIZE_ROUTINE deinitialize;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the library's deinitialization routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_STATUS_ROUTINE status;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Pointer to the library's status routine.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned int numberOfInstances;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Number of instances of the library under test.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned int numberOfTasks;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Number of tasks routines required by each instance of the library under test.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_TASKS_ROUTINE tasks[TEST_HARNESS_MAX_NUM_TASKS_PER_LIBRARY];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Array of pointers to the library's &quot;Tasks&quot; routine(s).&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_INIT * initData[TEST_HARNESS_MAX_NUM_INSTANCES_PER_LIBRARY];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Array of pointers to the library's init data structures.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27024.html">Test Libraries Help</a> &gt; <a href="27023.html">Test Harness Library</a> &gt; <a href="27013.html">Library Interface</a> &gt; e) Test Harness Initialization Data Types &gt; <a href="16304.html">LIBRARY_UNDER_TEST Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: LIBRARY_UNDER_TEST Topic Title: LIBRARY_UNDER_TEST Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

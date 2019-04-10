@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Enabling USART Output Using System Console and Debug System Services</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04254.html">Part III: Debugging While Running Stand-alone</a> &gt; <a href="27121.html">Tutorial Steps</a> &gt; <a href="04248.html">Enabling USART Output Using System Console and Debug System Services</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27121.html">Previous</a> | <a href="27121.html">Up</a> | <a href="04255.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Enabling USART Output Using System Console and Debug System Services Topic Title: Enabling USART Output Using System Console and Debug System Services)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Enabling USART Output Using System Console and Debug System Services</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Launch the MPLAB X IDE and load the project you created in the <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a>.</li>
+<li value="2" class="Element600">Set the project as the IDE’s Main Project and launch the MPLAB Harmony Configurator (MHC).</li>
+<li value="3" class="Element600">If you are using a board with a built-in MCP2221A USART-to-USB Bridge, in the BSP Configuration enable the USART-to-USB Bridge. This will assign device pins for use by the USART connected to the bridge.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Enable USART-to-USB Bridge.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="4" class="Element600">Within <i>Harmony Framework Configuration &gt; Drivers &gt; USART</i>, configure USART 2.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Configure USART2.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+There are many options on how the USART driver is configured, but the simplest is always the best in this situation, since the USART must work after an assert has failed or an exception has fired. Therefore, the simplest set up is best.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="5" class="Element600">Within <i>Harmony Framework Configuration &gt; System Services</i>, configure the application to use the Console System Service. (The STATIC configuration is hard-wired to use USART Driver Instance 0 (the first one defined), which we set up in the previous step. To use another USART Driver Instance you must use the DYNAMIC service mode.) Again, the simplest setup is the best approach to handle asserts and exceptions.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Configure Console SS.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="6" class="Element600">Also under System Services, configure the application to use the Debug System Service. Set the System Error Level to SYS_ERROR_DEBUG to support <a href="23672.html">SYS_DEBUG_PRINT</a>. The pull-down menu for System Error Level has the options shown in the second figure.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Configure Debug SS.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Configure Console SS Options.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The System Error Level determines which <a href="23672.html">SYS_DEBUG_PRINT</a> messages are actually printed on the USART port. Set to SYS_ERROR_DEBUG, all levels are printed.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="7" class="Element600">Open the Pin Settings Tab in MHC. For boards with a MCP2221A, verify that the BSP has correctly set the USART pins. For boards without a MCP2221A, set the USART pins as shown. (Click the Function column to select the correct pin function.)
+<ul class="Element631">
+<li class="Element601">PIC32 USB Starter Kit III:</li>
+</ul></li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element75" valign="top" width="18%">
+<div class="Element76">
+Pin Number&nbsp;</div></td><td class="Element75" valign="top" width="16%">
+<div class="Element76">
+Pin ID&nbsp;</div></td><td class="Element75" valign="top" width="29%">
+<div class="Element76">
+Voltagea Tolerance&nbsp;</div></td><td class="Element75" valign="top" width="16%">
+<div class="Element76">
+Name&nbsp;</div></td><td class="Element75" valign="top" width="22%">
+<div class="Element76">
+Function&nbsp;</div></td></tr><tr>
+<td class="Element77" valign="top" width="18%">
+<div class="Element78">
+49&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+RF4&nbsp;</div></td><td class="Element77" valign="top" width="29%">
+<div class="Element78">
+5V&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+U2RX&nbsp;</div></td><td class="Element77" valign="top" width="22%">
+<div class="Element78">
+U2RX&nbsp;</div></td></tr><tr>
+<td class="Element77" valign="top" width="18%">
+<div class="Element78">
+50&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+RF5&nbsp;</div></td><td class="Element77" valign="top" width="29%">
+<div class="Element78">
+5V&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+U2TX&nbsp;</div></td><td class="Element77" valign="top" width="22%">
+<div class="Element78">
+U2TX&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ul class="Element630">
+<li class="Element600">PIC32MZ EF Starter Kit:</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element75" valign="top" width="11%">
+<div class="Element76">
+Pin Number&nbsp;</div></td><td class="Element75" valign="top" width="11%">
+<div class="Element76">
+Pin ID&nbsp;</div></td><td class="Element75" valign="top" width="20%">
+<div class="Element76">
+Voltagea Tolerance&nbsp;</div></td><td class="Element75" valign="top" width="44%">
+<div class="Element76">
+Name&nbsp;</div></td><td class="Element75" valign="top" width="14%">
+<div class="Element76">
+Function&nbsp;</div></td></tr><tr>
+<td class="Element77" valign="top" width="11%">
+<div class="Element78">
+14&nbsp;</div></td><td class="Element77" valign="top" width="11%">
+<div class="Element78">
+RG6&nbsp;</div></td><td class="Element77" valign="top" width="20%">
+<div class="Element78">
+N/A&nbsp;</div></td><td class="Element77" valign="top" width="44%">
+<div class="Element78">
+USART-to-USB Bridge (USB)&nbsp;</div></td><td class="Element77" valign="top" width="14%">
+<div class="Element78">
+U2RX&nbsp;</div></td></tr><tr>
+<td class="Element77" valign="top" width="11%">
+<div class="Element78">
+61&nbsp;</div></td><td class="Element77" valign="top" width="11%">
+<div class="Element78">
+RB14&nbsp;</div></td><td class="Element77" valign="top" width="20%">
+<div class="Element78">
+N/A&nbsp;</div></td><td class="Element77" valign="top" width="44%">
+<div class="Element78">
+USART-to-USB Bridge (BSP)&nbsp;</div></td><td class="Element77" valign="top" width="14%">
+<div class="Element78">
+U2TX&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ul class="Element630">
+<li class="Element600">Explorer 16 Development Board with PIC32MX795F512L Plug In Module:</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element75" valign="top" width="18%">
+<div class="Element76">
+Pin Number&nbsp;</div></td><td class="Element75" valign="top" width="16%">
+<div class="Element76">
+Pin ID&nbsp;</div></td><td class="Element75" valign="top" width="29%">
+<div class="Element76">
+Voltagea Tolerance&nbsp;</div></td><td class="Element75" valign="top" width="16%">
+<div class="Element76">
+Name&nbsp;</div></td><td class="Element75" valign="top" width="22%">
+<div class="Element76">
+Function&nbsp;</div></td></tr><tr>
+<td class="Element77" valign="top" width="18%">
+<div class="Element78">
+49&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+RF4&nbsp;</div></td><td class="Element77" valign="top" width="29%">
+<div class="Element78">
+5V&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+U2RX&nbsp;</div></td><td class="Element77" valign="top" width="22%">
+<div class="Element78">
+U2RX&nbsp;</div></td></tr><tr>
+<td class="Element77" valign="top" width="18%">
+<div class="Element78">
+50&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+RF5&nbsp;</div></td><td class="Element77" valign="top" width="29%">
+<div class="Element78">
+5V&nbsp;</div></td><td class="Element77" valign="top" width="16%">
+<div class="Element78">
+U2TX&nbsp;</div></td><td class="Element77" valign="top" width="22%">
+<div class="Element78">
+U2TX&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="8" class="Element600">Generate this new code configuration. For <span class="Element146">system_config.h</span>, accept the changes, but do not discard the <span class="Element146">// CUSTOM CODE</span> segment that you added in <a href="04252.html">Part I: Creating Your First MPLAB Harmony Application in MHC</a>.</li>
+<li value="9" class="Element600">Open <span class="Element146">heartbeat.c</span> and add the following code shown in <span style="color: #FF0000">red</span> to HEARTBEAT_Initialize.</li>
+</ol><p class="Element10">
+<span class="Element146"> void HEARTBEAT_Initialize ( void )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> <a href="23965.html">SYS_MESSAGE</a>(</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> &quot;\r\nApplication created &quot; __DATE__ &quot; &quot; __TIME__ &quot; initialized!\r\n&quot;);</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> //Test out error handling</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // assert(0);</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // {</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // uint8_t x, y, z;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // x = 1;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // y = 0;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // z = x/y;</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // <a href="23672.html">SYS_DEBUG_PRINT</a>(SYS_ERROR_DEBUG,&quot;x: %d, y: %d, z: %d\r\n&quot;,x,y,z);</span></span>&nbsp;</p>
+<p class="Element10">
+<span style="color: #FF0000"><span class="Element146"> // }</span></span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Place the App state machine in its initial state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> heartbeatData.state = HEARTBEAT_STATE_INIT;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: Initialize your application's state machine and other</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> * parameters.</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<ol class="Element630">
+<li value="10" class="Element600">Save the file by pressing Ctrl+S, and then close the window.</li>
+</ol><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The portion of this addition that is commented can be uncommented to support testing that asserts and exceptions are correctly reported. Since we have enabled the Debug System Service, <a href="23672.html">SYS_DEBUG_PRINT</a> here actually works. Therefore, the compiler will not drop this this code when it is enabled, thereby eliminating the need to modify the code’s optimization level as before.&nbsp;</div></td></tr></table></div></div>
+
+<ol class="Element630">
+<li value="11" class="Element600">Set up your PC’s HyperTerminal to 115200 baud, 8 bits, 1 Stop Bit, No Parity.</li>
+<li value="12" class="Element600">Run the project.</li>
+</ol><p class="Element10">
+If you have correctly setup you HyperTerminal application you should see something similar to the following on its display: </p><p class="Element10" style="text-align: center;">
+<span class="Element146">Application created Aug 8 2017 12:14:04 initialized!</span></p><p class="Element10">
+Getting the HyperTerminal to correctly identify the COM port belonging to the MCP2221A (either on-board or in a Breakout Module) can be a fussy and frustrating process. There will be times when you can’t find the COM port. In those cases, at least on a Windows PC, try the following:</p>
+<ul class="Element630">
+<li class="Element600">In the Control Panel, select <i>System &gt; Device Manager</i></li>
+<li class="Element600">Within Ports (COM &amp; LPT), identify the COM port belonging to the MCP2221A. Double click on this port to open its Properties window.</li>
+<li class="Element600">Select the Driver tab and disable, and then enable the driver</li>
+<li class="Element600">Close the window.</li>
+</ul><p class="Element10">
+This should allow your HyperTerminal to see the port. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If all else fails, you may need to put the <a href="23672.html">SYS_DEBUG_PRINT</a> statement in a<span class="Element146"> while(1)</span> loop and, worst case, use an oscilloscope to make sure the USART TX signal is getting to the MCP2221A and that the USB data lines are working as well.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+If your board has a built-in MCP2221A but does not have an independent power supply, as with the PIC32MZ EF Starter Kit, where power is supplied by the debug port, you will not see the initial startup message when power cycling the application by unplugging and plugging in the debug port. When power is supplied to the board, the application starts, but the MCP2221A has to enumerate as a USB device with your PC before COM port output is accepted. So, the initial message has long since passed on the port before the COM port is working.&nbsp;</p>
+<p class="Element10">
+If your board has a Master Clear (MCLR) button, you can simply press the button to reset the application after the MCP2221A enumerates. Then, the initial message will be seen on your HyperTerminal application. If your board does not have a MCLR button, you can still assert a Master Clear by grounding pin 1 of the ICSP header. The following figure show how this is done on the PIC32MZ EF Starter Kit. </p><p class="Element10" style="text-align: center;">
+<img src="ARCH CREATE PROJ Stand-alone Asserting MCLR.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04261.html">Creating Your First Project</a> &gt; <a href="04254.html">Part III: Debugging While Running Stand-alone</a> &gt; <a href="27121.html">Tutorial Steps</a> &gt; <a href="04248.html">Enabling USART Output Using System Console and Debug System Services</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH CREATE PROJ Enabling USART Output Using System Console and Debug System Services Topic Title: Enabling USART Output Using System Console and Debug System Services)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

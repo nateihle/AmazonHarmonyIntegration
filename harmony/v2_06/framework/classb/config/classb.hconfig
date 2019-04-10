@@ -1,0 +1,288 @@
+menu "ClassB Safety Library"
+
+config USE_CLASSB_LIB_NEEDED
+    bool
+	
+config USE_CLASSB
+    bool "Use ClassB Safety Library?"
+    default n if !USE_CLASSB_LIB_NEEDED
+    default y if USE_CLASSB_LIB_NEEDED
+    ---help---
+    Class B Safety Software Library routines that detect the occurrence of
+    Faults in a single channel CPU. These routines have been developed in 
+    accordance with the IEC 60730 standard to support the Class B certification
+    process.  These routines can be directly integrated with the end user’s 
+    application to test and verify the critical functionalities of a controller
+    without affecting the end user’s application.
+    The Class B safety software routines can be called periodically at start-up
+    or run time to test the following components:
+    • CPU Registers
+    • CPU Program Counter
+    • Invariable Memory
+    • Variable Memory
+    • Clock
+    • Interrupt Handling and Execution
+    ---endhelp---
+
+config USE_CLASSB_CLOCK_LINE_FREQUENCY_TEST
+    bool "Line Frequency Test Uses Input Capture to test system clock."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    ---endhelp---
+    
+config USE_CLASSB_CLOCK_TEST
+    bool "Clock Test Uses a Timer driven by another clock to test system clock."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    The CPU Clock test is one of the tests that check
+    the reliability of the system clock.
+    It implements the independent time slot monitoring
+    H.2.18.10.4 as defined by the IEC 60730 standard.
+    ---endhelp---
+
+config CLASSB_CLOCK_TEST_TIMER
+    string "Which Timer to use for Clock Test"
+    depends on USE_CLASSB_CLOCK_TEST
+    range TMR_MODULE_ID
+    default "TMR_ID_1"
+    ---help---
+    An external clock connected to a timer input pin is
+    used as the reference to test the CPU Clock.  This 
+    value defines which Timer is used to count the 
+    clock's pulses.
+    ---endhelp---
+
+config CLASSB_CLOCK_TEST_TIMER_NUMBER
+    int
+    depends on USE_CLASSB_CLOCK_TEST
+    default 1 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_1"
+    default 2 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_2"
+    default 3 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_3"
+    default 4 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_4"
+    default 5 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_5"
+    default 6 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_6"
+    default 7 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_7"
+    default 8 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_8"
+    default 9 if CLASSB_CLOCK_TEST_TIMER = "TMR_ID_9"
+    range TMR_MODULE_ID
+    ---help---
+    ---endhelp---
+
+config CLASSB_CLOCK_TEST_TIMER_CLOCK
+    string "Which Clock to use as the source for the Timer"
+    depends on USE_CLASSB_CLOCK_TEST
+    default "TMR_CLOCK_SOURCE_EXTERNAL_INPUT_PIN"
+    range TMR_CLOCK_SOURCE
+    ---help---
+    ---endhelp---
+
+config CLASSB_CLOCK_TEST_REFERENCE_FREQUENCY
+    int "Frequency of external reference clock Hz"
+    depends on USE_CLASSB_CLOCK_TEST
+    depends on CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_EXTERNAL_INPUT_PIN"
+    default 32768
+    ---help---
+    An external clock connected to a timer input pin is
+    used as the reference to test the CPU Clock.  This 
+    value allows the test to know how many counts result
+    in how many system
+    ---endhelp---
+config CLASSB_CLOCK_TEST_REFERENCE_FREQUENCY_STRING
+    string
+    depends on USE_CLASSB_CLOCK_TEST
+    depends on CLASSB_CLOCK_TEST_TIMER_CLOCK != "TMR_CLOCK_SOURCE_EXTERNAL_INPUT_PIN"
+    default "SYS_CLK_BUS_PERIPHERAL_1" if CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_PERIPHERAL_CLOCK"
+    default "SYS_CLK_CONFIG_SECONDARY_XTAL" if CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_SECONDARY_OSCILLATOR"
+    default "32768" if CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_LOW_POWER_RC_OSCILLATOR"
+    ---help---
+    ---endhelp---
+config CLASSB_CLOCK_TEST_REFERENCE_FREQUENCY_USE_STRING
+    bool
+    depends on USE_CLASSB_CLOCK_TEST
+    default y if CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_PERIPHERAL_CLOCK"
+    default n if CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_EXTERNAL_INPUT_PIN"
+    default y if CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_SECONDARY_OSCILLATOR"
+    default y if CLASSB_CLOCK_TEST_TIMER_CLOCK = "TMR_CLOCK_SOURCE_LOW_POWER_RC_OSCILLATOR"
+    ---help---
+    ---endhelp---
+
+config USE_CLASSB_CPU_PC_TEST
+    bool "Program Counter Test uses specially placed functions to test the PC."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    The Program Counter (PC) test implements the functional test H.2.16.5 
+    defined by the IEC 60730 standard.  The PC holds the address of the next
+    instruction to be executed.
+    ---endhelp---
+    
+config USE_CLASSB_CPU_REGISTERS_TEST
+    bool "Registers Test uses different bit patters to test CPU Registers."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    The CPU Register test implements the functional test H.2.16.5 defined by
+    the IEC 60730 standard. It detects stuck-at Faults in the CPU registers.
+    This ensures that the bits in the registers are not stuck at a value ‘0’
+    or ‘1’.
+    ---endhelp---
+    
+config USE_CLASSB_FLASH_TEST
+    bool "Flash Test calculates a CRC for a range of Flash addresses."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    The Invariable Memory (Flash/EEPROM) test implements the periodic modified
+    checksum H.2.19.3.1 defined by the IEC 60730 standard. It detects the single
+    bit Faults in the invariable memory.
+    ---endhelp---
+    
+config USE_CLASSB_RAM_CHECKERBOARD_TEST
+    bool "Checkerboard Test uses the checkerboard algorithm to test ram addresses."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    The Variable Memory test implements the Periodic Static Memory test H.2.19.6
+    defined by the IEC 60730 standard. It detects single bit Faults in variable
+    memory.  The Checkerboard RAM test writes the checkerboard patterns to a
+    sequence of adjacent memory locations.  This test is performed in units
+    (memory chunks) of architecture-specific sizes (2 bytes for 8-bit
+    architecture, 4 bytes for 16-bit architecture, 64 bytes for 32-bit 
+    architecture).
+    ---endhelp---
+    
+config USE_CLASSB_RAM_MARCHB_TEST
+    bool "March B Test uses a March B algorithm to test ram addresses."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    This Variable Memory test implements the Periodic Static Memory test H.2.19.6
+    defined by the IEC 60730 standard. It detects single bit Faults in variable
+    memory.  The March B is a non-redundant test that can detect the following
+    types of Fault:
+        Stuck-at
+        Linked Idempotent Coupling
+        Inversion Coupling
+    ---endhelp---
+	
+config USE_CLASSB_RAM_MARCHC_TEST
+    bool "March C Test uses a March C algorithm to test ram addresses."
+    depends on USE_CLASSB
+    default n
+    ---help---
+    This Variable Memory test implements the Periodic Static Memory test H.2.19.6
+    defined by the IEC 60730 standard. It detects single bit Faults in variable
+    memory.  The March C test is used to detect the following types of Fault in 
+    the variable memory:
+        Stuck-at Fault
+        Addressing Fault
+        Transition Fault
+        Coupling Fault
+    The March C Minus test is used to detect the following types of Fault in the
+    variable memory:
+        Stuck-at Fault
+        Addressing Fault
+        Transition Fault
+        Coupling Fault
+    ---endhelp---
+    
+config USE_CLASSB_RAM_MARCHC_TEST_MINUS
+    bool "March C Test Minus uses a March C Minus algorithm to test ram addresses."
+    depends on USE_CLASSB
+    depends on USE_CLASSB_RAM_MARCHC_TEST
+    default n
+    ---help---
+    The March C Minus test is used to detect the following types of Fault in the
+    variable memory:
+        Stuck-at Fault
+        Addressing Fault
+        Transition Fault
+        Coupling Fault
+    ---endhelp---
+    
+config USE_CLASSB_RAM_MARCHC_STACK_TEST
+    bool "March C Stack Test uses the March C algorithm to test ram addresses used by the stack."
+    depends on USE_CLASSB
+    depends on USE_CLASSB_RAM_MARCHC_TEST
+    default n
+    ---help---
+    This Variable Memory test implements the Periodic Static Memory test H.2.19.6
+    defined by the IEC 60730 standard. It detects single bit Faults in variable
+    memory.  The March C test is used to detect the following types of Fault in
+    the variable memory:
+        Stuck-at Fault
+        Addressing Fault
+        Transition Fault
+        Coupling Fault
+    ---endhelp---
+	
+config USE_CLASSB_RAM_NON_DESTRUCT_TEST
+    bool "Make Memory tests non destructive."
+    depends on USE_CLASSB
+    depends on USE_CLASSB_RAM_CHECKERBOARD_TEST || USE_CLASSB_RAM_MARCHB_TEST || USE_CLASSB_RAM_MARCHC_TEST
+    default n
+    ---help---
+    The Variable Memory tests can be made non destructive by allowing them to 
+	save a portion of the memory to be tested before testing it and then restoring
+	the data to the memory after it is tested.
+    ---endhelp---
+
+config CLASSB_RAM_TEST_CYCLE_SIZE
+    int "Number of Bytes to perform RAM test at a time.  It should be 32bit aligned."
+    depends on USE_CLASSB
+    depends on USE_CLASSB_RAM_CHECKERBOARD_TEST || USE_CLASSB_RAM_MARCHB_TEST || USE_CLASSB_RAM_MARCHC_TEST
+    depends on USE_CLASSB_RAM_NON_DESTRUCT_TEST
+    default 64
+    range 32 1024
+    ---help---
+    This value defines the amount of memory to use in order to save and restore
+	data from memory before it is tested.  The value requires space on the stack
+	to store the original values of the tested buffer.
+    ---endhelp---
+
+endmenu
+
+
+ifblock USE_CLASSB
+template CLASSB_H "$HARMONY_VERSION_PATH/framework/classb/templates/classb.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/classb/classb.h"
+
+ifblock (USE_CLASSB_CLOCK_LINE_FREQUENCY_TEST)
+#/app/system_config/$CONFIGURATION
+file CLASSB_CLOCK_LINE_FREQUENCY_TEST_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_ClockLineFrequencyTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_ClockLineFrequencyTest.c"
+endif
+ifblock (USE_CLASSB_CLOCK_TEST)
+file CLASSB_CLOCK_TEST_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_ClockTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_ClockTest.c"
+endif
+ifblock (USE_CLASSB_CPU_REGISTERS_TEST)
+file CLASSB_CPU_REGISTERS_TEST_S "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_CPURegistersTest.S" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_CPURegistersTest.S"
+endif
+ifblock (USE_CLASSB_CPU_PC_TEST)
+file CLASSB_CPU_PC_TEST_S "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_CPUPCTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_CPUPCTest.c"
+endif
+ifblock (USE_CLASSB_FLASH_TEST)
+file CLASSB_CRCBYTE_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_CRCbyte.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_CRCbyte.c"
+file CLASSB_FLASH_TEST_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_CRCFlashTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_CRCFlashTest.c"
+endif
+ifblock (USE_CLASSB_RAM_CHECKERBOARD_TEST)
+file CLASSB_RAM_CHECKERBOARD_TEST_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_RAMCheckerBoardTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_RAMCheckerBoardTest.c"
+endif
+ifblock (USE_CLASSB_RAM_MARCHB_TEST)
+file CLASSB_RAM_MARCHB_TEST_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_RAMMarchBTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_RAMMarchBTest.c"
+endif
+ifblock (USE_CLASSB_RAM_MARCHC_STACK_TEST)
+file CLASSB_RAM_MARCHC_STACK_TEST_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_RAMMarchCStackTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_RAMMarchCStackTest.c"
+endif
+ifblock (USE_CLASSB_RAM_MARCHC_TEST)
+file CLASSB_RAM_MARCHC_TEST_C "$HARMONY_VERSION_PATH/framework/classb/src/CLASSB_RAMMarchCTest.c" to "$PROJECT_SOURCE_FILES/framework/classb/src/CLASSB_RAMMarchCTest.c"
+endif
+
+#add "<#include \"/framework/classb/templates/classb_system_definitions_includes.h.ftl\">"  to list SYSTEM_DEFINITIONS_H_INCLUDES
+#add "<#include \"/framework/classb/templates/classb_system_config.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+#add "<#include \"/framework/classb/templates/classb_system_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+
+
+
+endif
+

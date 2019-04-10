@@ -1,0 +1,602 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12768.html">Aria HAL Driver Examples</a> &gt; <a href="12802.html">Nano2D Graphics Processing Unit (GPU) Driver Library</a> &gt; <a href="12808.html">Using the Library</a> &gt; <a href="12812.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="12813.html">Previous</a> | <a href="12808.html">Up</a> | <a href="12804.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB Nano2D Driver Library How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Nano2D Driver Library service provides general APIs for graphics application use. To enable Nano2D, the user is required to select the Nano2D as the graphics processor using MHC within the “Options*” tab. Upon generation, the <span class="Element146">libnano2d.a</span> library, Nano2D initialization code, and header file will be added to the project. There is no additional configuration required. </p><p class="Element10" style="text-align: center;">
+<img src="DRV NANO2D MHC Options.png" border="0" alt="" title=""></p><p class="Element10">
+The following <span class="Element146">app.c</span> code example shows typical usage of this Nano2D Library. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01234');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01234"><pre class="Element12">[Code Example]
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+<i><span style="color: #008000">/* Check the application's current state. */</span></i>
+<strong><span style="color: #000080">switch</span></strong> ( appData.state )
+{
+<i><span style="color: #008000">/* Application's initial state. */</span></i>
+<strong><span style="color: #000080">case</span></strong> APP_STATE_INIT:
+{
+<strong><span style="color: #000080">bool</span></strong> appInitialized = <strong><span style="color: #000080">true</span></strong>;
+
+<strong><span style="color: #000080">if</span></strong> (appInitialized)
+{
+appData.state = APP_STATE_GPU_FILL;
+}
+<strong><span style="color: #000080">break</span></strong>;
+}
+
+<strong><span style="color: #000080">case</span></strong> APP_STATE_GPU_FILL:
+{
+n2d_rectangle_t rect;
+n2d_color_t redColor = 0x00ff000000;
+n2d_color_t greenColor = 0x0000ff0000;
+
+<i><span style="color: #008000">/* create GPU buffer for GLCD layer 0 (dest) */</span></i>
+layer0.format = N2D_RGBA8888;
+layer0.gpu = KVA_TO_PA(0xA8000000); <i><span style="color: #008000">//GLCD display layer 0</span></i>
+layer0.memory = (<strong><span style="color: #000080">void</span></strong>*)0xA8000000;
+layer0.width = 480; <i><span style="color: #008000">// width of buffer same as display width</span></i>
+layer0.height = 272; <i><span style="color: #008000">// height of buffer same as display height</span></i>
+layer0.orientation = N2D_0;
+layer0.stride = layer0.width * 32 / 8;
+
+<i><span style="color: #008000">/* fill entire buffer 480x272 */</span></i>
+n2d_fill(layer0, N2D_NULL, redColor, N2D_BLEND_NONE);
+
+<i><span style="color: #008000">/* create a clipping rectangle for layer0 */</span></i>
+rect.x = 0; rect.y = 0; rect.width = 100; rect.height = 100;
+
+<i><span style="color: #008000">/* fill 100x100 rectangle with green ADDITIVE blend to
+make color brown */</span></i>
+n2d_fill(layer0, &amp;rect, greenColor, N2D_BLEND_ADDITIVE);
+
+appData.state = APP_STATE_IDLE;
+
+}
+}</pre></div></div>
+<div class="Element15">
+Drawing</div>
+<p class="Element10">
+Nano2D provides basic drawing primitives: n2n_line and n2n_rect. These functions support integer only coordinates. If more complex graphics is required, the user will need to use a higher level graphics library, such as Aria Graphics Library which is one part of the MPLAB Harmony Graphics Suite. Aria can be configured to call Nano2D as its 2D primitive memory interface renderer for acceleration.&nbsp;</p>
+<p class="Element10">
+The Line operation, n2n_line, draws a line. Two points are given: start point and end point. The end point is not drawn for point to point figure drawing is required. Lines are rendered using the Breshenham algorithm. Clipping is supported for lines on a per pixel basis. To draw a line, use the following statement: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01235');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01235"><pre class="Element12">n2d_line(destination, start, end, clip, color, blend);</pre></div></div>
+<p class="Element10">
+The Rectangle operation, n2n_rect, draws a rectangle. It fills or draws a rectangle area with a given color. A rectangle is given the top left coordination and bottom right coordinate of the fill region, the fill color, clipping region, and blending mode which is applied to each pixel. To draw a rectangle, use the following statement: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01236');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01236"><pre class="Element12">n2d_fill(destination, rectangle, color, blend);</pre></div></div>
+<p class="Element10">
+There are 7 types of blend modes:
+<ul class="Element636">
+<li class="Element606">N2D_BLEND_NONE - S, i.e. no blending</li>
+<li class="Element606">N2D_BLEND_SRC_OVER - S + (1 - Sa) * D</li>
+<li class="Element606">N2D_BLEND_DST_OVER - (1 - Da) * S + D</li>
+<li class="Element606">N2D_BLEND_SRC_IN - Da * S</li>
+<li class="Element606">N2D_BLEND_DST_IN - Sa * D</li>
+<li class="Element606">N2D_BLEND_ADDITIVE - S + D</li>
+<li class="Element606">N2D_BLEND_SUBTRACT - D * (1 - S)</li>
+</ul>Where, Sa and Da represent the source and destination alpha channels.</p><div class="Element15">
+Block Transfers of Pixels (Blitting)</div>
+<p class="Element10">
+Nano2D provides the following blit operations: Blit, Stretch/Shrink Blit, Mask, Blit, and automatic Filter blit during stretch and shrink.&nbsp;</p>
+<p class="Element10">
+The Blit operation transfers data from one area of a memory source to another area of a memory destination. The source and destination can be from the same or from different memory locations. Both source and destination must be described by a rectangle. Blitting supports automatic behavior:
+<ul class="Element636">
+<li class="Element606">Stretch/Shrink – If source and destination rectangles are different sizes the operation becomes a stretch or a shrink blit</li>
+<li class="Element606">Mask – use of ROPs for transparent pixels</li>
+<li class="Element606">Monochrome – using ROPs for monochrome images</li>
+</ul>Stretch blit is not allowed to overlap, that is no part of the source and destination can share the same portion of memory. Non-stretch blits can overlap.&nbsp;</p>
+<p class="Element10">
+Blits supports the 7 blending modes discussed previously which are applied to each pixel.&nbsp;</p>
+<p class="Element10">
+To blit, use the following statement: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01237');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01237"><pre class="Element12">n2d_blit(dst, dst_rect, src, src_rect, blend);</pre></div></div>
+<div class="Element15">
+Transparency</div>
+<p class="Element10">
+Nano2D provides a means of controlling transparency applied to each pixel for subsequent draw commands. Transparency is also synonymous to masking and operation. Nano2D uses Binary Raster Operations (ROP2) to affect action on each pixel during blitting. The user can set a transparency mode or turn off transparency.&nbsp;</p>
+<p class="Element10">
+The Draw State operation, n2n_draw_state, sets the drawing operation for subsequent <a href="16833.html">n2d_blit</a>() calls.&nbsp;</p>
+<p class="Element10">
+To change draw state, use the following statement: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01238');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01238"><pre class="Element12">n2d_draw_state (transparency, color, src, foreground_rop, background_rop);</pre></div></div>
+<p class="Element10">
+The statement is executed like the C condition “?” ternary operator that takes three values. It reads: If color in transparency_mode is true then perform foreground_rop on matching color otherwise perform background_rop on all other non-matching colors. Color equates to a pixel.&nbsp;</p>
+<p class="Element10">
+The following standard Binary ROPs are supported: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="10%">
+<div class="Element66">
+ROP&nbsp;</div></td><td class="Element65" valign="top" width="15%">
+<div class="Element66">
+Formula&nbsp;</div></td><td class="Element65" valign="top" width="75%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x0&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">0</span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Set all destination bits to 0.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x1&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">~(D|S) </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Inverse of merge source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x2&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">D&amp;~S</span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Inverse of merge source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x3&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">~S </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Inverse of merge source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x4&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">S&amp;~D </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Mask source and inverse of destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x5&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">~D </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Invert destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x6&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">D^S </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Exclusive or of source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x7&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">~(D&amp;S) </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Inverse of mask source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x8&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">D&amp;S </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Inverse of mask source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0x9&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">~(D^S) </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Inverse of mask source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0xA&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">D</span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Copy destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0xB&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+D|~S&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Merge inverse of source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0xC&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">S </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Copy source.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0xD&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">S|~D </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Merge source and inverse of destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0xE&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">D|S </span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Merge source and destination.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+0xF&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+<span class="Element146">1</span>&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Set all destination bits to 1.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Clipping</div>
+<p class="Element10">
+Nano2D provides a clipping rectangle for line, rectangles and blits. Clipping is performed on a per pixel basis. For all functions, the clipping area is defined by <a href="16903.html">n2d_rectangle_t</a>.</p><div class="Element15">
+Memory Buffers</div>
+<p class="Element10">
+Nano2D provides an abstraction over a memory buffer region. Each function defined in <span class="Element146"><a href="16270.html">libnano2D.h</a></span> uses the <a href="16853.html">n2d_buffer_t</a> to establish the portion of shared memory used as a source or destination buffer. The structure contains all the information the libnano2D APIs is required to complete a GPU render command request. See &quot;Data Types and Constants&quot; in the <a href="12806.html">Library Interface</a> section.&nbsp;</p>
+<p class="Element10">
+The Nano2D library supports four buffer and their alpha swizzle formats. They are: RGBA8888, RGB565, RGB4444, and A8. When using Nano2D through Aria Library, only supports the two major RGB formats RGB8888 and RGB565.&nbsp;</p>
+<p class="Element10">
+RGBA8888 (24bit true-color) memory buffer establishes green blue red channels for color space with an extra alpha channel for color blending. Requiring 32bits per-pixel, it will consume a large buffer space to hold display content.&nbsp;</p>
+<p class="Element10">
+RGB565 (reduced color) memory buffer uses half the color space, has no alpha channel, and, with CPU processing, proves to be a higher performer than RGBA8888.&nbsp;</p>
+<p class="Element10">
+A8 is an all-alpha buffer. It is can be used to produced a greyscale (dimming) of an existing RBGA8888 buffer.&nbsp;</p>
+<p class="Element10">
+The buffer supports the following:
+<ul class="Element636">
+<li class="Element606"><span class="Element146">width</span> - Width of the buffer in pixels</li>
+<li class="Element606"><span class="Element146">height</span> - Height of the buffer in pixels</li>
+<li class="Element606"><span class="Element146">stride</span> - Stride of the buffer in bytes</li>
+<li class="Element606"><span class="Element146">format</span> - Pixel format of the buffer</li>
+<li class="Element606"><span class="Element146">orientation</span> - Buffer's orientation: 0, 90, 180, 270</li>
+<li class="Element606"><span class="Element146">memory</span> - Logical pointer to the buffer's memory for the CPU</li>
+<li class="Element606"><span class="Element146">gpu</span> - Physical address of the buffer's memory the hardware can access</li>
+</ul></p><div class="Element15">
+Detailed Use</div>
+<p class="Element10">
+The 2-D GPU is made available through the Nano2D Library Module. In future releases, MHGC will be its higher level access. The remainder of these sections will describe how to command the 2-D GPU directly without using MHGC using customized C code.&nbsp;</p>
+<p class="Element10">
+Unlike most controller peripherals, 2-D GPU command register is not available to application developers. There are no Special Function Registers (SFRs). As a replacement to SFR access, the Nano2D Library provides a C interface API implemented within the libnano2D.a object file. When linked to the application, these entities provide command access to 2-D GPU.&nbsp;</p>
+<p class="Element10">
+Nano2D Library and 2-D GPU communicate through a shared buffer region residing in physical memory. This memory location is provided by default in Harmony. For rendering, Nano2D uses user supplied source and destination buffers. These buffers communicate the necessary details of the memory region which includes size, color depth, location, and orientation. One or more of these buffers are required for 2-D GPU rendering APIs using <span class="Element146">libnano2D.a</span>.</p><div class="Element15">
+Creating a Pixel Buffer</div>
+<p class="Element10">
+An <a href="16853.html">n2d_buffer_t</a> data structure maintains the context of the rendering memory buffer. A memory buffer can point to a scratch buffer or to the active framebuffer. In these examples, we will draw to the active framebuffer as well as scratch memory buffers.&nbsp;</p>
+<p class="Element10">
+The characteristics of the currently displayed framebuffer must be understood. These include the physical address of the framebuffer, its size, color depth, and orientation. An <a href="16853.html">n2d_buffer_t</a> structure must be created to contain this information. If the <a href="16853.html">n2d_buffer_t</a> is different than the framebuffer, rendered graphics will have unexpected behavior. After generation, the user will need to view the generated <span class="Element146">system_config.h</span> file and <span class="Element146">libnano2d.h</span>. Use the following steps to create an <a href="16853.html">n2d_buffer_t</a> structure that points to the active framebuffer. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01239');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01239"><pre class="Element12">n2d_buffer_t layer0;
+
+layer0.width = GFX_GLCD_LAYER0_RES_X; <i><span style="color: #008000">// see system_config.h</span></i>
+layer0.height = GFX_GLCD_LAYER0_RES_Y;
+layer0.stride = layer0.width * 32 /8; <i><span style="color: #008000">// 32bits/8 == 4 bytes</span></i>
+layer0.format = N2D_RGBA8888; <i><span style="color: #008000">// Red Green Blue Alpha 32bbp</span></i>
+layer0.orientation = N2D_0; <i><span style="color: #008000">// 0 degree orientation</span></i>
+layer0.handle = GFX_NULL; <i><span style="color: #008000">// handle is unused</span></i>
+layer0.memory = (<strong><span style="color: #000080">void</span></strong>*)GFX_GLCD_LAYER0_BASEADDR;
+layer0.gpu = KVA_TO_PA(GFX_GLCD_LAYER0_BASEADDR);</pre></div></div>
+<p class="Element10">
+<span class="Element146">layer0.gpu</span> is the starting location in DDR memory from which 2-D GPU will read or write. This is a physical memory address. If the application must modify data at this location, it must use layer0.memory which maintains the virtual (accessible) address.</p><div class="Element15">
+Drawing a Grid of Lines</div>
+<p class="Element10">
+Lines are primitive graphic items necessary to higher level widgets. To render a line directly to the framebuffer, the user will need to know the location of the framebuffer, the start and end of the line, the color, and blend factors of the line. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The color parameter is in ARGB format and is not aligned with the buffer format. The following code example demonstrates line drawing by creating a perpendicular grid.&nbsp;</div></td></tr></table></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01240');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01240"><pre class="Element12">n2d_buffer_t * buffer = layer0;
+n2d_point_t start, end;
+n2d_color_t color;
+n2d_int32_t i;
+
+color = 0xff00ffff;
+
+n2d_fill(buffer, N2D_NULL, color, N2D_BLEND_NONE);
+
+<i><span style="color: #008000">/* Draw vertical line. */</span></i>
+start.x = 0;
+start.y = 5;
+end.x = 0;
+end.y = buffer-&gt;height - 5;
+
+color = 0xffff0000;
+
+<strong><span style="color: #000080">for</span></strong> (i = 0; i &lt; buffer-&gt;width / 10; i++)
+{
+n2d_line(buffer, start, end, N2D_NULL, color, N2D_BLEND_NONE);
+
+start.x += 10;
+end.x += 10;
+}
+
+<i><span style="color: #008000">/* Draw horizontal line. */</span></i>
+start.x = 5;
+start.y = 0;
+end.x = buffer-&gt;width - 5;
+end.y = 0;
+
+<strong><span style="color: #000080">for</span></strong> (i = 0; i &lt; buffer-&gt;height / 10; i++)
+{
+n2d_line(buffer, start, end, N2D_NULL, color, N2D_BLEND_NONE);
+
+start.y += 10;
+end.y += 10;
+}</pre></div></div>
+<div class="Element15">
+Drawing Cascading Blended Rectangles</div>
+<p class="Element10">
+Rectangles are primitive graphic items necessary to higher level widgets. The 2-D GPU can render these quickly with alpha-blending and orientation settings. To render cascading rectangles directly to the framebuffer, the user will need to know the location of the framebuffer, the top, left, width, height (rect), the color, and blend factors of the rect. The following code example integrates rectangle drawing by creating a rectangles in a cascading order using different colors. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01241');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01241"><pre class="Element12">n2d_buffer_t * buffer = layer0;
+n2d_point_t start, end;
+n2d_color_t color;
+n2d_int32_t i;
+
+<i><span style="color: #008000">/* Clear background color to black. */</span></i>
+color = 0xff000000;
+n2d_fill(buffer, N2D_NULL, color, N2D_BLEND_NONE);
+
+rect.x = 0;
+rect.y = 0;
+rect.width = buffer-&gt;width / 4;
+rect.height = buffer-&gt;height / 4;
+n2d_fill(buffer, &amp;rect, 0xffff0000, N2D_BLEND_SRC_OVER);
+
+rect.x = buffer-&gt;width / 8;
+rect.y = buffer-&gt;height / 8;
+rect.width = buffer-&gt;width / 4;
+rect.height = buffer-&gt;height / 4;
+
+n2d_fill(buffer, &amp;rect, 0x7f00ff00, N2D_BLEND_SRC_OVER);
+
+rect.x = buffer-&gt;width / 4;
+rect.y = buffer-&gt;height / 4;
+rect.width = buffer-&gt;width / 4;
+rect.height = buffer-&gt;height / 4;
+n2d_fill(buffer, &amp;rect, 0xffffffff, N2D_BLEND_SRC_OVER);
+
+rect.x = buffer-&gt;width * 3 / 8;
+rect.y = buffer-&gt;height * 3 / 8;
+rect.width = buffer-&gt;width / 4;
+rect.height = buffer-&gt;height / 4;
+n2d_fill(buffer, &amp;rect, 0x700000ff, N2D_BLEND_SRC_OVER);
+
+rect.x = buffer-&gt;width * 4 / 8;
+rect.y = buffer-&gt;height * 4 / 8;
+rect.width = buffer-&gt;width / 4;
+rect.height = buffer-&gt;height / 4;
+n2d_fill(buffer, &amp;rect, 0xffffff00, N2D_BLEND_SRC_OVER);
+
+rect.x = buffer-&gt;width * 5 / 8;
+rect.y = buffer-&gt;height * 5 / 8;
+rect.width = buffer-&gt;width / 4;
+rect.height = buffer-&gt;height / 4;
+n2d_fill(buffer, &amp;rect, 0x7fff00ff, N2D_BLEND_SRC_OVER);
+
+rect.x = buffer-&gt;width * 6 / 8;
+rect.y = buffer-&gt;height * 6 / 8;
+rect.width = buffer-&gt;width / 4;
+rect.height = buffer-&gt;height / 4;
+n2d_fill(buffer, &amp;rect, 0xff00ffff, N2D_BLEND_SRC_OVER);</pre></div></div>
+<div class="Element15">
+Image Source and Destination Rotation</div>
+<p class="Element10">
+A copy of one buffer source region to another is called blitting. The example below, blits an image rendered to a source buffer onto a destination buffer. The destination buffer points to the framebuffer. For this example, a staging src buffer to hold the image is established. Also a small set of GFX Hal APIs are used to decode the image to the src buffer. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01242');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01242"><pre class="Element12">n2d_buffer_t src0;
+src0.format = N2D_RGBA8888;
+src0.gpu = KVA_TO_PA(0xA8465000);
+src0.memory = (<strong><span style="color: #000080">void</span></strong>*)0xA8465000;
+src0.width = 256;
+src0.height = 256;
+src0.orientation = N2D_0;
+src0.stride = src0.width * 32 / 8;
+
+<i><span style="color: #008000">/* use gfx hal to render image to source buffer 0 */</span></i>
+GFX_PixelBufferCreate(256,
+256,
+GFX_COLOR_MODE_RGBA_8888,
+(uint32_t*)src0.memory,
+&amp;pixelBuffer);
+
+GFX_Begin();
+GFX_Set(GFXF_DRAW_TARGET, &amp;pixelBuffer);
+GFXU_DrawImage(&amp;image0,
+0,
+0,
+256,
+256,
+0,
+0,
+NULL,
+NULL);
+GFX_Set(GFXF_DRAW_TARGET, NULL);
+GFX_End();
+
+<i><span style="color: #008000">/* use gfx hal to render image to source buffer 1 */</span></i>
+GFX_PixelBufferCreate(256,
+256,
+GFX_COLOR_MODE_RGBA_8888,
+(uint32_t*)src1.memory,
+&amp;pixelBuffer);
+
+GFX_Begin();
+GFX_Set(GFXF_DRAW_TARGET, &amp;pixelBuffer);
+GFXU_DrawImage(&amp;image1,
+0,
+0,
+256,
+256,
+0,
+0,
+NULL,
+NULL);
+GFX_Set(GFXF_DRAW_TARGET, NULL);
+GFX_End();</pre></div></div>
+<div class="Element15">
+Raster Operations</div>
+<p class="Element10">
+The processing of source pixels onto destination pixels is called a raster operation. The 2-D GPU through the libnano2D library support two input (binary) Raster Operations (ROP2). These are industry standard bitwise logical operations defined by 16 possible functions listed above in the Transparency section.&nbsp;</p>
+<p class="Element10">
+In order to set the operation for subsequent draw functions, <a href="16853.html">n2d_buffer_t</a> is used. The function can be continuously used to set mask/filter operations or turn transparency off.&nbsp;</p>
+<p class="Element10">
+Its arguments are similar to C conditional “<span class="Element146">?</span>” statements. The first argument determines the operation mode. The operation mode determines whether color is to be applied to N2D_TRANSPARENCY_NONE (no pixels) or N2D_TRANSPARENCY_SOURCE or N2D_TRANSPARENCY_DESTINATION buffer. If the color matches, then the foreground operation is applied, otherwise the background operation is applied.&nbsp;</p>
+<p class="Element10">
+Consider the following example statement: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01243');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01243"><pre class="Element12">n2d_draw_state(N2D_TRANSPARENCY_SOURCE, 0xff0000, 0xe, 0xc);</pre></div></div>
+<p class="Element10">
+The statement will inform the GPU to look for the color red in the source the source buffer during <a href="16833.html">n2d_blit</a>. If the pixel is found, the final pixel will become a merge of the original source and destination pixels, otherwise the pixel will become a copy of the original source pixel.&nbsp;</p>
+<p class="Element10">
+The following code example applies all 16 ROP functions on green (source) and blue (destination) pixels. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01244');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01244"><pre class="Element12">n2d_buffer_t src, *buffer;
+n2d_uint8_t rop = 0;
+n2d_uint32_t x, y;
+n2d_int32_t deltaX, deltaY;
+n2d_rectangle_t rect;
+
+buffer = &amp;layer0;
+
+deltaX = buffer-&gt;width &gt;&gt; 2;
+deltaY = buffer-&gt;height &gt;&gt; 2;
+
+<i><span style="color: #008000">/* Fill the source buffer with green color. */</span></i>
+n2d_fill(&amp;src, N2D_NULL, 0xff00, N2D_BLEND_NONE);
+
+<i><span style="color: #008000">/* Fill the dst buffer with blue color. */</span></i>
+n2d_fill(buffer, N2D_NULL, 0xff, N2D_BLEND_NONE);
+
+<i><span style="color: #008000">/* Loop all rop values. */</span></i>
+<strong><span style="color: #000080">for</span></strong> (y = 0; y &lt; 4; y++)
+{
+<strong><span style="color: #000080">for</span></strong> (x = 0; x &lt; 4; x++)
+{
+rect.x = x * deltaX;
+rect.y = y * deltaY;
+rect.width = deltaX;
+rect.height = deltaY;
+
+<i><span style="color: #008000">/* Set rop. */</span></i>
+n2d_draw_state(N2D_TRANSPARENCY_NONE, 0x0, rop, rop);
+
+n2d_blit(buffer, &amp;rect, &amp;src, &amp;rect, N2D_BLEND_NONE);
+rop++;
+}
+}
+
+n2d_draw_state(N2D_TRANSPARENCY_NONE, 0x0, 0xc, 0xc);</pre></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">Alpha Greyscale -&lt;&lt; Red Color &quot;section&quot;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/* alpha buffer for blending */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> alpha.format = N2D_A8;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> alpha.gpu = KVA_TO_PA(0xA85DC000);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> alpha.memory = (void*)0xA85DC000;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> alpha.width = appData.display_info-&gt;rect.width;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> alpha.height = appData.display_info-&gt;rect.height;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> alpha.orientation = orientation;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> alpha.stride = alpha.width * 8 / 8;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/* dim pixels within a rectangle area */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/* Init the alpha buffer with an alpha channel. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> memset(alpha.memory, 0x07, alpha.stride * alpha.height);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/* Blit – subtract alpha value on all pixels of destination */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="16833.html">n2d_blit</a>(&amp;layer0, <a href="16885.html">N2D_NULL</a>, &amp;alpha, <a href="16885.html">N2D_NULL</a>, N2D_BLEND_SUBTRACT);</span></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12768.html">Aria HAL Driver Examples</a> &gt; <a href="12802.html">Nano2D Graphics Processing Unit (GPU) Driver Library</a> &gt; <a href="12808.html">Using the Library</a> &gt; <a href="12812.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB Nano2D Driver Library How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

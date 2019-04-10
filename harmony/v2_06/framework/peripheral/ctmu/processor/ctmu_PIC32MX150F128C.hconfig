@@ -1,0 +1,67 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX150F128C_CTMU
+	bool
+	select HAVE_CTMU
+	default y
+
+config CTMU_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum CTMU_MODULE_ID exclusive
+	"CTMU_ID_0"
+
+enum CTMU_EDGE_SELECT
+	"CTMU_EDGE1"
+	|| "CTMU_EDGE2"
+
+enum CTMU_EDGE_SENSITIVITY
+	"CTMU_EDGE_X_LEVEL_SENSITIVE"
+	|| "CTMU_EDGE_X_EDGE_SENSITIVE"
+
+enum CTMU_EDGE_POLARITY
+	"CTMU_EDGE_X_POSITIVE_EDGE"
+	|| "CTMU_EDGE_X_NEGATIVE_EDGE"
+
+enum CTMU_TRIGGER_SOURCES
+	"CTMU_TRIGGERSOURCE_TMR1"
+	|| "CTMU_TRIGGERSOURCE_OC1"
+	|| "CTMU_TRIGGERSOURCE_IC1"
+	|| "CTMU_TRIGGERSOURCE_IC2"
+	|| "CTMU_TRIGGERSOURCE_IC3"
+	|| "CTMU_TRIGGERSOURCE_CMP1"
+	|| "CTMU_TRIGGERSOURCE_CMP2"
+	|| "CTMU_TRIGGERSOURCE_CMP3"
+	|| "CTMU_TRIGGERSOURCE_1"
+	|| "CTMU_TRIGGERSOURCE_2"
+	|| "CTMU_TRIGGERSOURCE_3"
+	|| "CTMU_TRIGGERSOURCE_4"
+	|| "CTMU_TRIGGERSOURCE_5"
+	|| "CTMU_TRIGGERSOURCE_6"
+	|| "CTMU_TRIGGERSOURCE_7"
+	|| "CTMU_TRIGGERSOURCE_8"
+
+enum CTMU_CURRENT_RANGE
+	"CTMU_CURRENT_RANGE_1000XBASE"
+	|| "CTMU_CURRENT_RANGE_BASE"
+	|| "CTMU_CURRENT_RANGE_10XBASE"
+	|| "CTMU_CURRENT_RANGE_100XBASE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_CTMU_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/processor/ctmu_p32mx150f128c.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/processor/ctmu_p32mx150f128c.h"
+
+file PLIB_CTMU_EDGESENSITIVITY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_EdgeSensitivity_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_EdgeSensitivity_Default.h"
+file PLIB_CTMU_EDGEPOLARITY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_EdgePolarity_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_EdgePolarity_Default.h"
+file PLIB_CTMU_EDGETRIGGERSOURCE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_EdgeTriggerSource_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_EdgeTriggerSource_Default.h"
+file PLIB_CTMU_EDGESTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_EdgeStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_EdgeStatus_Default.h"
+file PLIB_CTMU_MODULEENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_ModuleEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_ModuleEnable_Default.h"
+file PLIB_CTMU_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_StopInIdle_Default.h"
+file PLIB_CTMU_TIMEPULSEGENERATION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_TimePulseGeneration_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_TimePulseGeneration_Default.h"
+file PLIB_CTMU_EDGEENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_EdgeEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_EdgeEnable_Default.h"
+file PLIB_CTMU_EDGESEQUENCING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_EdgeSequencing_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_EdgeSequencing_Default.h"
+file PLIB_CTMU_CURRENTDISCHARGE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_CurrentDischarge_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_CurrentDischarge_Default.h"
+file PLIB_CTMU_AUTOMATICADCTRIGGER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_AutomaticADCTrigger_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_AutomaticADCTrigger_Default.h"
+file PLIB_CTMU_CURRENTTRIM_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_CurrentTrim_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_CurrentTrim_Default.h"
+file PLIB_CTMU_CURRENTRANGE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctmu/templates/ctmu_CurrentRange_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctmu/templates/ctmu_CurrentRange_Default.h"
+endif

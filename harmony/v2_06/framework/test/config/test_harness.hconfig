@@ -1,0 +1,393 @@
+menu "Test Harness"
+
+config TEST_NUMBER
+    int "Number of tests"
+    depends on USE_TEST_HARNESS
+    range 1 16
+    default 1
+    ---help---
+    Defines the number of tests to run.
+    ---endhelp---
+
+config TEST_HARNESS_MAX_NUM_TASKS
+    int "Maximum number of tasks per test."
+    depends on USE_TEST_HARNESS
+    range 1 5   # Would require updates to test/templates/system_init.c.data.ftl
+    default 5
+    ---help---
+    Defines the maximum number of tasks per test.
+    ---endhelp---
+
+menu "Test Tasks 0 RTOS Configuration"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=1 || TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    
+config TEST_TASKS_0_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=1 || TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 512
+
+config TEST_TASKS_0_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=1 || TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 2
+
+config TEST_TASKS_0_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=1 || TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default y
+
+config TEST_TASKS_0_RTOS_DELAY
+    int "Task Delay"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=1 || TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS && TEST_TASKS_0_RTOS_USE_DELAY
+    default 50
+
+endmenu
+
+menu "Test Tasks 1 RTOS Configuration"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    
+config TEST_TASKS_1_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 512
+    
+config TEST_TASKS_1_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 2
+
+config TEST_TASKS_1_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default y
+
+config TEST_TASKS_1_RTOS_DELAY
+    int "Task Delay"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=2 || TEST_HARNESS_MAX_NUM_TASKS=3 || TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS && TEST_TASKS_0_RTOS_USE_DELAY
+    default 50
+
+endmenu
+
+menu "Test Tasks 2 RTOS Configuration"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=3 ||TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    
+config TEST_TASKS_2_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=3 ||TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 512
+    
+config TEST_TASKS_2_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=3 ||TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 2
+
+config TEST_TASKS_2_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=3 ||TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default y
+
+config TEST_TASKS_2_RTOS_DELAY
+    int "Task Delay"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=3 ||TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS && TEST_TASKS_0_RTOS_USE_DELAY
+    default 50
+endmenu
+
+menu "Test Tasks 3 RTOS Configuration"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    
+config TEST_TASKS_3_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 512
+    
+config TEST_TASKS_3_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 2
+
+config TEST_TASKS_3_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default y
+
+config TEST_TASKS_3_RTOS_DELAY
+    int "Task Delay"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=4 || TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS && TEST_TASKS_0_RTOS_USE_DELAY
+    default 50
+
+endmenu
+
+menu "Test Tasks 4 RTOS Configuration"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    
+config TEST_TASKS_4_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 512
+    
+config TEST_TASKS_4_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default 2
+
+config TEST_TASKS_4_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS
+    default y
+
+config TEST_TASKS_4_RTOS_DELAY
+    int "Task Delay"
+    depends on TEST_HARNESS_MAX_NUM_TASKS=5
+    depends on USE_3RDPARTY_RTOS && TEST_TASKS_0_RTOS_USE_DELAY
+    default 50
+
+endmenu
+
+config TEST_NUMBER_OF_LIBRARIES
+    int "Number of Libraries"
+    depends on USE_TEST_HARNESS
+    range 1 16
+    default TEST_NUMBER
+    ---help---
+    Defines the number of libraries to run.
+    ---endhelp---
+
+config TEST_HARNESS_MAX_NUM_INSTANCES_PER_LIBRARY
+    int "Maximum number of instances of a library to be tested."
+    depends on USE_TEST_HARNESS
+    persistent  # Would require updates to test/templates/system_init.c.data.ftl
+    default 3
+    ---help---
+    Defines the maximum number of instances of a single library to be tested.
+    ---endhelp---
+
+config TEST_HARNESS_MAX_NUM_TASKS_PER_LIBRARY
+    int "Maximum number of tasks per instance of a library to be tested."
+    depends on USE_TEST_HARNESS
+    persistent  # Would require updates to test/templates/system_init.c.data.ftl
+    default 5
+    ---help---
+    Defines the maximum number of tasks per instance of a library to be tested.
+    ---endhelp---
+
+menu "Test Timeout Timer Configuration"
+
+config TEST_TIMER_ID
+    string "Test Timer Module ID"
+    depends on USE_TEST_HARNESS
+    range TMR_MODULE_ID
+    default "TMR_ID_1"
+    ---help---
+    IDH_HTML_TMR_MODULE_ID
+    ---endhelp---
+
+enum TEST_TMR_CLK_SOURCES
+    "TMR_CLOCK_SOURCE_PERIPHERAL_CLOCK"
+    || "TMR_CLOCK_SOURCE_EXTERNAL_INPUT_PIN"
+
+config TEST_TIMER_CLOCK_SOURCE
+    string "Clock Source"
+    depends on USE_TEST_HARNESS
+    range TEST_TMR_CLK_SOURCES
+    default "TMR_CLOCK_SOURCE_PERIPHERAL_CLOCK"
+    ---help---
+    IDH_HTML_TMR_CLK_SOURCES
+    ---endhelp---
+
+config TEST_TIMER_CLOCK_PRESCALER
+    string "Prescale Divisor"
+    depends on USE_TEST_HARNESS
+    range TMR_PRESCALE
+    default "TMR_PRESCALE_VALUE_256"
+    ---help---
+    IDH_HTML_TMR_PRESCALE
+    ---endhelp---
+
+config TEST_TIMER_INCREMENT_PERIOD
+    int "Test Timer Increment Period"
+    depends on USE_TEST_HARNESS
+    default 31250
+    ---help---
+    IDH_HTML_PLIB_TMR_Period16BitSet_TMR_MODULE_ID_uint16_t
+    ---endhelp---
+    
+config TEST_TIMER_MS_PER_INCREMENT
+    int "Test Timer Milliseconds Per Increment Period"
+    depends on USE_TEST_HARNESS
+    default 100
+    ---help---
+    Defines the number of milliseconds per timer increment period.
+    ---endhelp---
+    
+config TEST_TIMER_MS_TIMEOUT
+    int "Test Timeout in Milliseconds"
+    depends on USE_TEST_HARNESS
+    default 2000
+    ---help---
+    Defines the number of milliseconds before a test times out and fails.
+    ---endhelp---
+    
+config TEST_TIMER_INTERRUPT_SOURCE
+    string
+    depends on USE_TEST_HARNESS
+    default "INT_SOURCE_TIMER_1" if TEST_TIMER_ID = "TMR_ID_1"
+    default "INT_SOURCE_TIMER_2" if TEST_TIMER_ID = "TMR_ID_2"
+    default "INT_SOURCE_TIMER_3" if TEST_TIMER_ID = "TMR_ID_3"
+    default "INT_SOURCE_TIMER_4" if TEST_TIMER_ID = "TMR_ID_4"
+    default "INT_SOURCE_TIMER_5" if TEST_TIMER_ID = "TMR_ID_5"
+    default "INT_SOURCE_TIMER_6" if TEST_TIMER_ID = "TMR_ID_6"
+    default "INT_SOURCE_TIMER_7" if TEST_TIMER_ID = "TMR_ID_7"
+    default "INT_SOURCE_TIMER_8" if TEST_TIMER_ID = "TMR_ID_8"
+    default "INT_SOURCE_TIMER_9" if TEST_TIMER_ID = "TMR_ID_9"
+    default "INT_SOURCE_TIMER_3" if TEST_TIMER_ID = "TMR_ID_2"
+    default "INT_SOURCE_TIMER_5" if TEST_TIMER_ID = "TMR_ID_4"
+    default "INT_SOURCE_TIMER_7" if TEST_TIMER_ID = "TMR_ID_6"
+    default "INT_SOURCE_TIMER_9" if TEST_TIMER_ID = "TMR_ID_8"
+    ---help---
+    IDH_HTML_INT_SOURCE
+    ---endhelp---
+    
+config TEST_TIMER_INTERRUPT_VECTOR
+    string
+    depends on USE_TEST_HARNESS
+    default "INT_VECTOR_T1" if TEST_TIMER_ID = "TMR_ID_1"
+    default "INT_VECTOR_T2" if TEST_TIMER_ID = "TMR_ID_2"
+    default "INT_VECTOR_T3" if TEST_TIMER_ID = "TMR_ID_3"
+    default "INT_VECTOR_T4" if TEST_TIMER_ID = "TMR_ID_4"
+    default "INT_VECTOR_T5" if TEST_TIMER_ID = "TMR_ID_5"
+    default "INT_VECTOR_T6" if TEST_TIMER_ID = "TMR_ID_6"
+    default "INT_VECTOR_T7" if TEST_TIMER_ID = "TMR_ID_7"
+    default "INT_VECTOR_T8" if TEST_TIMER_ID = "TMR_ID_8"
+    default "INT_VECTOR_T9" if TEST_TIMER_ID = "TMR_ID_9"
+    default "INT_VECTOR_T3" if TEST_TIMER_ID = "TMR_ID_2"
+    default "INT_VECTOR_T5" if TEST_TIMER_ID = "TMR_ID_4"
+    default "INT_VECTOR_T7" if TEST_TIMER_ID = "TMR_ID_6"
+    default "INT_VECTOR_T9" if TEST_TIMER_ID = "TMR_ID_8"
+    ---help---
+    IDH_HTML_INT_VECTOR
+    ---endhelp---
+
+config TEST_TIMER_INTERRUPT_PRIORITY
+    string "Interrupt Priority"
+    depends on USE_TEST_HARNESS
+    range INT_PRIORITY_LEVEL
+    default "INT_PRIORITY_LEVEL1"
+    ---help---
+    IDH_HTML_INT_PRIORITY_LEVEL
+    ---endhelp---
+
+config TEST_TIMER_INTERRUPT_SUBPRIORITY
+    string "Interrupt Sub-priority"
+    depends on USE_TEST_HARNESS
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+    ---help---
+    IDH_HTML_INT_SUBPRIORITY_LEVEL
+    ---endhelp---
+
+config TEST_TIMER_ISR_VECTOR
+    string
+    depends on USE_TEST_HARNESS
+    default "_TIMER_1_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T1"
+    default "_TIMER_2_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T2"
+    default "_TIMER_3_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T3"
+    default "_TIMER_4_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T4"
+    default "_TIMER_5_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T5"
+    default "_TIMER_6_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T6"
+    default "_TIMER_7_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T7"
+    default "_TIMER_8_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T8"
+    default "_TIMER_9_VECTOR" if TEST_TIMER_INTERRUPT_VECTOR = "INT_VECTOR_T9"
+
+endmenu
+
+
+menu "RTOS Configuration"
+    depends on USE_TEST_HARNESS
+
+config TEST_RTOS_DAEMON
+    string "Run Test Harness Tasks As"
+    depends on USE_3RDPARTY_RTOS
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    persistent
+    default "Standalone"
+
+config TEST_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on USE_3RDPARTY_RTOS
+    depends on TEST_RTOS_DAEMON = "Standalone"
+    default 1024
+
+config TEST_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on USE_3RDPARTY_RTOS
+    depends on TEST_RTOS_DAEMON = "Standalone"
+    default 1
+
+config TEST_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on USE_3RDPARTY_RTOS
+    depends on TEST_RTOS_DAEMON = "Standalone"
+    default y
+
+config TEST_RTOS_DELAY
+    int "Task Delay"
+    depends on USE_3RDPARTY_RTOS
+    depends on TEST_RTOS_DAEMON = "Standalone"
+    depends on TEST_RTOS_USE_DELAY
+    default 40
+
+config TEST_IDLE_SLEEP_MS
+    int "Test Idle Sleep Time in Milliseconds"
+    depends on USE_TEST_HARNESS
+    default 50
+    ---help---
+    Defines the number of milliseconds the test harness will sleep when the 
+    test reports that it is idle.
+    ---endhelp---
+    
+config TEST_IDLE_SLEEP_MS_LIBRARY
+    int "Library Under Test Sleep Time in Milliseconds"
+    depends on USE_TEST_HARNESS
+    default 5
+    ---help---
+    Defines the number of milliseconds the library tasks function will sleep 
+    when the library is idle.
+    ---endhelp---
+
+endmenu
+
+
+# Test Instances
+source "$HARMONY_VERSION_PATH/framework/test/config/test_harness_tests_idx.hconfig.ftl" 16 instances
+
+# Test Harness Source Files
+file TEST_HARNESS_H "$HARMONY_VERSION_PATH/framework/test/test_harness.h"     to "$PROJECT_HEADER_FILES/framework/test/test_harness.h"
+file TEST_HARNESS_C "$HARMONY_VERSION_PATH/framework/test/src/test_harness.c" to "$PROJECT_SOURCE_FILES/framework/test/src/test_harness.c"
+
+endmenu
+
+

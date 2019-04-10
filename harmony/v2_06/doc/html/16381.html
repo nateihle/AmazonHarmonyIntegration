@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="16272.html">LibQ Fixed-Point 'C' Math Library</a> &gt; <a href="16381.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16272.html">Previous</a> | <a href="16272.html">Up</a> | <a href="16383.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MATH LIBQ_C Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The LibQ Fixed-Point 'C' Math Library provides fixed-point math functions written in C for portability between core processors.&nbsp;</p>
+<p class="Element10">
+The library utilizes signed fixed point types (fractional Q types specified by Qn.m) as follows:&nbsp;</p>
+<p class="Element10">
+Qndm where:
+<ul class="Element636">
+<li class="Element606">n is the number of data bits to the left of the radix point</li>
+<li class="Element606">m is the number of data bits to the right of the radix point</li>
+<li class="Element606">a signed bit is implied (unless stated otherwise)</li>
+</ul>Whereas, the implied fractional scaling of the integer value is given by 2^(-m), i.e. arithmetic left-shift of m bit positions of the fractional part into the value. This necessarily reduces the maximum magnitude of that can be stored in the n+m bit value, since only n bit remain and 1 of those bits is usually the sign..&nbsp;</p>
+<p class="Element10">
+For convenience, short names are also defined for arbitrary scaled fractional types:
+<ul class="Element636">
+<li class="Element606"><a href="22356.html">q15</a> is signed fractional 16 bit value</li>
+<li class="Element606"><a href="22357.html">q31</a> is signed fractional 32 bit value</li>
+</ul>In addition, A pseudo floating point 32 bit format (<a href="12176.html">FxQFloat32</a>) is defined that consists of 16 bit mantissa and a 16 bit exponent (base 2).&nbsp;</p>
+<p class="Element10">
+Functions in the library are prefixed with the type of the return value and followed by the argument types, as follows:&nbsp;</p>
+<p class="Element10">
+libq_: libq_q15_sin_Q2d13&nbsp;</p>
+<p class="Element10">
+For example, <a href="16289.html">libq_q1d15_Sin_q10d6</a> returns a Q1.15 value equal to the to the sine of an angle specified as a Q10.6 value (in degrees between 0 and 360). Argument types separated by an underscore.&nbsp;</p>
+<p class="Element10">
+For arbitrary scaled types (<a href="22356.html">q15</a> and <a href="22357.html">q31</a>), the scaling of the result will depend on the function and the scaling of the arguments. For instance, <a href="16276.html">libq_q15_Add_q15_q15</a>(a,b) will return a scaled value type that is the same as the two input types (which also must have equivalent Q format).&nbsp;</p>
+<p class="Element10">
+The library supports the original ETSI family of basic operations as described in:&nbsp;</p>
+<p class="Element10">
+&quot;ETSI G.729 recommendation Coding of speech at 8 kbit/s using conjugate-structure algebraic-code excited linear prediction (CS-ACELP)&quot;.&nbsp;</p>
+<p class="Element10">
+This includes:
+<ul class="Element636">
+<li class="Element606">Saturated arithmetic operations, such as L_add, L_sub, sub, add.</li>
+<li class="Element606">Multiplication operations, such as mult, mult_r and L_mult.</li>
+<li class="Element606">Arithmetic shift operations, such as shl and shr.</li>
+<li class="Element606">Data conversion operations, such as extract_l, extract_h, and round.</li>
+<li class="Element606">Normalization to maximize resolution, such as norm_l</li>
+<li class="Element606">Loading of 15 bit values into 32 bit values, such as L_deposit_h</li>
+<li class="Element606">Signed negation, such as L_negate</li>
+<li class="Element606">Multiply accumulate, such as L_mac, L_macNs, mac_r</li>
+<li class="Element606">Multiply subtract, such as L_msu, L_msuNs msu_r</li>
+<li class="Element606">Divide, such as div_s</li>
+<li class="Element606">Saturate value, such as L_sat</li>
+<li class="Element606">Rounding, such as round.</li>
+<li class="Element606">Left Shift, such as L_shl and shl</li>
+<li class="Element606">Right Shift, such as L_shr, L_shr_r and shr</li>
+<li class="Element606">Extraction of 16 bit values, such as extract_l</li>
+<li class="Element606">Absolute value, such as L_abs</li>
+</ul>The 'C' Code implementation provides portability of the library, yet the functions easily translate to specific processor assembly code (intrinsic operations) when needed. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="7%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="93%" style="border:none;">
+<div class="Element68">
+The LibQ Fixed-Point 'C' Math Library functions do not correspond to the LibQ Fixed-Point Math Library, which is optimized for the microAptiv core processor and is written in Assembly language.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="16272.html">LibQ Fixed-Point 'C' Math Library</a> &gt; <a href="16381.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MATH LIBQ_C Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

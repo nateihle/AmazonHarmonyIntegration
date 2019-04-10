@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Key One-to-Many Relationships</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11787.html">Key One-to-Many Relationships</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11788.html">Previous</a> | <a href="11786.html">Up</a> | <a href="11783.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Key One-to-Many Relationships Topic Title: Key One-to-Many Relationships)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Key One-to-Many Relationships</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+There are a number of one-to-many relationships that are key determining factors in the design of a MPLAB Harmony library. How these relationships are managed shapes the way a library is designed and implemented. This section summarizes what these relationships are and describes how they affect MPLAB Harmony libraries. The following table lists and describes the relationships and the related section that describes each one in detail. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="9%">
+<div class="Element66">
+One-&nbsp;</div></td><td class="Element65" valign="top" width="10%">
+<div class="Element66">
+-To-Many&nbsp;</div></td><td class="Element65" valign="top" width="81%">
+<div class="Element66">
+Described in Section&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="9%">
+<div class="Element68">
+Interface&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+Implementation&nbsp;</div></td><td class="Element67" valign="top" width="81%">
+<div class="Element68">
+<a href="11783.html">Interface vs. Implementation</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="9%">
+<div class="Element68">
+Implementation&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+Instances&nbsp;</div></td><td class="Element67" valign="top" width="81%">
+<div class="Element68">
+<a href="11781.html">Implementation vs. Instances</a> and <a href="11802.html">Static vs. Dynamic</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="9%">
+<div class="Element68">
+Instance&nbsp;</div></td><td class="Element67" valign="top" width="10%">
+<div class="Element68">
+Clients&nbsp;</div></td><td class="Element67" valign="top" width="81%">
+<div class="Element68">
+<a href="11799.html">Single Client vs. Multiple Client</a>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+A MPLAB Harmony library has a single interface, but can have many different implementations that are optimized or configured for specific situations. Because of this, there can be multiple mutually exclusive sets of source code for a single library. However, there can be only one interface definition for each type of library. See <a href="11783.html">Interface vs. Implementation</a> for additional information.&nbsp;</p>
+<p class="Element10">
+Each implementation of a library may manage one or more instances of a peripheral or other resource, depending upon how that implementation was designed and configured. A static implementation can manage only one instance of a resource and a dynamic implementation can mange multiple instances of a (given type of) resource. This relationship informs and shapes the design of both the interface and the implementation of a library as described in <a href="11781.html">Implementation vs. Instances</a>. Also, the assumptions and simplifications that can be made when an implementation of a library supports only a single instance of the resources it manages, which is described in <a href="11802.html">Static vs. Dynamic</a>.&nbsp;</p>
+<p class="Element10">
+An instance of a library, particularly drivers or interface busses, may need to support multiple independent clients, accessing the same instance of the resource concurrently. In this context, a client is any application or library module in a system that calls the client interface functions of the library in question. How this relationship affects the design of the interface and implementation of a library is described in <a href="11799.html">Single Client vs. Multiple Client</a>.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11783.html">Interface vs. Implementation</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes the difference between a library’s interface and its implementation.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11781.html">Implementation vs. Instances</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how a dynamic driver library implementation manages multiple peripheral instances.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11802.html">Static vs. Dynamic</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how a static library or driver implementation can save code space.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="11799.html">Single Client vs. Multiple Client</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes how drivers manage concurrent use by multiple independent clients.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11787.html">Key One-to-Many Relationships</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Key One-to-Many Relationships Topic Title: Key One-to-Many Relationships)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

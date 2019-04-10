@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Functionality</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="16815.html">MRF24WN Wi-Fi Driver Library</a> &gt; <a href="08641.html">Using the Library</a> &gt; <a href="08954.html">How the Library Works</a> &gt; <a href="08953.html">Client Functionality</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08957.html">Previous</a> | <a href="08954.html">Up</a> | <a href="08632.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WIFI MRF24WN Core Functionality Topic Title: Client Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Functionality</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+From the client perspective, once Wi-Fi initialization is complete and the connection process has started, the client responds to Wi-Fi events. The client is notified of events by the callback function WDRV_ProcessEvent. The parameters into that function are <span class="Element146">event</span> and <span class="Element146">eventInfo</span>, where <span class="Element146">event</span> is the event code and <span class="Element146">eventInfo</span> is additional information about the event.</p><div class="Element15">
+Wi-Fi Connection Events</div>
+<p class="Element10">
+<span class="Element146">/*No Wi-Fi connection exists*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_CSTATE_NOT_CONNECTED = 1,</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/*Wi-Fi connection in progress*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_CSTATE_CONNECTION_IN_PROGRESS = 2,</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/*Wi-Fi connected in infrastructure mode*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_CSTATE_CONNECTED_INFRASTRUCTURE = 3,</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/*Wi-Fi connected in adHoc mode*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_CSTATE_CONNECTED_ADHOC = 4,</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/*Wi-Fi in process of reconnecting*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_CSTATE_RECONNECTION_IN_PROGRESS = 5,</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/*Wi-Fi connection temporarily lost*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_CSTATE_CONNECTION_TEMPORARY_LOST = 6,</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">/*Wi-Fi connection permanently lost*/</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_CSTATE_CONNECTION_PERMANENTLY_LOST = 7</span></p><div class="Element15">
+Scan Events</div>
+<p class="Element10">
+<span class="Element146">WDRV_SOFTAP_EVENT_CONNECTED = 0,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_SOFTAP_EVENT_DISCONNECTED = 1</span></p><div class="Element15">
+Key Events</div>
+<p class="Element10">
+<span class="Element146">WDRV_SOFTAP_EVENT_LINK_LOST = 0,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_SOFTAP_EVENT_RECEIVED_DEAUTH = 1</span></p><div class="Element15">
+Disconnect Events</div>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_NO_NETWORK_AVAIL = 0x01,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_LOST_LINK = 0x02,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_DISCONNECT_CMD = 0x03,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_BSS_DISCONNECTED = 0x04,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_AUTH_FAILED = 0x05,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_ASSOC_FAILED = 0x06,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_NO_RESOURCES_AVAIL = 0x07,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_CONNECTION_DENIED = 0x08,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_INVALID_PROFILE = 0x0A,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_PROFILE_MISMATCH = 0x0C,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">WDRV_DISCONNECT_REASON_CONNECTION_EVICTED = 0x0d</span></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="16815.html">MRF24WN Wi-Fi Driver Library</a> &gt; <a href="08641.html">Using the Library</a> &gt; <a href="08954.html">How the Library Works</a> &gt; <a href="08953.html">Client Functionality</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WIFI MRF24WN Core Functionality Topic Title: Client Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>CLASSB_ClockTest Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="06802.html">Class B Library Help</a> &gt; <a href="06811.html">Library Interface</a> &gt; a) Functions &gt; <a href="06815.html">CLASSB_ClockTest Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="06814.html">Previous</a> | <a href="06811.html">Up</a> | <a href="06817.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CLASSB_ClockTest@unsigned int@unsigned int@unsigned int@unsigned int Topic Title: CLASSB_ClockTest Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+CLASSB_ClockTest Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="06825.html">CLASSBRESULT</a> <strong><span style="color: #000000">CLASSB_ClockTest</span></strong>(
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">clockFrequency</span></strong>, 
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">referenceFrequency</span></strong>, 
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">testLengthMsec</span></strong>, 
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">tolerance</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The CPU Clock test verifies that the system clock is within specified limits. The secondary oscillator (SOSC) is used as the reference clock. The CPU Core Timer that runs on the CPU system clock is monitored.&nbsp;</p>
+<p class="Element10">
+The test performs the following major steps:
+<ol class="Element635">
+<li value="1" class="Element605">The LP SOSC is used as the independent clock source/reference clock source connected to hardware Timer1.</li>
+<li value="2" class="Element605">The CPU Core Timer monitored in this measurement is incremented every other CPU system clock. Usually the system runs on the Primary oscillator with PLL as the clock source to the CPU. However, any clock source except the SOSC itself which is used as a reference is valid for this test.</li>
+<li value="3" class="Element605">Timer1 is configured to time out after the specified interval of time elapsed (e.g. 10 ms).</li>
+<li value="4" class="Element605">The content of the Core Timer is saved at the beginning of the measurement, once the Timer 1 is started.</li>
+<li value="5" class="Element605">When the hardware Timer1 times out another reading of the Core Timer is taken and the difference is made with the start value. This difference value represents the number of CPU clock cycles counted by the Core Timer during the SOSC period of time.</li>
+<li value="6" class="Element605">If this value crosses the defined boundary limits the function returns an appropriate error value, specifying which exactly limit (upper/lower) was violated.</li>
+</ol></p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+clockFrequency&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+the current system running frequency, Hz<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+referenceFrequency&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+the frequency of the reference applied to the SOSC pin, Hz.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+testLengthMsec&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+number of milliseconds to be used for the CPU Clock monitoring. 1 &lt;= testLengthMsec &lt;= 1000<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+tolerance&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+the tolerance level of the system oscillator as a percentage (0 - 100).&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Result identifying the pass/fail status of the test: CLASSB_TEST_PASS - The test passed. The monitored CPU clock is within the requested limits.&nbsp;</p>
+<p class="Element10">
+CLASSB_TEST_FAIL - The test failed. The monitored CPU clock is greater than the specified upper limit; The monitored CPU clock is less than the specified lower limit.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The test uses the hardware Timer1. It initializes the timer as needed and, after the test is done, shuts off the timer. The previous state of Timer1 is not preserved/restored.&nbsp;</p>
+<p class="Element10">
+The test assumes that the Core Timer is enabled and linearly counting up as it should do during normal system operation. If your code specifically disables the Core Timer, it should enable it before this test is called. If the value in the Core Timer is updated/changed as part of an ISR, this ISR should be disabled.&nbsp;</p>
+<p class="Element10">
+The interrupts should be disabled when executing this test as the time spent in ISR's affects the accurate timing of this routine.&nbsp;</p>
+<p class="Element10">
+The SOSC is used as a reference. Use the CLOCK_TEST_SOSC_FREQ for adjustments to this value, if needed.&nbsp;</p>
+<p class="Element10">
+The value of the CPU clock monitoring time, nMs, is limited because of the use of the hardware Timer1 which is a 16 bit timer. Therefore, the value loaded into this Timer1 register should not exceed 2^16-1.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00193');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00193"><pre class="Element12"><strong><span style="color: #000080">int</span></strong> testRes=CLASSB_ClockTest(80000000, 100, 80000, 100000);
+<strong><span style="color: #000080">if</span></strong>(testRes==CLASSB_TEST_PASS)
+{
+    <i><span style="color: #008000">// process test success</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+    <i><span style="color: #008000">// process CPU clock high failure</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="06802.html">Class B Library Help</a> &gt; <a href="06811.html">Library Interface</a> &gt; a) Functions &gt; <a href="06815.html">CLASSB_ClockTest Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CLASSB_ClockTest@unsigned int@unsigned int@unsigned int@unsigned int Topic Title: CLASSB_ClockTest Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

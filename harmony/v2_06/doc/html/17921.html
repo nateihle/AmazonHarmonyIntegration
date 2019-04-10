@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Ports Change Notification</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17914.html">How the Library Works</a> &gt; <a href="17921.html">Ports Change Notification</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17923.html">Previous</a> | <a href="17914.html">Up</a> | <a href="17924.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS Ports Change Notification Topic Title: Ports Change Notification)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Ports Change Notification</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>Change Notification Feature Usage</strong>&nbsp;</p>
+<p class="Element10">
+1. Ensure that the change notify pin is configured as a digital input by setting the associated bit in the direction register using the <a href="20383.html">PLIB_PORTS_PinDirectionInputSet</a> or <a href="20348.html">PLIB_PORTS_DirectionInputSet</a> functions.&nbsp;</p>
+<p class="Element10">
+2. Select the desired change notification pin using <a href="20379.html">PLIB_PORTS_PinChangeNoticeEnable</a>.&nbsp;</p>
+<p class="Element10">
+3. Turn on the weak pull-up devices (if desired) for the selected change notification pins using <a href="20327.html">PLIB_PORTS_ChangeNoticePullUpEnable</a> (weak pull-ups can be disabled using <a href="20326.html">PLIB_PORTS_ChangeNoticePullUpDisable</a>).&nbsp;</p>
+<p class="Element10">
+4. Clear the selected change notification interrupt flag.&nbsp;</p>
+<p class="Element10">
+5. Select the desired interrupt priority for change notification pin.&nbsp;</p>
+<p class="Element10">
+6. Enable change notification interrupts.&nbsp;</p>
+<p class="Element10">
+7. Change notification can be disabled after the successful usage using <a href="20376.html">PLIB_PORTS_PinChangeNoticeDisable</a>. Certain microcontrollers support the global control over the change notification feature using the following functions: <a href="20316.html">PLIB_PORTS_ChangeNoticeEnable</a> and <a href="20315.html">PLIB_PORTS_ChangeNoticeDisable</a>. If there are any requirements to control the pull-downs, the following two functions could be used: <a href="20325.html">PLIB_PORTS_ChangeNoticePullDownPerPortEnable</a> and <a href="20324.html">PLIB_PORTS_ChangeNoticePullDownPerPortDisable</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Change Notification Operation in Sleep and Idle Modes</strong>&nbsp;</p>
+<p class="Element10">
+The change notification feature continues to operate during Sleep or Idle mode. Its operation can be enabled or disabled using <a href="20318.html">PLIB_PORTS_ChangeNoticeInIdleEnable</a> or <a href="20317.html">PLIB_PORTS_ChangeNoticeInIdleDisable</a>. If one of the enabled change notification pins changes states, the respective status bit will be set, which can be monitored using <a href="20321.html">PLIB_PORTS_ChangeNoticePerPortHasOccurred</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03058');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03058"><pre class="Element12"><i><span style="color: #008000">// Enabling the global change notification</span></i>
+PLIB_PORTS_ChangeNoticeEnable(MY_PORTS_INSTANCE);
+<i><span style="color: #008000">// Enabling weak pull-ups for the change notification PIN 10</span></i>
+PLIB_PORTS_ChangeNoticePullUpEnable(MY_PORTS_INSTANCE, PORTS_CHANGE_NOTICE_PIN_10);
+<i><span style="color: #008000">// Enabling change notification on PIN 10</span></i>
+PLIB_PORTS_PinChangeNoticeEnable(MY_PORTS_INSTANCE, PORTS_CHANGE_NOTICE_PIN_10);</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+For more information, refer to the <strong>&quot;I/O Ports&quot;</strong> chapter in the specific device data sheet or the related family reference manual section specified in that chapter.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17914.html">How the Library Works</a> &gt; <a href="17921.html">Ports Change Notification</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS Ports Change Notification Topic Title: Ports Change Notification)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

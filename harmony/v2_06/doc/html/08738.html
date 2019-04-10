@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Block Data Operation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="22915.html">Secure Digital (SD) Card Driver Library</a> &gt; <a href="08750.html">Using the Library</a> &gt; <a href="08743.html">How the Library Works</a> &gt; <a href="08738.html">Client Block Data Operation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08737.html">Previous</a> | <a href="08743.html">Up</a> | <a href="08740.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SDCARD Client Block Data Operation Topic Title: Client Block Data Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Block Data Operation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The SDCARD Driver provides a block interface to access the SD Card. The interface provides functionality to read from and write to the SD Card.&nbsp;</p>
+<p class="Element10">
+<strong>Reading Data from the SD Card:</strong>&nbsp;</p>
+<p class="Element10">
+The following steps outline the sequence to be followed for reading data from the SD Card:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary initialization and <a href="10890.html">DRV_SDCARD_Tasks</a> should either be running in a polled environment, or in an interrupt environment.</li>
+<li value="2" class="Element605">The driver should have been opened with the necessary intent.</li>
+<li value="3" class="Element605">Invoke the <a href="10886.html">DRV_SDCARD_Read</a> function and pass the pointer where the data is to be stored, block start address and the number of blocks of data to be read.</li>
+<li value="4" class="Element605">The client should validate the command handle returned by the <a href="10886.html">DRV_SDCARD_Read</a> function. <a href="10857.html">DRV_SDCARD_COMMAND_HANDLE_INVALID</a> value indicates that an error has occurred which the client needs to handle.</li>
+<li value="5" class="Element605">If the request was successful then the client can check the status of the request by invoking the <a href="10863.html">DRV_SDCARD_CommandStatus</a> and passing the command handle returned by the read request. Alternately the client could use the event handler for notifications from the driver.</li>
+<li value="6" class="Element605">The client will be able to close itself by calling the <a href="10855.html">DRV_SDCARD_Close</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00743');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00743"><pre class="Element12"><i><span style="color: #008000">// This code shows how to read data from the SD Card</span></i>
+DRV_HANDLE sdcardHandle;
+DRV_SDCARD_COMMAND_HANDLE sdcardCommandHandle;
+DRV_SDCARD_COMMAND_STATUS commandStatus;
+uint8_t readBuf[512];
+uint32_t blockAddress;
+uint32_t nBlocks;
+
+<i><span style="color: #008000">/* Initialize the block start address and the number of blocks to be read */</span></i>
+blockAddress = 0;
+nBlocks = 1;
+
+DRV_SDCARD_Read(sdcardHandle, &amp;sdcardCommandHandle, (uint8_t *)readBuf, blockAddress, nBlocks);
+<strong><span style="color: #000080">if</span></strong>(DRV_SDCARD_COMMAND_HANDLE_INVALID == sdcardCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the read request. Handle the error. */</span></i>
+}
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+commandStatus = DRV_SDCARD_CommandStatus(sdcardHandle, sdcardCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_SDCARD_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Read completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_SDCARD_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Read Failed */</span></i>
+}</pre></div></div>
+<p class="Element10">
+<strong>Writing Data to the SD Card:</strong>&nbsp;</p>
+<p class="Element10">
+The following steps outline the sequence to be followed for writing data to the SD Card:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary initialization and <a href="10890.html">DRV_SDCARD_Tasks</a> should either be running in a polled environment, or in an interrupt environment.</li>
+<li value="2" class="Element605">The driver should have been opened with the necessary intent.</li>
+<li value="3" class="Element605">Invoke the <a href="10891.html">DRV_SDCARD_Write</a> function and pass the pointer to the data to be written, block start address and the number of blocks of data to be written.</li>
+<li value="4" class="Element605">The client should validate the command handle returned by the <a href="10891.html">DRV_SDCARD_Write</a> function. <a href="10857.html">DRV_SDCARD_COMMAND_HANDLE_INVALID</a> value indicates that an error has occurred which the client needs to handle.</li>
+<li value="5" class="Element605">If the request was successful then the client can check the status of the request by invoking the <a href="10863.html">DRV_SDCARD_CommandStatus</a> and passing the command handle returned by the write request. Alternately, the client could use the event handler for notifications from the driver.</li>
+<li value="6" class="Element605">The client will be able to close itself by calling the <a href="10855.html">DRV_SDCARD_Close</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00744');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00744"><pre class="Element12"><i><span style="color: #008000">// This code shows how to write data to the SD Card</span></i>
+DRV_HANDLE sdcardHandle;
+DRV_SDCARD_COMMAND_HANDLE sdcardCommandHandle;
+DRV_SDCARD_COMMAND_STATUS commandStatus;
+uint8_t writeBuf[512];
+uint32_t blockAddress;
+uint32_t nBlocks;
+
+<i><span style="color: #008000">/* Initialize the block start address and the number of blocks to be written */</span></i>
+blockAddress = 0;
+nBlocks = 1;
+<i><span style="color: #008000">/* Populate writeBuf with the data to be written */</span></i>
+
+DRV_SDCARD_Write(sdcardHandle, &amp;sdcardCommandHandle, (uint8_t *)writeBuf, blockAddress, nBlocks);
+<strong><span style="color: #000080">if</span></strong>(DRV_SDCARD_COMMAND_HANDLE_INVALID == sdcardCommandHandle)
+{
+    <i><span style="color: #008000">/* Failed to queue the write request. Handle the error. */</span></i>
+}
+<i><span style="color: #008000">// Wait until the command completes. This should not</span></i>
+<i><span style="color: #008000">// be a while loop if part of cooperative multi-tasking</span></i>
+<i><span style="color: #008000">// routine. In that case, it should be invoked in task</span></i>
+<i><span style="color: #008000">// state machine.</span></i>
+commandStatus = DRV_SDCARD_CommandStatus(sdcardHandle, sdcardCommandHandle);
+<strong><span style="color: #000080">if</span></strong>(DRV_SDCARD_COMMAND_COMPLETED == commandStatus)
+{
+    <i><span style="color: #008000">/* Write completed */</span></i>
+}
+<strong><span style="color: #000080">else</span></strong> <strong><span style="color: #000080">if</span></strong> (DRV_SDCARD_COMMAND_ERROR_UNKNOWN == commandStatus)
+{
+    <i><span style="color: #008000">/* Write Failed */</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="22915.html">Secure Digital (SD) Card Driver Library</a> &gt; <a href="08750.html">Using the Library</a> &gt; <a href="08743.html">How the Library Works</a> &gt; <a href="08738.html">Client Block Data Operation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SDCARD Client Block Data Operation Topic Title: Client Block Data Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

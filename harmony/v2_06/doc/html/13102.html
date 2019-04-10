@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>HCI_ALLOCATE_BUFFERS_VARS Macro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06288.html">Bluetooth Stack Library Configuration Profile Macros</a> &gt; HCI Configuration Macros &gt; <a href="13102.html">HCI_ALLOCATE_BUFFERS_VARS Macro</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="13101.html">Previous</a> | <a href="06288.html">Up</a> | <a href="13171.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HCI_ALLOCATE_BUFFERS_VARS Topic Title: HCI_ALLOCATE_BUFFERS_VARS Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+HCI_ALLOCATE_BUFFERS_VARS Macro</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">#define</span></strong> <strong><span style="color: #000000">HCI_ALLOCATE_BUFFERS_VARS</span></strong> \
+    <a href="05589.html">bt_buffer_header_t</a>  <a href="01957.html">_hci_cmd_buffer_headers</a>[HCI_MAX_CMD_BUFFERS];    \
+    <a href="05634.html">bt_hci_command_t</a>    <a href="01958.html">_hci_cmd_buffers</a>[HCI_MAX_CMD_BUFFERS];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="01971.html">_hci_max_cmd_buffers</a> = HCI_MAX_CMD_BUFFERS; \
+    <a href="05592.html">bt_byte</a>             <a href="01960.html">_hci_cmd_param_buffers</a>[HCI_MAX_CMD_BUFFERS * HCI_MAX_CMD_PARAM_LEN];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="01972.html">_hci_max_cmd_param_len</a> = HCI_MAX_CMD_PARAM_LEN;    \
+    \
+    <a href="05589.html">bt_buffer_header_t</a>  <a href="01982.html">_hci_send_data_buffer_headers</a>[<a href="13420.html">HCI_MAX_DATA_BUFFERS</a>];    \
+    <a href="05650.html">bt_hci_data_t</a>       <a href="01983.html">_hci_send_data_buffers</a>[<a href="13420.html">HCI_MAX_DATA_BUFFERS</a>];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="01974.html">_hci_max_data_buffers</a> = <a href="13420.html">HCI_MAX_DATA_BUFFERS</a>; \
+    \
+    <a href="05636.html">bt_hci_conn_state_t</a> <a href="01961.html">_hci_connections</a>[HCI_MAX_HCI_CONNECTIONS];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="01975.html">_hci_max_hci_connections</a> = HCI_MAX_HCI_CONNECTIONS; \
+    \
+    <a href="05592.html">bt_byte</a>             <a href="02280.html">_recv_buffer</a>[HCI_RX_BUFFER_LEN];    \
+    <a href="05592.html">bt_byte</a>             <a href="02380.html">_send_buffer</a>[<a href="13578.html">HCI_TX_BUFFER_LEN</a>];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="06252.html">bt_uint</a>       <a href="01976.html">_hci_rcv_buffer_len</a> = HCI_RX_BUFFER_LEN;    \
+    <strong><span style="color: #000080">const</span></strong> <a href="06252.html">bt_uint</a>       <a href="01990.html">_hci_tx_buffer_len</a> = <a href="13578.html">HCI_TX_BUFFER_LEN</a>;    \
+    \
+    <a href="05592.html">bt_byte</a>             <a href="01856.html">_conn_state_recv_buffers</a>[(<a href="13323.html">HCI_L2CAP_BUFFER_LEN</a>) * (HCI_MAX_HCI_CONNECTIONS)];    \
+    <strong><span style="color: #000080">const</span></strong> <a href="06252.html">bt_uint</a>       <a href="01969.html">_hci_l2cap_buffer_len</a> = <a href="13323.html">HCI_L2CAP_BUFFER_LEN</a>;    \
+    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05587.html">bt_bool</a>       <a href="01962.html">_hci_enable_ctrl_to_host_flow_control</a> = <a href="13218.html">HCI_ENABLE_CTRL_TO_HOST_FLOW_CONTROL</a>;    \
+    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05592.html">bt_byte</a>       <a href="01973.html">_hci_max_connect_attempts</a> = <a href="13419.html">HCI_MAX_CONNECT_ATTEMPTS</a>;    \
+    \
+    <strong><span style="color: #000080">const</span></strong> <a href="05587.html">bt_bool</a>       <a href="01963.html">_hci_enable_sco</a> = <a href="05602.html">BT_ENABLE_SCO</a>;    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="01979.html">_hci_recv_sco_data_packet_fp</a>)(<a href="05592.html">bt_byte</a>* pbuf);    \
+    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="01648.html">_bt_ssp_init</a>)(<strong><span style="color: #000080">void</span></strong>);    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="01647.html">_bt_ssp_evt_handler</a>)(<a href="05658.html">bt_hci_event_t</a>* evt);    \
+    \
+    <strong><span style="color: #000080">void</span></strong> (*<a href="01097.html">_bt_hci_le_init</a>)(<a href="05781.html">bt_hci_le_ctrl_state_t</a>* le_ctrl_state);    \
+    <a href="13171.html">HCI_DECLARE_LE_CONN_STATES</a>    \
+    <a href="13172.html">HCI_DECLARE_LE_CTRL_STATE</a>    \
+    \
+    <a href="13101.html">HCI_ALLOCATE_BUFFERS_RAM_SIZE_VAR</a>    \</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This is macro HCI_ALLOCATE_BUFFERS_VARS.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06294.html">Configuring the Library</a> &gt; <a href="06288.html">Bluetooth Stack Library Configuration Profile Macros</a> &gt; HCI Configuration Macros &gt; <a href="13102.html">HCI_ALLOCATE_BUFFERS_VARS Macro</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HCI_ALLOCATE_BUFFERS_VARS Topic Title: HCI_ALLOCATE_BUFFERS_VARS Macro)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>BSP XML Specification</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16594.html">BSP XML Specification</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07407.html">Previous</a> | <a href="07406.html">Up</a> | <a href="07405.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE BSP XML Specification Topic Title: BSP XML Specification)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+BSP XML Specification</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <span class="Element146">bsp.xml</span> file contains pin information pertinent to an individual Board Support Package or BSP. MHC uses this file to add the appropriate options to the Pin Manager table during configuration. When a BSP is properly organized and presented, MHC will find the appropriate file and dynamically load it when the BSP is selected in the HConfig tree.&nbsp;</p>
+<p class="Element10">
+This file must reside in the <span class="Element146">xml</span> sub-folder within the desired BSP folder. The XML file must be named <span class="Element146">bsp.xml</span>. An example path for the BSP that supports the PIC32 Bluetooth Audio Development Kit would be: <span class="Element146">&lt;install-dir&gt;/bsp/bt_audio_dk/xml/bsp.xml</span>.&nbsp;</p>
+<p class="Element10">
+<strong>File Example</strong>&nbsp;</p>
+<p class="Element10">
+The following example shows what this <span class="Element146">bsp.xml</span> file might contain: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00066');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00066"><pre class="Element12">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;bsp name=&quot;bt_audio_dk&quot;&gt;
+    &lt;function name=&quot;SWITCH_1&quot; pin=&quot;RA0&quot; mode=&quot;digital&quot; pullup=&quot;true&quot;/&gt;
+    &lt;function name=&quot;SWITCH_2&quot; pin=&quot;RA1&quot; mode=&quot;digital&quot; pullup=&quot;true&quot;/&gt;
+    &lt;function name=&quot;SWITCH_3&quot; pin=&quot;RA10&quot; mode=&quot;digital&quot; drain=&quot;true&quot; pullup=&quot;true&quot;/&gt;
+&lt;/bsp&gt;</pre></div></div>
+<p class="Element10">
+The root node is named 'bsp' and contains a name attribute unique to this package. The root node contains any number of child nodes defining functions that this BSP will add to the Pin Manager table.&nbsp;</p>
+<p class="Element10">
+The function node must have these required attributes:</p>
+<ul class="Element630">
+<li class="Element600">name – a custom name assigned to this function</li>
+<li class="Element600">pin – the pin name to which this function is attached</li>
+</ul><p class="Element10">
+The function node may also have these attributes:</p>
+<ul class="Element630">
+<li class="Element600">direction – 'in' or 'out', default = 'in'</li>
+<li class="Element600">latch – 'high' or 'low', default = 'low'</li>
+<li class="Element600">drain – 'true' or 'false', default = 'false'</li>
+<li class="Element600">mode – 'digital' or 'analog', default = 'analog</li>
+<li class="Element600">cn – 'true' or 'false', default = 'false'</li>
+<li class="Element600">pullup – 'true' or 'false', default = 'false'</li>
+<li class="Element600">pulldown – 'true' or 'false', default = 'false'</li>
+</ul><p class="Element10">
+When a BSP is added in HConfig, these defined values will be pushed to the corresponding pin. If it is removed, the pin will return to its default state. The Pin Manager does not prevent the user from changing these values in the Pin Manager after they have been read from the XML file. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+To ensure that alterations to<span class="Element146"> bsp.xml</span> files are applied, developers must manually clear and reselect the corresponding BSP entry in HConfig. This will notify MHC to reapply the xml values.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16594.html">BSP XML Specification</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE BSP XML Specification Topic Title: BSP XML Specification)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

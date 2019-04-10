@@ -1,0 +1,45 @@
+menu "DSP Fixed-Point Math Library Configuration"
+    
+config USE_DSP
+    bool "Use DSP Fixed-Point Math Library?"
+    depends on PIC32MZ
+    default n
+    ---help---
+    IDH_HTML_DSP_Fixed_Point_Library
+    ---endhelp---
+    comment "IMPORTANT: Enable Advanced Handler with Filtering Support, under Advanced Exception and Error Handling > Exception Handling (Pick One)."
+        depends on USE_DSP && !USE_FILTERING_EXCEPTION_HANDLER
+
+    config SELECT_USE_FPU
+        bool "Use Hardware Floating Point Unit Library?"
+        depends on PIC32MZ
+        default n
+        ---help---
+        IDH_HTML_DSP_Fixed_Point_Library
+        ---endhelp---
+        comment "NOTE: The device must have a hardware FPU (i.e. PIC32MZ EF)"
+            depends on USE_DSP && SELECT_USE_FPU
+        comment "NOTE: The software Floating Point Library will work for any PIC32MZ device architecture"
+            depends on USE_DSP && !SELECT_USE_FPU
+
+endmenu
+
+
+##########################################################################
+
+#dsp library
+ifblock USE_DSP && PIC32MZ
+
+ifblock SELECT_USE_FPU=y
+library DSP_LIB_B "$HARMONY_VERSION_PATH/bin/framework/math/dsp/dsp_pic32mz_ef_fpu.a"
+endif
+ifblock SELECT_USE_FPU=n
+library DSP_LIB_A "$HARMONY_VERSION_PATH/bin/framework/math/dsp/dsp_pic32mz_nofpu.a"
+endif
+
+file DSP_LIB_H "$HARMONY_VERSION_PATH/framework/math/dsp/dsp.h" to "$PROJECT_HEADER_FILES/framework/math/dsp/dsp.h"
+
+compiler DSP_LIB_INCLUDE includepath "$HARMONY_VERSION_PATH/framework/math/dsp"
+compiler DSP_LIBQ_INCLUDE includepath "$HARMONY_VERSION_PATH/framework/math/libq"
+
+endif

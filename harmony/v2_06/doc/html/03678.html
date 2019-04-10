@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>aria_counter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03678.html">aria_counter</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03677.html">Previous</a> | <a href="03738.html">Up</a> | <a href="03679.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_counter Topic Title: aria_counter)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+aria_counter</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This application demonstrates the use of double-buffering to show multiple counters running at high speed on a fixed, high-spatial frequency, image background. Double-buffering helps eliminate tearing and artifacts in graphics applications. The application can also switch between double- and single-buffering at run-time to show the advantages of double-buffering.&nbsp;</p>
+<p class="Element10">
+This application also provides a reference on how to update the text in a label widget at run-time.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The aria_counter application uses the <a href="12784.html">MPLAB Harmony Graphics Library</a> to render graphics to the display. The application uses double buffering to eliminate tearing, and this requires two frame buffers; a read buffer and a write buffer. The Graphics library draws the widgets and images to the write frame buffer, while the contents of the read frame buffer are being delivered to the display panel. The write and read frame buffers are swapped when the Graphics library is done rendering to the write frame buffer, and the contents of the read frame buffer have been sent to the display panel.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input through the integrated touch screen on the display panel. Touch input from the touch controller goes through the I2C port, and the Input System Service acquires the touch input information from the Touch and I2C Drivers. The Input System Service sends touch events to the Graphics library, which processes these events and updates the frame data accordingly.&nbsp;</p>
+<p class="Element10">
+The following figures display the various software and hardware components used by the different configurations in this application.&nbsp;</p>
+<p class="Element10">
+<strong>pic32mz_ef_sk_meb2_ext</strong>&nbsp;</p>
+<p class="Element10">
+Two 16-bit WQVGA frame buffers (~522kB) will not fit into the internal SRAM, thus the external SRAM is used for the frame buffers. These configurations use the Low Cost Controller-less (LCC) display driver to manage the DMA that transfers the frame buffer contents to the display. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_counter block diagram pic32mzef.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mz_da_sk_intddr_meb2</strong>&nbsp;</p>
+<p class="Element10">
+In this configuration, the frame buffers are stored in the internal DDR memory. The DDR memory is large enough to allow 3 layers, each with double frame buffers. The contents of the read frame buffer are transferred continuously by the Graphics LCD (GLCD) controller to the display panel. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_counter blockdiagram2 pic32mzda intddr.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mz_da_sk_extddr_meb2</strong>&nbsp;</p>
+<p class="Element10">
+This configurations works similar to the pic32mz_da_sk_intddr_meb2 except that the frame buffers are stored in external DDR. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_counter pic32mz_da_sk_extddr_meb2 and pic32mz_da_sk_extddr_meb2_wvga Double Buffered, with GPU, 3 Layers, Double Buffered.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600"><a href="13983.html">Input System Service</a> and Touch driver</li>
+<li class="Element600"><a href="07980.html">DMA System Service</a></li>
+<li class="Element600">Low-Cost Controllerless (LCC) Graphics Driver (PIC32MZ EF)</li>
+<li class="Element600"><a href="13729.html">I2C Driver</a></li>
+<li class="Element600">Graphics LCD (GLCD) controller (PIC32MZ DA)</li>
+<li class="Element600">16-bit RGB565 color depth support (65535 unique colors)</li>
+<li class="Element600">JPEG and RAW images stored in internal Flash (see <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Graphics Composer User’s Guide &gt; Graphics Composer Window User Interface &gt; Graphics Composer Asset Management &gt; <a href="16652.html">Image Assets</a></i>)</li>
+<li class="Element600">GFX widgets: Label and Buttons (see <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Graphics Composer User’s Guide &gt; Graphics Composer Window User Interface &gt;Graphics Composer Asset Management &gt; <a href="16668.html">String Assets</a></i>)</li>
+<li class="Element600">Double-buffering</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+
+<ul class="Element630">
+<li class="Element600">“Use Graphics Stack” is selected in the MPLAB Harmony Configurator (MHC), which enables the Graphics and Touch libraries and drivers for the Board Support Package (BSP).</li>
+<li class="Element600">The heap size is set to 102400 bytes to ensure enough memory for dynamic allocations. This is done by setting the size in MHC through the following menu selection: <i>Device &amp; Project Configuration &gt;Project Configuration &gt; XC32 (Global Options) &gt;xc32-ld &gt;General</i>.</li>
+<li class="Element600">Double-buffering is enabled in the LCC Display Driver. This is done by selecting Double Buffer in MHC through the following menu selection: <i>Graphics Stack &gt;Graphics Controller &gt;Low Cost Controllerless &gt;Frame Buffer Mode</i>.</li>
+<li class="Element600">Use external memory to fit two frame buffers. This is done by selecting “External Memory” in MHC through the following menu selection: <i>Graphics Stack &gt;Graphics Controller &gt;Low Cost Controllerless &gt;Memory Settings &gt;Memory Interface Mode</i>.</li>
+</ul></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03679.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Aria Counter demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03680.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03681.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to use the Aria Counter application.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03678.html">aria_counter</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_counter Topic Title: aria_counter)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

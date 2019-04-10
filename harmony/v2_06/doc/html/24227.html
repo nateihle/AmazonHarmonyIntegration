@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="17337.html">Clock System Service Library</a> &gt; <a href="24238.html">Using the Library</a> &gt; <a href="24226.html">How the Library Works</a> &gt; <a href="24227.html">Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24226.html">Previous</a> | <a href="24226.html">Up</a> | <a href="24221.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM CLK Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10" style="text-align: justify;">
+The Oscillator is a module with little or no run-time operations. Therefore, the application must do most of the configurations at the time of system initialization even though it is allowed to change the clock frequency at run-time.&nbsp;</p>
+<p class="Element10" style="text-align: justify;">
+The Oscillator needs some time to settle. Therefore, it is recommended to perform the oscillator initialization before initializing other modules. Check for the oscillator status once all of the initializations are complete and before the application task routine takes control.</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all devices require all of the initialization parameters of the structure. Refer to the specific device data sheet to determine which features are available for your device.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Clock is Set Through Configuration bits</div>
+<p class="Element10" style="text-align: justify;">
+In most cases, setting the clock is done through Configuration bits. Therefore, what the application expects from the Clock System Service Library is to provide all of the clock frequency values on a function call. To use the Clock System Service in this way, call the <a href="23513.html">SYS_CLK_Initialize</a> function by passing a NULL to it, as shown in the following code example. The function reads the registers and will initialize its internal data structure.</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03811');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03811"><pre class="Element12">SYS_CLK_Initialize ( NULL );
+<i><span style="color: #008000">//As per my setting, the system clock should be 80 MHz</span></i>
+If ( SYS_CLK_SystemFrequencyGet ( )  != 80000000 )
+{
+     <i><span style="color: #008000">//Something is wrong, check the Configuration bit settings</span></i>
+}</pre></div></div>
+<div class="Element15">
+Alter the Configuration bit Setting</div>
+<p class="Element10" style="text-align: justify;">
+To alter the settings made in the Configuration bit, pass the structure to the <a href="23513.html">SYS_CLK_Initialize</a> function.</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03812');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03812"><pre class="Element12">SYS_CLK_INIT generalInit;
+
+<i><span style="color: #008000">// Populate the oscillator initialization structure</span></i>
+generalInit.systemClockSource = SYS_CLK_SOURCE_FRC_SYSPLL;
+generalInit.systemClockFrequencyHz = 30000000;
+generalInit.onWaitInstruction = OSC_ON_WAIT_SLEEP;
+generalInit.secondaryOscKeepEnabled = <strong><span style="color: #000080">true</span></strong>;
+SYS_CLK_Initialize (&amp;generalInit);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="17337.html">Clock System Service Library</a> &gt; <a href="24238.html">Using the Library</a> &gt; <a href="24226.html">How the Library Works</a> &gt; <a href="24227.html">Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM CLK Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

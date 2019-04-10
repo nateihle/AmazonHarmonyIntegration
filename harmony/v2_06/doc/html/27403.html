@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>USB Host Layer</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27395.html">USB Host Library</a> &gt; <a href="27398.html">USB Host Library Migration Guide</a> &gt; <a href="27403.html">USB Host Layer</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27400.html">Previous</a> | <a href="27398.html">Up</a> | <a href="27401.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB HOST MIGRATION USB Host Layer Topic Title: USB Host Layer)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+USB Host Layer</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In MPLAB Harmony v1.03.01, the application was required to open the Host Layer to obtain a handle by calling the USB_HOST_Open function. This handle was then used along with other Host Layer API. Once opened, the application must enable Host Layer operation by calling the USB_HOST_OperationEnable function. The application must check the status of the enable operation function by calling the USB_HOST_OperationIsEnabled function. This is shown in the following code example.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04419');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04419"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example application tasks that enabled Host
+ * operation and waits for the enable operation to complete */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* Check the application's current state. */</span></i>
+   USB_HOST_CDC_RESULT result;
+    uint8_t  temp;
+
+    <strong><span style="color: #000080">switch</span></strong> (appData.state)
+    {
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_OPEN_HOST_LAYER:
+
+            <i><span style="color: #008000">/* Open the host layer and then enable Host layer operation */</span></i>
+            appData.hostHandle = USB_HOST_Open(USB_HOST_INDEX_0, DRV_IO_INTENT_EXCLUSIVE);
+
+            <strong><span style="color: #000080">if</span></strong> (appData.hostHandle != USB_HOST_HANDLE_INVALID)
+            {
+                <i><span style="color: #008000">/* Host layer was opened successfully. Enable operation
+                 * and then wait for operation to be enabled  */</span></i>
+
+                USB_HOST_OperationEnable(appData.hostHandle );
+                appData.state = APP_STATE_WAIT_FOR_HOST_ENABLE;
+
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_HOST_ENABLE:
+
+            <i><span style="color: #008000">/* Check if the host operation has been enabled */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(USB_HOST_OperationIsEnabled(appData.hostHandle))
+            {
+                <i><span style="color: #008000">/* This means host operation is enabled. We can
+                 * move on to the next state */</span></i>
+                appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            }
+
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+<p class="Element10">
+In MPLAB Harmony v1.04, the application is not required to open the Host Layer. This is because the Host Layer by itself does not support multi-client operation. The application must first set the Host Layer event handler using the <a href="28263.html">USB_HOST_EventHandlerSet</a> function and then enable the desired bus using the <a href="28165.html">USB_HOST_BusEnable</a> function. The completion of the Bus Enable function can be checked by calling the <a href="28167.html">USB_HOST_BusIsEnabled</a> function. Once enabled, the application can perform operations on the bus, look for attached devices, and perform operations on the attached device. The following code shows an example of enabling the bus. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04420');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04420"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example of how the bus is enabled in the MPLAB Harmony v1.04
+ * USB Host Stack. The application state machine then waits for the bus enable
+ * operation to complete */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <strong><span style="color: #000080">switch</span></strong> (appData.state)
+    {
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_BUS_ENABLE:
+
+            <i><span style="color: #008000">/* In this state the application enables the USB Host Bus. Note
+             * how the Host event handler are registered before the bus
+             * is enabled. */</span></i>
+
+            USB_HOST_EventHandlerSet(APP_USBHostEventHandler, (uintptr_t)0);
+            USB_HOST_BusEnable(0);
+            appData.state = APP_STATE_WAIT_FOR_BUS_ENABLE_COMPLETE;
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_WAIT_FOR_BUS_ENABLE_COMPLETE:
+
+            <i><span style="color: #008000">/* In this state we wait for the Bus enable to complete */</span></i>
+            <strong><span style="color: #000080">if</span></strong>(USB_HOST_BusIsEnabled(0))
+            {
+                appData.state = APP_STATE_WAIT_FOR_DEVICE_ATTACH;
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+<div class="Element15">
+API Changes</div>
+<p class="Element10">
+The following table shows the legacy Host API and corresponding v1.04 MPLAB Harmony Host Stack API.&nbsp;</p>
+<p class="Element10">
+<strong>USB Host Layer API</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="22%">
+<div class="Element66">
+MPLAB Harmony v1.03.01 and Earlier&nbsp;</div></td><td class="Element65" valign="top" width="78%">
+<div class="Element66">
+MPLAB Harmony v1.04 and Later&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+USB_HOST_Open&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+N/A<br>The USB Host Layer does not have to be opened.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+USB_HOST_Close&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+N/A<br>The USB Host Layer does not have to be closed.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+USB_HOST_EventCallBackSet&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28263.html">USB_HOST_EventHandlerSet</a><br>Events have changed.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+USB_HOST_OperationEnable&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28165.html">USB_HOST_BusEnable</a><br>Multiple busses can be managed.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+USB_HOST_OperationDisable&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+N/A<br>A bus disable function is not currently available and will be added in a future release of MPLAB Harmony.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+USB_HOST_OperationIsEnabled&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28167.html">USB_HOST_BusIsEnabled</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+<a href="28254.html">USB_HOST_DeviceSuspend</a>&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28254.html">USB_HOST_DeviceSuspend</a><br>Function parameters have changed.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+<a href="28250.html">USB_HOST_DeviceResume</a>&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28250.html">USB_HOST_DeviceResume</a><br>Function parameters have changed.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28170.html">USB_HOST_BusSuspend</a><br>Provides multiple bus support.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28169.html">USB_HOST_BusResume</a><br>Provides multiple bus support.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28247.html">USB_HOST_DeviceGetFirst</a><br>Provides multiple bus support.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28248.html">USB_HOST_DeviceGetNext</a><br>Provides multiple bus support.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28252.html">USB_HOST_DeviceSpeedGet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28249.html">USB_HOST_DeviceIsSuspended</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="22%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="78%">
+<div class="Element68">
+<a href="28253.html">USB_HOST_DeviceStringDescriptorGet</a>&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Event Changes</div>
+<p class="Element10">
+The type of events that the Host Layer generates in earlier versions of MPLAB Harmony and v1.04 of the MPLAB Harmony USB Host Stack have changed. The following table shows a comparison.&nbsp;</p>
+<p class="Element10">
+<strong>USB Host Layer Events</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="31%">
+<div class="Element66">
+MPLAB Harmony v1.03.01 and Earlier&nbsp;</div></td><td class="Element65" valign="top" width="69%">
+<div class="Element66">
+MPLAB Harmony v1.04 and Later&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+USB_HOST_EVENT_DEVICE_REJECTED_INSUFFICIENT_POWER&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+USB_HOST_EVENT_UNSUPPORTED_DEVICE&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+USB_HOST_EVENT_DEVICE_UNSUPPORTED&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+USB_HOST_EVENT_CANNOT_ENUMERATE&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+This event is not needed and is the same as an unsupported device.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+USB_HOST_EVENT_CONFIGURATION_FAILED&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+This event is not needed and is the same as an unsupported device.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+USB_HOST_EVENT_DEVICE_SUSPENDED&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+This event is not needed. A polling based function is available.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+USB_HOST_EVENT_DEVICE_RESUMED&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+This event is not needed. A polling based function is available.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+USB_HOST_EVENT_HUB_TIER_LEVEL_EXCEEDED&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="31%">
+<div class="Element68">
+N/A&nbsp;</div></td><td class="Element67" valign="top" width="69%">
+<div class="Element68">
+USB_HOST_EVENT_PORT_OVERCURRENT_DETECTED&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27395.html">USB Host Library</a> &gt; <a href="27398.html">USB Host Library Migration Guide</a> &gt; <a href="27403.html">USB Host Layer</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB HOST MIGRATION USB Host Layer Topic Title: USB Host Layer)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

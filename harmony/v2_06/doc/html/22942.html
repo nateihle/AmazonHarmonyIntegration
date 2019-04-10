@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Integrating the GUIBuilder Output with MPLAB Harmony</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22950.html">Start-to-End Example of SEGGER emWin Graphics with MPLAB Harmony</a> &gt; <a href="22946.html">SEGGER emWin GUI Application Design Process</a> &gt; <a href="22924.html">Creating a New SEGGER emWin Application Within MPLAB Harmony</a> &gt; <a href="22942.html">Integrating the GUIBuilder Output with MPLAB Harmony</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22940.html">Previous</a> | <a href="22924.html">Up</a> | <a href="22920.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN MPLAB Integrating the GUIBuilder Output with MPLAB Harmony Topic Title: Integrating the GUIBuilder Output with MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Integrating the GUIBuilder Output with MPLAB Harmony</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The emWin Wrapper Library consist of wrapper for GUI and Touch. Each wrapper need to be enabled and configured using MHC. Use the following steps to enable and configure the wrapper library:
+<ol class="Element630">
+<li value="1" class="Element600">In MHC, select the Options tab.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Select MHC Options Tab.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="2" class="Element600">Enable the SEGGER emWin Touch Wrapper Library by expanding <i>Third Party Libraries &gt; Graphics </i>and selecting<i> </i><strong>Use SEGGER emWin Graphics Library</strong>. Then, expand <i>SEGGER emWin Graphics Library</i> and select <strong>Use SEGGER emWin Touch Wrapper?</strong>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Use SEGGER emWin Touch Wrapper.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="3" class="Element600">Enable the GUI Wrapper Library by selecting <strong>Use SEGGER emWin GUI Wrapper?</strong>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Use SEGGER emWin GUI Wrapper.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="4" class="Element600">Configure the GUI Wrapper Library by expanding emWin GUI Wrapper and setting the Number of Screens to 2.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Number of Screens.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="5" class="Element600">Generate the code by using steps similar to those from <a href="22940.html">Loading the GUIBuilder Output into the MPLAB Harmony Project</a>. The code generation will add the following files:
+<ul class="Element630">
+<li class="Element600"><span class="Element146">emwin_gui_static.c</span></li>
+<li class="Element600"><span class="Element146">emwin_touch_static.c</span></li>
+<li class="Element600"><span class="Element146">GUI_X_Ex.c</span></li>
+<li class="Element600"><span class="Element146">GUIConf.c</span></li>
+<li class="Element600"><span class="Element146">GUIConf.h</span></li>
+<li class="Element600"><span class="Element146">LCDConf.c</span></li>
+<li class="Element600"><span class="Element146">LCDCong.h</span></li>
+</ul></li>
+<li value="6" class="Element600">The generated files will be added to the project at: <span class="Element146">Source Files\app\system_config\pic32mz_ef_sk_mebii\third_party\gfx\emwin</span>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Generated Files.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="7" class="Element600">In MPLAB X IDE, edit the <span class="Element146">app.c</span> file from <span class="Element146">Source Files\app</span>, as follows:
+<ul class="Element630">
+<li class="Element600">Add a global variable:</li>
+</ul></li>
+</ol></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04506');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04506"><pre class="Element12">    <i><span style="color: #008000">/*
+        Add create screens APIs from HomeScreenDLG.c and Screen2DLG.c to
+        array of screens
+    */</span></i>
+    EMWIN_GUI_SCREEN_CREATE emWinScreenCreate [ EMWIN_GUI_NUM_SCREENS ]
+                                             = { CreateHomeScreen,
+                                                 CreateScreen2 };</pre></div></div>
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Add a local function:</li>
+</ul></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04507');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04507"><pre class="Element12">    <i><span style="color: #008000">/* Screen Initialize function */</span></i>
+    <strong><span style="color: #000080">void</span></strong> APP_ScreenInitialize ( <strong><span style="color: #000080">void</span></strong> )
+    {
+        <i><span style="color: #008000">/* Set the Background to black */</span></i>
+        GUI_SetBkColor( GUI_BLACK );
+
+        <i><span style="color: #008000">/* Clear the screen */</span></i>
+        GUI_Clear();
+    }</pre></div></div>
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Add initialization code to the APP_Initialize function:</li>
+</ul></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04508');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04508"><pre class="Element12">    <strong><span style="color: #000080">void</span></strong> APP_Initialize ( <strong><span style="color: #000080">void</span></strong> )
+    {
+        <i><span style="color: #008000">/* Place the App state machine in its initial state. */</span></i>
+        appData.state = APP_STATE_INIT;
+        int32_t screenCount = 0;
+
+        <i><span style="color: #008000">/* Create MailBox for Touch Input */</span></i>
+        emWin_TouchMailBoxCreate();
+
+        <i><span style="color: #008000">/* Register Screen Initialization */</span></i>
+        emWin_GuiScreenInitializeRegister( APP_ScreenInitialize );
+
+        <i><span style="color: #008000">/* Register Screens from screen array */</span></i>
+        <strong><span style="color: #000080">for</span></strong>( screenCount = 0; screenCount &lt; EMWIN_GUI_NUM_SCREENS; screenCount++ )
+        {
+            emWin_GuiScreenRegister( screenCount,
+    emWinScreenCreate[screenCount]);
+        }
+
+        <i><span style="color: #008000">/* set the start screen to 0 */</span></i>
+        emWin_GuiStartScreenSet ( 0 );
+    }</pre></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="8" class="Element600">Add the following code to <span class="Element146">app.h</span>, which is located in <span class="Element146">Header Files\app</span>:</li>
+</ol></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04509');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04509"><pre class="Element12">  <i><span style="color: #008000">// *****************************************************************************</span></i>
+  <i><span style="color: #008000">// *****************************************************************************</span></i>
+  <i><span style="color: #008000">// Section: Application Callback Routines</span></i>
+  <i><span style="color: #008000">// *****************************************************************************</span></i>
+  <i><span style="color: #008000">// *****************************************************************************</span></i>
+  WM_HWIN CreateHomeScreen(<strong><span style="color: #000080">void</span></strong>);
+  WM_HWIN CreateScreen2(<strong><span style="color: #000080">void</span></strong>);</pre></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="9" class="Element600">Make the following additions to <span class="Element146">HomeScreenDLG.c</span>, which is located in <span class="Element146">Source Files\app\emwin_gui</span>:
+<ul class="Element630">
+<li class="Element600">Add the following code with additional includes:</li>
+</ul></li>
+</ol></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04510');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04510"><pre class="Element12">    <i><span style="color: #008000">// USER START (Optionally insert additional includes)</span></i>
+    <strong><span style="color: #000080">#include</span></strong> &quot;system_config.h&quot;
+    <strong><span style="color: #000080">#include</span></strong> &quot;system_definitions.h&quot;
+    <i><span style="color: #008000">// USER END</span></i></pre></div></div>
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Add the following code within case WM_NOTIFICATION_CLICKED for the ID_BUTTON_0:</li>
+</ul></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04511');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04511"><pre class="Element12">    emWin_GuiScreenChange(1);</pre></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="10" class="Element600">The updated code will appear as follows:</li>
+</ol></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04512');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04512"><pre class="Element12">  <strong><span style="color: #000080">switch</span></strong>(Id) {
+      <strong><span style="color: #000080">case</span></strong> ID_BUTTON_0: <i><span style="color: #008000">// Notifications sent by 'Button'</span></i>
+        <strong><span style="color: #000080">switch</span></strong>(NCode) {
+        <strong><span style="color: #000080">case</span></strong> WM_NOTIFICATION_CLICKED:
+          <i><span style="color: #008000">// USER START (Optionally insert code for reacting on notification message)</span></i>
+          emWin_GuiScreenChange(1);
+          <i><span style="color: #008000">// USER END</span></i>
+          <strong><span style="color: #000080">break</span></strong>;</pre></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="11" class="Element600">Make the following additions to <span class="Element146">Screen2DLG.c</span>, which is located in <span class="Element146">Source Files\app\emwin_gui</span>:
+<ul class="Element630">
+<li class="Element600">Add the following code within additional includes:</li>
+</ul></li>
+</ol></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04513');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04513"><pre class="Element12">    <i><span style="color: #008000">// USER START (Optionally insert additional includes)</span></i>
+    <strong><span style="color: #000080">#include</span></strong> &quot;system_config.h&quot;
+    <strong><span style="color: #000080">#include</span></strong> &quot;system_definitions.h&quot;
+    <i><span style="color: #008000">// USER END</span></i></pre></div></div>
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Add the following code within case WM_NOTIFICATION_CLICKED for the ID_BUTTON_0:</li>
+</ul></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04514');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04514"><pre class="Element12">    emWin_GuiScreenChange(0);</pre></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="12" class="Element600">The updated code will appear as follows:</li>
+</ol></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04515');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04515"><pre class="Element12">  <strong><span style="color: #000080">switch</span></strong>(Id) {
+      <strong><span style="color: #000080">case</span></strong> ID_BUTTON_0: <i><span style="color: #008000">// Notifications sent by 'Button'</span></i>
+        <strong><span style="color: #000080">switch</span></strong>(NCode) {
+        <strong><span style="color: #000080">case</span></strong> WM_NOTIFICATION_CLICKED:
+          <i><span style="color: #008000">// USER START (Optionally insert code for reacting on notification message)</span></i>
+          emWin_GuiScreenChange(1);
+          <i><span style="color: #008000">// USER END</span></i>
+          <strong><span style="color: #000080">break</span></strong>;</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22950.html">Start-to-End Example of SEGGER emWin Graphics with MPLAB Harmony</a> &gt; <a href="22946.html">SEGGER emWin GUI Application Design Process</a> &gt; <a href="22924.html">Creating a New SEGGER emWin Application Within MPLAB Harmony</a> &gt; <a href="22942.html">Integrating the GUIBuilder Output with MPLAB Harmony</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN MPLAB Integrating the GUIBuilder Output with MPLAB Harmony Topic Title: Integrating the GUIBuilder Output with MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

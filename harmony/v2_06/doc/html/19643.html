@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_I2C_TransmitterOverflowHasOccurred Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17722.html">Library Interface</a> &gt; h) Transmitter Control Functions &gt; <a href="19643.html">PLIB_I2C_TransmitterOverflowHasOccurred Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="19642.html">Previous</a> | <a href="17722.html">Up</a> | <a href="19591.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_I2C_TransmitterOverflowHasOccurred@I2C_MODULE_ID Topic Title: PLIB_I2C_TransmitterOverflowHasOccurred Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_I2C_TransmitterOverflowHasOccurred Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">PLIB_I2C_TransmitterOverflowHasOccurred</span></strong>(
+    <a href="13732.html">I2C_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function identifies if a transmitter overflow error has occurred.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired I2C module&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">true - If software attempted to write a byte to the transmitter buffer while the transmitter was busy and unable to accept a new byte (i.e., the write will not occur)</li>
+</ul>&nbsp;</p>
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">false - If no transmitter overflow occurred when software attempted to write a byte to the transmitter buffer (i.e., the write occurred successfully)</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This flag must be cleared be cleared by software using the <a href="19642.html">PLIB_I2C_TransmitterOverflowClear</a> function.&nbsp;</p>
+<p class="Element10">
+The MY_I2C_ID macro in the example above is used as a placeholder for the actual I2C bus ID (as defined by the processor-specific <a href="13732.html">I2C_MODULE_ID</a> enum).&nbsp;</p>
+<p class="Element10">
+This feature may not be available on all devices. Please refer to the specific device data sheet to determine availability or use <a href="19578.html">PLIB_I2C_ExistsTransmitterOverflow</a> in your application to determine whether this feature is available.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02569');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02569"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+uint8_t txData;
+
+<i><span style="color: #008000">//set 'txData' variable</span></i>
+
+<a href="19638.html">PLIB_I2C_TransmitterByteSend</a> ( MY_I2C_ID, txData );
+<strong><span style="color: #000080">if</span></strong> ( PLIB_I2C_TransmitterOverflowHasOccurred ( MY_I2C_ID ) )
+{
+    <i><span style="color: #008000">// Handle overflow error</span></i>
+
+    <a href="19642.html">PLIB_I2C_TransmitterOverflowClear</a> ( MY_I2C_ID );
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17722.html">Library Interface</a> &gt; h) Transmitter Control Functions &gt; <a href="19643.html">PLIB_I2C_TransmitterOverflowHasOccurred Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_I2C_TransmitterOverflowHasOccurred@I2C_MODULE_ID Topic Title: PLIB_I2C_TransmitterOverflowHasOccurred Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

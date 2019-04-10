@@ -1,0 +1,12 @@
+enum DRV_GFX_TCON_SSD1289_MODE_LIST
+        "S1D13517"       ||
+        "SSD1926"        ||
+		"LCC"
+		
+config DRV_GFX_TCON_SSD_1289_MODE
+    string "Mode" range DRV_GFX_TCON_SSD1289_MODE_LIST
+	default "S1D13517"
+	---help---
+	---endhelp---
+	
+template DRV_GFX_TCON_1289_C "$HARMONY_VERSION_PATH/framework/gfx/driver/tcon/ssd1289/templates/tcon_ssd1289.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/tcon/ssd1289/drv_gfx_ssd1289.c"

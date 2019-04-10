@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DSP_TransformIFFT16 Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11806.html">DSP Fixed-Point Math Library</a> &gt; <a href="16348.html">Library Interface</a> &gt; d) Transform Functions &gt; <a href="11840.html">DSP_TransformIFFT16 Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11839.html">Previous</a> | <a href="16348.html">Up</a> | <a href="11841.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DSP_TransformIFFT16@int16c *@int16c *@int16c *@int16c *@int Topic Title: DSP_TransformIFFT16 Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DSP_TransformIFFT16 Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">DSP_TransformIFFT16</span></strong>(
+    <a href="14387.html">int16c</a> * <strong><span style="color: #000000">dout</span></strong>, 
+    <a href="14387.html">int16c</a> * <strong><span style="color: #000000">din</span></strong>, 
+    <a href="14387.html">int16c</a> * <strong><span style="color: #000000">twiddles</span></strong>, 
+    <a href="14387.html">int16c</a> * <strong><span style="color: #000000">scratch</span></strong>, 
+    <strong><span style="color: #000080">int</span></strong> <strong><span style="color: #000000">log2N</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Function DSP_TransformIFFT16:&nbsp;</p>
+<p class="Element10">
+void DSP_TransformIFFT16(<a href="14387.html">int16c</a> *dout, <a href="14387.html">int16c</a> *din, <a href="14387.html">int16c</a> *twiddles, <a href="14387.html">int16c</a> *scratch, int log2N);&nbsp;</p>
+<p class="Element10">
+Performs an complex Inverse FFT on the input, din, and stores the complex result in dout. Performs 2^log2N point calculation, and the working buffer scratch as well as the input and output must be 2^log2N in length. Coefficient twiddle factors come from twiddles, and may be loaded with the use of <a href="11837.html">DSP_TransformFFT16_setup</a>. All values are 16 bit (Q15) fractional.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+din, dout, twiddles and scratch must have N elements N is calculated as 2^(log2N) log2N must be &gt;= 3 FFT factors must be calculated in advance, use <a href="11837.html">DSP_TransformFFT16_setup</a></p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+dout&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+pointer to complex output array (<a href="14387.html">int16c</a>)&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+din&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+pointer to complex input array (<a href="14387.html">int16c</a>)&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+twiddles&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+pointer to an complex array of factors (<a href="14387.html">int16c</a>)&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+scratch&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+pointer to a complex scratch pad buffer (<a href="14387.html">int16c</a>)&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+log2N&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+binary exponent of number of samples (int)&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Scratch must be declared but need not be initialized. Din may be aided with a window function prior to calling the FFT, but is not required. A very similar function to the FFT is executed for the inverse FFT. This requires twiddle factors set in advance with the same method as used in the FFT. Complex conjugate and scaling are handled within the algorithm. The output is scaled using binary shifting based on log2N. Since the algorithm reduces the output by a scale factor of log2N, the resolution is reduced proportionally to the number of data points.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01282');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01282"><pre class="Element12">
+<strong><span style="color: #000080">int</span></strong> ilog2N = 10;  <i><span style="color: #008000">// log2(64) = 6; log2(256) = 8; log2(1024) = 10;</span></i>
+<strong><span style="color: #000080">int</span></strong> ifftSamples = pow(2,ilog2N);
+
+<a href="14387.html">int16c</a>  *ifftDin;
+<a href="14387.html">int16c</a> ifftDout[ifftSamples];
+<a href="14387.html">int16c</a>  iscratch[ifftSamples];
+<a href="14387.html">int16c</a>  ifftCoefs[ifftSamples];
+<a href="14387.html">int16c</a>  ifftTimeOut[ifftSamples];
+
+<i><span style="color: #008000">// set up twiddle factors, these are used for both FFT and iFFT</span></i>
+
+<a href="14387.html">int16c</a> *ifftc;
+ifftc = &amp;ifftCoefs;
+<a href="11837.html">DSP_TransformFFT16_setup</a>( ifftc, ilog2N);  <i><span style="color: #008000">// call to coef setup</span></i>
+
+<i><span style="color: #008000">// in this example, we take an FFT of an original time domain (sine wave)</span></i>
+<i><span style="color: #008000">// the output of the FFT is used as the input of the iFFT for comparison</span></i>
+
+ifftDin = &amp;fftin_800hz_verylong16;
+<a href="11836.html">DSP_TransformFFT16</a>(ifftDout, ifftDin, ifftc, iscratch, ilog2N);
+
+<i><span style="color: #008000">// ifftDout = frequency domain output, complex number array</span></i>
+
+DSP_TransformIFFT16(ifftTimeOut, ifftDout, ifftc, iscratch, ilog2N);
+
+<i><span style="color: #008000">// do something with the output, fftTimeOut, time domain</span></i>
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11806.html">DSP Fixed-Point Math Library</a> &gt; <a href="16348.html">Library Interface</a> &gt; d) Transform Functions &gt; <a href="11840.html">DSP_TransformIFFT16 Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DSP_TransformIFFT16@int16c *@int16c *@int16c *@int16c *@int Topic Title: DSP_TransformIFFT16 Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

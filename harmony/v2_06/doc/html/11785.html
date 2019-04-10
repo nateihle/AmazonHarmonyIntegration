@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11785.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16810.html">Previous</a> | <a href="16810.html">Up</a> | <a href="11805.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This development guide describes how to develop device drivers for MPLAB Harmony. MPLAB Harmony device drivers, or simply &quot;drivers&quot;, typically utilize MPLAB Harmony Peripheral Libraries (PLIBS) to access and control built-in peripheral hardware. A driver is the <i>glue</i> logic between an application and the peripheral library. The peripheral library provides a low-level interface to a specific peripheral, but use of that interface would place a lot of responsibility on the application for maintaining the state of the device and ensuring that other (usually unrelated) modules do not interfere with its operation. Instead, these functions become the responsibility of the driver, freeing the application from managing devices and considerably simplifying the interface to the peripheral.&nbsp;</p>
+<p class="Element10">
+Drivers provide simple C-language interfaces (see <strong>Note</strong>). A driver’s interface should be highly abstracted and provide file system style &quot;<i>open</i>&quot; and &quot;<i>close</i>&quot;, and &quot;<i>read</i>&quot; and &quot;<i>write</i>&quot; functions (for data transfer peripherals) that allow applications (or other client modules) to easily interact with them in a consistent manner. Most drivers also provide additional functions that are unique to a particular type of driver or peripheral, but are independent of the details of how that peripheral is implemented on any specific hardware or how many instances of that driver or peripheral exist in a given system. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+MPLAB Harmony has not been tested with C++; therefore, support for this programming language is not supported.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Drivers can also indirectly support external peripheral hardware, which has no peripheral library, by accessing another driver. For example, a SD Card driver may use a SPI driver to access an external Flash device. Or, a driver may be completely abstracted, utilizing no peripheral hardware at all and simply providing some device-like service to higher layers of software.&nbsp;</p>
+<p class="Element10">
+Regardless of the type or lack of hardware a MPLAB Harmony driver manages, it has the following fundamental responsibilities:</p>
+<ul class="Element630">
+<li class="Element600">Providing a common system-level interface to a peripheral</li>
+<li class="Element600">Providing a highly-abstracted file system style client interface to a peripheral</li>
+<li class="Element600">Controlling access to a peripheral</li>
+<li class="Element600">Managing the state of a peripheral</li>
+</ul><p class="Element10">
+Information on how a driver can fulfill these responsibilities and other key concepts and requirements for design and development of MPLAB Harmony device drivers is provided in the following sections.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11785.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

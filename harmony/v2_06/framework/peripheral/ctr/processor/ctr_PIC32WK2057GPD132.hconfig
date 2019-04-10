@@ -1,0 +1,115 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32WK2057GPD132_CTR
+	bool
+	select HAVE_CTR
+	default y
+
+config CTR_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum CTR_MODULE_ID exclusive
+	"CTR_ID_0"
+
+enum CTR_SELECT
+	"CTR0"
+	|| "CTR1"
+
+enum CTR_LATCH_UNIT_SELECT
+	"CTR_LATCH_UNIT0"
+	|| "CTR_LATCH_UNIT1"
+	|| "CTR_LATCH_UNIT2"
+	|| "CTR_LATCH_UNIT3"
+	|| "CTR_LATCH_UNIT4"
+	|| "CTR_LATCH_UNIT5"
+
+enum CTR_ENABLE_CONTROL
+	"CTR_DISABLE"
+	|| "CTR_ENABLE"
+
+enum CTR_MODE_SELECT
+	"CTR_1394"
+	|| "CTR_US"
+
+enum CTR_LATCH_TRIGGER_SELECT
+	"CTR_AVWS0"
+	|| "CTR_AVWS1"
+	|| "CTR_AVWS2"
+	|| "CTR_AVWS3"
+	|| "CTR_AVWS4"
+	|| "CTR_RSVD1"
+	|| "CTR_RSVD2"
+	|| "CTR_RSVD3"
+	|| "CTR_RSVD4"
+	|| "CTR_WIFI_TM_1"
+	|| "CTR_WIFI_TM_2"
+	|| "CTR_WIFI_TM_3"
+	|| "CTR_WIFI_TM_4"
+	|| "CTR_ETH_RX"
+	|| "CTR_ETH_TX"
+	|| "CTR_RSVD5"
+	|| "CTR_RSVD6"
+	|| "CTR_RSVD7"
+	|| "CTR_MLBCLK"
+	|| "CTR_GPIO0"
+	|| "CTR_GPIO1"
+	|| "CTR_USBSOF"
+
+enum CTR_LATCH_CTR_SELECT
+	"CTR_CTR0_US"
+	|| "CTR_CTR0_LIN"
+	|| "CTR_CTR1_US"
+	|| "CTR_CTR1_LIN"
+
+enum CTR_ENABLE_LATCH_INT_GEN
+	"CTR_LATCH0"
+	|| "CTR_LATCH1"
+	|| "CTR_LATCH2"
+	|| "CTR_LATCH3"
+	|| "CTR_LATCH4"
+	|| "CTR_LATCH5"
+
+enum CTR_LATCH_INT_MODE
+	"CTR_LATCH_TRIG"
+	|| "CTR_BUFFER_HALF"
+	|| "CTR_BUFFER_FULL"
+
+enum CTR_TEST_BUS_SELECT
+	"CTR_TEST_BUS1"
+	|| "CTR_TEST_BUS2"
+	|| "CTR_TEST_BUS3"
+	|| "CTR_TEST_BUS4"
+	|| "CTR_TEST_BUS5"
+	|| "CTR_TEST_BUS6"
+	|| "CTR_TEST_BUS7"
+	|| "CTR_TEST_BUS8"
+	|| "CTR_TEST_BUS9"
+
+ifblock PROJECT_STANDALONE
+file PLIB_CTR_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/processor/ctr_p32wk2057gpd132.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/processor/ctr_p32wk2057gpd132.h"
+
+file PLIB_CTR_CTR1394MODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTR1394Mode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTR1394Mode_Default.h"
+file PLIB_CTR_CTRMICROSECONDSMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRMicroSecondsMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRMicroSecondsMode_Default.h"
+file PLIB_CTR_CTRLINEAR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRLinear_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRLinear_Default.h"
+file PLIB_CTR_CTRENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTREnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTREnable_Default.h"
+file PLIB_CTR_CTRFORMATSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRFormatSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRFormatSelect_Default.h"
+file PLIB_CTR_CTRADJUSTUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRAdjustUS_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRAdjustUS_Default.h"
+file PLIB_CTR_CTRDRIFTUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRDriftUS_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRDriftUS_Default.h"
+file PLIB_CTR_CTRDRIFTACCUUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRDriftAccuUS_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRDriftAccuUS_Default.h"
+file PLIB_CTR_CTRADJUSTLINEAR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRAdjustLinear_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRAdjustLinear_Default.h"
+file PLIB_CTR_CTRDRIFTLINEAR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRDriftLinear_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRDriftLinear_Default.h"
+file PLIB_CTR_CTRDRIFTACCULINEAR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRDriftAccuLinear_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRDriftAccuLinear_Default.h"
+file PLIB_CTR_LATCHTRIGGERSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_LatchTriggerSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_LatchTriggerSelect_Default.h"
+file PLIB_CTR_LATCHVALUE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_LatchValue_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_LatchValue_Default.h"
+file PLIB_CTR_LATCHSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_LatchStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_LatchStatus_Default.h"
+file PLIB_CTR_LATCHTRIGGERCOUNTVALUE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_LatchTriggerCountValue_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_LatchTriggerCountValue_Default.h"
+file PLIB_CTR_CTRTRIGGER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRTrigger_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRTrigger_Default.h"
+file PLIB_CTR_CTRN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRN_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRN_Default.h"
+file PLIB_CTR_CTRM_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRM_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRM_Default.h"
+file PLIB_CTR_CTRLSB_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRLSB_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRLSB_Default.h"
+file PLIB_CTR_CTRINTERRUPT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRInterrupt_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRInterrupt_Default.h"
+file PLIB_CTR_CTRSPARE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRSpare_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRSpare_Default.h"
+file PLIB_CTR_CTRTESTBUSSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRTestBusSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRTestBusSelect_Default.h"
+file PLIB_CTR_CTRREVISION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ctr/templates/ctr_CTRRevision_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ctr/templates/ctr_CTRRevision_Default.h"
+endif

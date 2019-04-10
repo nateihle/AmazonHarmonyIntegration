@@ -1,0 +1,157 @@
+<HTML>
+<HEAD>
+
+<TITLE>Harmony Web Photoframe Demo</TITLE>
+<!-- Step1: Alter the style sheet and script and paste in head  -->
+<!-- Step2: Use this as your body tag - <body onLoad="setTimeout('AutoCycle()',3000)">  -->
+<!-- Step2: Alter the table dimensions for your pics and paste into the body, for precise placement etc, put it into another table  -->
+
+
+
+
+<style type="text/css">
+<!--
+.text{font-family:Verdana;font-size:18px;color:#fffff0}
+#x a:link{font-family:Verdana;font-size:18px;color:#fffff0;text-decoration:none}
+#y a:visited{font-family:Verdana;font-size:18px;color:#fffff0;text-decoration:none}
+#z a:hover{font-family:Verdana;font-size:18px;color:#00ff00;text-decoration:none}
+//-->
+</style>
+
+
+<script language="JavaScript">
+<!-- SlideShow by kurt.grigg@virgin.net http://website.lineone.net/~kurt.grigg/javascript
+
+intro=new Image();
+intro.src='./images/slide_1.png';                      //The initial image here, shown once only!              
+pics=new Array(
+'./images/img1.jpg','./images/img2.jpg','./images/img3.jpg'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+	 
+	 ) 
+speed=2000;                                //Slideshow speed - 1000 = 1 second etc!                         
+
+
+//nothing needs altering below here.
+load=new Array();
+for(i=0; i < pics.length; i++)
+ {
+ load[i]=new Image();
+ load[i].src=pics[i];
+ }
+ns=(document.layers);
+n6=(document.getElementById&&!document.all);
+ie=(document.all);
+count=-1;
+move=1;
+chck=null;
+timer=null;
+vvv='0';
+function Picnum(){
+var d=(ns||ie)?'document.':'document.getElementById("';
+var a=(ns||n6)?'':'all.';
+var n6r=(n6)?'")':'';
+var p=eval(d+a+'Nums'+n6r);
+if (ie||n6)
+p.innerHTML='Picture '+count;
+if (ns){
+ p.document.write("<div style='position:absolute;top:0px;left:0px;font-family:Verdana;font-size:18px;color:#fffff0;text-align:center'>Picture "+count+"</div>");
+ p.document.close();
+ }
+}
+function ManualForward(){
+ if (chck==1){ 
+ count+=move
+ if (count >= pics.length) count=0;
+ document.images.slides.src=pics[count];
+ Picnum();
+ }
+}
+function ManualReverse(){
+ if (chck==1){
+ count-=move
+ if (count < 0) count=pics.length-1;
+ document.images.slides.src=pics[count];
+ Picnum();
+ }
+}
+function Pause(){
+ chck=1;
+ count=count;
+ clearTimeout(timer)
+ Picnum();
+}
+function AutoCycle(){
+ count+=move
+ if (count >= pics.length) count=0;
+ document.images.slides.src=pics[count];
+ Picnum();
+ timer=setTimeout('AutoCycle()',speed)
+}
+function Cycle(){
+if (chck==1) AutoCycle();
+chck=null;
+}
+//-->
+</script>
+
+</HEAD>
+
+
+
+
+<!--
+<BODY BGCOLOR="#000000" BACKGROUND="mystars.GIF" text="#40FF80" link="#0000FF" vlink="#0000FF" alink="#FF0000" onLoad="trailer()">
+-->
+
+<!--          
+<BODY BACKGROUND="../mystars.GIF">
+-->
+
+<body BGCOLOR="#000000" BACKGROUND="../mystars.GIF" onLoad="setTimeout('AutoCycle()',3000)">
+
+
+
+
+
+
+
+<BR>
+<BR>
+<BR>
+
+<!-- The table - Keep all images the same size to stop movement! -->
+<center>
+<table width="250" border="1" cellpadding="0" cellspacing="4">
+<tr>
+<td valign="middle" align="center" bgcolor="#AA0000">
+<span class="text" style="position:relative">Harmony Web Photoframe</span>
+<br>
+<span id="Nums" class="text" style="position:relative">&nbsp;</span>
+</td>
+</tr>
+<tr>
+<td height="250" valign="middle" align="center">
+<img height="400" width="500" src="./images/slide_1.png" name="slides">
+</td>
+</tr>
+<tr>
+<td height="40" valign="middle" align="left" bgcolor="#AA0000">
+<span id="x"><span id="y"><span id="z">
+<a align="left" href="javascript:Pause()">&nbspPause&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a> 
+<a align="right" href="javascript:Cycle()">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspAuto</a> 
+</span></span></span>
+</td>
+</tr>
+</table>
+</center>
+
+<BR>
+<BR>
+
+
+</BODY>
+</HTML>
+
+
+
+

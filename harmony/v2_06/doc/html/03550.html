@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>ecc_symmetric</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="07547.html">Crypto Demonstrations</a> &gt; <a href="03545.html">Demonstrations</a> &gt; <a href="03550.html">ecc_symmetric</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03549.html">Previous</a> | <a href="03545.html">Up</a> | <a href="03551.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS CRYPTO ecc_symmetric Topic Title: ecc_symmetric)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+ecc_symmetric</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This application demonstrates the use of the ATECC608A module to authenticate the security of the&nbsp;</p>
+<p class="Element10">
+connected device. The authentication method used is Symmetric.&nbsp;</p>
+<p class="Element10">
+Symmetric authentication uses a challenge and response process. The host challenges a remote device to assure that it is authentic and can be trusted. The challenged device responds with the expected results. This method requires that both the host and the remote devices share the same key. Additionally, the remote device can send a unique serial number so the responses are unique from other remote devices.&nbsp;</p>
+<p class="Element10">
+In this application, a secure hardware key storage device (ATECC608A on a Secure 4 click board) is used to contain the shared key and unique serial number, in the host and remote device.&nbsp;</p>
+<p class="Element10">
+The following figure represents a functional block diagram of the application. </p><p class="Element10" style="text-align: center;">
+<img src="APPS CRYPTO symmetric block_diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong>Note</strong>:&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+The Secure 4 click board 1 and Secure 4 click board 2 house the ATECC608A module and interface with the Curiosity PIC32MZ EF Development Board microcontroller over I2C interface.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Authentication Process</div>
+<p class="Element10">
+The authentication begins with the host asking for the serial number of the remote device. The host sends a random number, which it expects the remote device to hash with the shared secret key. This is called a challenge because it challenges the remote device to provide a correct answer. This challenge process is shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="APPS CRYPTO symmetric authentication_process.png" border="0" alt="" title=""></p><p class="Element10">
+The remote device hashes the random number with the shared key and the unique serial number, then sends back the resulting output of the hash, which is referred to as a Message Authentication Code (MAC).&nbsp;</p>
+<p class="Element10">
+The host checks the returned MAC by repeating the same operation. It hashes the shared key with the random number and the unique serial number of the remote device. The host compares the two results.&nbsp;</p>
+<p class="Element10">
+A matching result indicates that the challenge has been successfully responded to by the remote device and the host can trust the external device.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03551.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The following section describes how to build the application.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03552.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the hardware for the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03553.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The following section describes how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="07547.html">Crypto Demonstrations</a> &gt; <a href="03545.html">Demonstrations</a> &gt; <a href="03550.html">ecc_symmetric</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS CRYPTO ecc_symmetric Topic Title: ecc_symmetric)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

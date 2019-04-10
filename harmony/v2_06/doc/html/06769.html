@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>CAN_TX_MSG_BUFFER Union</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; l) Data Types and Constants &gt; <a href="06769.html">CAN_TX_MSG_BUFFER Union</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="06765.html">Previous</a> | <a href="17498.html">Up</a> | <a href="06774.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CAN_TX_MSG_BUFFER Topic Title: CAN_TX_MSG_BUFFER Union)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+CAN_TX_MSG_BUFFER Union</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">union</span></strong> {
+  <strong><span style="color: #000080">struct</span></strong> {
+    <a href="06774.html">CAN_TX_MSG_SID</a> <strong><span style="color: #000000">msgSID</span></strong>;
+    <a href="06717.html">CAN_MSG_EID</a> <strong><span style="color: #000000">msgEID</span></strong>;
+    <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">char</span></strong> <strong><span style="color: #000000">data</span></strong>[8];
+  }
+  uint32_t <strong><span style="color: #000000">messageWord</span></strong>[4];
+} CAN_TX_MSG_BUFFER;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+CAN Transmit Message Buffer&nbsp;</p>
+<p class="Element10">
+This data structure represents the CAN transmit message buffer. This should be used for writing data to a CAN transmit channel and transmitting data. A pointer to this type of data structure is returned by the <a href="18533.html">PLIB_CAN_TransmitBufferGet</a> function.&nbsp;</p>
+<p class="Element10">
+The data structure allows the transmit message buffer to be accessed as fields of a CAN transmit message and also as an array of four 32-bit words. The latter allows for quick initialization of the message buffer.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+CAN_TX_MSG_SID msgSID;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+This is SID portion of the CAN Transmit message&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+CAN_MSG_EID msgEID;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+This is EID portion of the CAN Transmit message&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned char data[8];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+This is the data portion of the CAN Transmit message&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint32_t messageWord[4];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+This is CAN Transmit message organized as a set of 32 bit words&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; l) Data Types and Constants &gt; <a href="06769.html">CAN_TX_MSG_BUFFER Union</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CAN_TX_MSG_BUFFER Topic Title: CAN_TX_MSG_BUFFER Union)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

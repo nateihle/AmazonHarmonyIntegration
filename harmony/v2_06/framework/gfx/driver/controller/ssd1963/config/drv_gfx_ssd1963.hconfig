@@ -1,0 +1,61 @@
+config DRV_GFX_SSD1963_DRIVES_BACKLIGHT_PWM
+    bool "SSD1963 drives LCD Backlight PWM?"
+    default n
+    
+comment "Notice: Be sure BACKLIGHT_PWM pin is defined in the Pin Manager!"
+    depends on DRV_GFX_CONTROLLER_TYPE = "SSD1963" && !DRV_GFX_SSD1963_DRIVES_BACKLIGHT_PWM
+
+enum DRV_GFX_SSD1963_EXTRA_NOPS
+    "0"
+    || "1"
+    || "2"
+
+config DRV_GFX_SSD19
+
+menu "Pixel Clock Settings"
+
+config DRV_GFX_SSD1963_INPUT_CLK
+	string "Master Clock (MHz)"
+	persistent
+	default "100"
+
+config DRV_GFX_SSD1963_PIXEL_CLOCK
+    string "Pixel Clock (MHz)"
+    default "15.0"
+
+execute DRV_GFX_SSD1963_CALCULATE_PRESCALER
+    prompt "Click to Calculate Pixel Clock Prescaler Value"
+    default "prescaler_calculate"
+	---help---
+	Automatically calculates the pixel clock prescaler value below.
+	---endhelp---
+
+config DRV_GFX_SSD1963_CLK_DIVIDER
+	string "Pixel Clock Prescaler"
+	persistent
+	default "6.6667"
+
+endmenu
+
+config DRV_GFX_SSD1963_EXTRA_NOPS_SELECTED
+    string "Additional NOPs for Write Strobe timing:"
+    range DRV_GFX_SSD1963_EXTRA_NOPS
+    default "0"
+    
+comment "System Clock < 166 MHz  , adding 0 NOPs to Write Strobe timing."
+    depends on DRV_GFX_CONTROLLER_TYPE = "SSD1963" && DRV_GFX_SSD1963_EXTRA_NOPS_SELECTED = "0"
+    
+comment "166 MHz <= System Clock < 250 MHz , adding 1 NOP to Write Strobe timing."
+    depends on DRV_GFX_CONTROLLER_TYPE = "SSD1963" && DRV_GFX_SSD1963_EXTRA_NOPS_SELECTED = "1"
+    
+comment "250 MHz <= System Clock, adding 2 NOPs to Write Strobe timing."
+    depends on DRV_GFX_CONTROLLER_TYPE = "SSD1963" && DRV_GFX_SSD1963_EXTRA_NOPS_SELECTED = "2"
+
+
+ifblock DRV_GFX_CONTROLLER_TYPE = "SSD1963"
+
+template DRV_GFX_SSD1963_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ssd1963/templates/drv_gfx_ssd1963.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/ssd1963/drv_gfx_ssd1963.h"
+
+template DRV_GFX_SSD1963_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ssd1963/templates/drv_gfx_ssd1963.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/ssd1963/drv_gfx_ssd1963.c"
+
+endif

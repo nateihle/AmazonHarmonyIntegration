@@ -1,0 +1,406 @@
+# file: framework/driver/pmp/config/drv_pmp.hconfig
+
+menu "PMP"
+    depends on HAVE_PMP
+
+    enum DRV_PMP_IMPLEMENTATION
+        "DYNAMIC" || "STATIC"
+
+    config USE_DRV_PMP_NEEDED
+        bool
+
+    config USE_DRV_PMP
+        bool "Use PMP Driver?"
+        select DRIVER
+        default n if !USE_DRV_PMP_NEEDED
+        default y if USE_DRV_PMP_NEEDED
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_IMPL
+        string "Driver Implementation"
+        depends on USE_DRV_PMP
+        range DRV_PMP_IMPLEMENTATION
+        default "STATIC"
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_MODE
+        string "PMP Communication Mode"
+        depends on USE_DRV_PMP
+        range PMP_OPERATION_MODE
+        default "PMP_MASTER_READ_WRITE_STROBES_INDEPENDENT"
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    menu "PMP State Calculator" depends on USE_DRV_PMP
+        execute DRV_PMP_CALCULATE_EXEC
+            prompt "Click to Calculate PMP State Values"
+            default "pmp_calculate"
+            ---help---
+            Automatically calculates PMP driver configuration states based on the timing values.  Default values are commonly used timing values.
+            ---endhelp---
+
+        config DRV_PMP_CALC_DATASETUPTIME
+            depends on USE_DRV_PMP
+            int "Data Setup Time"
+            default 18
+            range 0 99999
+            ---help---
+            IDH_HTML_PMP_Peripheral_Library
+            ---endhelp---
+
+        config DRV_PMP_CALC_DATAWAITTIME
+            int "Data Wait Time"
+            depends on USE_DRV_PMP
+            default 82
+            range 0 99999
+            ---help---
+            IDH_HTML_PMP_Peripheral_Library
+            ---endhelp---
+
+        config DRV_PMP_CALC_DATAHOLDTIME
+            int "Data Hold Time"
+            depends on USE_DRV_PMP
+            default 0
+            range 0 99999
+            ---help---
+            IDH_HTML_PMP_Peripheral_Library
+            ---endhelp---
+    endmenu
+
+    config DRV_PMP_WAITSTATES_DATASETUP
+        string "Data Setup Wait States"
+        depends on USE_DRV_PMP
+        range PMP_DATA_WAIT_STATES
+        default "PMP_DATA_WAIT_ONE"
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_WAITSTATES_STROBE
+        string "Strobe Wait States"
+        depends on USE_DRV_PMP
+        range PMP_STROBE_WAIT_STATES
+        default "PMP_STROBE_WAIT_5"
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_WAITSTATES_DATAHOLD
+        string "Data Hold Wait States"
+        depends on USE_DRV_PMP
+        range PMP_DATA_HOLD_STATES
+        default "PMP_DATA_HOLD_1"
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_DATA_SIZE
+        string "Transfer Size"
+        depends on USE_DRV_PMP
+        range PMP_DATA_SIZE
+        default "PMP_DATA_SIZE_8_BITS"
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_READSTROBE_ENABLE
+        bool "Read Strobe Enable"
+        depends on USE_DRV_PMP
+        default y
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_READSTROBE_POLARITY
+        string "Read Strobe Polarity"
+        depends on DRV_PMP_READSTROBE_ENABLE
+        default "PMP_POLARITY_ACTIVE_LOW"
+        range PMP_POLARITY_LEVEL
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_WRITESTROBE_ENABLE
+        bool "Write Strobe Enable"
+        depends on USE_DRV_PMP
+        default y
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_WRITESTROBE_POLARITY
+        string "Write Strobe Polarity"
+        depends on DRV_PMP_WRITESTROBE_ENABLE
+        default "PMP_POLARITY_ACTIVE_LOW"
+        range PMP_POLARITY_LEVEL
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_ADDRESSPORT_ENABLE
+        bool "Address Port Enable"
+        depends on USE_DRV_PMP
+        default n
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_ADDRESSPORT_BITWIDTH
+        int "Address Port BitWidth"
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default 16
+        range 0 16
+        ---help---
+        IDH_HTML_PMP_Peripheral_Library
+        ---endhelp---
+
+    config DRV_PMP_ADDRESSPORT_0
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 1
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 2
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 3
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 4
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 5
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 6
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 7
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_1
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 2
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 3
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 4
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 5
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 6
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 7
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_2
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 3
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 4
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 5
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 6
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 7
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_3
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 4
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 5
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 6
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 7
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_4
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 5
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 6
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 7
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_5
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 6
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 7
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_6
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 7
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_7
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 8
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_8
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 9
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_9
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 10
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_10
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 11
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_11
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 12
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_12
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 13
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_13
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 14
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_14
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 15
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_ADDRESSPORT_15
+        bool
+        depends on DRV_PMP_ADDRESSPORT_ENABLE
+        default y if DRV_PMP_ADDRESSPORT_BITWIDTH = 16
+        default n
+
+    config DRV_PMP_DUALMODE_ENABLE
+        bool "Dual Buffer Mode Enable?"
+        depends on USE_DRV_PMP
+        depends on PMP_DUAL_MODE
+        default n
+endmenu
+
+ifblock USE_DRV_PMP
+    add "<#include \"/framework/driver/pmp/config/drv_pmp.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+
+    ifblock (DRV_PMP_IMPL = "DYNAMIC")
+        add "<#include \"/framework/driver/pmp/config/pmp_init_data.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+        add "<#include \"/framework/driver/pmp/config/drv_pmp_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DEPENDENT_DRIVERS
+        add "<#include \"/framework/driver/ctr/templates/drv_ctr.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+
+        file DRV_PMP_H "$HARMONY_VERSION_PATH/framework/driver/pmp/drv_pmp.h" to "$PROJECT_HEADER_FILES/framework/driver/pmp/drv_pmp.h"
+        file DRV_PMP_CFG_H "$HARMONY_VERSION_PATH/framework/driver/pmp/config/drv_pmp_config.h" to "$PROJECT_HEADER_FILES/framework/driver/pmp/config/drv_pmp_config.h"
+        file DRV_PMP_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/pmp/src/drv_pmp_local.h" to "$PROJECT_HEADER_FILES/framework/driver/pmp/src/drv_pmp_local.h"
+        file DRV_PMP_C "$HARMONY_VERSION_PATH/framework/driver/pmp/src/dynamic/drv_pmp_dynamic.c" to "$PROJECT_SOURCE_FILES/framework/driver/pmp/src/dynamic/drv_pmp_dynamic.c"
+    endif
+
+    ifblock (DRV_PMP_IMPL = "STATIC")
+        add "<#include \"/framework/driver/pmp/templates/drv_pmp_static_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DEPENDENT_DRIVERS
+
+        template PMP_STATIC_DRV_C "$HARMONY_VERSION_PATH/framework/driver/pmp/templates/drv_pmp_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/pmp/src/drv_pmp_static.c"
+        template PMP_STATIC_DRV_H "$HARMONY_VERSION_PATH/framework/driver/pmp/templates/drv_pmp_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/pmp/drv_pmp_static.h"
+    endif
+endif
+

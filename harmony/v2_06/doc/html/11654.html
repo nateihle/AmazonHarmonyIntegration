@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_USBHS_HOST_IRPSubmit Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08950.html">PIC32MZ USB Driver</a> &gt; <a href="08946.html">Library Interface</a> &gt; d) Host Mode Operation Functions &gt; <a href="11654.html">DRV_USBHS_HOST_IRPSubmit Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11653.html">Previous</a> | <a href="08946.html">Up</a> | <a href="11658.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBHS_HOST_IRPSubmit@DRV_USBHS_HOST_PIPE_HANDLE@USB_HOST_IRP * Topic Title: DRV_USBHS_HOST_IRPSubmit Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_USBHS_HOST_IRPSubmit Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="27941.html">USB_ERROR</a> <strong><span style="color: #000000">DRV_USBHS_HOST_IRPSubmit</span></strong>(
+    <a href="11656.html">DRV_USBHS_HOST_PIPE_HANDLE</a> <strong><span style="color: #000000">hPipe</span></strong>, 
+    <a href="28304.html">USB_HOST_IRP</a> * <strong><span style="color: #000000">pinputIRP</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function submits an IRP on the specified pipe. The IRP will be added to the queue and will be processed in turn. The data will be transferred on the bus based on the USB bus scheduling rules. When the IRP has been processed, the callback function specified in the IRP will be called. The IRP status will be updated to reflect the completion status of the IRP.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The pipe handle should be valid.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+hPipe&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Handle to the pipe to which the IRP has to be submitted.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+pInputIRP&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to the IRP.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">USB_ERROR_NONE - The IRP was submitted successfully.</li>
+<li class="Element606">USB_ERROR_PARAMETER_INVALID - The pipe handle is not valid.</li>
+<li class="Element606">USB_ERROR_OSAL_FUNCTION - An error occurred in an OSAL function called in this function.</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+An IRP can also be submitted in an IRP callback function.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01167');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01167"><pre class="Element12"><i><span style="color: #008000">// The following code shows an example of how the host layer populates</span></i>
+<i><span style="color: #008000">// the IRP object and then submits it. IRP_Callback function is called when an</span></i>
+<i><span style="color: #008000">// IRP has completed processing. The status of the IRP at completion can be</span></i>
+<i><span style="color: #008000">// checked in the status flag. The size field of the irp will contain the amount</span></i>
+<i><span style="color: #008000">// of data transferred.  </span></i>
+
+<strong><span style="color: #000080">void</span></strong> IRP_Callback(<a href="28304.html">USB_HOST_IRP</a> * irp)
+{
+    <i><span style="color: #008000">// irp is pointing to the IRP for which the callback has occurred. In most</span></i>
+    <i><span style="color: #008000">// cases this function will execute in an interrupt context. The application</span></i>
+    <i><span style="color: #008000">// should not perform any hardware access or interrupt un-safe operations in</span></i>
+    <i><span style="color: #008000">// this function. </span></i>
+
+    <strong><span style="color: #000080">switch</span></strong>(irp-&gt;status)
+    {
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_ERROR_UNKNOWN:
+            <i><span style="color: #008000">// IRP was terminated due to an unknown error </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_ABORTED:
+            <i><span style="color: #008000">// IRP was terminated by the application </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_ERROR_BUS:
+            <i><span style="color: #008000">// IRP was terminated due to a bus error </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_ERROR_DATA:
+            <i><span style="color: #008000">// IRP was terminated due to data error </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_ERROR_NAK_TIMEOUT:
+            <i><span style="color: #008000">// IRP was terminated because of a NAK timeout </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_ERROR_STALL:
+            <i><span style="color: #008000">// IRP was terminated because of a device sent a STALL </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_COMPLETED:
+            <i><span style="color: #008000">// IRP has been completed </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> USB_HOST_IRP_STATUS_COMPLETED_SHORT:
+            <i><span style="color: #008000">// IRP has been completed but the amount of data processed was less</span></i>
+            <i><span style="color: #008000">// than requested. </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}
+
+<i><span style="color: #008000">// In the following code snippet the a control transfer IRP is submitted to a</span></i>
+<i><span style="color: #008000">// control pipe. The setup parameter of the IRP points to the Setup command of</span></i>
+<i><span style="color: #008000">// the control transfer. The direction of the data stage is specified by the</span></i>
+<i><span style="color: #008000">// Setup packet. </span></i>
+
+<a href="28304.html">USB_HOST_IRP</a> irp;
+<a href="27941.html">USB_ERROR</a> result;
+USB_HOST_PIPE_HANDLE controlPipe;
+USB_SETUP_PACKET setup;
+uint8_t controlTransferData[32];
+
+irp.setup = setup;
+irp.data = controlTransferData;
+irp.size = 32;
+irp.flags = USB_HOST_IRP_FLAG_NONE ;
+irp.userData = &amp;someApplicationObject;
+irp.callback = IRP_Callback;
+
+result = DRV_USBHS_HOST_IRPSubmit(controlPipeHandle, &amp;irp);
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08950.html">PIC32MZ USB Driver</a> &gt; <a href="08946.html">Library Interface</a> &gt; d) Host Mode Operation Functions &gt; <a href="11654.html">DRV_USBHS_HOST_IRPSubmit Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBHS_HOST_IRPSubmit@DRV_USBHS_HOST_PIPE_HANDLE@USB_HOST_IRP * Topic Title: DRV_USBHS_HOST_IRPSubmit Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

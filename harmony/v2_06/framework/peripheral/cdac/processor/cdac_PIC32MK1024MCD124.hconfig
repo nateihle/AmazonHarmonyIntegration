@@ -1,0 +1,21 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MK1024MCD124_CDAC
+	bool
+	select HAVE_CDAC
+	default y
+
+config CDAC_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum CDAC_MODULE_ID exclusive
+	"CDAC_ID_1"
+	|| "CDAC_ID_2"
+	|| "CDAC_ID_3"
+
+enum CDAC_REF_SEL
+	"CDAC_REF_SEL_NO_REF"
+	|| "CDAC_REF_SEL_EXT_VREF"
+	|| "CDAC_REF_SEL_2_4V"
+	|| "CDAC_REF_SEL_AVDD"

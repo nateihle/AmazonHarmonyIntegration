@@ -1,0 +1,163 @@
+enum DRV_AK7755_IMPLEMENTATION
+    "DYNAMIC"
+
+ifblock SELECT_DRV_AK7755=y
+config USE_DRV_CODEC_AK7755
+	depends on SELECT_DRV_AK7755
+	depends on HAVE_I2S	
+	depends on HAVE_I2C
+	bool
+	select DRIVER
+	select USE_DRV_I2S_NEEDED	
+	select USE_DRV_I2C_NEEDED
+	select USE_SYS_CLK_DYNAMIC_NEEDED
+	select USE_SYS_CLK
+	default y if SELECT_DRV_AK7755	
+	default n if !SELECT_DRV_AK7755
+    	---help---
+    	IDH_HTML_AK7755_Driver_Library
+    	---endhelp---
+endif
+
+menu "RTOS Configuration"
+	depends on SELECT_DRV_AK7755
+    depends on USE_DRV_CODEC_AK7755
+    depends on USE_3RDPARTY_RTOS
+    depends on DRV_CODEC_AK7755_IMPL = "DYNAMIC"
+
+config DRV_CODEC_AK7755_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config DRV_CODEC_AK7755_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_CODEC_AK7755_RTOS = "Standalone"
+    default 1024
+
+config DRV_CODEC_AK7755_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_CODEC_AK7755_RTOS = "Standalone"
+    default 1
+
+config DRV_CODEC_AK7755_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_CODEC_AK7755_RTOS = "Standalone"
+    default y
+
+config DRV_CODEC_AK7755_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_CODEC_AK7755_RTOS = "Standalone"
+    depends on DRV_CODEC_AK7755_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_CODEC_AK7755_IMPL
+    	string "Driver Implementation"
+		depends on SELECT_DRV_AK7755
+    	depends on USE_DRV_CODEC_AK7755
+    	range DRV_AK7755_IMPLEMENTATION
+    	default "DYNAMIC"
+    	persistent
+    	---help---
+    	IDH_HTML_AK7755_Driver_Library
+	---endhelp---
+
+enum DRV_AK7755_MCLK_SAMPLE_FREQ_MULTPLIER_VALUE
+	 "128"
+	|| "192"
+	|| "256"
+	|| "384"
+	|| "512"
+	|| "768"
+	|| "1152"
+
+enum DRV_AK7755_BCLK_BIT_CLK_DIVISOR_VALUE
+	 "1"
+	|| "2"
+	|| "4"
+	|| "8"	
+
+enum DRV_AK7755_AUDIO_DATA_FORMAT_VAL
+	"DRV_AK4642_AUDIO_DATA_FORMAT_NOT_APPLICABLE"
+    ||"DRV_AK7755_AUDIO_DATA_FORMAT_16BITMSB_SDTO_16BITLSB_SDTI"   
+    ||"DRV_AK7755_AUDIO_DATA_FORMAT_16BITMSB_SDTO_16BITMSB_SDTI"    
+    ||"DRV_AK7755_AUDIO_DATA_FORMAT_I2S"
+	
+enum DRV_AK7755_DSP_PROGRAM_OPTION
+	"DVK_AK7755_DSP_ECHO_CANCELLATION"
+	||"DRV_AK7755_DSP_REGULAR"
+
+
+config DRV_AK7755_BCLK_BIT_CLK_DIVISOR
+string 
+depends on SELECT_DRV_AK7755
+depends on USE_DRV_CODEC_AK7755		
+default "1" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "1"
+    default "2" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "2"
+    default "4" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "4"
+    default "8" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "8"
+
+
+	
+config DRV_AK7755_ENABLE_MICROPHONE
+	bool "Use Microphone"
+	depends on SELECT_DRV_AK7755
+	depends on USE_DRV_CODEC_AK7755
+	default n
+			
+
+config DRV_AK7755_VOLUME
+	int "Volume for the DAC in the range 0(Min) - 255(Max), the real audible range in dB for the codec maps between 80(-75dB) - 255(+12dB)"
+	depends on SELECT_DRV_AK7755
+	depends on USE_DRV_CODEC_AK7755
+	range 0 255
+	default 150
+    	---help---
+    	IDH_HTML_DRV_AK7755_INIT
+    	---endhelp---
+
+
+
+	
+config USE_DRV_AK7755_MCLK
+    bool "Specify MCLK value"
+    depends on SELECT_DRV_AK7755
+    default n
+    select USE_DRV_I2S_CUSTOM_MULTIPLIER
+
+	
+config DRV_AK7755_AUDIO_DATA_FORMAT_MACRO
+	depends on SELECT_DRV_AK7755
+	depends on USE_DRV_CODEC_AK7755
+	range DRV_AK7755_AUDIO_DATA_FORMAT_VAL
+		---help---
+		IDH_HTML_DRV_AK7755_INIT
+		---endhelp---
+	
+config DRV_AK7755_CLIENTS_NUMBER
+    int "Number of AK7755 Driver Clients"
+    depends on USE_DRV_CODEC_AK7755
+	range 1 2
+    default 1
+	
+config DRV_AK7755_INSTANCES_NUMBER
+	depends on SELECT_DRV_AK7755
+    depends on USE_DRV_CODEC_AK7755
+    range 1 DRV_AK7755_INSTANCES_NUMBER
+    default 1
+    persistent
+
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak7755/config/drv_ak7755_idx.ftl" 1 instances    	
+
+ifblock USE_DRV_CODEC_AK7755=y && SELECT_DRV_AK7755=y
+
+add "<#include \"/framework/driver/codec/ak7755/templates/drv_ak7755.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/codec/ak7755/templates/drv_ak7755_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/codec/ak7755/templates/drv_ak7755_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/codec/ak7755/templates/drv_ak7755.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_CODEC_AK7755 "$HARMONY_VERSION_PATH/framework/driver/codec/ak7755/drv_ak7755.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak7755/drv_ak7755.h"
+file DRV_CODEC_AK7755_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/codec/ak7755/src/drv_ak7755_local.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak7755/drv_ak7755_local.h"
+file DRV_CODEC_AK7755_I2C_MAPPING_H "$HARMONY_VERSION_PATH/framework/driver/codec/ak7755/drv_codec_i2c_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak7755/drv_codec_i2c_mapping.h"
+endif	

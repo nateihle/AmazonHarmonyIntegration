@@ -1,0 +1,1124 @@
+menu "RTOS Configuration"
+menu "uC/OS-III Features"
+    ---help---
+    <p><strong>uC/OS-III - Features</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Compile-time configuration allows users to determine which features to enable and those features that are not needed. With compile-time configuration, the code and data sizes of uC/OS-III (i.e., its footprint) can be reduced by enabling only the desired functionality.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC generates the uC/OS-III os_cfg.h file from this compile-time configuration.</div>
+<div>
+	&nbsp;</div>
+<p>For more information, refer to http://www.micrium.com/rtos/ucosiii/overview/</p>
+    ---endhelp---
+    
+config UCOSIII_CFG_APP_HOOKS_EN
+    bool "Use application specific hooks"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use application specific hooks</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies that application-defined hooks can be called from uC/OS-III's hooks. This allows the application code to extend the functionality of uC/OS-III. </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	It's also up to a user to set pointer values to point to the appropriate application-defined hook functions. The pointers do not have to be set in main() but, you can set them after calling OSInit().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	Note that not every hook function need to be defined, only the ones the user wants to place in the application code.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	Also, if you don't intend to extend uC/OS-III's hook through these application hooks, you can disable this setting to save RAM (i.e., the pointers)</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_APP_HOOKS_EN to 1/0 to enable/disable application specific hooks.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_ARG_CHK_EN
+    bool "Use argument checking"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use argument checking</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Determines whether the user wants most of uC/OS-III functions to perform argument checking. When selected, uC/OS-III ensures that pointers passed to functions are non-NULL, that arguments passed are within allowable range, that options are valid, and more. When disabled, those arguments are not checked and the amount of code space and processing time required by uC/OS-III is reduced. You would disable this option only if you are certain that the arguments are correct.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	uC/OS-III performs argument checking in over 40 functions. Therefore, you can save a few hundred bytes of code space by disabling this check. However, you should always enable argument checking until you are certain the code can be trusted.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_ARG_CHK_EN to 1/0 to enable/disable argument checking.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_CALLED_FROM_ISR_CHK_EN
+    bool "Use check for called from ISR"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use check for called from ISR</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Determines whether most of uC/OS-III functions are to confirm that the function is not called from an ISR. In other words, most of the functions from uC/OS-III should be called by task-level code except "post" type functions (which can also be called from ISRs). By setting this option, uC/OS-III is told to make sure that functions that are only supposed to be called by tasks are not called by ISRs. It's highly recommended to select this option until you are absolutely certain that the code is behaving correctly and that task-level functions are always called from tasks. You can disable this option to save code space and, of course, processing time.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	uC/OS-III performs this check in approximately 50 functions. Therefore, you can save a few hundred bytes of code space by disabling this check.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_CALLED_FROM_ISR_CHK_EN to 1/0 to enable/disable confirming that functions are not called from an ISR.</div>
+    ---endhelp---
+  
+config UCOSIII_CFG_DBG_EN
+    bool "Use debug code/variables"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use debug code/variables</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Adds ROM constants located in os_dbg.c to help support kernel aware debuggers. Specifically, a number of named ROM variables can be queried by a debugger to find out about compiled-in options. For example, a debugger can find out the size of an OS_TCB, uC/OS-III's version number, the size of an event flag group (OS_FLAG_GRP), and much more.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_DBG_EN to 1/0 to enable/disable using debug code/variables.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_ISR_POST_DEFERRED_EN
+    bool "Use deferred ISR posts"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Use deferred ISR posts</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Reduces interrupt latency since interrupts are not disabled during most critical sections of code within uC/OS-III. Instead, the scheduler is locked during the processing of these critical sections. The advantage of enabling this option is that interrupt latency is lower; however, ISR to task response is slightly higher.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_ISR_POST_DEFERRED_EN to 1/0 to enable/disable using deferred ISR posts.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_OBJ_TYPE_CHK_EN
+    bool "Use object type checking"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Use object type checking</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Determines whether most of uC/OS-III functions should check to see if the function is manipulating the proper object. In other words, if attempting to post to a semaphore, is the user in fact passing a semaphore object or another object by mistake? It is recommended to enable this option until absolutely certain that the code is behaving correctly and the user code is always pointing to the proper objects. You would disable this option to save code space as well as data space. uC/OS-III object type checking is done nearly 30 times, and it is possible to save a few hundred bytes of code space and processing time by disabling this check.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_OBJ_TYPE_CHK_EN to 1/0 to enable/disable using object type checking.</div>
+    ---endhelp---
+ 
+config UCOSIII_CFG_TS_EN
+    bool "Use time stamping"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Use time stamping</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls use of time-stamping.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TS_EN to 1/0 to enable/disable time-stamping.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_PEND_MULTI_EN
+    bool "Include code for multi-pend feature"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for multi-pend feature</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This constant determines whether the code to support pending on multiple events (i.e., semaphores or message queues) will be enabled or not.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_PEND_MULTI_EN to 1/0 to include/exclude code for the multi-pend feature.</div>
+    ---endhelp---
+  
+config UCOSIII_CFG_PRIO_MAX
+    int "The maximum number of task priorities"
+    default 8
+    ---help---
+<p><strong>uC/OS-III - The maximum number of task priorities</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies the maximum number of priorities available in the application. Setting this option to just the number of priorities the user intends to use, reduces the amount of RAM needed by uC/OS-III</div>
+<div>
+	&nbsp;</div>
+<div>
+	In uC/OS-III, task priorities can range from 0 (highest priority) to a maximum of 255 (lowest possible priority) when the data type OS_PRIO is defined as a CPU_INT08U. However, in uC/OS-III, there is no practical limit to the number of available priorities. Specifically, if defining OS_PRIO as a CPU_INT16U, there can be up to 65536 priority levels. It is recommended to leave OS_PRIO defined as a CPU_INT08U and use only 256 different priority levels (i.e., 0..255), which is generally sufficient for every application. You should always set the maximum number of task priorities to even multiples of 8 (8, 16, 32, 64, 128, 256, etc.). The higher the number of different priorities, the more RAM uC/OS-III will consume.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_PRIO_MAX to the maximum number of task priorities.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	An application cannot create tasks with a priority number higher than or equal to OS_CFG_PRIO_MAX. In fact, uC/OS-III reserves priority OS_CFG_PRIO_MAX-2 and OS_CFG_PRIO_MAX-1 for itself; OS_CFG_PRIO_MAX-1 is reserved for the idle task OS_IdleTask(). Additionally, do not use priority 0 for an application since it is reserved by uC/OS-III's ISR handler task. The priorities of the application tasks can therefore take a value between 2 and OS_CFG_PRIO_MAX–3 (inclusive).</div>
+    ---endhelp---
+  
+config UCOSIII_CFG_SCHED_LOCK_TIME_MEAS_EN
+    bool "Include code to measure scheduler lock time"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Include code to measure scheduler lock time</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of code to measure the amount of time the scheduler is locked. This is useful when determining task latency.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_SCHED_LOCK_TIME_MEAS_EN to 1/0 to include/exclude code to measure the amount of time the scheduler is locked.</div>
+    ---endhelp---
+  
+config UCOSIII_CFG_SCHED_ROUND_ROBIN_EN
+    bool "Include code for Round-Robin scheduling"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Include code for Round-Robin scheduling</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of code for the round-robin feature of uC/OS-III</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_SCHED_ROUND_ROBIN_EN to 1/0 to include/exclude code for the round-robin feature.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_STK_SIZE_MIN
+    int "Minimum allowable task stack size"
+    default 64
+    ---help---
+<p><strong>uC/OS-III - Minimum allowable task stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This value specifies the minimum stack size (in CPU_STK elements) for each task. This is used by uC/OS-III to verify that sufficient stack space is provided for when each task is created. Suppose the full context of a processor consists of 16 registers of 32 bits. Also, suppose CPU_STK is declared as being of type CPU_INT32U, at a bare minimum, set OS_CFG_STK_SIZE_MIN to 16. However, it would be quite unwise to not accommodate for storage of local variables, function call returns, and possibly nested ISRs. Refer to the "port" of the processor used to see how to set this minimum. Again, this is a safeguard to make sure task stacks have sufficient stack space.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_STK_SIZE_MIN to the specified value.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_FLAG_EN
+    bool "Use EVENT FLAGS"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use EVENT FLAGS</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of event flag services and data structures. This reduces the amount of code and data space needed when an application does not require event flags. </div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_FLAG_EN to 1/0 to enable/disable using EVENT FLAGS.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_FLAG_DEL_EN
+    bool "Include code for OSFlagDel()"
+    depends on UCOSIII_CFG_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSFlagDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSFlagDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_FLAG_DEL_EN to 1/0 to include/exclude OSFlagDel().</div>
+    ---endhelp---
+
+config UCOSIII_CFG_FLAG_MODE_CLR_EN
+    bool "Include code for Wait on Clear EVENT FLAGS"
+    depends on UCOSIII_CFG_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for Wait on Clear EVENT FLAGS</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+    Enables or disables code generation used to wait for event flags to be 0 instead of 1. Generally, you would wait for event flags to be set. However, the user may also want to wait for event flags to be clear and in this case, enable this option.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_FLAG_MODE_CLR_EN to 1/0 to include/exclude code to wait for event flags to be 0.</div>
+    ---endhelp---
+   
+config UCOSIII_CFG_FLAG_PEND_ABORT_EN
+    bool "Include code for OSFlagPendAbort()"
+    depends on UCOSIII_CFG_FLAG_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSFlagPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSFlagPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_FLAG_PEND_ABORT_EN to 1/0 to include/exclude OSFlagPendAbort().</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_MEM_EN
+    bool "Use MEMORY MANAGER"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use MEMORY MANAGER</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables or disables code generation of the uC/OS-III partition memory manager and its associated data structures. This feature allows users to reduce the amount of code and data space needed when an application does not require the use of memory partitions.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_MEM_EN to 1/0 to enable or disable the uC/OS-III partition memory manager.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_MUTEX_EN
+    bool "Use MUTEX"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use MUTEX</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables or disables the code generation of all mutual exclusion semaphore services and data structures. This feature allows users to reduce the amount of code and data space needed when an application does not require the use of mutexes.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_MUTEX_EN to 1/0 to enable or disable the code generation of all mutual exclusion semaphore services and data structures.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_MUTEX_DEL_EN
+    bool "Include code for OSMutexDel()"
+    depends on UCOSIII_CFG_MUTEX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSMutexDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMutexDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_MUTEX_DEL_EN to 1/0 to include/exclude OSMutexDel().</div>
+    ---endhelp---
+ 
+config UCOSIII_CFG_MUTEX_PEND_ABORT_EN
+    bool "Include code for OSMutexPendAbort()"
+    depends on UCOSIII_CFG_MUTEX_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSMutexPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSMutexPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_MUTEX_PEND_ABORT_EN to 1/0 to include/exclude OSMutexPendAbort().</div>
+    ---endhelp---
+  
+config UCOSIII_CFG_Q_EN
+    bool "Use QUEUES"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use QUEUES</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Enables or disables all message queue services and data structures. This reduces the amount of code space needed when an application does not require the use of message queues.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_Q_EN to 1/0 to enable or disable all message queue services and data structures.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_Q_DEL_EN
+    bool "Include code for OSQDel()"
+    depends on UCOSIII_CFG_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSQDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_Q_DEL_EN to 1/0 to include/exclude OSQDel().</div>
+    ---endhelp---
+ 
+ config UCOSIII_CFG_Q_FLUSH_EN
+    bool "Include code for OSQFlush()"
+    depends on UCOSIII_CFG_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSQFlush()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQFlush().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_Q_FLUSH_EN to 1/0 to include/exclude OSQFlush().</div>
+    ---endhelp---
+ 
+ config UCOSIII_CFG_Q_PEND_ABORT_EN
+    bool "Include code for OSQPendAbort()"
+    depends on UCOSIII_CFG_Q_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSQPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSQPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_Q_PEND_ABORT_EN to 1/0 to include/exclude OSQPendAbort().</div>
+    ---endhelp---
+ 
+config UCOSIII_CFG_SEM_EN
+    bool "Use SEMAPHORES"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use SEMAPHORES</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of the semaphore manager and associated data structures. This reduces the amount of code and data space needed when an application does not require the use of semaphores.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_SEM_EN to 1/0 to include/exclude code for the semaphore manager and associated data structures.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_SEM_DEL_EN
+    bool "Include code for OSSemDel()"
+    depends on UCOSIII_CFG_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSSemDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSSemDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_SEM_DEL_EN to 1/0 to include/exclude OSSemDel().</div>
+    ---endhelp---
+ 
+config UCOSIII_CFG_SEM_PEND_ABORT_EN
+    bool "Include code for OSSemPendAbort()"
+    depends on UCOSIII_CFG_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSSemPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSSemPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_SEM_PEND_ABORT_EN to 1/0 to include/exclude OSSemPendAbort().</div>
+    ---endhelp---
+
+config UCOSIII_CFG_SEM_SET_EN
+    bool "Include code for OSSemSet()"
+    depends on UCOSIII_CFG_SEM_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSSemSet()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSSemSet().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_SEM_SET_EN to 1/0 to include/exclude OSSemSet().</div>
+    ---endhelp---
+     
+config UCOSIII_CFG_STAT_TASK_EN
+    bool "Use the statistics task"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use the statistics task</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies whether or not to enable uC/OS-III's statistic task, as well as its initialization function. When selected, the statistic task OS_StatTask() and statistic task initialization function are enabled. OS_StatTask() computes the CPU usage of an application, stack usage of each task, the CPU usage of each task at run time and more.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	When enabled, OS_StatTask() executes at a rate of OS_CFG_STAT_TASK_RATE_HZ (see os_cfg_app.h), and computes the value of OSStatTaskCPUUsage, which is a variable that contains the percentage of CPU used by the application. OS_StatTask() calls OSStatTaskHook() every time it executes so that the user can add their own statistics as needed. See os_stat.c for details on the statistic task. The priority of OS_StatTask() is configurable by the application code (see os_cfg_app.h).</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	OS_StatTask() also computes stack usage of each task created. In this case, OS_StatTask() calls OSTaskStkChk() for each task and the result is placed in the task's TCB. The .StkFree and .StkUsed field of the task's TCB represents the amount of free space (in bytes) and amount of used space, respectively.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	When this option is disabled, all variables used by the statistic task are not declared (see os.h). This, of course, reduces the amount of RAM needed by uC/OS-III when not enabling the statistic task. When this option is enabled, statistics will be determined at a rate of OS_CFG_STAT_TASK_RATE_HZ (see os_cfg_app.h).</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_STAT_TASK_EN  to 1/0 to include/exclude the statistics task.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_STAT_TASK_STK_CHK_EN
+    bool "Check task stacks from statistic task"
+    depends on UCOSIII_CFG_STAT_TASK_EN
+    default y
+    ---help---
+<p><strong>uC/OS-III - Check task stacks from statistic task</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Allows the statistic task to call OSTaskStkChk() for each task created.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_STAT_TASK_STK_CHK_EN to 1/0 to check task stacks from statistic task.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TASK_CHANGE_PRIO_EN
+    bool "Include code for OSTaskChangePrio()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTaskChangePrio()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTaskChangePrio().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_CHANGE_PRIO_EN to 1/0 to include/exclude OSTaskChangePrio().</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TASK_DEL_EN
+    bool "Include code for OSTaskDel()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTaskDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTaskDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_DEL_EN to 1/0 to include/exclude OSTaskDel().</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TASK_Q_EN
+    bool "Include code for OSTaskQXXXX()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTaskQXXXX()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of the OSTaskQXXX() functions used to send and receive messages directly to/from tasks and ISRs. Sending messages directly to a task is more efficient than sending messages using a message queue because there is no pend list associated with messages sent to a task.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_Q_EN to 1/0 to include/exclude the OSTaskQXXX() functions.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TASK_Q_PEND_ABORT_EN
+    bool "Include code for OSTaskQPendAbort()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTaskQPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTaskQPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_Q_PEND_ABORT_EN to 1/0 to include/exclude OSTaskQPendAbort().</div>
+    ---endhelp---
+   
+config UCOSIII_CFG_TASK_PROFILE_EN
+    bool "Include variables in OS_TCB for profiling"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include variables in OS_TCB for profiling</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This options allows variables to be allocated in each task's OS_TCB to hold performance data about each task. If enabled, each task will have a variable to keep track of the number of times a task is switched to, the task execution time, the percent CPU usage of the task relative to the other tasks and more. The information made available with this feature is highly useful when debugging, but requires extra RAM.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_PROFILE_EN to 1/0 to include/exclude variables in OS_TCB for profiling.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TASK_REG_TBL_SIZE
+    int "Number of task specific registers"
+    default 1
+    ---help---
+<p><strong>uC/OS-III - Number of task specific registers</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This value allows each task to have task context variables. Use task variables to store such elements as "errno", task identifiers and other task-specific values. The number of variables that a task contains is set by this constant. Each variable is identified by a unique identifier from 0 to the number of task specific registers - 1. Also, each variable is declared as having an OS_REG data type (see os_type.h). If OS_REG is a CPU_INT32U, all variables in this table are of this type.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_REG_TBL_SIZE to the specified number of task specific registers.</div>
+    ---endhelp---
+      
+config UCOSIII_CFG_TASK_SEM_PEND_ABORT_EN
+    bool "Include code for OSTaskSemPendAbort()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTaskSemPendAbort()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTaskSemPendAbort().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_SEM_PEND_ABORT_EN to 1/0 to include/exclude OSTaskSemPendAbort().</div>
+    ---endhelp---
+ 
+config UCOSIII_CFG_TASK_SUSPEND_EN
+    bool "Include code for OSTaskSuspend() and OSTaskResume()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for Include code for OSTaskSuspend() and OSTaskResume()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of functions OSTaskSuspend() and OSTaskResume(), which allows the application to explicitly suspend and resume tasks, respectively. Suspending and resuming a task is useful when debugging, especially if calling these functions via a terminal interface at run time..</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_SUSPEND_EN to 1/0 to include/exclude OSTaskSuspend() and OSTaskResume().</div>
+    ---endhelp---
+     
+config UCOSIII_CFG_TIME_DLY_HMSM_EN
+    bool "Include code for OSTimeDlyHMSM()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTimeDlyHMSM()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTimeDlyHMSM(), which is used to delay a task for a specified number of hours, minutes, seconds, and milliseconds.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TIME_DLY_HMSM_EN to 1/0 to include/exclude OSTimeDlyHMSM().</div>
+    ---endhelp---
+        
+config UCOSIII_CFG_TIME_DLY_RESUME_EN
+    bool "Include code for OSTimeDlyResume()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTimeDlyResume()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTimeDlyResume().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TIME_DLY_HMSM_EN to 1/0 to include/exclude OSTimeDlyResume().</div>
+    ---endhelp---
+        
+config UCOSIII_CFG_TMR_EN
+    bool "Use TIMERS"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Use TIMERS</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of timer management functions.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TMR_EN to 1/0 to include/exclude timer management functions.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_TMR_DEL_EN
+    bool "Use OSTmrDel()"
+    default y
+    ---help---
+<p><strong>uC/OS-III - Include code for OSTmrDel()</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Controls code generation of function OSTmrDel().</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TMR_DEL_EN to 1/0 to include/exclude OSTmrDel().</div>
+    ---endhelp---
+   
+endmenu # Features
+
+
+menu "uC/OS-III Stacks, Pools, and Other"
+    ---help---
+    <p><strong>uC/OS-III - Stacks, Pools, and Other</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	uC/OS-III allows the user to configure the sizes of the idle task stack, statistic task stack, message pool, and more.</div>
+<div>
+	&nbsp;&nbsp;&nbsp;</div>
+<div>
+	MHC generates the uC/OS-III os_cfg_app.h file from this compile-time configuration.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_MSG_POOL_SIZE
+    int "Maximum number of messages"
+    default 100
+    ---help---
+<p><strong>uC/OS-III - Maximum number of messages</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This entry specifies the number of OS_MSGs available in the pool of OS_MSGs. The size is specified in number of OS_MSG elements. </div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_MSG_POOL_SIZE to the specified value.</div>
+    ---endhelp---
+  
+config UCOSIII_CFG_ISR_STK_SIZE
+    int "ISR stack size"
+    default 512
+    ---help---
+<p><strong>uC/OS-III - ISR stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This specifies the size of uC/OS-III's interrupt stack (in CPU_STK elements). Note that the stack size needs to accommodate for worst case interrupt nesting.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_ISR_STK_SIZE to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TASK_STK_LIMIT_PCT_EMPTY
+    int "Stack limit position in percentage to empty"
+    default 10
+    ---help---
+<p><strong>uC/OS-III - Stack limit position in percentage to empty</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Sets the position (as a percentage to empty) of the stack limit for the idle, statistic, tick, interrupt queue handler, and timer tasks stacks. In other words, the amount of space to leave before the stack is empty. For example if the stack contains 1000 CPU_STK entries and the user sets percent to empty to 10, the stack limit will be set when the stack reaches 90% full, or 10% empty.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TASK_STK_LIMIT_PCT_EMPTY to the specified value.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_IDLE_TASK_STK_SIZE
+    int "Idle stack size"
+    range UCOSIII_CFG_STK_SIZE_MIN 9999999999
+    default UCOSIII_CFG_STK_SIZE_MIN
+    ---help---
+<p><strong>uC/OS-III - Idle stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This #define sets the size of the idle task's stack (in CPU_STK elements).  Note that the stack size needs to be at least greater than OS_CFG_STK_SIZE_MIN.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_IDLE_TASK_STK_SIZE to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_INT_Q_SIZE
+    int "Size of ISR handler task queue"
+    depends on UCOSIII_CFG_ISR_POST_DEFERRED_EN
+    default 10
+    ---help---
+<p><strong>uC/OS-III - Size of ISR handler task queue</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies the number of entries that can be placed in the interrupt queue. The size of this queue depends on how many interrupts could occur in the time it takes to process interrupts by the ISR Handler Task. The size also depends on whether or not to allow interrupt nesting. A good start point is approximately 10 entries.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_INT_Q_SIZE to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_INT_Q_TASK_STK_SIZE
+    int "Size of ISR stack size"
+    depends on UCOSIII_CFG_ISR_POST_DEFERRED_EN
+    range UCOSIII_CFG_STK_SIZE_MIN 9999999999
+    default 512
+    ---help---
+<p><strong>uC/OS-III - Size of ISR stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Sets the size of the ISR handler task's stack (in CPU_STK elements).  Note that the stack size needs to be at least greater than OS_CFG_STK_SIZE_MIN.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_INT_Q_TASK_STK_SIZE to the specified value.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_STAT_TASK_RATE_HZ
+    int "Statistics task rate of execution in Hz"
+    depends on UCOSIII_CFG_STAT_TASK_EN
+    default 10
+    ---help---
+<p><strong>uC/OS-III - Statistics task rate of execution in Hz</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Defines the execution rate (in Hz) of the statistic task. It is recommended to make this rate an even multiple of the tick rate (OS_CFG_TICK_RATE_HZ).</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_STAT_TASK_RATE_HZ to the specified value.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_STAT_TASK_STK_SIZE
+    int "Statistics task stack size"
+    depends on UCOSIII_CFG_STAT_TASK_EN
+    range UCOSIII_CFG_STK_SIZE_MIN 9999999999
+    default 512
+    ---help---
+<p><strong>uC/OS-III - Statistics task stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Sets the size of the statistic task's stack (in CPU_STK elements).  Note that the stack size needs to be at least greater than OS_CFG_STK_SIZE_MIN.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_STAT_TASK_STK_SIZE to the specified value.</div>
+    ---endhelp---
+
+    config UCOSIII_TICK_INTERRUPT
+        select USE_SYS_INT_NEEDED
+        bool "Tick interrupt"
+        default y
+        persistent
+        ---help---
+<p><strong>uC/OS-III - Tick Interrupt</strong></p>
+<div>
+	&nbsp;</div>
+<div>Enables (when set to 1) or disables (when set to 0) the code generation of the system interrupt services.</div>
+<div>&nbsp;</div>
+<div>MHC sets the system service preprocessor variable SYS_INT to TRUE.</div>
+        ---endhelp---
+    
+config UCOSIII_CFG_TICK_RATE_HZ
+    int "Tick rate in Hz"
+    default 1000
+    ---help---
+<p><strong>uC/OS-III - Tick rate in Hz</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies the rate in Hertz of uC/OS-III's tick interrupt. The tick rate should be set between 10 and 1000 Hz. The higher the rate, the more overhead it will impose on the processor. The desired rate depends on the granularity required for time delays and timeouts.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TICK_RATE_HZ to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TICK_TASK_STK_SIZE 
+    int "Tick task stack size"
+    range UCOSIII_CFG_STK_SIZE_MIN 9999999999
+    default 512
+    ---help---
+<p><strong>uC/OS-III - Tick task stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	This entry specifies the size of uC/OS-III's tick task stack (in CPU_STK elements). Note that the stack size must be at least greater than OS_CFG_STK_SIZE_MIN. </div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TICK_TASK_STK_SIZE to the specified value.</div>
+    ---endhelp---
+    
+config UCOSIII_CFG_TICK_WHEEL_SIZE 
+    int "Tick wheel size"
+    default 17
+    ---help---
+<p><strong>uC/OS-III - Tick wheel size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Number of 'spokes' in tick wheel; SHOULD be prime</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TICK_WHEEL_SIZE to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_CFG_TMR_TASK_RATE_HZ
+    int "Timer rate in Hz"
+    depends on UCOSIII_CFG_TMR_EN
+    default 10
+    ---help---
+<p><strong>uC/OS-III - Timer rate in Hz</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Specifies the rate in Hertz of uC/OS-III's timer task. The timer task rate should typically be set to 10 Hz. However, timers can run at a faster rate at the price of higher processor overhead. Note that OS_CFG_TMR_TASK_RATE_HZ MUST be an integer multiple of OS_CFG_TICK_TASK_RATE_HZ. In other words, if setting OS_CFG_TICK_TASK_RATE_HZ to 1000, do not set OS_CFG_TMR_TASK_RATE_HZ to 11 since 90.91 ticks would be required for every timer update, and 90.91 is not an integer multiple. Use approximately 10 Hz in this example.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TMR_TASK_RATE_HZ to the specified value.</div>
+    ---endhelp---
+ 
+config UCOSIII_CFG_TMR_TASK_STK_SIZE
+    int "Timer task stack size"
+    depends on UCOSIII_CFG_TMR_EN
+    range UCOSIII_CFG_STK_SIZE_MIN 9999999999
+    default 512
+    ---help---
+<p><strong>uC/OS-III - Timer task stack size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Sets the size of the timer task's stack (in CPU_STK elements).  Note that the stack size needs to be at least greater than OS_CFG_STK_SIZE_MIN.</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TMR_TASK_STK_SIZE to the specified value.</div>
+    ---endhelp---
+ 
+config UCOSIII_CFG_TMR_WHEEL_SIZE
+    int "Timer wheel size"
+    depends on UCOSIII_CFG_TMR_EN
+    default 17
+    ---help---
+<p><strong>uC/OS-III - Timer wheel size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	Number of 'spokes' in timer wheel; SHOULD be prime</div>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable OS_CFG_TMR_WHEEL_SIZE to the specified value.</div>
+    ---endhelp---
+
+endmenu # Stacks, pools, other    
+
+
+menu "uC/OS-III Portable Library Functions"
+    ---help---
+    <p><strong>uC/OS-III - Portable Library Functions</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	uC/LIB consists of library functions meant to be highly portable and not tied to any specific compiler. This facilitates third-party certification of Micrium products. uC/OS-III does not use any uC/LIB functions, however uC/OS-III and uC/CPU assumes the presence of lib_def.h for such definitions as: DEF_YES, DEF_NO, DEF_TRUE, DEF_FALSE, DEF_ON, DEF_OFF and more.</div>
+    ---endhelp---
+
+config UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+    bool "Use portable library functions?"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Use portable library functions?</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	MHC includes the portable library functions in the project when this option is selected.</div>
+    ---endhelp---
+
+ifblock UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+    
+config UCOSIII_LIB_MEM_CFG_ARG_CHK_EXT_EN
+    bool "Enable argument check feature"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Enable argument check feature</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable LIB_MEM_CFG_ARG_CHK_EXT_EN to the specified value.</div>
+    ---endhelp---
+  
+config UCOSIII_LIB_MEM_CFG_OPTIMIZE_ASM_EN
+    bool "Configure assembly-optimized function(s)"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Configure assembly-optimized function(s)</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable LIB_MEM_CFG_OPTIMIZE_ASM_EN to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_LIB_MEM_CFG_ALLOC_EN
+    bool "Enable memory allocation functions"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Enable memory allocation functions</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable LIB_MEM_CFG_ALLOC_EN to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_LIB_MEM_CFG_HEAP_SIZE
+    int "Heap Size"
+    depends on UCOSIII_LIB_MEM_CFG_ALLOC_EN
+    default 0
+    ---help---
+<p><strong>uC/OS-III - Heap Size</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable LIB_MEM_CFG_HEAP_SIZE to the specified value.</div>
+    ---endhelp---
+
+config UCOSIII_LIB_STR_CFG_FP_EN
+    bool "Enable floating point string functions"
+    default n
+    ---help---
+<p><strong>uC/OS-III - Enable floating point string functions</strong></p>
+<div>
+	&nbsp;</div>
+<div>
+	MHC sets the uC/OS-III preprocessor variable LIB_STR_CFG_FP_EN to the specified value.</div>
+    ---endhelp---
+ 
+endif  #UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+ 
+endmenu # Portable library functions
+
+
+template UCOSIII_OS_CFG_H     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/templates/os_cfg.h.ftl"     to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/os_cfg.h"
+template UCOSIII_OS_CFG_APP_H "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/templates/os_cfg_app.h.ftl" to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/os_cfg_app.h"
+template UCOSIII_APP_CFG_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/templates/app_cfg.h.ftl"    to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/app_cfg.h"
+template UCOSIII_LIB_CFG_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/templates/lib_cfg.h.ftl"    to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/lib_cfg.h" if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+template UCOSIII_CPU_CFG_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/templates/cpu_cfg.h.ftl"    to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/cpu_cfg.h"
+    
+file UCOSIII_OS_CFG_APP_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_cfg_app.c" to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_cfg_app.c"
+file UCOSIII_OS_CORE_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_core.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_core.c"
+file UCOSIII_OS_DBG_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_dbg.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_dbg.c"
+file UCOSIII_OS_FLAG_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_flag.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_flag.c"
+file UCOSIII_OS_INT_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_int.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_int.c"
+file UCOSIII_OS_MEM_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_mem.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_mem.c"
+file UCOSIII_OS_MSG_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_msg.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_msg.c"
+file UCOSIII_OS_MUTEX_C   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_mutex.c"   to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_mutex.c"
+file UCOSIII_OS_PEND_MULTI_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_pend_multi.c" to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_pend_multi.c"
+file UCOSIII_OS_PRIO_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_prio.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_prio.c"
+file UCOSIII_OS_Q_C       "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_q.c"       to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_q.c"
+file UCOSIII_OS_SEM_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_sem.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_sem.c"
+file UCOSIII_OS_STAT_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_stat.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_stat.c"
+file UCOSIII_OS_TASK_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_task.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_task.c"
+file UCOSIII_OS_TICK_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_tick.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_tick.c"
+file UCOSIII_OS_TIME_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_time.c"    to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_time.c"
+file UCOSIII_OS_TMR_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_tmr.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_tmr.c"
+file UCOSIII_OS_VAR_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_var.c"     to "$PROJECT_SOURCE_FILES/micrium/ucos_III/os_var.c"
+
+file UCOSIII_OS_H         "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os.h"         to "$PROJECT_HEADER_FILES/micrium/ucos_III/os.h"
+file UCOSIII_OS_TYPE_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source/os_type.h"    to "$PROJECT_HEADER_FILES/micrium/ucos_III/os_types.h"
+
+file UCOSIII_CPU_CORE_C   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/cpu_core.c"            to "$PROJECT_SOURCE_FILES/micrium/ucos_cpu/cpu_core.c"
+file UCOSIII_CPU_CORE_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/cpu_core.h"            to "$PROJECT_HEADER_FILES/micrium/ucos_cpu/cpu_core.h"
+file UCOSIII_CPU_DEF_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/cpu_def.h"             to "$PROJECT_HEADER_FILES/micrium/ucos_cpu/cpu_def.h"
+
+file UCOSIII_LIB_ASCII_C   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_ascii.c"          to "$PROJECT_SOURCE_FILES/micrium/ucos_lib/lib_ascii.c" if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+file UCOSIII_LIB_MATH_C    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_math.c"           to "$PROJECT_SOURCE_FILES/micrium/ucos_lib/lib_math.c"  if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+file UCOSIII_LIB_MEM_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_mem.c"            to "$PROJECT_SOURCE_FILES/micrium/ucos_lib/lib_mem.c" 
+file UCOSIII_LIB_STR_C     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_str.c"            to "$PROJECT_SOURCE_FILES/micrium/ucos_lib/lib_str.c"   if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+file UCOSIII_LIB_ASCII_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_ascii.h"          to "$PROJECT_HEADER_FILES/micrium/ucos_lib/lib_ascii.h" if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+file UCOSIII_LIB_DEF_H     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_def.h"            to "$PROJECT_HEADER_FILES/micrium/ucos_lib/lib_def.h"   if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+file UCOSIII_LIB_MATH_H    "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_math.h"           to "$PROJECT_HEADER_FILES/micrium/ucos_lib/lib_math.h"  if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+file UCOSIII_LIB_MEM_H     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_mem.h"            to "$PROJECT_HEADER_FILES/micrium/ucos_lib/lib_mem.h" 
+file UCOSIII_LIB_STR_H     "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB/lib_str.h"            to "$PROJECT_HEADER_FILES/micrium/ucos_lib/lib_str.h"   if UCOSIII_USE_PORTABLE_LIBRARY_FUNCTIONS
+
+file UCOSIII_PIC32MX_CPU_C_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32-4K/MPLAB-PIC32-GCC/cpu_c.c" to "$PROJECT_SOURCE_FILES/micrium/ucos_cpu/pic32mx/cpu_c.c" if PIC32MX
+file UCOSIII_PIC32MX_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32-4K/MPLAB-PIC32-GCC/cpu_a.s" to "$PROJECT_SOURCE_FILES/micrium/ucos_cpu/pic32mx/cpu_a.s" if PIC32MX
+file UCOSIII_PIC32MX_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32-4K/MPLAB-PIC32-GCC/cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos_cpu/pic32mx/cpu.h"   if PIC32MX
+
+file UCOSIII_PIC32MZ_CPU_C_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32_14KEc/MPLABX_XC32_GCC/cpu_c.c" to "$PROJECT_SOURCE_FILES/micrium/ucos_cpu/pic32mz/cpu_c.c" if PIC32MZ
+file UCOSIII_PIC32MZ_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32_14KEc/MPLABX_XC32_GCC/cpu_a.s" to "$PROJECT_SOURCE_FILES/micrium/ucos_cpu/pic32mz/cpu_a.s" if PIC32MZ
+file UCOSIII_PIC32MZ_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32_14KEc/MPLABX_XC32_GCC/cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos_cpu/pic32mz/cpu.h"   if PIC32MZ
+
+file UCOSIII_PIC32MX_OS_CPU_C_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_cpu_c.c" to "$PROJECT_SOURCE_FILES/micrium/ucos_III/pic32mx/os_cpu_c.c" if PIC32MX
+file UCOSIII_PIC32MX_OS_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_cpu_a.S" to "$PROJECT_SOURCE_FILES/micrium/ucos_III/pic32mx/os_cpu_a.S" if PIC32MX
+file UCOSIII_PIC32MX_OS_CPU_A_INC "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_cpu_a.inc" to "$PROJECT_HEADER_FILES/micrium/ucos_III/pic32mx/os_cpu_a.inc" if PIC32MX
+file UCOSIII_PIC32MX_OS_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC/os_cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos_III/pic32mx/os_cpu.h"   if PIC32MX
+
+file UCOSIII_PIC32MZ_OS_CPU_C_C "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32_M14KEc/ExternalInterruptController/MPLABX_XC32_GCC/os_cpu_c.c" to "$PROJECT_SOURCE_FILES/micrium/ucos_III/pic32mz/os_cpu_c.c" if PIC32MZ
+
+file UCOSIII_PIC32MZ_OS_CPU_A_S "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32_M14KEc/ExternalInterruptController/MPLABX_XC32_GCC/os_cpu_a.S" to "$PROJECT_SOURCE_FILES/micrium/ucos_III/pic32mz/os_cpu_a.S" if PIC32MZ
+
+file UCOSIII_PIC32MZ_OS_CPU_A_INC "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32_M14KEc/ExternalInterruptController/MPLABX_XC32_GCC/os_cpu_a.inc" to "$PROJECT_HEADER_FILES/micrium/ucos_III/pic32mz/os_cpu_a.inc" if PIC32MZ
+
+file UCOSIII_PIC32MZ_OS_CPU_H   "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32_M14KEc/ExternalInterruptController/MPLABX_XC32_GCC/os_cpu.h"   to "$PROJECT_HEADER_FILES/micrium/ucos_III/pic32mz/os_cpu.h"   if PIC32MZ
+
+
+compiler UCOSIII_PIC32MX_COMPILER_INCLUDEPATH_1 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32-4K/MPLAB-PIC32-GCC"                                          if PIC32MX
+compiler UCOSIII_PIC32MX_COMPILER_INCLUDEPATH_2 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC"               if PIC32MX
+compiler UCOSIII_PIC32MZ_COMPILER_INCLUDEPATH_1 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU/MIPS32_14KEc/MPLABX_XC32_GCC"                                       if PIC32MZ
+compiler UCOSIII_PIC32MZ_COMPILER_INCLUDEPATH_2 includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32_M14KEc/ExternalInterruptController/MPLABX_XC32_GCC"  if PIC32MZ
+compiler UCOSIII_COMPILER_INCLUDEPATH_1       includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Source"
+compiler UCOSIII_COMPILER_INCLUDEPATH_2       includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_CPU"
+compiler UCOSIII_COMPILER_INCLUDEPATH_3       includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uC_LIB"
+compiler UCOSIII_COMPILER_INCLUDEPATH_4       includepath "$PROJECT_HEADER_FILES/rtos_config/$CONFIGURATION"
+
+assembler ASSEMBLER_CRT0_MZ_DEFINE_1 define "PIC32MZ" if PIC32MZ
+assembler ASSEMBLER_CRT0_MZ_DEFINE_2 define "PIC32_SRS_SET_COUNT=8" if PIC32MZ
+assembler ASSEMBLER_CRT0_MZ_DEFINE_3 define "INIT_MMU_MZ_FIXED" if PIC32MZ
+assembler ASSEMBLER_CRT0_MZ_DEFINE_4 define "INIT_L1_CACHE" if PIC32MZ
+assembler ASSEMBLER_CRT0_MZ_DEFINE_5 define "INIT_SSX" if PIC32MZ
+assembler ASSEMBLER_CRT0_MZ_DEFINE_6 define "INIT_DSPR2" if PIC32MZ
+
+assembler ASSEMBLER_CRT0_MX_DEFINE_1 define "PIC32MX" if PIC32MX
+assembler ASSEMBLER_CRT0_MX_DEFINE_2 define "PIC32_SRS_SET_COUNT=2" if PIC32MX
+
+assembler UCOSIII_PIC32MZ_ASSEMBLER_INCLUDEPATH includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32_M14KEc/ExternalInterruptController/MPLABX_XC32_GCC" if PIC32MZ
+
+assembler UCOSIII_PIC32MX_ASSEMBLER_INCLUDEPATH includepath "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/Software/uCOS_III/Ports/MIPS32-4K/Vectored-Interrupt/MPLAB-PIC32-GCC" if PIC32MX
+endmenu

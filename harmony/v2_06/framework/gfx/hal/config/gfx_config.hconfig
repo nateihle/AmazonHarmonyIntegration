@@ -1,0 +1,44 @@
+config GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Draw Pipeline"
+    default n if USE_GFX_DRV_ONLY_NEEDED
+    default y
+
+config GFX_HAL_ALPHA_BLENDING_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Alpha Blending"
+    default y
+
+config GFX_HAL_BOUNDS_CLIPPING_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Bounds Clipping"
+    default y
+
+config GFX_HAL_COLOR_CONVERSION_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Color Conversion"
+    default y
+
+config GFX_HAL_COLOR_MASKING_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Color Masking"
+    default y
+
+config GFX_HAL_LAYER_CLIPPING_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Layer Clipping"
+    default y
+
+config GFX_HAL_ORIENTATION_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Orientation and Mirroring"
+    default y
+
+config GFX_DRAW_ARC_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Arc Drawing"
+    default y
+
+config GFX_DRAW_ELLIPSE_ENABLED
+    depends on GFX_HAL_DRAW_PIPELINE_ENABLED
+    bool "Enable Ellipse Drawing"
+    default y

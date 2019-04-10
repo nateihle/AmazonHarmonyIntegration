@@ -1,0 +1,1212 @@
+#Created by proc_hconfig_gen $Revision: 1.00 
+
+config FAMILY
+	bool
+	select DS60001191
+	select PIC32MZ
+	select HAVE_JTAG
+	select HAVE_TRACE
+	select NO_CRYPTO
+	default y
+
+enum DEVCFG_FMIIEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FETHIO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_PGL1WAY
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_PMDL1WAY
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_IOL1WAY
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_FUSBIDIO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FPLLIDIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_3"
+	 || "DIV_4"
+	 || "DIV_5"
+	 || "DIV_6"
+	 || "DIV_7"
+	 || "DIV_8"
+
+enum DEVCFG_FPLLRNG
+	 "RANGE_BYPASS"
+	 || "RANGE_5_10_MHZ"
+	 || "RANGE_8_16_MHZ"
+	 || "RANGE_13_26_MHZ"
+	 || "RANGE_21_42_MHZ"
+	 || "RANGE_34_68_MHZ"
+
+enum DEVCFG_FPLLICLK
+	 "PLL_FRC"
+	 || "PLL_POSC"
+
+enum DEVCFG_FPLLMULT
+	 "MUL_1"
+	 || "MUL_2"
+	 || "MUL_3"
+	 || "MUL_4"
+	 || "MUL_5"
+	 || "MUL_6"
+	 || "MUL_7"
+	 || "MUL_8"
+	 || "MUL_9"
+	 || "MUL_10"
+	 || "MUL_11"
+	 || "MUL_12"
+	 || "MUL_13"
+	 || "MUL_14"
+	 || "MUL_15"
+	 || "MUL_16"
+	 || "MUL_17"
+	 || "MUL_18"
+	 || "MUL_19"
+	 || "MUL_20"
+	 || "MUL_21"
+	 || "MUL_22"
+	 || "MUL_23"
+	 || "MUL_24"
+	 || "MUL_25"
+	 || "MUL_26"
+	 || "MUL_27"
+	 || "MUL_28"
+	 || "MUL_29"
+	 || "MUL_30"
+	 || "MUL_31"
+	 || "MUL_32"
+	 || "MUL_33"
+	 || "MUL_34"
+	 || "MUL_35"
+	 || "MUL_36"
+	 || "MUL_37"
+	 || "MUL_38"
+	 || "MUL_39"
+	 || "MUL_40"
+	 || "MUL_41"
+	 || "MUL_42"
+	 || "MUL_43"
+	 || "MUL_44"
+	 || "MUL_45"
+	 || "MUL_46"
+	 || "MUL_47"
+	 || "MUL_48"
+	 || "MUL_49"
+	 || "MUL_50"
+	 || "MUL_51"
+	 || "MUL_52"
+	 || "MUL_53"
+	 || "MUL_54"
+	 || "MUL_55"
+	 || "MUL_56"
+	 || "MUL_57"
+	 || "MUL_58"
+	 || "MUL_59"
+	 || "MUL_60"
+	 || "MUL_61"
+	 || "MUL_62"
+	 || "MUL_63"
+	 || "MUL_64"
+	 || "MUL_65"
+	 || "MUL_66"
+	 || "MUL_67"
+	 || "MUL_68"
+	 || "MUL_69"
+	 || "MUL_70"
+	 || "MUL_71"
+	 || "MUL_72"
+	 || "MUL_73"
+	 || "MUL_74"
+	 || "MUL_75"
+	 || "MUL_76"
+	 || "MUL_77"
+	 || "MUL_78"
+	 || "MUL_79"
+	 || "MUL_80"
+	 || "MUL_81"
+	 || "MUL_82"
+	 || "MUL_83"
+	 || "MUL_84"
+	 || "MUL_85"
+	 || "MUL_86"
+	 || "MUL_87"
+	 || "MUL_88"
+	 || "MUL_89"
+	 || "MUL_90"
+	 || "MUL_91"
+	 || "MUL_92"
+	 || "MUL_93"
+	 || "MUL_94"
+	 || "MUL_95"
+	 || "MUL_96"
+	 || "MUL_97"
+	 || "MUL_98"
+	 || "MUL_99"
+	 || "MUL_100"
+	 || "MUL_101"
+	 || "MUL_102"
+	 || "MUL_103"
+	 || "MUL_104"
+	 || "MUL_105"
+	 || "MUL_106"
+	 || "MUL_107"
+	 || "MUL_108"
+	 || "MUL_109"
+	 || "MUL_110"
+	 || "MUL_111"
+	 || "MUL_112"
+	 || "MUL_113"
+	 || "MUL_114"
+	 || "MUL_115"
+	 || "MUL_116"
+	 || "MUL_117"
+	 || "MUL_118"
+	 || "MUL_119"
+	 || "MUL_120"
+	 || "MUL_121"
+	 || "MUL_122"
+	 || "MUL_123"
+	 || "MUL_124"
+	 || "MUL_125"
+	 || "MUL_126"
+	 || "MUL_127"
+	 || "MUL_128"
+
+enum DEVCFG_FPLLODIV
+	 "DIV_2"
+	 || "DIV_4"
+	 || "DIV_8"
+	 || "DIV_16"
+	 || "DIV_32"
+
+enum DEVCFG_UPLLFSEL
+	 "FREQ_24MHZ"
+	 || "FREQ_12MHZ"
+
+enum DEVCFG_UPLLEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_FNOSC
+	 "FRCDIV"
+	 || "SPLL"
+	 || "POSC"
+	 || "SOSC"
+	 || "LPRC"
+
+enum DEVCFG_DMTINTV
+	 "WIN_0"
+	 || "WIN_1_2"
+	 || "WIN_3_4"
+	 || "WIN_7_8"
+	 || "WIN_15_16"
+	 || "WIN_31_32"
+	 || "WIN_63_64"
+	 || "WIN_127_128"
+
+enum DEVCFG_FSOSCEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_IESO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_POSCMOD
+	 "EC"
+	 || "HS"
+	 || "OFF"
+
+enum DEVCFG_OSCIOFNC
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FCKSM
+	 "CSDCMD"
+	 || "CSECMD"
+	 || "CSDCME"
+	 || "CSECME"
+
+enum DEVCFG_WDTPS
+	 "PS1"
+	 || "PS2"
+	 || "PS4"
+	 || "PS8"
+	 || "PS16"
+	 || "PS32"
+	 || "PS64"
+	 || "PS128"
+	 || "PS256"
+	 || "PS512"
+	 || "PS1024"
+	 || "PS2048"
+	 || "PS4096"
+	 || "PS8192"
+	 || "PS16384"
+	 || "PS32768"
+	 || "PS65536"
+	 || "PS131072"
+	 || "PS262144"
+	 || "PS524288"
+	 || "PS1048576"
+
+enum DEVCFG_WDTSPGM
+	 "RUN"
+	 || "STOP"
+
+enum DEVCFG_WINDIS
+	 "NORMAL"
+	 || "WINDOW"
+
+enum DEVCFG_FWDTEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FWDTWINSZ
+	 "WINSZ_25"
+	 || "WINSZ_37"
+	 || "WINSZ_50"
+	 || "WINSZ_75"
+
+enum DEVCFG_DMTCNT
+	 "DMT8"
+	 || "DMT9"
+	 || "DMT10"
+	 || "DMT11"
+	 || "DMT12"
+	 || "DMT13"
+	 || "DMT14"
+	 || "DMT15"
+	 || "DMT16"
+	 || "DMT17"
+	 || "DMT18"
+	 || "DMT19"
+	 || "DMT20"
+	 || "DMT21"
+	 || "DMT22"
+	 || "DMT23"
+	 || "DMT24"
+	 || "DMT25"
+	 || "DMT26"
+	 || "DMT27"
+	 || "DMT28"
+	 || "DMT29"
+	 || "DMT30"
+	 || "DMT31"
+
+enum DEVCFG_FDMTEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_DEBUG
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_JTAGEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_ICESEL
+	 "ICS_PGx1"
+	 || "ICS_PGx2"
+
+enum DEVCFG_TRCEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_BOOTISA
+	 "MIPS32"
+	 || "MICROMIPS"
+
+enum DEVCFG_FECCCON
+	 "ON"
+	 || "DYNAMIC"
+	 || "OFF_LOCKED"
+	 || "OFF_UNLOCKED"
+
+enum DEVCFG_FSLEEP
+	 "OFF"
+	 || "VREGS"
+
+enum DEVCFG_DBGPER
+	 "ALLOW_PG2"
+	 || "ALLOW_PG1"
+	 || "ALLOW_PG0"
+	 || "PG_1_0"
+	 || "PG_2_0"
+	 || "PG_2_1"
+	 || "PG_ALL"
+	 || "PG_NONE"
+
+enum DEVCFG_EJTAGBEN
+	 "NORMAL"
+	 || "REDUCED"
+
+enum DEVCFG_CP
+	 "ON"
+	 || "OFF"
+
+menu "DEVCFG3"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config USERID
+	hex "User ID (USERID)"
+	default 0xffff
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FMIIEN
+	string "Ethernet RMII/MII Enable (FMIIEN)"
+	range DEVCFG_FMIIEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FETHIO
+	string "Ethernet I/O Pin Select (FETHIO)"
+	range DEVCFG_FETHIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config PGL1WAY
+	string "Permission Group Lock One Way Configuration (PGL1WAY)"
+	range DEVCFG_PGL1WAY
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config PMDL1WAY
+	string "Peripheral Module Disable Configuration (PMDL1WAY)"
+	range DEVCFG_PMDL1WAY
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config IOL1WAY
+	string "Peripheral Pin Select Configuration (IOL1WAY)"
+	range DEVCFG_IOL1WAY
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FUSBIDIO
+	string "USB USBID Selection (FUSBIDIO)"
+	range DEVCFG_FUSBIDIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG2"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FPLLIDIV
+	string "System PLL Input Divider (FPLLIDIV)"
+	range DEVCFG_FPLLIDIV
+	default "DIV_8"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FPLLRNG
+	string "System PLL Input Range (FPLLRNG)"
+	range DEVCFG_FPLLRNG
+	default "RANGE_34_68_MHZ"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FPLLICLK
+	string "System PLL Input Clock Selection (FPLLICLK)"
+	range DEVCFG_FPLLICLK
+	default "PLL_FRC"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FPLLMULT
+	string "System PLL Multiplier (FPLLMULT)"
+	range DEVCFG_FPLLMULT
+	default "MUL_128"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FPLLODIV
+	string "System PLL Output Clock Divider (FPLLODIV)"
+	range DEVCFG_FPLLODIV
+	default "DIV_32"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config UPLLFSEL
+	string "USB PLL Input Frequency Selection (UPLLFSEL)"
+	range DEVCFG_UPLLFSEL
+	default "FREQ_24MHZ"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config UPLLEN
+	string "USB PLL Enable (UPLLEN)"
+	range DEVCFG_UPLLEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG1"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FNOSC
+	string "Oscillator Selection Bits (FNOSC)"
+	range DEVCFG_FNOSC
+	default "FRCDIV"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config DMTINTV
+	string "DMT Count Window Interval (DMTINTV)"
+	range DEVCFG_DMTINTV
+	default "WIN_127_128"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FSOSCEN
+	string "Secondary Oscillator Enable (FSOSCEN)"
+	range DEVCFG_FSOSCEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config IESO
+	string "Internal/External Switch Over (IESO)"
+	range DEVCFG_IESO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config POSCMOD
+	string "Primary Oscillator Configuration (POSCMOD)"
+	range DEVCFG_POSCMOD
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config OSCIOFNC
+	string "CLKO Output Signal Active on the OSCO Pin (OSCIOFNC)"
+	range DEVCFG_OSCIOFNC
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FCKSM
+	string "Clock Switching and Monitor Selection (FCKSM)"
+	range DEVCFG_FCKSM
+	default "CSECME"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config WDTPS
+	string "Watchdog Timer Postscaler (WDTPS)"
+	range DEVCFG_WDTPS
+	default "PS1048576"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config WDTSPGM
+	string "Watchdog Timer Stop During Flash Programming (WDTSPGM)"
+	range DEVCFG_WDTSPGM
+	default "STOP"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config WINDIS
+	string "Watchdog Timer Window Mode (WINDIS)"
+	range DEVCFG_WINDIS
+	default "NORMAL"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FWDTEN
+	string "Watchdog Timer Enable (FWDTEN)"
+	range DEVCFG_FWDTEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FWDTWINSZ
+	string "Watchdog Timer Window Size (FWDTWINSZ)"
+	range DEVCFG_FWDTWINSZ
+	default "WINSZ_25"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config DMTCNT
+	string "Deadman Timer Count Selection (DMTCNT)"
+	range DEVCFG_DMTCNT
+	default "DMT31"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FDMTEN
+	string "Deadman Timer Enable (FDMTEN)"
+	range DEVCFG_FDMTEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG0"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config DEBUG
+	string "Background Debugger Enable (DEBUG)"
+	range DEVCFG_DEBUG
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config JTAGEN
+	string "JTAG Enable (JTAGEN)"
+	range DEVCFG_JTAGEN
+	default "ON"
+	set SYS_DEVCON_USE_JTAG_NEEDED to "ON" if JTAGEN = "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config ICESEL
+	string "ICE/ICD Comm Channel Select (ICESEL)"
+	range DEVCFG_ICESEL
+	default "ICS_PGx1"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config TRCEN
+	string "Trace Enable (TRCEN)"
+	range DEVCFG_TRCEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config BOOTISA
+	string "Boot ISA Selection (BOOTISA)"
+	range DEVCFG_BOOTISA
+	default "MIPS32"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+comment "**** Warning: All exceptions (and interrupts) must be compiled in microMIPS mode ****"
+	depends on BOOTISA = "MICROMIPS"
+
+config FECCCON
+	string "Dynamic Flash ECC Configuration (FECCCON)"
+	range DEVCFG_FECCCON
+	default "OFF_UNLOCKED"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config FSLEEP
+	string "Flash Sleep Mode (FSLEEP)"
+	range DEVCFG_FSLEEP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config DBGPER
+	string "Debug Mode CPU Access Permission (DBGPER)"
+	range DEVCFG_DBGPER
+	default "PG_ALL"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config EJTAGBEN
+	string "EJTAG Boot (EJTAGBEN)"
+	range DEVCFG_EJTAGBEN
+	default "NORMAL"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+endmenu
+
+menu "DEVCP0"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config CP
+	string "Code Protect (CP)"
+	range DEVCFG_CP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+endmenu
+
+menu "SEQ0"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config TSEQ
+	hex "Boot Flash True Sequence Number (TSEQ)"
+	default 0xffff
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+config CSEQ
+	hex "Boot Flash Complement Sequence Number (CSEQ)"
+	default 0xffff
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MZ1024ECH064
+	---endhelp---
+
+endmenu
+
+
+config BOOTSEL
+	string
+
+config HSUARTEN
+	string
+
+config SOSCSEL
+	string
+
+config INT_VECT_CORE_TIMER
+	string
+	default "0"
+config INT_VECT_CORE_SOFTWARE_0
+	string
+	default "1"
+config INT_VECT_CORE_SOFTWARE_1
+	string
+	default "2"
+config INT_VECT_EXTERNAL_0
+	string
+	default "3"
+config INT_VECT_TIMER_1
+	string
+	default "4"
+config INT_VECT_INPUT_CAPTURE_1_ERROR
+	string
+	default "5"
+config INT_VECT_INPUT_CAPTURE_1
+	string
+	default "6"
+config INT_VECT_OUTPUT_COMPARE_1
+	string
+	default "7"
+config INT_VECT_EXTERNAL_1
+	string
+	default "8"
+config INT_VECT_TIMER_2
+	string
+	default "9"
+config INT_VECT_INPUT_CAPTURE_2_ERROR
+	string
+	default "10"
+config INT_VECT_INPUT_CAPTURE_2
+	string
+	default "11"
+config INT_VECT_OUTPUT_COMPARE_2
+	string
+	default "12"
+config INT_VECT_EXTERNAL_2
+	string
+	default "13"
+config INT_VECT_TIMER_3
+	string
+	default "14"
+config INT_VECT_INPUT_CAPTURE_3_ERROR
+	string
+	default "15"
+config INT_VECT_INPUT_CAPTURE_3
+	string
+	default "16"
+config INT_VECT_OUTPUT_COMPARE_3
+	string
+	default "17"
+config INT_VECT_EXTERNAL_3
+	string
+	default "18"
+config INT_VECT_TIMER_4
+	string
+	default "19"
+config INT_VECT_INPUT_CAPTURE_4_ERROR
+	string
+	default "20"
+config INT_VECT_INPUT_CAPTURE_4
+	string
+	default "21"
+config INT_VECT_OUTPUT_COMPARE_4
+	string
+	default "22"
+config INT_VECT_EXTERNAL_4
+	string
+	default "23"
+config INT_VECT_TIMER_5
+	string
+	default "24"
+config INT_VECT_INPUT_CAPTURE_5_ERROR
+	string
+	default "25"
+config INT_VECT_INPUT_CAPTURE_5
+	string
+	default "26"
+config INT_VECT_OUTPUT_COMPARE_5
+	string
+	default "27"
+config INT_VECT_TIMER_6
+	string
+	default "28"
+config INT_VECT_INPUT_CAPTURE_6_ERROR
+	string
+	default "29"
+config INT_VECT_INPUT_CAPTURE_6
+	string
+	default "30"
+config INT_VECT_OUTPUT_COMPARE_6
+	string
+	default "31"
+config INT_VECT_TIMER_7
+	string
+	default "32"
+config INT_VECT_INPUT_CAPTURE_7_ERROR
+	string
+	default "33"
+config INT_VECT_INPUT_CAPTURE_7
+	string
+	default "34"
+config INT_VECT_OUTPUT_COMPARE_7
+	string
+	default "35"
+config INT_VECT_TIMER_8
+	string
+	default "36"
+config INT_VECT_INPUT_CAPTURE_8_ERROR
+	string
+	default "37"
+config INT_VECT_INPUT_CAPTURE_8
+	string
+	default "38"
+config INT_VECT_OUTPUT_COMPARE_8
+	string
+	default "39"
+config INT_VECT_TIMER_9
+	string
+	default "40"
+config INT_VECT_INPUT_CAPTURE_9_ERROR
+	string
+	default "41"
+config INT_VECT_INPUT_CAPTURE_9
+	string
+	default "42"
+config INT_VECT_OUTPUT_COMPARE_9
+	string
+	default "43"
+config INT_VECT_ADC1
+	string
+	default "44"
+config INT_VECT_ADC1_DC1
+	string
+	default "46"
+config INT_VECT_ADC1_DC2
+	string
+	default "47"
+config INT_VECT_ADC1_DC3
+	string
+	default "48"
+config INT_VECT_ADC1_DC4
+	string
+	default "49"
+config INT_VECT_ADC1_DC5
+	string
+	default "50"
+config INT_VECT_ADC1_DC6
+	string
+	default "51"
+config INT_VECT_ADC1_DF1
+	string
+	default "52"
+config INT_VECT_ADC1_DF2
+	string
+	default "53"
+config INT_VECT_ADC1_DF3
+	string
+	default "54"
+config INT_VECT_ADC1_DF4
+	string
+	default "55"
+config INT_VECT_ADC1_DF5
+	string
+	default "56"
+config INT_VECT_ADC1_DF6
+	string
+	default "57"
+config INT_VECT_ADC1_DATA0
+	string
+	default "59"
+config INT_VECT_ADC1_DATA1
+	string
+	default "60"
+config INT_VECT_ADC1_DATA2
+	string
+	default "61"
+config INT_VECT_ADC1_DATA3
+	string
+	default "62"
+config INT_VECT_ADC1_DATA4
+	string
+	default "63"
+config INT_VECT_ADC1_DATA5
+	string
+	default "64"
+config INT_VECT_ADC1_DATA6
+	string
+	default "65"
+config INT_VECT_ADC1_DATA7
+	string
+	default "66"
+config INT_VECT_ADC1_DATA8
+	string
+	default "67"
+config INT_VECT_ADC1_DATA9
+	string
+	default "68"
+config INT_VECT_ADC1_DATA10
+	string
+	default "69"
+config INT_VECT_ADC1_DATA11
+	string
+	default "70"
+config INT_VECT_ADC1_DATA12
+	string
+	default "71"
+config INT_VECT_ADC1_DATA13
+	string
+	default "72"
+config INT_VECT_ADC1_DATA14
+	string
+	default "73"
+config INT_VECT_ADC1_DATA15
+	string
+	default "74"
+config INT_VECT_ADC1_DATA16
+	string
+	default "75"
+config INT_VECT_ADC1_DATA17
+	string
+	default "76"
+config INT_VECT_ADC1_DATA18
+	string
+	default "77"
+config INT_VECT_ADC1_DATA43
+	string
+	default "102"
+config INT_VECT_ADC1_DATA44
+	string
+	default "103"
+config INT_VECT_CORE_PERF_COUNT
+	string
+	default "104"
+config INT_VECT_CORE_FAST_DEBUG_CHAN
+	string
+	default "105"
+config INT_VECT_SYSTEM_BUS_PROTECTION
+	string
+	default "106"
+config INT_VECT_SPI1_FAULT
+	string
+	default "109"
+config INT_VECT_SPI1_RX
+	string
+	default "110"
+config INT_VECT_SPI1_TX
+	string
+	default "111"
+config INT_VECT_UART1_FAULT
+	string
+	default "112"
+config INT_VECT_UART1_RX
+	string
+	default "113"
+config INT_VECT_UART1_TX
+	string
+	default "114"
+config INT_VECT_I2C1_BUS
+	string
+	default "115"
+config INT_VECT_I2C1_SLAVE
+	string
+	default "116"
+config INT_VECT_I2C1_MASTER
+	string
+	default "117"
+config INT_VECT_CHANGE_NOTICE_B
+	string
+	default "119"
+config INT_VECT_CHANGE_NOTICE_C
+	string
+	default "120"
+config INT_VECT_CHANGE_NOTICE_D
+	string
+	default "121"
+config INT_VECT_CHANGE_NOTICE_E
+	string
+	default "122"
+config INT_VECT_CHANGE_NOTICE_F
+	string
+	default "123"
+config INT_VECT_CHANGE_NOTICE_G
+	string
+	default "124"
+config INT_VECT_PMP
+	string
+	default "128"
+config INT_VECT_PMP_ERROR
+	string
+	default "129"
+config INT_VECT_COMPARATOR_1
+	string
+	default "130"
+config INT_VECT_COMPARATOR_2
+	string
+	default "131"
+config INT_VECT_USB
+	string
+	default "132"
+config INT_VECT_USB_DMA
+	string
+	default "133"
+config INT_VECT_DMA0
+	string
+	default "134"
+config INT_VECT_DMA1
+	string
+	default "135"
+config INT_VECT_DMA2
+	string
+	default "136"
+config INT_VECT_DMA3
+	string
+	default "137"
+config INT_VECT_DMA4
+	string
+	default "138"
+config INT_VECT_DMA5
+	string
+	default "139"
+config INT_VECT_DMA6
+	string
+	default "140"
+config INT_VECT_DMA7
+	string
+	default "141"
+config INT_VECT_SPI2_FAULT
+	string
+	default "142"
+config INT_VECT_SPI2_RX
+	string
+	default "143"
+config INT_VECT_SPI2_TX
+	string
+	default "144"
+config INT_VECT_UART2_FAULT
+	string
+	default "145"
+config INT_VECT_UART2_RX
+	string
+	default "146"
+config INT_VECT_UART2_TX
+	string
+	default "147"
+config INT_VECT_CAN1
+	string
+	default "151"
+config INT_VECT_CAN2
+	string
+	default "152"
+config INT_VECT_ETHERNET
+	string
+	default "153"
+config INT_VECT_SPI3_FAULT
+	string
+	default "154"
+config INT_VECT_SPI3_RX
+	string
+	default "155"
+config INT_VECT_SPI3_TX
+	string
+	default "156"
+config INT_VECT_UART3_FAULT
+	string
+	default "157"
+config INT_VECT_UART3_RX
+	string
+	default "158"
+config INT_VECT_UART3_TX
+	string
+	default "159"
+config INT_VECT_I2C3_BUS
+	string
+	default "160"
+config INT_VECT_I2C3_SLAVE
+	string
+	default "161"
+config INT_VECT_I2C3_MASTER
+	string
+	default "162"
+config INT_VECT_SPI4_FAULT
+	string
+	default "163"
+config INT_VECT_SPI4_RX
+	string
+	default "164"
+config INT_VECT_SPI4_TX
+	string
+	default "165"
+config INT_VECT_RTCC
+	string
+	default "166"
+config INT_VECT_FLASH_CONTROL
+	string
+	default "167"
+config INT_VECT_PREFETCH
+	string
+	default "168"
+config INT_VECT_SQI1
+	string
+	default "169"
+config INT_VECT_UART4_FAULT
+	string
+	default "170"
+config INT_VECT_UART4_RX
+	string
+	default "171"
+config INT_VECT_UART4_TX
+	string
+	default "172"
+config INT_VECT_I2C4_BUS
+	string
+	default "173"
+config INT_VECT_I2C4_SLAVE
+	string
+	default "174"
+config INT_VECT_I2C4_MASTER
+	string
+	default "175"
+config INT_VECT_UART5_FAULT
+	string
+	default "179"
+config INT_VECT_UART5_RX
+	string
+	default "180"
+config INT_VECT_UART5_TX
+	string
+	default "181"
+config INT_VECT_I2C5_BUS
+	string
+	default "182"
+config INT_VECT_I2C5_SLAVE
+	string
+	default "183"
+config INT_VECT_I2C5_MASTER
+	string
+	default "184"
+config INT_VECT_UART6_FAULT
+	string
+	default "188"
+config INT_VECT_UART6_RX
+	string
+	default "189"
+config INT_VECT_UART6_TX
+	string
+	default "190"
+
+config PFM_ADDR_START
+	string
+	default "0x1d000000"
+config PFM_ADDR_END
+	string
+	default "0x1d100000"
+config PFM_ADDR_SIZE
+	string
+	default "0x100000"
+config SRAM_ADDR_START
+	string
+	default "0x0"
+config SRAM_ADDR_END
+	string
+	default "0x80000"
+config SRAM_ADDR_SIZE
+	string
+	default "0x80000"
+config BOOT_ADDR_START
+	string
+	default "0x1fc00000"
+config BOOT_ADDR_END
+	string
+	default "0x1fc0ff00"
+config BOOT_ADDR_SIZE
+	string
+	default "0xff00"

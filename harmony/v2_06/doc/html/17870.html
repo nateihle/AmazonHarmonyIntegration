@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17870.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17872.html">Previous</a> | <a href="17878.html">Up</a> | <a href="17858.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This library can be used to optimize the performance of the processor while executing out of cacheable program Flash memory. This is done by implementing the following:
+<ul class="Element630">
+<li class="Element600">Instruction caching</li>
+<li class="Element600">Data caching</li>
+<li class="Element600">Cache line control</li>
+<li class="Element600">Predictive prefetching</li>
+<li class="Element600">ECC detection</li>
+</ul></p><div class="Element15">
+Arrays</div>
+<p class="Element10">
+The cache consists of two arrays: tag and data. The data array contains a number of lines of program instructions or data words. The word size is the same as the processor data width.&nbsp;</p>
+<p class="Element10">
+The tag array contains a number of corresponding fields, each containing:
+<ul class="Element630">
+<li class="Element600">Mask – address mask value</li>
+<li class="Element600">Tag – tag address to match against</li>
+<li class="Element600">Valid – indicates whether the data in the cache line is valid or not</li>
+<li class="Element600">Lock – indicates the line is locked to hold its contents</li>
+<li class="Element600">Type – instruction, data or peripheral</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all Tag fields are available on all devices. The number of cache lines may vary between devices. Refer to the specific device data sheet for details.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<strong>Example Cache Line</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="pcache7.png" border="0" alt="" title=""></p><div class="Element15">
+Operations</div>
+<p class="Element10">
+This library allows the programmer to perform various operations on the cache tag and data arrays:
+<ul class="Element630">
+<li class="Element600">Enable/Disable</li>
+<li class="Element600">Set the Wait state</li>
+<li class="Element600">Read, write, lock, invalidate</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Not all operations are available on all devices. Refer to the specific device data sheet for details.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17858.html">Cache Control Operations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Cache Wait States</strong><br>When operating at high clock rates, the Prefetch Cache module must insert wait states into Program Flash Memory (PFM) read operations to meet PFM access time requirements. One Wait state is equivalent to one clock cycle delay. At reset, the Prefetch Cache Module is set to the maximum number of wait states for the device. The PFM read time can be optimized for the device by selecting the minimum number of wait states for the clock rate used. The number of wait states for a given clock frequency may vary between devices. &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17860.html">Cache Line Operations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Performing a cache line operation is a two-step process. Before calling a Cache Line operation function, the cache line must be selected and write-enabled. Once selected and write-enabled, any number of cache line operations may be performed on the selected line until the line is cleared or a different line is selected and write-enabled.<br>Cache lines are selected and write-enabled using <a href="20125.html">PLIB_PCACHE_CacheLineSelect</a>. Cache lines are write-disabled using <a href="20113.html">PLIB_PCACHE_CacheLineDeselect</a>.<br>The following example shows operations on two different cache lines. The code comments describe each operation.<br><strong>Example: Cache Line Operations</strong> &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17862.html">Cache Status Operations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Cache Statistics Counters</strong><br>It is often useful to gather statistics related to cache utilization for performance or profiling reasons. Some devices with a Prefetch Cache module maintain cache hit and miss counters for this purpose. This library provides routines to read and write the cache hit and miss counters.<br>The cache hit counter increments each time the processor issues an instruction fetch or load that hits the prefetch cache from a cacheable region. Non-cacheable accesses do not modify this value. This value can be read with <a href="20107.html">PLIB_PCACHE_CacheHitRead</a>.<br>Similarly, the cache miss counter increments each time the processor issues an... <a href="17862.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17875.html">Prefetch Control Operations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The Prefetch Cache module is configured differently for different CPU configurations. For devices with a CPU L1 cache, the Prefetch Cache module holds one line of CPU instructions, one line of CPU data, and two lines of peripheral data. For devices without a CPU L1 cache, the Prefetch Cache module holds up to 16 lines of instructions and up to four lines of data. Control of either configuration is done using the <a href="20194.html">PLIB_PCACHE_PrefetchEnableSet</a> function. &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17877.html">Prefetch Status Operations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Prefetch Abort Statistics Counter</strong><br>Much like the cache hit/miss counters, the Prefetch Abort module maintains a prefetch abort counter. This counter is incremented each time an automatic prefetch is aborted due to a non-sequential instruction fetch, load or store. This value can be read using the <a href="20191.html">PLIB_PCACHE_PrefetchAbortRead</a> function.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17868.html">Flash ECC Operations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The Prefetch Cache module may handle and report information about two error types: ECC Double-bit Error Detected (DED) and ECC Single-bit Error Corrected (SEC).<br>A read from the Flash memory that results in a program Flash memory ECC DED causes the Prefetch Cache module to return a bus exception to the initiator. An ECC DED will also set the DED status bit. The state of the DED status bit may be read using the <a href="20165.html">PLIB_PCACHE_FlashDEDStatusGet</a> function.<br>A single-bit error read from the Flash memory is not a critical error, and as such is reported as an interrupt. The user has... <a href="17868.html">more</a>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17870.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

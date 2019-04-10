@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.7.1: Support Byte-by-Byte for FIFO-based Data Transfer Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07139.html">3.7: Use Common Data Transfer Models When Applicable</a> &gt; <a href="07115.html">3.7.1: Support Byte-by-Byte for FIFO-based Data Transfer Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07139.html">Previous</a> | <a href="07139.html">Up</a> | <a href="07120.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Byte-by-Byte for FIFO-based Data Transfer Model Topic Title: 3.7.1: Support Byte-by-Byte for FIFO-based Data Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.7.1: Support Byte-by-Byte for FIFO-based Data Transfer Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A byte-by-byte data transfers data one byte or word at a time in small batches.&nbsp;</p>
+<p class="Element10">
+In pseudo-code, this model appears as follows (from the client point of view).&nbsp;</p>
+<p class="Element10">
+<strong>Reading Data:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00111');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00111"><pre class="Element12"><strong><span style="color: #000080">while</span></strong> ( DataIsAvailable() )
+{
+    DataWord[i++] = DataWordGet();
+}</pre></div></div>
+<p class="Element10">
+<strong>Writing Data:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00112');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00112"><pre class="Element12"><strong><span style="color: #000080">while</span></strong> ( !TransmitterIsFull() )
+{
+    DataWordSend(DataWord[i++]);
+}</pre></div></div>
+<p class="Element10">
+The exact function names, parameters, and data types for the operations shown, which are shown in bold type in the previous examples, may vary, but the basic usage is consistent. Modules that use this transfer model may also provide operations to tell when all data transmission is complete (effectively a transmitter under run) and when the receive FIFO buffer is full and new data is received (effectively a receiver overrun).&nbsp;</p>
+<p class="Element10">
+This data transfer has the advantage of being useful for lightweight systems or whenever data is transferred a single data byte (or data word) at a time through a relatively small FIFO buffer. However, it has the disadvantage of encouraging use of potentially blocking loops, forcing the client to provide the loop to transfer multiple data words, and only working when a single client has exclusive access to a module. It is best used only when the data words are internally buffered (in hardware or software) in a small FIFO or queue. The operations should not block waiting on the actual transfer of data, instead they should only access the FIFO buffer and return FIFO full (or empty) so that the client stops looping when there is no more space (or data) in the FIFO. However, depending upon the exact parameters and return values used, the data transfer operations may still result in incorrect data being sent or received if an error occurs because there is no way to detect from within the loop it unless the client checks the status between every byte or word transferred.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07139.html">3.7: Use Common Data Transfer Models When Applicable</a> &gt; <a href="07115.html">3.7.1: Support Byte-by-Byte for FIFO-based Data Transfer Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Byte-by-Byte for FIFO-based Data Transfer Model Topic Title: 3.7.1: Support Byte-by-Byte for FIFO-based Data Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

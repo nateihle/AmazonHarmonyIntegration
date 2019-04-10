@@ -1,0 +1,26 @@
+ifblock DRV_GFX_CONTROLLER_TYPE = "OTM2201A"
+
+#enum DRV_GFX_S1D13517_COLOR_MODES
+#    "RGB_565" ||
+#	"RGB_888"
+	
+#enum DRV_GFX_S1D13517_ORIENTATION_VALS
+#    "0" ||
+#	"180"
+
+#config DRV_GFX_S1D13517_COLOR_MODE
+#	string "Color Mode"
+#	select USE_DRV_PMP_NEEDED
+#	range DRV_GFX_S1D13517_COLOR_MODES
+#	default "RGB_565"
+
+endif
+
+ifblock DRV_GFX_CONTROLLER_TYPE = "OTM2201A"
+
+#template DRV_GFX_OTM2201A_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/otm2201a/templates/drv_gfx_otm2201a.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/otm2201a/drv_gfx_otm2201a.h"
+
+template DRV_GFX_OTM2201A_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/otm2201a/templates/drv_gfx_otm2201a.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/otm2201a/drv_gfx_otm2201a.c"
+#template DRV_GFX_OTM2201A_DRAW_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/otm2201a/templates/drv_gfx_otm2201a_draw.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/otm2201a/drv_gfx_otm2201a_draw.c"
+
+endif

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>bt_a2dp_register_callback Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; A2DP Functions &gt; <a href="05148.html">bt_a2dp_register_callback Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="05147.html">Previous</a> | <a href="06308.html">Up</a> | <a href="05149.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_a2dp_register_callback@bt_a2dp_mgr_t*@bt_a2dp_mgr_callback_fp@void* Topic Title: bt_a2dp_register_callback Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+bt_a2dp_register_callback Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">bt_a2dp_register_callback</span></strong>(
+    <a href="05141.html">bt_a2dp_mgr_t</a>* <strong><span style="color: #000000">mgr</span></strong>, 
+    <a href="05140.html">bt_a2dp_mgr_callback_fp</a> <strong><span style="color: #000000">callback</span></strong>, 
+    <strong><span style="color: #000080">void</span></strong>* <strong><span style="color: #000000">callback_param</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+brief Register a A2DP application callback. ingroup a2dp&nbsp;</p>
+<p class="Element10">
+details In order to be notified of various events a consumer of the A2DP layer has to register a callback function. The stack will call this function whenever a new event has been generated passing the code of the event as the second parameter. The event can be one of the following values:&nbsp;</p>
+<p class="Element10">
+@arg <a href="02584.html">A2DP_EVT_CTRL_CHANNEL_CONNECTED</a>: Control channel connected. @arg <a href="02585.html">A2DP_EVT_CTRL_CHANNEL_DISCONNECTED</a>: Control channel disconnected. @arg <a href="02586.html">A2DP_EVT_CTRL_CONNECTION_FAILED</a>: Control channel connection failed (generated only if control connection has been initiated by the local device). @arg A2DP_EVT_DISCOVER_COMPLETED: Local device completed discovering remote SEPs. @arg <a href="02588.html">A2DP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a>: Local device received a response to Get SEP capabilities operation. @arg <a href="02602.html">A2DP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a>: Local device received a response to Set stream configuration operation. @arg <a href="02589.html">A2DP_EVT_GET_STREAM_CONFIGURATION_COMPLETED</a>: Local device received a response to Get stream configuration operation. @arg A2DP_EVT_STREAM_RECONFIGURE_COMPLETED: Local device received a response to Reconfigure stream operation. @arg <a href="02595.html">A2DP_EVT_OPEN_STREAM_COMPLETED</a>: Local device received a response to Open stream operation. @arg <a href="02604.html">A2DP_EVT_START_STREAM_COMPLETED</a>: Local device received a response to Start stream operation. @arg <a href="02582.html">A2DP_EVT_CLOSE_STREAM_COMPLETED</a>: Local device received a response to Close stream operation. @arg <a href="02615.html">A2DP_EVT_SUSPEND_STREAM_COMPLETED</a>: Local device received a response to Suspend stream operation. @arg <a href="02612.html">A2DP_EVT_STREAM_SECURITY_CONTROL_COMPLETED</a>: Local device received a response to Stream security control operation. @arg <a href="02580.html">A2DP_EVT_ABORT_STREAM_COMPLETED</a>: Local device received a response to Abort stream operation. @arg <a href="02600.html">A2DP_EVT_SEP_INFO_RECEIVED</a>: SEP information received. @arg <a href="02599.html">A2DP_EVT_SEP_CAPABILITIES_RECEIVED</a>: SEP capabilities received. @arg <a href="02608.html">A2DP_EVT_STREAM_CONFIGURATION_RECEIVED</a>: Stream configuration received.&nbsp;</p>
+<p class="Element10">
+@arg <a href="02603.html">A2DP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a>: Remote device requested stream configuration. @arg <a href="02596.html">A2DP_EVT_OPEN_STREAM_REQUESTED</a>: Remote device requested to open a stream. @arg <a href="02605.html">A2DP_EVT_START_STREAM_REQUESTED</a>: Remote device requested to start a stream. @arg <a href="02583.html">A2DP_EVT_CLOSE_STREAM_REQUESTED</a>: Remote device requested to close a stream. @arg <a href="02616.html">A2DP_EVT_SUSPEND_STREAM_REQUESTED</a>: Remote device requested to suspend a stream. @arg <a href="02581.html">A2DP_EVT_ABORT_STREAM_REQUESTED</a>: Remote device requested to abort a stream. @arg <a href="02598.html">A2DP_EVT_RECONFIGURE_STREAM_REQUESTED</a>: Remote device requested to reconfigure a stream. @arg <a href="02590.html">A2DP_EVT_MEDIA_PACKET_RECEIVED</a>: Remote device sent a media packet. @arg <a href="02609.html">A2DP_EVT_STREAM_CONFIGURED</a>: A stream has been configured (This event is generated right after <a href="02603.html">A2DP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a> if the local devices accepted the request). @arg <a href="02611.html">A2DP_EVT_STREAM_RECONFIGURED</a>: A stream has been re-configured (This event is generated right after <a href="02598.html">A2DP_EVT_RECONFIGURE_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="02610.html">A2DP_EVT_STREAM_OPENED</a>: A stream has been opened (This event is generated as a result of local or remote stream opening request). @arg <a href="02613.html">A2DP_EVT_STREAM_STARTED</a>: A stream has been started (This event is generated right after <a href="02605.html">A2DP_EVT_START_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="02607.html">A2DP_EVT_STREAM_CLOSED</a>: A stream has been close (This event is generated right after <a href="02583.html">A2DP_EVT_CLOSE_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="02614.html">A2DP_EVT_STREAM_SUSPENDED</a>: A stream has been suspended (This event is generated right after <a href="02616.html">A2DP_EVT_SUSPEND_STREAM_REQUESTED</a> if the local devices accepted the request). @arg <a href="02606.html">A2DP_EVT_STREAM_ABORTED</a>: A stream has been aborted (This event is generated right after <a href="02616.html">A2DP_EVT_SUSPEND_STREAM_REQUESTED</a> if the local devices accepted the request. It is also generated if connection between devices has been terminated by means other than A2DP signaling, e.g. devices going out of range). @arg <a href="02592.html">A2DP_EVT_MEDIA_PACKET_SENT</a>: The local device has successfully sent a media packet to the remote device. @arg <a href="02591.html">A2DP_EVT_MEDIA_PACKET_SEND_FAILED</a>: The local device was not able to send a media packet to the remote device.&nbsp;</p>
+<p class="Element10">
+@arg <a href="02594.html">A2DP_EVT_OPEN_AND_START_STREAM_COMPLETED</a> This event is generated when a local device completed &quot;open and start&quot; request.&nbsp;</p>
+<p class="Element10">
+param mgr AVDTP manager. param callback The callback function that will be called when the AVDTP generates an event. param callback_param A pointer to arbitrary data to be passed to the c callback callback.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; A2DP Functions &gt; <a href="05148.html">bt_a2dp_register_callback Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_a2dp_register_callback@bt_a2dp_mgr_t*@bt_a2dp_mgr_callback_fp@void* Topic Title: bt_a2dp_register_callback Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

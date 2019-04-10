@@ -1,0 +1,148 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX675F256L_ADC
+	bool
+	select HAVE_ADC
+	default y
+
+config ADC_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum ADC_MODULE_ID exclusive
+	"ADC_ID_1"
+
+enum ADC_MUX
+	"ADC_MUX_A"
+	|| "ADC_MUX_B"
+
+enum ADC_RESULT_BUF_STATUS
+	"ADC_FILLING_BUF_0TO7"
+	|| "ADC_FILLING_BUF_8TOF"
+
+enum ADC_VOLTAGE_REFERENCE
+	"ADC_REFERENCE_VDD_TO_AVSS"
+	|| "ADC_REFERENCE_VREFPLUS_TO_AVSS"
+	|| "ADC_REFERENCE_AVDD_TO_VREF_NEG"
+	|| "ADC_REFERENCE_VREFPLUS_TO_VREFNEG"
+
+enum ADC_SAMPLING_MODE
+	"ADC_SAMPLING_MODE_ALTERNATE_INPUT"
+	|| "ADC_SAMPLING_MODE_MUXA"
+
+enum ADC_SAMPLES_PER_INTERRUPT
+	"ADC_1SAMPLE_PER_INTERRUPT"
+	|| "ADC_2SAMPLES_PER_INTERRUPT"
+	|| "ADC_3SAMPLES_PER_INTERRUPT"
+	|| "ADC_4SAMPLES_PER_INTERRUPT"
+	|| "ADC_5SAMPLES_PER_INTERRUPT"
+	|| "ADC_6SAMPLES_PER_INTERRUPT"
+	|| "ADC_7SAMPLES_PER_INTERRUPT"
+	|| "ADC_8SAMPLES_PER_INTERRUPT"
+	|| "ADC_9SAMPLES_PER_INTERRUPT"
+	|| "ADC_10SAMPLES_PER_INTERRUPT"
+	|| "ADC_11SAMPLES_PER_INTERRUPT"
+	|| "ADC_12SAMPLES_PER_INTERRUPT"
+	|| "ADC_13SAMPLES_PER_INTERRUPT"
+	|| "ADC_14SAMPLES_PER_INTERRUPT"
+	|| "ADC_15SAMPLES_PER_INTERRUPT"
+	|| "ADC_16SAMPLES_PER_INTERRUPT"
+
+enum ADC_INPUTS_POSITIVE exclusive
+	"ADC_INPUT_POSITIVE_AN0"
+	|| "ADC_INPUT_POSITIVE_AN1"
+	|| "ADC_INPUT_POSITIVE_AN2"
+	|| "ADC_INPUT_POSITIVE_AN3"
+	|| "ADC_INPUT_POSITIVE_AN4"
+	|| "ADC_INPUT_POSITIVE_AN5"
+	|| "ADC_INPUT_POSITIVE_AN6"
+	|| "ADC_INPUT_POSITIVE_AN7"
+	|| "ADC_INPUT_POSITIVE_AN8"
+	|| "ADC_INPUT_POSITIVE_AN9"
+	|| "ADC_INPUT_POSITIVE_AN10"
+	|| "ADC_INPUT_POSITIVE_AN11"
+	|| "ADC_INPUT_POSITIVE_AN12"
+	|| "ADC_INPUT_POSITIVE_AN13"
+	|| "ADC_INPUT_POSITIVE_AN14"
+	|| "ADC_INPUT_POSITIVE_AN15"
+
+enum ADC_INPUTS_SCAN exclusive
+	"ADC_INPUT_SCAN_AN0"
+	|| "ADC_INPUT_SCAN_AN1"
+	|| "ADC_INPUT_SCAN_AN2"
+	|| "ADC_INPUT_SCAN_AN3"
+	|| "ADC_INPUT_SCAN_AN4"
+	|| "ADC_INPUT_SCAN_AN5"
+	|| "ADC_INPUT_SCAN_AN6"
+	|| "ADC_INPUT_SCAN_AN7"
+	|| "ADC_INPUT_SCAN_AN8"
+	|| "ADC_INPUT_SCAN_AN9"
+	|| "ADC_INPUT_SCAN_AN10"
+	|| "ADC_INPUT_SCAN_AN11"
+	|| "ADC_INPUT_SCAN_AN12"
+	|| "ADC_INPUT_SCAN_AN13"
+	|| "ADC_INPUT_SCAN_AN14"
+	|| "ADC_INPUT_SCAN_AN15"
+
+enum ADC_INPUTS_SCAN_EXTENDED exclusive
+	"ADC_INPUTS_SCAN_EXTENDED_NONE"
+
+enum ADC_INPUTS_NEGATIVE
+	"ADC_INPUT_NEGATIVE_VREF_MINUS"
+	|| "ADC_INPUT_NEGATIVE_AN1"
+
+enum ADC_CLOCK_SOURCE
+	"ADC_CLOCK_SOURCE_PERIPHERAL_BUS_CLOCK"
+	|| "ADC_CLOCK_SOURCE_SYSTEM_CLOCK"
+	|| "ADC_CLOCK_SOURCE_INTERNAL_RC"
+
+enum ADC_CONVERSION_TRIGGER_SOURCE
+	"ADC_CONVERSION_TRIGGER_SAMP_CLEAR"
+	|| "ADC_CONVERSION_TRIGGER_INT0_TRANSITION"
+	|| "ADC_CONVERSION_TRIGGER_TMR3_COMPARE_MATCH"
+	|| "ADC_CONVERSION_TRIGGER_CTMU_EVENT"
+	|| "ADC_CONVERSION_TRIGGER_INTERNAL_COUNT"
+
+enum ADC_RESULT_FORMAT
+	"ADC_RESULT_FORMAT_INTEGER_16BIT"
+	|| "ADC_RESULT_FORMAT_SIGNED_INTEGER_16BIT"
+	|| "ADC_RESULT_FORMAT_FRACTIONAL_16BIT"
+	|| "ADC_RESULT_FORMAT_SIGNED_FRACTIONAL_16BIT"
+	|| "ADC_RESULT_FORMAT_INTEGER_32BIT"
+	|| "ADC_RESULT_FORMAT_SIGNED_INTEGER_32BIT"
+	|| "ADC_RESULT_FORMAT_FRACTIONAL_32BIT"
+	|| "ADC_RESULT_FORMAT_SIGNED_FRACTIONAL_32BIT"
+
+enum ADC_BUFFER_MODE
+	"ADC_BUFFER_MODE_ONE_16WORD_BUFFER"
+	|| "ADC_BUFFER_MODE_TWO_8WORD_BUFFERS"
+
+ifblock PROJECT_STANDALONE
+file PLIB_ADC_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/processor/adc_p32mx675f256l.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/processor/adc_p32mx675f256l.h"
+
+file PLIB_ADC_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_EnableControl_Default.h"
+file PLIB_ADC_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_StopInIdle_Default.h"
+file PLIB_ADC_CALIBRATIONCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_CalibrationControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_CalibrationControl_Default.h"
+file PLIB_ADC_MUXINPUTSCANSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_MuxInputScanSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_MuxInputScanSelect_Default.h"
+file PLIB_ADC_MUXINPUTSCANSELECTEXTENDED_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_MuxInputScanSelectExtended_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_MuxInputScanSelectExtended_Unsupported.h"
+file PLIB_ADC_VOLTAGEREFERENCE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_VoltageReference_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_VoltageReference_Default.h"
+file PLIB_ADC_MUXCHANNEL0POSITIVEINPUT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_MuxChannel0PositiveInput_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_MuxChannel0PositiveInput_Default.h"
+file PLIB_ADC_MUXCHANNEL0NEGATIVEINPUT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_MuxChannel0NegativeInput_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_MuxChannel0NegativeInput_Default.h"
+file PLIB_ADC_MUXINPUTSCANCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_MuxInputScanControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_MuxInputScanControl_Default.h"
+file PLIB_ADC_SAMPLINGMODECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_SamplingModeControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_SamplingModeControl_Default.h"
+file PLIB_ADC_SAMPLESPERINTERRUPTSELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_SamplesPerInterruptSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_SamplesPerInterruptSelect_Default.h"
+file PLIB_ADC_SAMPLINGAUTOSTART_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_SamplingAutoStart_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_SamplingAutoStart_Default.h"
+file PLIB_ADC_SAMPLINGCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_SamplingControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_SamplingControl_Default.h"
+file PLIB_ADC_SAMPLINGACQUISITIONTIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_SamplingAcquisitionTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_SamplingAcquisitionTime_Default.h"
+file PLIB_ADC_SAMPLINGSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_SamplingStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_SamplingStatus_Default.h"
+file PLIB_ADC_CONVERSIONCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ConversionControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ConversionControl_Default.h"
+file PLIB_ADC_CONVERSIONCLOCK_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ConversionClock_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ConversionClock_Default.h"
+file PLIB_ADC_CONVERSIONCLOCKSOURCE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ConversionClockSource_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ConversionClockSource_Default.h"
+file PLIB_ADC_CONVERSIONTRIGGERSOURCE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ConversionTriggerSource_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ConversionTriggerSource_Default.h"
+file PLIB_ADC_CONVERSIONSTOPSEQUENCECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ConversionStopSequenceControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ConversionStopSequenceControl_Default.h"
+file PLIB_ADC_CONVERSIONSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ConversionStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ConversionStatus_Default.h"
+file PLIB_ADC_RESULTFORMAT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ResultFormat_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ResultFormat_Default.h"
+file PLIB_ADC_RESULTBUFFERMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ResultBufferMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ResultBufferMode_Default.h"
+file PLIB_ADC_RESULTBUFFERFILLSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ResultBufferFillStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ResultBufferFillStatus_Default.h"
+file PLIB_ADC_RESULTGETBYINDEX_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/adc/templates/adc_ResultGetByIndex_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/adc/templates/adc_ResultGetByIndex_Default.h"
+endif

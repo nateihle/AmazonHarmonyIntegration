@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>OC_COMPARE_MODES Enumeration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17823.html">Library Interface</a> &gt; g) Data Types and Constants &gt; <a href="17129.html">OC_COMPARE_MODES Enumeration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17126.html">Previous</a> | <a href="17823.html">Up</a> | <a href="17139.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: OC_COMPARE_MODES Topic Title: OC_COMPARE_MODES Enumeration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+OC_COMPARE_MODES Enumeration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">enum</span></strong> {
+  <strong><span style="color: #000000">OC_COMPARE_PWM_MODE_WITH_FAULT_PROTECTION</span></strong>,
+  <strong><span style="color: #000000">OC_COMPARE_PWM_MODE_WITHOUT_FAULT_PROTECTION</span></strong>,
+  <strong><span style="color: #000000">OC_COMPARE_PWM_EDGE_ALIGNED_MODE</span></strong>,
+  <strong><span style="color: #000000">OC_DUAL_COMPARE_CONTINUOUS_PULSE_MODE</span></strong>,
+  <strong><span style="color: #000000">OC_DUAL_COMPARE_SINGLE_PULSE_MODE</span></strong>,
+  <strong><span style="color: #000000">OC_TOGGLE_CONTINUOUS_PULSE_MODE</span></strong>,
+  <strong><span style="color: #000000">OC_SET_LOW_SINGLE_PULSE_MODE</span></strong>,
+  <strong><span style="color: #000000">OC_SET_HIGH_SINGLE_PULSE_MODE</span></strong>,
+  <strong><span style="color: #000000">OC_COMPARE_TURN_OFF_MODE</span></strong>
+} OC_COMPARE_MODES;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Output Compare Compare Modes&nbsp;</p>
+<p class="Element10">
+This enumeration lists different compare modes for Output Compare module. The compare mode is set by the <a href="19943.html">PLIB_OC_ModeSelect</a> function.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_COMPARE_PWM_MODE_WITH_FAULT_PROTECTION&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Output Compare module output is PWM signal and is fault protected if fault protection pin is enabled. Fault protection is valid if the fault pin is enabled in the hardware. Fault pin: OCFA for OC_ID_1 to OC_ID_4 , OCFB for OC_ID_5 in MX devices. OCFA for OC_ID_1 to OC_ID_3 and OC_ID_7 to OC_ID_9 , OCFB for OC_ID_4 to OC_ID_6 in PIC32MZ devices. If a logic â€˜0â€™ is detected on the OCFA/OCFB pin, the selected PWM output pin(s) are placed in the tri-state. The user may elect to provide a pull-down or pull-up resistor on the PWM pin to provide for a desired state if a Fault condition occurs. The shutdown of the PWM output is immediate and is not tied to the device clock source. Fault occurrence can be detected by calling the function <a href="19939.html">PLIB_OC_FaultHasOccurred</a>. The Output Compare will be disabled until the following conditions are met:
+<ol class="Element630">
+<li value="1" class="Element600">The external Fault condition has been removed</li>
+<li value="2" class="Element600">The PWM mode is re-enabled</li>
+</ol>&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_COMPARE_PWM_MODE_WITHOUT_FAULT_PROTECTION&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Output Compare module output is PWM signal and is not fault protected&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_COMPARE_PWM_EDGE_ALIGNED_MODE&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+This element is obsolete and it will be removed from next release&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_DUAL_COMPARE_CONTINUOUS_PULSE_MODE&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Dual Compare, Continuous Pulse mode: Output Compare module output is driven high on compare match with primary compare value and driven low on compare match with secondary compare value. A continuous stream of pulses is generated unless the compare mode is changed or the module is disabled. If the secondary compare value is greater than time base period value, secondary compare match does not occur. As a consequence, Output Compare module output stays high.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_DUAL_COMPARE_SINGLE_PULSE_MODE&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Dual Compare, Single Pulse mode: Output Compare module output is driven high on compare match with primary compare value and driven low on compare match with secondary compare value. If the secondary compare value is greater than time base period value, secondary compare match does not occur. As a consequence, Output Compare module output stays high until a mode change is made or module is disabled&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_TOGGLE_CONTINUOUS_PULSE_MODE&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Single Compare Toggle mode: Output Compare module output is initialized to Low. Output Compare module output toggles at every compare match event with primary compare value with a single peripheral bus clock cycle delay. This scheme generates a square wave with 50% duty cycle. An interrupt is generated each time the output toggles.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_SET_LOW_SINGLE_PULSE_MODE&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Single Compare Set Low mode: A compare match event with primary compare value will set the output of Output Compare module 'Low' with a single peripheral bus clock cycle delay. Output stays Low unless Output Compare module is disabled or a new compare mode is chosen. An interrupt is generated at compare match event. Output Compare module output is initially forced High.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_SET_HIGH_SINGLE_PULSE_MODE&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Single Compare Set High mode: A compare match event with primary compare value will set the output of Output Compare module 'High' with a single peripheral bus clock cycle delay. Output stays High unless Output Compare module is disabled or a new compare mode is chosen. An interrupt is generated at compare match event. Output Compare module output is initially forced Low.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+OC_COMPARE_TURN_OFF_MODE&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Turn OFF mode: Output Compare module is disabled but still draws current. This mode is used to temporarily turn OFF the Output Compare module before a new compare mode is selected&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17823.html">Library Interface</a> &gt; g) Data Types and Constants &gt; <a href="17129.html">OC_COMPARE_MODES Enumeration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: OC_COMPARE_MODES Topic Title: OC_COMPARE_MODES Enumeration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Oscillator Tuning</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="17337.html">Clock System Service Library</a> &gt; <a href="24238.html">Using the Library</a> &gt; <a href="24226.html">How the Library Works</a> &gt; <a href="24232.html">Oscillator Tuning</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24237.html">Previous</a> | <a href="24226.html">Up</a> | <a href="24223.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM CLK Oscillator Tuning Topic Title: Oscillator Tuning)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Oscillator Tuning</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Oscillator tuning will help compensate for temperature effects on the FRC frequency over a wide range of temperatures. The tuning step size is an approximation; the application is supposed to try different values to achieve the best result. In some devices, there are different tuning modes available.</p><div class="Element15">
+Direct Number Method</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03816');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03816"><pre class="Element12"><i><span style="color: #008000">//Software must unlock before the start of the tuning.</span></i>
+SYS_OSC_FRCTUNING_DATA tuningInput;
+OSC_FRC_TUNING_VALUE tuningValue = OSC_TUNE_TO_CENTRAL_FREQ_PLUS_0_86;
+
+tuningInput.tuningMode = OSC_TUNING_USING_NUMBER;
+tuningInput.tuningData = &amp;tuningValue;
+SYS_OSC_FRCTuningSet(&amp;tuningInput);</pre></div></div>
+<div class="Element15">
+Sequential Dithering</div>
+<p class="Element10">
+To get the Sequential Dithering working, the application is supposed to set the value in seven sequencers and also in the tuning register. Next, the PWM module is configured and the period and pulse width are set. The Oscillator module generates frequencies corresponding to the value specified in these registers in every eighth PWM cycle. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03817');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03817"><pre class="Element12"><i><span style="color: #008000">//Software must unlock before the start of the tuning.</span></i>
+SYS_OSC_FRCTUNING_DATA tuningInput;
+OSC_FRC_TUNING_VALUE tuningValue[8];
+
+<i><span style="color: #008000">//Initialize with tuning values</span></i>
+tuningValue[0] = OSC_TUNE_TO_CENTRAL_MINUS_2_25_PERC;
+tuningValue[1] = OSC_TUNE_TO_CENTRAL_MINUS_1_5_PERC;
+tuningValue[2] = OSC_TUNE_TO_CENTRAL_MINUS_0_375_PERC;
+tuningValue[3] = OSC_TUNE_TO_CENTRAL_PLUS_0_43_PERC;
+tuningValue[4] = OSC_TUNE_TO_CENTRAL_PLUS_1_29_PERC;
+tuningValue[5] = OSC_TUNE_TO_CENTRAL_PLUS_2_54_PERC;
+tuningValue[6] = OSC_TUNE_TO_CENTRAL_MINUS_3_PERC;
+tuningValue[7] = OSC_TUNE_TO_CENTRAL_MINUS_3_PERC;
+
+tuningInput.tuningMode = OSC_TUNING_SEQ_DITHER;
+tuningInput.tuningData = tuningValue;
+SYS_OSC_FRCTuningSet(&amp;tuningInput);</pre></div></div>
+<div class="Element15">
+Pseudo-Random Number</div>
+<p class="Element10">
+In this method, select the tuning mode. Next, configure the PWM module and set the period and pulse width. The Oscillator system generates a 4-bit number based on a pseudo-random number generation algorithm. The Oscillator system then uses this value to tune the FRC oscillator. The module will generate different frequencies corresponding to the generated pseudo-random numbers every eighth PWM cycle. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03818');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03818"><pre class="Element12"><i><span style="color: #008000">//Software must unlock before the start of the tuning.</span></i>
+SYS_OSC_FRCTUNING_DATA tuningInput;
+OSC_FRC_TUNING_VALUE tuningValue = 0x7FFF;
+
+tuningInput.tuningMode = OSC_TUNING_PSEUDO_RANDOM;
+tuningInput.tuningData = &amp;tuningValue;
+SYS_OSC_FRCTuningSet(&amp;tuningInput);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="17337.html">Clock System Service Library</a> &gt; <a href="24238.html">Using the Library</a> &gt; <a href="24226.html">How the Library Works</a> &gt; <a href="24232.html">Oscillator Tuning</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM CLK Oscillator Tuning Topic Title: Oscillator Tuning)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

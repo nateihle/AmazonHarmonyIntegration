@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="07547.html">Crypto Demonstrations</a> &gt; <a href="03545.html">Demonstrations</a> &gt; <a href="03555.html">large_hash</a> &gt; <a href="03558.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03557.html">Previous</a> | <a href="03555.html">Up</a> | <a href="03546.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS CRYPTO large_hash_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This demonstration exercises hashing functions on large blocks of data.</p>
+<ol class="Element630">
+<li value="1" class="Element600">First, compile and program the target device. While compiling, select the configuration suitable for hardware.</li>
+<li value="2" class="Element600">Open a serial terminal program, such as PuTTY or TeraTerm, and connect it to the serial port for the MCP2200 Breakout Module. The serial configuration is 115200 baud, 8 data bits, no parity bit, 1 stop bit.</li>
+<li value="3" class="Element600">Observe the status of LEDs on the starter kit. The yellow LED will be illuminated while the demonstration executes. If all function passes succeed, the green LED will illuminate. If an error occurred, the red LED is illuminated.</li>
+<li value="4" class="Element600">Observe the output of the program in the serial terminal program. It will report the results of the hashes, and the cycles taken to execute. The actual cycles taken will depend on the hardware used, and the size of the buffers available to the hardware engine. The following example shows the output using the PIC32MZ EC Starter Kit configured with the Crypto Engine:</li>
+</ol><p class="Element10">
+<span class="Element146">Starting the test.</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">MD5 from Flash: 30C2557E8302A5BEB290C71520D87F42 took 481405 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">MD5 from feed: 30C2557E8302A5BEB290C71520D87F42 took 804934 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA from Flash: F7FEC128D7FCD59222BA37368D3B7210D4C7B6EF took 481151 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA from feed: F7FEC128D7FCD59222BA37368D3B7210D4C7B6EF took 804901 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA256 from Flash: 85A84A75886E8A526DBEC4E16E3375FAA307B4AEAD79C9ED3264C0477A6F6EBA took 702033 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA256 from feed: 85A84A75886E8A526DBEC4E16E3375FAA307B4AEAD79C9ED3264C0477A6F6EBA took 806480 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA384 from Flash: A550561A6330048EFE826A97E5FED843FA1CE646A9BF546CCB433C2FCB0E54821C4C945EED9A592B5BF43157E212F277 took 45452328 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA384 from feed: A550561A6330048EFE826A97E5FED843FA1CE646A9BF546CCB433C2FCB0E54821C4C945EED9A592B5BF43157E212F277 took 45391039 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA512 from Flash: 7F49157FB359B39EA6DA934DC9A10709FEDF8846D139D0E637A3C0FC833B6F42703858DBACEE28F4489B5E95FAB5E5655A25F838B0DC7BF3C84C7CC0264F6A4F took 45807606 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">SHA512 from feed: 7F49157FB359B39EA6DA934DC9A10709FEDF8846D139D0E637A3C0FC833B6F42703858DBACEE28F4489B5E95FAB5E5655A25F838B0DC7BF3C84C7CC0264F6A4F took 45775518 clock cycles</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">All tests passed.</span></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="07547.html">Crypto Demonstrations</a> &gt; <a href="03545.html">Demonstrations</a> &gt; <a href="03555.html">large_hash</a> &gt; <a href="03558.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS CRYPTO large_hash_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

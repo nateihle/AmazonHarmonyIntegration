@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="22381.html">Reset System Service Library</a> &gt; <a href="24396.html">Using the Library</a> &gt; <a href="24384.html">Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24396.html">Previous</a> | <a href="24396.html">Up</a> | <a href="24392.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM RESET Abstraction Model Topic Title: Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Reset System Service Library provides the following functionality:
+<ul class="Element630">
+<li class="Element600">Microcontroller Reset Reason Management</li>
+<li class="Element600">Triggering Software Reset</li>
+</ul>When one of the sources described in the following section asserts a reset request or the software requests a reset using this library, the microcontroller will be immediately reset.&nbsp;</p>
+<p class="Element10">
+The following figure illustrates the hardware abstraction model for the reset system service, </p><p class="Element10" style="text-align: center;">
+<img src="HardwareAbsModel.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>Reset Sources</strong>
+<ul class="Element630">
+<li class="Element600"><strong>/MCLR: </strong>Whenever the /MCLR pin is driven low, the device asynchronously asserts reset. The processor continues to use the existing clock source that was in use before the /MCLR Reset occurred.</li>
+<li class="Element600"><strong>Power On [POR]: </strong>A power-on event generates an internal power-on reset pulse when a VDD rise is detected above POR voltage. In particular, VDD must fall below POR voltage before a new POR is initiated.</li>
+<li class="Element600"><strong>Watch Dog Timer [WDT]: </strong>Whenever a watchdog timer time-out occurs, the device asynchronously asserts system reset. The clock source remains unchanged. Note that a WDT time-out during Sleep or Idle mode will wake-up the processor, but will not reset the processor.</li>
+<li class="Element600"><strong>Brown Out:</strong> If the voltage supplied to the internal regulator is inadequate to maintain a regulated level, the regulator reset circuitry will generate a Brown-Out Reset (BOR). Brown out reset is applicable only when the regulator is enabled.</li>
+<li class="Element600"><strong>Configuration Mismatch: </strong>To maintain the integrity of the stored configuration values, all device configuration bits are implemented as a complementary set of register bits. For each bit, as the actual value of the register is written as ‘1’, a complementary value, ‘0’, is stored in its corresponding background register and vice versa. The bit pairs are compared every time, including sleep mode. During this comparison, if the configuration bit values are not found opposite to each other, a configuration mismatch event is generated which causes a device reset.</li>
+<li class="Element600"><strong>Software Reset: </strong>Whenever the reset instruction or a reset sequence is executed, the device asserts system reset. This reset state does not reinitialize the clock. The clock source that is in effect prior to the reset instruction or reset sequence execution remains in effect.</li>
+<li class="Element600"><strong>Trap Conflict: </strong>A trap conflict reset occurs when a hard and a soft trap occur at the same time.</li>
+<li class="Element600"><strong>Illegal Opcode:</strong> A device reset is generated if the device attempts to execute an illegal opcode value that was fetched from program memory.</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+For more information on the electrical specifications, refer to the &quot;<strong>Electrical Characteristics&quot;</strong> chapter of the specific device data sheet.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="22381.html">Reset System Service Library</a> &gt; <a href="24396.html">Using the Library</a> &gt; <a href="24384.html">Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYSTEM RESET Abstraction Model Topic Title: Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

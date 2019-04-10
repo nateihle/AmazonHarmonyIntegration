@@ -1,0 +1,206 @@
+config USE_DRV_TOUCH_ADC_NEEDED
+    bool
+
+config USE_DRV_TOUCH_ADC
+    bool "Use Touch ADC Driver?"
+    default n if !USE_DRV_TOUCH_ADC_NEEDED
+    default y if USE_DRV_TOUCH_ADC_NEEDED
+    select DRV_ADC_USE_DRIVER_NEEDED
+    select USE_SYS_TOUCH_CALIBRATION_NEEDED
+    select USE_DRV_TMR
+    select USE_SYS_INT_NEEDED
+    ---help---
+    IDH_HTML_ADC_Touch_Driver_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_TOUCH_ADC
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_TOUCH_ADC_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_TOUCH_ADC_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    default 1024
+
+config DRV_TOUCH_ADC_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    default 1
+
+config DRV_TOUCH_ADC_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    default y
+
+config DRV_TOUCH_ADC_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_TOUCH_ADC_RTOS = "Standalone"
+    depends on DRV_TOUCH_ADC_RTOS_USE_DELAY
+    default 1000
+
+endmenu
+
+config DRV_TOUCH_ADC_INTERRUPT_MODE
+    bool "Interrupt Mode"
+    depends on USE_DRV_TOUCH_ADC
+    depends on USE_DRV_TMR
+    select USE_SYS_INT_NEEDED
+    default y
+
+ifblock  DRV_TOUCH_ADC_INTERRUPT_MODE
+menu "TMR Settings"
+
+config DRV_TOUCH_ADC_TMR_INSTANCE_NUMBER
+    int "Timer Driver Instance to Use"
+    depends on USE_DRV_TOUCH_ADC
+    depends on USE_DRV_TMR
+    range 0 TMR_NUMBER_OF_MODULES
+    default 0
+    ---help---
+    IDH_HTML_DRV_TMR_INSTANCES_NUMBER
+    ---endhelp---
+
+config DRV_TOUCH_ADC_TMR_DRIVER_INDEX
+    string "Timer Driver INDEX to Use"
+    depends on USE_DRV_TOUCH_ADC
+    depends on USE_DRV_TMR
+    range DRV_TMR_INDEX
+    default "DRV_TMR_INDEX_0"
+
+
+config DRV_TOUCH_ADC_INTERRUPT_SOURCE
+    string
+    depends on USE_DRV_TMR
+    default "INT_SOURCE_TIMER_1" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_0"
+    default "INT_SOURCE_TIMER_2" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_1"
+    default "INT_SOURCE_TIMER_3" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_2"
+    default "INT_SOURCE_TIMER_4" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_3"
+    default "INT_SOURCE_TIMER_5" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_4"
+
+config DRV_TOUCH_ADC_INTERRUPT_VECTOR
+    string
+    default "_TIMER_1_VECTOR" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_0"
+    default "_TIMER_2_VECTOR" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_1"
+    default "_TIMER_3_VECTOR" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_2"
+    default "_TIMER_4_VECTOR" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_3"
+    default "_TIMER_5_VECTOR" if DRV_TOUCH_ADC_TMR_DRIVER_INDEX = "DRV_TMR_INDEX_4"
+
+endmenu
+endif
+
+menu "Calibration Constants"
+        depends on USE_DRV_TOUCH_ADC
+
+config DRV_TOUCH_ADC_CAL_ULX_SAMPLE
+    string "Upper Left X Sample (ULX) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x00C0 if USE_GFX_TRULY_32_240X320
+    default 0x0099 if USE_GFX_POWERTIP_43_480X272
+    default 0x00ad if USE_GFX_TRULY_7_800X480
+    default 0x00aa if USE_GFX_TRULY_57_640X480
+    default 0x00C0 if USE_GFX_TRULY_32_240X320
+    default 0x0099 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_ULY_SAMPLE
+    string "Upper Left Y Sample (ULY) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x00D4 if USE_GFX_TRULY_32_240X320
+    default 0x00FF if USE_GFX_POWERTIP_43_480X272
+    default 0x033f if USE_GFX_TRULY_7_800X480
+    default 0x0349 if USE_GFX_TRULY_57_640X480
+    default 0x00D4 if USE_GFX_TRULY_32_240X320
+    default 0x00FF if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_URX_SAMPLE
+    string "Upper Right X Sample (URX) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x037C if USE_GFX_TRULY_32_240X320
+    default 0x0369 if USE_GFX_POWERTIP_43_480X272
+    default 0x03ac if USE_GFX_TRULY_7_800X480
+    default 0x038a if USE_GFX_TRULY_57_640X480
+    default 0x037C if USE_GFX_TRULY_32_240X320
+    default 0x0369 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_URY_SAMPLE
+    string "Upper Right X Sample (URY) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x00D7 if USE_GFX_TRULY_32_240X320
+    default 0x00F1 if USE_GFX_POWERTIP_43_480X272
+    default 0x0363 if USE_GFX_TRULY_7_800X480
+    default 0x0349 if USE_GFX_TRULY_57_640X480
+    default 0x00D7 if USE_GFX_TRULY_32_240X320
+    default 0x00F1 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LRX_SAMPLE
+    string "Lower Right X Sample (LRX) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x035A if USE_GFX_TRULY_32_240X320
+    default 0x0368 if USE_GFX_POWERTIP_43_480X272
+    default 0x0378 if USE_GFX_TRULY_7_800X480
+    default 0x0374 if USE_GFX_TRULY_57_640X480
+    default 0x035A if USE_GFX_TRULY_32_240X320
+    default 0x0368 if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LRY_SAMPLE
+    string "Lower Right Y Sample (LRY) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x0333 if USE_GFX_TRULY_32_240X320
+    default 0x033C if USE_GFX_POWERTIP_43_480X272
+    default 0x00d4 if USE_GFX_TRULY_7_800X480
+    default 0x00ce if USE_GFX_TRULY_57_640X480
+    default 0x0333 if USE_GFX_TRULY_32_240X320
+    default 0x033C if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LLX_SAMPLE
+    string "Lower Left X Sample (LLX) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x00B9 if USE_GFX_TRULY_32_240X320
+    default 0x00AC if USE_GFX_POWERTIP_43_480X272
+    default 0x0081 if USE_GFX_TRULY_7_800X480
+    default 0x00a8 if USE_GFX_TRULY_57_640X480
+    default 0x00B9 if USE_GFX_TRULY_32_240X320
+    default 0x00AC if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+config DRV_TOUCH_ADC_CAL_LLY_SAMPLE
+    string "Lower Left Y Sample (LLY) "
+    depends on USE_DRV_TOUCH_ADC
+    default 0x0350 if USE_GFX_TRULY_32_240X320
+    default 0x032A if USE_GFX_POWERTIP_43_480X272
+    default 0x00e2 if USE_GFX_TRULY_7_800X480
+    default 0x00ce if USE_GFX_TRULY_57_640X480
+    default 0x0350 if USE_GFX_TRULY_32_240X320
+    default 0x032A if USE_GFX_POWERTIP_43_480X272
+    default 0
+
+endmenu
+
+config DRV_TOUCH_ADC_PRESS_THRESHOLD
+    int "Press Threshold"
+    depends on USE_DRV_TOUCH_ADC
+    range 0 256
+    default 256
+
+ifblock USE_DRV_TOUCH_ADC
+
+add "<#include \"/framework/driver/input/touch/touch_adc/templates/drv_touch_adc_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/input/touch/touch_adc/templates/drv_touch_adc_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/input/touch/touch_adc/templates/drv_touch_adc_initialize.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+
+template DRV_TOUCH_ADC_C "$HARMONY_VERSION_PATH/framework/driver/input/touch/touch_adc/templates/drv_touch_adc.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/input/touch_adc/src/drv_touch_adc.c"
+template DRV_TOUCH_ADC_H "$HARMONY_VERSION_PATH/framework/driver/input/touch/touch_adc/templates/drv_touch_adc.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/input/touch_adc/drv_touch_adc.h"
+
+endif
+
+

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="04857.html">BMX Peripheral Library</a> &gt; <a href="17473.html">Using the Library</a> &gt; <a href="17465.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17473.html">Previous</a> | <a href="17473.html">Up</a> | <a href="17469.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB BMX Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following figure shows the Bus Matrix hardware abstraction model. </p><p class="Element10" style="text-align: center;">
+<span style="color: #000000"><strong>Hardware Abstraction Model</strong></span>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="bmx1.png" border="0" alt="" title=""></p><p class="Element10">
+The BMX Peripheral Library provides interface routines to interact with the blocks shown in the previous diagram.&nbsp;</p>
+<p class="Element10">
+The <strong>Exception Generator</strong> generates a bus error exception for unmapped address accesses from all Bus Matrix initiators:
+<ul class="Element636">
+<li class="Element606">Initiator Expansion Interface (IXI) shared bus</li>
+<li class="Element606">In-Circuit Debug (ICD) unit</li>
+<li class="Element606">Direct Memory Access (DMA) controller</li>
+<li class="Element606">CPU data bus</li>
+<li class="Element606">CPU instruction bus</li>
+</ul>Each of the initiators can be individually enabled or disabled with Exception Generator peripheral library routines. All are enabled by default.&nbsp;</p>
+<p class="Element10">
+The <strong>Cache Control</strong> simply enables/disables program Flash memory (PFM) data cacheability for DMA accesses. The default setting is disabled. When enabled, the PCACHE module must have data caching enabled.&nbsp;</p>
+<p class="Element10">
+The <strong>Bus Arbitrator</strong> assigns priority levels to bus initiators following one of three priority schemes:
+<ul class="Element636">
+<li class="Element606">Fixed, with CPU higher than DMA</li>
+<li class="Element606">Fixed, with DMA higher than CPU (default)</li>
+<li class="Element606">Rotating between four priority sequences</li>
+</ul>The <strong>Memory Access Control</strong> partitions program Flash memory and RAM into kernel and user areas. The RAM can be further partitioned into data and program segments for both kernel and user areas. By default, the full PFM and RAM are mapped to Kernel mode.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="04857.html">BMX Peripheral Library</a> &gt; <a href="17473.html">Using the Library</a> &gt; <a href="17465.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB BMX Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

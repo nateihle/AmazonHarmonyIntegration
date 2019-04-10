@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Other Features</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17730.html">Other Features</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17716.html">Previous</a> | <a href="17718.html">Up</a> | <a href="17709.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Other Features Topic Title: Other Features)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Other Features</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Other Features</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The following features are not available on all devices. Please refer to the specific device data sheet to determine which features are supported by your device.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+General Call Address Support</div>
+<p class="Element10">
+The I2C General Call address (reserved address 0) allows a master to address all slave devices on the bus. During slave operation the module can be made to respond to or ignore the general call address using the <a href="19580.html">PLIB_I2C_GeneralCallEnable</a> function or the <a href="19579.html">PLIB_I2C_GeneralCallDisable</a> function. When a slave address byte is received, software can identify if it was the general call address using the <a href="19607.html">PLIB_I2C_SlaveAddressIsGeneralCall</a> function (or by checking the value of the address byte received).&nbsp;</p>
+<p class="Element10">
+<strong>Note:</strong> The general call address is always 7-bits.&nbsp;</p><div class="Element15">
+SMBus Support</div>
+<p class="Element10">
+The I2C module can support communication on a System Management Bus (SMBus) by calling the <a href="19630.html">PLIB_I2C_SMBEnable</a> function to adjust the electrical characteristics of the SMBus.</p><div class="Element15">
+Operation During Sleep Mode</div>
+<p class="Element10">
+When the device enters Sleep mode, all clock sources supplied to the I2C modules are shut down. If the device enters Sleep mode in the middle of an I2C master transmission or reception operation, the operation is aborted. If the device enters Sleep mode when the module is operating in slave mode, the external master's clock will continue run the slave state machine. If a slave address match occurs, an interrupt will be provided to wake up the device. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Indeterminate results can occur if an error occurs during Sleep mode.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Operation During Idle Mode</div>
+<p class="Element10">
+When the device enters Idle mode, the system clock sources remain functional and the CPU stops code execution.&nbsp;</p>
+<p class="Element10">
+I2C operation during Idle mode can be controlled using the <a href="19635.html">PLIB_I2C_StopInIdleEnable</a> function or the <a href="19634.html">PLIB_I2C_StopInIdleDisable</a> function.&nbsp;</p>
+<p class="Element10">
+By default, the I2C module continues to operate in Idle mode and provide full functionality.</p><div class="Element15">
+Operation with DMA</div>
+<p class="Element10">
+Software activity must occur between the transfer of each byte, making DMA inappropriate for use with the I2C module.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17730.html">Other Features</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Other Features Topic Title: Other Features)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

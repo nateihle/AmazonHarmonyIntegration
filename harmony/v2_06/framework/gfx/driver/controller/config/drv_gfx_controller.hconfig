@@ -1,0 +1,134 @@
+config USE_DRV_GFX_LCC_NEEDED
+    bool
+
+config USE_DRV_GFX_S1D13517_NEEDED
+	bool
+
+config USE_DRV_GFX_SSD1926_NEEDED
+	bool
+
+config USE_DRV_GFX_SSD1963_NEEDED
+    bool
+    
+config USE_DRV_GFX_OTM2201A_NEEDED
+	bool
+
+config USE_DRV_GFX_GLCD_NEEDED
+	bool
+
+config USE_DRV_GFX_LCDC_NEEDED
+	bool
+
+config USE_DRV_GFX_ILI9488_SPI_4LINE_NEEDED
+	bool
+
+config DRV_GFX_CONTROLLER_TYPE
+    string "Select Controller Type"
+    range DRV_GFX_CONTROLLER_LIST
+	default "LCDC" if USE_DRV_GFX_LCDC_NEEDED
+	default "GLCD" if USE_DRV_GFX_GLCD_NEEDED
+    default "Low Cost Controllerless" if USE_DRV_GFX_LCC_NEEDED
+	default "Epson S1D13517" if USE_DRV_GFX_S1D13517_NEEDED
+	default "SSD1926" if USE_DRV_GFX_SSD1926_NEEDED
+    default "SSD1963" if USE_DRV_GFX_SSD1963_NEEDED
+	default "OTM2201A" if USE_DRV_GFX_OTM2201A_NEEDED
+	default "ILI9488 (SPI 4-LINE)" if USE_DRV_GFX_ILI9488_SPI_4LINE_NEEDED
+	default "Low Cost Controllerless"
+    ---help---
+     IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+comment "WARNING: This device does not support GLCD"
+	depends on !HAVE_GLCD && DRV_GFX_CONTROLLER_TYPE = "GLCD"
+
+config USE_DRV_GFX_LCC
+    bool
+    select DRIVER
+    select USE_SYS_DMA_NEEDED
+    select USE_SYS_INT_NEEDED
+    default y if DRV_GFX_CONTROLLER_TYPE = "Low Cost Controllerless"
+	default n
+
+menu "Low Cost Controllerless" depends on USE_DRV_GFX_LCC
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/lcc/config/$DATA_SHEET_ID.hconfig"
+endmenu
+
+config USE_DRV_GFX_GLCD
+    bool
+    select DRIVER
+    default y if DRV_GFX_CONTROLLER_TYPE = "GLCD"
+	default n
+
+menu "GLCD" depends on USE_DRV_GFX_GLCD
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/glcd/config/drv_gfx_glcd.hconfig"
+endmenu
+
+config USE_DRV_GFX_LCDC
+    bool
+    select DRIVER
+    default y if DRV_GFX_CONTROLLER_TYPE = "LCDC"
+	default n
+
+menu "LCDC" depends on USE_DRV_GFX_LCDC
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/lcdc/config/drv_gfx_lcdc.hconfig"
+endmenu
+
+config USE_DRV_GFX_S1D13517
+    bool
+    select DRIVER
+    default y if DRV_GFX_CONTROLLER_TYPE = "Epson S1D13517"
+	default n
+
+menu "Epson S1D13517" depends on USE_DRV_GFX_S1D13517
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/s1d13517/config/drv_gfx_s1d13517.hconfig"
+endmenu 
+
+config USE_DRV_GFX_SSD1926
+    bool
+    select DRIVER
+    default y if DRV_GFX_CONTROLLER_TYPE = "SSD1926"
+	default n
+
+menu "SSD1926" depends on USE_DRV_GFX_SSD1926
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ssd1926/config/drv_gfx_ssd1926.hconfig"
+endmenu 
+
+config USE_DRV_GFX_SSD1963
+    bool
+    select DRIVER
+    default y if DRV_GFX_CONTROLLER_TYPE = "SSD1963"
+    default n
+
+menu "SSD1963" depends on USE_DRV_GFX_SSD1963
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ssd1963/config/drv_gfx_ssd1963.hconfig"
+endmenu 
+
+config USE_DRV_GFX_OTM2201A
+    bool
+    select DRIVER
+    default y if DRV_GFX_CONTROLLER_TYPE = "OTM2201A"
+	default n
+
+menu "OTM2201A" depends on USE_DRV_GFX_OTM2201A
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/otm2201a/config/drv_gfx_otm2201a.hconfig"
+endmenu
+
+config USE_DRV_GFX_ILI9488_SPI_4LINE
+	bool
+	select DRIVER
+	default y if DRV_GFX_CONTROLLER_TYPE = "ILI9488 (SPI 4-LINE)"
+	default n
+
+menu "ILI9488" depends on USE_DRV_GFX_ILI9488_SPI_4LINE
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/ili9488/config/drv_gfx_ili9488.hconfig"
+endmenu 
+
+config USE_DRV_GFX_GENERIC
+    bool
+    select DRIVER
+    default y if DRV_GFX_CONTROLLER_TYPE = "Generic Customizable Driver"
+	default n
+
+menu "Generic" depends on USE_DRV_GFX_GENERIC
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/generic/config/drv_gfx_generic.hconfig"
+endmenu 

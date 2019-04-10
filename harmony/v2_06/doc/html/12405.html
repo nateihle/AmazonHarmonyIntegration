@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GFX_DrawPipeline Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12791.html">Library Interface</a> &gt; b) Data Types and Constants &gt; <a href="12405.html">GFX_DrawPipeline Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08259.html">Previous</a> | <a href="12791.html">Up</a> | <a href="12686.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFX_DrawPipeline Topic Title: GFX_DrawPipeline Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+GFX_DrawPipeline Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> <strong><span style="color: #000000">GFX_DrawPipeline_t</span></strong> {
+  <a href="08253.html">drawPixel_FnPtr</a> <strong><span style="color: #000000">drawPixel</span></strong>[<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  <a href="08243.html">drawLine_FnPtr</a> <strong><span style="color: #000000">drawLine</span></strong>[<a href="12392.html">GFX_DRAW_MODE_COUNT</a>][<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  <a href="08243.html">drawLine_FnPtr</a> <strong><span style="color: #000000">drawHorzLine</span></strong>[<a href="12392.html">GFX_DRAW_MODE_COUNT</a>][<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  <a href="08243.html">drawLine_FnPtr</a> <strong><span style="color: #000000">drawVertLine</span></strong>[<a href="12392.html">GFX_DRAW_MODE_COUNT</a>][<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  <a href="08254.html">drawRect_FnPtr</a> <strong><span style="color: #000000">drawRect</span></strong>[<a href="12392.html">GFX_DRAW_MODE_COUNT</a>][<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  <a href="08236.html">drawCircle_FnPtr</a> <strong><span style="color: #000000">drawCircle</span></strong>[<a href="12392.html">GFX_DRAW_MODE_COUNT</a>][<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  drawArc_FnPtr <strong><span style="color: #000000">drawArc</span></strong>[<a href="12392.html">GFX_DRAW_MODE_COUNT</a>][<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  drawEllipse_FnPtr <strong><span style="color: #000000">drawEllipse</span></strong>[<a href="12392.html">GFX_DRAW_MODE_COUNT</a>][<a href="12223.html">GFX_ANTIALIAS_MODE_COUNT</a>];
+  <a href="08235.html">drawBlit_FnPtr</a> <strong><span style="color: #000000">drawBlit</span></strong>;
+  <a href="08257.html">drawStretchBlit_FnPtr</a> <strong><span style="color: #000000">drawStretchBlit</span></strong>[<a href="12743.html">GFX_RESIZE_MODE_COUNT</a>];
+  <a href="08235.html">drawBlit_FnPtr</a> <strong><span style="color: #000000">drawDirectBlit</span></strong>;
+  <a href="17377.html">pixelGet_FnPtr</a> <strong><span style="color: #000000">pixelGet</span></strong>;
+  <a href="17378.html">pixelGetArray_FnPtr</a> <strong><span style="color: #000000">pixelArrayGet</span></strong>;
+  <a href="17379.html">pixelSet_FnPtr</a> <strong><span style="color: #000000">pixelSet</span></strong>;
+} GFX_DrawPipeline;</pre></div></div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+drawPixel_FnPtr drawPixel[GFX_ANTIALIAS_MODE_COUNT];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+draw functions&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12791.html">Library Interface</a> &gt; b) Data Types and Constants &gt; <a href="12405.html">GFX_DrawPipeline Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFX_DrawPipeline Topic Title: GFX_DrawPipeline Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

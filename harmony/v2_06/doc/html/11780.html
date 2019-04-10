@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>General Guidelines</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11780.html">General Guidelines</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11768.html">Previous</a> | <a href="11772.html">Up</a> | <a href="11784.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE General Guidelines Topic Title: General Guidelines)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+General Guidelines</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In addition to the open, close, and data transfer functions, most device drivers will require a number of device type-specific interface functions. What these functions do will depend on exactly what type of device is being controlled. It is generally best to provide a solution for the most basic usage of a given type of peripheral first. It is easy to add unique optional capabilities later, but it is hard to fix a bad interface without breaking existing client code. Keep in mind that the driver should manage the state of the device so the client does not have to. Intermediate steps that are part of normal operation should be hidden by the interface as much as possible. The following list provides more general guidelines that may help when defining a driver’s interface.</p>
+<ol class="Element630">
+<li value="1" class="Element600">A driver that supports only a single type of peripheral is easier to maintain and more flexible to use. Only integrate drivers for different types of peripherals together when the merged driver serves another purpose and cannot expose any of the underlying functionality. For example, if the merged driver is a touch screen driver that fully utilizes the underlying Timer and ADC resources, leaving neither available for other uses. Otherwise, the merged driver will need to expose multiple driver interfaces so as to be transparent to clients.</li>
+<li value="2" class="Element600">Define the interface based on the client’s point of view of an idealized and abstracted version of the peripheral, not on a detailed understanding of the device. Any details that may be different from one implementation of a device to another should be hidden from the client. Features that exist on one piece of hardware and not on another that need to be exposed to the interface can be added or removed as configuration selections. Operations related to features that do not exist on one part can be grouped together and removed from the interface when not supported.</li>
+<li value="3" class="Element600">Although it may be appropriate for a driver to maintain its own buffer(s) in which to collect data, it is generally preferable to use the caller’s buffer. This places decisions about buffer size and allocation with the caller, who has better knowledge of exactly how the data is to be used. Ownership of the buffer is passed to the driver when a data transfer function is called and released from the driver either when the call returns or when the transfer completion status has been given to the client.</li>
+<li value="4" class="Element600">Many driver functions will perform operations that require some time to complete (usually waiting for some status to change). These functions should report status to indicate whether an operation is complete or not and provide a handle or identifier with which the client can identify the operation later when it completes.</li>
+<li value="5" class="Element600">An interface should be appropriately sized (i.e., it should not contain too many operations or too few operations). A smaller interface is generally better, if it can support all of the required features. However, performance, ease of use, and compatibility are more important. Do not sacrifice any of these considerations to eliminate interface functions.</li>
+<li value="6" class="Element600">Try to use data types that can be easily ported to an appropriate size (8-, 16-, 32-bit) if the data value range or processor changes for parameters or return types, unless the usage model of the driver requires a specific bit width. When a specific data size is required, use the C99 data types defined in <span class="Element146">stdint.h</span>, <span class="Element146">stdbool.h</span>, and <span class="Element146">stddef.h</span>.</li>
+<li value="7" class="Element600">If DMA is supported (for peripherals that would benefit from it), it should be hidden behind the same data transfer operations used when it is not available and either enabled as a build-time configuration option or enabled and disabled by a setup function at run-time, as appropriate.</li>
+<li value="8" class="Element600">Drivers must use system services for memory allocation, interrupt control, system clocks and timers, power management, physical/virtual address conversion, etc. They must also use the OSAL for thread safety and synchronization. Generally, these facts should be hidden from the client interface. (Refer to the <a href="24419.html">System Services</a> and <a href="17167.html">OSAL</a> help for information on what services are available and how to use them.)</li>
+<li value="9" class="Element600">Interrupt specifics, such as the interrupt ID and vector numbers, should be abstracted away as build-time configuration options (for static implementations) or instance-specific initialization options (for dynamic implementations) unless there is a need to change them dynamically at run-time.</li>
+</ol><p class="Element10">
+As always, it is best to follow generally accepted programming practices and a consistent programming style. Remember that source code frequently outlives its original purpose and well-designed and easily readable and maintainable code will be a joy to work with long after the original project is completed.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11780.html">General Guidelines</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE General Guidelines Topic Title: General Guidelines)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

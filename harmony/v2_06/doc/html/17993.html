@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Enhanced Buffer Master Mode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23143.html">SPI Peripheral Library</a> &gt; <a href="18024.html">Using the Library</a> &gt; <a href="18002.html">How the Library Works</a> &gt; <a href="17995.html">Enhanced Buffer SPI Mode</a> &gt; <a href="17993.html">Enhanced Buffer Master Mode</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17995.html">Previous</a> | <a href="17995.html">Up</a> | <a href="17994.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SPI Enhanced Buffer Master Mode Topic Title: Enhanced Buffer Master Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Enhanced Buffer Master Mode</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Setup</div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Select on which edge of the clock data transmission occurs, using <a href="20793.html">PLIB_SPI_OutputDataPhaseSelect</a> and <a href="20731.html">PLIB_SPI_ClockPolaritySelect</a>.</li>
+<li value="2" class="Element600">Set SPI baud rate using <a href="20722.html">PLIB_SPI_BaudRateSet</a>.</li>
+<li value="3" class="Element600">If the module needs to operate as a Master, use <a href="20792.html">PLIB_SPI_MasterEnable</a>.</li>
+</ol><strong>Example: Enhanced Master Mode Communication</strong> <strong>Setup</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03268');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03268"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_SPI_ID            SPI_ID_1
+<strong><span style="color: #000080">#define</span></strong> PERIPHERAL_BUS_CLK   80000000
+<strong><span style="color: #000080">#define</span></strong> SPI_BAUD_RATE        10000000
+
+<i><span style="color: #008000">//Disable SPI</span></i>
+PLIB_SPI_Disable(MY_SPI_ID);
+
+<i><span style="color: #008000">// Optional:  Clear SPI interrupts and status flag.</span></i>
+
+<i><span style="color: #008000">//clear SPI buffer</span></i>
+PLIB_SPI_BufferClear (MY_SPI_ID);
+
+<i><span style="color: #008000">// Configure General SPI Options</span></i>
+PLIB_SPI_StopInIdleDisable(MY_SPI_ID);
+PLIB_SPI_PinEnable(MY_SPI_ID, SPI_PIN_SLAVE_SELECT|SPI_PIN_DATA_OUT);
+PLIB_SPI_CommunicationWidthSelect(MY_SPI_ID, SPI_COMMUNICATION_WIDTH_16BITS);
+PLIB_SPI_InputSamplePhaseSelect(MY_SPI_ID,SPI_INPUT_SAMPLING_PHASE_IN_MIDDLE);
+PLIB_SPI_ClockPolaritySelect(MY_SPI_ID, SPI_CLOCK_POLARITY_IDLE_HIGH);
+PLIB_SPI_OutputDataPhaseSelect(MY_SPI_ID, SPI_OUTPUT_DATA_PHASE_ON_ACTIVE_TO_IDLE_CLOCK);
+PLIB_SPI_BaudRateSet(MY_SPI_ID,PERIPHERAL_BUS_CLK,SPI_BAUD_RATE);
+PLIB_SPI_MasterEnable(MY_SPI_ID);
+
+PLIB_SPI_FramedCommunicationDisable(MY_SPI_ID);
+PLIB_SPI_FIFOEnable(MY_SPI_ID);
+
+<i><span style="color: #008000">// Optional:  Enable interrupts.</span></i>
+
+<i><span style="color: #008000">// Enable the module</span></i>
+PLIB_SPI_Enable(MY_SPI_ID);</pre></div></div>
+<p class="Element10">
+The CPU loads data to be transmitted into the transmit buffer by writing the SPI buffer (<a href="20728.html">PLIB_SPI_BufferWrite</a>). An SPI transmission begins after the first buffer write. Up to all pending transmissions can be loaded. The number of pending transfers is indicated by the Buffer Element Count bits through <a href="20776.html">PLIB_SPI_FIFOCountGet</a>.&nbsp;</p>
+<p class="Element10">
+In Master mode, this count reflects the number of transfers pending in the transmit buffer. In Slave mode, it reflects the number of unread receptions in the receive buffer. If the Shift register is empty, the first write will immediately load the Shift register, leaving all transmit buffer locations available.&nbsp;</p>
+<p class="Element10">
+After an SPI transfer completes, the receive buffer location is updated with the received data. The CPU accesses the received data by reading the SPI buffer. After each CPU read, the SPI buffer points to the next buffer location. SPI transfers continue until all pending data transfers have completed.</p><div class="Element15">
+Transmission and Receive</div>
+<p class="Element10">
+Both data to be transmitted and data that is received are respectively written into, or read from, the SPI buffer.
+<ol class="Element630">
+<li value="1" class="Element600">Data to be transmitted is written to the SPI buffer (<a href="20728.html">PLIB_SPI_BufferWrite</a>) and is loaded into the next available transmit buffer location.</li>
+<li value="2" class="Element600">The SPI transmit buffer full flag (<a href="20807.html">PLIB_SPI_TransmitBufferIsFull</a>) and SPI interrupt flag are set after pending transfers are loaded.</li>
+<li value="3" class="Element600">The current buffer location’s contents are moved to the Shift register. The SPI transmit buffer is cleared by the module if a buffer location is available for a CPU write.</li>
+<li value="4" class="Element600">A series of 8/16/32 clock pulses shifts out 8/16/32 bits of transmit data from the shift register to the data out (SDO) pin and simultaneously shifts in the data at the data in (SDI) pin into the shift register.</li>
+<li value="5" class="Element600">When the transfer is complete, the following events occur:
+<ul class="Element630">
+<li class="Element600">The contents of the SPI shift register are moved into the next available location in the receive buffer.</li>
+<li class="Element600">If the last unread location is written by the SPI module, the SPI receive buffer full flag (PLIB_SPI_ReceiveBufferIsFull) is set, indicating that all buffer locations are full. Enable the SPI interrupts. The SPI interrupt flag is not cleared automatically by the hardware.</li>
+<li class="Element600">Once the SPI buffer is read (<a href="20725.html">PLIB_SPI_BufferRead</a>) by the user application, the hardware clears the SPI receive buffer full flag (<a href="20797.html">PLIB_SPI_ReceiverBufferIsFull</a>) and the SPI Buffer increments to the next unread receive buffer location. SPI buffer reads beyond the last unread location will not increment the buffer location.</li>
+</ul></li>
+<li value="6" class="Element600">When <a href="20797.html">PLIB_SPI_ReceiverBufferIsFull</a> is set, if the SPI module needs to transfer one more data from SPI shift register to the buffer, the module will enable the receive overflow flag (<a href="20799.html">PLIB_SPI_ReceiverHasOverflowed</a>) indicating an overflow condition.</li>
+<li value="7" class="Element600">Data to be transmitted can be written to the SPI buffer (<a href="20728.html">PLIB_SPI_BufferWrite</a>) by the user application at any time as long as the SPI transmit buffer full flag is clear (<a href="20807.html">PLIB_SPI_TransmitBufferIsFull</a>). Up to all pending transfers can be loaded into the buffer allowing continuous transmission.</li>
+</ol><strong>Example: Enhanced Master Mode communication</strong> <strong>Transfer</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03269');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03269"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_SPI_ID   SPI_ID_1
+
+uint16_t data;
+
+data = 0x00ac;
+
+<i><span style="color: #008000">// write to buffer for TX</span></i>
+PLIB_SPI_BufferWrite (MY_SPI_ID,data);
+
+<i><span style="color: #008000">// Either Poll for Receiver buffer to be full using</span></i>
+<i><span style="color: #008000">// PLIB_SPI_ReceiverBufferIsFull or wait for the interrupt</span></i>
+
+<i><span style="color: #008000">// Read the received value</span></i>
+data = PLIB_SPI_BufferRead (MY_SPI_ID);</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element630">
+<li value="1" class="Element600">Refer to the <strong>&quot;Interrupts&quot;</strong> chapter in the specific device data sheet or the family reference manual section specified in that chapter for details on how to clear and enable the SPI module interrupts and flags.</li>
+<li value="2" class="Element600">MY_SPI_ID is the SPI instance selected for use by the application developer.</li>
+<li value="3" class="Element600">Not all features are available on all devices. Refer to the <strong>&quot;Serial Peripheral Interface (SPI)&quot;</strong> chapter in the specific device data sheet for availability.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23143.html">SPI Peripheral Library</a> &gt; <a href="18024.html">Using the Library</a> &gt; <a href="18002.html">How the Library Works</a> &gt; <a href="17995.html">Enhanced Buffer SPI Mode</a> &gt; <a href="17993.html">Enhanced Buffer Master Mode</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SPI Enhanced Buffer Master Mode Topic Title: Enhanced Buffer Master Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04855.html">Bluetooth Demonstrations</a> &gt; <a href="03484.html">Demonstrations</a> &gt; <a href="03457.html">BM64 Driver Demonstrations</a> &gt; <a href="03458.html">BM64_a2dp_hfp</a> &gt; <a href="03461.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03460.html">Previous</a> | <a href="03458.html">Up</a> | <a href="03462.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS BLUETOOTH BM64_a2dp_hfp_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Do the following to run the demonstration:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Using the <a href="03466.html">BM64_bootloader</a> application, if you have not done so, configure the BM64 as an I2S slave device and give it a unique device name.</li>
+<li value="2" class="Element600">Connect a pair of headphones to the headphone out connector on the Audio DAC Daughter Board which comes by default with the PIC32 Bluetooth Audio Development Kit.</li>
+<li value="3" class="Element600">Compile the application, program the target device, and run it. While compiling, select the appropriate MPLAB X IDE project configuration based on whether you are using the PIM, and AK4954 Codec instead of the AK4384 DAC. Refer to Building the Application for details. After the program starts, the device name and address should appear on the display and the connection icon in the top-right corner will be gray.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS BLUETOOTH BM64 Initial Screen.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="4" class="Element600">Press and hold the SW1 button on the Bluetooth Audio Development Kit to put the BM64 Module into pairing mode, indicated by the LEDs on the BM64 Module flashing alternately.</li>
+<li value="5" class="Element600">In the Bluetooth Settings of your smartphone, find the name of the BM64 which you set up in Step 1, then select and pair with it. The two LEDs on the BM64 Module should stop flashing, and instead just one should flash twice every few seconds. Meanwhile the connection icon in the top right of the LCD should have changed from gray to bright blue.</li>
+<li value="6" class="Element600">Go into an application on the smartphone that outputs audio, such as Music. Select a song and press play. A Play icon should appear on the LCD screen of the Bluetooth Audio Development Kit as shown below and you should hear audio from the headphones.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS BLUETOOTH BM64 Audio Screen.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="7" class="Element600">Use SW1 and SW2 on the Bluetooth Audio Development Kit to increase and decrease the volume, SW4 to alternately pause and resume the playback, SW3 and SW5 to go to the next or previous song (or use a long press of SW3/SW5 for fast forward or rewind). Set Table 1 below.</li>
+<li value="8" class="Element600">Use a long press of SW2 to disconnect from the smartphone, and a another long press of SW2 to reconnect. Use a long press of Sw4 to forget all previous pairings.</li>
+<li value="9" class="Element600">Call the smartphone from another phone such as a wired desk phone. When the smartphone is answered, either automatically or manually, the audio should switch over to the BM64. Talking into the handset of the desk phone should come out of the headphones, and talking into a microphone connected to the BM64 Module should come out of the desk phone handset. When the call is terminated, any A2DP streaming that was in progress should resume.</li>
+</ol><div class="Element15">
+Control Descriptions</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="20%">
+<div class="Element66">
+Control&nbsp;</div></td><td class="Element65" valign="top" width="80%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SW1&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Volume Up (hold &gt; 1 second for Begin Pairing function).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SW2&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Volume Down (hold &gt; 1 second for Disconnect or Link Last function).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SW3&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Play Next Song (hold &gt; 1 second for Fast Forward).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SW4&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Play Next Song (hold &gt; 1 second for Fast Forward).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+SW5&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Play Previous Song (hold &gt; 1 second for Rewind).&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04855.html">Bluetooth Demonstrations</a> &gt; <a href="03484.html">Demonstrations</a> &gt; <a href="03457.html">BM64 Driver Demonstrations</a> &gt; <a href="03458.html">BM64_a2dp_hfp</a> &gt; <a href="03461.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS BLUETOOTH BM64_a2dp_hfp_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

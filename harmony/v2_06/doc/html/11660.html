@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_USBHS_HOST_PipeSetup Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08950.html">PIC32MZ USB Driver</a> &gt; <a href="08946.html">Library Interface</a> &gt; d) Host Mode Operation Functions &gt; <a href="11660.html">DRV_USBHS_HOST_PipeSetup Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11658.html">Previous</a> | <a href="08946.html">Up</a> | <a href="11662.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBHS_HOST_PipeSetup@DRV_HANDLE@uint8_t@USB_ENDPOINT@uint8_t@uint8_t@USB_TRANSFER_TYPE@uint8_t@uint16_t@USB_SPEED Topic Title: DRV_USBHS_HOST_PipeSetup Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_USBHS_HOST_PipeSetup Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><a href="11656.html">DRV_USBHS_HOST_PIPE_HANDLE</a> <strong><span style="color: #000000">DRV_USBHS_HOST_PipeSetup</span></strong>(
+    <a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">client</span></strong>, 
+    uint8_t <strong><span style="color: #000000">deviceAddress</span></strong>, 
+    <a href="27934.html">USB_ENDPOINT</a> <strong><span style="color: #000000">endpointAndDirection</span></strong>, 
+    uint8_t <strong><span style="color: #000000">hubAddress</span></strong>, 
+    uint8_t <strong><span style="color: #000000">hubPort</span></strong>, 
+    USB_TRANSFER_TYPE <strong><span style="color: #000000">pipeType</span></strong>, 
+    uint8_t <strong><span style="color: #000000">bInterval</span></strong>, 
+    uint16_t <strong><span style="color: #000000">wMaxPacketSize</span></strong>, 
+    <a href="28411.html">USB_SPEED</a> <strong><span style="color: #000000">speed</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function opens a communication pipe between the Host and the device endpoint. The transfer type and other attributes are specified through the function parameters. The driver does not check for available bus bandwidth, which should be done by the application (the USB Host Layer in this case)</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The driver handle should be valid.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+client&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Handle to the driver (returned from <a href="11692.html">DRV_USBHS_Open</a> function).<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+deviceAddress&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+USB Address of the device to connect to.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+endpoint&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Endpoint on the device to connect to.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+hubAddress&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Address of the hub to which this device is connected. If not connected to a hub, this value should be set to 0.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+hubPort&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Port number of the hub to which this device is connected.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+pipeType&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Transfer type of the pipe to open.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+bInterval&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Polling interval for periodic transfers. This should be specified as defined by the USB 2.0 Specification.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+wMaxPacketSize&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+This should be set to the endpoint size reported by the device in its configuration descriptors. This defines the maximum size of the transaction in a transfer on this pipe.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+speed&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+The speed of the pipe. This should match the speed at which the device connected to the Host.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606">DRV_USB_HOST_PIPE_HANDLE_INVALID - The pipe could not be created.</li>
+<li class="Element606">A valid Pipe Handle - The pipe was created successfully. This is an arbitrary value and will never be the same as DRV_USB_HOST_PIPE_HANDLE_INVALID.</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01169');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01169"><pre class="Element12"><i><span style="color: #008000">// This code shows how the DRV_USBHS_HOST_PipeSetup function is called for</span></i>
+<i><span style="color: #008000">// create a communication pipe. In this example, Bulk pipe is created</span></i>
+<i><span style="color: #008000">// between the Host and a device. The Device address is 2 and the target</span></i>
+<i><span style="color: #008000">// endpoint on this device is 4 . The direction of the data transfer over</span></i>
+<i><span style="color: #008000">// this pipe is from the Host to the device. The device is connected to Port</span></i>
+<i><span style="color: #008000">// 1 of a Hub, whose USB address is 3. The maximum size of a transaction</span></i>
+<i><span style="color: #008000">// on this pipe is 64 bytes. This is a Bulk Pipe and hence the bInterval</span></i>
+<i><span style="color: #008000">// field is set to 0. The target device is operating at Full Speed.</span></i>
+
+<a href="10088.html">DRV_HANDLE</a> driverHandle;
+<a href="11656.html">DRV_USBHS_HOST_PIPE_HANDLE</a> pipeHandle;
+
+pipeHandle = DRV_USBHS_HOST_PipeSetup(driverHandle, 0x02, 0x14, 0x03, 0x01, USB_TRANSFER_TYPE_BULK, 0, 64, USB_SPEED_FULL); 
+
+<strong><span style="color: #000080">if</span></strong>(pipeHandle != <a href="11657.html">DRV_USBHS_HOST_PIPE_HANDLE_INVALID</a>)
+{
+    <i><span style="color: #008000">// The pipe was created successfully.</span></i>
+}
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08950.html">PIC32MZ USB Driver</a> &gt; <a href="08946.html">Library Interface</a> &gt; d) Host Mode Operation Functions &gt; <a href="11660.html">DRV_USBHS_HOST_PipeSetup Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBHS_HOST_PipeSetup@DRV_HANDLE@uint8_t@USB_ENDPOINT@uint8_t@uint8_t@USB_TRANSFER_TYPE@uint8_t@uint16_t@USB_SPEED Topic Title: DRV_USBHS_HOST_PipeSetup Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

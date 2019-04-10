@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Interrupt Control and Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17617.html">Interrupt Control and Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17626.html">Previous</a> | <a href="17616.html">Up</a> | <a href="17621.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Interrupt Control and Management Topic Title: Interrupt Control and Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Interrupt Control and Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The DMA module has the ability to generate interrupts reflecting the events that occur during the channel's data transfer.&nbsp;</p>
+<p class="Element10">
+The following are all of the possible interrupts generated during DMA operation. This topic provides information for configuring these interrupts.</p><div class="Element15">
+Error Interrupts</div>
+<p class="Element10">
+This type of event is signalled when an address error has occurred during the channel transfer operation. An address error also can occur if a DMA operation accesses an address beyond configured address limits (low and high).</p><div class="Element15">
+Abort Interrupts</div>
+<p class="Element10">
+This type of event is signalled when a DMA transfer is aborted because of a system event matching the abort IRQ configured for the current channel.</p><div class="Element15">
+DMA Completion Interrupts (Block Completion Interrupts)</div>
+<p class="Element10">
+This event occurs when a channel transfers a block of configured data.</p><div class="Element15">
+Call Complete Interrupts</div>
+<p class="Element10">
+This event occurs when a channel completes a cell sized data transfer.</p><div class="Element15">
+DMA Midpoint Interrupts</div>
+<p class="Element10">
+This event occurs when the channel is at the midpoint of completing the data transfer.</p><div class="Element15">
+Overrun Interrupts</div>
+<p class="Element10">
+When a DMA channel receives a trigger (software or hardware) while it is servicing another request, an overrun condition occurs. This indicates that the channel is being requested before its current transaction is finished. An overrun condition will not result in termination of the current transaction.</p><div class="Element15">
+Source Address Pointer Activity Interrupts</div>
+<p class="Element10">
+This event occurs when the channel source pointer reached the end of the source or when it reaches the midpoint of the source depending on the way this interrupt is configured.</p><div class="Element15">
+Destination Address Pointer Activity Interrupts</div>
+<p class="Element10">
+This event occurs when the channel destination pointer reached the end of the destination or when it reaches the midpoint of the destination depending on the way this interrupt is configured.&nbsp;</p>
+<p class="Element10">
+This feature helps in configuring the previously listed interrupts. Depending on the device selected, all or some of the interrupts can be individually enabled and disabled. In addition, this feature obtains the status of the interrupts previously mentioned.&nbsp;</p>
+<p class="Element10">
+All of the interrupts belonging to the DMA channel map to the corresponding channel interrupt vector. In general, each channel of the DMA has a dedicated vectored interrupt. Therefore, the ISR for each channel should internally check for the status of the previously mentioned interrupts to respond to the corresponding events.</p><div class="Element15">
+DMA Interrupt Control and Management</div>
+<p class="Element10">
+Each DMA channel has a vectored interrupt. However, each DMA channel internally generates various interrupts, which will invoke the same channel interrupt based on various events. This feature helps to enable/disable them and is also used to obtain the interrupt status.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01901');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01901"><pre class="Element12"><i><span style="color: #008000">// Enable the channel-3 source done interrupt</span></i>
+PLIB_DMA_ChannelXINTSourceEnable ( DMA_ID_0, DMA_CHANNEL_3, DMA_INT_SOURCE_DONE );
+<i><span style="color: #008000">// Get the status of address error on channel-3</span></i>
+<strong><span style="color: #000080">if</span></strong>(PLIB_DMA_ChannelXINTSourceFlagGet ( DMA_ID_0, DMA_CHANNEL_3, DMA_INT_ADDRESS_ERROR ))
+{
+<i><span style="color: #008000">// application code for error handling</span></i>
+}
+<i><span style="color: #008000">// Disable the channel abort interrupt</span></i>
+PLIB_DMA_ChannelXINTSourceDisable (DMA_ID_0, DMA_CHANNEL_3, DMA_INT_TRANSFER_ABORT);
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17617.html">Interrupt Control and Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Interrupt Control and Management Topic Title: Interrupt Control and Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

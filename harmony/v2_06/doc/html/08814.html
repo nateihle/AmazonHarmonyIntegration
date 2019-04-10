@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>System Initialization/Deinitialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08806.html">SPI PIC32WK IPF Flash Driver Library</a> &gt; <a href="08815.html">Using the Library</a> &gt; <a href="08807.html">How the Library Works</a> &gt; <a href="08814.html">System Initialization/Deinitialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08807.html">Previous</a> | <a href="08807.html">Up</a> | <a href="08811.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI PIC32WK IPF System Initialization/Deinitialization Topic Title: System Initialization/Deinitialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+System Initialization/Deinitialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The system performs the initialization of the device driver with settings that affect only the instance of the device that is being initialized. During system initialization, the SPI PIC32WK IPF Flash Driver is initialized with the following configuration settings (either passed dynamically at runtime by using <a href="10288.html">DRV_IPF_INIT</a> or by using Initialization Overrides) that are supported or used by the IPF:
+<ul class="Element636">
+<li class="Element606">Device-requested power state: one of the System Module Power States. For specific details please refer to &quot;Data Types and Constants&quot; in the <a href="08809.html">Library Interface</a> section.</li>
+<li class="Element606">The SPI Driver Module Index, which is intended to be used to communicate with the IPF (for example, DRV_SPI_INDEX_0)</li>
+<li class="Element606">Port Pins of the microcontroller to be used for Chip Select, Write Protection, and Hold operations on the IPF.</li>
+<li class="Element606">Maximum Buffer Queue Size for that instance of the IPF.</li>
+</ul>The <a href="10298.html">DRV_IPF_Initialize</a> function returns an object handle of the type <a href="23975.html">SYS_MODULE_OBJ</a>. After this, the object handle returned by the Initialize interface is used by the other system interfaces such as <a href="10282.html">DRV_IPF_Deinitialize</a>, DRV_ IPF _Status, and DRV_ IPF _Tasks. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element636">
+<li value="1" class="Element606">The system initialization and deinitialization settings affect only the instance of the peripheral that is being initialized or deinitialized.</li>
+<li value="2" class="Element606">As Hold, WP, and Chip select pins are internally routed, these are not configurable. Refer to the PIC32WK Silicon Data Sheet for more information.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00825');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00825"><pre class="Element12"><i><span style="color: #008000">// This code example shows the initialization of the In-Package Flash</span></i>
+<i><span style="color: #008000">// Driver. SPI driver index 0 is used for the purpose. Pin numbers 1, 2,</span></i>
+<i><span style="color: #008000">// and 3 of PORTB are configured for the Hold pin, Write Protection pin, and</span></i>
+<i><span style="color: #008000">// the Chip Select pin, respectively. The maximum buffer queue size is set to 5.</span></i>
+DRV_IPF_INIT IPFInitData;
+SYS_MODULE_OBJ objectHandle;
+IPFInitData.moduleInit.value = SYS_MODULE_POWER_RUN_FULL;
+IPFInitData.spiDriverModuleIndex = DRV_SPI_INDEX_0;
+IPFInitData.holdPortChannel = PORT_CHANNEL_K;
+IPFInitData.holdBitPosition = PORTS_BIT_POS_14;
+IPFInitData.writeProtectPortChannel = PORT_CHANNEL_K;
+IPFInitData.writeProtectBitPosition = PORTS_BIT_POS_13;
+IPFInitData.chipSelectPortChannel = PORT_CHANNEL_K;
+IPFInitData.chipSelectBitPosition = PORTS_BIT_POS_15;
+IPFInitData.queueSize = 5;
+
+objectHandle = DRV_IPF_Initialize(DRV_IPF_INDEX_0,(SYS_MODULE_INIT*)IPFInitData);
+
+<strong><span style="color: #000080">if</span></strong> (SYS_MODULE_OBJ_INVALID == objectHandle)
+{
+<i><span style="color: #008000">// Handle error</span></i>
+}</pre></div></div>
+<p class="Element10">
+<strong>Tasks Routine</strong>&nbsp;</p>
+<p class="Element10">
+The system will call <a href="10309.html">DRV_IPF_Tasks</a>, from <a href="24151.html">SYS_Tasks</a>. .</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08806.html">SPI PIC32WK IPF Flash Driver Library</a> &gt; <a href="08815.html">Using the Library</a> &gt; <a href="08807.html">How the Library Works</a> &gt; <a href="08814.html">System Initialization/Deinitialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI PIC32WK IPF System Initialization/Deinitialization Topic Title: System Initialization/Deinitialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

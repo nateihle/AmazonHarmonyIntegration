@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Static Implementations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11801.html">Static Implementations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11782.html">Previous</a> | <a href="16810.html">Up</a> | <a href="11793.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Static Implementations Topic Title: Static Implementations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Static Implementations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+As described in <a href="11802.html">Static vs. Dynamic</a>, a dynamic driver implementation manages multiple instances of a particular type of peripheral and a static driver implementation only manages one. This allows a single static implementation of a driver to be smaller than the equivalent dynamic implementation, saving code space by hard coding values that can be made constant. The following examples show the basic differences between the two types of implementations.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Dynamic Implementation</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00168');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00168"><pre class="Element12">SYS_MODULE_OBJ DRV_USART_Initialize ( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX  index,
+                                      <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> init )
+{
+    DRV_USART_OBJ  *pObj  = (DRV_USART_OBJ *)&amp;gDrvUsartObj[index];
+    DRV_USART_INIT *pInit = (DRV_USART_INIT *)init;
+
+    <i><span style="color: #008000">/* Initialize data for this instance */</span></i>
+    pObj-&gt;usartId               = pInit-&gt;usartId;
+    pObj-&gt;interruptSourceTx     = pInit-&gt;interruptSourceTx;
+    pObj-&gt;interruptSourceRx     = pInit-&gt;interruptSourceRx;
+    pObj-&gt;interruptSourceErr    = pInit-&gt;interruptSourceErr;
+    pObj-&gt;queueSizeCurrentRead  = 0;
+    pObj-&gt;queueSizeCurrentWrite = 0;
+    pObj-&gt;queueRead             = NULL;
+    pObj-&gt;queueWrite            = NULL;
+
+    <i><span style="color: #008000">/* Initialize USART Hardware */</span></i>
+    PLIB_USART_Disable(pObj-&gt;usartId);
+    PLIB_USART_HandshakeModeSelect(pObj-&gt;usartId, pInit-&gt;handshake);
+    PLIB_USART_BaudSetAndEnable(pObj-&gt;usartId, pInit-&gt;brgClock, pInit-&gt;baud);
+    PLIB_USART_LineControlModeSelect(pObj-&gt;usartId, pInit-&gt;lineControl);
+
+    <i><span style="color: #008000">/* Clear and enable the interrupts */</span></i>
+    SYS_INT_SourceStatusClear(pObj-&gt;interruptSourceTx);
+    SYS_INT_SourceStatusClear(pObj-&gt;interruptSourceRx);
+    SYS_INT_SourceStatusClear(pObj-&gt;interruptSourceErr);
+    _InterruptSourceEnable(pObj-&gt;interruptSourceErr);
+
+    <i><span style="color: #008000">/* Ready! */</span></i>
+    pObj-&gt;status = SYS_STATUS_READY;
+    PLIB_USART_Enable(pObj-&gt;usartId);
+    <strong><span style="color: #000080">return</span></strong> (SYS_MODULE_OBJ)pObj;
+}</pre></div></div>
+<p class="Element10">
+The previous dynamic example shows that the driver’s initialization function must capture any initialization data that could be different from one instance to another and that it must use a pointer (<span class="Element146">pObj</span>) to the desired instance of its global data object/structure (<span class="Element146">gDrvUsartObj[index]</span>) and clear the references that point to access of any global data in the object. It must also clear the reference to the <span class="Element146">init</span> pointer (cast to <span class="Element146">pInit</span>) to access any initialization data, whether or not it is stored in the global data object. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The _InterruptSourceEnable function is a locally mapped function that switches implementations depending upon whether or not the driver was built in Interrupt-driven mode or Polled mode, as shown in <a href="14395.html">Interrupt Safety</a>.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The following equivalent static example shows how a static implementation saves both code and data space.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Static Implementation</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00169');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00169"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> DRV_USART0_Initialize ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* Initialize data for this instance */</span></i>
+    gDrvUsart0Obj.queueSizeCurrentRead  = 0;
+    gDrvUsart0Obj.queueSizeCurrentWrite = 0;
+    gDrvUsart0Obj.queueRead             = NULL;
+    gDrvUsart0Obj.queueWrite            = NULL;
+
+    <i><span style="color: #008000">/* Initialize USART Hardware */</span></i>
+    PLIB_USART_Disable(DRV_USART_ID_IDX0);
+    PLIB_USART_HandshakeModeSelect(DRV_USART_ID_IDX0,
+                                   DRV_USART_HANDSHAKE_MODE_IDX0);
+    PLIB_USART_BaudSetAndEnable(DRV_USART_ID_IDX0,
+                                DRV_USART_BRG_CLOCK_IDX0,
+                                DRV_USART_BAUD_RATE_IDX0);
+    PLIB_USART_LineControlModeSelect(DRV_USART_ID_IDX0,
+                                     DRV_USART_LINE_CNTRL_IDX0);
+
+    <i><span style="color: #008000">/* Clear and enable the interrupts */</span></i>
+    SYS_INT_SourceStatusClear(DRV_USART_INT_SRC_TX_IDX0);
+    SYS_INT_SourceStatusClear(DRV_USART_INT_SRC_RX_IDX0);
+    SYS_INT_SourceStatusClear(DRV_USART_INT_SRC_ERR_IDX0);
+    _InterruptSourceEnable(DRV_USART_INT_SRC_ERR_IDX0);
+
+    <i><span style="color: #008000">/* Ready! */</span></i>
+    gDrvUsart0Obj.status = SYS_STATUS_READY;
+    PLIB_USART_Enable(DRV_USART_ID_IDX0);
+}</pre></div></div>
+<p class="Element10">
+In the previous static example, the function would be implemented differently for different driver instances (DRV_USART0_Initialize, DRV_USART1_Initialize, etc.). So, any initialization data that is different from one instance to another can be defined by different configuration macros (such as DRV_USART_ID_IDX0) and hard-coded directly into the function’s implementation. This reduces code and data size because it eliminates the need to store these items in the driver’s global data structure instance and it eliminates the need to clear the reference to a pointer and access a variable when using these values.&nbsp;</p>
+<p class="Element10">
+And, using a constant instead of a variable greatly reduces the amount of code generated by PLIB functions because PLIB functions are implemented as C-language inline functions. When a constant is passed to an inline function, the compiler can optimize them by performing calculations before generating the object code instead of generating object code instructions to do the calculations. This eliminates a significant amount of object code, especially when each PLIB function would otherwise index to the appropriate SFRs for the instance of the peripheral passed in as a variable. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The mapping functions shown in <a href="11802.html">Static vs. Dynamic</a> shows how the parameters are dropped and the return value is provided. Refer to this section for an explanation and example of mapping the dynamic driver interface functions to the static implementation functions.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Creating a static driver implementation requires development of a FreeMarker template. (Note that it does not require any additional Hconfig file development, since the dynamic and static implementations both utilize the same configuration options.) Creating a static implementation from a dynamic implementation is primarily a matter of removing the unnecessary code and marking up the dynamic implementation using FreeMarker syntax to parameterize the driver’s source code and insert the appropriate values where necessary, as shown by the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: FreeMarker Code for Static Implementation</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00170');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00170"><pre class="Element12">&lt;#macro make_drv_usart_initialize_function DRV_INSTANCE&gt;
+<strong><span style="color: #000080">void</span></strong> DRV_USART${DRV_INSTANCE}_Initialize ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* Initialize data for this instance */</span></i>
+    gDrvUsart${CONFIG_DRV_INSTANCE}Obj.queueSizeCurrentRead  = 0;
+    gDrvUsart${DRV_INSTANCE}Obj.queueSizeCurrentWrite = 0;
+    gDrvUsart${DRV_INSTANCE}Obj.queueRead             = NULL;
+    gDrvUsart${DRV_INSTANCE}Obj.queueWrite            = NULL;
+
+    <i><span style="color: #008000">/* Initialize USART Hardware */</span></i>
+    PLIB_USART_Disable(DRV_USART_ID_IDX${DRV_INSTANCE});
+    PLIB_USART_HandshakeModeSelect(DRV_USART_ID_IDX${DRV_INSTANCE},
+                                   DRV_USART_HANDSHAKE_MODE_IDX${DRV_INSTANCE});
+    PLIB_USART_BaudSetAndEnable(DRV_USART_ID_IDX${DRV_INSTANCE},
+                                DRV_USART_BRG_CLOCK_IDX${DRV_INSTANCE},
+                                DRV_USART_BAUD_RATE_IDX${DRV_INSTANCE});
+    PLIB_USART_LineControlModeSelect(DRV_USART_ID_IDX${DRV_INSTANCE},
+                                     DRV_USART_LINE_CNTRL_IDX${DRV_INSTANCE});
+
+    <i><span style="color: #008000">/* Clear and enable the interrupts */</span></i>
+    SYS_INT_SourceStatusClear(DRV_USART_INT_SRC_TX_IDX${DRV_INSTANCE});
+    SYS_INT_SourceStatusClear(DRV_USART_INT_SRC_RX_IDX${DRV_INSTANCE});
+    SYS_INT_SourceStatusClear(DRV_USART_INT_SRC_ERR_IDX${DRV_INSTANCE});
+    _InterruptSourceEnable(DRV_USART_INT_SRC_ERR_IDX${DRV_INSTANCE});
+
+    <i><span style="color: #008000">/* Ready! */</span></i>
+    gDrvUsart${DRV_INSTANCE}Obj.status = SYS_STATUS_READY;
+    PLIB_USART_Enable(DRV_USART_ID_IDX${DRV_INSTANCE});
+}
+
+&lt;/#macro&gt;
+&lt;#list index = 0..CONFIG_DRV_USART_INSTANCES_NUMBER&gt;
+  &lt;@make_drv_usart_initialize_function DRV_INSTANCE=index/&gt;
+&lt;/#list&gt;</pre></div></div>
+<p class="Element10">
+The previous example defines a FreeMarker macro called make_drv_usart_initialize_function to define the static (instance specific) USART driver initialization functions. Within that function, it uses a local FreeMarker macro variable (DRV_INSTANCE) to indicate the driver’s instance index. It places this variable within the function’s source code wherever an instance index number is required. Then, it defines a list that increments from 0 to less than the CONFIG_DRV_USART_INSTANCES_NUMBER value defined by the MHC when the user selected how many USART driver instances he wanted. From within that list, it calls the macro, passing in the index value iterated by the list, generating as many static implementations of the USART driver’s initialize function as desired.&nbsp;</p>
+<p class="Element10">
+The previous examples are simplified to aid understanding. Implementing an entire static driver may become more complicated, requiring some skill with the FreeMarker language. However, the principles remain the same. All configuration variables defined by the MHC are available to the FreeMarker code and may be used as needed. Refer to <a href="07406.html">MPLAB Harmony Configurator Developer’s Guide</a> for details on the Hconfig and FreeMarker languages necessary to develop static driver implementations.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11801.html">Static Implementations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Static Implementations Topic Title: Static Implementations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

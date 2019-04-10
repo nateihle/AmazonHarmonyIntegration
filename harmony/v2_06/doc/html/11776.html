@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuration Options</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11775.html">Configuration and Implementations</a> &gt; <a href="11776.html">Configuration Options</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11796.html">Previous</a> | <a href="11775.html">Up</a> | <a href="11794.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Configuration Options Topic Title: Configuration Options)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuration Options</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+One of the primary ways in which MPLAB Harmony libraries are configured is by the definition and utilization of static configuration options defined at build-time. In most cases, these configuration options take the form of name-value pairs, defined in the system-wide <span class="Element146">system_config.h</span> header using C preprocessor <span class="Element146">#define</span> statements, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Static Configuration Option Definitions</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00162');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00162"><pre class="Element12"><i><span style="color: #008000">/* DRV USART Configuration Options */</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_QUEUE_DEPTH_COMBINED              20
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_CLIENTS_NUMBER                    6
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_INSTANCES_NUMBER                  2
+
+<i><span style="color: #008000">/* DRV USART 0 Initialization */</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_PERIPHERAL_ID_IDX0                USART_ID_2
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_BRG_CLOCK_IDX0                    80000000
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_BAUD_RATE_IDX0                    9600
+
+<i><span style="color: #008000">/* DRV USART 1 Initialization */</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_PERIPHERAL_ID_IDX0                USART_ID_2
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_BRG_CLOCK_IDX0                    80000000
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_BAUD_RATE_IDX0                    9600</pre></div></div>
+<p class="Element10">
+These macros are utilized in one of two ways.</p>
+<ul class="Element630">
+<li class="Element600">To define implementation-specific options</li>
+<li class="Element600">To define instance-specific options</li>
+</ul><p class="Element10">
+Implementation-specific macros are often used to control allocation of internal arrays or buffers and to control logic that manages them, as shown by the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Using Implementation-Specific Options</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00163');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00163"><pre class="Element12">DRV_USART_BUFFER_OBJ gDrvUSARTBufferObj[DRV_USART_QUEUE_DEPTH_COMBINED];
+<strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000080">int</span></strong> i;
+
+<i><span style="color: #008000">/* Search the buffer pool for a free buffer object */</span></i>
+<strong><span style="color: #000080">for</span></strong>(i = 0; i &lt; DRV_USART_QUEUE_DEPTH_COMBINED; i++)
+{
+    <strong><span style="color: #000080">if</span></strong>(!gDrvUSARTBufferObj[i].inUse)
+    {
+        <i><span style="color: #008000">/* Initialize buffer object. */</span></i>
+        gDrvUSARTBufferObj[i].inUse = <strong><span style="color: #000080">true</span></strong>;
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+}
+
+<strong><span style="color: #000080">if</span></strong>(i &gt;= DRV_USART_QUEUE_DEPTH_COMBINED)
+{
+    <i><span style="color: #008000">/* Could not find a buffer. */</span></i>
+}</pre></div></div>
+<p class="Element10">
+In the previous example, the USART driver keeps a common pool of buffer objects in an array, the size of which is determined by the <a href="11504.html">DRV_USART_QUEUE_DEPTH_COMBINED</a> configuration option. When a buffer object is needed, the driver logic searches through the array, looking for one that has not been allocated by checking its <span class="Element146">inUse</span> flag. This option affects both the amount of RAM statically allocated by this driver and the code generated when it is built. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This sequence of code is simplified for explanation. A real implementation would need to perform additional initializations and be protected for interrupt and thread safety.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Instance specific macros are used in <span class="Element146">system_init.c</span> to initialize a dynamic driver’s <span class="Element146">init</span> data structure, as shown in the following example, or are built directly into instance-specific static driver implementation, using the same method shown previously.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Using Instance-Specific Options</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00164');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00164"><pre class="Element12"><strong><span style="color: #000080">const</span></strong> DRV_USART_INIT drvUsart0InitData =
+{
+    .usartID  = DRV_USART_PERIPHERAL_ID_IDX0,
+    .brgClock = DRV_USART_BRG_CLOCK_IDX0,
+    .baud     = DRV_USART_BAUD_RATE_IDX0,
+
+    <i><span style="color: #008000">/* Initialize other “init” data members. */</span></i>
+};
+
+sysObj.drvUsart0 = DRV_USART_Initialize(DRV_USART_INDEX_0,
+                                        (SYS_MODULE_INIT *)&amp;drvUsart0InitData);</pre></div></div>
+<p class="Element10">
+Since the user must provide the values of these options, the MHC must be made aware of them To make the MHC aware of an option, you must provide the appropriate <i>config</i> definitions in the Hconfig file hierarchy. And, to enable code generation based on these options, you must develop the necessary FreeMarker templates as described in the <a href="07406.html">MPLAB Harmony Configurator Developer’s Guide</a>. Please refer to that document for details on developing Hconfig and FreeMarker template files.&nbsp;</p>
+<p class="Element10">
+Additionally, since static configuration options are defined in the <span class="Element146">system_config.h</span> header, there are a few key guidelines governing this file to keep in mind.&nbsp;</p>
+<p class="Element10">
+Key <span class="Element146">system_config.h</span> Guidelines:</p>
+<ul class="Element630">
+<li class="Element600">Any driver (or other source file) that uses any build-time configuration options supported by the MHC must include this header. The MHC always adds the path to this header to the compiler’s include file search path. So, it is included without any path information (e.g., <span class="Element146">#include &quot;system_config.h&quot;</span>).</li>
+<li class="Element600">The <span class="Element146">system_config.h</span> header must not contain any data type or function prototypes definitions. It must only define pre-processor name-value macros or header file include file dependency loops that cannot be resolved may occur.</li>
+<li class="Element600">It is acceptable for configuration options to utilize symbol names that have not yet been defined because the macros it defines are not instantiated until used in a source file</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Type definitions used by system configuration code are defined in the <span class="Element146">system_definitions.h</span> header file. This file should only be used by the system configuration code as it defines data types and external references for system configuration code.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+While it is possible to define callable macros that emulate functions (or that map function call names and parameters to different selectable functions) in the <span class="Element146">system_config.h</span>, it is best to implement such macros in the library code and select their implementations based upon name-value macro definition(s) defined by MHC, as shown in the following example. This simplifies the configuration files and template code and keeps the knowledge and complexity of the macro’s implementation encapsulated in the library.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Defining “Callable” Macros</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00165');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00165"><pre class="Element12"><strong><span style="color: #000080">#if</span></strong> (SAMPLE_MODULE_INTERRUPT_MODE == <strong><span style="color: #000080">true</span></strong>)
+
+    <strong><span style="color: #000080">#define</span></strong> _InterruptDisable(s)    SYS_INT_SourceDisable(s)
+
+<strong><span style="color: #000080">#else</span></strong>
+
+    <strong><span style="color: #000080">#define</span></strong> _InterruptDisable(s)    <strong><span style="color: #000080">false</span></strong>
+
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<p class="Element10">
+The previous example shows how to map a local function used to disable the sample module’s interrupt source to the appropriate system service when the library is configured for interrupt-driven operation (<span class="Element146"><a href="22652.html">SAMPLE_MODULE_INTERRUPT_MODE</a> == true</span>) or to an implementation that provides an appropriate return constant when it is not. This technique allows the driver developer to capture the knowledge of the necessary implementation variants while providing the higher-level choice (of interrupt-driven or polled, in this example) to the user.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11775.html">Configuration and Implementations</a> &gt; <a href="11776.html">Configuration Options</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Configuration Options Topic Title: Configuration Options)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

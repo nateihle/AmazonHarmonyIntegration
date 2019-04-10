@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Library Overview</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08936.html">Using the Library</a> &gt; <a href="08932.html">Library Overview</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08936.html">Previous</a> | <a href="08936.html">Up</a> | <a href="08923.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USB PIC32MX Library Overview Topic Title: Library Overview)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Library Overview</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The PIC32MX USB Driver will typically be used by a USB Host and/or Device Stack. The USB Host and Device Stack operate as driver client applications. The driver is initialized as part of the MPLAB Harmony System Initialization. The driver initialization data structure specifies the operation mode (Host, Device, or Dual Role) of the driver. The driver features task routines to be called in the MPLAB Harmony application tasks function (<a href="24151.html">SYS_Tasks</a> function) and the USB Module Interrupt Service Routine (ISR).&nbsp;</p>
+<p class="Element10">
+The Host and the Device Stack can open the driver only when initialization has completed. It will continue to return an invalid driver handle while the initialization is in progress. Once opened, the Device Mode function can be called if the driver is operating in Device mode. The Host Mode function can be called if the driver is operating in Host mode. In Dual Role operation mode, the driver supports Host and Device operation in the same application. Even then, the driver will either operate as a USB Host or Device. OTG operation is not supported.&nbsp;</p>
+<p class="Element10">
+The PIC32MX USB Driver features RTOS thread-safe functions. This allows the driver client application to safely call driver functions across different RTOS threads. Not all of the driver functions are interrupt-safe.&nbsp;</p>
+<p class="Element10">
+In addition to the USB Driver, which implements the USB Driver Common Interface, the PIC32MX USB Driver implements functions which are required for its operation in the MPLAB Harmony framework. The following table lists the different categories of functions in the PIC32MX USB Driver. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="12%">
+<div class="Element66">
+Library Interface Section&nbsp;</div></td><td class="Element65" valign="top" width="88%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+System Function&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+These functions are accessed by the MPLAB Harmony System module. They allow the driver to be initialized, deinitialized and maintained. These functions are implemented in the <span class="Element146">drv_usbfs.c</span> source file.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Client Core Functions&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+These functions allow the USB Host and Device Stack to open, close and perform other general driver operations. These functions are a part of the USB Driver Common Interface and are implemented in <span class="Element146">drv_usbfs.c</span> source file.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Device Mode Operation Functions&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+These functions allow the USB Device Stack to perform USB Device mode specific driver operations. These functions are a part of the USB Driver Common Interface and are implemented in <span class="Element146">drv_usbfs_device.c</span> source file&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Host Mode Operation Functions&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+These functions allow the USB Host Stack to perform USB Host mode specific driver operations. These functions are a part of the USB Driver Common Interface and are implemented in <span class="Element146">drv_usbfs_host.c</span> source file.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Root Hub Functions&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+These functions allow the USB Host Stack to access the driver Root hub operation. These functions are a part of the USB Driver Common Interface and are implemented in <span class="Element146">drv_usbfs_host.c</span> source file.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08936.html">Using the Library</a> &gt; <a href="08932.html">Library Overview</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USB PIC32MX Library Overview Topic Title: Library Overview)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

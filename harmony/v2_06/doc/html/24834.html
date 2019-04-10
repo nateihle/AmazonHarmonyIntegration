@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SMTP Client Long Message Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="22971.html">SMTP Module</a> &gt; <a href="24836.html">Using the Library</a> &gt; <a href="24833.html">SMTP Client Examples</a> &gt; <a href="24834.html">SMTP Client Long Message Example</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24835.html">Previous</a> | <a href="24833.html">Up</a> | <a href="24826.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP SMTP SMTP Client Long Message Example Topic Title: SMTP Client Long Message Example)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SMTP Client Long Message Example</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The SMTP client API is capable of sending messages that do not fit entirely in RAM. To do so, the application must manage its output state and only write as many bytes as are available in the buffer at a time. The second SMTPDemo example provided in <span class="Element146">MainDemo.c</span> sends a message that is a dump of all contents of the PIC microcontroller's RAM. This example is currently commented out. Comment out the previous Short Message Example and uncomment the Long Message Example. This document will walk through sending a longer message.&nbsp;</p>
+<p class="Element10">
+Make sure STACK_USE_SMTP_CLIENT is uncommented in <span class="Element146">tcpip_config.h</span> before continuing.&nbsp;</p>
+<p class="Element10">
+Sending longer messages is divided into three stages. The first stage configures the SMTP client to send the message. The second stage sends the message in small chunks as buffer space is available. The final stage finishes the transmission and determines whether or not the message was successful.&nbsp;</p>
+<p class="Element10">
+The following diagram illustrates the first stage:&nbsp;</p>
+<p class="Element10">
+<img src="smtp_diagram2.png" border="0" alt="" title="">
+<ol class="Element630">
+<li value="1" class="Element600">The first stage is largely similar to the first few steps in sending a short message. First, call SMTPBeginUsage to verify that the SMTP client is available and to begin a new message. If <a href="12128.html">FALSE</a> is returned, the SMTP client is busy and the application must return to the main loop to allow StackTask to execute again.</li>
+<li value="2" class="Element600">Next, set the local relay server to use as SMTPClient.Server. If the local relay server requires a user name and password, set SMTPClient.Username and SMTPClient.Password to the appropriate credentials. If server parameters are not set, the stack will attempt to deliver the message directly to its destination host. This will likely fail due to SPAM prevention measures put in place by most ISPs and network administrators.</li>
+<li value="3" class="Element600">Continue on to set the header strings as necessary for the message. This includes the subject line, from address, and any recipients you need to add.</li>
+<li value="4" class="Element600">The next portion of the process differs. Ensure that SMTPClient.Body remains set to its default (NULL). At this point, call SMTPSendMail to open a connection to the remote server and transmit the headers. The application is now ready to proceed to the second stage and send the message body.</li>
+</ol>The following diagram provides an overview of stage two and three:&nbsp;</p>
+<p class="Element10">
+<img src="smtp_diagram3.png" border="0" alt="" title="">
+<ol class="Element630">
+<li value="1" class="Element600">Upon entering stage two, the application should call SMTPIsBusy to verify that the connection to the remote server is active and has not been lost. If the call succeeds, call SMTPIsPutReady to determine how many bytes are available in the TX buffer. If no bytes are available, return to the main loop so that StackTask can transmit the data to the remote node and free up the buffer.</li>
+<li value="2" class="Element600">If space is available, any combination of the SMTPPut, SMTPPutArray, SMTPPutROMArray, SMTPPutString, and SMTPPutROMString functions may be called to transmit the message. These functions return the number of bytes successfully written. Use this value, along with the value originally returned from SMTPIsPutReady to track how much free space remains in the TX buffer. Once the buffer is depleted, call SMTPFlush to force the data written to be sent.</li>
+<li value="3" class="Element600">The SMTP client module can<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>as much data as the TCP TX FIFO can hold. This is determined by the socket<span style="color: #FFFFFF">_</span>initializer for TCP_PURPOSE_DEFAULT type sockets in <span class="Element146">tcpip_config.h</span>, which defaults to 200 bytes.</li>
+<li value="4" class="Element600">If the TX buffer is exhausted before the message is complete, return to the main loop so that StackTask may transmit the data to the remote node and free up the buffer. Upon return, go to the beginning of the second stage to transmit the next portion of the message.</li>
+</ol>Once the message is complete, the application will move to the third stage. Call SMTPPutDone to inform the SMTP client that no more data remains. Then call SMTPIsBusy repeatedly. Each time <a href="27119.html">TRUE</a> is returned, return to the main loop and wait for StackTask to execute again. Once <a href="12128.html">FALSE</a> is returned, the message transmission has completed and the application must call SMTPEndUsage to release the SMTP client. Check the return value of this function to determine if the message was successfully sent.&nbsp;</p>
+<p class="Element10">
+The example in <span class="Element146">MainDemo.c</span> needs minor modifications to use your e-mail address. Set the Server and To fields in SMTPDemo, and ensure that these fields are being properly assigned to SMTPClient struct. The demonstration works exactly the same way as the previous one, with BUTTON2 and BUTTON3 held down simultaneously (the left-most two buttons) kicking off the state machine. LED1 will light as the message is being processed, and will extinguish when the SMTP state machine completes. If the transmission was successful LED2 will turn ON; otherwise, it will remain OFF.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="22971.html">SMTP Module</a> &gt; <a href="24836.html">Using the Library</a> &gt; <a href="24833.html">SMTP Client Examples</a> &gt; <a href="24834.html">SMTP Client Long Message Example</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP SMTP SMTP Client Long Message Example Topic Title: SMTP Client Long Message Example)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

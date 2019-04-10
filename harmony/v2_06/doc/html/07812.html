@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13063.html">Decoder Libraries Help</a> &gt; <a href="02628.html">AAC Decoder Library</a> &gt; <a href="07816.html">Using the Library</a> &gt; <a href="07812.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07815.html">Previous</a> | <a href="07816.html">Up</a> | <a href="07814.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DECODER AAC How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following diagram describes the data flow between the AAC Decoder and an application. </p><p class="Element10" style="text-align: center;">
+<img src="DECODER AAC aac_flow_diagram.png" border="0" alt="" title=""></p><div class="Element15">
+Initializing the AAC Decoder</div>
+<p class="Element10">
+Initialize the AAC Decoder by calling function <a href="02641.html">AAC_Initialize</a> from the <span class="Element146"><a href="02632.html">aac_dec.h</a></span> file. This function initializes the AAC decoder state structure, and obtains streaming information from the first ADTS header. The application can then retrieve stream information by using the APIs in <span class="Element146"><a href="02632.html">aac_dec.h</a></span> after initialization.</p><div class="Element15">
+Decoding a AAC Frame</div>
+<p class="Element10">
+The <a href="02634.html">AAC_Decoder</a> function in <span class="Element146"><a href="02632.html">aac_dec.h</a></span> is used to decode a single AAC frame, and depending on the current state of the AAC Decoder, this function either parses a ADTS header to get the next AAC frame size, or decodes a single AAC frame.</p><div class="Element15">
+Code Example</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00257');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00257"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> DECODER_Initialize(decoder_type){
+       <strong><span style="color: #000080">switch</span></strong>(decoder_type){
+              <strong><span style="color: #000080">case</span></strong> AAC_DECODER:
+                   <strong><span style="color: #000080">bool</span></strong> ret = AAC_Initialize(aacDecoderPtr,sizeOfAACDecoder, adtsPtr, aacFilehandle)
+                   <strong><span style="color: #000080">if</span></strong>(ret)
+                   {
+                       <i><span style="color: #008000">// setup other components,</span></i>
+                       <i><span style="color: #008000">// for example, audio CODEC, display, etc...</span></i>
+                   }
+              }
+       }
+<strong><span style="color: #000080">void</span></strong> App_Task()
+{
+       <strong><span style="color: #000080">while</span></strong>(1){
+              <strong><span style="color: #000080">while</span></strong>(not end of audio data){
+                   <i><span style="color: #008000">// Read aac frame to input buffer pointer</span></i>
+                   appData.nBytesRead = OPUS_DiskRead(input_ptr);
+                   <i><span style="color: #008000">// Decode aac frame</span></i>
+                   <strong><span style="color: #000080">bool</span></strong> ret = AAC_Decoder (input_ptr,inSize,read,output,written,outBufSize);
+                   <strong><span style="color: #000080">if</span></strong>(ret)
+                   {
+                       <i><span style="color: #008000">// continue decoding</span></i>
+                   }<strong><span style="color: #000080">else</span></strong>{
+                       <i><span style="color: #008000">// handle decoding errors;</span></i>
+                   }
+             }
+             <strong><span style="color: #000080">break</span></strong>;
+       }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13063.html">Decoder Libraries Help</a> &gt; <a href="02628.html">AAC Decoder Library</a> &gt; <a href="07816.html">Using the Library</a> &gt; <a href="07812.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DECODER AAC How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

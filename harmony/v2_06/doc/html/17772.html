@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Fault and Current-Limit Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17772.html">Fault and Current-Limit Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17767.html">Previous</a> | <a href="17777.html">Up</a> | <a href="17778.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM Fault and Current-Limit Management Topic Title: Fault and Current-Limit Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Fault and Current-Limit Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MCPWM module is capable of asserting the PWM outputs to a known safe state during a fault or current-limit condition.</p><div class="Element15">
+Fault Management</div>
+<p class="Element10">
+Set the following parameters associated with Fault Management for the desired PWM Channel using <a href="19741.html">PLIB_MCPWM_ChannelFaultSetup</a>:
+<ul class="Element630">
+<li class="Element600">PWM Channel ID: ID of the PWM Channel whose fault management is being configured</li>
+<li class="Element600">Fault input source: Select one of the fault input sources defined in the enum <a href="16510.html">MCPWM_FAULT_SOURCE</a></li>
+<li class="Element600">Fault input polarity</li>
+<li class="Element600">PWMxH safe state value when fault is asserted</li>
+<li class="Element600">PWMxL safe state value when fault is asserted</li>
+<li class="Element600">Fault mode</li>
+</ul><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02631');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02631"><pre class="Element12"><i><span style="color: #008000">/*Configure fault management of PWM Channel 1*/</span></i>
+<i><span style="color: #008000">/*Set FLT3 as the fault input for PWM Channel 1*/</span></i>
+<i><span style="color: #008000">/*Fault input polarity is active high*/</span></i>
+<i><span style="color: #008000">/*Fault asserted safe state value for PWMxH = PWMxL = 0*/</span></i>
+<i><span style="color: #008000">/*Set fault mode = Latched Fault mode */</span></i></pre></div></div>
+<p class="Element10">
+<a href="19741.html">PLIB_MCPWM_ChannelFaultSetup</a>(MCPWM_ID_0 ,MCPWM_CHANNEL1, MCPWM_FAULT_SOURCE_IS_FLT3, ACTIVE_HIGH_FLT_POLARITY , MCPWM_FAULT_OVERRIDE_PWMxH_0, MCPWM_FAULT_OVERRIDE_PWMxL_0, MCPWM_FAULT_MODE_LATCHED);</p><div class="Element15">
+Current-Limit Management</div>
+<p class="Element10">
+Set the following parameters associated with current-limit management for the desired PWM Channel using <a href="19733.html">PLIB_MCPWM_ChannelCurrentLimitSetup</a>:
+<ul class="Element630">
+<li class="Element600">PWM Channel ID: ID of the PWM Channel whose current-limit management is being configured</li>
+<li class="Element600">Current-Limit input source: Select one of the current limit input sources defined in the enum <a href="16467.html">MCPWM_CURRENTLIMIT_SOURCE</a></li>
+<li class="Element600">Current-Limit input polarity</li>
+<li class="Element600">PWMxH safe state value when current-limit is asserted</li>
+<li class="Element600">PWMxL safe state value when current-limit is asserted</li>
+<li class="Element600">Current-Limit mode</li>
+</ul><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02632');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02632"><pre class="Element12"><i><span style="color: #008000">/*Configure current-limit management of PWM Channel 1*/</span></i>
+<i><span style="color: #008000">/*Set FLT3 as the current-limit input for PWM Channel 1*/</span></i>
+<i><span style="color: #008000">/*Current-Limit input polarity is active high*/</span></i>
+<i><span style="color: #008000">/*Current-Limit asserted safe state value for PWMxH = PWMxL = 0*/</span></i>
+<i><span style="color: #008000">/*Set current-limit mode = Standard Current-Limit mode */</span></i>
+PLIB_MCPWM_ChannelCurrentLimitSetup(MCPWM_ID_0 ,MCPWM_CHANNEL1, MCPWM_CURRENTLIMIT_SOURCE_IS_FLT3 ,
+                                    MCPWM_CURRENTLIMIT_INPUT_POLARITY_ACTIVE_HIGH,
+                                    MCPWM_CURRENTLIMIT_OVERRIDE_PWMxH_0, MCPWM_CURRENTLIMIT_OVERRIDE_PWMxL_0,
+                                    MCPWM_STANDARD_CURRENTLIMIT_ENABLE);</pre></div></div>
+<p class="Element10">
+<strong>Leading-Edge Blanking of Fault and Current-Limit Inputs</strong>&nbsp;</p>
+<p class="Element10">
+In High-Speed Switching applications, switches (such as MOSFETs and IGBTs), typically generate large current transients during switching transitions. These current transients can cause false fault/current-limit trips. MCPWM module is capable of blanking (ignoring) fault and currentlimit inputs for a pre-defined duration initiated by transitions in PWMxH/PWMxL. Use the following steps to configure the leading-edge blanking for fault/current-limit inputs
+<ol class="Element630">
+<li value="1" class="Element600">Enable the Leading edge blanking on fault and/ current-limit inputs and blanking duration of the desired PWM channel using <a href="19742.html">PLIB_MCPWM_ChannelLEBSetup</a></li>
+<li value="2" class="Element600">Enable the trigger sources which would re-trigger the blanking timer.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02633');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02633"><pre class="Element12"><i><span style="color: #008000">/*Configure Leading Edge Blanking for PWM Channel 1*/</span></i>
+<i><span style="color: #008000">/*Enable Leading Edge blanking of Fault and Current-Limit inputs*/</span></i>
+<i><span style="color: #008000">/*Set the blanking duration to 100 channel local timer counts.*/</span></i>
+
+PLIB_MCPWM_ChannelLEBSetup(MCPWM_ID_0 ,MCPWM_CHANNEL1, MCPWM_FAULT_INPUT_LEB_ENABLE,
+                           MCPWM_CURRENTLIMIT_INPUT_LEB_ENABLE , 100);
+
+<i><span style="color: #008000">/*PWMxH rising edge and PWMxL rising edge would re-trigger the blanking timer*/</span></i>
+PLIB_MCPWM_ChannelLEBTriggerPWMxHRisingEdgeEnable(MCPWM_ID_0 ,MCPWM_CHANNEL1);
+PLIB_MCPWM_ChannelLEBTriggerPWMxLRisingEdgeEnable(MCPWM_ID_0 ,MCPWM_CHANNEL1);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17772.html">Fault and Current-Limit Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM Fault and Current-Limit Management Topic Title: Fault and Current-Limit Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

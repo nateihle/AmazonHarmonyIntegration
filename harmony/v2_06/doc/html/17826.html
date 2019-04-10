@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PWM Mode with Enabled Faults</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17830.html">Using the Library</a> &gt; <a href="17821.html">How the Library Works</a> &gt; <a href="17826.html">PWM Mode with Enabled Faults</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17815.html">Previous</a> | <a href="17821.html">Up</a> | <a href="17813.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC PWM Mode with Enabled Faults Topic Title: PWM Mode with Enabled Faults)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PWM Mode with Enabled Faults</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This section illustrates the steps required to configure the Output Compare module in PWM mode. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+In PWM mode, it is vital that the user selects the mode of operation before selecting a Fault input.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example:</strong>&nbsp;</p>
+<p class="Element10">
+This section illustrates the steps required to configure the Output Compare module in PWM mode with Fault protection. This mode can be selected using <a href="19943.html">PLIB_OC_ModeSelect</a> or <a href="19940.html">PLIB_OC_FaultInputSelect</a>. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02788');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02788"><pre class="Element12"><i><span style="color: #008000">/* Configure Timer2 in 16-bit mode. Refer to Timer Peripheral Library for the API */</span></i>
+
+<i><span style="color: #008000">/* Disable OC module */</span></i>
+PLIB_OC_Disable(MY_OC_ID);
+
+<i><span style="color: #008000">/* Select Timer2 as time base */</span></i>
+PLIB_OC_TimerSelect(MY_OC_ID, OC_TIMER_16BIT_TMR2);
+
+<i><span style="color: #008000">/* Set period of time base. Refer to Timer Peripheral Library for the API */</span></i>
+
+<i><span style="color: #008000">/* Select compare mode. PWM with fault protection mode is selected ,
+   fault selection is preset in the hardware*/</span></i>
+
+PLIB_OC_ModeSelect(MY_OC_ID, OC_COMPARE_PWM_MODE_WITH_FAULT_PROTECTION );
+<i><span style="color: #008000">/*or use PLIB_OC_FaultInputSelect(MY_OC_ID, OC_FAULT_PRESET) to achieve the same*/</span></i>
+
+<i><span style="color: #008000">/* Set buffer size to 16-bits. Refer to Timer Peripheral Library for the API */</span></i>
+PLIB_OC_BufferSizeSelect(MY_OC_ID, OC_BUFFER_SIZE_16BIT);
+
+<i><span style="color: #008000">/* Set buffer (initial duty cycle) Value */</span></i>
+PLIB_OC_Buffer16BitSet(MY_OC_ID, 0x00FF);
+
+<i><span style="color: #008000">/*Set pulse width (Duty cycle) value */</span></i>
+PLIB_OC_PulseWidth16BitSet(MY_OC_ID, 0x0FFF);
+
+<i><span style="color: #008000">/* Configure interrupts associated with Output Compare module. Refer to
+Interrupts Peripheral Library for the API */</span></i>
+
+<i><span style="color: #008000">/* Enable Timer2. Refer to Timer Peripheral Library for the API */</span></i>
+
+<i><span style="color: #008000">/* Enable OC module */</span></i>
+PLIB_OC_Enable(MY_OC_ID);
+
+<i><span style="color: #008000">/* Check for PWM Fault */</span></i>
+<strong><span style="color: #000080">while</span></strong>(!PLIB_OC_FaultHasOccurred(MY_OC_ID))
+{
+    <i><span style="color: #008000">/* If no PWM fault, continue normal operation*/</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17830.html">Using the Library</a> &gt; <a href="17821.html">How the Library Works</a> &gt; <a href="17826.html">PWM Mode with Enabled Faults</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC PWM Mode with Enabled Faults Topic Title: PWM Mode with Enabled Faults)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

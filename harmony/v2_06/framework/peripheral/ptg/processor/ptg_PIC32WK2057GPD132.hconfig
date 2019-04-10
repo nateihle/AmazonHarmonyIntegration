@@ -1,0 +1,75 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32WK2057GPD132_PTG
+	bool
+	select HAVE_PTG
+	default y
+
+config PTG_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum PTG_MODULE_ID exclusive
+	"PTG_ID_0"
+
+enum PTG_CLK_SRC_SEL
+	"PTG_CLK_SRC_PB_CLK"
+	|| "PTG_CLK_SRC_CRU_SYS_CLK"
+	|| "PTG_CLK_SRC_FRC_CLK"
+	|| "PTG_CLK_SRC_TMR1_CLK_OUT"
+	|| "PTG_CLK_SRC_TMR3_CLK_OUT"
+	|| "PTG_CLK_SRC_TMR5_CLK_OUT"
+	|| "PTG_CLK_SRC_TMR7_CLK_OUT"
+	|| "PTG_CLK_SRC_REF_CLK_OUT_3"
+
+enum PTG_WDT_TIMEOUT_SEL
+	"PTG_WDT_DISABLE"
+	|| "PTG_WDT_TIMEOUT_COUNT_CYC_8"
+	|| "PTG_WDT_TIMEOUT_COUNT_CYC_16"
+	|| "PTG_WDT_TIMEOUT_COUNT_CYC_32"
+	|| "PTG_WDT_TIMEOUT_COUNT_CYC_64"
+	|| "PTG_WDT_TIMEOUT_COUNT_CYC_128"
+	|| "PTG_WDT_TIMEOUT_COUNT_CYC_256"
+	|| "PTG_WDT_TIMEOUT_COUNT_CYC_512"
+
+enum PTG_INPUT_MODE
+	"PTG_INPUT_MODE_0"
+	|| "PTG_INPUT_MODE_1"
+	|| "PTG_INPUT_MODE_2"
+	|| "PTG_INPUT_MODE_3"
+
+enum PTG_TIMER_SEL
+	"PTG_TIMER_0"
+	|| "PTG_TIMER_1"
+
+enum PTG_COUNTER_SEL
+	"PTG_COUNTER_0"
+	|| "PTG_COUNTER_1"
+
+ifblock PROJECT_STANDALONE
+file PLIB_PTG_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/processor/ptg_p32wk2057gpd132.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/processor/ptg_p32wk2057gpd132.h"
+
+file PLIB_PTG_CLOCKSOURCE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_ClockSource_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_ClockSource_Default.h"
+file PLIB_PTG_PRESCALE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_Prescale_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_Prescale_Default.h"
+file PLIB_PTG_TRIGGERPULSEWIDTH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_TriggerPulseWidth_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_TriggerPulseWidth_Default.h"
+file PLIB_PTG_WDTCOUNT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_WDTCount_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_WDTCount_Default.h"
+file PLIB_PTG_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_EnableControl_Default.h"
+file PLIB_PTG_STOPINIDLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_StopInIdle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_StopInIdle_Default.h"
+file PLIB_PTG_OUTPUTTRIGGERMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_OutputTriggerMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_OutputTriggerMode_Default.h"
+file PLIB_PTG_SWTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_SWTControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_SWTControl_Default.h"
+file PLIB_PTG_SINGLESTEPCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_SingleStepControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_SingleStepControl_Default.h"
+file PLIB_PTG_VISIBILITYCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_VisibilityControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_VisibilityControl_Default.h"
+file PLIB_PTG_STARTEXECUTION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_StartExecution_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_StartExecution_Default.h"
+file PLIB_PTG_WDTSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_WDTStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_WDTStatus_Default.h"
+file PLIB_PTG_PTGBUSYSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_PTGBusyStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_PTGBusyStatus_Default.h"
+file PLIB_PTG_INPUTTRIGGERMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_InputTriggerMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_InputTriggerMode_Default.h"
+file PLIB_PTG_TRIGGERBROADCASTMASK_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_TriggerBroadcastMask_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_TriggerBroadcastMask_Default.h"
+file PLIB_PTG_HOLDVALUE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_HoldValue_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_HoldValue_Default.h"
+file PLIB_PTG_TIMERLIMIT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_TimerLimit_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_TimerLimit_Default.h"
+file PLIB_PTG_STEPDELAY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_StepDelay_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_StepDelay_Default.h"
+file PLIB_PTG_COUNTERLIMIT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_CounterLimit_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_CounterLimit_Default.h"
+file PLIB_PTG_ADJUSTVALUE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_AdjustValue_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_AdjustValue_Default.h"
+file PLIB_PTG_LITERALSTROBE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_LiteralStrobe_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_LiteralStrobe_Default.h"
+file PLIB_PTG_QUEUEPOINTER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_QueuePointer_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_QueuePointer_Default.h"
+file PLIB_PTG_STEPCOMMAND_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ptg/templates/ptg_StepCommand_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ptg/templates/ptg_StepCommand_Default.h"
+endif

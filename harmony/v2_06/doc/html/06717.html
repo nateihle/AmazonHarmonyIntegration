@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>CAN_MSG_EID Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; l) Data Types and Constants &gt; <a href="06717.html">CAN_MSG_EID Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="06712.html">Previous</a> | <a href="17498.html">Up</a> | <a href="06727.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CAN_MSG_EID Topic Title: CAN_MSG_EID Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+CAN_MSG_EID Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> {
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">data_length_code</span></strong> : 4;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">reserved0</span></strong> : 1;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">unimplemented1</span></strong> : 3;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">reserved1</span></strong> : 1;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">remote_request</span></strong> : 1;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">eid</span></strong> : 18;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">ide</span></strong> : 1;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">sub_remote_req</span></strong> : 1;
+  <strong><span style="color: #000080">unsigned</span></strong> <strong><span style="color: #000000">unimplemented2</span></strong> : 2;
+} CAN_MSG_EID;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+CAN Message EID Word&nbsp;</p>
+<p class="Element10">
+This data structure represents the EID section of the CAN transmit and receive message. The data structure is an element of the <a href="06769.html">CAN_TX_MSG_BUFFER</a> and <a href="06746.html">CAN_RX_MSG_BUFFER</a> data structure.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned data_length_code : 4;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Data Length Control. Specifies the size of the data payload section of the CAN packet. Valid values are 0x0 - 0x8&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned reserved0 : 1;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Reserved bit. Should be always 0.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned unimplemented1 : 3;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Unimplemented bit. Should be always 0.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned reserved1 : 1;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Reserved bit. Should be always 0.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned remote_request : 1;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Remote Transmit Request bit. Should be set for RTR messages, clear otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned eid : 18;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+CAN Transmit and Receive Extended ID field. Valid values are in range 0x0 - 0x3FFFF&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned ide : 1;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Identifier bit. If 0 means that message is SID. If 1 means that message is EID type.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned sub_remote_req : 1;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Substitute Remote request bit. This bit should always be clear for an EID message. It is ignored for an SID message.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+unsigned unimplemented2 : 2;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Unimplemented bit. Should be always 0.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="06512.html">CAN Peripheral Library</a> &gt; <a href="17498.html">Library Interface</a> &gt; l) Data Types and Constants &gt; <a href="06717.html">CAN_MSG_EID Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CAN_MSG_EID Topic Title: CAN_MSG_EID Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

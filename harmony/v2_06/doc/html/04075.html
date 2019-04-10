@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>wifi_winc1500_socket</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04075.html">wifi_winc1500_socket</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04074.html">Previous</a> | <a href="03977.html">Up</a> | <a href="04083.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP wifi_winc1500_socket Topic Title: wifi_winc1500_socket)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+wifi_winc1500_socket</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Before using this demonstration, please see the important notes in the <i>TCP/IP Demonstrations &gt; <a href="03978.html">Introduction</a></i>.&nbsp;</p>
+<p class="Element10">
+This demonstration has many examples that can be configured and run individually and demonstrate the features support by the WINC1500 Wi-Fi module. The examples are defined in the file <span class="Element146">app.h</span>, and the detail for each example is described in their related <span class="Element146">.c</span> files. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="33%">
+<div class="Element66">
+Demo Example Configurations (app.h)&nbsp;</div></td><td class="Element65" valign="top" width="52%">
+<div class="Element66">
+Description&nbsp;</div></td><td class="Element65" valign="top" width="15%">
+<div class="Element66">
+.c file&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define AP_SCAN_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Scans APs around you and displays the results, and then connects to the target AP.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+ap_scan.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define CHIP_INFO_GET_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Gets the chip information of WINC1500.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+chip_info_get.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define EMAIL_SEND_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates email sending.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+email_send.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define HTTP_DOWNLOAD_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates file downloading by HTTP client.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+http_download.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define IP_ADDR_LOCATE_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Gets current location where my IP is used.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+ip_addr_locate.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define MAC_ADDRESS_GET_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Gets the MAC address of WINC150.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+mac_address_get.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define MDNS_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates mDNS server with service discovery support.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+mdns.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define MODE_AP_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates starting SoftAP with WPA, WEP or open security.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+mode_ap.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define MODE_CLIENT_STA_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates client mode connection with WPA.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+mode_client_sta.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define MULTI_SOCKET_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates running multiple TCP clients at the same time.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+multi_socket_example.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define P2P_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates Wi-Fi Direct GC function.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+p2p.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define POWER_SAVE_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates power save features.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+power_save.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define PROVISION_AP_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates provisioning using SoftAP function through Android application.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+provision_ap.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define PROVISION_HTTP_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates provisioning using SoftAP function through webpage.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+provision_http.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define PUBNUB_CLOUD_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates publishing and subscribing using PubNub.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+pubnub_cloud.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define SECURITY_WEP_WPA_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates infrastructure network connection with WPA, WEP or open security.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+security_wep_wpa.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define SIMPLE_GROWL_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates notification transmitting among WINC1500, public remote server and smartphone application.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+simple_growl.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define SSL_CLIENT_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates SSL client.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+ssl_client.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define SSL_SERVER_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates SSL server.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+ssl_server.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define TCP_CLIENT_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates TCP client.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+tcp_client.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define TCP_SERVER_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates TCP server.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+tcp_server.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define TIME_CLIENT_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates SNTP client.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+time_client.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define UDP_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates UDP server and client.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+udp.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define UDP_CLIENT_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates UDP client.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+udp_client.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define UDP_SERVER_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates UDP server.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+udp_server.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define WEATHER_CLIENT_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Weather client retrieves weather information of the target location using HTTP query.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+weather_client.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define WPS_CONNECT_EXAMPLE&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Demonstrates WPS security in client mode.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+wps_connect.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define FW_UPDATE_OTA&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Supports FW update over the air (OTA).&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+fw_update_ota.c&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="33%">
+<div class="Element68">
+#define FW_UPDATE_OVER_SERIAL&nbsp;</div></td><td class="Element67" valign="top" width="52%">
+<div class="Element68">
+Supports FW update over serial port.&nbsp;</div></td><td class="Element67" valign="top" width="15%">
+<div class="Element68">
+fw_update_over_serial.c&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04083.html">WINC1500 Socket Examples Guide</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section introduces the WINC1500 Socket examples and describes how to run each example on the Explorer 16 Development Board.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04076.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the PIC32 WINC1500 Socket demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04077.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04078.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to build and run the WINC1500 Socket demonstration with AP-SCAN-EXAMPLE. Other examples can be run by following the similar procedure steps describe below. Detailed instructions for the example can be found in the comments in the example <span class="Element146">.c</span> file.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="24486.html">TCP/IP Demonstrations</a> &gt; <a href="03977.html">Demonstrations</a> &gt; <a href="04075.html">wifi_winc1500_socket</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS TCPIP wifi_winc1500_socket Topic Title: wifi_winc1500_socket)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

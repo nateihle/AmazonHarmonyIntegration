@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX174F256D_CAN
+	bool
+	select HAVE_CAN
+	default n
+
+config CAN_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_CAN_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/can/processor/can_p32mx174f256d.h" to "$PROJECT_HEADER_FILES/framework/peripheral/can/processor/can_p32mx174f256d.h"
+
+endif

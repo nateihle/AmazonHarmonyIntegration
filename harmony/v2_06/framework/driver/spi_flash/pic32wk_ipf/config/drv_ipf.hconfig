@@ -1,0 +1,173 @@
+config USE_DRV_IPF_NEEDED
+    bool
+
+enum DRV_IPF_MODE
+    "STATIC"
+    || "DYNAMIC"
+    
+config USE_DRV_IPF
+    bool "Use PIC32WK In-Package Flash Driver?"
+    depends on PIC32WK
+    default n
+    select DRV_SPI_USE_DRIVER_NEEDED
+
+config DRV_IPF_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_IPF
+    range DRV_IPF_MODE
+    default "DYNAMIC"
+    persistent
+    
+config DRV_IPF_INSTANCES_NUMBER
+    int "Number of IPF Driver Instances"
+    depends on USE_DRV_IPF
+    default 1
+	persistent
+ 
+config DRV_IPF_CLIENTS_NUMBER
+    int "Number of IPF Driver Clients"
+    depends on USE_DRV_IPF
+    default 1
+
+config DRV_IPF_SPI_DRIVER_INSTANCE
+    int "SPI Driver Instance Number"
+    depends on USE_DRV_IPF
+    default 0
+	persistent
+	
+menu "RTOS Configuration"
+    depends on USE_DRV_IPF
+    depends on USE_3RDPARTY_RTOS
+    depends on DRV_IPF_DRIVER_MODE = "DYNAMIC"
+
+config DRV_IPF_RTOS
+    string "Run This Driver Instance As"
+    depends on DRV_IPF_DRIVER_MODE = "DYNAMIC"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_IPF_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_IPF_RTOS = "Standalone"
+    default 1024
+
+config DRV_IPF_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_IPF_RTOS = "Standalone"
+    default 1
+
+config DRV_IPF_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_IPF_RTOS = "Standalone"
+    default y
+
+config DRV_IPF_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_IPF_RTOS = "Standalone"
+    depends on DRV_IPF_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_IPF_CHIP_SELECT_PORT_CHANNEL
+    string "Chip Select Port Channel"
+    depends on USE_DRV_IPF
+    range PORTS_CHANNEL
+    default "PORT_CHANNEL_K"
+	persistent
+
+config DRV_IPF_CHIP_SELECT_PORT_BIT_POS
+    string "Chip Select Port Bit Position"
+    depends on USE_DRV_IPF
+    range PORTS_BIT_POS
+    default "PORTS_BIT_POS_15"
+	persistent
+
+config DRV_IPF_HOLD_PIN
+    depends on USE_DRV_IPF 
+    bool "Use Hold Pin"
+    default n
+    
+config DRV_IPF_HOLD_PIN_PORT_CHANNEL
+    string "Hold Pin Port Channel"
+    depends on USE_DRV_IPF
+    range PORTS_CHANNEL
+    default "PORT_CHANNEL_K"
+	persistent
+
+config DRV_IPF_HOLD_PIN_PORT_BIT_POS
+    string "Hold Pin Bit Position"
+    depends on USE_DRV_IPF
+    range PORTS_BIT_POS
+    default "PORTS_BIT_POS_14"
+	persistent
+
+config DRV_IPF_WRITE_PROTECT_PIN
+    depends on USE_DRV_IPF 
+    bool "Use Write Protect Pin"
+    default n
+    
+config DRV_IPF_WRITE_PROTECT_PIN_PORT_CHANNEL
+    string "Write Protect Pin Port Channel"
+    depends on USE_DRV_IPF
+    range PORTS_CHANNEL
+    default "PORT_CHANNEL_K"
+	persistent
+
+config DRV_IPF_WRITE_PROTECT_PIN_BIT_POS
+    string "Write Protect Pin Bit Position"
+    depends on USE_DRV_IPF
+    range PORTS_BIT_POS
+    default "PORTS_BIT_POS_13"
+	persistent
+
+config DRV_IPF_QUEUE_SIZE
+    int "Queue Size"
+    depends on USE_DRV_IPF
+    default 10
+
+config DRV_IPF_POWER_STATE
+    string "Power State"
+    depends on USE_DRV_IPF
+    range SYS_MODULE_POWER_STATE
+    default "SYS_MODULE_POWER_RUN_FULL"
+
+config DRV_IPF_USE_FS
+	bool "Register In-Package flash as media for file-system"
+	depends on USE_SYS_FS && USE_DRV_IPF
+	default n
+
+config DRV_IPF_FS_BASE_ADDRESS
+	hex "File System Base Address"
+	depends on DRV_IPF_USE_FS
+	default 0x00000000
+	
+ifblock USE_DRV_IPF
+
+add "<#include \"/framework/driver/spi_flash/pic32wk_ipf/templates/drv_ipf.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/spi_flash/pic32wk_ipf/templates/drv_ipf_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/spi_flash/pic32wk_ipf/templates/drv_ipf_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/spi_flash/pic32wk_ipf/templates/drv_ipf.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_IPF_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/pic32wk_ipf/drv_ipf.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/pic32wk_ipf/drv_ipf.h"
+file  DRV_IPF_SYS_FS_MEDIA_MANAGER_H "$HARMONY_VERSION_PATH/framework/system/fs/sys_fs_media_manager.h"  to "$PROJECT_HEADER_FILES/framework/system/fs/sys_fs_media_manager.h"
+file  DRV_IPF_SYS_FS_H "$HARMONY_VERSION_PATH/framework/system/fs/sys_fs.h" to "$PROJECT_HEADER_FILES/framework/system/fs/sys_fs.h"
+file DRV_IPF_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/pic32wk_ipf/src/drv_ipf_local.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/pic32wk_ipf/src/drv_ipf_local.h"
+file DRV_IPF_VAR_MAPPING_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/pic32wk_ipf/src/drv_ipf_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/pic32wk_ipf/src/drv_ipf_variant_mapping.h"
+
+file DRV_IPF_C "$HARMONY_VERSION_PATH/framework/driver/spi_flash/pic32wk_ipf/src/dynamic/drv_ipf.c" to "$PROJECT_SOURCE_FILES/framework/driver/spi_flash/pic32wk_ipf/src/dynamic/drv_ipf.c"
+file DRV_IPF_PROT_C "$HARMONY_VERSION_PATH/framework/driver/spi_flash/pic32wk_ipf/src/dynamic/drv_ipf_prot.c" to "$PROJECT_SOURCE_FILES/framework/driver/spi_flash/pic32wk_ipf/src/dynamic/drv_ipf_prot.c"
+template DRV_IPF_PINS_C "$HARMONY_VERSION_PATH/framework/driver/spi_flash/pic32wk_ipf/templates/drv_ipf_pins.c.ftl" to "$PROJECT_SOURCE_FILES/framework/driver/spi_flash/pic32wk_ipf/src/dynamic/drv_ipf_pins.c"
+ifblock DRV_IPF_USE_FS
+file DRV_IPF_FS_C "$HARMONY_VERSION_PATH/framework/driver/spi_flash/pic32wk_ipf/src/dynamic/drv_ipf_fs.c" to "$PROJECT_SOURCE_FILES/framework/driver/spi_flash/pic32wk_ipf/src/dynamic/drv_ipf_fs.c"
+endif
+
+file DRV_SPI_IPF_H "$HARMONY_VERSION_PATH/framework/driver/spi/drv_spi.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/drv_spi.h"
+file DRV_SPI_SYS_INT_IPF_H "$HARMONY_VERSION_PATH/framework/system/int/sys_int.h" to "$PROJECT_HEADER_FILES/framework/system/int/sys_int.h"
+file DRV_SPI_SYS_INT_MAPPING_IPF_H "$HARMONY_VERSION_PATH/framework/system/int/sys_int_mapping.h" to "$PROJECT_HEADER_FILES/framework/system/int/sys_int_mapping.h"
+file DRV_SPI_SYS_DMA_IPF_H "$HARMONY_VERSION_PATH/framework/system/dma/sys_dma.h" to "$PROJECT_HEADER_FILES/framework/system/dma/sys_dma.h"
+file DRV_SPI_QUEUE_IPF_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/drv_spi_sys_queue.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/drv_spi_sys_queue.h"
+file DRV_SPI_QUEUE_FIFO_IPF_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/drv_spi_sys_queue_local_fifo.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/drv_spi_sys_queue_local_fifo.h"
+file DRV_SPI_INTERNAL_IPF_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/dynamic/drv_spi_internal.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/dynamic/drv_spi_internal.h"
+file DRV_SPI_VAR_MAPPING_IPF_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/drv_spi_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/drv_spi_variant_mapping.h"
+
+endif

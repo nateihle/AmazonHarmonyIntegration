@@ -1,0 +1,1971 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>avdtp.h</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06298.html">Files</a> &gt; <a href="04599.html">avdtp.h</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04591.html">Previous</a> | <a href="06298.html">Up</a> | <a href="04625.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: avdtp.h Topic Title: avdtp.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+avdtp.h</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Contains proprietary and confidential information of SEARAN LLC. May not be used or disclosed to any other party except in accordance with a license from SEARAN LLC. Copyright (c) 2011-2016 SEARAN LLC. All Rights Reserved.</p></div>
+</div>
+<a name="46756E6374696F6E73"></a><div class="Element14">
+Functions</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05235.html">bt_avdtp_abort_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Suspend a stream. ingroup avdtp<br>details This function tries to suspend a stream by sending a request to the remote party. The stream can be in any state state except <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a>. As a result of this operation the <a href="04666.html">AVDTP_EVT_ABORT_STREAM_COMPLETED</a> event will be generated. This operation cannot be rejected. The p evt_param.abort_stream_requested.err_code is always == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds, i.e. the actual request has been sent to the remote party. li c <a href="12128.html">FALSE</a> otherwise. No events will be generated.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05236.html">bt_avdtp_add_media_rx_buffer</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Add a media packet buffer to a receive queue ingroup avdtp<br>details The consumer of AVDTP is responsible for allocating and supplying AVDTP with buffers used to store received packets. AVDTP itself only has a queue for storing pointers to buffers supplied by the consumer. When a packet comes in AVDTP finds the first buffer large enough to hold the received packet, copies the packet to the buffer and generates a <a href="04678.html">AVDTP_EVT_MEDIA_PACKET_RECEIVED</a> event. The consumer then has to process the data in the buffer and return it back to the queue. If there is no buffers in the queue... <a href="05236.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05237.html">bt_avdtp_add_media_tx_buffer</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Add a media packet buffer to a send queue ingroup avdtp<br>details When the consumer of AVDTP wants to send a packet to a remote device it calls this function. The function adds the packet to a queue and tells AVDTP that it has something to send. The packet will be send as soon as the stream goes to <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a> state. When the packet has been successfully sent a <a href="04680.html">AVDTP_EVT_MEDIA_PACKET_SENT</a> is generated. Otherwise a <a href="04679.html">AVDTP_EVT_MEDIA_PACKET_SEND_FAILED</a> is generated. Regardless of the event generated the consumer can re-use the buffer as AVDTP has removed it from the queue and gave up... <a href="05237.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05238.html">bt_avdtp_cancel_listen</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Cancel listening for incoming connections. ingroup avdtp<br>details This function removes a SEP from a list of SEPS which a stream can use for incoming requests.<br>param mgr AVDTP manager. param strm_handle Stream handle. param sep_id Local SEP ID.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds. li c <a href="12128.html">FALSE</a> otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05239.html">bt_avdtp_clear_media_tx_queue</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Clear send queue ingroup avdtp<br>details When the consumer of AVDTP wants to send a packet to a remote device it calls <a href="05237.html">bt_avdtp_add_media_tx_buffer</a> function. The function adds the packet to a queue and tells AVDTP that it has something to send. The packet will be send as soon as the stream goes to <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a> state. The consumer can remove all packets from the queue before they have been sent to a remote device by calling ::bt_avdtp_clear_media_tx_queue.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds. li c <a href="12128.html">FALSE</a> otherwise. The function fails... <a href="05239.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05240.html">bt_avdtp_close_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Close a stream. ingroup avdtp<br>details This function tries to close a stream by sending a request to the remote party. The stream has to be in <a href="04748.html">AVDTP_STREAM_STATE_OPEN</a> or <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a> state. As a result of this operation the <a href="04668.html">AVDTP_EVT_CLOSE_STREAM_COMPLETED</a> event will be generated. If the stream has been closed the p evt_param.bt_avdtp_evt_close_stream_completed_t.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise, if the remote device for any reason cannot or does not wish to close the stream, the p evt_param.bt_avdtp_evt_close_stream_completed_t.err_code == the error code sent by the remote.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds,... <a href="05240.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05253.html">bt_avdtp_create_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Create a stream. ingroup avdtp<br>details This function allocates memory for storing stream's data and assigns a stream handle. The stream handle is used to manipulate the stream - open, close, configure, suspend, abort.<br>param mgr AVDTP manager.<br>return li c Stream handle if the function succeeds. li c 0 otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05255.html">bt_avdtp_destroy_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Destroy a stream. ingroup avdtp<br>details This function frees memory used by the stream. The stream has to exist and be in the &quot;idle&quot; state for this function to succeed. I.e. the stream has to be closed or aborted before this function can be called.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds. li c <a href="12128.html">FALSE</a> otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05256.html">bt_avdtp_disconnect</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Disconnect from a remote device. ingroup avdtp<br>details This function closes a control and transport channels on all streams associated with the remote device specified by the p remote_addr. As a result of this operation the following events will be generated: @arg <a href="04678.html">AVDTP_EVT_MEDIA_PACKET_RECEIVED</a>: if a stream's receive queue is not empty this event is generated for each buffer with bt_media_packet_t::data_len set to 0 @arg <a href="04680.html">AVDTP_EVT_MEDIA_PACKET_SENT</a>: if a stream's send queue is not empty this event is generated for each buffer with bt_media_packet_t::data_len set to 0 @arg <a href="04693.html">AVDTP_EVT_STREAM_CLOSED</a>: this event is generate if a stream is in... <a href="05256.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05257.html">bt_avdtp_discover</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Discover SEPs on a remote device. ingroup avdtp<br>details This function asks the remote device to send a list of all available SEPs. As a result of this operation the following events will be generated: @arg <a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a>: this event is generated for every SEP received from the remote device. the p evt_param.sep_info_received contains SEP information. @arg <a href="04674.html">AVDTP_EVT_DISCOVER_COMPLETED</a>: this event is generated after last <a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a> if the remote accepted the request and the p evt_param.discover_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. if the remote rejected the request the p evt_param.discover_completed.err_code == the error code sent by the remote.<br>param mgr AVDTP... <a href="05257.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05293.html">bt_avdtp_find_codec</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Find a codec ingroup avdtp<br>details AVDTP in theory can support any type of codec. Each codec uses its own format for exchanging capabilities and configuration information. In order to make out implementation do not care about these formats we use a simple way of telling AVDTP how to parse and serialize codec's configuration. The consumer of AVDTP (e.g. A2DP) for each codec it wishes to support has to register a callback function (one per codec type). That callback has to perform two function. The first one is to read the configuration received from the remote device and store... <a href="05293.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05294.html">bt_avdtp_get_all_capabilities</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get remote SEP capabilities. ingroup avdtp<br>details This function asks the remote device to send capabilities of a SEP specified by the p seid_acp. As a result of this operation the following events will be generated: @arg <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a>: this event is generated if the remote device accepted the request. the p evt_param.sep_capabilities_received contains SEP capabilities. @arg <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a>: this event is generated right after <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a> if the remote accepted the request the p evt_param.get_sep_capabilities_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. if the remote rejected the request the p evt_param.get_sep_capabilities_completed.err_code == the error code sent by the remote.<br>param mgr AVDTP manager.... <a href="05294.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05295.html">bt_avdtp_get_capabilities</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get remote SEP capabilities. ingroup avdtp<br>details This function asks the remote device to send capabilities of a SEP specified by the p seid_acp. As a result of this operation the following events will be generated: @arg <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a>: this event is generated if the remote device accepted the request. the p evt_param.sep_capabilities_received contains SEP capabilities. @arg <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a>: this event is generated right after <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a> if the remote accepted the request the p evt_param.get_sep_capabilities_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. if the remote rejected the request the p evt_param.get_sep_capabilities_completed.err_code == the error code sent by the remote.<br>param mgr AVDTP manager.... <a href="05295.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05296.html">bt_avdtp_get_configuration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get stream configuration. ingroup avdtp<br>details This function requests stream configuration from a remote device. As a result of this operation the following events will be generated: @arg <a href="04694.html">AVDTP_EVT_STREAM_CONFIGURATION_RECEIVED</a>: this event is generated if the remote accepted the request. the p ebt_para.sep_capabilities_received.caps will contain current stream configuration. @arg <a href="04676.html">AVDTP_EVT_GET_STREAM_CONFIGURATION_COMPLETED</a>: If the remote accepted the request the p evt_param.get_stream_configuration_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. if the remote rejected the request the p evt_param.get_stream_configuration_completed.err_code == the error code sent by the remote.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds, i.e. the actual... <a href="05296.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05297.html">bt_avdtp_get_hci_connection</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get HCI connection for a stream ingroup avdtp<br>details This function returns a pointer to a structure that describes an HCI connection a stream is open on. The return value can be used to call various function from the HCI layer. For example, if an app wants to force disconnection from a remote device it can call <a href="05651.html">bt_hci_disconnect</a>.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c Pointer to a structure that describes an HCI connection if the function succeeds. li c NULL otherwise. The function fails only if a stream specified by the p strm_handle... <a href="05297.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05298.html">bt_avdtp_get_l2cap_channel</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is function bt_avdtp_get_l2cap_channel.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05299.html">bt_avdtp_get_mgr</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Return a pointer to an instance of the AVDTP manager. ingroup avdtp<br>details This function returns a pointer to an instance of the AVDTP manager. There is only one instance of the manager allocated by the stack. The pointer is passed as the first parameter to all AVDTP functions.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05300.html">bt_avdtp_get_sep</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get a SEP info by its ID. ingroup avdtp<br>details This function returns a pointer to <a href="05323.html">bt_avdtp_sep_t</a> structure that describes a SEP previously registered with <a href="05317.html">bt_avdtp_register_sep</a>.<br>param mgr AVDTP manager. param sep_id The ID of a SEP.<br>return li c Pointer to <a href="05323.html">bt_avdtp_sep_t</a> if the SEP is in the list of registered SEPs. li c NULL otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05301.html">bt_avdtp_get_stream_codec_config</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get the configuration of the codec currently used with the stream. ingroup avdtp<br>details This function returns a pointer to a structure that contains configuration of the codec currently used with the stream. The structure returned depends on the codec. The dotstack defines structures only for SBC, MPEG-1,2 and MPEG-2,4 AAC codecs: @arg SBC: <a href="05156.html">bt_a2dp_sbc_config_t</a> (defined in a2dp_sbc_codec.h) @arg MPEG-1,2: <a href="05143.html">bt_a2dp_mpeg_config_t</a> (defined in a2dp_mpeg_codec.h) @arg MPEG-2,4 AAC: <a href="05104.html">bt_a2dp_aac_config_t</a> (defined in a2dp_aac_codec.h)<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li The codec's configuration if strm_handle specifies a valid stream and the stream is in one of the following... <a href="05301.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05302.html">bt_avdtp_get_stream_codec_type</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get the type of the codec currently used with the stream. ingroup avdtp<br>details This function returns the type of the codec currently used with the stream.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return @arg The type of the codec if strm_handle specifies a valid stream and the stream is in one of the following states:<br><a href="04746.html">AVDTP_STREAM_STATE_CONFIGURED</a> <a href="04748.html">AVDTP_STREAM_STATE_OPEN</a> <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a><br>@arg The result will be one of the following values:<br><a href="04624.html">AVDTP_CODEC_TYPE_SBC</a>: SBC <a href="04621.html">AVDTP_CODEC_TYPE_MPEG1_2_AUDIO</a>: MPEG-1,2 (used in MP3 files) <a href="04622.html">AVDTP_CODEC_TYPE_MPEG2_4_AAC</a>: MPEG-2,4 AAC (used in Apple products) <a href="04620.html">AVDTP_CODEC_TYPE_ATRAC</a>: ATRAC (used in Sony products) <a href="04623.html">AVDTP_CODEC_TYPE_NON_A2DP</a>: Non-A2DP... <a href="05302.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05303.html">bt_avdtp_get_stream_config</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get stream's configuration. ingroup avdtp<br>details This function returns a pointer to a structure holding the current configuration of stream.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li The stream's configuration if strm_handle specifies a valid stream and the stream is in one of the following state:<br><a href="04746.html">AVDTP_STREAM_STATE_CONFIGURED</a> <a href="04748.html">AVDTP_STREAM_STATE_OPEN</a> <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a><br>li NULL otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05304.html">bt_avdtp_get_stream_direction</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is function bt_avdtp_get_stream_direction.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05305.html">bt_avdtp_get_stream_local_sep_id</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get stream's local SEP ID. ingroup avdtp<br>details This function returns the ID of the local SEP associated with the stream.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li The ID of the local SEP if strm_handle specifies a valid stream. li 0 otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05306.html">bt_avdtp_get_stream_remote_address</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get stream's remote BT address. ingroup avdtp<br>details This function returns the address of the remote device associated with the stream.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li The address of the remote device if strm_handle specifies a valid stream. li NULL otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05307.html">bt_avdtp_get_stream_remote_sep_id</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get stream's remote SEP ID. ingroup avdtp<br>details This function returns the ID of the remote SEP associated with the stream.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li The ID of the remote SEP if strm_handle specifies a valid stream. li 0 otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05308.html">bt_avdtp_get_stream_state</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Get local stream state. ingroup avdtp<br>details This function returns local state of a stream specified by the p strm_handle. No request is sent to the remote party.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return The state of the stream. The result will be one of the following values: @arg <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a>: The stream is idle. This can mean two things. The stream specified by p strm_handle does not exist or the stream is closed. @arg <a href="04743.html">AVDTP_STREAM_OPENING_TRANSPORT_CHANNELS</a>: The stream is opening transport channels. @arg <a href="04741.html">AVDTP_STREAM_CLOSING_TRANSPORT_CHANNELS</a>: The stream is closing transport channels. @arg <a href="04746.html">AVDTP_STREAM_STATE_CONFIGURED</a>: The... <a href="05308.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05309.html">bt_avdtp_init</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Initialize the AVDTP layer. ingroup avdtp<br>details This function initializes the AVDTP layer of the stack. It must be called prior to any other AVDTP function can be called.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05310.html">bt_avdtp_listen</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Listen for incoming connections. ingroup avdtp<br>details This function tells a stream that it can use a particular SEP to accept incoming requests to open it. The SEP can be associated with multiple streams but used with only one. The stream has to be closed before the SEP can be used with another stream. For outgoing connections this is not needed. Any SEP can be used with any stream given that the SEP is not already in use by another stream.<br>param mgr AVDTP manager. param strm_handle Stream handle. param sep_id Local SEP ID.<br>return li c <a href="27119.html">TRUE</a> if... <a href="05310.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05313.html">bt_avdtp_open_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Open a stream. ingroup avdtp<br>details This function tries to open a stream by sending a request to the remote party. The stream has to be already configured with a <a href="05324.html">bt_avdtp_set_configuration</a> call. As a result of this operation the <a href="04682.html">AVDTP_EVT_OPEN_STREAM_COMPLETED</a> event will be generated. If the stream has been open the p evt_param.open_stream_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise, if the remote device for any reason cannot or does not wish to open the stream, the p evt_param.open_stream_completed.err_code == the error code sent by the remote.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c <a href="27119.html">TRUE</a> if the function... <a href="05313.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05314.html">bt_avdtp_reconfigure_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Reconfigure stream. ingroup avdtp<br>details This function tries to change the stream's configuration. For this function to succeed the stream has to be open. As a result of this operation the <a href="04697.html">AVDTP_EVT_STREAM_RECONFIGURE_COMPLETED</a> event will be generated. If reconfiguration was a success the p evt_param.stream_reconfigure_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise the p evt_param.stream_reconfigure_completed.err_code == the error code sent by the remote.<br>param mgr AVDTP manager. param strm_handle Stream handle. param caps New stream configuration.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds, i.e. the actual request has been sent to the remote party. li c <a href="12128.html">FALSE</a> otherwise. No events will be... <a href="05314.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05315.html">bt_avdtp_register_callback</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Register a AVDTP application callback. ingroup avdtp<br>details In order to be notified of various events a consumer of the AVDTP layer has to register a callback function. The stack will call this function whenever a new event has been generated passing the code of the event as the second parameter. The event can be one of the following values:<br>@arg <a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a>: Control channel connected. @arg <a href="04671.html">AVDTP_EVT_CTRL_CHANNEL_DISCONNECTED</a>: Control channel disconnected. @arg <a href="04672.html">AVDTP_EVT_CTRL_CONNECTION_FAILED</a>: Control channel connection failed (generated only if control connection has been initiated by the local device). @arg <a href="04674.html">AVDTP_EVT_DISCOVER_COMPLETED</a>: Local device completed discovering remote... <a href="05315.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05316.html">bt_avdtp_register_codec</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Register a codec ingroup avdtp<br>details AVDTP in theory can support any type of codec. Each codec uses its own format for exchanging capabilities and configuration information. In order to make out implementation do not care about these formats we use a simple way of telling AVDTP how to parse and serialize codec's configuration. The consumer of AVDTP (e.g. A2DP) for each codec it wishes to support has to register a callback function (one per codec type). That callback has to perform two function. The first one is to read the configuration received from the remote device and store... <a href="05316.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05317.html">bt_avdtp_register_sep</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Register a SEP with the local AVDTP manager. ingroup avdtp<br>details This function is used to make a list of SEPs supported by the local ADVTP entity.<br>param mgr AVDTP manager. param type The type of a SEP. The type can be one of the following values: @arg <a href="04740.html">AVDTP_SEP_TYPE_SOURCE</a>: The SEP is a source. @arg <a href="04739.html">AVDTP_SEP_TYPE_SINK</a>: The SEP is a sink. param caps The capabilities of a SEP.<br>return li c ID of a SEP if the function succeeds. li c <a href="12128.html">FALSE</a> otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05318.html">bt_avdtp_remove_media_rx_buffer</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Remove a media packet buffer from a receive queue ingroup avdtp<br>details The consumer of AVDTP is responsible for allocating and supplying AVDTP with buffers used to store received packets. AVDTP itself only has a queue for storing pointers to buffers supplied by the consumer. When a packet comes in AVDTP finds the first buffer large enough to hold the received packet, copies the packet to the buffer and generates a <a href="04678.html">AVDTP_EVT_MEDIA_PACKET_RECEIVED</a> event. The consumer then has to process the data in the buffer and return it back to the queue. If there is no buffers in the queue... <a href="05318.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05319.html">bt_avdtp_remove_media_tx_buffer</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Remove a media packet buffer from a send queue ingroup avdtp<br>details When the consumer of AVDTP wants to send a packet to a remote device it calls <a href="05237.html">bt_avdtp_add_media_tx_buffer</a> function. The function adds the packet to a queue and tells AVDTP that it has something to send. The packet will be send as soon as the stream goes to <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a> state. The consumer has a chance to remove a packet from the queue before it has been sent to a remote device by calling bt_avdtp_remove_media_tx_buffer.<br>param mgr AVDTP manager. param strm_handle Stream handle. param buffer Pointer to a structure... <a href="05319.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05320.html">bt_avdtp_report_delay</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Report delay value of a Sink to a Source. ingroup avdtp<br>details This function sends the delay value of a Sink to a Source. This enables synchronous playback of audio and video. Delay reports are always sent from the Sink to the Source. If the Sink's delay report has been accepted by the Source the p evt_param.delay_report_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise the p evt_param.delay_report_completed.err_code == the error code sent by the Source.<br>param mgr AVDTP manager. param strm_handle Stream handle. param delay The delay value in 1/10 milliseconds.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds, i.e. the actual... <a href="05320.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05321.html">bt_avdtp_security_control</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Exchange content protection control data. ingroup avdtp<br>details This function tries to establish content protection by sending a request to the remote party. The stream can be in any state state except <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a>, <a href="04745.html">AVDTP_STREAM_STATE_CLOSING</a>, <a href="04744.html">AVDTP_STREAM_STATE_ABORTING</a>. As a result of this operation the <a href="04699.html">AVDTP_EVT_STREAM_SECURITY_CONTROL_COMPLETED</a> event will be generated. If the stream's content protection data has been accepted by the remote party the p evt_param.security_control_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise the p evt_param.security_control_completed.err_code == the error code sent by the remote.<br>note The dotstack does not support content protection. Although the request can be sent it will not affect... <a href="05321.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05324.html">bt_avdtp_set_configuration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Set stream configuration. ingroup avdtp<br>details This function tries to configure a stream before opening it. As a result of this operation the <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a> event will be generated. If configuration was a success the p evt_param.set_stream_configuration_completed.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise the p evt_param.set_stream_configuration_completed.err_code == the error code sent by the remote and p evt_param.set_stream_configuration_completed.svc_category == the value of the first Service Category to fail.<br>param mgr AVDTP manager. param strm_handle Stream handle. param remote_addr The address of a remote device. param seid_int Local SEP ID. param seid_acp Remote SEP ID. param caps Stream configuration.<br>return li c <a href="27119.html">TRUE</a> if... <a href="05324.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05325.html">bt_avdtp_set_media_tx_queue_limit</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Set limit on the send queue ingroup avdtp<br>details When the consumer of AVDTP wants to send a packet to a remote device it calls <a href="05237.html">bt_avdtp_add_media_tx_buffer</a> function. The function adds the packet to a queue and tells AVDTP that it has something to send. The packet will be send as soon as the stream goes to <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a> state. By default the send queue can contain unlimited number of packets. The consumer can set a limit on how many packets are held in the queue. In this case when new packet is added to the queue and the length of... <a href="05325.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05326.html">bt_avdtp_start</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Start the AVDTP layer. ingroup avdtp<br>details This function makes the AVDTP layer ready to accept connection requests from remote device. To make an outgoing connection calling this function is not required.<br>param mgr AVDTP manager.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds. li c <a href="12128.html">FALSE</a> otherwise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05327.html">bt_avdtp_start_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Start a stream. ingroup avdtp<br>details This function tries to start a stream by sending a request to the remote party. The stream has to be in <a href="04748.html">AVDTP_STREAM_STATE_OPEN</a> state. The stream goes to this state as a result of successful configuration or suspension (both can be initiated by either party). As a result of this operation the <a href="04690.html">AVDTP_EVT_START_STREAM_COMPLETED</a> event will be generated. If the stream has been open the p evt_param.start_stream_requested.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise, if the remote device for any reason cannot or does not wish to start the stream, the p evt_param.start_stream_requested.err_code == the error code sent... <a href="05327.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05329.html">bt_avdtp_suspend_stream</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Suspend a stream. ingroup avdtp<br>details This function tries to suspend a stream by sending a request to the remote party. The stream has to be in <a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a> state. As a result of this operation the <a href="04702.html">AVDTP_EVT_SUSPEND_STREAM_COMPLETED</a> event will be generated. If the stream has been suspended the p evt_param.bt_avdtp_evt_suspend_stream_requested_t.err_code == <a href="04664.html">AVDTP_ERROR_SUCCESS</a>. Otherwise, if the remote device for any reason cannot or does not wish to suspend the stream, the p evt_param.bt_avdtp_evt_suspend_stream_requested_t.err_code == the error code sent by the remote.<br>param mgr AVDTP manager. param strm_handle Stream handle.<br>return li c <a href="27119.html">TRUE</a> if the function succeeds, i.e. the... <a href="05329.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05333.html">bt_avdtp_unregister_codec</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Unregister a codec ingroup avdtp<br>details AVDTP in theory can support any type of codec. Each codec uses its own format for exchanging capabilities and configuration information. In order to make out implementation do not care about these formats we use a simple way of telling AVDTP how to parse and serialize codec's configuration. The consumer of AVDTP (e.g. A2DP) for each codec it wishes to support has to register a callback function (one per codec type). That callback has to perform two function. The first one is to read the configuration received from the remote device and store... <a href="05333.html">more</a>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="4D6163726F73"></a><div class="Element14">
+Macros</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="00013.html">__AVDTP_H</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro __AVDTP_H.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04617.html">AVDTP_CODEC_OPCODE_PARSE_CONFIG</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Parse codec configuration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04618.html">AVDTP_CODEC_OPCODE_PARSE_PACKET</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_CODEC_OPCODE_PARSE_PACKET.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04619.html">AVDTP_CODEC_OPCODE_SERIALIZE_CONFIG</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Serialize codec configuration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04620.html">AVDTP_CODEC_TYPE_ATRAC</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; ATRAC (proprietary codec owned by Sony Corporation).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04621.html">AVDTP_CODEC_TYPE_MPEG1_2_AUDIO</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; MPEG-1,2 (optional).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04622.html">AVDTP_CODEC_TYPE_MPEG2_4_AAC</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; MPEG-2,4 AAC (optional, used in Apple's products).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04623.html">AVDTP_CODEC_TYPE_NON_A2DP</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Vendor specific.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04624.html">AVDTP_CODEC_TYPE_SBC</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; SBC (mandatory to support in A2DP profile).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04626.html">AVDTP_CONTENT_PROTECTION_METHOD_SCMS_T</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_CONTENT_PROTECTION_METHOD_SCMS_T.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04646.html">AVDTP_ERROR_BAD_ACP_SEID</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The requested command indicates an invalid ACP SEP ID (not addressable)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04647.html">AVDTP_ERROR_BAD_CP_FORMAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The format of Content Protection Service Capability is not correct.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04648.html">AVDTP_ERROR_BAD_HEADER_FORMAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The request packet header format is invalid.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04649.html">AVDTP_ERROR_BAD_LENGTH</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The request packet length is not match the assumed length.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04650.html">AVDTP_ERROR_BAD_MEDIA_TRANSPORT_FORMAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The format of Media Transport Capability is not correct.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04651.html">AVDTP_ERROR_BAD_MULTIPLEXING_FORMAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The format of Multiplexing Service Capability is not correct.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04652.html">AVDTP_ERROR_BAD_PAYLOAD_FORMAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The requested command has an incorrect payload format.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04653.html">AVDTP_ERROR_BAD_RECOVERY_FORMAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The format of Recovery Service Capability is not correct.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04654.html">AVDTP_ERROR_BAD_RECOVERY_TYPE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The requested Recovery Type is not defined in AVDTP.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04655.html">AVDTP_ERROR_BAD_ROHC_FORMAT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The format of Header Compression Service Capability is not correct.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04656.html">AVDTP_ERROR_BAD_SERV_CATEGORY</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The value of Service Category in the request packet is not defined in AVDTP.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04657.html">AVDTP_ERROR_BAD_STATE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream is in state that does not permit executing commands.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04658.html">AVDTP_ERROR_FAILED_TO_CONNECT_CONTROL</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; An attempt to establish a control channel has failed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04659.html">AVDTP_ERROR_FAILED_TO_CONNECT_TRANSPORT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; An attempt to establish a transport channel has failed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04660.html">AVDTP_ERROR_INVALID_CAPABILITIES</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The reconfigure command is an attempt to reconfigure a transport service capabilities of the SEP. Reconfigure is only permitted for application service capabilities.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04661.html">AVDTP_ERROR_NOT_SUPPORTED_COMMAND</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The requested command is not supported by the device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04662.html">AVDTP_ERROR_SEP_IN_USE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The SEP is in use.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04663.html">AVDTP_ERROR_SEP_NOT_IN_USE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The SEP is not in use.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04664.html">AVDTP_ERROR_SUCCESS</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The operation completed with no errors.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04665.html">AVDTP_ERROR_UNSUPPORTED_CONFIGURAION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Configuration not supported.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04666.html">AVDTP_EVT_ABORT_STREAM_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;abort stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04667.html">AVDTP_EVT_ABORT_STREAM_REQUESTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received &quot;abort stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04668.html">AVDTP_EVT_CLOSE_STREAM_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;close stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04669.html">AVDTP_EVT_CLOSE_STREAM_REQUESTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received &quot;close stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a control channel between two AVDTP entities has been established.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04671.html">AVDTP_EVT_CTRL_CHANNEL_DISCONNECTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a control channel between two AVDTP entities has been terminated.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04672.html">AVDTP_EVT_CTRL_CONNECTION_FAILED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device failed to create a control channel between two AVDTP entities.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04673.html">AVDTP_EVT_DELAYREPORT_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;delay report&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04674.html">AVDTP_EVT_DISCOVER_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;discover&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;get SEP capabilities&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04676.html">AVDTP_EVT_GET_STREAM_CONFIGURATION_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;get stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04677.html">AVDTP_EVT_LAST</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_EVT_LAST.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04678.html">AVDTP_EVT_MEDIA_PACKET_RECEIVED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a media packet.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04679.html">AVDTP_EVT_MEDIA_PACKET_SEND_FAILED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device failed to send a media packet.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04680.html">AVDTP_EVT_MEDIA_PACKET_SENT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device sent a media packet.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04681.html">AVDTP_EVT_NULL</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_EVT_NULL.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04682.html">AVDTP_EVT_OPEN_STREAM_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;open stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04683.html">AVDTP_EVT_OPEN_STREAM_REQUESTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received &quot;open stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04684.html">AVDTP_EVT_RECONFIGURE_STREAM_REQUESTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received &quot;change stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a positive response to a &quot;get SEP capabilities&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated for each SEP contained in a positive response to a &quot;discover&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04687.html">AVDTP_EVT_SET_STREAM_CONFIGURATION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_EVT_SET_STREAM_CONFIGURATION.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04689.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04690.html">AVDTP_EVT_START_STREAM_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;start stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04691.html">AVDTP_EVT_START_STREAM_REQUESTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received &quot;start stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04692.html">AVDTP_EVT_STREAM_ABORTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device has successfully aborted a stream. &lt; This event follows the <a href="04667.html">AVDTP_EVT_ABORT_STREAM_REQUESTED</a> if the upper layer has accepted it. &lt; This event is not generated if stream abortion was initiated by the local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04693.html">AVDTP_EVT_STREAM_CLOSED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device has successfully closed a stream. &lt; This event follows the <a href="04669.html">AVDTP_EVT_CLOSE_STREAM_REQUESTED</a> if the upper layer has accepted it. &lt; This event is not generated if stream closing was initiated by the local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04694.html">AVDTP_EVT_STREAM_CONFIGURATION_RECEIVED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a positive response to a &quot;get stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04695.html">AVDTP_EVT_STREAM_CONFIGURED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device has successfully configured a stream. &lt; This event follows the <a href="04689.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a> if the upper layer has accepted it. &lt; This event is not generated if stream configuration was initiated by the local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04696.html">AVDTP_EVT_STREAM_OPENED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device has successfully opened a stream. &lt; This event follows the <a href="04683.html">AVDTP_EVT_OPEN_STREAM_REQUESTED</a> if the upper layer has accepted it. &lt; This event is not generated if stream opening was initiated by the local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04697.html">AVDTP_EVT_STREAM_RECONFIGURE_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;change stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04698.html">AVDTP_EVT_STREAM_RECONFIGURED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device has successfully reconfigured a stream. &lt; This event follows the <a href="04684.html">AVDTP_EVT_RECONFIGURE_STREAM_REQUESTED</a> if the upper layer has accepted it. &lt; This event is not generated if stream reconfiguration was initiated by the local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04699.html">AVDTP_EVT_STREAM_SECURITY_CONTROL_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;exchange content protection control data&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04700.html">AVDTP_EVT_STREAM_STARTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device has successfully started a stream. &lt; This event follows the <a href="04691.html">AVDTP_EVT_START_STREAM_REQUESTED</a> if the upper layer has accepted it. &lt; This event is not generated if stream starting was initiated by the local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04701.html">AVDTP_EVT_STREAM_SUSPENDED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device has successfully suspended a stream. &lt; This event follows the <a href="04703.html">AVDTP_EVT_SUSPEND_STREAM_REQUESTED</a> if the upper layer has accepted it. &lt; This event is not generated if stream suspension was initiated by the local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04702.html">AVDTP_EVT_SUSPEND_STREAM_COMPLETED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received a response (either positive or negative) to a &quot;suspend stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04703.html">AVDTP_EVT_SUSPEND_STREAM_REQUESTED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; This event is generated when a local device received &quot;suspend stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04704.html">AVDTP_MANAGER_FLAG_SENDING_MEDIA_PACKET</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_MANAGER_FLAG_SENDING_MEDIA_PACKET.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04705.html">AVDTP_MANAGER_STATE_CONNECTING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_MANAGER_STATE_CONNECTING.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04706.html">AVDTP_MANAGER_STATE_IDLE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_MANAGER_STATE_IDLE.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04711.html">AVDTP_MAX_STREAM_TRANSPORT_SESSION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_MAX_STREAM_TRANSPORT_SESSION.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04715.html">AVDTP_MEDIA_TYPE_AUDIO</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Audio.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04716.html">AVDTP_MEDIA_TYPE_MULTIMEDIA</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Both Audio &amp; Video.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04717.html">AVDTP_MEDIA_TYPE_VIDEO</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Video.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04719.html">AVDTP_SCMS_T_CP_BIT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_SCMS_T_CP_BIT.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04720.html">AVDTP_SCMS_T_L_BIT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_SCMS_T_L_BIT.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04721.html">AVDTP_SEP_CAPABILITY_FLAG_CONTENT_PROTECTION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Content Prortection. A SEP is capable of transferring content protection packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04722.html">AVDTP_SEP_CAPABILITY_FLAG_DELAY_REPORTING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Delat reporitng.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04723.html">AVDTP_SEP_CAPABILITY_FLAG_HEADER_COMPRESSION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Header Compression. A SEP can use header compression for transferring Media or Recovery packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04724.html">AVDTP_SEP_CAPABILITY_FLAG_MEDIA_CODEC</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Media Codec. Defines which codec a SEP supports. A SEP can support only one codec.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04725.html">AVDTP_SEP_CAPABILITY_FLAG_MEDIA_TRANSPORT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Media. A SEP is capable of transferring media (audio, video or both) packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04726.html">AVDTP_SEP_CAPABILITY_FLAG_MULTIPLEXING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Multiplexing. Multiple transport sessions, belonging to the same or to a different stream, can share a common transport (L2CAP) channel.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04727.html">AVDTP_SEP_CAPABILITY_FLAG_RECOVERY</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Recovery. A SEP is capable of transferring recovery packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04728.html">AVDTP_SEP_CAPABILITY_FLAG_REPORTING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Reporting. A SEP is capable of transferring reporting packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04729.html">AVDTP_SEP_SERVICE_CAPABILITY_CONTENT_PROTECTION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Content Prortection. A SEP is capable of transferring content protection packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04730.html">AVDTP_SEP_SERVICE_CAPABILITY_DELAY_REPORTING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Delay Reporting.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04731.html">AVDTP_SEP_SERVICE_CAPABILITY_HEADER_COMPRESSION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Header Compression. A SEP can use header compression for transferring Media or Recovery packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04732.html">AVDTP_SEP_SERVICE_CAPABILITY_MEDIA_CODEC</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Media Codec. Defines which codec a SEP supports. A SEP can support only one codec.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04733.html">AVDTP_SEP_SERVICE_CAPABILITY_MEDIA_TRANSPORT</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Media. A SEP is capable of transferring media (audio, video or both) packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04734.html">AVDTP_SEP_SERVICE_CAPABILITY_MULTIPLEXING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Multiplexing. Multiple transport sessions, belonging to the same or to a different stream, can share a common transport (L2CAP) channel.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04735.html">AVDTP_SEP_SERVICE_CAPABILITY_RECOVERY</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Recovery. A SEP is capable of transferring recovery packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04736.html">AVDTP_SEP_SERVICE_CAPABILITY_REPORTING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Reporting. A SEP is capable of transferring reporting packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04737.html">AVDTP_SEP_STATE_FREE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_SEP_STATE_FREE.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04738.html">AVDTP_SEP_STATE_IDLE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_SEP_STATE_IDLE.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04739.html">AVDTP_SEP_TYPE_SINK</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Sink (usually a device like a headphones or BMW).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04740.html">AVDTP_SEP_TYPE_SOURCE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Source (usually a device like a phone, desktop or laptop).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04741.html">AVDTP_STREAM_CLOSING_TRANSPORT_CHANNELS</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream is closing transport channels.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04742.html">AVDTP_STREAM_FLAG_LISTENING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_STREAM_FLAG_LISTENING.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04743.html">AVDTP_STREAM_OPENING_TRANSPORT_CHANNELS</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream is opening transport channels.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04744.html">AVDTP_STREAM_STATE_ABORTING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream is aborting. This means that all transport channels associated with the stream are being closed. &lt; After they have been closed the stream goes to <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a> state.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04745.html">AVDTP_STREAM_STATE_CLOSING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream is closing. This means that all transport channels associated with the stream are being closed. &lt; After they have been closed the stream goes to <a href="04747.html">AVDTP_STREAM_STATE_IDLE</a> state.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04746.html">AVDTP_STREAM_STATE_CONFIGURED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream has been configured.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04747.html">AVDTP_STREAM_STATE_IDLE</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream is idle. This can mean two things. The stream specified by strm_handle does not exist &lt; or the stream is closed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04748.html">AVDTP_STREAM_STATE_OPEN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream has been opened.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04749.html">AVDTP_STREAM_STATE_STREAMING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; The stream has been started. Depending on the local SEP type (source or sink) it means &lt; that the stream can send or receive media packets.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04754.html">AVDTP_TRANSPORT_CHANNEL_TYPE_DEDICATED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_TRANSPORT_CHANNEL_TYPE_DEDICATED.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04755.html">AVDTP_TRANSPORT_CHANNEL_TYPE_SHARED</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_TRANSPORT_CHANNEL_TYPE_SHARED.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04756.html">AVDTP_TRANSPORT_SESSION_TYPE_MEDIA</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Media (audio or video).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04757.html">AVDTP_TRANSPORT_SESSION_TYPE_RECOVERY</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Recovery (currently not supported).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04758.html">AVDTP_TRANSPORT_SESSION_TYPE_REPORTING</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+&lt; Reporting (currently not supported).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05249.html">bt_avdtp_connect</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Connect to a remote device. ingroup avdtp<br>details This function opens a control channel connection to a remote device specified by the p remote_addr. If connection cannot be initiated for some reason, for example, there is not enough resources, it returns <a href="12128.html">FALSE</a> and not events are generated. Otherwise the result of an attempt to connect to the remote device is reported via the AVDTP callback. The events generated will either be <a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a> or AVDTP_EVT_CTRL_CHANNEL_CONNECTION_FAILED.<br>param mgr AVDTP manager. param remote_addr The address of a remote device.<br>return li c <a href="27119.html">TRUE</a> if connection establishment has been started. li c <a href="12128.html">FALSE</a>... <a href="05249.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05250.html">bt_avdtp_connect_ex</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Connect to a remote device. ingroup avdtp<br>details This function opens a control channel connection to a remote device specified by the p remote_addr. If connection cannot be initiated for some reason, for example, there is not enough resources, it returns <a href="12128.html">FALSE</a> and not events are generated. Otherwise the result of an attempt to connect to the remote device is reported via the AVDTP callback. The events generated will either be <a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a> or AVDTP_EVT_CTRL_CHANNEL_CONNECTION_FAILED.<br>param mgr AVDTP manager. param remote_addr The address of a remote device. param acl_config ACL link configuration. This can be a combination of the following... <a href="05250.html">more</a>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="53747275637475726573"></a><div class="Element14">
+Structures</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05242.html">_bt_avdtp_codec_op_decode_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+There is currently no use for this structure.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05243.html">_bt_avdtp_codec_op_encode_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+There is currently no use for this structure.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05245.html">_bt_avdtp_codec_op_parse_config_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04617.html">AVDTP_CODEC_OPCODE_PARSE_CONFIG</a> operation. ingroup avdtp<br>details A pointer to this structure is passed to the codec handler as a valid member of the <a href="05244.html">bt_avdtp_codec_op_param_t</a> union - bt_avdtp_codec_op_param_t::parse - when ADVDTP needs to parse codec's capabilities/configuration received from the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05246.html">_bt_avdtp_codec_op_parse_packet_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+There is currently no use for this structure.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05247.html">_bt_avdtp_codec_op_serialize_config_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04619.html">AVDTP_CODEC_OPCODE_SERIALIZE_CONFIG</a> operation. ingroup avdtp<br>details A pointer to this structure is passed to the codec handler as a valid member of the <a href="05244.html">bt_avdtp_codec_op_param_t</a> union - bt_avdtp_codec_op_param_t::serialize - when ADVDTP needs to serialize codec's capabilities/configuration for sending to the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05248.html">_bt_avdtp_codec_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Codec handler description. ingroup avdtp<br>details This structure is used to register a codec handler for parsing/serializing codec capabilities and configuration. See description of the ::<a href="05316.html">bt_avdtp_register_codec</a> for more details.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05259.html">_bt_avdtp_evt_abort_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04667.html">AVDTP_EVT_ABORT_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::abort_stream_requested - when AVDTP received a &quot;abort stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05260.html">_bt_avdtp_evt_close_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04668.html">AVDTP_EVT_CLOSE_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::close_stream_completed - when AVDTP received a response to a &quot;close stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05261.html">_bt_avdtp_evt_close_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04669.html">AVDTP_EVT_CLOSE_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::close_stream_requested - when AVDTP received a &quot;close stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05262.html">_bt_avdtp_evt_ctrl_channel_connected_s</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::ctrl_channel_connected - when a control channel between two devices has been established.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05263.html">_bt_avdtp_evt_ctrl_channel_disconnected_s</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04671.html">AVDTP_EVT_CTRL_CHANNEL_DISCONNECTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::ctrl_channel_disconnected - when a control channel between two devices has been terminated.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05264.html">_bt_avdtp_evt_ctrl_connection_failed_s</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04672.html">AVDTP_EVT_CTRL_CONNECTION_FAILED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::ctrl_connection_failed - when a control channel between two devices has been established.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05265.html">_bt_avdtp_evt_delay_report_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04673.html">AVDTP_EVT_DELAYREPORT_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::delay_report_completed - when AVDTP received a response to a &quot;delay report&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05266.html">_bt_avdtp_evt_discover_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04674.html">AVDTP_EVT_DISCOVER_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::discover_completed - when AVDTP completed discovering SEPs available on a remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05267.html">_bt_avdtp_evt_get_sep_capabilities_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::get_sep_capabilities_completed - when AVDTP received a response to a &quot;get SEP capabilities&quot; request. <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a> only informs the status of the request - success or failure. In case of success another event - <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a> - is generate with a pointer to a structure that holds actual SEP's capabilities.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05268.html">_bt_avdtp_evt_get_stream_configuration_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::get_stream_configuration_completed - when AVDTP received a response to a &quot;get stream configuration&quot; request. <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a> only informs the status of the request - success or failure. In case of success another event - <a href="04694.html">AVDTP_EVT_STREAM_CONFIGURATION_RECEIVED</a> - is generate with a pointer to a structure that hold actual stream's configuration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05269.html">_bt_avdtp_evt_media_packet_received_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04678.html">AVDTP_EVT_MEDIA_PACKET_RECEIVED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::media_packet_received - when ADVDTP received a media packet from the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05270.html">_bt_avdtp_evt_media_packet_send_failed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04679.html">AVDTP_EVT_MEDIA_PACKET_SEND_FAILED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::media_packet_send_failed - when ADVDTP failed to send a media packet to the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05271.html">_bt_avdtp_evt_media_packet_sent_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04680.html">AVDTP_EVT_MEDIA_PACKET_SENT</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::media_packet_sent - when ADVDTP sent a media packet to the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05272.html">_bt_avdtp_evt_open_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04682.html">AVDTP_EVT_OPEN_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::open_stream_completed - when AVDTP received a response to a &quot;open stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05273.html">_bt_avdtp_evt_open_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04683.html">AVDTP_EVT_OPEN_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::open_stream_requested - when AVDTP received a &quot;open stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05274.html">_bt_avdtp_evt_reconfigure_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04684.html">AVDTP_EVT_RECONFIGURE_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::reconfigure_stream_requested - when AVDTP received a &quot;change stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05275.html">_bt_avdtp_evt_sep_capabilities_received_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a> and <a href="04694.html">AVDTP_EVT_STREAM_CONFIGURATION_RECEIVED</a> events ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::sep_capabilities_received - when AVDTP received a positive response to a &quot;get SEP capabilities&quot; or &quot;get stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05276.html">_bt_avdtp_evt_sep_info_received_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::sep_info_received - when AVDTP received positive result to a &quot;discover&quot; request. <a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a> is generated for every SEP received from the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05277.html">_bt_avdtp_evt_set_stream_configuration_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::set_stream_configuration_completed - when AVDTP received a response to a &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05278.html">_bt_avdtp_evt_set_stream_configuration_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04689.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::set_stream_configuration_requested - when AVDTP received a &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05279.html">_bt_avdtp_evt_set_stream_configuration_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04687.html">AVDTP_EVT_SET_STREAM_CONFIGURATION</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::set_stream_configuration - when AVDTP received a &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05280.html">_bt_avdtp_evt_start_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04690.html">AVDTP_EVT_START_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::start_stream_completed - when AVDTP received a response to a &quot;start stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05281.html">_bt_avdtp_evt_start_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04691.html">AVDTP_EVT_START_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::start_stream_requested - when AVDTP received a &quot;start stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05282.html">_bt_avdtp_evt_stream_aborted_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04692.html">AVDTP_EVT_STREAM_ABORTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_closed - to notify the AVDTP consumer that a stream has been successfully aborted.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05283.html">_bt_avdtp_evt_stream_closed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04693.html">AVDTP_EVT_STREAM_CLOSED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_closed - to notify the AVDTP consumer that a stream has been successfully closed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05284.html">_bt_avdtp_evt_stream_configured_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04695.html">AVDTP_EVT_STREAM_CONFIGURED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_configured - to notify the AVDTP consumer that a stream configuration has been successfully completed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05285.html">_bt_avdtp_evt_stream_opened_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04696.html">AVDTP_EVT_STREAM_OPENED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_opened - to notify the AVDTP consumer that a stream has been successfully opened.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05286.html">_bt_avdtp_evt_stream_reconfigure_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04697.html">AVDTP_EVT_STREAM_RECONFIGURE_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_reconfigure_completed - when AVDTP received a response to a &quot;change stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05287.html">_bt_avdtp_evt_stream_reconfigured_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04698.html">AVDTP_EVT_STREAM_RECONFIGURED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_reconfigured - to notify the AVDTP consumer that a stream configuration has been successfully changed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05288.html">_bt_avdtp_evt_stream_security_control_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04699.html">AVDTP_EVT_STREAM_SECURITY_CONTROL_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::security_control_completed - when AVDTP received a response to a &quot;exchange content protection control data&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05289.html">_bt_avdtp_evt_stream_started_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04700.html">AVDTP_EVT_STREAM_STARTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_started - to notify the AVDTP consumer that a stream has been successfully started.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05290.html">_bt_avdtp_evt_stream_suspended_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04701.html">AVDTP_EVT_STREAM_SUSPENDED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_suspended - to notify the AVDTP consumer that a stream has been successfully suspended.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05291.html">_bt_avdtp_evt_suspend_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04702.html">AVDTP_EVT_SUSPEND_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::suspend_stream_completed - when AVDTP received a response to a &quot;suspend stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05292.html">_bt_avdtp_evt_suspend_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04703.html">AVDTP_EVT_SUSPEND_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::suspend_stream_requested - when AVDTP received a &quot;suspend stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05312.html">_bt_avdtp_mgr_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief AVDTP manager. ingroup avdtp<br>details A structure that glues all pieces together. There is only one instance of this structure allocated by dotstack. A pointer to the instance can be get with c <a href="05299.html">bt_avdtp_get_mgr</a>().&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05322.html">_bt_avdtp_sep_capabilities_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief SEP capabilities ingroup avdtp<br>details This structure is used to hold SEP capabilities.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="00671.html">_bt_avdtp_sep_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief SEP description ingroup avdtp<br>details This structure is used to hold information about SEPs available on a local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05328.html">_bt_avdtp_stream_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Stream description ingroup avdtp<br>details This structure is used to hold information about streams available on a local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05330.html">_bt_avdtp_transport_channel_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Transport channel description ingroup avdtp<br>details This structure is used to hold information about transport channels available on a local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05332.html">_bt_avdtp_transport_session_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Transport session description ingroup avdtp<br>details This structure is used to hold information about transport sessions available on a local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="00871.html">_bt_cp_header_s</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is record _bt_cp_header_s.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="01407.html">_bt_media_packet_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Media packet buffer ingroup avdtp<br>details This structure is used to receive and send media packet from/to the remote device. See more information about usage of this structure in descriptions of ::<a href="05236.html">bt_avdtp_add_media_rx_buffer</a> and ::<a href="05237.html">bt_avdtp_add_media_tx_buffer</a>.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05242.html">bt_avdtp_codec_op_decode_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+There is currently no use for this structure.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05243.html">bt_avdtp_codec_op_encode_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+There is currently no use for this structure.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05245.html">bt_avdtp_codec_op_parse_config_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04617.html">AVDTP_CODEC_OPCODE_PARSE_CONFIG</a> operation. ingroup avdtp<br>details A pointer to this structure is passed to the codec handler as a valid member of the <a href="05244.html">bt_avdtp_codec_op_param_t</a> union - bt_avdtp_codec_op_param_t::parse - when ADVDTP needs to parse codec's capabilities/configuration received from the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05246.html">bt_avdtp_codec_op_parse_packet_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+There is currently no use for this structure.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05247.html">bt_avdtp_codec_op_serialize_config_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04619.html">AVDTP_CODEC_OPCODE_SERIALIZE_CONFIG</a> operation. ingroup avdtp<br>details A pointer to this structure is passed to the codec handler as a valid member of the <a href="05244.html">bt_avdtp_codec_op_param_t</a> union - bt_avdtp_codec_op_param_t::serialize - when ADVDTP needs to serialize codec's capabilities/configuration for sending to the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05248.html">bt_avdtp_codec_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Codec handler description. ingroup avdtp<br>details This structure is used to register a codec handler for parsing/serializing codec capabilities and configuration. See description of the ::<a href="05316.html">bt_avdtp_register_codec</a> for more details.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05259.html">bt_avdtp_evt_abort_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04667.html">AVDTP_EVT_ABORT_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::abort_stream_requested - when AVDTP received a &quot;abort stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05260.html">bt_avdtp_evt_close_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04668.html">AVDTP_EVT_CLOSE_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::close_stream_completed - when AVDTP received a response to a &quot;close stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05261.html">bt_avdtp_evt_close_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04669.html">AVDTP_EVT_CLOSE_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::close_stream_requested - when AVDTP received a &quot;close stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05262.html">bt_avdtp_evt_ctrl_channel_connected_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::ctrl_channel_connected - when a control channel between two devices has been established.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05263.html">bt_avdtp_evt_ctrl_channel_disconnected_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04671.html">AVDTP_EVT_CTRL_CHANNEL_DISCONNECTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::ctrl_channel_disconnected - when a control channel between two devices has been terminated.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05264.html">bt_avdtp_evt_ctrl_connection_failed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04672.html">AVDTP_EVT_CTRL_CONNECTION_FAILED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::ctrl_connection_failed - when a control channel between two devices has been established.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05265.html">bt_avdtp_evt_delay_report_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04673.html">AVDTP_EVT_DELAYREPORT_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::delay_report_completed - when AVDTP received a response to a &quot;delay report&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05266.html">bt_avdtp_evt_discover_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04674.html">AVDTP_EVT_DISCOVER_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::discover_completed - when AVDTP completed discovering SEPs available on a remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05267.html">bt_avdtp_evt_get_sep_capabilities_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::get_sep_capabilities_completed - when AVDTP received a response to a &quot;get SEP capabilities&quot; request. <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a> only informs the status of the request - success or failure. In case of success another event - <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a> - is generate with a pointer to a structure that holds actual SEP's capabilities.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05268.html">bt_avdtp_evt_get_stream_configuration_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::get_stream_configuration_completed - when AVDTP received a response to a &quot;get stream configuration&quot; request. <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a> only informs the status of the request - success or failure. In case of success another event - <a href="04694.html">AVDTP_EVT_STREAM_CONFIGURATION_RECEIVED</a> - is generate with a pointer to a structure that hold actual stream's configuration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05269.html">bt_avdtp_evt_media_packet_received_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04678.html">AVDTP_EVT_MEDIA_PACKET_RECEIVED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::media_packet_received - when ADVDTP received a media packet from the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05270.html">bt_avdtp_evt_media_packet_send_failed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04679.html">AVDTP_EVT_MEDIA_PACKET_SEND_FAILED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::media_packet_send_failed - when ADVDTP failed to send a media packet to the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05271.html">bt_avdtp_evt_media_packet_sent_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04680.html">AVDTP_EVT_MEDIA_PACKET_SENT</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::media_packet_sent - when ADVDTP sent a media packet to the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05272.html">bt_avdtp_evt_open_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04682.html">AVDTP_EVT_OPEN_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::open_stream_completed - when AVDTP received a response to a &quot;open stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05273.html">bt_avdtp_evt_open_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04683.html">AVDTP_EVT_OPEN_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::open_stream_requested - when AVDTP received a &quot;open stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05274.html">bt_avdtp_evt_reconfigure_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04684.html">AVDTP_EVT_RECONFIGURE_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::reconfigure_stream_requested - when AVDTP received a &quot;change stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05275.html">bt_avdtp_evt_sep_capabilities_received_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04685.html">AVDTP_EVT_SEP_CAPABILITIES_RECEIVED</a> and <a href="04694.html">AVDTP_EVT_STREAM_CONFIGURATION_RECEIVED</a> events ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::sep_capabilities_received - when AVDTP received a positive response to a &quot;get SEP capabilities&quot; or &quot;get stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05276.html">bt_avdtp_evt_sep_info_received_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::sep_info_received - when AVDTP received positive result to a &quot;discover&quot; request. <a href="04686.html">AVDTP_EVT_SEP_INFO_RECEIVED</a> is generated for every SEP received from the remote device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05277.html">bt_avdtp_evt_set_stream_configuration_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04688.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::set_stream_configuration_completed - when AVDTP received a response to a &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05278.html">bt_avdtp_evt_set_stream_configuration_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04689.html">AVDTP_EVT_SET_STREAM_CONFIGURATION_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::set_stream_configuration_requested - when AVDTP received a &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05279.html">bt_avdtp_evt_set_stream_configuration_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04687.html">AVDTP_EVT_SET_STREAM_CONFIGURATION</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::set_stream_configuration - when AVDTP received a &quot;set stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05280.html">bt_avdtp_evt_start_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04690.html">AVDTP_EVT_START_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::start_stream_completed - when AVDTP received a response to a &quot;start stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05281.html">bt_avdtp_evt_start_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04691.html">AVDTP_EVT_START_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::start_stream_requested - when AVDTP received a &quot;start stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05282.html">bt_avdtp_evt_stream_aborted_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04692.html">AVDTP_EVT_STREAM_ABORTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_closed - to notify the AVDTP consumer that a stream has been successfully aborted.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05283.html">bt_avdtp_evt_stream_closed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04693.html">AVDTP_EVT_STREAM_CLOSED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_closed - to notify the AVDTP consumer that a stream has been successfully closed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05284.html">bt_avdtp_evt_stream_configured_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04695.html">AVDTP_EVT_STREAM_CONFIGURED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_configured - to notify the AVDTP consumer that a stream configuration has been successfully completed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05285.html">bt_avdtp_evt_stream_opened_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04696.html">AVDTP_EVT_STREAM_OPENED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_opened - to notify the AVDTP consumer that a stream has been successfully opened.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05286.html">bt_avdtp_evt_stream_reconfigure_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04697.html">AVDTP_EVT_STREAM_RECONFIGURE_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_reconfigure_completed - when AVDTP received a response to a &quot;change stream configuration&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05287.html">bt_avdtp_evt_stream_reconfigured_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04698.html">AVDTP_EVT_STREAM_RECONFIGURED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_reconfigured - to notify the AVDTP consumer that a stream configuration has been successfully changed.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05288.html">bt_avdtp_evt_stream_security_control_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04699.html">AVDTP_EVT_STREAM_SECURITY_CONTROL_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::security_control_completed - when AVDTP received a response to a &quot;exchange content protection control data&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05289.html">bt_avdtp_evt_stream_started_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04700.html">AVDTP_EVT_STREAM_STARTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_started - to notify the AVDTP consumer that a stream has been successfully started.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05290.html">bt_avdtp_evt_stream_suspended_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04701.html">AVDTP_EVT_STREAM_SUSPENDED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::stream_suspended - to notify the AVDTP consumer that a stream has been successfully suspended.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05291.html">bt_avdtp_evt_suspend_stream_completed_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04702.html">AVDTP_EVT_SUSPEND_STREAM_COMPLETED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::suspend_stream_completed - when AVDTP received a response to a &quot;suspend stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05292.html">bt_avdtp_evt_suspend_stream_requested_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to <a href="04703.html">AVDTP_EVT_SUSPEND_STREAM_REQUESTED</a> event ingroup avdtp<br>details A pointer to this structure is passed to the AVDTP application callback as a valid member of the <a href="05258.html">bt_avdtp_event_t</a> union - bt_avdtp_event_t::suspend_stream_requested - when AVDTP received a &quot;suspend stream&quot; request.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05312.html">bt_avdtp_mgr_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief AVDTP manager. ingroup avdtp<br>details A structure that glues all pieces together. There is only one instance of this structure allocated by dotstack. A pointer to the instance can be get with c <a href="05299.html">bt_avdtp_get_mgr</a>().&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05322.html">bt_avdtp_sep_capabilities_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief SEP capabilities ingroup avdtp<br>details This structure is used to hold SEP capabilities.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05328.html">bt_avdtp_stream_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Stream description ingroup avdtp<br>details This structure is used to hold information about streams available on a local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05330.html">bt_avdtp_transport_channel_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Transport channel description ingroup avdtp<br>details This structure is used to hold information about transport channels available on a local device.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05332.html">bt_avdtp_transport_session_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Transport session description ingroup avdtp<br>details This structure is used to hold information about transport sessions available on a local device.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="5479706573"></a><div class="Element14">
+Types</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05241.html">bt_avdtp_codec_handler_fp</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Codec handler. ingroup avdtp<br>details AVDTP in theory can support any type of codec. Each codec uses its own format for exchanging capabilities and configuration information. In order to make out implementation do not care about these formats we use a simple way of telling AVDTP how to parse and serialize codec's configuration. The consumer of AVDTP (e.g. A2DP) for each codec it wishes to support has to register a callback function (one per codec type). That callback has to perform two function. The first one is to read the configuration received from the remote device and store it... <a href="05241.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05244.html">bt_avdtp_codec_op_param_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is type bt_avdtp_codec_op_param_t.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05311.html">bt_avdtp_mgr_callback_fp</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief AVDTP application callback. ingroup avdtp<br>details In order to be notified of various events a consumer of the AVDTP layer has to register a callback function. The stack will call that function whenever a new event has been generated.<br>param mgr AVDTP manager.<br>param evt AVDTP event. The event can be one of the following values: @arg <a href="04670.html">AVDTP_EVT_CTRL_CHANNEL_CONNECTED</a>: Control channel connected. @arg <a href="04671.html">AVDTP_EVT_CTRL_CHANNEL_DISCONNECTED</a>: Control channel disconnected. @arg <a href="04672.html">AVDTP_EVT_CTRL_CONNECTION_FAILED</a>: Control channel connection failed (generated only if control connection has been initiated by the local device). @arg <a href="04674.html">AVDTP_EVT_DISCOVER_COMPLETED</a>: Local device completed discovering remote SEPs. @arg <a href="04675.html">AVDTP_EVT_GET_SEP_CAPABILITIES_COMPLETED</a>:... <a href="05311.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05323.html">bt_avdtp_sep_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is type bt_avdtp_sep_t.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05599.html">bt_cp_header_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is type bt_cp_header_t.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="06076.html">bt_media_packet_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is type bt_media_packet_t.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="556E696F6E73"></a><div class="Element14">
+Unions</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="00424.html">_bt_avdtp_codec_op_param_u</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to a codec handler. ingroup avdtp<br>details This union is used to pass operation specific data to a codec handler. Which member of the union points to a valid structure depends on the operation.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05258.html">_bt_avdtp_event_u</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to an application callback. ingroup avdtp<br>details This union is used to pass event specific data to the AVDTP consumer. Which member of the union points to a valid structure depends on the event reported to the consumer. In general, each event has a corresponding member in the union.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="05258.html">bt_avdtp_event_t</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Parameter to an application callback. ingroup avdtp<br>details This union is used to pass event specific data to the AVDTP consumer. Which member of the union points to a valid structure depends on the event reported to the consumer. In general, each event has a corresponding member in the union.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06298.html">Files</a> &gt; <a href="04599.html">avdtp.h</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: avdtp.h Topic Title: avdtp.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

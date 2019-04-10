@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Functionality</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="28686.html">WINC1500 Wi-Fi Driver Ethernet Mode Library</a> &gt; <a href="08999.html">Configuring the Library</a> &gt; <a href="08986.html">Sample Functionality</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08999.html">Previous</a> | <a href="08999.html">Up</a> | <a href="08998.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 Sample Functionality Topic Title: Sample Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Sample Functionality</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following code provides an example of Wi-Fi Driver configuration. (refer to <span class="Element146">system.<a href="07141.html">config.h</a></span>) </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01226');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01226"><pre class="Element12"><i><span style="color: #008000">/*** SPI Driver Configuration ***/</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_NUMBER_OF_MODULES        4
+
+<i><span style="color: #008000">/*** Driver Compilation and static configuration options. ***/</span></i>
+<i><span style="color: #008000">/*** Select SPI compilation units.***/</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_POLLED           0
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_ISR              1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_MASTER           1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_SLAVE            0
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_RM               1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_EBM              0
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_8BIT             1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_16BIT            0
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_32BIT            0
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_DMA              1
+
+<i><span style="color: #008000">/*** SPI Driver Static Allocation Options ***/</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_INSTANCES_NUMBER         1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_CLIENTS_NUMBER           1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_ELEMENTS_PER_QUEUE       10
+
+<i><span style="color: #008000">/*** SPI Driver DMA Options ***/</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_DMA_TXFER_SIZE            512
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_DMA_DUMMY_BUFFER_SIZE     512
+
+<i><span style="color: #008000">/* SPI Driver Instance 0 Configuration */</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_SPI_ID_IDX0                 SPI_ID_1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_TASK_MODE_IDX0              DRV_SPI_TASK_MODE_ISR
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_SPI_MODE_IDX0               DRV_SPI_MODE_MASTER
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_ALLOW_IDLE_RUN_IDX0         <strong><span style="color: #000080">false</span></strong>
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_SPI_PROTOCOL_TYPE_IDX0      DRV_SPI_PROTOCOL_TYPE_STANDARD
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_COMM_WIDTH_IDX0             SPI_COMMUNICATION_WIDTH_8BITS
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_SPI_CLOCK_IDX0              CLK_BUS_PERIPHERAL_2
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_BAUD_RATE_IDX0              2000000
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_BUFFER_TYPE_IDX0            DRV_SPI_BUFFER_TYPE_STANDARD
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_CLOCK_MODE_IDX0             DRV_SPI_CLOCK_MODE_IDLE_LOW_EDGE_FALL
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_INPUT_PHASE_IDX0            SPI_INPUT_SAMPLING_PHASE_AT_END
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_TRANSMIT_DUMMY_BYTE_VALUE_IDX0      0x00
+
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_TX_INT_SOURCE_IDX0          INT_SOURCE_SPI_1_TRANSMIT
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_RX_INT_SOURCE_IDX0          INT_SOURCE_SPI_1_RECEIVE
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_ERROR_INT_SOURCE_IDX0       INT_SOURCE_SPI_1_ERROR
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_INT_VECTOR_IDX0             INT_VECTOR_SPI1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_INT_PRIORITY_IDX0           INT_PRIORITY_LEVEL1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_INT_SUB_PRIORITY_IDX0       INT_SUBPRIORITY_LEVEL0
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_QUEUE_SIZE_IDX0             10
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_RESERVED_JOB_IDX0           1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_TX_DMA_CHANNEL_IDX0         DMA_CHANNEL_1
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_TX_DMA_THRESHOLD_IDX0       16
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_RX_DMA_CHANNEL_IDX0         DMA_CHANNEL_0
+<strong><span style="color: #000080">#define</span></strong> DRV_SPI_RX_DMA_THRESHOLD_IDX0       16
+
+<i><span style="color: #008000">/*** Timer Driver Configuration ***/</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_INTERRUPT_MODE             <strong><span style="color: #000080">true</span></strong>
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_INSTANCES_NUMBER           1
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_CLIENTS_NUMBER             1
+
+<i><span style="color: #008000">/*** Timer Driver 0 Configuration ***/</span></i>
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_PERIPHERAL_ID_IDX0          TMR_ID_2
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_INTERRUPT_SOURCE_IDX0       INT_SOURCE_TIMER_2
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_INTERRUPT_VECTOR_IDX0       INT_VECTOR_T2
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_ISR_VECTOR_IDX0             _TIMER_2_VECTOR
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_INTERRUPT_PRIORITY_IDX0     INT_PRIORITY_LEVEL4
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_INTERRUPT_SUB_PRIORITY_IDX0 INT_SUBPRIORITY_LEVEL0
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_CLOCK_SOURCE_IDX0           DRV_TMR_CLKSOURCE_INTERNAL
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_PRESCALE_IDX0               TMR_PRESCALE_VALUE_256
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_OPERATION_MODE_IDX0         DRV_TMR_OPERATION_MODE_16_BIT
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_ASYNC_WRITE_ENABLE_IDX0     <strong><span style="color: #000080">false</span></strong>
+<strong><span style="color: #000080">#define</span></strong> DRV_TMR_POWER_STATE_IDX0            SYS_MODULE_POWER_RUN_FULL
+
+ <i><span style="color: #008000">/*** Wi-Fi Driver Configuration ***/</span></i>
+<strong><span style="color: #000080">#define</span></strong> WINC1500_INT_SOURCE INT_SOURCE_CHANGE_NOTICE
+<strong><span style="color: #000080">#define</span></strong> WINC1500_INT_VECTOR INT_VECTOR_CN
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_SPI_INDEX 0
+<strong><span style="color: #000080">#define</span></strong> WDRV_SPI_INSTANCE sysObj.spiObjectIdx0
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_USE_SPI_DMA
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_NVM_SPACE_ENABLE
+<strong><span style="color: #000080">#define</span></strong> WDRV_NVM_SPACE_ADDR (48 * 1024)
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_BOARD_TYPE WDRV_BD_TYPE_MX_ESK
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_EXT_RTOS_TASK_SIZE 2048u
+<strong><span style="color: #000080">#define</span></strong> WDRV_EXT_RTOS_TASK_PRIORITY 2u
+
+<i><span style="color: #008000">// I/O mappings for general control pins, including CHIP_EN, IRQN, RESET_N and SPI_SSN.</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_CHIP_EN_PORT_CHANNEL   PORT_CHANNEL_F
+<strong><span style="color: #000080">#define</span></strong> WDRV_CHIP_EN_BIT_POS        1
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_IRQN_PORT_CHANNEL      PORT_CHANNEL_G
+<strong><span style="color: #000080">#define</span></strong> WDRV_IRQN_BIT_POS           7
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_RESET_N_PORT_CHANNEL   PORT_CHANNEL_F
+<strong><span style="color: #000080">#define</span></strong> WDRV_RESET_N_BIT_POS        0
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_SPI_SSN_PORT_CHANNEL   PORT_CHANNEL_B
+<strong><span style="color: #000080">#define</span></strong> WDRV_SPI_SSN_BIT_POS        2
+
+<strong><span style="color: #000080">#define</span></strong> WINC1500_ON_PIC32MX_ESK
+
+<i><span style="color: #008000">// On PIC32MX ESK, when CN9 (Pin G7) is used as external interrupt,</span></i>
+<i><span style="color: #008000">// it is sometimes better to use another GPIO (Pin E0) to read CN9's value.</span></i>
+<i><span style="color: #008000">// In this case, a jumper wire is needed to connect Pin E0 and Pin G7.</span></i>
+<i><span style="color: #008000">//#define WDRV_VERIFY_IRQN_BY_ANOTHER_GPIO</span></i>
+<strong><span style="color: #000080">#if</span></strong> defined(WDRV_VERIFY_IRQN_BY_ANOTHER_GPIO)
+<i><span style="color: #008000">// Use Pin E0. Please also make sure that Pin E0 and Pin G7 are connected (by a jumper wire).</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_IRQN_PORT_CHANNEL_READ     PORT_CHANNEL_E
+<strong><span style="color: #000080">#define</span></strong> WDRV_IRQN_BIT_POS_READ          0
+<strong><span style="color: #000080">#else</span></strong>
+<i><span style="color: #008000">// Still directly read Pin G7's value.</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_IRQN_PORT_CHANNEL_READ     PORT_CHANNEL_G
+<strong><span style="color: #000080">#define</span></strong> WDRV_IRQN_BIT_POS_READ          7
+<strong><span style="color: #000080">#endif</span></strong>
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_NETWORK_TYPE WDRV_NETWORK_TYPE_INFRASTRUCTURE
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_CHANNEL 6
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_SSID &quot;MicrochipDemoApp&quot;
+
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_SECURITY_MODE WDRV_SECURITY_OPEN
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_WEP_KEYS_40 &quot;5AFB6C8E77&quot; <i><span style="color: #008000">// default WEP40 key</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_WEP_KEYS_104 &quot;90E96780C739409DA50034FCAA&quot; <i><span style="color: #008000">// default WEP104 key</span></i>
+<strong><span style="color: #000080">#define</span></strong> WDRV_DEFAULT_PSK_PHRASE &quot;Microchip 802.11 Secret PSK Password&quot; <i><span style="color: #008000">// default WPA-PSK</span></i></pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="28686.html">WINC1500 Wi-Fi Driver Ethernet Mode Library</a> &gt; <a href="08999.html">Configuring the Library</a> &gt; <a href="08986.html">Sample Functionality</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 Sample Functionality Topic Title: Sample Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,71 @@
+ifblock BSP_PIC32MZ_EF_LTS
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_PIC32MZ_EF_LTS
+
+config BSP_CONFIGURE_PIC32MZ_EF_LTS
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_24MHz		
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "24000000"
+    
+	select USE_GFX_LTS_43_480X272_RTP_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_LCC_NEEDED if BSP_GRAPHICS_NEEDED
+    
+	set BSP_PIN_71_FUNCTION_NAME to "BSP_SWITCH_SW100" 
+    set BSP_PIN_71_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_26_FUNCTION_NAME to "BSP_LED_B" 
+    set BSP_PIN_26_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_27_FUNCTION_NAME to "BSP_LED_R" 
+    set BSP_PIN_27_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_28_FUNCTION_NAME to "BSP_LED_G" 
+    set BSP_PIN_28_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_89_FUNCTION_NAME to "BSP_LCD_VSYNC" 
+    set BSP_PIN_89_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_90_FUNCTION_NAME to "BSP_LCD_HSYNC" 
+    set BSP_PIN_90_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_11_FUNCTION_NAME to "BSP_LCD_DE" 
+    set BSP_PIN_11_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_21_FUNCTION_NAME to "BSP_LCD_BACKLIGHT" 
+    set BSP_PIN_21_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_18_FUNCTION_NAME to "BSP_LCD_RESET" 
+    set BSP_PIN_18_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_59_FUNCTION_NAME to "BSP_LCD_CS" 
+    set BSP_PIN_59_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_90_FUNCTION_NAME to "BSP_USB_POWER" 
+    set BSP_PIN_90_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_11_FUNCTION_NAME to "BSP_USB_BRIDGE_RESET" 
+    set BSP_PIN_11_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_21_FUNCTION_NAME to "BSP_USB_BRIDGE_POWER_EN" 
+    set BSP_PIN_21_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_18_FUNCTION_NAME to "BSP_USB_SWITCH_SEL" 
+    set BSP_PIN_18_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_59_FUNCTION_NAME to "BSP_USB_SWITCH_EN" 
+    set BSP_PIN_59_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_68_FUNCTION_NAME to "BSP_TouchScreenChip" 
+    set BSP_PIN_68_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_70_FUNCTION_NAME to "USB_VBUS_SWITCH"
+    set BSP_PIN_70_FUNCTION_TYPE to "VBUS"
+    bool
+
+endmenu
+
+
+menu "Custom Board Configurations for PIC32MZ EF LTS Board"
+    depends on USE_BSP
+
+import PIC32MZ_EF_LTS_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32_gdb_ef_H "$HARMONY_VERSION_PATH/bsp/pic32_gdb_ef/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32_gdb_ef_C "$HARMONY_VERSION_PATH/bsp/pic32_gdb_ef/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32_gdb_ef includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif
+

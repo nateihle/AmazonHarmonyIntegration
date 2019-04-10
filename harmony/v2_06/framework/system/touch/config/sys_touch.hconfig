@@ -1,0 +1,74 @@
+menu "Touch"
+
+config USE_SYS_TOUCH_NEEDED
+    bool
+
+config USE_SYS_TOUCH_CALIBRATION_NEEDED      
+    bool
+
+config USE_SYS_TOUCH
+bool "Use Touch System Service?"
+    default n if !USE_SYS_TOUCH_NEEDED
+    default y if USE_SYS_TOUCH_NEEDED
+    select USE_DRV_TOUCH_ADC10BIT if DRV_GFX_DISPLAY_TYPE = "Truly 3.2-inch 240x320 (QVGA)" || DRV_GFX_DISPLAY_TYPE = "Powertip 4.3-inch 480x272 (WQVGA)" || DRV_GFX_DISPLAY_TYPE = "Truly 5.7-inch 640x480 (VGA)" || DRV_GFX_DISPLAY_TYPE = "Truly 7-inch 800x480 (WVGA)"
+    select USE_DRV_TOUCH_MTCH6301 if DRV_GFX_DISPLAY_TYPE = "Newhaven 4.3-inch 480x272 (WQVGA) with PCAP"
+	select USE_DRV_TOUCH_MXT336T if DRV_GFX_DISPLAY_TYPE = "Newhaven 4.3-inch 480x272 (WQVGA) with PCAP"
+    ---help---
+    IDH_HTML_Touch_System_Service_Library
+    ---endhelp---
+
+config SYS_TOUCH_SENSITIVITY_DELTA
+    int "Touch move detect delta(Higher the delta, less sensitive to movement)"
+	default 2
+	
+config USE_SYS_TOUCH_CALIBRATION
+    depends on USE_SYS_TOUCH
+    bool
+    default y if USE_SYS_TOUCH_CALIBRATION_NEEDED
+    default n    
+	
+menu "RTOS Configuration"
+    depends on USE_SYS_TOUCH
+    depends on USE_3RDPARTY_RTOS
+
+config SYS_TOUCH_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config SYS_TOUCH_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on SYS_TOUCH_RTOS = "Standalone"
+    default 1024
+
+config SYS_TOUCH_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on SYS_TOUCH_RTOS = "Standalone"
+    default 1
+
+config SYS_TOUCH_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on SYS_TOUCH_RTOS = "Standalone"
+    default y
+
+config SYS_TOUCH_RTOS_DELAY
+    int "Task Delay"
+    depends on SYS_TOUCH_RTOS = "Standalone"
+    depends on SYS_TOUCH_RTOS_USE_DELAY
+    default 1000
+
+endmenu
+
+endmenu
+
+ifblock USE_SYS_TOUCH
+
+add "<#include \"/framework/system/touch/config/sys_touch.c.ftl\">"  to list SYSTEM_INIT_C_MODULE_INITIALIZATION_DATA
+add "<#include \"/framework/system/touch/config/sys_touch_init.c.ftl\">"  to list SYSTEM_INIT_C_INITIALIZE_SYSTEM_SERVICES
+add "<#assign SYS_TOUCH_TASKS = \"TASK_CALL_NO_RTOS\"><#include \"/framework/system/touch/config/sys_touch_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_SYSTEM_TASKS
+
+file SYS_TOUCH_H "$HARMONY_VERSION_PATH/framework/system/touch/sys_touch.h" to "$PROJECT_HEADER_FILES/framework/system/touch/sys_touch.h"
+file SYS_TOUCH_C "$HARMONY_VERSION_PATH/framework/system/touch/src/sys_touch.c" to "$PROJECT_SOURCE_FILES/framework/system/touch/src/sys_touch.c"
+file SYS_TOUCH_LOCAL_H "$HARMONY_VERSION_PATH/framework/system/touch/src/sys_touch_local.h" to "$PROJECT_HEADER_FILES/framework/system/touch/src/sys_touch_local.h"
+
+endif

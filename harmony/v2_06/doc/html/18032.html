@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DMA Mode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23263.html">SQI Peripheral Library</a> &gt; <a href="18045.html">Using the Library</a> &gt; <a href="18036.html">How the Library Works</a> &gt; <a href="18027.html">Core Functionality</a> &gt; <a href="18032.html">DMA Mode</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18047.html">Previous</a> | <a href="18027.html">Up</a> | <a href="18043.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SQI DMA Mode Topic Title: DMA Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DMA Mode</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+DMA mode is used for higher throughput data transfers. In DMA mode, the SQI DMA engine controls the data transfers off-loading the host processor. However, the host processor would have to configure the buffer descriptor and some SQI control SFRs to initiate the DMA process. Once the transactions are in progress, the DMA will be in control and the host processor can get the control through the interrupts or by disabling the DMA.&nbsp;</p>
+<p class="Element10">
+The following figure shows the DMA mode software flow. </p><p class="Element10" style="text-align: center;">
+<img src="dma_mode_flow.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element630">
+<li value="1" class="Element600">Buffer descriptor is a data structure in memory containing 4 words (BD_CTRL, BD_STAT, BD_BUFADDR and BD_NXTPTR).</li>
+<li value="2" class="Element600">Base address register points to first buffer descriptor in the chain.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03341');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03341"><pre class="Element12"><i><span style="color: #008000">// Example is written to access SST26VF032 Flash device</span></i>
+<i><span style="color: #008000">// Example assumes the Flash Device is connected to Chip Select 0</span></i>
+
+<i><span style="color: #008000">//Global defines</span></i>
+<strong><span style="color: #000080">#define</span></strong> SST26VF_EQIO       0x38
+<strong><span style="color: #000080">#define</span></strong> SST26VF_HS_READ    0x0B
+<strong><span style="color: #000080">#define</span></strong> SST26VF_MODE_CODE  0x0
+<strong><span style="color: #000080">#define</span></strong> SST26VF_MODE_BYTES 0x0
+<strong><span style="color: #000080">#define</span></strong> NUMBER_OF_BDs      5
+<strong><span style="color: #000080">#define</span></strong> POLL_CON_VALUE     10
+
+{
+
+<i><span style="color: #008000">// Set up the Buffer Descriptors</span></i>
+<strong><span style="color: #000080">for</span></strong> ( i=0; i &lt;(NUMBER_OF_BDs-1); i++)
+{
+<i><span style="color: #008000">// Set up Buffer Descriptors. Handle structures as application</span></i>
+<i><span style="color: #008000">// needs.</span></i>
+
+<i><span style="color: #008000">// Configure SQI Control Fields</span></i>
+PLIB_SQI_Enable(SQI_ID_1);
+PLIB_SQI_CSOutputEnableSelect(SQI_ID_1,SQI_CS_OEN_0);
+PLIB_SQI_DataOutputEnableSelect(SQI_ID_1,SQI_DATA_OEN_2);
+PLIB_SQI_BurstEnable(SQI_ID_1);
+PLIB_SQI_SerialModeSet(SQI_ID_1);
+PLIB_SQI_TransferModeSet(SQI_ID_1,SQI_XFER_MODE_PIO);
+
+<i><span style="color: #008000">// Configure the SQI Transfer Clock</span></i>
+PLIB_SQI_ClockDividerSet(SQI_ID_1,CLK_DIV_4);
+PLIB_SQI_ClockEnable(SQI_ID_1);
+<strong><span style="color: #000080">while</span></strong> (!PLIB_SQI_ClockIsStable(SQI_ID_1));
+
+<i><span style="color: #008000">//Enable Buffer Descriptor Done and Packet Done Interrupts</span></i>
+PLIB_SQI_InterruptEnable(SQI_ID_1,BDDONE);
+PLIB_SQI_InterruptSignalEnable(SQI_ID_1,BDDONE);
+PLIB_SQI_InterruptEnable(SQI_ID_1,PKTCOMP);
+PLIB_SQI_InterruptSignalEnable(SQI_ID_1,PKTCOMP);
+
+<i><span style="color: #008000">// Send EQIO(0x38) Command to SST26VF032 to Enable Quad Lane Mode</span></i>
+<i><span style="color: #008000">// Note: These steps are not in the flow as these are specific to</span></i>
+<i><span style="color: #008000">// one Flash Device (SST26VF032)</span></i>
+PLIB_SQI_ChipSelectSet(SQI_ID_1,SQI_CS_0);
+PLIB_SQI_LaneModeSet(SQI_ID_1,SQI_SINGLE_LANE);
+PLIB_SQI_TransferCommandSet(SQI_ID_1,SQI_CMD_TRANSMIT);
+<i><span style="color: #008000">// Transfers 1 Command Byte, No Address/Dummy Bytes</span></i>
+PLIB_SQI_TransferCountSet(SQI_ID_1, 0x1);
+PLIB_SQI_TransmitterDataSend(SQI_ID_1, SST26VF_EQIO);
+
+<i><span style="color: #008000">// Set the SQI in DMA Mode</span></i>
+PLIB_SQI_TransferModeSet(SQI_ID_1,SQI_XFER_MODE_DMA);
+
+<i><span style="color: #008000">// Set up the Base Buffer Descriptor Address</span></i>
+<strong><span style="color: #000080">if</span></strong> (!PLIB_SQI_DMAIsActive(SQI_ID_1))
+    PLIB_SQI_DMABDBaseAddressSet(SQI_ID_1, (<strong><span style="color: #000080">void</span></strong> *) (&amp;MY_BASE_BD_STRUCT));
+
+<i><span style="color: #008000">//Set up DMA Control Register</span></i>
+PLIB_SQI_DMABDEnable(SQI_ID_1);
+PLIB_SQI_DMABDPollEnable(SQI_ID_1);
+
+<i><span style="color: #008000">// Set up DMA Polling</span></i>
+If (PLIB_SQI_DMABDPollIsEnabled(SQI_ID_1))
+   <i><span style="color: #008000">// Poll DMA every 10 cycles</span></i>
+   PLIB_SQI_PollControlSet(SQI_ID_1, MY_POLL_CONTROL_VALUE);
+
+<i><span style="color: #008000">// Start the DMA Process - DMA Engine is now in Control</span></i>
+If (PLIB_SQI_DMAIsEnabled(SQI_ID_1))
+{
+   <strong><span style="color: #000080">if</span></strong> (!PLIB_SQI_DMAIsActive(MY_SQI_INSTANCE))
+      PLIB_SQI_DMABDFetchStart(SQI_ID_1);
+
+}
+
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23263.html">SQI Peripheral Library</a> &gt; <a href="18045.html">Using the Library</a> &gt; <a href="18036.html">How the Library Works</a> &gt; <a href="18027.html">Core Functionality</a> &gt; <a href="18032.html">DMA Mode</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SQI DMA Mode Topic Title: DMA Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

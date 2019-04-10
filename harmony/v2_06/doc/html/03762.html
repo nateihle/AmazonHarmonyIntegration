@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Configuring the Hardware</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="13728.html">I2C Driver Demonstrations</a> &gt; <a href="03759.html">Demonstrations</a> &gt; <a href="03760.html">i2c_rtcc</a> &gt; <a href="03762.html">Configuring the Hardware</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03761.html">Previous</a> | <a href="03760.html">Up</a> | <a href="03763.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS I2CDRV i2c_rtcc_loopback_config Topic Title: Configuring the Hardware)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Configuring the Hardware</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The i2c_rtcc demonstration was tested on the Microchip MCP7949N RTCC device. The address of this device is 0xDE.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<a href="04947.html">Explorer 16 Development Board</a> with the <a href="05027.html">PIC32MX795F512L CAN-USB PIM</a></p>
+<ul class="Element630">
+<li class="Element600">Before attaching the PIC32MX795F512L PIM to the Explorer 16 Development Board, ensure that the processor select switch (S2) is in the PIM Position</li>
+<li class="Element600">Short JP2 on the Explorer 16 Development Board to enable the LEDs</li>
+</ul><p class="Element10">
+If a <a href="05073.html">Starter Kit I/O Expansion Board</a> is used, make the following connections:</p>
+<ul class="Element630">
+<li class="Element600">Jumper I/O Expansion board J11 pin 36 (SDA2) and J11 pin 38 (SCL2) should be pulled up to 3.3V through a 2.2k ohm resistor</li>
+</ul><p class="Element10">
+If an external RTCC is used, make the following connections:</p>
+<ul class="Element630">
+<li class="Element600">Jumper I/O Expansion board J11 pin 36 (SDA2) and J11 pin 38 (SCL2) to the corresponding lines of an external I2C device</li>
+<li class="Element600">If an external I2C device is connected, ensure that the Master and Slave device share a common ground.</li>
+</ul><p class="Element10">
+If a PICtail Plus Daughter Board is used, make the following connections:</p>
+<ul class="Element630">
+<li class="Element600">PICtail Plus Daughter Board pins RA2 (SCL2) and RA3 (SDA2) should be pulled up to 3.3V through a 2.2k ohm resistor</li>
+</ul><p class="Element10">
+If an external RTCC is used, make the following connections:</p>
+<ul class="Element630">
+<li class="Element600">Jumper PICtail Plus Daughter Board pins RA2 (SCL2) and pin RA3 (SDA2) to the corresponding SCL and SDA lines of an external I2C device</li>
+<li class="Element600">If an external I2C device is connected, ensure that the Master and Slave device share a common ground</li>
+</ul><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<a href="05030.html">PIC32MZ EC Starter Kit</a> or <a href="05031.html">PIC32MZ EF Starter Kit</a> connected to the <a href="04973.html">MEB II</a>&nbsp;</p>
+<p class="Element10">
+The jumper JP2 on PIC32MZ EC/EF Starter Kit should connected according to the debugger/programmer used, as follows:</p>
+<ul class="Element630">
+<li class="Element600">If PKOB is used, pins 1 and 3 and pins 2 and 4 should be shorted</li>
+<li class="Element600">If MPLAB REAL ICE or MPLAB ICD 3 is being used, pins 1 and 3 and pins 2 and 4 should be left open</li>
+</ul><p class="Element10">
+The connections pertaining to I2C are as follows:</p>
+<ul class="Element630">
+<li class="Element600">Connect MEB II J2 pin 3 (SCL2) to the corresponding SCL line of the external I2C device</li>
+<li class="Element600">Connect MEB II J2 pin 5 (SDA2) to the corresponding SDA line of the external I2C device</li>
+<li class="Element600">If an external I2C device is connected, ensure that the Master and Slave device share a common ground</li>
+</ul></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="08263.html">Driver Demonstrations</a> &gt; <a href="13728.html">I2C Driver Demonstrations</a> &gt; <a href="03759.html">Demonstrations</a> &gt; <a href="03760.html">i2c_rtcc</a> &gt; <a href="03762.html">Configuring the Hardware</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS I2CDRV i2c_rtcc_loopback_config Topic Title: Configuring the Hardware)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,361 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03862.html">FreeRTOS Demonstrations</a> &gt; <a href="03863.html">tcpip_client_server</a> &gt; <a href="03866.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03865.html">Previous</a> | <a href="03863.html">Up</a> | <a href="03872.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS FreeRTOS tcpip_client_server_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The run the demonstration application, apply power to the board, open the demonstration with MPLAB X IDE, and then build and load the demonstration.&nbsp;</p>
+<p class="Element10">
+This demonstration runs IPv4 only on the Ethernet interface. To view the Web page hosted by the demonstration application, open a Web browser and direct it to the board running the HTTP server by typing the URL in the address bar (for example, http://mchpboard_e or http://mchpboard_c), and then pressing <strong>Enter</strong>. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+</p>
+<ol class="Element630">
+<li value="1" class="Element600">The NetBIOS name of the TCP/IP application is specified at the time the TCP/IP stack is initialized, which is usually in the hostName member of the tcpip_stack_init.c:: TCPIP_HOSTS_CONFIGURATION structure. The NetBIOS service must be enabled for the PIC32 demonstration to respond to NetBIOS queries (the NetBIOS service is enabled by default for this demo). Alternatively, you can use the IPv4 of the board directly, for example, http://192.168.1.131.</li>
+<li value="2" class="Element600">The IPv4 address can be obtained from running the TCP/IP Discovery application on the PC side. It requires that the TCP/IP Announce module is enabled when building the stack (the Announce module is enabled by default in this application).</li>
+</ol><p class="Element68">
+&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Advanced Features</div>
+<p class="Element10">
+To use the advanced features of this demonstration, a system console must be enabled for the application. A serial console is preferred and is enabled by default for the demonstration. Alternatively, the application can be reconfigured using MHC to use the USB console.&nbsp;</p>
+<p class="Element10">
+The PIC32MZ configurations have Telnet enabled by default. A Telnet connection could be also used for delivering the commands needed by the application. On the PIC32MX configuration, the Telnet module is <i>not</i> enabled due to limited memory resources.&nbsp;</p>
+<p class="Element10">
+The PIC32MZ configuration is preferred for running this demonstration as the PIC32MX version may run out of memory at run-time.&nbsp;</p>
+<p class="Element10">
+<strong>TCP/IP Tasks</strong>&nbsp;</p>
+<p class="Element10">
+There are four TCP/IP tasks in the application that demonstrate the use of IPv4 TCP and UDP sockets in a multi-threaded system. Each of these tasks implements (and registers with the system command processor) specific commands. The commands allow the corresponding sockets to be opened and to start the communication with the remote hosts. On all hosts, the server sockets must first be opened, and then have the client sockets connect to them. There are also commands for configuring each socket/communication channel.&nbsp;</p>
+<p class="Element10">
+Following the model in this application, extra commands could be added for any of the tasks to achieve desired operation.&nbsp;</p>
+<p class="Element10">
+Each of these communication channels can be exercised simultaneously or in turn. For the purposes of the demonstration, at least two different communication channels should be opened simultaneously to put in evidence the multi-threaded behavior.&nbsp;</p>
+<p class="Element10">
+A common scenario listing the console commands and steps needed for running this demonstration would be:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Start app1 – TCP server:
+<ul class="Element631">
+<li class="Element601">Start the PIC32 TCP server socket that listens on port 9760 by issuing the console command: <span class="Element146">topen_s1&lt;CR&gt;</span></li>
+<li class="Element601">On the client side (PC, etc.) open a client that connects over TCP to the PIC32 server using port 9760. Use any network tools (netcat, etc.) or special applications, scripts (TCL, Python, etc.) to transmit and receive data files.</li>
+</ul></li>
+<li value="2" class="Element600">Start app2 – TCP client:
+<ul class="Element631">
+<li class="Element601">On the remote host side (PC, etc.) open a TCP server that listens for incoming connections on port 9761. Use any network tools (netcat, etc.) or special applications, scripts (TCL, Python, etc.) to receive (and transmit) data files.</li>
+<li class="Element601">Set the PIC32 client side address and port for the server to connect to, for example: <span class="Element146">tsrv4_c1 192.168.100.101 9761&lt;CR&gt;</span></li>
+<li class="Element601">Start the PIC32 TCP client socket by issuing the console command: <span class="Element146">topen_c1&lt;CR&gt;</span></li>
+</ul></li>
+<li value="3" class="Element600">Start app3 – UDP server:
+<ul class="Element631">
+<li class="Element601">Start the PIC32 UDP server socket that listens on port 32323 by issuing the console command: uopen_s1&lt;CR&gt;</li>
+<li class="Element601">On the client side (PC, etc.) open a client that connects over UDP to the PIC32 server using port 32323. Use any network tools (netcat, etc.) or special applications, scripts (TCL, Python, etc.) to transmit and receive data files.</li>
+</ul></li>
+<li value="4" class="Element600">Start app4 – UDP client:
+<ul class="Element631">
+<li class="Element601">On the remote host side (PC, etc.) open a UDP server that listens for incoming connections on port 32324. Use any network tools (netcat, etc.) or special applications, scripts (TCL, Python, etc.) to receive (and transmit) data files.</li>
+<li class="Element601">Set the PIC32 client side address and port for the server to connect to, for example: <span class="Element146">usrv4_c1 192.168.100.101 32324&lt;CR&gt;</span></li>
+<li class="Element601">Start the PIC32 UDP client socket by issuing the console command: <span class="Element146">uopen_c1&lt;CR&gt;</span></li>
+</ul></li>
+<li value="5" class="Element600">Now that you have the TCP/IP tasks running you can check the progress at run time. These commands give the RX and TX statistics showing the amount of data transferred by each task:
+<ul class="Element631">
+<li class="Element601"><span class="Element146">tstat_s1&lt;CR&gt;</span></li>
+<li class="Element601"><span class="Element146">tstat_c1&lt;CR&gt;</span></li>
+<li class="Element601"><span class="Element146">ustat_s1&lt;CR&gt;</span></li>
+<li class="Element601"><span class="Element146">ustat_c1&lt;CR&gt;</span></li>
+</ul></li>
+<li value="6" class="Element600">Once the data transfer is completed, close the TCP/IP sockets (if not already closed by the remote party):
+<ul class="Element631">
+<li class="Element601"><span class="Element146">tclose_s1&lt;CR&gt;</span></li>
+<li class="Element601"><span class="Element146">tclose_c1&lt;CR&gt;</span></li>
+<li class="Element601"><span class="Element146">uclose_s1&lt;CR&gt;</span></li>
+<li class="Element601"><span class="Element146">uclose_c1&lt;CR&gt;</span></li>
+</ul></li>
+</ol><div class="Element15">
+TCP/IP Task Descriptions and Commands</div>
+<p class="Element10">
+<strong>app1.c::TCP server</strong>&nbsp;</p>
+<p class="Element10">
+This task uses a TCP server socket that listens by default on port 9760 to implement a simple relay server. Any message that is received on that TCP port will be relayed back to the originating socket. The following table lists and describes the available commands </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="20%">
+<div class="Element66">
+Command&nbsp;</div></td><td class="Element65" valign="top" width="80%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">topen_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Opens the listening TCP server socket.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tmsg_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sends a short message using this socket to the remote client.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tabort_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sends an abort/RST to the remote client and stops the communication.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tclose_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Closes the socket and stops the communication.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">ttxsize_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sets the TX buffer size of the server socket. The larger the buffer the more memory is used by the socket and the more efficient is the transfer. Default value is 2048 bytes.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">trxsize_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sets the RX buffer size of the server socket. The larger the buffer the more memory is used by the socket and the more efficient is the transfer. Default value is 2048 bytes.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tdisplay_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Enables displaying of the received messages locally to the system console.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tstat_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Displays/clears the current TX and RX statistics for the current connection.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>app2.c::TCP client</strong>&nbsp;</p>
+<p class="Element10">
+This task uses a TCP client socket to connect to a remote server that listens by default on port 9761. Any message that is received by the socket can be optionally displayed locally. The client has the possibility of sending messages to the server. The following table lists and describes the available commands. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="20%">
+<div class="Element66">
+Command&nbsp;</div></td><td class="Element65" valign="top" width="80%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">topen_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Opens the TCP client socket.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tmsg_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sends a message to the remote server.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tabort_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sends an abort/RST to the server and stops the communication.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tclose_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Closes the socket and stops the communication.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tsrv4_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sets the server IPv4 address and port. The default values are 192.168.100.101 and 9761.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tasync_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Enables the continuous transmission of messages to the server.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tdisplay_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Enables displaying of the received messages locally to the system console.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">tstat_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Displays/clears the current TX and RX statistics for the current connection.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>app3.c::UDP server</strong>&nbsp;</p>
+<p class="Element10">
+This task uses a UDP server socket that listens by default on port 32323 to implement a simple relay server. Any message that is received on that UDP port will be relayed back to the originating socket. The following table lists and describes the available commands. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="20%">
+<div class="Element66">
+Command&nbsp;</div></td><td class="Element65" valign="top" width="80%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">uopen_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Opens the listening UDP server socket.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">uclose_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Closes the socket and stops the communication.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">ustnet_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Selects the strict network option for the UDP socket (incoming connections from any network are allowed or only from the network that initiated the first connection).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">ustport_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Selects the strict port option for the UDP socket (incoming connections from any host port are allowed or only from the port that was used when the connection was first initiated).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">ustadd_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Selects the strict address option for the UDP socket (incoming connections from any host address are allowed or only from the address that was used when the connection was first initiated).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">udisplay_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Enables displaying of the received messages locally to the system console.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">ustat_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Displays/clears the current TX and RX statistics for the current connection.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">utxsize_s1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sets the TX buffer size of the server socket. The larger the buffer the more memory is used by the socket and the more efficient is the transfer. Default value is 1024 bytes. Note that this value should not be made larger than 1460 for an Ethernet network (to avoid packets larger than the link MTU).&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>app4.c::UDP client</strong>&nbsp;</p>
+<p class="Element10">
+This task uses a UDP client socket to connect to a remote server that listens by default on port 32324. Any message that is received by the socket can be optionally displayed locally. The client has the possibility of sending messages to the server. The following table lists and describes the available commands. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="20%">
+<div class="Element66">
+Command&nbsp;</div></td><td class="Element65" valign="top" width="80%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">uopen_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Opens the UDP client socket.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">umsg_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sends a message to the remote server.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">uclose_c</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Closes the socket and stops the communication.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">usrv4_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sets the server IPv4 address and port. The default values are 192.168.100.101 and 32324.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">uasync_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Enables the continuous transmission of messages to the server.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">udisplay_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Enables displaying of the received messages locally to the system console.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">ustat_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Displays/clears the current TX and RX statistics for the current connection.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="20%">
+<div class="Element68">
+<span class="Element146">utxsize_c1</span>&nbsp;</div></td><td class="Element67" valign="top" width="80%">
+<div class="Element68">
+Sets the TX buffer size of the server socket. The larger the buffer the more memory is used by the socket and the more efficient is the transfer. Default value is 1024 bytes. Note that this value should not be made larger than 1460 for an Ethernet network (to avoid packets larger than the link MTU).&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="22615.html">RTOS Demonstrations</a> &gt; <a href="03862.html">FreeRTOS Demonstrations</a> &gt; <a href="03863.html">tcpip_client_server</a> &gt; <a href="03866.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS RTOS FreeRTOS tcpip_client_server_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

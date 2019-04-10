@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Operating as a Master</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21490.html">PMP Peripheral Library</a> &gt; <a href="17902.html">Using the Library</a> &gt; <a href="17891.html">How the Library Works</a> &gt; <a href="17896.html">Operating as a Master</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17903.html">Previous</a> | <a href="17891.html">Up</a> | <a href="17897.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PMP Operating as a Master Topic Title: Operating as a Master)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Operating as a Master</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The PMP module, while acting as a master, waits for its input or output buffers to be read or written. Once the buffers have been manipulated, the appropriate action takes place.&nbsp;</p>
+<p class="Element10">
+A PMP bus transfer always begins with reading or writing to the appropriate PMP input/output buffers. A read from a PMP input buffer performs a PMP read. A write to a PMP output buffer performs a PMP write. The address pins associated with the transfer will have the value that is inside the address register of the PMP module. These steps are summarized as follows.&nbsp;</p>
+<p class="Element10">
+<strong>Summary of Steps</strong>
+<ul class="Element630">
+<li class="Element600">Set up the proper PMP address</li>
+<li class="Element600">Send or read data bytes</li>
+</ul>Each of these steps making up a transfer will take some time to complete. By monitoring the busy bit of the PMP module, the user application can determine whether the transfer is complete. The completion of each step can cause a PMP interrupt.&nbsp;</p><div class="Element15">
+Sending a Data Byte</div>
+<p class="Element10">
+The following sequence can be used to send a data byte and repeated to send an arbitrary number of data bytes.&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions:</strong>
+<ul class="Element630">
+<li class="Element600">The address of the destination must be configured in the PMP module</li>
+<li class="Element600">The proper control signals are configured for PMP operation</li>
+<li class="Element600">The PMP module is configured for the desired Master mode</li>
+<li class="Element600">The PMP module is enabled</li>
+</ul><strong>Process:</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Ensure that the PMP module is not busy by using <a href="20293.html">PLIB_PMP_PortIsBusy</a>.</li>
+<li value="2" class="Element600">Write the output data buffer using <a href="20283.html">PLIB_PMP_MasterSend</a>.</li>
+</ol><strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02917');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02917"><pre class="Element12">uint8_t data = 'a';
+<i><span style="color: #008000">// Set the destination address to be written</span></i>
+PLIB_PMP_AddressSet(PMP_ID_0, 0x1234 );
+<i><span style="color: #008000">// Check to see if the PMP is busy, and then send the byte</span></i>
+<strong><span style="color: #000080">if</span></strong>(!PLIB_PMP_PortIsBusy( PMP_ID_0 ))
+  {
+    <i><span style="color: #008000">// Send the data</span></i>
+    PLIB_PMP_MasterSend( PMP_ID_0, data );
+  }</pre></div></div>
+<div class="Element15">
+Receiving a Data byte</div>
+<p class="Element10">
+The following sequence can be used to send a data byte and repeated to send an arbitrary number of data bytes.&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions:</strong>
+<ul class="Element630">
+<li class="Element600">The address of the destination must be configured in the PMP module</li>
+<li class="Element600">The proper control signal are configured for PMP operation</li>
+</ul><strong>Process:</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Ensure that the PMP module is not busy by using <a href="20293.html">PLIB_PMP_PortIsBusy</a>.</li>
+<li value="2" class="Element600">Write the output data buffer using <a href="20282.html">PLIB_PMP_MasterReceive</a>.</li>
+</ol><strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02918');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02918"><pre class="Element12">uint8_t data;
+<i><span style="color: #008000">// Set the source address</span></i>
+PLIB_PMP_AddressSet(PMP_ID_0, 0x1234 );
+<i><span style="color: #008000">// Check to see the PMP is not busy, and then read the data</span></i>
+<strong><span style="color: #000080">if</span></strong>(!PLIB_PMP_PortIsBusy( PMP_ID_0 ))
+  {
+    <i><span style="color: #008000">// receive the data</span></i>
+    data = PLIB_PMP_MasterReceive( PMP_ID_0 );
+  }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21490.html">PMP Peripheral Library</a> &gt; <a href="17902.html">Using the Library</a> &gt; <a href="17891.html">How the Library Works</a> &gt; <a href="17896.html">Operating as a Master</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PMP Operating as a Master Topic Title: Operating as a Master)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

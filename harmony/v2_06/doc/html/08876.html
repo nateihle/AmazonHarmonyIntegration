@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Example Usage of the Timer Driver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08887.html">Timer Driver Library</a> &gt; <a href="08888.html">Using the Library</a> &gt; <a href="08878.html">How the Library Works</a> &gt; <a href="08876.html">Example Usage of the Timer Driver</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08883.html">Previous</a> | <a href="08878.html">Up</a> | <a href="08870.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV TMR Example Usage of the Timer Driver Topic Title: Example Usage of the Timer Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Example Usage of the Timer Driver</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The user can pass NULL to the driver initialize interface. However, the respective configuration parameters need to be configured in the correct manner.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00913');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00913"><pre class="Element12"><i><span style="color: #008000">//Polled mode under 32-bit count mode for a PIC32 device using the alarm feature</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00914');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00914"><pre class="Element12">SYS_MODULE_OBJ object;
+
+<i><span style="color: #008000">// main</span></i>
+DRV_TMR_INIT init;
+DRV_HANDLE handle;
+
+init.moduleInit.value = SYS_MODULE_POWER_RUN_FULL;
+init.tmrId            = TMR_ID_2;
+init.clockSource      = TMR_CLKSOURCE_INTERNAL;
+init.prescale         = TMR_PRESCALE_TX_VALUE_256;
+init.interruptSource  = INT_SOURCE_TIMER_3;
+init.mode             = DRV_TMR_OPERATION_MODE_16_BIT;init.asyncWriteEnable = <strong><span style="color: #000080">false</span></strong>;
+
+object = DRV_TMR_Initialize (DRV_TMR_INDEX_0, (SYS_MODULE_INIT *)&amp;init);
+<strong><span style="color: #000080">if</span></strong> ( SYS_STATUS_READY != DRV_TMR_Status(object))
+    <strong><span style="color: #000080">return</span></strong> 0;
+
+handle = DRV_TMR_Open (DRV_TMR_INDEX_0, DRV_IO_INTENT_EXCLUSIVE);
+<strong><span style="color: #000080">if</span></strong> ( DRV_TMR_CLIENT_STATUS_READY != DRV_TMR_ClientStatus(handle))
+    <strong><span style="color: #000080">return</span></strong> 0;
+
+<strong><span style="color: #000080">if</span></strong>(!DRV_TMR_AlarmRegister ( tmrHandle, divider, <strong><span style="color: #000080">true</span></strong>, 0, AlarmCallback ))
+{
+    <i><span style="color: #008000">// divider value could not be obtain;</span></i>
+    <i><span style="color: #008000">// handle the error</span></i>
+}
+
+DRV_TMR_Start (handle);
+
+<strong><span style="color: #000080">while</span></strong> (1)
+{
+    DRV_TMR_Tasks (object);
+}
+
+DRV_TMR_Stop (handle);
+
+DRV_TMR_Close (handle);
+<strong><span style="color: #000080">if</span></strong> ( DRV_TMR_CLIENT_STATUS_INVALID != DRV_TMR_ClientStatus(handle))
+    <strong><span style="color: #000080">return</span></strong> 0;
+
+DRV_TMR_Deinitialize (object);
+<i><span style="color: #008000">// end main</span></i>
+
+<strong><span style="color: #000080">void</span></strong> AlarmCallback (uintptr_t context, uint32_t alarmCount)
+{
+  <i><span style="color: #008000">// Do something specific on an alarm event trigger</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08887.html">Timer Driver Library</a> &gt; <a href="08888.html">Using the Library</a> &gt; <a href="08878.html">How the Library Works</a> &gt; <a href="08876.html">Example Usage of the Timer Driver</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV TMR Example Usage of the Timer Driver Topic Title: Example Usage of the Timer Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

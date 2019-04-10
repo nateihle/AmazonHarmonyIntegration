@@ -1,0 +1,57 @@
+ifblock BSP_PIC32MZ_EF_CURIOSITY
+
+menu "Select BSP Features"
+	depends on USE_BSP
+	depends on BSP_PIC32MZ_EF_CURIOSITY
+
+config BSP_CONFIGURE_PIC32MZ_EF_CURIOSITY
+	bool
+	depends on USE_BSP
+	depends on BSP_PIC32MZ_EF_CURIOSITY
+	default y
+	select BSP_TRIGGER
+	select BSP_POSC_24MHz
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "24000000"
+    set BSP_PIN_96_FUNCTION_NAME to "BSP_SWITCH_1"
+    set BSP_PIN_96_FUNCTION_TYPE to "SWITCH"
+    set BSP_PIN_99_FUNCTION_NAME to "BSP_LED_1"
+    set BSP_PIN_99_FUNCTION_TYPE to "LED_AH"
+    set BSP_PIN_100_FUNCTION_NAME to "BSP_LED_2"
+    set BSP_PIN_100_FUNCTION_TYPE to "LED_AH"
+    set BSP_PIN_4_FUNCTION_NAME to "BSP_LED_3"
+    set BSP_PIN_4_FUNCTION_TYPE to "LED_AH"
+    set BSP_PIN_25_FUNCTION_NAME to "BSP_RGB_LED_BLUE"
+    set BSP_PIN_25_FUNCTION_TYPE to "LED_AL"
+    set BSP_PIN_24_FUNCTION_NAME to "BSP_RGB_LED_GREEN"
+    set BSP_PIN_24_FUNCTION_TYPE to "LED_AL"
+    set BSP_PIN_20_FUNCTION_NAME to "BSP_RGB_LED_RED"
+    set BSP_PIN_20_FUNCTION_TYPE to "LED_AL"
+    set BSP_PIN_97_FUNCTION_NAME to "USB_VBUS_SWITCH"
+    set BSP_PIN_97_FUNCTION_TYPE to "VBUS"
+    set BSP_PIN_2_FUNCTION_NAME to "BSP_AK4642_PDN" if SELECT_DRV_AK4642 = y
+    set BSP_PIN_2_FUNCTION_NAME to "BSP_AK7755_PDN" if SELECT_DRV_AK7755 = y    
+    set BSP_PIN_2_FUNCTION_NAME to "BSP_STBY_RST" if SELECT_DRV_AK4642 = n || SELECT_DRV_AK7755 = n
+    set BSP_PIN_2_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_64_FUNCTION_NAME to "BSP_WIFI_INT"
+    set BSP_PIN_64_FUNCTION_TYPE to "GPIO_IN"
+    set BSP_PIN_17_FUNCTION_NAME to "BSP_WIFI_SLEEP"
+    set BSP_PIN_17_FUNCTION_TYPE to "GPIO_OUT"
+
+endmenu
+
+menu "Custom Board Configurations for PIC32MZ EF Curiosity Development Board"
+    depends on USE_BSP
+
+import PIC32MZ_EF_CURIOSITY_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32mz_ef_curiosity_H "$HARMONY_VERSION_PATH/bsp/pic32mz_ef_curiosity/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32mz_ef_curiosity_C "$HARMONY_VERSION_PATH/bsp/pic32mz_ef_curiosity/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+compiler BSP_COMPILER_INCLUDE_pic32mz_ef_curiosity includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+
+endmenu
+
+endif

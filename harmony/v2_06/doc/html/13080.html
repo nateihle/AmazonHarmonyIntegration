@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Packaging and Distributing Applications</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="13082.html">Porting from MLA to MPLAB Harmony</a> &gt; <a href="13080.html">Packaging and Distributing Applications</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="13073.html">Previous</a> | <a href="13082.html">Up</a> | <a href="06505.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HARMONY Packaging and Distributing Applications Topic Title: Packaging and Distributing Applications)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Packaging and Distributing Applications</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Use the practices recommended in this section to easily utilize libraries and tools provided by MPLAB Harmony when packaging and distributing applications outside of the original development workstation.</p><div class="Element15">
+Licensing</div>
+<p class="Element10">
+Libraries distributed in the MPLAB Harmony installation are governed by Microchip and/or third-party Software License Agreements (SLAs). Refer to Software License Agreement for complete licensing information. A copy of this agreement is available in the <span class="Element146">&lt;install-dir&gt;/doc</span> folder of your MPLAB Harmony installation.</p><div class="Element15">
+Packaging</div>
+<p class="Element10">
+Use the installation or compression tool of your choice. Capture or compress the project folder in place, from within the <span class="Element146">apps</span> folder hierarchy of the MPLAB Harmony installation in which it was developed such that, upon extraction, the project will install into a sub-folder of the <span class="Element146">apps</span> folder that is at the same level in the folder hierarchy, relative to the installation root folder in the installation into which it is extracted. For example, if the original project was developed using MPLAB Harmony v1.00 under the <span class="Element146">C:\Microchip\harmony\v1_00\apps\my_app</span> folder, it should extract into the <span class="Element146">C:\Microchip\harmony\v1)03\apps\my_app</span> folder when extracted into the MPLAB Harmony v1.03 installation (assuming default installation locations on Windows development workstations.&nbsp;</p>
+<p class="Element10">
+This is necessary because all MPLAB Harmony projects refer to common library files using paths relative to the installation root folder (ex. <span class="Element146">C:\Microchip\harmony\v1_00</span> for MPLAB Harmony v1.00 or <span class="Element146">C:\Microchip\harmony\v1_03</span> for MPLAB Harmony v1.03). Following this method will avoid build failures caused by moving the project from one installation to another. Build failures may still occur if library interface (API) functions are used by the project not supported in the MPLAB Harmony installation into which the project is extracted. New releases of production-level MPLAB Harmony libraries provide backward API compatibility. However, API changes are likely in new releases alpha-level libraries and possible in new releases of beta-level libraries.&nbsp;</p>
+<p class="Element10">
+When distributing projects for use outside of an existing MPLAB Harmony installation, the easiest method is to use the MPLAB X IDE &quot;package&quot; facility (see &quot;package&quot; within the right-click menu for the project from within the Project window in MPLAB X IDE).&nbsp;</p>
+<p class="Element10">
+When packaging a MPLAB Harmony project, it is not necessary to include generated such as the <span class="Element146">.o</span>, <span class="Element146">.d</span>, and <span class="Element146">.mk</span> files are automatically generated by MPLAB X IDE. These files are, in fact, not source files and they will be regenerated by MPLAB X IDE when needed.&nbsp;</p>
+<p class="Element10">
+This includes the following:</p>
+<ul class="Element630">
+<li class="Element600">Object (<span class="Element146">.o</span>, <span class="Element146">.d</span>, <span class="Element146">.elf</span>) and Hex files</li>
+<li class="Element600">MPLAB X IDE project files:
+<ul class="Element631">
+<li class="Element601">Shell script (<span class="Element146">.bash</span>) files</li>
+<li class="Element601"><span class="Element146">nbproject/Makefile-*</span></li>
+<li class="Element601"><span class="Element146">nbproject/Package-*</span></li>
+<li class="Element601"><span class="Element146">nbproject/private</span></li>
+<li class="Element601"><span class="Element146">nbproject/private/*.*</span></li>
+</ul></li>
+</ul><p class="Element10">
+(where <span class="Element146">nbproject/private</span> is a directory.)</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="13082.html">Porting from MLA to MPLAB Harmony</a> &gt; <a href="13080.html">Packaging and Distributing Applications</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: HARMONY Packaging and Distributing Applications Topic Title: Packaging and Distributing Applications)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

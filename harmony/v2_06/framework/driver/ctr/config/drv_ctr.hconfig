@@ -1,0 +1,228 @@
+menu "CTR"
+    depends on HAVE_CTR
+
+enum CTR_MODE
+	"MicroSec Mode"
+	|| "1394 Mode"
+
+enum CTR_USECASE
+	"Wifi"
+	|| "USB"
+	|| "GPIO"
+	
+enum CTR_COUNTER
+	"Counter0_Lin"
+	|| "Counter0_us"
+	|| "Counter1_Lin"
+	|| "Counter1_us"
+
+enum CTR_INT_MODE
+	"Latch Full"
+	|| "Latch Half-Full"
+	|| "Trigger"
+
+enum CTR_GPIO_SEL
+	"CTRTM0"
+	|| "CTRTM1"
+	
+config USE_DRV_CTR
+    depends on HAVE_CTR
+    bool "Use CTR Driver?"
+	select DRIVER
+    default n 
+    ---help---
+    CTR dynamic driver implementation (only for PIC32WK)
+    ---endhelp---
+
+config DRV_CTR_PERIPHERAL_ID
+    depends on USE_DRV_CTR
+    string 
+    default "CTR_ID_1"
+	
+
+ifblock USE_DRV_CTR
+	
+config DRV_CTR_DRIVER_MODE
+    depends on USE_DRV_CTR
+    string "Driver Implementation"
+    range DRV_CTR_MODE_ENUM
+    default "DYNAMIC"
+	persistent
+
+config DRV_CTR_INSTANCES_NUMBER
+    int "Number of CTR Driver Instances"
+    depends on USE_DRV_CTR
+    default 1
+	persistent
+ 
+config DRV_CTR_CLIENTS_NUMBER
+    int "Number of CTR Driver Clients"
+    depends on USE_DRV_CTR
+    default 1
+	range 1 10
+
+config DRV_CTR_COUNTER_MAX
+	default 2
+	
+source "$HARMONY_VERSION_PATH/framework/driver/ctr/config/drv_ctr_counter.ftl" 2 instances
+	
+menu "Use-Case Configuration"
+depends on USE_DRV_CTR
+
+config DRV_CTR_USE_CASE
+	string "Trigger Source"
+	default "Wifi"
+	range CTR_USECASE
+
+ifblock DRV_CTR_USE_CASE = "GPIO"
+config DRV_CTR_GPIO_SEL
+	string "Select GPIO"
+	default "CTRTM0"
+	range CTR_GPIO_SEL
+endif
+	
+config DRV_CTR_COUNTER_SEL
+	string "Counter Select"
+	default "Counter0_Lin"
+	range CTR_COUNTER
+	
+config DRV_CTR_DIVIDER
+	int "Divider"
+	default 0
+	range 0 7
+	
+endmenu	
+
+menu "CTR Event Interrupt Configuration"
+depends on USE_DRV_CTR
+
+config DRV_CTR_EVENT_INT_MODE
+	string "Interrupt Mode"
+	default "Trigger"
+	range CTR_INT_MODE
+	
+config DRV_CTR_EVENT_INT_PRIORITY
+	string "Event Interrupt Priority"
+	default "INT_PRIORITY_LEVEL1"
+	range INT_PRIORITY_LEVEL
+
+config DRV_CTR_EVENT_INT_SUB_PRIORITY
+	string "Event Interrupt Sub-Priority"
+	default "INT_SUBPRIORITY_LEVEL0"
+	range INT_SUBPRIORITY_LEVEL
+	
+config DRV_CTR_EVENT_INTERRUPT_SOURCE
+    string
+    default "INT_SOURCE_CTR1_EVENT"
+    
+config DRV_CTR_EVENT_INTERRUPT_VECTOR
+    string
+    default "INT_VECTOR_CTR1_EVENT"
+
+config DRV_CTR_EVENT_INT_PRIO_NUM
+    string
+    default "INT_PRIORITY_LEVEL0" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_CTR_EVENT_INT_IPL
+    string
+    default "0" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_CTR_EVENT_INT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_CTR_EVENT_ISR_VECTOR
+    string
+    default "_CTR1_EVENT_VECTOR" if (DRV_CTR_EVENT_INTERRUPT_VECTOR = "INT_VECTOR_CTR1_EVENT")	
+	
+endmenu
+
+menu "Trigger Configuration"
+depends on USE_DRV_CTR
+
+config DRV_CTR_TRIGGER_SOURCE
+	string "Trigger Source Select"
+	default "Counter0_Lin"
+	range CTR_COUNTER
+	
+config DRV_CTR_TRIGGER_PHASE
+	hex "Phase"
+	default 0x000
+	range 0x000 0x7FF
+
+config DRV_CTR_TRIGGER_INT_PRIORITY
+	string "Trigger Interrupt Priority"
+	default "INT_PRIORITY_LEVEL1"
+	range INT_PRIORITY_LEVEL
+
+config DRV_CTR_TRIGGER_INT_SUB_PRIORITY
+	string "Trigger Interrupt Sub-Priority"
+	default "INT_SUBPRIORITY_LEVEL0"
+	range INT_SUBPRIORITY_LEVEL
+	
+config DRV_CTR_TRIGGER_INTERRUPT_SOURCE
+    string
+    default "INT_SOURCE_CTR1_TRG"
+    
+config DRV_CTR_TRIGGER_INTERRUPT_VECTOR
+    string
+    default "INT_VECTOR_CTR1_TRG"
+
+config DRV_CTR_TRIGGER_INT_PRIO_NUM
+    string
+    default "INT_PRIORITY_LEVEL0" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_CTR_TRIGGER_INT_IPL
+    string
+    default "0" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_CTR_TRIGGER_INT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_CTR_TRIGGER_ISR_VECTOR
+    string
+    default "_CTR1_TRG_VECTOR" if (DRV_CTR_TRIGGER_INTERRUPT_VECTOR = "INT_VECTOR_CTR1_TRG")	
+	
+endmenu
+
+config DRV_CTR_POWER_STATE
+    depends on USE_DRV_CTR
+    string "Power State"
+    range SYS_MODULE_POWER_STATE
+    default "SYS_MODULE_POWER_RUN_FULL"
+	
+endif
+endmenu
+
+ifblock USE_DRV_CTR
+
+add "<#include \"/framework/driver/ctr/templates/drv_ctr.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/ctr/templates/drv_ctr_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/ctr/templates/drv_ctr.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_CTR_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/ctr/src/drv_ctr_local.h" to "$PROJECT_HEADER_FILES/framework/driver/ctr/src/drv_ctr_local.h"
+file DRV_CTR_H "$HARMONY_VERSION_PATH/framework/driver/ctr/drv_ctr.h" to "$PROJECT_HEADER_FILES/framework/driver/ctr/drv_ctr.h"
+file DRV_CTR_C "$HARMONY_VERSION_PATH/framework/driver/ctr/src/dynamic/drv_ctr.c" to "$PROJECT_SOURCE_FILES/framework/driver/ctr/src/dynamic/drv_ctr.c"
+
+endif

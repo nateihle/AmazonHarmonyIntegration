@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Implementation vs. Instances</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11787.html">Key One-to-Many Relationships</a> &gt; <a href="11781.html">Implementation vs. Instances</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11783.html">Previous</a> | <a href="11787.html">Up</a> | <a href="11802.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Implementation vs. Instances Topic Title: Implementation vs. Instances)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Implementation vs. Instances</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+For some types of peripherals, it is common to have multiple identical (or nearly identical) instances of that peripheral on a single microcontroller. When that occurs, it is more efficient and effective for a single driver library to manage all instances of the peripheral that are used than it is to write multiple different drivers, with each managing a single instance of the peripheral, as shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE Multiple Instances Diagram.png" border="0" alt="" title=""></p><p class="Element10">
+MPLAB Harmony multi-client drivers are designed to handle multiple clients for the same peripheral instance, which affects both the library's interface and its implementation.&nbsp;</p>
+<p class="Element10">
+For a single set of functions to manage multiple instances of a peripheral, the functions must accept a parameter that identifies which instance of the peripheral the caller wants to use. This parameter, and exactly how it’s used, may be different for different types of interface functions and different implementations. However, the concept can be best illustrated by a driver’s system interface functions, as shown by the following (somewhat simplified) example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Running a Multiple Instance Driver</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00079');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00079"><pre class="Element12">DRV_USART_INIT initData0 = { .usartID = USART_ID_2 };
+DRV_USART_INIT initData1 = { .usartID = USART_ID_3 };
+SYS_MODULE_OBJ usart0;
+SYS_MODULE_OBJ usart1;
+
+<strong><span style="color: #000080">int</span></strong> main ( <strong><span style="color: #000080">void</span></strong> )
+{</pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00080');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00080"><pre class="Element12">    SYS_MODULE_OBJ usart0;
+    SYS_MODULE_OBJ usart1;
+</pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00081');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00081"><pre class="Element12">    <i><span style="color: #008000">/* Initialize two USART driver instances. */</span></i>
+    usart0 = DRV_USART_Initialize(0, (SYS_MODULE_INIT *)&amp;initData0);
+    usart1 = DRV_USART_Initialize(1, (SYS_MODULE_INIT *)&amp;initData1);
+
+    <strong><span style="color: #000080">while</span></strong> ( <strong><span style="color: #000080">true</span></strong> )
+    {
+        <i><span style="color: #008000">/* Run USART Driver instance 0 (physical USART 2) State Machines. */</span></i>
+        DRV_USART_TasksTransmit(usart0);
+        DRV_USART_TasksReceive(usart0);
+        DRV_USART_TasksError(usart0);
+
+        <i><span style="color: #008000">/* Run USART Driver instance 1 (physical USART 3) State Machines. */</span></i>
+        DRV_USART_TasksTransmit(usart1);
+        DRV_USART_TasksReceive(usart1);
+        DRV_USART_TasksError(usart1);
+    }
+
+    <strong><span style="color: #000080">return</span></strong> ( EXIT_FAILURE );
+}</pre></div></div>
+<p class="Element10">
+As shown in the previous example, a single set of functions can initialize and run multiple instances of a driver, allowing the driver to initialize and run multiple instances of a peripheral. Notice that the first parameter of the <a href="11493.html">DRV_USART_Initialize</a> function is an index number. That index identifies the instance of the driver being initialized. Think of it as a typical C-language zero-based array index. (Which is what it may actually be in some implementations.) Therefore, the previous example initializes two USART driver instances – USART driver instance 0 and USART driver instance 1. But, that may not be the same as initializing physical USART0 and USART1, as follows. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Normally, you would want to give a driver index number a meaningful label that identifies its purpose, such as <span class="Element146">#define MY_DEBUG_USART 0</span> or <span class="Element146">#define MY_WIFI_USART 1</span>. However, for this example, it is only relevant that they are zero-based indexes.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The second parameter is a pointer to a driver-specific data structure that contains any data necessary to initialize the specific instance of the driver and peripheral. This data can include items such as initial baud rates, handshaking settings, or any other data required to initialize the driver and peripheral. That data can be different for different instances or implementations of the driver. For example, different USARTs could be initialized at different baud rates or with different handshaking settings.&nbsp;</p>
+<p class="Element10">
+After having initialized the driver instances, the previous code example executes an infinite “while” loop, calling the driver’s state machine <i>Tasks</i> functions (<a href="11515.html">DRV_USART_TasksTransmit</a>, <a href="11514.html">DRV_USART_TasksReceive</a>, and <a href="11513.html">DRV_USART_TasksError</a>) over and over again to “run” the driver instances. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+In this example, the USART driver has three state machines: one to manage data transmission, one to manage data reception, and one handle error events. Some drivers will have only a single state machine, while others may have several depending on the peripheral and the driver implementation details.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Notice that the tasks functions do not use the driver index number to identify the driver instance. Instead, the tasks functions (and all other system interface functions) rely on an object handle (the <a href="23975.html">SYS_MODULE_OBJ</a> data type) to identify the driver instance. You can think of the object handle as a pointer to the driver’s internal data structure, which is the same as indexing into the array of structures using the driver’s instance index number that was passed into the driver’s initialize function. This object handle is used by all other system interface functions to identify the driver instance and the peripheral instance. This method is generally more efficient than using an index variable and it forces the driver’s initialize function to be called before any other system interface function can be called.&nbsp;</p>
+<p class="Element10">
+One particularly important item in the initialization data structure is the identifier that specifies which physical peripheral instance the driver should use. In this example, the name of that item is <span class="Element146">usartID</span>. Having a physical peripheral ID in the initialization data structure allows any driver instance to be mapped to (or associated with) any desired instance of the physical peripheral. This is a system configuration choice, illustrated by the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE USARTID.png" border="0" alt="" title=""></p><p class="Element10">
+In this example, a single <i>dynamic</i> driver manages two USART instances. To do this, it uses two sets of data variables, identified by the driver instance index. Driver data zero (0) holds the data to manage physical USART peripheral instance 2 (<span class="Element146">USART_ID_2</span>) and Driver Data 1 holds the data to manage physical USART peripheral instance 3 (<span class="Element146">USART_ID_3</span>). The peripheral ID labels (and their values) are defined by the peripheral library (PLIB) that is associated with the type of peripheral managed by this driver (the USART PLIB in this example). But, even though there are multiple sets of SFRs and variables, there is only one instance of the driver object code generated by the compiler. The following code example shows how this might be done.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Dynamic Driver Data Structure</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00082');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00082"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong>
+{
+    USART_MODULE_ID  moduleId;
+    uint8_t         *buffer;
+    size_t           bufferSize;
+
+    <i><span style="color: #008000">/* Other driver instance data variables. */</span></i>
+
+} DRV_USART_OBJ;
+
+DRV_USART_OBJ drvUsart[DRV_INSTANCES_NUMBER];</pre></div></div>
+<p class="Element10">
+The previous code example shows how a dynamic driver implementation could define a structure to contain all of the variables necessary to manage a single instance of a USART peripheral. It also shows how it could allocate an array of those structures using a configuration option (DRV_INSTANCES_NUMBER) to define the number of instances. Assuming that each structure was initialized appropriately and that some caller had passed a buffer of a known size to the driver, the following example shows how this might be used to transmit data from that buffer over the desired USART using the USART Peripheral Library.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Dynamic Driver Indexed Implementation</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00083');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00083"><pre class="Element12"><strong><span style="color: #000080">for</span></strong> (i=0; i &lt; drvUsart[index].bufferSize; i++)
+{
+    <strong><span style="color: #000080">if</span></strong> (PLIB_USART_TransmitterIsFull(drvUsart[index].moduleID) )
+    {
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        PLIB_USART_ByteSend(drvUsart[index].moduleID, drvUsart[index].buffer[i]);
+    }
+}</pre></div></div>
+<p class="Element10">
+Of course, this is just a partial example, but it demonstrates how the driver index number (in an aptly-named variable, <span class="Element146">index</span>) can be used to choose the desired structure from the global array of driver objects (<span class="Element146">drvUsart</span>). In this example, <span class="Element146">drvUsart[index]</span> holds the driver data variables associated with the desired peripheral instance. The variable holding the ID of the physical USART peripheral module is <span class="Element146">drvUsart[index].moduleID</span>, the variable holding the caller’s buffer pointer is <span class="Element146">drvUsart[index].buffer</span>, and the size of the caller’s buffer is held in the <span class="Element146">drvUsart[index].bufferSize</span> variable. The driver then loops through the buffer and uses USART PLIB functions to send the data to the desired USART.&nbsp;</p>
+<p class="Element10">
+However, as shown in the first example, the tasks function (and other driver functions) do not normally use the driver instance <span class="Element146">index</span>. Instead, they normally only have access to a driver object handle. That handle is usually just a pointer to the data structure in the driver object array. Therefore, assuming that <span class="Element146">pObj = &amp;drvUsart [index]</span> (from the previous indexed example), the following pointer example shows a more realistic example of how this code might look.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Dynamic Driver Implementation Pointer</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00084');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00084"><pre class="Element12"><strong><span style="color: #000080">for</span></strong> (i=0; i &lt; pObj-&gt;bufferSize; i++)
+{
+    <strong><span style="color: #000080">if</span></strong> (PLIB_USART_TransmitterBufferIsFull(pObj-&gt;plibID) )
+    {
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        PLIB_USART_TransmitterByteSend(pObj-&gt;plibID, pObj-&gt;buffer[i]);
+    }
+}</pre></div></div>
+<p class="Element10">
+In this example, using a pointer is a little more efficient and it does not force a driver’s instance data object to be statically allocated. If necessary, it could potentially be dynamically allocated (using <span class="Element146">malloc</span>). However, the specific technique used may be different for different implementations of the library. What is important is that the driver is capable of managing multiple instances of the desired peripheral.&nbsp;</p>
+<p class="Element10">
+This dynamic, multiple instance driver design mechanism is the technique by which MPLAB Harmony manages the fact that a single implementation of a driver can potentially manage multiple instances of a peripheral. This mechanism allows a single set of driver (or other resource) interface functions to control multiple instances of a peripheral (or other resource), but it affects the definition of both the interface and the implementation, and it is accounted for in the initial design of the driver or library.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11787.html">Key One-to-Many Relationships</a> &gt; <a href="11781.html">Implementation vs. Instances</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Implementation vs. Instances Topic Title: Implementation vs. Instances)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

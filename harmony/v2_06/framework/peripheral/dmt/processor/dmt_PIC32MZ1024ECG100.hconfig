@@ -1,0 +1,25 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ1024ECG100_DMT
+	bool
+	select HAVE_DMT
+	default y
+
+config DMT_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum DMT_MODULE_ID exclusive
+	"DMT_ID_0"
+
+ifblock PROJECT_STANDALONE
+file PLIB_DMT_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/processor/dmt_p32mz1024ecg100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/processor/dmt_p32mz1024ecg100.h"
+
+file PLIB_DMT_ENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/templates/dmt_Enable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/templates/dmt_Enable_Default.h"
+file PLIB_DMT_DEADMANTIMERSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/templates/dmt_DeadManTimerStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/templates/dmt_DeadManTimerStatus_Default.h"
+file PLIB_DMT_STEP1_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/templates/dmt_Step1_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/templates/dmt_Step1_Default.h"
+file PLIB_DMT_STEP2_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/templates/dmt_Step2_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/templates/dmt_Step2_Default.h"
+file PLIB_DMT_COUNTER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/templates/dmt_Counter_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/templates/dmt_Counter_Default.h"
+file PLIB_DMT_POSTSCALERVALUE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/templates/dmt_PostscalerValue_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/templates/dmt_PostscalerValue_Default.h"
+file PLIB_DMT_POSTSCALERINTERVAL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/dmt/templates/dmt_PostscalerInterval_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/dmt/templates/dmt_PostscalerInterval_Default.h"
+endif

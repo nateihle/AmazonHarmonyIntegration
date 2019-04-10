@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Device Stack Configuration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27286.html">Device Stack Configuration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27299.html">Previous</a> | <a href="27301.html">Up</a> | <a href="27237.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Device Stack Configuration Topic Title: Device Stack Configuration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Device Stack Configuration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The USB Device Stack configuration in the MPLAB Harmony <a href="04122.html">cdc_com_port_single</a> demonstration application needs to be specified in the <span class="Element146">system_config.h</span> file. This includes the configuration for the USB Controller Driver, Device Layer, and CDC Function Driver. The following table shows the MLA USB Device Stack Configuration macros and their equivalent MPLAB Harmony USB Device Stack Configuration Macros. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="24%">
+<div class="Element66">
+MLA USB Device Stack Configuration Macros&nbsp;</div></td><td class="Element65" valign="top" width="76%">
+<div class="Element66">
+MPLAB Harmony USB Device Stack Configuration Macros&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_EP0_BUFF_SIZE&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+<a href="27702.html">USB_DEVICE_EP0_BUFFER_SIZE</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_MAX_NUM_INT&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+The number of the interface used by a function driver instance is specified via an entry in the Function Driver Registration Table (in <span class="Element146">system_init.c</span>).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_USER_DEVICE_DESCRIPTOR&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+This USB Device Descriptor is specified via the Master Descriptor Table (in <span class="Element146">system_init.c</span>).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+<a href="28403.html">USB_PING_PONG_MODE</a>&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable. The USB Controller is always configured for maximum performance (full ping pong).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_POLLING<br>USB_INTERRUPT&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+DRV_USB_INTERRUPT_MODE. Should be set to true for Interrupt mode and false for Polled mode.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_PULLUP_OPTION&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_TRANSCEIVER_OPTION&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_SPEED_OPTION&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+This is defined via the <a href="27825.html">USB_DEVICE_INIT</a> data structure at Device Layer Initialization in <span class="Element146">system_init.c</span>.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_ENABLE_STATUS_STAGE_TIMEOUTS&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_SUPPORT_DEVICE&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Specified via DRV_USB_DEVICE_SUPPORT and DRV_USB_HOST_SUPPORT. These can be set to true to enable the required feature.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_ENABLE_ALL_HANDLERS&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable. All Device Layer events are provided via one event handler registered dynamically.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_USE_CDC&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable. Function Drivers are provisioned via an entry in the Function Driver Registration Table (in <span class="Element146">system_init.c</span>).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+CDC_COMM_INTF_ID<br>CDC_COMM_EP<br>CDC_COMM_IN_EP_SIZE<br>CDC_DATA_INTF_ID<br>CDC_DATA_EP<br>CDC_DATA_OUT_EP_SIZE<br>CDC_DATA_IN_EP_SIZE&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable. The number of the interface used by a function driver instance is specified via an entry in the Function Driver Registration Table (in <span class="Element146">system_init.c</span>). The Device Layer obtains endpoint information for a specific instance of the CDC driver from the USB Configuration Descriptor.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="24%">
+<div class="Element68">
+USB_CDC_SUPPORT_ABSTRACT_CONTROL_MANAGEMENT_CAPABILITIES_D1&nbsp;</div></td><td class="Element67" valign="top" width="76%">
+<div class="Element68">
+Not applicable. Features are defined by the CDC Class specific descriptors.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The MPLAB Harmony USB Device Stack requires specification of other configuration macros. Refer to the <a href="27320.html">USB Device Library</a> and the <a href="28590.html">USB Driver Libraries</a> sections for additional information.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27301.html">USB Device Stack Porting Example</a> &gt; <a href="27286.html">Device Stack Configuration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Device Stack Configuration Topic Title: Device Stack Configuration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

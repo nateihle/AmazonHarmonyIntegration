@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_SRAM_Write Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23370.html">SRAM Driver Library</a> &gt; <a href="08859.html">Library Interface</a> &gt; a) System Functions &gt; <a href="11058.html">DRV_SRAM_Write Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11057.html">Previous</a> | <a href="08859.html">Up</a> | <a href="11031.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_SRAM_Write@DRV_HANDLE@DRV_SRAM_COMMAND_HANDLE *@void *@uint32_t@uint32_t Topic Title: DRV_SRAM_Write Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_SRAM_Write Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">DRV_SRAM_Write</span></strong>(
+    <strong><span style="color: #000080">const</span></strong> <a href="10088.html">DRV_HANDLE</a> <strong><span style="color: #000000">handle</span></strong>, 
+    <a href="11031.html">DRV_SRAM_COMMAND_HANDLE</a> * <strong><span style="color: #000000">commandHandle</span></strong>, 
+    <strong><span style="color: #000080">void</span></strong> * <strong><span style="color: #000000">sourceBuffer</span></strong>, 
+    uint32_t <strong><span style="color: #000000">blockStart</span></strong>, 
+    uint32_t <strong><span style="color: #000000">nBlock</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine writes blocks of data starting at the specified block start address. This operation is blocking and returns after having written the data. If a event handler has been registered to receive the driver events then the event handler will be called from within this function. The function returns <a href="11032.html">DRV_SRAM_COMMAND_HANDLE_INVALID</a> in the commandHandle argument under the following circumstances:
+<ul class="Element636">
+<li class="Element606">if the driver handle is invalid</li>
+<li class="Element606">if the driver state is not ready</li>
+<li class="Element606">if the source buffer pointer is NULL</li>
+<li class="Element606">if the number of blocks to be written is zero or more than the actual</li>
+</ul>number of blocks available
+<ul class="Element636">
+<li class="Element606">if the client opened the driver in read only mode</li>
+</ul></p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <a href="11052.html">DRV_SRAM_Initialize</a>() routine must have been called for the specified SRAM driver instance.&nbsp;</p>
+<p class="Element10">
+<a href="11055.html">DRV_SRAM_Open</a>() routine must have been called to obtain a valid opened device handle. DRV_IO_INTENT_WRITE or DRV_IO_INTENT_READWRITE must have been specified as a parameter to this routine.&nbsp;</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+handle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+A valid open-instance handle, returned from the driver's open function<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+commandHandle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to an argument that will contain the return buffer handle<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+sourceBuffer&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+The source buffer containing data to be programmed into SRAM memory<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+blockStart&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Start block address of SRAM media from where the write should begin.<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+nBlock&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Total number of blocks to be written.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The buffer handle is returned in the commandHandle argument. It will be <a href="11032.html">DRV_SRAM_COMMAND_HANDLE_INVALID</a> if the request was not successful.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00900');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00900"><pre class="Element12">
+uint8_t myBuffer[MY_BUFFER_SIZE];
+uint32_t blockStart = 2;
+uint32_t nBlock = 2;
+<a href="11031.html">DRV_SRAM_COMMAND_HANDLE</a> commandHandle;
+MY_APP_OBJ myAppObj;    
+
+<i><span style="color: #008000">// mySRAMHandle is the handle returned by the DRV_SRAM_Open function.</span></i>
+<i><span style="color: #008000">// Client registers an event handler with driver</span></i>
+
+<a href="11044.html">DRV_SRAM_EventHandlerSet</a>(mySRAMHandle, APP_SRAMEventHandler, (uintptr_t)&amp;myAppObj);
+DRV_SRAM_Write(mySRAMHandle, &amp;commandHandle, &amp;myBuffer, blockStart, nBlock);
+
+<strong><span style="color: #000080">if</span></strong>(<a href="11032.html">DRV_SRAM_COMMAND_HANDLE_INVALID</a> == commandHandle)
+{
+    <i><span style="color: #008000">// Error handling here</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+    <i><span style="color: #008000">// Write completed successfully.</span></i>
+}
+
+<i><span style="color: #008000">// Event is received from within the DRV_SRAM_Write function when the</span></i>
+<i><span style="color: #008000">// buffer is processed.</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_SRAMEventHandler
+(
+    <a href="11040.html">DRV_SRAM_EVENT</a> event, 
+    <a href="11031.html">DRV_SRAM_COMMAND_HANDLE</a> commandHandle, 
+    uintptr_t contextHandle
+)
+{
+    <i><span style="color: #008000">// contextHandle points to myAppObj.</span></i>
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_SRAM_EVENT_COMMAND_COMPLETE:
+            <i><span style="color: #008000">// This means the data was transferred. </span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+        
+        <strong><span style="color: #000080">case</span></strong> DRV_SRAM_EVENT_COMMAND_ERROR:
+            <i><span style="color: #008000">// Error handling here.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23370.html">SRAM Driver Library</a> &gt; <a href="08859.html">Library Interface</a> &gt; a) System Functions &gt; <a href="11058.html">DRV_SRAM_Write Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_SRAM_Write@DRV_HANDLE@DRV_SRAM_COMMAND_HANDLE *@void *@uint32_t@uint32_t Topic Title: DRV_SRAM_Write Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

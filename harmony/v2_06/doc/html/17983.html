@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PGV Error Handling</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="24218.html">System Bus Peripheral Library</a> &gt; <a href="17986.html">Using the Library</a> &gt; <a href="17976.html">How the Library Works</a> &gt; <a href="17983.html">PGV Error Handling</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17984.html">Previous</a> | <a href="17976.html">Up</a> | <a href="17971.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SB PGV Error Handling Topic Title: PGV Error Handling)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PGV Error Handling</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A permission group violation (PGV) occurs when an initiator attempts to access a target without the proper permissions. Any permission group violation will trigger an interrupt to the CPU. If enabled, the System Bus will report a PGV to the error log registers in the System Bus. The PGV interrupt handler can then use this library to retrieve information about the violation and act accordingly.&nbsp;</p>
+<p class="Element10">
+By default, error reporting is disabled in the System Bus and must be enabled during the start-up or boot code. Errors are divided into two categories: primary and secondary. Primary errors are errors arising from secure accesses, such as trying to access a target region without the proper permissions. Secondary errors are errors arising from non-secure accesses, such as trying to access a memory location outside of a target region.&nbsp;</p>
+<p class="Element10">
+PIC32 devices support logging of primary errors only. Primary error logging is enabled using the library function <a href="20654.html">PLIB_SB_PGVErrorReportPrimaryEnable</a>. Primary error reporting can be disabled using the library function <a href="20653.html">PLIB_SB_PGVErrorReportPrimaryDisable</a>. Error logging must be enabled or disabled separately for each target.&nbsp;</p>
+<p class="Element10">
+Once a permission group violation error is logged, the user can use this library to retrieve information from the System Bus error log registers. Each target has its own set of error log registers. The error information available and the library API used to retrieve it are shown in the following table. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="61%">
+<div class="Element66">
+Error Log Data&nbsp;</div></td><td class="Element65" valign="top" width="39%">
+<div class="Element66">
+System Bus Peripheral Library Function&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="61%">
+<div class="Element68">
+Has the specified target reported an error?&nbsp;</div></td><td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="20655.html">PLIB_SB_PGVErrorStatus</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="61%">
+<div class="Element68">
+Has the specified target reported more than one error since last cleared?&nbsp;</div></td><td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="20650.html">PLIB_SB_PGVErrorMulti</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="61%">
+<div class="Element68">
+Type of error.&nbsp;</div></td><td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="20645.html">PLIB_SB_PGVErrorCode</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="61%">
+<div class="Element68">
+Initiator ID.&nbsp;</div></td><td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="20647.html">PLIB_SB_PGVErrorInitiatorID</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="61%">
+<div class="Element68">
+OCP command code of the transaction.&nbsp;</div></td><td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="20646.html">PLIB_SB_PGVErrorCommandCode</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="61%">
+<div class="Element68">
+The region number of the specified target accessed during the violation.&nbsp;</div></td><td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="20652.html">PLIB_SB_PGVErrorRegion</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="61%">
+<div class="Element68">
+Permission group of initiator that caused the violation.&nbsp;</div></td><td class="Element67" valign="top" width="39%">
+<div class="Element68">
+<a href="20651.html">PLIB_SB_PGVErrorPermissionGroup</a>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Once an error is logged, it needs to be cleared by software before any data for a subsequent violation can be logged (for the same target). This is typically done in the exception handler that reads the data. Which function is used depends on whether a single or multiple error violation occurred. Single violations are cleared with <a href="20644.html">PLIB_SB_PGVErrorClearSingle</a>, and multiple violations are cleared with <a href="20643.html">PLIB_SB_PGVErrorClearMulti</a>.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="24218.html">System Bus Peripheral Library</a> &gt; <a href="17986.html">Using the Library</a> &gt; <a href="17976.html">How the Library Works</a> &gt; <a href="17983.html">PGV Error Handling</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SB PGV Error Handling Topic Title: PGV Error Handling)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_ADCHS_Setup Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17427.html">Library Interface</a> &gt; a) Configuration Functions &gt; <a href="18325.html">PLIB_ADCHS_Setup Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18281.html">Previous</a> | <a href="17427.html">Up</a> | <a href="18240.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_ADCHS_Setup@ADCHS_MODULE_ID@ADCHS_VREF_SOURCE@ADCHS_CHARGEPUMP_MODE@ADCHS_OUTPUT_DATA_FORMAT@bool@ADCHS_FAST_SYNC_SYSTEM_CLOCK@ADCHS_FAST_SYNC_PERIPHERAL_CLOCK@ADCHS_INTERRUPT_BIT_SHIFT_LEFT@uint16_t@ADCHS_CLOCK_SOURCE@int8_t@ADCHS_WARMUP_CLOCK Topic Title: PLIB_ADCHS_Setup Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_ADCHS_Setup Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">PLIB_ADCHS_Setup</span></strong>(
+    <a href="03029.html">ADCHS_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    <a href="03065.html">ADCHS_VREF_SOURCE</a> <strong><span style="color: #000000">voltageRefSelect</span></strong>, 
+    <a href="02928.html">ADCHS_CHARGEPUMP_MODE</a> <strong><span style="color: #000000">chargePump</span></strong>, 
+    <a href="03032.html">ADCHS_OUTPUT_DATA_FORMAT</a> <strong><span style="color: #000000">outputFormat</span></strong>, 
+    <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">stopInIdle</span></strong>, 
+    <a href="03012.html">ADCHS_FAST_SYNC_SYSTEM_CLOCK</a> <strong><span style="color: #000000">sysClk</span></strong>, 
+    <a href="03009.html">ADCHS_FAST_SYNC_PERIPHERAL_CLOCK</a> <strong><span style="color: #000000">periClk</span></strong>, 
+    <a href="03020.html">ADCHS_INTERRUPT_BIT_SHIFT_LEFT</a> <strong><span style="color: #000000">intVectorShift</span></strong>, 
+    uint16_t <strong><span style="color: #000000">intVectorBase</span></strong>, 
+    <a href="02932.html">ADCHS_CLOCK_SOURCE</a> <strong><span style="color: #000000">adcClockSource</span></strong>, 
+    int8_t <strong><span style="color: #000000">adcClockDivider</span></strong>, 
+    <a href="03074.html">ADCHS_WARMUP_CLOCK</a> <strong><span style="color: #000000">warmUpClock</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Configures all ADC parameters which are common to all ADC channels (from 0 to 7). This configuration must occur prior to enabling the ADC and therefore must be called when the ADC is disabled.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The ADCHS module is disabled when calling this function.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the ADCHS instance.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+voltageRefSelect&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+VREF Source Selection.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+chargePump&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Enables/ disables the charge pump. This variable is of <a href="02928.html">ADCHS_CHARGEPUMP_MODE</a> type. Use when&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+VREFH&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+VREFL &lt; .64 (AVDD - AVSS). This feature is not available on all devices.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+outputFormat&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets output data format to be integer or fractional. This parameter is of <a href="03032.html">ADCHS_OUTPUT_DATA_FORMAT</a> type.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+stopInIdle&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets ADC to stop when device is in Idle mode if true&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+sysClk&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the Fast synchronous system clock to ADC control clock. This variable is of type <a href="03012.html">ADCHS_FAST_SYNC_SYSTEM_CLOCK</a>.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+periClk&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the Fast synchronous peripheral clock to ADC control clock. This variable is of type <a href="03009.html">ADCHS_FAST_SYNC_PERIPHERAL_CLOCK</a>.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+intVectorShift&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the interrupt vector shift left shift. This variable is of <a href="03020.html">ADCHS_INTERRUPT_BIT_SHIFT_LEFT</a> type.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+intVectorBase&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Sets the interrupt vector base address.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+adcClockSource&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Clock source selection. This variable is of type <a href="02932.html">ADCHS_CLOCK_SOURCE</a>.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+adcClockDivider&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Clock source divider. Values range from 0 to 63. This divider determines the input clock frequency which goes as input to all ADC channels (all ADC channels, 0 to 7). This clock is also known as the &quot;control clock&quot; of ADC. The frequency of control&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+clock for ADC, as per the following equation&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Control clock frequency = (frequency of &quot;adcClockSource&quot;)/(adcClockDivider * 2) For adcClockDivider = 0, control clock frequency is same as frequency of &quot;adcClockSource&quot;.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+warmUpClock&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+This parameter determines the number of channel clock (not control clock) which is required as warm up time for the ADC channel, once the analog feature of that ADC channel is enabled. The variable is of type <a href="03074.html">ADCHS_WARMUP_CLOCK</a>.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function must be called when the ADC is disabled.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01469');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01469"><pre class="Element12"><i><span style="color: #008000">// Where MY_ADCHS_INSTANCE, is the ADCHS instance selected for use by the</span></i>
+<i><span style="color: #008000">// application developer.</span></i>
+
+<i><span style="color: #008000">// Configure the ADC</span></i>
+PLIB_ADCHS_Setup
+( 
+    MY_ADCHS_INSTANCE,
+    ADCHS_VREF_AVDD_AVSS,                   <i><span style="color: #008000">// AVDD and AVSS as reference</span></i>
+    ADCHS_CHARGEPUMP_DISABLE,               <i><span style="color: #008000">// Charge pump is disabled</span></i>
+    ADCHS_OUTPUT_DATA_FORMAT_FRACTIONAL,    <i><span style="color: #008000">// Use fractional format</span></i>
+    <strong><span style="color: #000080">true</span></strong>,                                   <i><span style="color: #008000">// Stop in idle</span></i>
+    ADCHS_FAST_SYNC_SYSTEM_CLOCK_ENABLE,    <i><span style="color: #008000">// Enable Fast synchronous system clock</span></i>
+    ADCHS_FAST_SYNC_PERIPHERAL_CLOCK_DISABLE, <i><span style="color: #008000">// Disable Fast synchronous peripheral clock</span></i>
+    ADCHS_INTERRUPT_BIT_SHIFT_LEFT_2_BITS,  <i><span style="color: #008000">// vector left shift set to 2</span></i>
+    0x1600,                                 <i><span style="color: #008000">// vector base address set to 0x1600</span></i>
+    ADCHS_CLOCK_SOURCE_SYSCLK,              <i><span style="color: #008000">// SYSCLK is the clock source</span></i>
+    1,                                      <i><span style="color: #008000">// Control clock, TQ = 1/SYSCLK * 2</span></i>
+    ADCHS_WARMUP_CLOCK_32                   <i><span style="color: #008000">// Warm-up up time = 32 clocks</span></i>
+);
+
+<i><span style="color: #008000">// Enable the ADC</span></i>
+<a href="18281.html">PLIB_ADCHS_Enable</a>(MY_ADCHS_INSTANCE);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17427.html">Library Interface</a> &gt; a) Configuration Functions &gt; <a href="18325.html">PLIB_ADCHS_Setup Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_ADCHS_Setup@ADCHS_MODULE_ID@ADCHS_VREF_SOURCE@ADCHS_CHARGEPUMP_MODE@ADCHS_OUTPUT_DATA_FORMAT@bool@ADCHS_FAST_SYNC_SYSTEM_CLOCK@ADCHS_FAST_SYNC_PERIPHERAL_CLOCK@ADCHS_INTERRUPT_BIT_SHIFT_LEFT@uint16_t@ADCHS_CLOCK_SOURCE@int8_t@ADCHS_WARMUP_CLOCK Topic Title: PLIB_ADCHS_Setup Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

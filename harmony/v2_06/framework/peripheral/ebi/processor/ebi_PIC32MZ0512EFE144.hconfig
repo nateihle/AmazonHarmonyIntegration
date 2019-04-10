@@ -1,0 +1,105 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ0512EFE144_EBI
+	bool
+	select HAVE_EBI
+	default y
+
+config EBI_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum EBI_MODULE_ID exclusive
+	"EBI_ID_0"
+
+enum EBI_CS_TIMING
+	"CS_TIMING_0"
+	|| "CS_TIMING_1"
+	|| "CS_TIMING_2"
+
+enum EBI_MEMORY_TYPE
+	"SRAM"
+	|| "NORFLASH"
+
+enum EBI_MEMORY_SIZE
+	"CSNOTUSED"
+	|| "MEMORY_SIZE_64KB"
+	|| "MEMORY_SIZE_128KB"
+	|| "MEMORY_SIZE_256KB"
+	|| "MEMORY_SIZE_512KB"
+	|| "MEMORY_SIZE_1MB"
+	|| "MEMORY_SIZE_2MB"
+	|| "MEMORY_SIZE_4MB"
+	|| "MEMORY_SIZE_8MB"
+	|| "MEMORY_SIZE_16MB"
+
+enum EBI_PAGE_SIZE
+	"PAGE_WORD4"
+	|| "PAGE_WORD8"
+	|| "PAGE_WORD16"
+	|| "PAGE_WORD32"
+
+enum EBI_STATIC_MEMORY_WIDTH
+	"MEMORY_WIDTH_8BIT"
+	|| "MEMORY_WIDTH_16BIT"
+
+enum EBI_ADDRESS_PORT
+	"EBI_EBIADDR_PIN0"
+	|| "EBI_EBIADDR_PIN1"
+	|| "EBI_EBIADDR_PIN2"
+	|| "EBI_EBIADDR_PIN3"
+	|| "EBI_EBIADDR_PIN4"
+	|| "EBI_EBIADDR_PIN5"
+	|| "EBI_EBIADDR_PIN6"
+	|| "EBI_EBIADDR_PIN7"
+	|| "EBI_EBIADDR_PIN8"
+	|| "EBI_EBIADDR_PIN9"
+	|| "EBI_EBIADDR_PIN10"
+	|| "EBI_EBIADDR_PIN11"
+	|| "EBI_EBIADDR_PIN12"
+	|| "EBI_EBIADDR_PIN13"
+	|| "EBI_EBIADDR_PIN14"
+	|| "EBI_EBIADDR_PIN15"
+	|| "EBI_EBIADDR_PIN16"
+	|| "EBI_EBIADDR_PIN17"
+	|| "EBI_EBIADDR_PIN18"
+	|| "EBI_EBIADDR_PIN19"
+	|| "EBI_EBIADDR_PIN20"
+	|| "EBI_EBIADDR_PIN21"
+	|| "EBI_EBIADDR_PIN22"
+	|| "EBI_EBIADDR_PIN23"
+	|| "EBI_ADDR_PRESET8"
+	|| "EBI_ADDR_PRESET12"
+	|| "EBI_ADDR_PRESET16"
+	|| "EBI_ADDR_PRESET_ALL"
+
+ifblock PROJECT_STANDALONE
+file PLIB_EBI_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/processor/ebi_p32mz0512efe144.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/processor/ebi_p32mz0512efe144.h"
+
+file PLIB_EBI_BASE_ADDRESS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_Base_Address_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_Base_Address_Default.h"
+file PLIB_EBI_MEMORYCHARACTERISTICS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_MemoryCharacteristics_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_MemoryCharacteristics_Default.h"
+file PLIB_EBI_MEMORYTIMINGCONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_MemoryTimingConfig_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_MemoryTimingConfig_Default.h"
+file PLIB_EBI_READYMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ReadyMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ReadyMode_Default.h"
+file PLIB_EBI_MEMORYPAGING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_MemoryPaging_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_MemoryPaging_Default.h"
+file PLIB_EBI_PAGEMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_PageMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_PageMode_Default.h"
+file PLIB_EBI_PAGEREADTIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_PageReadTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_PageReadTime_Default.h"
+file PLIB_EBI_DATATURNAROUNDTIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_DataTurnAroundTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_DataTurnAroundTime_Default.h"
+file PLIB_EBI_WRITEPULSEWIDTH_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_WritePulseWidth_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_WritePulseWidth_Default.h"
+file PLIB_EBI_ADDRESSHOLDTIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_AddressHoldTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_AddressHoldTime_Default.h"
+file PLIB_EBI_ADDRESSSETUPTIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_AddressSetupTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_AddressSetupTime_Default.h"
+file PLIB_EBI_READCYCLETIME_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ReadCycleTime_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ReadCycleTime_Default.h"
+file PLIB_EBI_FLASHTIMING_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_FlashTiming_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_FlashTiming_Default.h"
+file PLIB_EBI_STATICMEMORYWIDTHREGISTER_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_StaticMemoryWidthRegister_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_StaticMemoryWidthRegister_Default.h"
+file PLIB_EBI_FLASHPOWERDOWNMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_FlashPowerDownMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_FlashPowerDownMode_Default.h"
+file PLIB_EBI_CONTROLENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ControlEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ControlEnable_Default.h"
+file PLIB_EBI_ADDRESSPINENABLEBITS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_AddressPinEnableBits_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_AddressPinEnableBits_Default.h"
+file PLIB_EBI_READYPIN3CONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ReadyPin3Config_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ReadyPin3Config_Default.h"
+file PLIB_EBI_READYPIN2CONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ReadyPin2Config_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ReadyPin2Config_Default.h"
+file PLIB_EBI_READYPIN1CONFIG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ReadyPin1Config_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ReadyPin1Config_Default.h"
+file PLIB_EBI_READYPINSENS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ReadyPinSens_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ReadyPinSens_Default.h"
+file PLIB_EBI_FLASHRESETPIN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_FlashResetPin_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_FlashResetPin_Default.h"
+file PLIB_EBI_WRITEOUTPUTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_WriteOutputControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_WriteOutputControl_Default.h"
+file PLIB_EBI_BYTESELECTPIN_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ByteSelectPin_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ByteSelectPin_Default.h"
+file PLIB_EBI_CHIPSELECTENABLE_EBIP32_144PIN_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_ChipSelectEnable_EBIP32_144pin.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_ChipSelectEnable_EBIP32_144pin.h"
+file PLIB_EBI_DATAENABLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/ebi/templates/ebi_DataEnable_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/ebi/templates/ebi_DataEnable_Default.h"
+endif

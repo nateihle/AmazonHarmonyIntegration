@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>4.1.1: Execution in One or More RTOS Environment</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07123.html">4.1: Support One or More Execution Environments</a> &gt; <a href="07089.html">4.1.1: Execution in One or More RTOS Environment</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07123.html">Previous</a> | <a href="07123.html">Up</a> | <a href="07092.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Execution in One or More RTOS Environment Topic Title: 4.1.1: Execution in One or More RTOS Environment)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+4.1.1: Execution in One or More RTOS Environment</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MPLAB Harmony OSAL defines a set of functions that libraries can call to provide thread safety and blocking behavior when executing in a supported OS environment. MPAB Harmony libraries call the appropriate OSAL functions to provide thread safety when accessing shared resources or providing blocking functionality. For non-OS environments, MPLAB Harmony provides &quot;basic&quot; and &quot;none&quot; implementations of the OSAL, allowing the OSAL calls (or &quot;hooks&quot;) to remain in the library code.&nbsp;</p>
+<p class="Element10">
+The OSAL can be implemented for most OS or non-OS environments. So, using the OSAL provides maximum flexibility for MPLAB Harmony compatible libraries and is highly recommended. However, a library can be implemented for a specific OS (or for no OS) and still be MPLAB Harmony compatible in the environment for which it was designed as long as the library’s documentation clearly and conspicuously identifies the OS (or non-OS) environment(s) it supports, if it does not make use of the MPLAB Harmony OSAL.&nbsp;</p>
+<p class="Element10">
+It is preferable that a module that supports execution in one or more RTOS environments should utilize the MPLAB Harmony abstracted state machine architecture and that the module’s tasks functions be called from a loop in an OS thread (if polled) or from an ISR (if interrupt driven), as illustrated in the following diagram. </p><p class="Element10" style="text-align: center;">
+<strong>OS-Based Execution</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="COMPGUIDE OS Based Execution.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+But, it is acceptable to use any desired method of implementing the module if it is restricted to an RTOS environment and all restrictions are clearly and conspicuously documented.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07091.html">4: Flexibility Guidelines</a> &gt; <a href="07123.html">4.1: Support One or More Execution Environments</a> &gt; <a href="07089.html">4.1.1: Execution in One or More RTOS Environment</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Execution in One or More RTOS Environment Topic Title: 4.1.1: Execution in One or More RTOS Environment)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

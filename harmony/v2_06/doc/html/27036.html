@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initializing the Test Harness</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27036.html">Initializing the Test Harness</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27032.html">Previous</a> | <a href="16814.html">Up</a> | <a href="27033.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Initializing the Test Harness Topic Title: Initializing the Test Harness)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initializing the Test Harness</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MPLAB Harmony Test Harness requires a number of properly initialized data structures to identify the tests it will run and the libraries they will test. The MHC will generate the necessary code to define these initialization structures in the <span class="Element146">system_init.c</span> file of the current configuration. This section describes the relationships between these structures and the fundamental purposes of each. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The Test Harness assumes a one-to-one relationship between a test and a LUT. When testing a stack of related libraries it is best to test them one at a time, starting at the bottom of the stack and working up to higher-level libraries. If testing a desired library requires other libraries to be running, then they will need to run outside of the control of the Test Harness in exactly the way they are normally configured by the MHC.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10" style="text-align: center;">
+<strong>Test Harness Initialization Data</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="HARNESS Test Harness Initialization Data.png" border="0" alt="" title=""></p><p class="Element10">
+The test harness initialization data structure (<a href="27048.html">TEST_INIT_DATA</a>) contains the number of tests listed in the test data array and provides a pointer to the array. Each entry in the test data array is a <a href="27026.html">TEST_DATA</a> structure. This structure contains pointers to a display name string as well as the initialize, tasks, start, and status functions for an individual test instance. It also contains pointers to the test’s own initial data structure (each test can have it’s own &quot;init&quot; structure, just like any Harmony module) and to a &quot;Library Under Test&quot; data structure that identifies the library to be tested by that specific test. There are also few other data items in each structure in the array that are managed by the test harness itself to track the test’s progress. So, this array must remain in RAM (i.e., it cannot be declared as &quot;const&quot;).&nbsp;</p>
+<p class="Element10">
+The test’s initialization data structure is a standard MPLAB Harmony system module &quot;init&quot; (<a href="23969.html">SYS_MODULE_INIT</a>) data structure that can be extended by the test itself to contain any required initialization data. The LUT data structure from the previous figure is shown in more detail in the following figure.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><p class="Element10" style="text-align: center;">
+<strong>Module Under Test Data Structure</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="HARNESS Module Under Test Data Structure.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+Each <a href="16304.html">LIBRARY_UNDER_TEST</a> structure contains enough information to initialize and run a single Library Under Test (LUT). It contains pointers to all system-interface functions of the LUT as well as pointers to each module instance’s “Init” data structure. Since a module can have more than one tasks function, the <a href="16304.html">LIBRARY_UNDER_TEST</a> structure contains an array of pointers to the &quot;Tasks&quot; functions and an integer value identifying how many Tasks functions there are. Also, since a dynamic library can support multiple instances of itself, the <a href="16304.html">LIBRARY_UNDER_TEST</a> structure also contains an array of pointers to the LUT’s &quot;Init&quot; data structure. Both of these array sizes are configurable in the source code, but they are values are effectively fixed by the requirements of the MHC templates.&nbsp;</p>
+<p class="Element10">
+While the MHC will generate the necessary code to initialize these structures, it is necessary to understand what they contain and what purpose each structure serves to effectively enter the appropriate data into the MHC . The data types are defined in the test harness (<span class="Element146">&lt;install-dir&gt;/framework/test/<a href="27027.html">test_harness.h</a></span>) header file, but they also use data types defined in other MPLAB Harmony system headers. The root of this data structure tree is the <a href="27048.html">TEST_INIT_DATA</a> structure, a pointer to which is passed into the <a href="27049.html">TEST_Initialize</a> function, which is called from the <a href="23925.html">SYS_Initialize</a> function.&nbsp;</p>
+<p class="Element10">
+It is generally best to start out with a single test add more as needed, later. The initialization of the number member of the <a href="27048.html">TEST_INIT_DATA</a> will adjust during the build if the MHC generated code is used. Be sure to give each test a meaningful name string in the test data structure so you can easily to identify each test in the debug output. The test harness uses the pointers to the initialize, tasks, start, and status functions in the sample test data structure to execute the test, so be sure that these match the names of the functions defined by your test. (<strong>Note:</strong> These can be given as NULL if you want to do an initial build test before you have implemented your test.)&nbsp;</p>
+<p class="Element10">
+During test development, leave the index member at zero (0) and define the <a href="13976.html">initData</a> member as NULL. You can initialize them later, once you have implemented your test and defined its initialization data structure type. Of course, this structure will also need to be initialized in the <span class="Element146">system_init.c</span> file before it is referenced by the <a href="27026.html">TEST_DATA</a> structure, test, the MHC has no knowledge of it so you will have to initialize it yourself manually.&nbsp;</p>
+<p class="Element10">
+If your test requires knowledge of the initial data passed to the library under test (and it will if it verifies the initial settings of the library), the <a href="16304.html">LIBRARY_UNDER_TEST</a> data structure will need pointers to the &quot;init&quot; data structures for each instance of the library. Of course, these will need to be cast to <a href="23969.html">SYS_MODULE_INIT</a> structure pointers; just like they are when they are passed to the library’s &quot;initialize&quot; routine. Notice that the tasks member is an array of pointers to the LUT’s tasks functions. It must have exactly as many initialized entries as specified in the numberOfTasks member. This number is limited to no more than the value defined by the TEST_HARNESS_MAX_NUM_TASKS_PER_MODULE setting. Unfortunately, this value is not configurable from within the MHC as it is restricted by MHC templates. However, it can be modified by hand in the source code.&nbsp;</p>
+<p class="Element10">
+After initializing these data structures, it is a good idea to do a test build and verify that the project has no errors or warnings. You can also debug the test harness state machine and verify that it recognizes and executes your test. If the harness is executed with no test list data, it will report an error and to into the idle (APP_TH_STATE_IDLE) state, providing a failure result (harness.result == false).</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16814.html">MPLAB Harmony Test Harness User's Guide</a> &gt; <a href="27036.html">Initializing the Test Harness</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TEST_HARNESS_UG Initializing the Test Harness Topic Title: Initializing the Test Harness)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

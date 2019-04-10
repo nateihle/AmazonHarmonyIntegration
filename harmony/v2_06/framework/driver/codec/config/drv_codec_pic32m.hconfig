@@ -1,0 +1,69 @@
+menu "CODEC"
+	depends on AUDIO_CODEC_SUPPORT
+---help---
+	IDH_HTML_HARMONY_Codec_Driver_Libraries
+---endhelp---
+
+ifblock SELECT_DRV_AK4642=n && SELECT_DRV_AK4953=n && SELECT_DRV_AK4954=n &&SELECT_DRV_AK7755=n
+config SELECT_DRV_AK4384
+	bool "Use Codec AK4384?"
+	default n
+	---help---
+	IDH_HTML_AK4384_Driver_Library
+	---endhelp---
+	
+ifblock SELECT_DRV_AK4384=y	
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak4384/config/drv_ak4384.hconfig"
+endif
+endif
+
+ifblock SELECT_DRV_AK4384=n && SELECT_DRV_AK4953=n && SELECT_DRV_AK4954=n &&SELECT_DRV_AK7755=n
+config SELECT_DRV_AK4642
+	bool "Use Codec AK4642?"
+	default n
+	---help---
+	IDH_HTML_AK4642_Driver_Library
+	---endhelp---
+ifblock SELECT_DRV_AK4642=y		
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak4642/config/drv_ak4642.hconfig"
+endif
+endif
+
+
+ifblock SELECT_DRV_AK4384=n && SELECT_DRV_AK4642=n && SELECT_DRV_AK4954=n && SELECT_DRV_AK7755=n
+config SELECT_DRV_AK4953
+	bool "Use Codec AK4953?"
+	default n
+	---help---
+	IDH_HTML_AK4953_Driver_Library
+	---endhelp---
+ifblock SELECT_DRV_AK4953=y		
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak4953/config/drv_ak4953.hconfig"
+endif
+endif
+
+ifblock SELECT_DRV_AK4384=n && SELECT_DRV_AK4642=n && SELECT_DRV_AK4953=n && SELECT_DRV_AK7755=n
+config SELECT_DRV_AK4954
+	bool "Use Codec AK4954?"
+	default n
+	---help---
+	IDH_HTML_AK4954_Driver_Library
+	---endhelp---
+ifblock SELECT_DRV_AK4954=y		
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak4954/config/drv_ak4954.hconfig"
+endif
+endif
+
+ifblock SELECT_DRV_AK4384=n && SELECT_DRV_AK4642=n && SELECT_DRV_AK4953=n && SELECT_DRV_AK4954=n
+config SELECT_DRV_AK7755
+	bool "Use Codec AK7755?"
+	default n
+	---help---
+	IDH_HTML_AK7755_Driver_Library
+	---endhelp---
+ifblock SELECT_DRV_AK7755=y		
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak7755/config/drv_ak7755.hconfig"
+endif
+endif
+
+endmenu

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17822.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17341.html">Previous</a> | <a href="17341.html">Up</a> | <a href="17830.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Output Compare module is primarily used to generate a single pulse or a series of pulses in response to selected time base events.&nbsp;</p>
+<p class="Element10">
+Output Compare module operation essentially requires a timer and one or two compare values. Users have an option to select either a 32-bit timer or a 16-bit timer. The timer can be programmed to count at a desired frequency and count up to a desired period value. Details regarding timer operation and setup can be found in the Timer Peripheral Library. The Output Compare module compares the value of the timer with the compare values depending on the selected operating mode. When a compare match occurs between a timer value and compare values, the Output Compare module outputs a change of state on its output pins in accordance with the chosen Output Compare compare mode logic. Either a single pulse or a sequence of pulses may be generated.&nbsp;</p>
+<p class="Element10">
+Some of the key operating modes of the OC module are:
+<ul class="Element630">
+<li class="Element600">Single Compare Set High/Low modes: In these compare modes, a compare match between the timer and the buffer (primary compare value) sets the output High/Low. The output remains at the same state after compare match event unless the module is disabled or the mode is changed.</li>
+<li class="Element600">Single Compare Toggle mode: Output toggles state at every compare match event between the timer and the buffer (primary compare value)</li>
+<li class="Element600">Dual compare Single/Continuous Pulse modes: These modes require two compare values. Leading edge of output pulse is generated during compare match of the incrementing timer and the buffer (primary compare value). Trailing edge of output pulse results when a compare match occurs between the incrementing timer and the pulse width value (secondary compare value). The output may be a single pulse or a sequence of pulses.</li>
+<li class="Element600">Pulse-Width Modulation (PWM) modes: In this mode, output goes high when a compare match occurs between timer and the pulse width value (duty cycle). The output is reset back to its initial state when the timer resets after attaining its maximum count.</li>
+</ul>The Output Compare module also provides programmable interrupt generation on a compare match event. In PWM mode, hardware-based Fault detection and automatic output disable features are provided.&nbsp;</p>
+<p class="Element10">
+Figure 1 shows a block diagram of the Output Compare module. A compare match between the timer value and the compare values generates a pulse at the output. </p><p class="Element10" style="text-align: center;">
+<strong>Figure 1: Output Compare Module Block Diagram</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="OC Block Diagram_small.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+Figure 2 shows a block diagram of the Output Compare module with dedicated timers, present on some devices. It facilitates the use of multiple Output Compare modules operating synchronously or the use of an asynchronous trigger to generate a pulse. </p><p class="Element10" style="text-align: center;">
+<strong>Figure 2: Output Compare Module Block Diagram with Dedicated Timers</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="OC Module Block Diagram with Dedicated Timers.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17822.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

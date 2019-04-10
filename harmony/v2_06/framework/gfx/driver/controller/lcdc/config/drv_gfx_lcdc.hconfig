@@ -1,0 +1,84 @@
+enum DRV_LCDC_MODE
+    "STATIC"
+
+enum DRV_GFX_LCDC_LAYER_ID
+    "LAYER_ID_0"
+    || "LAYER_ID_1"
+
+enum DRV_GFX_LCDC_CLK_DIVIDER_VALUE
+	"2"
+	|| "3"
+	|| "4"
+	|| "5"
+	|| "6"
+	|| "7"
+	|| "8"
+	|| "9"
+	|| "10"
+	|| "11"
+	|| "12"
+	|| "13"
+	|| "14"
+	|| "15"
+	|| "16"
+	|| "17"
+	|| "18"
+	|| "19"
+	|| "20"
+	|| "21"
+	|| "22"
+	|| "23"
+	|| "24"
+	|| "25"
+	|| "26"
+	|| "27"
+	|| "28"
+	|| "29"
+	|| "30"
+	|| "31"
+
+config DRV_GFX_LCDC_MODE
+    string "Driver Implementation"
+    range DRV_LCDC_MODE
+    default "STATIC"
+    ---help---
+    IDH_HTML_DRV_TMR_Timer_Driver_Library
+    ---endhelp---
+
+menu "Pixel Clock Settings"
+
+config DRV_GFX_LCDC_INPUT_CLK
+	depends on USE_DRV_GFX_LCDC
+	string "Master Clock (MHz)"
+	persistent
+	default "100"
+
+config DRV_GFX_LCDC_CLK_DIVIDER
+	string "Pixel Clock Prescaler"
+	range DRV_GFX_LCDC_CLK_DIVIDER_VALUE
+	default "4"
+
+endmenu
+
+menu "Driver Settings"
+
+config DRV_GFX_LCDC_BACKGROUND_COLOR
+    string "Base Layer Background Color (RGBA8888 Hex Format)"
+    default 0xFFFFFF00
+    ---help---
+    IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+endmenu
+
+config DRV_GFX_LCDC_LAYERS_NUMBER
+    int "Max Layer Count"
+	range 1 2
+	default 2
+
+source "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/lcdc/config/drv_gfx_lcdc_idx.ftl" 2 instances
+
+ifblock USE_DRV_GFX_LCDC
+template DRV_GFX_LCDC_STATIC_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/lcdc/templates/drv_gfx_lcdc.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/lcdc/src/drv_gfx_lcdc.c"
+template DRV_GFX_LCDC_STATIC_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/lcdc/templates/drv_gfx_lcdc.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/lcdc/drv_gfx_lcdc.h"
+endif

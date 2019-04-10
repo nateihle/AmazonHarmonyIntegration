@@ -1,0 +1,40 @@
+# file: framework/math/libq/config/libq.hconfig
+
+menu "LibQ Fixed-Point Math Library Configuration"
+    config USE_LIBQ
+        bool "Use LibQ Fixed-Point Math Library?"
+        depends on PIC32MZ
+        default n
+        ---help---
+        IDH_HTML_DSP_LibQ_Fixed_Point_Library
+        ---endhelp---
+
+    config USE_LIBQ_C
+        bool "Use LibQ C Fixed-Point Math Library?"
+        default n
+        ---help---
+        IDH_HTML_LibQ_C_Fixed_Point_Library
+        ---endhelp---
+endmenu
+
+####LIBQ (MZ only)
+ifblock USE_LIBQ
+    file LIBQ_H "$HARMONY_VERSION_PATH/framework/math/libq/libq.h" to "$PROJECT_HEADER_FILES/framework/math/libq/libq.h"
+    library LIBQ_A "$HARMONY_VERSION_PATH/bin/framework/math/libq/libq_mips32_mz_l.a"
+    compiler LIBQ_LIB_INCLUDE_A includepath "$HARMONY_VERSION_PATH/framework/math/libq"
+endif
+
+####LIBQ_C
+ifblock USE_LIBQ_C
+    ifblock PIC32MX
+        file LIBQ_C_H_A "$HARMONY_VERSION_PATH/framework/math/libq/libq_c.h" to "$PROJECT_HEADER_FILES/framework/math/libq/libq_c.h"
+        library LIBQ_C_PIC32_MX "$HARMONY_VERSION_PATH/bin/framework/math/libq/libq_c_mips32_mx_l.a"
+        compiler LIBQ_LIB_INCLUDE_B includepath "$HARMONY_VERSION_PATH/framework/math/libq"
+    endif
+
+    ifblock PIC32MZ
+        file LIBQ_C_H_B "$HARMONY_VERSION_PATH/framework/math/libq/libq_c.h" to "$PROJECT_HEADER_FILES/framework/math/libq/libq_c.h"
+        library LIBQ_C_PIC32_MZ "$HARMONY_VERSION_PATH/bin/framework/math/libq/libq_c_mips32_mz_l.a"
+        compiler LIBQ_LIB_INCLUDE_C includepath "$HARMONY_VERSION_PATH/framework/math/libq"
+    endif
+endif

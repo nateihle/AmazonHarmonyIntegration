@@ -1,0 +1,69 @@
+menu "SST26 SQI Flash Driver"
+    depends on HAVE_SQI
+
+enum DRV_SST26_MODE
+    "DYNAMIC"
+	
+config DRV_SST26_NEEDED
+    bool 
+	
+config USE_DRV_SST26
+    bool "Use SST26 Driver?"
+    select DRIVER
+    select DRV_SQI_NEEDED
+    select USE_SYS_TMR_NEEDED
+    default n if !DRV_SST26_NEEDED
+	default y if DRV_SST26_NEEDED
+    ---help---
+      IDH_HTML__SST26__Driver_Library
+    ---endhelp---
+
+config DRV_SST26_INSTANCES_NUMBER
+    int "Number of SQI Flash Driver Instances"
+    depends on USE_DRV_SST26
+    range 1 2
+    default 1
+    ---help---
+      IDH_HTML_DRV_SST26_INSTANCES_NUMBER
+    ---endhelp---
+
+enum DRV_SST26_IDX
+    "DRV_SST26_INDEX_0"
+
+config DRV_SST26_INDEX
+    string
+    depends on USE_DRV_SST26
+    range DRV_SST26_IDX
+    default "DRV_SST26_INDEX_0"
+    ---help---
+      IDH_HTML_DRV_SST26_INDEX_0
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/sst26/config/drv_sst26_idx_pic32m.ftl" 2 instances
+
+config USE_DRV_SST26_SYS_FS_REGISTER
+    bool "Register with File System?"
+    depends on USE_DRV_SST26
+    select USE_SYS_FS_NEEDED
+    select DRIVER
+    default n
+    ---help---
+      IDH_HTML_DRV_SST26_SYS_FS_REGISTER
+    ---endhelp---
+
+endmenu
+
+ifblock USE_DRV_SST26
+
+add "<#include \"/framework/driver/sqi_flash/sst26/config/drv_sst26.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/sqi_flash/sst26/config/drv_sst26_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/sqi_flash/sst26/config/drv_sst26_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/sqi_flash/sst26/config/drv_sst26.h.ftl\">"  to list SYSTEM_CONFIG_H_GLOBAL_INCLUDES
+
+file DRV_SST26_H "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/sst26/drv_sst26.h" to "$PROJECT_HEADER_FILES/framework/driver/sqi_flash/sst26/drv_sst26.h"
+file DRV_SST26_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/sst26/src/drv_sst26_local.h" to "$PROJECT_HEADER_FILES/framework/driver/sqi_flash/sst26/src/drv_sst26_local.h"
+file DRV_SST26_MAP_H "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/sst26/src/drv_sst26_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/sqi_flash/sst26/src/drv_sst26_variant_mapping.h"
+file DRV_SST26_C "$HARMONY_VERSION_PATH/framework/driver/sqi_flash/sst26/src/dynamic/drv_sst26.c" to "$PROJECT_SOURCE_FILES/framework/driver/sqi_flash/sst26/src/dynamic/drv_sst26.c"
+
+endif
+

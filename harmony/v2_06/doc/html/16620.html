@@ -1,0 +1,531 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Pin Manager Development</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16620.html">Pin Manager Development</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16618.html">Previous</a> | <a href="07406.html">Up</a> | <a href="13067.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Pin Manager Development Topic Title: Pin Manager Development)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Pin Manager Development</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MPLAB Harmony Configurator Pin Manager system is a data driven state machine that provides the capability for users to configure the I/O pins for many different components. It also provides a data-driven mechanism for drawing basic representations of these components.&nbsp;</p>
+<p class="Element10">
+The following table provides common terms and their descriptions. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="13%">
+<div class="Element66">
+Term&nbsp;</div></td><td class="Element65" valign="top" width="87%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Pin Manager&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+A system for configuring component I/O pins.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Pin Diagram&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+A visual representation of a component.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Pin Table&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+A matrix-based system for assigning functions to pins.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Pin&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+A single I/O interface on a component.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Package&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+A physical pin layout for a component. Components may come in several packages.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Function&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+A processing capability that a component supports (e.g., UTX1).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Module&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Designates a set of related functions (e.g., UART1).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Component&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+A discreet part number (e.g., PIC32MX110F016B).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="13%">
+<div class="Element68">
+Family&nbsp;</div></td><td class="Element67" valign="top" width="87%">
+<div class="Element68">
+Designates a superset of components (e.g., PIC32MZEF).&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+File Parsing</div>
+<p class="Element10">
+The pin manager is responsible for parsing through a set of XML files for the purpose of building a component pin state. These data files are located in the MPLAB Harmony framework within <span class="Element146">&lt;install-dir&gt;/utilities/mhc/pin_xml</span>.&nbsp;</p>
+<p class="Element10">
+These data files come in four types, Component, Pin, Diagram, and Family:</p>
+<ul class="Element630">
+<li class="Element600"><strong>Component</strong> – A unique file for every component supported by MPLAB Harmony Configurator. This data file links the component to a pin file.</li>
+<li class="Element600"><strong>Pin</strong> – A file that describes the physical characteristics of a component, which includes:
+<ul class="Element631">
+<li class="Element601">Available Packages</li>
+<li class="Element601">Pin-to-Package Association – This is needed because a function may not map to the same pin numbers for every package</li>
+<li class="Element601">Package-to-Diagram association</li>
+<li class="Element601">Supported pin functions – The function groups do not change between packages; however, their associated pin may change</li>
+</ul></li>
+<li class="Element600"><strong>Diagram</strong> – A file that describes how to render an image of the selected component package.</li>
+<li class="Element600"><strong>Family</strong> – Provides several different functions:
+<ul class="Element631">
+<li class="Element601">PPS information (if available, which is taken directly from the product data sheet)</li>
+<li class="Element601">Module information:
+<ul class="Element632">
+<li class="Element602">Instructs the pin manager as to how to group available functions in the pin table</li>
+<li class="Element602">Provides the capability to specify display constraints, which is what allows the pin table to show UART1 when the UART driver is enabled in the option tree</li>
+<li class="Element602">Allows the capability to specify module and function characteristics.</li>
+</ul></li>
+</ul></li>
+</ul><div class="Element15">
+XML File Hierarchy</div>
+<p class="Element10">
+The following diagram provides a visual illustration of the XML file hierarchy. </p><p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE XML File Hierarchy.png" border="0" alt="" title=""></p><p class="Element10">
+<span style="color: #008000"><strong>Detailed File Descriptions</strong></span></p><div class="Element15">
+Component</div>
+<p class="Element10">
+The component file only has one entry that maps the selected component to its pin map file. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00069');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00069"><pre class="Element12">&lt;component device=&quot;PIC32MX110F016B&quot; pins=&quot;MX_1XXB&quot; /&gt;</pre></div></div>
+<div class="Element15">
+Pin</div>
+<p class="Element10">
+The <span class="Element146">pinfile</span> root node of the pin file maps the pin file to the family file: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00070');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00070"><pre class="Element12">&lt;pinfile family=&quot;MX_1XX_2XX&quot;&gt;</pre></div></div>
+<p class="Element10">
+The <span class="Element146">pinfile</span> node has two main child nodes: <span class="Element146">packages</span> and <span class="Element146">pins</span>&nbsp;</p>
+<p class="Element10">
+One or more <span class="Element146">package</span> nodes will be listed inside the <span class="Element146">packages</span> node. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00071');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00071"><pre class="Element12">&lt;packages&gt;
+&lt;package diagram=&quot;MX_28_SOIC_SPDIP_SSOP&quot; id=&quot;1&quot; name=&quot;SOIC&quot; /&gt;
+&lt;package diagram=&quot;MX_28_SOIC_SPDIP_SSOP&quot; id=&quot;2&quot; name=&quot;SPDIP&quot; /&gt;
+&lt;package diagram=&quot;MX_28_SOIC_SPDIP_SSOP&quot; id=&quot;3&quot; name=&quot;SSOP&quot; /&gt;
+&lt;package diagram=&quot;MX_28_QFN&quot; id=&quot;4&quot; name=&quot;QFN&quot; /&gt;
+&lt;/packages&gt;</pre></div></div>
+<p class="Element10">
+<i><span class="Element146">Package Node</span></i>&nbsp;</p>
+<p class="Element10">
+The package node description is as follows:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">diagram</span> – designates the diagram for a package</li>
+<li class="Element600"><span class="Element146">id</span> – a unique numerical identifier. This governs the order in which the package appears in the pin table package selector.</li>
+<li class="Element600"><span class="Element146">name</span> – the name of this package that will be shown in the pin table package selector</li>
+</ul><p class="Element10">
+One or more <span class="Element146">pin</span> nodes will be listed inside the <span class="Element146">pins</span> node. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00072');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00072"><pre class="Element12">&lt;pin name=&quot;RB5&quot;&gt;
+&lt;modifiers&gt;
+&lt;modifier value=&quot;5V&quot; /&gt;
+&lt;/modifiers&gt;
+&lt;number package=&quot;1&quot; pin=&quot;14&quot; /&gt;
+&lt;number package=&quot;2&quot; pin=&quot;14&quot; /&gt;
+&lt;number package=&quot;3&quot; pin=&quot;14&quot; /&gt;
+&lt;number package=&quot;4&quot; pin=&quot;11&quot; /&gt;
+&lt;function name=&quot;PGED3&quot; /&gt;
+&lt;function name=&quot;RPB5&quot; /&gt;
+&lt;function name=&quot;PMD7&quot; /&gt;
+&lt;/pin&gt;</pre></div></div>
+<p class="Element10">
+<i>Pin Node</i>&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">pin</span> node description is as follows:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">modifiers</span> – The <span class="Element146">modifiers</span> node can have a list of modifier nodes attached to it. <strong>Note: </strong>Currently, only one modifier “5V” is specified. However, this value is no longer used by the pin manager and will be removed in a future version.</li>
+<li class="Element600"><span class="Element146">number</span> – provides a map between a pin name, a package, and a pin number within that package</li>
+<li class="Element600"><span class="Element146">function</span> – provides a list of functions supported by this pin</li>
+</ul><div class="Element15">
+Diagram</div>
+<p class="Element10">
+A diagram file instructs the pin diagram rendering engine how to draw the particular package for a selected component. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00073');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00073"><pre class="Element12">&lt;diagram min_x=&quot;380&quot; min_y=&quot;380&quot; &gt;
+&lt;shape type=&quot;rect&quot; width=&quot;160&quot; height=&quot;160&quot; stroke=&quot;2&quot;/&gt;
+&lt;shape type=&quot;string&quot; line=&quot;000000&quot; val=&quot;$DEVICE_NAME&quot; orientation=&quot;right&quot; size=&quot;11&quot;/&gt;
+&lt;shape type=&quot;circle&quot; x=&quot;-75&quot; y=&quot;-75&quot; radius=&quot;5&quot; stroke=&quot;1&quot; fill=&quot;000000&quot;/&gt;
+&lt;layout type=&quot;row&quot;&gt;
+&lt;row pins=&quot;1-7&quot; x=&quot;-80&quot; margin=&quot;5&quot; direction=&quot;down&quot;
+pin_width=&quot;7&quot; pin_height=&quot;10&quot; pin_name_location=&quot;left&quot; pin_name_size=&quot;10&quot; pin_name_margin=&quot;10&quot;
+pin_number_location=&quot;right&quot; pin_number_size=&quot;10&quot; pin_number_margin=&quot;6&quot; pin_number_orientation=&quot;up&quot; /&gt;
+&lt;row pins=&quot;8-14&quot; y=&quot;72&quot; margin=&quot;5&quot; direction=&quot;right&quot;
+pin_width=&quot;10&quot; pin_height=&quot;7&quot; pin_name_location=&quot;down&quot; pin_name_size=&quot;10&quot; pin_name_margin=&quot;10&quot;
+pin_number_location=&quot;up&quot; pin_number_size=&quot;10&quot; pin_number_margin=&quot;5&quot; pin_number_orientation=&quot;left&quot; /&gt;
+&lt;row pins=&quot;15-21&quot; x=&quot;72&quot; margin=&quot;5&quot; direction=&quot;up&quot;
+pin_width=&quot;7&quot; pin_height=&quot;10&quot; pin_name_location=&quot;right&quot; pin_name_size=&quot;10&quot; pin_name_margin=&quot;10&quot;
+pin_number_location=&quot;left&quot; pin_number_size=&quot;10&quot; pin_number_margin=&quot;6&quot; pin_number_orientation=&quot;up&quot; /&gt;
+&lt;row pins=&quot;22-28&quot; y=&quot;-80&quot; margin=&quot;5&quot; direction=&quot;left&quot;
+pin_width=&quot;10&quot; pin_height=&quot;7&quot; pin_name_location=&quot;up&quot; pin_name_size=&quot;10&quot; pin_name_margin=&quot;10&quot;
+pin_number_location=&quot;down&quot; pin_number_size=&quot;10&quot; pin_number_margin=&quot;5&quot; pin_number_orientation=&quot;left&quot; /&gt;
+&lt;/layout&gt;
+&lt;/diagram&gt;</pre></div></div>
+<p class="Element10">
+The <span class="Element146">root</span> node is <span class="Element146">diagram</span> and has two attributes: <span class="Element146">min_x</span> and <span class="Element146">min_y</span>. These values describe the overall area of the diagram and are useful for controlling the blank space around the diagram.</p><div class="Element15">
+Shape Nodes</div>
+<p class="Element10">
+Shape nodes (<span class="Element146">shape</span>) instruct the rendering engine to draw basic shapes. The shape attributes are dependent on the required <span class="Element146">type</span> attribute. The available <span class="Element146">shape</span> types and their sub-attributes, are as follows:&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">line</span></strong> – A line:&nbsp;</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">x</span> – (attribute) the x1 position of the line</li>
+<li class="Element600"><span class="Element146">y</span> – (attribute) the y1 position of the line</li>
+<li class="Element600"><span class="Element146">x2</span> – (attribute) the x2 position of the line</li>
+<li class="Element600"><span class="Element146">y2</span> – (attribute) the y2 position of the line</li>
+<li class="Element600"><span class="Element146">stroke</span> – (attribute) the width of the line</li>
+<li class="Element600"><span class="Element146">line</span> – (attribute) the color of the line represented as a hex value RRGGBB</li>
+</ul><p class="Element10">
+<strong><span class="Element146">circle</span></strong> – A circle:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">x</span> – (attribute) the x position of the circle’s radius</li>
+<li class="Element600"><span class="Element146">y</span> – (attribute) the y position of the circle’s radius</li>
+<li class="Element600"><span class="Element146">radius</span> – (attribute) the radius of the circle in pixels</li>
+<li class="Element600"><span class="Element146">stroke</span> – (attribute) the width of the circle line</li>
+<li class="Element600"><span class="Element146">line</span> – (attribute) the color of the circle represented as a hex value RRGGBB</li>
+<li class="Element600"><span class="Element146">fill</span> – (attribute) the color used to fill in the shape represented as a hex value RRGGBB</li>
+</ul><p class="Element10">
+<strong><span class="Element146">rect</span></strong> – A rectangle centered inside the diagram screen:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">width</span> – (attribute) the width of the rectangle in pixels</li>
+<li class="Element600"><span class="Element146">height</span> – (attribute) the height of the rectangle in pixels</li>
+<li class="Element600"><span class="Element146">rounded</span> – (attribute) a Boolean value to indicate if the rectangle has round corners. Default is “false”. Set to “true” to enable.</li>
+<li class="Element600"><span class="Element146">arc</span> – (attribute) indicates the radius of the rounded corners. Ignored if <span class="Element146">rounded</span> is not “true”.</li>
+<li class="Element600"><span class="Element146">stroke</span> – (attribute) the width of the rectangle lines</li>
+<li class="Element600"><span class="Element146">line</span> – (attribute) the color of the rectangle border represented as a hex value RRGGBB</li>
+<li class="Element600"><span class="Element146">fill</span> – (attribute) the color used to fill in the rectangle represented as a hex value RRGGBB</li>
+</ul><p class="Element10">
+<strong><span class="Element146">complex_rect</span></strong> – A complex rectangle, centered inside the diagram screen, that can have unique corner descriptions:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">width</span> – (attribute) the width of the rectangle in pixels</li>
+<li class="Element600"><span class="Element146">height</span> – (attribute) the height of the rectangle in pixels</li>
+<li class="Element600"><span class="Element146">corners</span> – (node) a group node indicating the presence of “corner” attributes
+<ul class="Element631">
+<li class="Element601"><span class="Element146">corner</span> – (node) a node describing a complex rect corner
+<ul class="Element632">
+<li class="Element602"><span class="Element146">loc</span> – (attribute) the corner being described. Must be “topleft”, “topright”, “bottomleft”, or “bottomright”</li>
+<li class="Element602"><span class="Element146">type</span> – (attribute) the type of complex corner
+<ul class="Element633">
+<li class="Element603"><span class="Element146">notch</span> – (value) a notched corner</li>
+<li class="Element603"><span class="Element146">round</span> – (value) a rounded corner</li>
+</ul></li>
+<li class="Element602"><span class="Element146">length</span> – (attribute) the length of the notch in pixels. Used only if type equals “notch”</li>
+<li class="Element602"><span class="Element146">arc</span> – (attribute) the radius of the rounded corner in pixels. Used only if type equals “round”</li>
+</ul></li>
+</ul></li>
+<li class="Element600"><span class="Element146">stroke</span> – (attribute) the width of the rectangle lines</li>
+<li class="Element600"><span class="Element146">line</span> – (attribute) the color of the rectangle border represented as a hex value RRGGBB</li>
+<li class="Element600"><span class="Element146">fill</span> – (attribute) the color used to fill in the rectangle represented as a hex value RRGGBB</li>
+</ul><p class="Element10">
+<strong><span class="Element146">string</span></strong> – A text string:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">x</span> – (attribute) the x position of the string</li>
+<li class="Element600"><span class="Element146">y</span> – (attribute) the y position of the string</li>
+<li class="Element600"><span class="Element146">val</span> – (attribute) the value of the string
+<ul class="Element631">
+<li class="Element601">The value <span class="Element146">$DEVICE_NAME</span> is a special keyword that will print the selected component name</li>
+</ul></li>
+<li class="Element600"><span class="Element146">orientation</span> – (attribute) controls the direction that the string is printed
+<ul class="Element631">
+<li class="Element601"><span class="Element146">up</span> – (value) print the string rotated counter-clockwise 90 degrees</li>
+<li class="Element601"><span class="Element146">down</span> – (value) print the string rotated clockwise 90 degrees</li>
+</ul></li>
+<li class="Element600"><span class="Element146">size</span> – (attribute) the font size to use</li>
+<li class="Element600"><span class="Element146">stroke</span> – (attribute) the width of the text lines</li>
+<li class="Element600"><span class="Element146">line</span> – (attribute) the color of the text represented as a hex value RRGGBB</li>
+</ul><p class="Element10">
+<strong><span class="Element146">string_array</span></strong> – An array of strings drawn on separate lines top-down or bottom-up:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">vals</span> – (attribute) a list of strings to print delimited by a comma &quot;,&quot;. (e.g., A,B,C,D,E)</li>
+<li class="Element600"><span class="Element146">orientation</span> - (attribute) controls the direction that the string is printed
+<ul class="Element631">
+<li class="Element601"><span class="Element146">up</span> – (value) print the string rotated counter-clockwise 90 degrees (default)</li>
+<li class="Element601"><span class="Element146">down</span> – (value) print the string rotated clockwise 90 degrees</li>
+</ul></li>
+<li class="Element600"><span class="Element146">size</span> – (attribute) the font size to use</li>
+<li class="Element600"><span class="Element146">margin</span> – (attribute) the amount of space to pad between the strings</li>
+</ul><div class="Element15">
+Layout Node</div>
+<p class="Element10">
+The <span class="Element146">layout</span> node instructs the rendering engine on how to lay out the pins in the diagram. Pins are typically laid out in rows or grids. When rows are used, sub-segments of pins are assigned to individual rows, and rows are placed as necessary in the grid. The pin diagram will automatically make the cells for each pin interactive when the application is run.&nbsp;</p>
+<p class="Element10">
+A <span class="Element146">layout</span> node is defined as such with the type attribute being set to either <span class="Element146">row</span> or <span class="Element146">grid</span>: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00074');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00074"><pre class="Element12">&lt;layout type=&quot;row&quot;&gt;
+&lt;/layout&gt;</pre></div></div>
+<div class="Element15">
+Row Layout</div>
+<p class="Element10">
+The <span class="Element146">row</span> layout is used to assign pins to individual rows in the diagram. These rows can be placed anywhere but are typically placed on the outline of the shape used to represent the component package. The pin cells in a <span class="Element146">row</span> layout are rectangular.</p><div class="Element15">
+Row Node</div>
+<p class="Element10">
+The <span class="Element146">row</span> node provides the capability to specify a pin row. The <span class="Element146">row</span> node has several required attributes:&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">pins</span></strong> – a numerical range specifying what component pins belong to this row. (e.g. “1”, “1-7”, or “A1-A7”)&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">margin</span></strong> – the numerical amount of pixels to pad between each pin cell in this row&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">direction</span></strong> – the direction to draw this row. Valid values are:&nbsp;</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">up</span> – row is drawn from bottom to top</li>
+<li class="Element600"><span class="Element146">down</span> – row is drawn from top to bottom</li>
+<li class="Element600"><span class="Element146">left</span> – row is drawn from right to left</li>
+<li class="Element600"><span class="Element146">right</span> – row is drawn from left to right</li>
+</ul><p class="Element10">
+<strong><span class="Element146">pin_width</span></strong> – describes the width of a pin cell&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">pin_height</span></strong> – describes the height of a pin cell&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">pin_name_location</span></strong> – describes which side of the cell in which to draw the pin name text. Valid values are:&nbsp;</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">left</span> (default)</li>
+<li class="Element600"><span class="Element146">down</span></li>
+<li class="Element600"><span class="Element146">right</span></li>
+<li class="Element600"><span class="Element146">up</span></li>
+<li class="Element600"><span class="Element146">none</span></li>
+</ul><p class="Element10">
+<strong><span class="Element146">pin_name_size</span></strong> – describes the text size of the pin name&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">pin_name_margin</span></strong> – describes the distance to pad the pin name from the pin cell&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">pin_number_size</span></strong> – describes the size of the text used when drawing the pin number&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">pin_number_location</span></strong> – describes the location of the pin number relative to the pin cell&nbsp;</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">left</span></li>
+<li class="Element600"><span class="Element146">down</span></li>
+<li class="Element600"><span class="Element146">right</span> (default)</li>
+<li class="Element600"><span class="Element146">up</span></li>
+<li class="Element600"><span class="Element146">inside</span></li>
+</ul><p class="Element10">
+<strong><span class="Element146">pin_number_orientation</span></strong> – describes the orientation of the text representing the pin number. Valid values are:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">left</span></li>
+<li class="Element600"><span class="Element146">down</span></li>
+<li class="Element600"><span class="Element146">right</span></li>
+<li class="Element600"><span class="Element146">up</span> (default)</li>
+</ul><div class="Element15">
+Grid Layout</div>
+<p class="Element10">
+The <span class="Element146">grid</span> layout is used to display a table of pins in a grid-based layout. Pins are laid out in a uniform manner of rows and columns. Pins are displayed as circles instead of rectangles. Pin numbers are contained inside the circle and the pin name is displayed below the circle.&nbsp;</p>
+<p class="Element10">
+An example of a <span class="Element146">grid</span> layout is as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00075');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00075"><pre class="Element12">&lt;layout type=&quot;grid&quot; pin_margin=&quot;40&quot; pin_name_margin=&quot;0&quot; pin_rows=&quot;18&quot; pin_cols=&quot;18&quot; pin_radius=&quot;11&quot; /&gt;</pre></div></div>
+<p class="Element10">
+The attributes of a grid layout are as follows:</p>
+<ul class="Element630">
+<li class="Element600"><strong><span class="Element146">pin_margin</span></strong> – this describes the spacing of the pin circles</li>
+<li class="Element600"><strong><span class="Element146">pin_name_margin</span></strong> – this describes the distance between the pin name and the pin circle</li>
+<li class="Element600"><strong><span class="Element146">pin_rows</span></strong> – the number of pins per row</li>
+<li class="Element600"><strong><span class="Element146">pin_cols</span></strong> – the number of pins per column</li>
+<li class="Element600"><strong><span class="Element146">pin_radius</span></strong> – the radius of the pin circles</li>
+</ul><div class="Element15">
+Family</div>
+<p class="Element10">
+Family files provide the method by which the connections between the physical pin descriptions (pin files) and the MPLAB Harmony Pin Manager’s user interface as well as the HConfig symbol tree.&nbsp;</p>
+<p class="Element10">
+A family file consists of root “family” node. The two main child nodes of a “family” node are “groups” and “modules”.</p><div class="Element15">
+Groups</div>
+<p class="Element10">
+A group describes the Peripheral Pin Select (PPS) capabilities of the family. This data is taken directly from the applicable family data sheet’s PPS section. The number of XML groups should match the number of PPS groups specified by the data sheet.&nbsp;</p>
+<p class="Element10">
+Typical PPS descriptions of input and output groups in a product data sheet are shown in the following two figures:</p><div class="Element15">
+PPS Input Pins</div>
+<p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE PPS Input Pins Table.png" border="0" alt="" title=""></p><div class="Element15">
+PPS Output Pins</div>
+<p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE PPS Output Pins Table.png" border="0" alt="" title=""></p><p class="Element10">
+This data is described in XML format as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00076');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00076"><pre class="Element12">&lt;group id=&quot;1&quot;&gt;
+&lt;pin name=&quot;RPA0&quot; value=&quot;0&quot;/&gt;
+&lt;pin name=&quot;RPB3&quot; value=&quot;1&quot;/&gt;
+&lt;pin name=&quot;RPB4&quot; value=&quot;2&quot;/&gt;
+&lt;pin name=&quot;RPB15&quot; value=&quot;3&quot;/&gt;
+&lt;pin name=&quot;RPB7&quot; value=&quot;4&quot;/&gt;
+&lt;pin name=&quot;RPC7&quot; value=&quot;5&quot;/&gt;
+&lt;pin name=&quot;RPC0&quot; value=&quot;6&quot;/&gt;
+&lt;pin name=&quot;RPC5&quot; value=&quot;7&quot;/&gt;
+&lt;function name=&quot;INT4&quot; direction=&quot;in&quot;/&gt;
+&lt;function name=&quot;T2CK&quot; direction=&quot;in&quot;/&gt;
+&lt;function name=&quot;IC4&quot; direction=&quot;in&quot;/&gt;
+&lt;function name=&quot;SS1 (in)&quot; direction=&quot;in&quot;/&gt;
+&lt;function name=&quot;SS1 (out)&quot; direction=&quot;out&quot; value=&quot;3&quot;/&gt;
+&lt;function name=&quot;REFCLKI&quot; direction=&quot;in&quot;/&gt;
+&lt;function name=&quot;U1TX&quot; direction=&quot;out&quot; value=&quot;1&quot;/&gt;
+&lt;function name=&quot;U2RTS&quot; direction=&quot;out&quot; value=&quot;2&quot;/&gt;
+&lt;function name=&quot;OC1&quot; direction=&quot;out&quot; value=&quot;5&quot;/&gt;
+&lt;function name=&quot;C2OUT&quot; direction=&quot;out&quot; value=&quot;7&quot;/&gt;
+&lt;/group&gt;</pre></div></div>
+<p class="Element10">
+<strong><span class="Element146">id</span></strong> – (attribute) the number of this group. This corresponds to the group id in the data sheet.&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">pin</span></strong> – (node) describes a pin that is part of this PPS group:&nbsp;</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">value</span> – (attribute) the register value that is assigned in the input table</li>
+</ul><p class="Element10">
+<strong><span class="Element146">function</span></strong> – (node) lists pps functions that can be mapped to the listed pins:</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">name</span> – (attribute) the name of the function</li>
+<li class="Element600"><span class="Element146">direction</span> – (attribute) specifies if this function is input or output</li>
+<li class="Element600"><span class="Element146">value</span> – (attribute) register value for this function (output only)</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Some pins may have the same name regardless of I/O direction. In this example this case is mitigated by adding a unique prefix (e.g., (in) or (out)). These prefixes may be stripped out during code generation.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Modules</div>
+<p class="Element10">
+A module allows a mechanism to group functions together under a common name. It also provides the capability to hook into the HConfig symbol tree. This allows the Pin Table to be dynamic and only show modules that have been enabled by the user based on data-defined constraints.&nbsp;</p>
+<p class="Element10">
+A module contains the superset of all functions for a particular family. It is often the case that a component does not support all of the functionality defined in its respective data sheet. The Pin Manager will discard any functions that are not found in the corresponding pin file. Modules that have no available functions will not be shown in the table.&nbsp;</p>
+<p class="Element10">
+An example of a module definition is as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00077');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00077"><pre class="Element12">&lt;module name=&quot;UART 1&quot; desc=&quot;UART 1\n(USART_ID_1)&quot;&gt;
+&lt;function name=&quot;U1RX&quot;&gt;
+&lt;constraint type=&quot;enable&quot;&gt;
+&lt;pair key=&quot;DRV_USART_USE_RX_PIN_IDX[0-5]&quot; value=&quot;USART_ID_1&quot;/&gt;
+&lt;/constraint&gt;
+&lt;/function&gt;
+&lt;/module&gt;</pre></div></div>
+<p class="Element10">
+<strong>XML Specification Descriptions</strong>&nbsp;</p>
+<p class="Element10">
+Detailed descriptions of the module XML specification are as follows:&nbsp;</p>
+<p class="Element10">
+<strong><span class="Element146">module</span></strong> – (node):&nbsp;</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">name</span> – (attribute) a unique name for this module</li>
+<li class="Element600"><span class="Element146">desc</span> – (attribute) a nicely formatted name. This is what will be shown in the pin table. Line breaks are specified by the string “\n”</li>
+<li class="Element600"><span class="Element146">analog</span> – (attribute) Boolean value indicating that this module and all of its associated functions are not 5 volt tolerant and that they can be configured as analog-capable. Default is “false”.</li>
+<li class="Element600"><span class="Element146">constraint</span> – (node) indicates that a constraint is placed on this module
+<ul class="Element631">
+<li class="Element601"><span class="Element146">type</span> – (attribute) specifies the type of constraint</li>
+<li class="Element601"><span class="Element146">enable</span> – (value) hides this module if the required constraints are not met. Multiple enable constraints may be used in conjunction:
+<ul class="Element632">
+<li class="Element602"><span class="Element146">pair</span> – (node) a key-value pair:
+<ul class="Element633">
+<li class="Element603"><span class="Element146">key</span> – (attribute) the HConfig symbol to test. In the event that multiple symbols in a particular numerical sequence need to be tested a range can be specified. For example, a module can be dependent on the Hconfig symbols <span class="Element146">DRV_USART_USE_RX_PIN_IDX</span> indices 0 through 5. This can be quickly specified as: <span class="Element146">DRV_USART_USE_RX_PIN_IDX[0-5]</span></li>
+<li class="Element603"><span class="Element146">value</span> – (attribute) a string to test the HConfig symbol against. In the case of a Boolean the value to use is either “y” or “n”</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul><p class="Element10">
+<strong><span class="Element146">function</span></strong> – (node):</p>
+<ul class="Element630">
+<li class="Element600"><span class="Element146">name</span> – (attribute) the unique name of this function</li>
+<li class="Element600"><span class="Element146">analog</span> – (attribute) Boolean value indicating that this function is not 5 volt tolerant and that it can be configured as analog-capable. Default is “false”.</li>
+<li class="Element600"><span class="Element146">constraint</span> – (node) indicates that a constraint is placed on this function
+<ul class="Element631">
+<li class="Element601"><span class="Element146">type</span> – (attribute) specifies the type of constraint:
+<ul class="Element632">
+<li class="Element602"><span class="Element146">enable</span> – (value) hides this function if the required constraints are not met. Multiple enable constraints may be used in conjunction:
+<ul class="Element633">
+<li class="Element603"><span class="Element146">pair</span> – (node) a key-value pair:
+<ul class="Element634">
+<li class="Element604"><span class="Element146">key</span> – (attribute) the HConfig symbol to test. In the event that multiple symbols in a particular numerical sequence need to be tested a range can be specified. For example, a module can be dependent on the Hconfig symbols <span class="Element146">DRV_USART_USE_RX_PIN_IDX</span> indices 0 through 5. This can be quickly specified as: <span class="Element146">DRV_USART_USE_RX_PIN_IDX[0-5]</span></li>
+<li class="Element604"><span class="Element146">value</span> – (attribute) a string to test the HConfig symbol against. In the case of a Boolean, the value to use is either “y” or “n”</li>
+</ul></li>
+</ul></li>
+<li class="Element602"><span class="Element146">debug</span> – (value) indicates that this function is a debug function. This places special modifiers on the function and it cannot be selected in the pin table.</li>
+</ul></li>
+</ul></li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+A special module is defined for use with Board Support Packages. It must have the name “BSP” to be properly identified by the pin manager. This is module is added to when a BSP is selected in the HConfig option tree.<br>An example of a BSP module is as follows:<br><span class="Element146">&lt;module name=&quot;BSP&quot; desc=&quot;Board Support Package&quot;&gt;</span><br><span class="Element146">&lt;constraint type=&quot;enable&quot;&gt;</span><br><span class="Element146">&lt;pair key=&quot;USE_BSP&quot; value=&quot;y&quot;/&gt;</span><br><span class="Element146">&lt;/constraint&gt;</span><br><span class="Element146">&lt;/module&gt;</span>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16620.html">Pin Manager Development</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Pin Manager Development Topic Title: Pin Manager Development)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

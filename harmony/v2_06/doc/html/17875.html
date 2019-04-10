@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Prefetch Control Operations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17870.html">How the Library Works</a> &gt; <a href="17875.html">Prefetch Control Operations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17862.html">Previous</a> | <a href="17870.html">Up</a> | <a href="17877.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE Prefetch Control Operations Topic Title: Prefetch Control Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Prefetch Control Operations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Prefetch Cache module is configured differently for different CPU configurations. For devices with a CPU L1 cache, the Prefetch Cache module holds one line of CPU instructions, one line of CPU data, and two lines of peripheral data. For devices without a CPU L1 cache, the Prefetch Cache module holds up to 16 lines of instructions and up to four lines of data. Control of either configuration is done using the <a href="20194.html">PLIB_PCACHE_PrefetchEnableSet</a> function. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Refer to the specific device data sheet for the Prefetch Cache module configuration for a specific device.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+For the CPU L1 configuration, the Prefetch Cache module can be configured to enable any address, CPU instructions and data, or CPU instructions only. For devices without a CPU L1 cache, predictive prefetch can be enabled for cacheable regions, uncacheable regions, or both. In either configuration, predictive prefetch may be disabled entirely.&nbsp;</p>
+<p class="Element10">
+The <a href="20194.html">PLIB_PCACHE_PrefetchEnableSet</a> and <a href="20193.html">PLIB_PCACHE_PrefetchEnableGet</a> functions take or return the enumerated value <a href="20184.html">PLIB_PCACHE_PREFETCH_ENABLE</a>. This enumeration will be defined differently for different CPU configurations.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Enable Prefetch for Non-Cacheable Regions Only (no L1 configuration)</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02994');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02994"><pre class="Element12">PLIB_PCACHE_PrefetchEnableSet(PLIB_PCACHE_PREFETCH_ENABLE_NONCACHED_REGIONS);</pre></div></div>
+<p class="Element10">
+<strong>Example: Enable Prefetch for CPU Instructions and CPU Data (L1 configuration)</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02995');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02995"><pre class="Element12">PLIB_PCACHE_PrefetchEnableSet(PLIB_PCACHE_PREFETCH_ENABLE_CPU_INST_DATA);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22294.html">Prefetch Cache Peripheral Library</a> &gt; <a href="17878.html">Using the Library</a> &gt; <a href="17870.html">How the Library Works</a> &gt; <a href="17875.html">Prefetch Control Operations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PCACHE Prefetch Control Operations Topic Title: Prefetch Control Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

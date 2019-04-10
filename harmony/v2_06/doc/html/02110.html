@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>_LIBQ_ToFloatQ15 Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11807.html">LibQ Fixed-Point Math Library</a> &gt; <a href="16367.html">Library Interface</a> &gt; n) Float Functions &gt; <a href="02110.html">_LIBQ_ToFloatQ15 Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="02105.html">Previous</a> | <a href="16367.html">Up</a> | <a href="02111.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: _LIBQ_ToFloatQ15@_Q15 Topic Title: _LIBQ_ToFloatQ15 Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+_LIBQ_ToFloatQ15 Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">float</span></strong> <strong><span style="color: #000000">_LIBQ_ToFloatQ15</span></strong>(
+    <a href="02211.html">_Q15</a> <strong><span style="color: #000000">x</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Function _LIBQ_ToFloatQ15:&nbsp;</p>
+<p class="Element10">
+float _LIBQ_ToFloatQ15(<a href="02211.html">_Q15</a> x);&nbsp;</p>
+<p class="Element10">
+Converts a <a href="02211.html">_Q15</a> fixed point value to a floating point representation. The floating point value is returned by the function.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+x&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+The <a href="02211.html">_Q15</a> fixed point value to convert to float&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+_LIBQ_ToFloatQ15 returns the floating point (float) value corresponding to the <a href="02211.html">_Q15</a> input value.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The C library functions __floatsisf and __divsf3 are called by this routine and thus must be linked in to the executable image.&nbsp;</p>
+<p class="Element10">
+Execution Time (cycles): 158 typical (54 to 176) Program Memory 28 bytes</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01376');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01376"><pre class="Element12">
+<strong><span style="color: #000080">float</span></strong> f;
+
+f = _LIBQ_ToFloatQ15((<a href="02211.html">_Q15</a>)0x4000);  <i><span style="color: #008000">// f now equals 0.5</span></i>
+
+f = _LIBQ_ToFloatQ15((<a href="02211.html">_Q15</a>)0x8000);  <i><span style="color: #008000">// f now equals -1.0</span></i>
+
+f = _LIBQ_ToFloatQ15((<a href="02211.html">_Q15</a>)0xb7ff);  <i><span style="color: #008000">// f now equals -0.562531</span></i>
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11807.html">LibQ Fixed-Point Math Library</a> &gt; <a href="16367.html">Library Interface</a> &gt; n) Float Functions &gt; <a href="02110.html">_LIBQ_ToFloatQ15 Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: _LIBQ_ToFloatQ15@_Q15 Topic Title: _LIBQ_ToFloatQ15 Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,61 @@
+config USE_GFX_PDA_TM5000_800X480
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "PDA TM5000 5-inch 800x480 (WVGA) with PCAP"
+    default n
+
+config USE_GFX_PDA_TM4301B_480X272
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "PDA TM4301B 4.3-inch 480x272 (WQVGA) with PCAP"
+    default n
+
+config USE_GFX_TRULY_7_800X480
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "Truly 7-inch 800x480 (WVGA)"
+    default n
+
+config USE_GFX_TRULY_57_640X480
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "Truly 5.7-inch 640x480 (VGA)"
+    default n
+
+config USE_GFX_TRULY_32_240X320
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "Truly 3.2-inch 240x320 (QVGA)"
+    default n
+
+config USE_GFX_POWERTIP_43_480X272
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "Powertip 4.3-inch 480x272 (WQVGA)"
+    default n
+
+config USE_GFX_LTS_43_480X272_RTP
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE =  "LTS 4.3-inch 480x272 (WQVGA) with RTP"
+    default n
+
+config USE_GFX_NEWHAVEN_50_800X480_PCAP
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "Newhaven 5.0-inch 800x480 (WVGA) with PCAP"
+    default n
+
+config USE_GFX_NEWHAVEN_43_480X272_PCAP
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "Newhaven 4.3-inch 480x272 (WQVGA) with PCAP"
+    default n
+
+config USE_GFX_CRYSTAL_2_176x220
+    bool
+    default y if DRV_GFX_DISPLAY_TYPE = "Crystal Fontz 2-inch 176x220"
+    default n
+
+config USE_GFX_ATMXT_XPRO_320x480_SPI_4LINE
+	bool
+	default y if DRV_GFX_DISPLAY_TYPE = "maXTouch Xplained Pro 3.5-inch 320x480 (SPI 4-LINE)"
+	select USE_DRV_GFX_ILI9488_SPI_4LINE_NEEDED if DRV_GFX_DISPLAY_TYPE = "maXTouch Xplained Pro 3.5-inch 320x480 (SPI 4-LINE)"
+	default n
+
+config USE_GFX_CUSTOM_DISPLAY
+	bool
+	default y if DRV_GFX_DISPLAY_TYPE = "Custom Display"
+	default n
+

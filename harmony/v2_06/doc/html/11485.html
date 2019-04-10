@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_USART_ByteTransmitCallbackSet Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08905.html">Library Interface</a> &gt; f) Byte Transfer Functions &gt; <a href="11485.html">DRV_USART_ByteTransmitCallbackSet Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11484.html">Previous</a> | <a href="08905.html">Up</a> | <a href="08901.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USART_ByteTransmitCallbackSet@SYS_MODULE_INDEX@DRV_USART_BYTE_EVENT_HANDLER Topic Title: DRV_USART_ByteTransmitCallbackSet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_USART_ByteTransmitCallbackSet Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">DRV_USART_ByteTransmitCallbackSet</span></strong>(
+    <strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> <strong><span style="color: #000000">index</span></strong>, 
+    <strong><span style="color: #000080">const</span></strong> DRV_USART_BYTE_EVENT_HANDLER <strong><span style="color: #000000">eventHandler</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function allows a transmit callback function to be registered with the driver. The callback function is invoked when a byte has been transmitted using <a href="11521.html">DRV_USART_WriteByte</a> () function.&nbsp;</p>
+<p class="Element10">
+The callback function should be registered with the driver prior to any writes to the driver. The callback functionality is available only in the interrupt mode of operation. The driver clears the interrupt after invoking the callback function.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <a href="11493.html">DRV_USART_Initialize</a> routine must have been called for the specified USART driver instance.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the object instance to be opened<br>&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+eventHandler&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to the event handler function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01221');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01221"><pre class="Element12"><i><span style="color: #008000">// myAppObj is an application specific state data object.</span></i>
+MY_APP_OBJ myAppObj;
+
+uint8_t mybuffer[MY_BUFFER_SIZE];
+
+<i><span style="color: #008000">// myUSARTHandle is the handle returned by the DRV_USART_Open function.</span></i>
+myUSARTHandle = <a href="11502.html">DRV_USART_Open</a>(DRV_USART_INDEX_0, DRV_IO_INTENT_EXCLUSIVE);
+                                 (uintptr_t)&amp;myAppObj );
+
+<i><span style="color: #008000">// Register an event handler with driver. This is done once</span></i>
+DRV_USART_ByteTransmitCallbackSet (DRV_USART_INDEX_0, APP_USARTTransmitEventHandler);
+
+<a href="11521.html">DRV_USART_WriteByte</a> (myUSARThandle, myBuffer[0]);
+
+<i><span style="color: #008000">// Event Processing Technique. Event is received when</span></i>
+<i><span style="color: #008000">// the byte is transmitted.</span></i>
+
+<strong><span style="color: #000080">void</span></strong> APP_USARTTransmitEventHandler (<strong><span style="color: #000080">const</span></strong> <a href="23968.html">SYS_MODULE_INDEX</a> index)
+{
+    <i><span style="color: #008000">// Byte has been transmitted. Handle the event.</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08905.html">Library Interface</a> &gt; f) Byte Transfer Functions &gt; <a href="11485.html">DRV_USART_ByteTransmitCallbackSet Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USART_ByteTransmitCallbackSet@SYS_MODULE_INDEX@DRV_USART_BYTE_EVENT_HANDLER Topic Title: DRV_USART_ByteTransmitCallbackSet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

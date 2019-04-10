@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>aria_showcase</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03710.html">aria_showcase</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03709.html">Previous</a> | <a href="03738.html">Up</a> | <a href="03711.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_showcase Topic Title: aria_showcase)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+aria_showcase</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This application showcases the various widgets and advanced capabilities offered by the <a href="12771.html">Aria User Interface Library</a>. The application features an interactive menu screen where the user can access the different widget and graphics demonstrations. As a showcase application, it also features ‘Demo mode’, where it autonomously runs the demonstrations after a specified period of idle time (typically 5-20 seconds). After idle time-out, the application will replay a series of prerecorded touch events, repeating the replay after a delay (typically 5 seconds). Event replay can be terminated by user initiation of a touch event and will not restart until another idle time out.&nbsp;</p>
+<p class="Element10">
+Demo mode can be disabled through MHC by selecting <i>Harmony Framework Configuration &gt; Graphics Stack &gt; Use Graphics Stack? &gt; Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library&gt; &gt; <strong>Enable Demo Mode?</i></strong>. Then, reconfigure the application using MHC, rebuild, and then reload..</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The aria_showcase application uses the MPLAB Harmony Graphics Library to render graphics to the display. The graphics library draws the widgets and images to a frame buffer. For configurations that have a 2D Graphics Processing Unit (GPU), the graphics library uses the GPU to draw to the frame buffer. The contents of the frame buffer are continuously transferred to refresh the contents of the LCD display.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The application also features user touch input through the integrated touch screen on the display panel. Touch input from the touch controller goes through the I2C port, and the Input System Service acquires the touch input information from the Touch and I2C Drivers. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Finally, the application uses the Timer System Service and driver to send timer events for Demo mode and for transitioning images in the Slideshow Demo at specified intervals.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The following diagrams show the various software and hardware components used by the different configurations in this application.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>pic32mz_ef_sk_meb2</strong>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+In this configuration, the frame buffer is stored in the internal SRAM. Due to the limited size of the internal SRAM, only a single frame buffer can be used which can cause tearing to be visible as the GFX library draws on the screen. These configurations use the Low Cost Controller-less (LCC) display driver to manage the DMA that transfers the framebuffer contents to the display. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_showcase pic32mz_ef_sk_meb2 Block Diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mz_da_sk_intddr_meb2</strong>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+In this configuration, the frame buffers are stored in the internal DDR memory. The DDR memory is large enough to allow 3 layers with double frame buffers. Double buffering eliminates the tearing effect since the contents of the write frame buffer are not shown in the display until the GFX library is done drawing on it. When the GFX library is done drawing on the write frame buffer, it is swapped with the read frame buffer in order to be shown on the display. The contents of the read frame buffer are transferred continuously by the Graphics LCD (GLCD) controller to the display panel.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+This configuration also takes advantage of the DDR by predecoding some of the images to DDR as 32-bit RAW image assets. This allows faster image rendering since the images do not have to be decoded while rendering, and it uses the GPU to directly render or ‘blit’ the images to the frame buffer at a faster rate. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFZ aria_showcase pic32mz_da_sk_intddr_meb2 and pic32mz_da_sk_intddr_meb2_wvga, with GPU, 3 Layers, Double Buffered, With Timer Events.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mz_da_sk_extddr_meb2</strong>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+This configurations works similar to the pic32mz_da_sk_intddr_meb2, except that the frame buffers and pre-decoded RAW images are now stored in external DDR. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_showcase pic32mz_da_sk_extddr_meb2 and pic32mz_da_sk_extddr_meb2_wvga Double Buffered, with GPU, 3 Layers, Double Buffered.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600"><a href="13983.html">Input System Service</a> and Touch driver</li>
+<li class="Element600"><a href="27082.html">Timer System Service</a> and driver</li>
+<li class="Element600"><a href="07980.html">DMA System Service</a></li>
+<li class="Element600">Low-Cost Controllerless (LCC) Graphics Driver</li>
+<li class="Element600"><a href="13729.html">I2C Driver</a></li>
+<li class="Element600">16-bit RGB565 color depth support (65535 unique colors for PIC32MZ EF configurations)</li>
+<li class="Element600">32-bit RGBA8888 color depth support for PIC32MZ DA configurations</li>
+<li class="Element600">JPEG and PNG images stored in internal Flash (see <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Graphics Composer User’s Guide &gt; Graphics Composer Window User Interface &gt; Graphics Composer Asset Management &gt;<a href="16652.html">Image Assets</a></i>))</li>
+<li class="Element600">UTF-8 and UTF-16 character font support (see <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Graphics Composer User’s Guide &gt; Graphics Composer Window User Interface &gt;Graphics Composer Asset Management &gt; <a href="16634.html">Font Assets</a> </i>)</li>
+<li class="Element600">Full multi-lingual font and localization (Chinese and English) (see <i>Volume III: MPLAB Harmony Configurator (MHC) &gt;MPLAB Harmony Graphics Composer User’s Guide &gt; Graphics Composer Window User Interface &gt; Graphics Composer Asset Management &gt; <a href="16673.html">Widget Tool Box Panel</a> </i>)</li>
+<li class="Element600">Graphics Demo mode (see <a href="22359.html">Enabling Demo Mode in MPLAB Harmony Graphics Application</a>)</li>
+<li class="Element600">GFX widgets: List wheel, Touch Test, Keypad, Slideshow (see <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Graphics Composer User’s Guide &gt; Graphics Composer Window User Interface &gt; Graphics Composer Asset Management &gt;<a href="16668.html">String Assets</a></i>)</li>
+<li class="Element600">Alpha-blending</li>
+<li class="Element600">Pre-decoded images in DDR (for PIC32MZ DA configurations with DDR)</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+
+<ul class="Element630">
+<li class="Element600">“Use Graphics Stack” is selected in the MPLAB Harmony Configurator (MHC), which enables the Graphics and Touch libraries and drivers for the Board Support Package (BSP).</li>
+<li class="Element600">The heap size is set to 204800 bytes to ensure enough memory for dynamic allocations. This is done by setting the size in MHC through the following menu selection: <i>Device &amp; Project Configuration &gt;Project Configuration &gt; XC32 (Global Options) &gt;xc32-ld &gt;General</i>.</li>
+</ul></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03711.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Aria Showcase demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03712.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03717.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to use the Aria Showcase demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03710.html">aria_showcase</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_showcase Topic Title: aria_showcase)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

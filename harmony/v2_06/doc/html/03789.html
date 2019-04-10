@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>X2C-Scope Plug-in</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="16691.html">Motor Control Demonstrations</a> &gt; <a href="03789.html">X2C-Scope Plug-in</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03784.html">Previous</a> | <a href="16691.html">Up</a> | <a href="22615.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS MC X2C-Scope Plug-in Topic Title: X2C-Scope Plug-in)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+X2C-Scope Plug-in</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MPLAB X IDE enables use of the X2C-Scope plug-in to read, write, and plot global variables in real time. In this demonstration, the X2C-Scope communicates with the target using UART Channel 2. The baud rate of the UART communication can be modified using the <a href="16809.html">MPLAB Harmony Configurator (MHC)</a> (the default value is 38400 bps).</p>
+<ol class="Element630">
+<li value="1" class="Element600">If not already installed, in MPLAB X IDE, select<i> Tools &gt; Plugins &gt; Available Plugins &gt; Select X2C-Scope&gt; Install</i>.</li>
+<li value="2" class="Element600">Restart MPLAB X IDE to complete the plug-in installation.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c scope plugins panel.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="3" class="Element600">Open the X2C-Scope by selecting <i>Tools &gt; Embedded &gt; X2C-Scope</i>.</li>
+<li value="4" class="Element600">Ensure the symbols are loaded during the project build by selecting <i>Project Properties &gt; Selected Configuration &gt; Loading</i>, and ensure that the check box for <i>Load Symbols when programming or building for production (slows process)</i> is selected. If this check box was not selected, rebuild the project and reprogram the device.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c project properties panel.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="5" class="Element600">In the <i>X2C-Scope Configuration</i> tab, select the project.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c scope configuration.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="6" class="Element600">In Connection Setup, set the <i>Baud Rate</i> to '38400',<i> Data bits</i> to '8', <i>Parity</i> to 'None<i>'</i>, <i>Stop Bits</i> to '1', and then select the associated COM port.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c connection setup.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="7" class="Element600"> Connect to the target by clicking <strong>Connect</strong> (or <strong>Disconnect</strong>).</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c connect to target.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="8" class="Element600"> In <i>Project Setup</i>, Set the <i>Scope Sampletime</i> to '50 us.' In this demonstration, the <span class="Element146">X2CScope_Update</span> function is called from the motor control ISR, which executes every 50 <span style="color: #000000">µ</span>s. Set the <i>Watch Sample time</i> to a value at which you want to update the watch window variables (the default is 1000 ms). Click<i> </i><strong>Set Values</strong> after setting the <i>Scope Sampletime</i> and <i>Watch Sampletime</i>.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c scope watch sampletime.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="9" class="Element600"> In <i>Data Views</i>, select <i>Open Scope View</i> to plot any two global variables in run-time.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c open scope waveform.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong>Note</strong>:&nbsp;</div></td><td class="Element67" valign="top" width="90%">
+<div class="Element68">
+The free version of X2C-Scope allows up to two global variables to be plotted simultaneously.<br>The professional Version of X2C-Scope allows up to seven global variables to be plotted simultaneously.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="11" class="Element600">Under <i>Data Views</i>, select <i>Open Watch View</i> to read or write to any global variables in run time.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="APPS MC x2c data view open watch.png" border="0" alt="" title=""></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="16691.html">Motor Control Demonstrations</a> &gt; <a href="03789.html">X2C-Scope Plug-in</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS MC X2C-Scope Plug-in Topic Title: X2C-Scope Plug-in)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

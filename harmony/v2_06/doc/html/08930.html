@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08936.html">Using the Library</a> &gt; <a href="08930.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08923.html">Previous</a> | <a href="08936.html">Up</a> | <a href="08926.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USB PIC32MX How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This section only explains aspects of driver operation which are unique to the PIC32MX USB Driver. Major driver operations are described in the PIC32 USB Driver <a href="08911.html">Common Interface</a> help section.</p><div class="Element15">
+Driver Initialization</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+While generating a MPLAB Harmony USB project with MHC, the initialization code for the driver is generated automatically based on selections made in the USB Host stack or Device Stack Configuration trees.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The PIC32MX USB Driver must be initialized so that a client application can open. The client application will not be able to open the driver if the initialization is in progress or has failed. The driver is initialized by calling the <a href="11598.html">DRV_USBFS_Initialize</a> function. This function is called from the <a href="23925.html">SYS_Initialize</a> function in the MPLAB Harmony application project and accepts two input parameters. The index parameter defines the instance of the USB Driver to be initialized. This becomes significant when the PIC32MX microcontroller has more than one USB module. The init parameter is a driver specific data structure of the type <a href="11585.html">DRV_USBFS_INIT</a>. This structure is shown in the following code example. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01080');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01080"><pre class="Element12"><i><span style="color: #008000">/* This code snippet show the PIC32MX USB Driver Initialization data structure.
+ * A structure of this type must be provided to the DRV_USBFS_Initialize()
+ * function. */</span></i>
+
+<strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong>
+{
+    <i><span style="color: #008000">/* System Module Initialization */</span></i>
+    SYS_MODULE_INIT moduleInit;
+
+    <i><span style="color: #008000">/* Identifies the USB peripheral to be used. This should be the USB PLIB
+       module instance identifier. */</span></i>
+    uint8_t usbID;
+
+    <i><span style="color: #008000">/* This should be set to true if the USB module must stop operation in IDLE
+       mode */</span></i>
+    <strong><span style="color: #000080">bool</span></strong> stopInIdle;
+
+    <i><span style="color: #008000">/* This should be set to true if the USB module must suspend when the CPU
+       enters sleep mode. */</span></i>
+    <strong><span style="color: #000080">bool</span></strong> suspendInSleep;
+
+    <i><span style="color: #008000">/* Specify the interrupt source for the USB module. This should be Interrupt
+       PLIB Interrupt source identifier for the USB module instance specified in
+       usbID. */</span></i>
+    INT_SOURCE interruptSource;
+
+    <i><span style="color: #008000">/* Specify the operational speed of the USB module. This should always be
+       set to USB_SPEED_FULL. The use of this parameter is deprecated. */</span></i>
+    USB_SPEED operationSpeed;
+
+    <i><span style="color: #008000">/* Specify the operation mode of the USB module. This defines if the USB
+     * module will support Device, Host or Dual Role operation */</span></i>
+    DRV_USBFS_OPMODES operationMode;
+
+    <i><span style="color: #008000">/* A pointer to the endpoint descriptor table. This should be aligned at 512
+       byte address boundary. The size of the table is equal to the
+       DRV_USBFS_ENDPOINT_TABLE_ENTRY_SIZE times the number of endpoints needed
+       in the application. */</span></i>
+    <strong><span style="color: #000080">void</span></strong> * endpointTable;
+
+    <i><span style="color: #008000">/* Root hub available current in mA. This specifies the amount of current
+       that root hub can provide to the attached device. This should be
+       specified in mA. This is required when the driver is required to operate
+       in host mode. */</span></i>
+    uint32_t rootHubAvailableCurrent;
+
+    <i><span style="color: #008000">/* When operating in Host mode, the application can specify a Root Hub port
+       enable function. This parameter should point to Root Hub port enable
+       function. If this parameter is NULL, it implies that the Port is always
+       enabled. */</span></i>
+    DRV_USBFS_ROOT_HUB_PORT_POWER_ENABLE portPowerEnable;
+
+    <i><span style="color: #008000">/* When operating in Host mode, the application can specify a Root Port
+       Indication. This parameter should point to the Root Port Indication
+       function. If this parameter is NULL, it implies that Root Port Indication
+       is not supported. */</span></i>
+    DRV_USBFS_ROOT_HUB_PORT_INDICATION portIndication;
+
+    <i><span style="color: #008000">/* When operating is Host mode, the application can specify a Root Port
+       Overcurrent detection. This parameter should point to the Root Port
+       Indication function. If this parameter is NULL, it implies that
+       Overcurrent detection is not supported. */</span></i>
+    DRV_USBFS_ROOT_HUB_PORT_OVER_CURRENT_DETECT portOverCurrentDetect;
+
+} DRV_USBFS_INIT;</pre></div></div>
+<p class="Element10">
+The operationMode parameter defines by the driver operation mode. parameter in the initialization data structure. This can be set DRV_USBFS_OPMODE_DEVICE, DRV_USBFS_OPMODE_HOST or DRV_USBFS_OPMODE_DUAL_ROLE for device, host and dual role operation respectively.&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">endpointTable</span> parameter must point to a byte array. The size of the array depends on the maximum number of device endpoints that application needs. A direction of an endpoint counts as one endpoint. Each endpoint requires 32 bytes. Therefore, if the USB Device requires 3 endpoints (Endpoint 0 + Endpoint 1 <a href="13954.html">IN</a> + Endpoint 2 <a href="17338.html">OUT</a>), the size of the array will 96 bytes (32 * 3). The byte array start address must be located on a 512 byte boundary. When operating in host mode, the driver will use only one endpoint and size of the endpoint table array should be set to 32.&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">rootHubAvailableCurrent</span> parameter should be set to the maximum current that VBUS power supply can provide on the bus. The driver does not use this information directly. It provides this data to the client application while operating in host mode.&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">portPowerEnable</span> parameter must point to a Port Power Enable function. The driver, while operating in host mode, will call this function to enable the VBUS switch. This function should activate the VBUS switch if the driver calls this function with the enable parameter set to true. It should deactivate the switch if the driver calls this function with the enable parameter set to false. This parameter should be set to NULL if such a switch (of the switch control) is not available in the application.&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">portIndication</span> parameter must point to a Port Indication function. The driver, while operating in host mode, will call this function to indicate the current state of the port. The driver will call this function with LED color status as defined in the Chapter 11 of the USB 2.0 Specification. This parameter should be set to NULL if such a LED indication is not available in the application.&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">portOverCurrentDetect</span> parameter must point to a Port Overcurrent Detect function. The driver, while operating in Host mode, will call this function periodically to check if the attached device is overdrawing current. If the function should return true if such a condition exists. This parameter should be set to NULL if such detection is not available in the application.&nbsp;</p>
+<p class="Element10">
+The following code example shows initialization of the driver for device mode operation. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01081');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01081"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example of DRV_USBFS_INIT data structure for
+ * device mode operation. Here the driver is initialized to work with USB1 USB
+ * module. Note how the endPointTable is defined. It should be aligned on a 512
+ * byte boundary. */</span></i>
+
+DRV_USBFS_INIT init;
+SYS_MODULE_OBJ usbDriverObj;
+
+uint8_t __attribute__((aligned(512))) endPointTable[DRV_USBFS_ENDPOINTS_NUMBER * 32];
+
+<strong><span style="color: #000080">const</span></strong> DRV_USBFS_INIT drvUSBInit =
+{
+    <i><span style="color: #008000">/* Assign the endpoint table */</span></i>
+    .endpointTable = endPointTable,
+
+    <i><span style="color: #008000">/* Interrupt Source for USB module */</span></i>
+    .interruptSource = INT_SOURCE_USB_1,
+
+    <i><span style="color: #008000">/* System module initialization. */</span></i>
+    .moduleInit = {SYS_MODULE_POWER_RUN_FULL},
+
+    <i><span style="color: #008000">/* Configure the driver for device mode operation. */</span></i>
+    .operationMode = DRV_USBFS_OPMODE_DEVICE,
+
+    <i><span style="color: #008000">/* Configure the driver to operate at full speed. */</span></i>
+    .operationSpeed = USB_SPEED_FULL,
+
+    <i><span style="color: #008000">/* Stop in idle */</span></i>
+    .stopInIdle = <strong><span style="color: #000080">false</span></strong>,
+
+    <i><span style="color: #008000">/* Suspend in sleep */</span></i>
+    .suspendInSleep = <strong><span style="color: #000080">false</span></strong>,
+
+    <i><span style="color: #008000">/* Identifies peripheral (PLIB-level) ID */</span></i>
+    .usbID = USB_ID_1
+};
+
+<strong><span style="color: #000080">void</span></strong> SYS_Initialize(<strong><span style="color: #000080">void</span></strong>)
+{
+    <i><span style="color: #008000">/* Initialize the USB Driver. Note how the init parameter is typecasted to
+     * SYS_MODULE_INIT type. The SYS_MODULE_OBJ returned by this function call
+     * is passed to the driver tasks routine. DRV_USBFS_INDEX_0 is helper
+     * constant defined in drv_usbfs.h */</span></i>
+
+    usbDriverObj = DRV_USBFS_Initialize(DRV_USBFS_INDEX_0, (SYS_MODULE_INIT *)(drvUSBInit));
+}
+
+<strong><span style="color: #000080">void</span></strong> SYS_Tasks(<strong><span style="color: #000080">void</span></strong>)
+{
+    <i><span style="color: #008000">/* The polled state of the USB driver is updated by calling the
+     * DRV_USBFS_Tasks function in the SYS_Tasks() function. The
+     * DRV_USBFS_Tasks() takes the driver module object returned by the
+     * DRV_USBFS_Initialize funciton as a parameter. */</span></i>
+
+    DRV_USBFS_Tasks(usbDriverObj);
+}
+
+<strong><span style="color: #000080">void</span></strong> __ISR(_USB_1_VECTOR, ipl4AUTO) _IntHandlerUSBInstance0(<strong><span style="color: #000080">void</span></strong>)
+{
+    <i><span style="color: #008000">/* The DRV_USBFS_Tasks_ISR function update the interrupt state of the USB
+     * Driver. If the driver is configured for polling mode, this function need
+     * not be invoked or included in the project. */</span></i>
+
+    DRV_USBFS_Tasks_ISR(sysObj.drvUSBObject);
+}</pre></div></div>
+<p class="Element10">
+The following code example shows initialization of the driver for host mode operation. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01082');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01082"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example of the USBFS driver can be configured for
+ * host mode operation. For host mode operation, only one endpoint is needed and
+ * hence the size of the endpoint table is 32 bytes (for one endpoint). In this
+ * example, the BSP_USBVBUSSwitchOverCurrentDetect function checks for over
+ * current condition and the BSP_USBVBUSPowerEnable function enables the VBUS
+ * power. The port indication function is not implemented and hence the
+ * portIndication member of the initialization data structure is set to NULL. */</span></i>
+
+<i><span style="color: #008000">/* The implementation of the port over current detect, indication and the VBUS
+ * power supply functions is discussed later in this help section. */</span></i>
+
+uint8_t __attribute__((aligned(512))) endpointTable[32];
+
+DRV_USBFS_INIT drvUSBFSInit =
+{
+    <i><span style="color: #008000">/* Pointer to the endpoint table */</span></i>
+    .endpointTable = endpointTable,
+
+    <i><span style="color: #008000">/* Interrupt Source for the USB module */</span></i>
+    .interruptSource = INT_SOURCE_USB_1,
+
+    <i><span style="color: #008000">/* This should always be set to SYS_MODULE_POWER_RUN_FULL. */</span></i>
+    .moduleInit = {SYS_MODULE_POWER_RUN_FULL},
+
+    <i><span style="color: #008000">/* Configure for host mode operation. */</span></i>
+    .operationMode = DRV_USBFS_OPMODE_HOST,
+
+    <i><span style="color: #008000">/* The driver should run at full speed. */</span></i>
+    .operationSpeed = USB_SPEED_FULL,
+
+    <i><span style="color: #008000">/* Port indication function is not implemented. */</span></i>
+    .portIndication = NULL,
+
+    <i><span style="color: #008000">/* This is the over current detect function. */</span></i>
+    .portOverCurrentDetect = BSP_USBVBUSSwitchOverCurrentDetect,
+
+    <i><span style="color: #008000">/* This is the VBUS Power enable function */</span></i>
+    .portPowerEnable = BSP_USBVBUSPowerEnable,
+
+    <i><span style="color: #008000">/* Here we state that the VBUS power supply can provide at most 500 mA of
+     * current */</span></i>
+    .rootHubAvailableCurrent = 500,
+
+    <i><span style="color: #008000">/* Module will operate in IDLE. */</span></i>
+    .stopInIdle = <strong><span style="color: #000080">false</span></strong>,
+
+    <i><span style="color: #008000">/* Module will not suspend automatically in sleep */</span></i>
+    .suspendInSleep = <strong><span style="color: #000080">false</span></strong>,
+
+    <i><span style="color: #008000">/* USB Module ID is 1 */</span></i>
+    .usbID = USB_ID_1
+};
+
+<strong><span style="color: #000080">void</span></strong> SYS_Initialize(<strong><span style="color: #000080">void</span></strong>)
+{
+    <i><span style="color: #008000">/* Initialize the USB Driver. Note how the init parameter is typecasted to
+     * SYS_MODULE_INIT type. The SYS_MODULE_OBJ returned by this function call
+     * is passed to the driver tasks routine. DRV_USBFS_INDEX_0 is helper
+     * constant defined in drv_usbfs.h */</span></i>
+
+    usbDriverObj = DRV_USBFS_Initialize(DRV_USBFS_INDEX_0,
+                                                (SYS_MODULE_INIT *)(drvUSBInit));
+}
+
+<strong><span style="color: #000080">void</span></strong> SYS_Tasks(<strong><span style="color: #000080">void</span></strong>)
+{
+    <i><span style="color: #008000">/* The polled state of the USB driver is updated by calling the
+     * DRV_USBFS_Tasks function in the SYS_Tasks() function. The
+     * DRV_USBFS_Tasks() takes the driver module object returned by the
+     * DRV_USBFS_Initialize funciton as a parameter. */</span></i>
+
+    DRV_USBFS_Tasks(usbDriverObj);
+}
+
+<strong><span style="color: #000080">void</span></strong> __ISR(_USB_1_VECTOR, ipl4AUTO) _IntHandlerUSBInstance0(<strong><span style="color: #000080">void</span></strong>)
+{
+    <i><span style="color: #008000">/* The DRV_USBFS_Tasks_ISR function update the interrupt state of the USB
+     * Driver. If the driver is configured for polling mode, this function need
+     * not be invoked or included in the project. */</span></i>
+
+    DRV_USBFS_Tasks_ISR(sysObj.drvUSBObject);
+}</pre></div></div>
+<p class="Element10">
+The PIC32MX USB Driver requires definition of configuration constants to be available in the <span class="Element146">system_config.h</span> file of the MPLAB Harmony Application Project Configuration. Refer to the <a href="08926.html">Configuring the Library</a> section for details.</p><div class="Element15">
+Multi-client Operation</div>
+<p class="Element10">
+The PIC32MX USB Driver supports multi-client operation. In that, it can be opened by two application clients. This is required where Dual Operation is desired. The following should be noted when using multi-client operation:
+<ul class="Element636">
+<li class="Element606">The driver should be initialized for Dual Role Operation mode.</li>
+<li class="Element606">The <a href="11601.html">DRV_USBFS_Open</a> function can be called at the most twice in the application. The driver supports a maximum of two clients.</li>
+<li class="Element606">A client can access either the host or device functionality of the driver. It cannot do both.</li>
+<li class="Element606">It is possible for the two clients to operate in two different threads while operating with an RTOS.</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The typical the application clients for PIC32MX USB Driver would be the MPLAB Harmony USB Host and Device Stack. The complexity of operating the driver in Dual Role mode is handled by the stack operation. The MHC will configure the driver for Dual Role operation when such operation is selected in USB Stack configuration tree.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+USB Driver Common Interface</div>
+<p class="Element10">
+The PIC32MX USB Driver exports its implementation of the USB Driver Common Interface to the Host and Device Layer via the <a href="11561.html">DRV_USBFS_HOST_INTERFACE</a> and <a href="11538.html">DRV_USBFS_DEVICE_INTERFACE</a> structures. The <a href="11561.html">DRV_USBFS_HOST_INTERFACE</a> structure is defined in the <span class="Element146">drv_usbfs_host.c</span> file. The following code example shows this structure. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01083');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01083"><pre class="Element12"><i><span style="color: #008000">/**********************************************************
+ * This structure is a set of pointer to the USBFS driver
+ * functions. It is provided to the host and device layer
+ * as the interface to the driver.
+ * *******************************************************/</span></i>
+
+DRV_USB_HOST_INTERFACE gDrvUSBFSHostInterface =
+{
+    .open = DRV_USBFS_Open,
+    .close = DRV_USBFS_Close,
+    .eventHandlerSet = DRV_USBFS_ClientEventCallBackSet,
+    .hostIRPSubmit = DRV_USBFS_HOST_IRPSubmit,
+    .hostIRPCancel = DRV_USBFS_HOST_IRPCancel,
+    .hostPipeSetup = DRV_USBFS_HOST_PipeSetup,
+    .hostPipeClose = DRV_USBFS_HOST_PipeClose,
+    .hostEventsDisable = DRV_USBFS_HOST_EventsDisable,
+    .hostEventsEnable = DRV_USBFS_HOST_EventsEnable,
+    .rootHubInterface.rootHubPortInterface.hubPortReset = DRV_USBFS_HOST_ROOT_HUB_PortReset,
+    .rootHubInterface.rootHubPortInterface.hubPortSpeedGet = DRV_USBFS_HOST_ROOT_HUB_PortSpeedGet,
+    .rootHubInterface.rootHubPortInterface.hubPortResetIsComplete = DRV_USBFS_HOST_ROOT_HUB_PortResetIsComplete,
+    .rootHubInterface.rootHubPortInterface.hubPortSuspend = DRV_USBFS_HOST_ROOT_HUB_PortSuspend,
+    .rootHubInterface.rootHubPortInterface.hubPortResume = DRV_USBFS_HOST_ROOT_HUB_PortResume,
+    .rootHubInterface.rootHubMaxCurrentGet = DRV_USBFS_HOST_ROOT_HUB_MaximumCurrentGet,
+    .rootHubInterface.rootHubPortNumbersGet = DRV_USBFS_HOST_ROOT_HUB_PortNumbersGet,
+    .rootHubInterface.rootHubSpeedGet = DRV_USBFS_HOST_ROOT_HUB_BusSpeedGet,
+    .rootHubInterface.rootHubInitialize = DRV_USBFS_HOST_ROOT_HUB_Initialize,
+    .rootHubInterface.rootHubOperationEnable = DRV_USBFS_HOST_ROOT_HUB_OperationEnable,
+    .rootHubInterface.rootHubOperationIsEnabled = DRV_USBFS_HOST_ROOT_HUB_OperationIsEnabled,
+};</pre></div></div>
+<p class="Element10">
+The <a href="11538.html">DRV_USBFS_DEVICE_INTERFACE</a> structure is defined in the <span class="Element146">drv_usbfs_device.c</span> file. The following code example shows this structure. The MPLAB Harmony USB Host and Device stack perform driver independent access through the function pointers contained in these structures. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01084');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01084"><pre class="Element12"><i><span style="color: #008000">/*****************************************************
+ * This structure is a pointer to a set of USB Driver
+ * Device mode functions. This set is exported to the
+ * device layer when the device layer must use the
+ * PIC32MX USB Controller.
+ ******************************************************/</span></i>
+
+DRV_USB_DEVICE_INTERFACE gDrvUSBFSDeviceInterface =
+{
+    .open = DRV_USBFS_Open,
+    .close = DRV_USBFS_Close,
+    .eventHandlerSet = DRV_USBFS_ClientEventCallBackSet,
+    .deviceAddressSet = DRV_USBFS_DEVICE_AddressSet,
+    .deviceCurrentSpeedGet = DRV_USBFS_DEVICE_CurrentSpeedGet,
+    .deviceSOFNumberGet = DRV_USBFS_DEVICE_SOFNumberGet,
+    .deviceAttach = DRV_USBFS_DEVICE_Attach,
+    .deviceDetach = DRV_USBFS_DEVICE_Detach,
+    .deviceEndpointEnable = DRV_USBFS_DEVICE_EndpointEnable,
+    .deviceEndpointDisable = DRV_USBFS_DEVICE_EndpointDisable,
+    .deviceEndpointStall = DRV_USBFS_DEVICE_EndpointStall,
+    .deviceEndpointStallClear = DRV_USBFS_DEVICE_EndpointStallClear,
+    .deviceEndpointIsEnabled = DRV_USBFS_DEVICE_EndpointIsEnabled,
+    .deviceEndpointIsStalled = DRV_USBFS_DEVICE_EndpointIsStalled,
+    .deviceIRPSubmit = DRV_USBFS_DEVICE_IRPSubmit,
+    .deviceIRPCancel = DRV_USBFS_DEVICE_IRPCancel,
+    .deviceIRPCancelAll = DRV_USBFS_DEVICE_IRPCancelAll,
+    .deviceRemoteWakeupStop = DRV_USBFS_DEVICE_RemoteWakeupStop,
+    .deviceRemoteWakeupStart = DRV_USBFS_DEVICE_RemoteWakeupStart,
+    .deviceTestModeEnter = NULL
+
+
+};</pre></div></div>
+<div class="Element15">
+Operation with RTOS</div>
+<p class="Element10">
+The PIC32MX USB Driver is designed to operate with a RTOS. The driver implementation uses the MPLAB Harmony Operating System Abstraction Layer (OSAL). This allows the driver to function with entire range of RTOSes supported in MPLAB Harmony. The following points must be considered while using the driver with an RTOS.
+<ul class="Element636">
+<li class="Element606">The driver can be opened from different threads</li>
+<li class="Element606">In Device mode, an enabled endpoint should only be accessed from one thread. For example, if an application requires two endpoints, Endpoint 2 and Endpoint 3, the application could contain two threads, one accessing Endpoint 2 and another accessing Endpoint 3. The thread accessing Endpoint 2 cannot access Endpoint 3.</li>
+<li class="Element606">While operating in Host mode, endpoint pipes can be opened from different threads. A pipe handle to an open pipe cannot be shared across threads.</li>
+</ul></p><div class="Element15">
+Host Mode Attach Detach Operation</div>
+<p class="Element10">
+When the PIC32MX USB Driver operating in Host mode detects a device attach or detach, it implements debouncing before signaling attach detach signal to the USB Host Stack. When the device is attached, the driver waits for <a href="11558.html">DRV_USBFS_HOST_ATTACH_DEBOUNCE_DURATION</a> milliseconds to allow for the mechanical chatter, which occurs when the device is inserted into the host receptacle, to settle. If the device is still attached after the <a href="11558.html">DRV_USBFS_HOST_ATTACH_DEBOUNCE_DURATION</a> expires, the driver calls the USB_HOST_DeviceEnumerate function to let the host stack enumerate the device. It also starts checking for Device Detach.&nbsp;</p>
+<p class="Element10">
+When the device is detached, the driver waits for DRV_USBFS_POST_DETACH_DELAY milliseconds to allow for the detach operation to settle. If the device is indeed detached after the DRV_USBFS_POST_DETACH_DELAY delay expires, the driver calls USB_HOST_DeviceDenumerate function to let the USB Host stack denumerate the device. It then starts checking for device attach.</p><div class="Element15">
+Root Hub Operation</div>
+<p class="Element10">
+The PIC32MX USB Driver implements a Root Hub Driver Interface. This allows the driver to emulate a hub. The USB Host Stack enumerates the Root Hub as a device. The Host Stack then does not differentiate between an external hub and the root hub. While emulating a hub, the PIC32MX USB Driver Root Hub appears as a single port hub.&nbsp;</p>
+<p class="Element10">
+As a part of the root hub interface, the PIC32MX USB Driver requires the application to supply functions for hub features that it does not implement. These features are:
+<ul class="Element636">
+<li class="Element606">Port Overcurrent Detect</li>
+<li class="Element606">VBUS Switch Control</li>
+<li class="Element606">Port Indication</li>
+</ul>A pointer to these functions (if implemented) must be supplied through the driver initialization data (of the type <a href="11585.html">DRV_USBFS_INIT</a>) structure at the time of driver initialization. The application has the option of not implementing these functions. In such a case, the function pointers for the unimplemented function, in the initialization data structure should be set to NULL.&nbsp;</p>
+<p class="Element10">
+The root hub driver must also be able to communicate the maximum current capability of its port to the USB Host Layer. The PIC32MX USB Controller does not contain built-in (hardware implemented) functionality for controlling the root hub port current. To facilitate this request, the driver will report the current capability that was specified in the <span class="Element146">rootHubAvailableCurrent</span> parameter of the driver initialization data structure. The application must set this parameter to report the current supply capability of the VBUS power supply. The USB Host Layer uses this value to manage the bus current budget. If a connected device reports a configuration that requires more current than what the VBUS power supply can provide, the host will not set the configuration.</p><div class="Element15">
+Port Overcurrent Detect</div>
+<p class="Element10">
+The Root Hub operation in PIC32MX USB Driver will periodically call a Port Overcurrent Detect function to detect if an overcurrent condition is active on the port. The application must supply this function if port overcurrent detection is needed. The PIC32MX USB Controller does not contain built-in (hardware implemented) functionality for checking overcurrent condition. The overcurrent condition on the port can occur in a case where the attached device has malfunctioned or when the USB VBUS line has short circuited to ground.&nbsp;</p>
+<p class="Element10">
+The signature of the function and an example implementation is shown in the following code example. The function must return (and must continue to return) true if an overcurrent condition exists on the port. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01085');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01085"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example implementation of the
+ * portOverCurrentDetect function. The PIC32MX USB Driver will call this
+ * function periodically to check if an over current condition exists on the
+ * port. In this example, we assume that the over current detect pin from an
+ * external circuit in the system, is connected to  port RD0 and the pin logic
+ * is active high. The function must return true if an over current condition is
+ * present on this pin */</span></i>
+
+
+<strong><span style="color: #000080">bool</span></strong> BSP_USBVBUSSwitchOverCurrentDetect(uint8_t port)
+{
+    <strong><span style="color: #000080">if</span></strong>(PLIB_PORTS_PinGet(PORTS_ID_0, PORT_CHANNEL_D, 0) == 1)
+    {
+        <strong><span style="color: #000080">return</span></strong>(<strong><span style="color: #000080">true</span></strong>);
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        <strong><span style="color: #000080">return</span></strong>(<strong><span style="color: #000080">false</span></strong>);
+    }
+}</pre></div></div>
+<div class="Element15">
+VBUS Switch Control</div>
+<p class="Element10">
+The PIC32MX USB Driver Root Hub operation will attempt to control the VBUS power supply to the port. Because the PIC32MX USB Controller does not contain built-in (hardware implemented) functionality for checking controlling VBUS, such a control function must be supplied by the application. The root hub operation will access this function when the PIC32MX USB Driver will call the portPowerEnable function as a part of the Bus Enable sequence.&nbsp;</p>
+<p class="Element10">
+The following code shows an example of how this function can be implemented. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01086');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01086"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example implementation of the VBUS Power Enable
+ * function. The PIC32MX USB Driver will call this function as a part of bus
+ * enable function. In this example, it is assumed that system contains an
+ * external VBUS power switch and this is control by port RB5.
+ */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> BSP_USBVBUSPowerEnable(uint8_t port, <strong><span style="color: #000080">bool</span></strong> enable)
+{
+    <strong><span style="color: #000080">if</span></strong>(enable)
+    {
+        PLIB_PORTS_PinSet(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_5);
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        PLIB_PORTS_PinClear(PORTS_ID_0, PORT_CHANNEL_B, PORTS_BIT_POS_5);
+    }
+}</pre></div></div>
+<div class="Element15">
+Port Indication function</div>
+<p class="Element10">
+The Root Hub Operation in the PIC32MX USB Driver allows display of Port LED status. If the application requires this indication, it must implement a function which the Root Hub operation would call when a change in the Root Hub port has occurred. The port indication operation is specified in Section 11.5.3 of the USB 2.0 Specification. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01087');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01087"><pre class="Element12"><i><span style="color: #008000">/* This code shows an example implementation of the port indication
+ * function. The PIC32MX USB Driver calls this function when it wants to indicate
+ * port status. It is assumed that three function to switch off, blink and
+ * switch on an LED are available. It is further assumed that these function
+ * accept the color of the LED to operated on. */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> BSP_RootHubPortIndication
+(
+    uint8_t port,
+    USB_HUB_PORT_INDICATOR_COLOR color,
+    USB_HUB_PORT_INDICATOR_STATE state
+)
+{
+    <i><span style="color: #008000">/* The color parameter indicates the color of the LED to be affected. The
+     * color will be either USB_HUB_PORT_INDICATOR_COLOR_GREEN or
+     * USB_HUB_PORT_INDICATOR_COLOR_AMBER. */</span></i>
+
+    <strong><span style="color: #000080">switch</span></strong> (state)
+    {
+        <strong><span style="color: #000080">case</span></strong> USB_HUB_PORT_INDICATOR_STATE_OFF:
+            BSP_SwitchLEDOff(color);
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">case</span></strong> USB_HUB_PORT_INDICATOR_STATE_BLINKING:
+            BSP_LEDBlink(color);
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">case</span></strong> USB_HUB_PORT_INDICATOR_STATE_ON:
+            BSP_SwitchLEDOn(color);
+            <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08936.html">Using the Library</a> &gt; <a href="08930.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USB PIC32MX How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

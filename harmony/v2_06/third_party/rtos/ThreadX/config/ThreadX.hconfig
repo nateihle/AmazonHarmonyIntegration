@@ -1,0 +1,518 @@
+menu "RTOS Configuration"
+menu "ThreadX Features"
+    ---help---
+    <p><strong>ThreadX - Features</strong></p>
+<p>The user can define several configuration options when building ThreadX applications.</p>
+<p>MHC defines the ThreadX preprocessor variable TX_INCLUDE_USER_DEFINE_FILE in the user project,
+   and defines ThreadX preprocessor variables in the tx_user.h file.</p>
+<p>For more information, refer to http://www.rtos.com/images/uploads/ThreadX_User_Guide_V5.pdf</p>
+    ---endhelp---
+    
+config THREADX_TX_DISABLE_ERROR_CHECKING
+    bool "Disable error checking"
+    default n
+    ---help---
+<p><strong>ThreadX - Disable error checking</strong></p>
+<p>Bypasses basic service call error checking by disabling parameter error checking. This may improve performance by as much as 30% and may also reduce the image 
+   size. Of course, this option should only be used after the application is thoroughly debugged.</p>
+<p>ThreadX API return values not affected by disabling error checking are listed in bold in the "Return Values" section of each API 
+   description in ThreadX User Guide, Chapter 4. The non-bold return values are void if error checking is disabled by using the 
+   TX_DISABLE_ERROR_CHECKING option.</p>
+<p>When error checking is disabled, MHC defines the ThreadX preprocessor variable TX_DISABLE_ERROR_CHECKING.</p>   
+    ---endhelp---
+
+config THREADX_TICK_INTERRUPT
+    select USE_SYS_INT_NEEDED
+    bool "Tick interrupt"
+    default y
+    persistent
+    
+    ---help---
+<p>	<strong>ThreadX - Tick Interrupt </strong></p>
+<p>	Enables (when set to 1) or disables (when set to 0) the code generation of the system interrupt services </p>
+<p>	MHC sets the system service preprocessor variable SYS_INT to TRUE.</p>
+    ---endhelp---
+    
+config THREADX_TX_MAX_PRIORITIES
+    int "Maximum number of priority levels"
+    default 32
+    range 32 1024
+    ---help---
+<p><strong>ThreadX - Maximum number of priority levels</strong></p>
+<p>Defines the priority levels for ThreadX. Legal values range from 32 through 1024 (inclusive) 
+and must be evenly divisible by 32. Increasing the number of priority levels supported increases the RAM usage by 128 
+bytes for every group of 32 priorities. However, there is only a negligible effect on performance.</p>
+<p>MHC defines the ThreadX preprocessor variable TX_MAX_PRIORITIES.</p>  
+    ---endhelp---
+
+config THREADX_TX_MINIMUM_STACK
+    int "Minimum stack size (in bytes)"
+    default 512
+    ---help---
+<p><strong>ThreadX - Minimum stack size (in bytes)</strong></p>
+<p>Defines the minimum stack size (in bytes). It is used for error checking when threads are created.</p>
+<p>MHC defines the ThreadX preprocessor variable TX_MINIMUM_STACK.</p>  
+    ---endhelp---
+
+config THREADX_TX_TIMER_PROCESS_IN_ISR
+    bool "Process timer in ISR"
+    default n
+    ---help---
+<p><strong>ThreadX - Process timer in ISR</strong></p>
+<p>When enabled, eliminates the internal system timer thread for ThreadX. This results in 
+improved performance on timer events and smaller RAM requirements because the timer 
+stack and control block are no longer needed. However, using this option moves all the timer 
+expiration processing to the timer ISR level.</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_TIMER_PROCESS_IN_ISR.</p> 
+    ---endhelp---
+    
+config THREADX_TX_TIMER_THREAD_STACK_SIZE
+    int "Timer thread stack size"
+    depends on !THREADX_TX_TIMER_PROCESS_IN_ISR
+    default 2048
+    ---help---
+<p><strong>ThreadX - Timer thread stack size</strong></p>
+<p>Defines the stack size (in bytes) of the internal ThreadX system timer thread. This thread processes all thread sleep 
+   requests as well as all service call timeouts. In addition, all application timer callback routines are invoked from this 
+   context. </p>
+<p>MHC defines the ThreadX preprocessor variable TX_TIMER_THREAD_STACK_SIZE.</p> 
+    ---endhelp---
+
+config THREADX_TX_TIMER_THREAD_PRIORITY
+    int "Timer thread priority"
+    depends on !THREADX_TX_TIMER_PROCESS_IN_ISR
+    default 0
+    range 0 31 if THREADX_TX_MAX_PRIORITIES = 32
+    range 0 63 if THREADX_TX_MAX_PRIORITIES = 64
+    range 0 95 if THREADX_TX_MAX_PRIORITIES = 96
+    range 0 127 if THREADX_TX_MAX_PRIORITIES = 128
+    range 0 159 if THREADX_TX_MAX_PRIORITIES = 160
+    range 0 191 if THREADX_TX_MAX_PRIORITIES = 192
+    range 0 223 if THREADX_TX_MAX_PRIORITIES = 224
+    range 0 255 if THREADX_TX_MAX_PRIORITIES = 256
+    range 0 287 if THREADX_TX_MAX_PRIORITIES = 288
+    range 0 319 if THREADX_TX_MAX_PRIORITIES = 320
+    range 0 351 if THREADX_TX_MAX_PRIORITIES = 352
+    range 0 383 if THREADX_TX_MAX_PRIORITIES = 384
+    range 0 415 if THREADX_TX_MAX_PRIORITIES = 416
+    range 0 447 if THREADX_TX_MAX_PRIORITIES = 448
+    range 0 479 if THREADX_TX_MAX_PRIORITIES = 480
+    range 0 511 if THREADX_TX_MAX_PRIORITIES = 512
+    range 0 543 if THREADX_TX_MAX_PRIORITIES = 544
+    range 0 575 if THREADX_TX_MAX_PRIORITIES = 576
+    range 0 607 if THREADX_TX_MAX_PRIORITIES = 608
+    range 0 639 if THREADX_TX_MAX_PRIORITIES = 640
+    range 0 671 if THREADX_TX_MAX_PRIORITIES = 672
+    range 0 703 if THREADX_TX_MAX_PRIORITIES = 704
+    range 0 735 if THREADX_TX_MAX_PRIORITIES = 736
+    range 0 767 if THREADX_TX_MAX_PRIORITIES = 768
+    range 0 799 if THREADX_TX_MAX_PRIORITIES = 800
+    range 0 831 if THREADX_TX_MAX_PRIORITIES = 832
+    range 0 863 if THREADX_TX_MAX_PRIORITIES = 864        
+    range 0 895 if THREADX_TX_MAX_PRIORITIES = 896
+    range 0 927 if THREADX_TX_MAX_PRIORITIES = 928
+    range 0 959 if THREADX_TX_MAX_PRIORITIES = 960
+    range 0 991 if THREADX_TX_MAX_PRIORITIES = 992
+    range 0 1023 if THREADX_TX_MAX_PRIORITIES = 1024
+    ---help---
+<p><strong>ThreadX - Timer thread priority</strong></p>
+<p>Defines the priority of the internal ThreadX system timer thread. 
+   The default value is priority 0 - maximum priority level in ThreadX (TX_MAX_PRIORITIES - 1).</p>
+<p>MHC defines the ThreadX preprocessor variable TX_TIMER_THREAD_PRIORITY.</p> 
+    ---endhelp---
+ 
+config THREADX_TX_REACTIVATE_INLINE
+    bool "Reactivate timers in-line"
+    default n
+    ---help---
+<p><strong>ThreadX - Reactivate timers in-line</strong></p>
+<p>When enabled, performs reactivation of ThreadX timers in-line instead of using a function 
+   call. This improves performance but slightly increases code size.</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_REACTIVATE_INLINE.</p>
+    ---endhelp---
+    
+config THREADX_TX_DISABLE_STACK_FILLING
+    bool "Disable stack filling"
+    default n
+    ---help---
+<p><strong>ThreadX - Disable stack filling</strong></p>
+<p>Disables placing the 0xEF value in each byte of each thread's stack when created. By default, each thread's stack is filled with 0xEF.</p>
+<p>When stack filling is disabled, MHC defines the ThreadX preprocessor variable TX_DISABLE_STACK_FILLING.</p>
+    ---endhelp---
+  
+config THREADX_TX_ENABLE_STACK_CHECKING
+    bool "Enable stack checking"
+    default n
+    ---help---
+<p><strong>ThreadX - Enable stack checking</strong></p>
+<p>Enables ThreadX run-time stack checking, which includes analysis of how much stack has been used and 
+examination of data pattern "fences" before and after the stack area. If a stack error is detected, the registered 
+application stack error handler is called. This option does result in slightly increased overhead and 
+code size. Review the tx_thread_stack_error_notify API for more information.</p>
+<p>When stack checking is enabled, MHC defines the ThreadX preprocessor variable TX_ENABLE_STACK_CHECKING.</p>
+    ---endhelp---
+  
+config THREADX_TX_DISABLE_PREEMPTION_THRESHOLD
+    bool "Disables the preemption-threshold"
+    default n
+    ---help---
+<p><strong>ThreadX - Disables the preemption-threshold</strong></p>
+<p>Disables the preemption-threshold feature and slightly reduces code size and improves performance. Of 
+course, the preemption-threshold capabilities are no longer available.</p>
+<p>When the preemption-threshold is disabled, MHC defines the ThreadX preprocessor variable TX_DISABLE_PREEMPTION_THRESHOLD.</p>
+    ---endhelp---
+  
+config THREADX_TX_DISABLE_REDUNDANT_CLEARING
+    bool "Remove logic to initialize all global C data structures to zero"
+    default n
+    ---help---
+<p><strong>ThreadX - Remove logic to initialize all global C data structures to zero</strong></p>
+<p>Removes the logic for initializing ThreadX global C data structures to zero. This should only be used if the 
+compiler's initialization code sets all un-initialized C global data to zero. Using this option slightly 
+reduces code size and improves performance during initialization.</p>
+<p>When this option is selected, MHC defines the ThreadX preprocessor variable TX_DISABLE_REDUNDANT_CLEARING.</p>
+    ---endhelp---
+
+config THREADX_TX_DISABLE_NOTIFY_CALLBACKS
+    bool "Disable notify callbacks"
+    default n
+    ---help---
+<p><strong>ThreadX - Disable notify callbacks</strong></p>
+<p>Disables the notify callbacks for various ThreadX objects. Using this option slightly 
+reduces code size and improves performance.</p>
+<p>When notify callbacks are disabled, MHC defines the ThreadX preprocessor variable TX_DISABLE_NOTIFY_CALLBACKS.</p>
+    ---endhelp---
+
+config THREADX_TX_INLINE_THREAD_RESUME_SUSPEND
+    bool "Inline thread resume and suspend"
+    default n
+    ---help---
+<p><strong>ThreadX - Inline thread resume and suspend</strong></p>
+<p>Specifies that the tx_thread_resume and tx_thread_suspend services should have their internal 
+   code in-line. This results in a larger image, but improves the performance of the thread 
+   resume and suspend services.</p>
+<p>When thread resume and suspend are inlined, MHC defines the ThreadX preprocessor variable TX_INLINE_THREAD_RESUME_SUSPEND.</p>
+    ---endhelp---
+
+config THREADX_TX_NOT_INTERRUPTABLE
+    bool "Internal ThreadX code is non-interruptable"
+    default n
+    ---help---
+<p><strong>ThreadX - Internal ThreadX code is non-interruptable</strong></p>
+<p>Specifies that the internal ThreadX code is non-interruptable. This results in smaller code 
+   size and less processing overhead, but increases the interrupt lockout time.</p>
+<p>When the internal ThreadX code is specified as non-interruptable, MHC defines the ThreadX preprocessor variable THREADX_TX_NOT_INTERRUPTABLE.</p>
+    ---endhelp---
+
+config THREADX_TX_ENABLE_EVENT_TRACE
+    bool "Enable the trace event logging code"
+    default n
+    ---help---
+<p><strong>ThreadX - Enable the trace event logging code</strong></p>
+<p>Enable the trace event logging code. This causes slight increases in 
+   code size and overhead, but provides the ability to generate system trace information which 
+   is available for viewing in TraceX.</p>
+<p>When the trace event logging code is enabled, MHC defines the ThreadX preprocessor variable THREADX_TX_ENABLE_EVENT_TRACE.</p>
+    ---endhelp---
+    
+config THREADX_TX_BLOCK_POOL_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on block pools"
+    default n
+    ---help---
+<p><strong>ThreadX - Gather performance information on block pools</strong></p>
+<p>Gather performance information on block pools.</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_BLOCK_POOL_ENABLE_PERFORMANCE_INFO.</p>
+    ---endhelp---
+
+config THREADX_TX_BYTE_POOL_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on byte pools"
+    default n
+    ---help---
+<p><strong>ThreadX - Gather performance information on byte pools</strong></p>
+<p>Gather performance information on byte pools.</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_BYTE_POOL_ENABLE_PERFORMANCE_INFO.</p>
+    ---endhelp---
+
+config THREADX_TX_EVENT_FLAGS_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on event flags groups"
+    default n
+    ---help---
+<p><strong>ThreadX - Gather performance information on event flags groups</strong></p>
+<p>Gather performance information on event flags groups.</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_EVENT_FLAGS_ENABLE_PERFORMANCE_INFO.</p>
+    ---endhelp---
+   
+config THREADX_TX_MUTEX_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on mutexes"
+    default n 
+    ---help---
+<p><strong>ThreadX - Gather performance information on mutexes</strong></p>
+<p>Gather performance information on mutexes.</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_MUTEX_ENABLE_PERFORMANCE_INFO.</>
+    ---endhelp---
+    
+config THREADX_TX_QUEUE_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on queues"
+    default n
+    ---help---
+<p><strong>ThreadX - Gather performance information on queues</strong></p>
+<p>Gather performance information on queues.</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_QUEUE_ENABLE_PERFORMANCE_INFO.</p>
+    ---endhelp---
+
+config THREADX_TX_SEMAPHORE_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on semaphores"
+    default n
+    ---help---
+<p><strong>ThreadX - Gather performance information on semaphores</strong></p>
+<p>Gather performance information on semaphores</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_SEMAPHORE_ENABLE_PERFORMANCE_INFO.</p>
+    ---endhelp---
+
+config THREADX_TX_THREAD_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on threads"
+    default n
+    ---help---
+<p><strong>ThreadX - Gather performance information on threads</strong></p>
+<p>Gather performance information on threads</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_THREAD_ENABLE_PERFORMANCE_INFO.</p>
+    ---endhelp---
+ 
+config THREADX_TX_TIMER_ENABLE_PERFORMANCE_INFO
+    bool "Gather performance information on timers"
+    default n
+    ---help---
+<p><strong>ThreadX - Gather performance information on timers</strong></p>
+<p>Gather performance information on timers</p>
+<p>When enabled, MHC defines the ThreadX preprocessor variable TX_TIMER_ENABLE_PERFORMANCE_INFO.</p>
+    ---endhelp---
+
+endmenu # ThreadX Features    
+
+
+
+compiler THREADX_COMPILER_DEFINE_1 define "TX_INCLUDE_USER_DEFINE_FILE"
+
+template THREADX_CFG_H     "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/templates/tx_user.h.ftl"     to "$PROJECT_HEADER_FILES/app/rtos_config/$CONFIGURATION/tx_user.h"
+    
+file THREADX_TX_API_H          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_api.h"          to "$PROJECT_HEADER_FILES/threadx/tx_api.h"
+file THREADX_TX_BLOCK_POOL_H   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool.h"   to "$PROJECT_HEADER_FILES/threadx/tx_block_pool.h"
+file THREADX_TX_BYTE_POOL_H    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool.h"    to "$PROJECT_HEADER_FILES/threadx/tx_byte_pool.h"
+file THREADX_TX_EVENT_FLAGS_H  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags.h"  to "$PROJECT_HEADER_FILES/threadx/tx_event_flags.h" 
+file THREADX_TX_INITIALIZE_H   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_initialize.h"   to "$PROJECT_HEADER_FILES/threadx/tx_initialize.h"
+file THREADX_TX_MUTEX_H        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex.h"        to "$PROJECT_HEADER_FILES/threadx/tx_mutex.h"
+file THREADX_TX_PORT_H         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_port.h"         to "$PROJECT_HEADER_FILES/threadx/tx_port.h"
+file THREADX_TX_QUEUE_H        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue.h"        to "$PROJECT_HEADER_FILES/threadx/tx_queue.h"
+file THREADX_TX_SEMAPHORE_H    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore.h"    to "$PROJECT_HEADER_FILES/threadx/tx_semaphore.h"
+file THREADX_TX_THREAD_H       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread.h"       to "$PROJECT_HEADER_FILES/threadx/tx_thread.h"
+file THREADX_TX_TIMER_H        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer.h"        to "$PROJECT_HEADER_FILES/threadx/tx_timer.h"
+file THREADX_TX_TRACE_H        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace.h"        to "$PROJECT_HEADER_FILES/threadx/tx_trace.h"
+
+file THREADX_TX_SEMAPHORE_CREATE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_create.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_create.c"
+file THREADX_TX_SEMAPHORE_DELETE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_delete.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_delete.c"
+file THREADX_TX_SEMAPHORE_GET_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_get.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_get.c"
+file THREADX_TX_SEMAPHORE_INFO_GET_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_info_get.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_info_get.c"
+file THREADX_TX_SEMAPHORE_INITIALIZE_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_initialize.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_initialize.c"
+file THREADX_TX_SEMAPHORE_PERFORMANCE_INFO_GET_C          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_performance_info_get.c"          to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_performance_info_get.c"
+file THREADX_TX_SEMAPHORE_PERFORMANCE_SYSTEM_INFO_GET_C   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_performance_system_info_get.c"   to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_performance_system_info_get.c"
+file THREADX_TX_SEMAPHORE_PRIORITIZE_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_prioritize.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_prioritize.c"
+file THREADX_TX_SEMAPHORE_PUT_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_put.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_put.c"
+file THREADX_TX_SEMAPHORE_PUT_NOTIFY_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_put_notify.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_put_notify.c"
+file THREADX_TX_THREAD_CREATE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_create.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_thread_create.c"
+file THREADX_TX_THREAD_DELETE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_delete.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_thread_delete.c"
+file THREADX_TX_THREAD_ENTRY_EXIT_NOTIFY_C                "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_entry_exit_notify.c"                to "$PROJECT_SOURCE_FILES/threadx/tx_thread_entry_exit_notify.c"
+file THREADX_TX_THREAD_IDENTIFY_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_identify.c"                         to "$PROJECT_SOURCE_FILES/threadx/tx_thread_identify.c"
+file THREADX_TX_THREAD_INFO_GET_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_info_get.c"                         to "$PROJECT_SOURCE_FILES/threadx/tx_thread_info_get.c"
+file THREADX_TX_THREAD_INITIALIZE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_initialize.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_thread_initialize.c"
+file THREADX_TX_THREAD_PERFORMANCE_INFO_GET_C             "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_performance_info_get.c"             to "$PROJECT_SOURCE_FILES/threadx/tx_thread_performance_info_get.c"
+file THREADX_TX_THREAD_PERFORMANCE_SYSTEM_INFO_GET_C      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_performance_system_info_get.c"      to "$PROJECT_SOURCE_FILES/threadx/tx_thread_performance_system_info_get.c"
+file THREADX_TX_THREAD_PREEMPTION_CHANGE_C                "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_preemption_change.c"                to "$PROJECT_SOURCE_FILES/threadx/tx_thread_preemption_change.c"
+file THREADX_TX_THREAD_PRIORITY_CHANGE_C                  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_priority_change.c"                  to "$PROJECT_SOURCE_FILES/threadx/tx_thread_priority_change.c"
+file THREADX_TX_THREAD_RELINQUISH_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_relinquish.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_thread_relinquish.c"
+file THREADX_TX_THREAD_RESET_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_reset.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_thread_reset.c"
+file THREADX_TX_THREAD_RESUME_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_resume.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_thread_resume.c"
+file THREADX_TX_THREAD_SHELL_ENTRY_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_shell_entry.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_thread_shell_entry.c"
+file THREADX_TX_THREAD_SLEEP_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_sleep.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_thread_sleep.c"
+file THREADX_TX_THREAD_STACK_ANALYZE_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_stack_analyze.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_thread_stack_analyze.c"
+file THREADX_TX_THREAD_STACK_ERROR_HANDLER_C              "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_stack_error_handler.c"              to "$PROJECT_SOURCE_FILES/threadx/tx_thread_stack_error_handler.c"
+file THREADX_TX_THREAD_STACK_ERROR_NOTIFY_C               "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_stack_error_notify.c"               to "$PROJECT_SOURCE_FILES/threadx/tx_thread_stack_error_notify.c"
+file THREADX_TX_THREAD_SUSPEND_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_suspend.c"                          to "$PROJECT_SOURCE_FILES/threadx/tx_thread_suspend.c"
+file THREADX_TX_THREAD_SYSTEM_PREEMPT_CHECK_C             "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_system_preempt_check.c"             to "$PROJECT_SOURCE_FILES/threadx/tx_thread_system_preempt_check.c"
+file THREADX_TX_THREAD_SYSTEM_RESUME_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_system_resume.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_thread_system_resume.c"
+file THREADX_TX_THREAD_SYSTEM_SUSPEND_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_system_suspend.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_thread_system_suspend.c"
+file THREADX_TX_THREAD_TERMINATE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_terminate.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_thread_terminate.c"
+file THREADX_TX_THREAD_TIME_SLICE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_time_slice.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_thread_time_slice.c"
+file THREADX_TX_THREAD_TIME_SLICE_CHANGE_C                "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_time_slice_change.c"                to "$PROJECT_SOURCE_FILES/threadx/tx_thread_time_slice_change.c"
+file THREADX_TX_THREAD_TIMEOUT_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_timeout.c"                          to "$PROJECT_SOURCE_FILES/threadx/tx_thread_timeout.c"
+file THREADX_TX_THREAD_WAIT_ABORT_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_thread_wait_abort.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_thread_wait_abort.c"
+file THREADX_TX_TIME_GET_C                                "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_time_get.c"                                to "$PROJECT_SOURCE_FILES/threadx/tx_time_get.c"
+file THREADX_TX_TIME_SET_C                                "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_time_set.c"                                to "$PROJECT_SOURCE_FILES/threadx/tx_time_set.c"
+file THREADX_TX_TIMER_ACTIVATE_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_activate.c"                          to "$PROJECT_SOURCE_FILES/threadx/tx_timer_activate.c"
+file THREADX_TX_TIMER_CHANGE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_change.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_timer_change.c"
+file THREADX_TX_TIMER_CREATE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_create.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_timer_create.c"
+file THREADX_TX_TIMER_DEACTIVATE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_deactivate.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_timer_deactivate.c"
+file THREADX_TX_TIMER_DELETE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_delete.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_timer_delete.c"
+file THREADX_TX_TIMER_EXPIRATION_PROCESS_C                "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_expiration_process.c"                to "$PROJECT_SOURCE_FILES/threadx/tx_timer_expiration_process.c"
+file THREADX_TX_TIMER_INFO_GET_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_info_get.c"                          to "$PROJECT_SOURCE_FILES/threadx/tx_timer_info_get.c"
+file THREADX_TX_TIMER_INITIALIZE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_initialize.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_timer_initialize.c"
+file THREADX_TX_TIMER_PERFORMANCE_INFO_GET_C              "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_performance_info_get.c"              to "$PROJECT_SOURCE_FILES/threadx/tx_timer_performance_info_get.c"
+file THREADX_TX_TIMER_PERFORMANCE_SYSTEM_INFO_GET_C       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_performance_system_info_get.c"       to "$PROJECT_SOURCE_FILES/threadx/tx_timer_performance_system_info_get.c"
+file THREADX_TX_TIMER_SYSTEM_ACTIVATE_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_system_activate.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_timer_system_activate.c"
+file THREADX_TX_TIMER_SYSTEM_DEACTIVATE_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_system_deactivate.c"                 to "$PROJECT_SOURCE_FILES/threadx/tx_timer_system_deactivate.c"
+file THREADX_TX_TIMER_THREAD_ENTRY_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_timer_thread_entry.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_timer_thread_entry.c"
+file THREADX_TX_TRACE_BUFFER_FULL_NOTIFY_C                "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_buffer_full_notify.c"                to "$PROJECT_SOURCE_FILES/threadx/tx_trace_buffer_full_notify.c"
+file THREADX_TX_TRACE_DISABLE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_disable.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_trace_disable.c"
+file THREADX_TX_TRACE_ENABLE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_enable.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_trace_enable.c"
+file THREADX_TX_TRACE_EVENT_FILTER_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_event_filter.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_trace_event_filter.c"
+file THREADX_TX_TRACE_EVENT_UNFILTER_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_event_unfilter.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_trace_event_unfilter.c"
+file THREADX_TX_TRACE_INITIALIZE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_initialize.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_trace_initialize.c"
+file THREADX_TX_TRACE_INTERRUPT_CONTROL_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_interrupt_control.c"                 to "$PROJECT_SOURCE_FILES/threadx/tx_trace_interrupt_control.c"
+file THREADX_TX_TRACE_ISR_ENTER_INSERT_C                  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_isr_enter_insert.c"                  to "$PROJECT_SOURCE_FILES/threadx/tx_trace_isr_enter_insert.c"
+file THREADX_TX_TRACE_ISR_EXIT_INSERT_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_isr_exit_insert.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_trace_isr_exit_insert.c"
+file THREADX_TX_TRACE_OBJECT_REGISTER_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_object_register.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_trace_object_register.c"
+file THREADX_TX_TRACE_OBJECT_UNREGISTER_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_object_unregister.c"                 to "$PROJECT_SOURCE_FILES/threadx/tx_trace_object_unregister.c"
+file THREADX_TX_TRACE_USER_EVENT_INSERT_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_trace_user_event_insert.c"                 to "$PROJECT_SOURCE_FILES/threadx/tx_trace_user_event_insert.c"
+file THREADX_TXE_BLOCK_ALLOCATE_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_block_allocate.c"                         to "$PROJECT_SOURCE_FILES/threadx/txe_block_allocate.c"
+file THREADX_TXE_BLOCK_POOL_CREATE_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_block_pool_create.c"                      to "$PROJECT_SOURCE_FILES/threadx/txe_block_pool_create.c"
+file THREADX_TXE_BLOCK_POOL_DELETE_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_block_pool_delete.c"                      to "$PROJECT_SOURCE_FILES/threadx/txe_block_pool_delete.c"
+file THREADX_TXE_BLOCK_POOL_INFO_GET_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_block_pool_info_get.c"                    to "$PROJECT_SOURCE_FILES/threadx/txe_block_pool_info_get.c"
+file THREADX_TXE_BLOCK_POOL_PRIORITIZE_C                  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_block_pool_prioritize.c"                  to "$PROJECT_SOURCE_FILES/threadx/txe_block_pool_prioritize.c"
+file THREADX_TXE_BLOCK_RELEASE_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_block_release.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_block_release.c"
+file THREADX_TXE_BYTE_ALLOCATE_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_byte_allocate.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_byte_allocate.c"
+file THREADX_TXE_BYTE_POOL_CREATE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_byte_pool_create.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_byte_pool_create.c"
+file THREADX_TXE_BYTE_POOL_DELETE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_byte_pool_delete.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_byte_pool_delete.c"
+file THREADX_TXE_BYTE_POOL_INFO_GET_C                     "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_byte_pool_info_get.c"                     to "$PROJECT_SOURCE_FILES/threadx/txe_byte_pool_info_get.c"
+file THREADX_TXE_BYTE_POOL_PRIORITIZE_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_byte_pool_prioritize.c"                   to "$PROJECT_SOURCE_FILES/threadx/txe_byte_pool_prioritize.c"
+file THREADX_TXE_BYTE_RELEASE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_byte_release.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_byte_release.c"
+file THREADX_TXE_EVENT_FLAGS_CREATE_C                     "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_event_flags_create.c"                     to "$PROJECT_SOURCE_FILES/threadx/txe_event_flags_create.c"
+file THREADX_TXE_EVENT_FLAGS_DELETE_C                     "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_event_flags_delete.c"                     to "$PROJECT_SOURCE_FILES/threadx/txe_event_flags_delete.c"
+file THREADX_TXE_EVENT_FLAGS_GET_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_event_flags_get.c"                        to "$PROJECT_SOURCE_FILES/threadx/txe_event_flags_get.c"
+file THREADX_TXE_EVENT_FLAGS_INFO_GET_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_event_flags_info_get.c"                   to "$PROJECT_SOURCE_FILES/threadx/txe_event_flags_info_get.c"
+file THREADX_TXE_EVENT_FLAGS_SET_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_event_flags_set.c"                        to "$PROJECT_SOURCE_FILES/threadx/txe_event_flags_set.c"
+file THREADX_TXE_EVENT_FLAGS_SET_NOTIFY_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_event_flags_set_notify.c"                 to "$PROJECT_SOURCE_FILES/threadx/txe_event_flags_set_notify.c"
+file THREADX_TXE_MUTEX_CREATE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_mutex_create.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_mutex_create.c"
+file THREADX_TXE_MUTEX_DELETE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_mutex_delete.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_mutex_delete.c"
+file THREADX_TXE_MUTEX_GET_C                              "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_mutex_get.c"                              to "$PROJECT_SOURCE_FILES/threadx/txe_mutex_get.c"
+file THREADX_TXE_MUTEX_INFO_GET_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_mutex_info_get.c"                         to "$PROJECT_SOURCE_FILES/threadx/txe_mutex_info_get.c"
+file THREADX_TXE_MUTEX_PRIORITIZE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_mutex_prioritize.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_mutex_prioritize.c"
+file THREADX_TXE_MUTEX_PUT_C                              "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_mutex_put.c"                              to "$PROJECT_SOURCE_FILES/threadx/txe_mutex_put.c"
+file THREADX_TXE_QUEUE_CREATE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_create.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_queue_create.c"
+file THREADX_TXE_QUEUE_DELETE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_delete.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_queue_delete.c"
+file THREADX_TXE_QUEUE_FLUSH_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_flush.c"                            to "$PROJECT_SOURCE_FILES/threadx/txe_queue_flush.c"
+file THREADX_TXE_QUEUE_FRONT_SEND_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_front_send.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_queue_front_send.c"
+file THREADX_TXE_QUEUE_INFO_GET_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_info_get.c"                         to "$PROJECT_SOURCE_FILES/threadx/txe_queue_info_get.c"
+file THREADX_TXE_QUEUE_PRIORITIZE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_prioritize.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_queue_prioritize.c"
+file THREADX_TXE_QUEUE_RECEIVE_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_receive.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_queue_receive.c"
+file THREADX_TXE_QUEUE_SEND_C                             "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_send.c"                             to "$PROJECT_SOURCE_FILES/threadx/txe_queue_send.c"
+file THREADX_TXE_QUEUE_SEND_NOTIFY_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_queue_send_notify.c"                      to "$PROJECT_SOURCE_FILES/threadx/txe_queue_send_notify.c"
+file THREADX_TXE_SEMAPHORE_CEILING_PUT_C                  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_ceiling_put.c"                  to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_ceiling_put.c"
+file THREADX_TXE_SEMAPHORE_CREATE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_create.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_create.c"
+file THREADX_TXE_SEMAPHORE_DELETE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_delete.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_delete.c"
+file THREADX_TXE_SEMAPHORE_GET_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_get.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_get.c"
+file THREADX_TXE_SEMAPHORE_INFO_GET_C                     "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_info_get.c"                     to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_info_get.c"
+file THREADX_TXE_SEMAPHORE_PRIORITIZE_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_prioritize.c"                   to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_prioritize.c"
+file THREADX_TXE_SEMAPHORE_PUT_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_put.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_put.c"
+file THREADX_TXE_SEMAPHORE_PUT_NOTIFY_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_semaphore_put_notify.c"                   to "$PROJECT_SOURCE_FILES/threadx/txe_semaphore_put_notify.c"
+file THREADX_TXE_THREAD_CREATE_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_create.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_thread_create.c"
+file THREADX_TXE_THREAD_DELETE_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_delete.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_thread_delete.c"
+file THREADX_TXE_THREAD_ENTRY_EXIT_NOTIFY_C               "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_entry_exit_notify.c"               to "$PROJECT_SOURCE_FILES/threadx/txe_thread_entry_exit_notify.c"
+file THREADX_TXE_THREAD_INFO_GET_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_info_get.c"                        to "$PROJECT_SOURCE_FILES/threadx/txe_thread_info_get.c"
+file THREADX_TXE_THREAD_PREEMPTION_CHANGE_C               "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_preemption_change.c"               to "$PROJECT_SOURCE_FILES/threadx/txe_thread_preemption_change.c"
+file THREADX_TXE_THREAD_PRIORITY_CHANGE_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_priority_change.c"                 to "$PROJECT_SOURCE_FILES/threadx/txe_thread_priority_change.c"
+file THREADX_TXE_THREAD_RELINQUISH_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_relinquish.c"                      to "$PROJECT_SOURCE_FILES/threadx/txe_thread_relinquish.c"
+file THREADX_TXE_THREAD_RESET_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_reset.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_thread_reset.c"
+file THREADX_TXE_THREAD_RESUME_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_resume.c"                          to "$PROJECT_SOURCE_FILES/threadx/txe_thread_resume.c"
+file THREADX_TXE_THREAD_SUSPEND_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_suspend.c"                         to "$PROJECT_SOURCE_FILES/threadx/txe_thread_suspend.c"
+file THREADX_TXE_THREAD_TERMINATE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_terminate.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_thread_terminate.c"
+file THREADX_TXE_THREAD_TIME_SLICE_CHANGE_C               "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_time_slice_change.c"               to "$PROJECT_SOURCE_FILES/threadx/txe_thread_time_slice_change.c"
+file THREADX_TXE_THREAD_WAIT_ABORT_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_thread_wait_abort.c"                      to "$PROJECT_SOURCE_FILES/threadx/txe_thread_wait_abort.c"
+file THREADX_TXE_TIMER_ACTIVATE_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_timer_activate.c"                         to "$PROJECT_SOURCE_FILES/threadx/txe_timer_activate.c"
+file THREADX_TXE_TIMER_CHANGE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_timer_change.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_timer_change.c"
+file THREADX_TXE_TIMER_CREATE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_timer_create.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_timer_create.c"
+file THREADX_TXE_TIMER_DEACTIVATE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_timer_deactivate.c"                       to "$PROJECT_SOURCE_FILES/threadx/txe_timer_deactivate.c"
+file THREADX_TXE_TIMER_DELETE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_timer_delete.c"                           to "$PROJECT_SOURCE_FILES/threadx/txe_timer_delete.c"
+file THREADX_TXE_TIMER_INFO_GET_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/txe_timer_info_get.c"                         to "$PROJECT_SOURCE_FILES/threadx/txe_timer_info_get.c"
+file THREADX_TX_BLOCK_ALLOCATE_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_allocate.c"                          to "$PROJECT_SOURCE_FILES/threadx/tx_block_allocate.c"
+file THREADX_TX_BLOCK_POOL_CLEANUP_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_cleanup.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_cleanup.c"
+file THREADX_TX_BLOCK_POOL_CREATE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_create.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_create.c"
+file THREADX_TX_BLOCK_POOL_DELETE_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_delete.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_delete.c"
+file THREADX_TX_BLOCK_POOL_INFO_GET_C                     "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_info_get.c"                     to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_info_get.c"
+file THREADX_TX_BLOCK_POOL_INITIALIZE_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_initialize.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_initialize.c"
+file THREADX_TX_BLOCK_POOL_PERFORMANCE_INFO_GET_C         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_performance_info_get.c"         to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_performance_info_get.c"
+file THREADX_TX_BLOCK_POOL_PERFORMANCE_SYSTEM_INFO_GET_C  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_performance_system_info_get.c"  to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_performance_system_info_get.c"
+file THREADX_TX_BLOCK_POOL_PRIORITIZE_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_pool_prioritize.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_block_pool_prioritize.c"
+file THREADX_TX_BLOCK_RELEASE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_block_release.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_block_release.c"
+file THREADX_TX_BYTE_ALLOCATE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_allocate.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_byte_allocate.c"
+file THREADX_TX_BYTE_POOL_CLEANUP_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_cleanup.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_cleanup.c"
+file THREADX_TX_BYTE_POOL_CREATE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_create.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_create.c"
+file THREADX_TX_BYTE_POOL_DELETE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_delete.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_delete.c"
+file THREADX_TX_BYTE_POOL_INFO_GET_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_info_get.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_info_get.c"
+file THREADX_TX_BYTE_POOL_INITIALIZE_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_initialize.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_initialize.c"
+file THREADX_TX_BYTE_POOL_PERFORMANCE_INFO_GET_C          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_performance_info_get.c"          to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_performance_info_get.c"
+file THREADX_TX_BYTE_POOL_PERFORMANCE_SYSTEM_INFO_GET_C   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_performance_system_info_get.c"   to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_performance_system_info_get.c"
+file THREADX_TX_BYTE_POOL_PRIORITIZE_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_prioritize.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_prioritize.c"
+file THREADX_TX_BYTE_POOL_SEARCH_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_pool_search.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_byte_pool_search.c"
+file THREADX_TX_BYTE_RELEASE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_byte_release.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_byte_release.c"
+file THREADX_TX_EVENT_FLAGS_CLEANUP_C                     "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_cleanup.c"                     to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_cleanup.c"
+file THREADX_TX_EVENT_FLAGS_CREATE_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_create.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_create.c"
+file THREADX_TX_EVENT_FLAGS_DELETE_C                      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_delete.c"                      to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_delete.c"
+file THREADX_TX_EVENT_FLAGS_GET_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_get.c"                         to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_get.c"
+file THREADX_TX_EVENT_FLAGS_INFO_GET_C                    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_info_get.c"                    to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_info_get.c"
+file THREADX_TX_EVENT_FLAGS_INITIALIZE_C                  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_initialize.c"                  to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_initialize.c"
+file THREADX_TX_EVENT_FLAGS_PERFORMANCE_INFO_GET_C        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_performance_info_get.c"        to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_performance_info_get.c"
+file THREADX_TX_EVENT_FLAGS_PERFORMANCE_SYSTEM_INFO_GET_C "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_performance_system_info_get.c" to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_performance_system_info_get.c"
+file THREADX_TX_EVENT_FLAGS_SET_C                         "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_set.c"                         to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_set.c"
+file THREADX_TX_EVENT_FLAGS_SET_NOTIFY_C                  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_event_flags_set_notify.c"                  to "$PROJECT_SOURCE_FILES/threadx/tx_event_flags_set_notify.c"
+file THREADX_TX_INITIALIZE_HIGH_LEVEL_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_initialize_high_level.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_initialize_high_level.c"
+file THREADX_TX_INITIALIZE_KERNEL_ENTER_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_initialize_kernel_enter.c"                 to "$PROJECT_SOURCE_FILES/threadx/tx_initialize_kernel_enter.c"
+file THREADX_TX_INITIALIZE_KERNEL_SETUP_C                 "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_initialize_kernel_setup.c"                 to "$PROJECT_SOURCE_FILES/threadx/tx_initialize_kernel_setup.c"
+file THREADX_TX_MUTEX_CLEANUP_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_cleanup.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_cleanup.c"
+file THREADX_TX_MUTEX_CREATE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_create.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_create.c"
+file THREADX_TX_MUTEX_DELETE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_delete.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_create.c"
+file THREADX_TX_MUTEX_GET_C                               "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_get.c"                               to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_get.c"
+file THREADX_TX_MUTEX_INFO_GET_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_info_get.c"                          to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_info_get.c"
+file THREADX_TX_MUTEX_INITIALIZE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_initialize.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_initialize.c"
+file THREADX_TX_MUTEX_PERFORMANCE_INFO_GET_C              "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_performance_info_get.c"              to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_performance_info_get.c"
+file THREADX_TX_MUTEX_PERFORMANCE_SYSTEM_INFO_GET_C       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_performance_system_info_get.c"       to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_performance_system_info_get.c"
+file THREADX_TX_MUTEX_PRIORITIZE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_prioritize.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_prioritize.c"
+file THREADX_TX_MUTEX_PRIORITY_CHANGE_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_priority_change.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_priority_change.c"
+file THREADX_TX_MUTEX_PUT_C                               "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_mutex_put.c"                               to "$PROJECT_SOURCE_FILES/threadx/tx_mutex_put.c"
+file THREADX_TX_QUEUE_CLEANUP_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_cleanup.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_queue_cleanup.c"
+file THREADX_TX_QUEUE_CREATE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_create.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_queue_create.c"
+file THREADX_TX_QUEUE_DELETE_C                            "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_delete.c"                            to "$PROJECT_SOURCE_FILES/threadx/tx_queue_delete.c"
+file THREADX_TX_QUEUE_FLUSH_C                             "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_flush.c"                             to "$PROJECT_SOURCE_FILES/threadx/tx_queue_flush.c"
+file THREADX_TX_QUEUE_FRONT_SEND_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_front_send.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_queue_front_send.c"
+file THREADX_TX_QUEUE_INFO_GET_C                          "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_info_get.c"                          to "$PROJECT_SOURCE_FILES/threadx/tx_queue_info_get.c"
+file THREADX_TX_QUEUE_INITIALIZE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_initialize.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_queue_initialize.c"
+file THREADX_TX_QUEUE_PERFORMANCE_INFO_GET_C              "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_performance_info_get.c"              to "$PROJECT_SOURCE_FILES/threadx/tx_queue_performance_info_get.c"
+file THREADX_TX_QUEUE_PERFORMANCE_SYSTEM_INFO_GET_C       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_performance_system_info_get.c"       to "$PROJECT_SOURCE_FILES/threadx/tx_queue_performance_system_info_get.c"
+file THREADX_TX_QUEUE_PRIORITIZE_C                        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_prioritize.c"                        to "$PROJECT_SOURCE_FILES/threadx/tx_queue_prioritize.c"
+file THREADX_TX_QUEUE_RECEIVE_C                           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_receive.c"                           to "$PROJECT_SOURCE_FILES/threadx/tx_queue_receive.c"
+file THREADX_TX_QUEUE_SEND_C                              "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_send.c"                              to "$PROJECT_SOURCE_FILES/threadx/tx_queue_send.c"
+file THREADX_TX_QUEUE_SEND_NOTIFY_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_queue_send_notify.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_queue_send_notify.c"
+file THREADX_TX_SEMAPHORE_CEILING_PUT_C                   "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_ceiling_put.c"                   to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_ceiling_put.c"
+file THREADX_TX_SEMAPHORE_CLEANUP_C                       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/tx_semaphore_cleanup.c"                       to "$PROJECT_SOURCE_FILES/threadx/tx_semaphore_cleanup.c"
+
+
+
+file THREADX_PIC32MX_TX_INITIALIZE_LOW_LEVEL_S      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_initialize_low_level.S"      to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_initialize_low_level.S"       if PIC32MX
+file THREADX_PIC32MX_TX_THREAD_CONTEXT_RESTORE_S    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_thread_context_restore.S"    to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_thread_context_restore.S"     if PIC32MX
+file THREADX_PIC32MX_TX_THREAD_CONTEXT_SAVE_S       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_thread_context_save.S"       to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_thread_context_save.S"        if PIC32MX
+file THREADX_PIC32MX_TX_THREAD_INTERRUPT_CONTROL_S  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_thread_interrupt_control.S"  to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_thread_interrupt_control.S"   if PIC32MX
+file THREADX_PIC32MX_TX_THREAD_SCHEDULE_S           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_thread_schedule.S"           to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_thread_schedule.S"            if PIC32MX
+file THREADX_PIC32MX_TX_THREAD_STACK_BUILD_S        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_thread_stack_build.S"        to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_thread_stack_build.S"         if PIC32MX
+file THREADX_PIC32MX_TX_THREAD_SYSTEM_RETURN_S      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_thread_system_return.S"      to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_thread_system_return.S"       if PIC32MX
+file THREADX_PIC32MX_TX_TIMER_INTERRUPT_S           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MX/tx_timer_interrupt.S"           to "$PROJECT_SOURCE_FILES/threadx/pic32mx/tx_timer_interrupt.S"            if PIC32MX
+
+file THREADX_PIC32MZ_TX_INITIALIZE_LOW_LEVEL_S      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_initialize_low_level.S"      to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_initialize_low_level.S"       if PIC32MZ
+file THREADX_PIC32MZ_TX_THREAD_CONTEXT_RESTORE_S    "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_thread_context_restore.S"    to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_thread_context_restore.S"     if PIC32MZ
+file THREADX_PIC32MZ_TX_THREAD_CONTEXT_SAVE_S       "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_thread_context_save.S"       to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_thread_context_save.S"        if PIC32MZ
+file THREADX_PIC32MZ_TX_THREAD_INTERRUPT_CONTROL_S  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_thread_interrupt_control.S"  to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_thread_interrupt_control.S"   if PIC32MZ
+file THREADX_PIC32MZ_TX_THREAD_SCHEDULE_S           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_thread_schedule.S"           to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_thread_schedule.S"            if PIC32MZ
+file THREADX_PIC32MZ_TX_THREAD_STACK_BUILD_S        "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_thread_stack_build.S"        to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_thread_stack_build.S"         if PIC32MZ
+file THREADX_PIC32MZ_TX_THREAD_SYSTEM_RETURN_S      "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_thread_system_return.S"      to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_thread_system_return.S"       if PIC32MZ
+file THREADX_PIC32MZ_TX_TIMER_INTERRUPT_S           "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/PIC32MZ/tx_timer_interrupt.S"           to "$PROJECT_SOURCE_FILES/threadx/pic32mz/tx_timer_interrupt.S"            if PIC32MZ
+
+compiler THREADX_COMPILER_INCLUDEPATH_1       includepath "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX"
+compiler THREADX_COMPILER_INCLUDEPATH_2       includepath "$PROJECT_HEADER_FILES/rtos_config/$CONFIGURATION"
+endmenu

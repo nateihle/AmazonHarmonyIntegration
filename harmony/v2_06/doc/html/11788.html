@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Modularity and Encapsulation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11788.html">Modularity and Encapsulation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11786.html">Previous</a> | <a href="11786.html">Up</a> | <a href="11787.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Modularity and Encapsulation Topic Title: Modularity and Encapsulation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Modularity and Encapsulation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+MPLAB Harmony libraries are modular and modular libraries have interfaces that consist of functions that control and provide access to internal variables, registers, or other resources. Every function has input and output and may have some side-effects. In most cases, the side-effect is the real reason to call the function, especially for modules that manage hardware such as device drivers. </p><p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE Lego Blocks.png" border="0" alt="" title=""></p><p class="Element10">
+By convention, the functions in a library's interface must be treated like black boxes, completely encapsulating internal resources. No other code in the system should access or make any assumptions about what is inside the box. Clients (callers) of the library's interface should only use documented features of the library. Directly accessing internal resources or using undocumented features is dangerous, because there may be a number of different implementations of the library, optimized for different purposes or hardware that may not have those features or resources or that may implement them differently.&nbsp;</p>
+<p class="Element10">
+Also, using functions to access a library's resources provides a well-defined way for the client and the library to interact. A function can protect shared resources and prevent conflicts that might occur if those resources were accessed directly. A good, modular library will have a well-abstracted and clearly documented interface made up of as small a set of functions as possible that will still do the job the library is intended to do. Well-designed, modular libraries allow users to more easily divide-and-conquer the problems they need to solve instead of managing the details that each library should manage for them.&nbsp;</p>
+<p class="Element10">
+The set of functions that make up a library's interface must be highly cohesive, relating only to the specific feature provided by the library. They must not relate to control of any common resources or other modules in the system. This reduces coupling between libraries, making them largely independent of each other, improving modularity. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Important Star.png" border="0" alt="" title=""><br><strong>Important!</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Since MPLAB Harmony is primarily a source code solution, modularity must be maintained at a source code level. <i>It is not necessarily at an object code level</i>. This means that changes in configuration or implementation may require binary object (<span class="Element146">.o</span> or <span class="Element146">.a</span>) files and applications or other clients that call the library to be rebuilt. Therefore, it is permissible to use macros or inline functions that provide a consistent source code interface; however, the library and application may both require recompilation to work properly when the library configuration or implementation changes. This allows MPLAB Harmony systems to more directly benefit from optimized static implementations of libraries. See <a href="11802.html">Static vs. Dynamic</a> for details.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11788.html">Modularity and Encapsulation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Modularity and Encapsulation Topic Title: Modularity and Encapsulation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

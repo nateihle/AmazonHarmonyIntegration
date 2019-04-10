@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>PLIB_OC_AlternateTimerSelect Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17823.html">Library Interface</a> &gt; c) Timer Functions &gt; <a href="19922.html">PLIB_OC_AlternateTimerSelect Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="19921.html">Previous</a> | <a href="17823.html">Up</a> | <a href="19946.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_OC_AlternateTimerSelect@OC_MODULE_ID@OC_ALT_TIMERS Topic Title: PLIB_OC_AlternateTimerSelect Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+PLIB_OC_AlternateTimerSelect Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">PLIB_OC_AlternateTimerSelect</span></strong>(
+    <a href="17142.html">OC_MODULE_ID</a> <strong><span style="color: #000000">index</span></strong>, 
+    <a href="17119.html">OC_ALT_TIMERS</a> <strong><span style="color: #000000">tmr</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function selects an alternate timer as a clock source for the Output Compare module.
+<ul class="Element630">
+<li class="Element600">OC_ID_1,OC_ID_2,OC_ID_3: Can use Timer4 or Timer5 as alternate timers</li>
+<li class="Element600">OC_ID_4,OC_ID_5,OC_ID_6,OC_ID_13,OC_ID_14,OC_ID_15,OC_ID_16: Can use Timer2 or Timer3 as alternate timers</li>
+<li class="Element600">OC_ID_7,OC_ID_8,OC_ID_9: Can use Timer6 or Timer7 as alternate timers</li>
+<li class="Element600">OC_ID_10,OC_ID_11,OC_ID_12: Can use Timer8 or Timer9 as alternate timers</li>
+</ul></p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The 16-bit time base needs to be set. The <a href="19921.html">PLIB_OC_AlternateClockEnable</a> function should be called for the Output Compare module to enable the alternate clock selection.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+index&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the desired Output Compare module&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+tmr&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifies the alternate timer&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">true - Alternate timer selected successfully</li>
+<li class="Element600">false - Alternate timer selection failure, select an appropriate alternate timer for the Output Compare module index</li>
+</ul></p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This feature may not be available on all devices. Please refer to the specific device data sheet to determine availability or use <a href="19929.html">PLIB_OC_ExistsAlternateTimerSelect</a> in your application to determine whether this feature is available.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02801');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02801"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_OC_ID   OC_ID_1
+<strong><span style="color: #000080">bool</span></strong> result;
+
+<i><span style="color: #008000">//Enabling alternate timer selection</span></i>
+<a href="19921.html">PLIB_OC_AlternateClockEnable</a>( MY_OC_ID );
+
+<i><span style="color: #008000">// 16-bit Timer4 is selected as the clock source for Output Compare module 1</span></i>
+result = PLIB_OC_AlternateTimerSelect(MY_OC_ID, OC_ALT_TIMER_TMR4);
+
+<strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">false</span></strong> == result)
+{
+    <i><span style="color: #008000">// Selected alternate timer does not available for the desired Output </span></i>
+    <i><span style="color: #008000">// Compare module.</span></i>
+    <i><span style="color: #008000">// Select the appropriate alternate timer.</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17823.html">Library Interface</a> &gt; c) Timer Functions &gt; <a href="19922.html">PLIB_OC_AlternateTimerSelect Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB_OC_AlternateTimerSelect@OC_MODULE_ID@OC_ALT_TIMERS Topic Title: PLIB_OC_AlternateTimerSelect Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

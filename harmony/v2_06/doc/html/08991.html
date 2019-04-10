@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>WINC1500 Module Firmware Overview</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="28685.html">WINC1500 Socket Mode Driver Library</a> &gt; <a href="08991.html">WINC1500 Module Firmware Overview</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08990.html">Previous</a> | <a href="28685.html">Up</a> | <a href="08992.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 SOCKET MODE Firmware Overview Topic Title: WINC1500 Module Firmware Overview)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+WINC1500 Module Firmware Overview</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The firmware comprises the Wi-Fi IEEE-802.11 MAC layer and embedded protocol stacks which offload the host MCU. The components of the system are described in the following sub-sections. </p><p class="Element10" style="text-align: center;">
+<img src="DRV WINC1500 SOCKET MODE Firmware Diagram.png" border="0" alt="" title=""></p><div class="Element15">
+WLAN APIs</div>
+<p class="Element10">
+This WLAN APIs provide an interface to the application for all Wi-Fi operations and any non-IP related operations. This includes the following services:
+<ul class="Element636">
+<li class="Element606">Wi-Fi STA management operations</li>
+<li class="Element606">Wi-Fi Scan</li>
+<li class="Element606">Wi-Fi Connection management (Connect, Disconnect, Connection status, etc.)</li>
+<li class="Element606">WPS activation/deactivation</li>
+<li class="Element606">Wi-Fi AP enable/disable</li>
+<li class="Element606">Wi-Fi Direct enable/disable</li>
+<li class="Element606">Wi-Fi power save control API</li>
+<li class="Element606">Wi-Fi monitoring (Sniffer) mode</li>
+</ul>This interface is defined in the file: <span class="Element146">m2m_wifi.h</span>.</p><div class="Element15">
+Socket API</div>
+<p class="Element10">
+The socket APIs are mostly compliant with the BSD sockets and to comply with the nature of MCU application environment, there are differences in API prototypes and in usage of some APIs between WINC1500 sockets and BSD sockets.&nbsp;</p>
+<p class="Element10">
+This interface is defined in the file: <span class="Element146">socket.h</span>.</p><div class="Element15">
+IoT Library</div>
+<p class="Element10">
+The IoT library provides a set of networking protocols in WINC1500 firmware. It offloads the host MCU from networking and transport layer protocols. The following sections describe the components of WINC1500 IoT library.
+<ul class="Element636">
+<li class="Element606">WINC1500 TCP/IP STACK - The WINC TCP/IP is an IPv4.0 stack based on the uIP TCP/IP stack (pronounced micro IP).</li>
+<li class="Element606">DHCP CLIENT/SERVER - A DHCP client is embedded in WINC1500 firmware that can obtain an IP configuration automatically after connecting to a Wi-Fi network. WINC1500 firmware provides an instance of a DHCP server that starts automatically when WINC AP mode is enabled. When the host MCU application activates the AP mode, it is allowed to configure the DHCP Server IP address pool range within the AP configuration parameters.</li>
+<li class="Element606">DNS RESOLVER – WINC1500 firmware contains an instance of an embedded DNS resolver. This module can return an IP address by resolving the host domain names supplied with the socket API call <a href="12204.html">gethostbyname</a>.</li>
+<li class="Element606">SNTP - The SNTP (Simple Network Time Protocol) module implements an SNTP client used to synchronize the WINC1500 internal clock to the UTC clock.</li>
+<li class="Element606">EAP-TTLS/MSCHAPV2.0 - This module implements the authentication protocol EAP-TTLS/MsChapv2.0 used for establishing a Wi-Fi connection with an AP by with WPA-Enterprise security.</li>
+<li class="Element606">TRANSPORT LAYER SECURITY - For TLS implementation.</li>
+<li class="Element606">WI-FI PROTECTED SETUP - For WPS protocol implementation.</li>
+<li class="Element606">WI-FI DIRECT - For Wi-Fi Direct protocol implementation.</li>
+<li class="Element606">CRYPTO LIBRARY - The Crypto Library contains a set of cryptographic algorithms used by common security protocols. This library has an implementation of the following algorithms:
+<ul class="Element637">
+<li class="Element607">MD4 - Hash algorithm (Used only for MsChapv2.0 digest calculation)</li>
+<li class="Element607">MD5 - Hash algorithm</li>
+<li class="Element607">SHA-1 - Hash algorithm</li>
+<li class="Element607">SHA-256 - Hash algorithm</li>
+<li class="Element607">DES Encryption (Used only for MsChapv2.0 digest calculation)</li>
+<li class="Element607">MS-CHAPv2.0 (Used as the EAP-TTLS inner authentication algorithm)</li>
+<li class="Element607">AES-128, AES-256 Encryption (Used for securing WPS and TLS traffic)</li>
+<li class="Element607">BigInt module for large integer arithmetic (for Public Key Cryptographic computations)</li>
+<li class="Element607">RSA Public Key cryptography algorithms (includes RSA Signature and RSA Encryption algorithms)</li>
+</ul></li>
+</ul></p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28680.html">Wi-Fi Driver Libraries</a> &gt; <a href="28685.html">WINC1500 Socket Mode Driver Library</a> &gt; <a href="08991.html">WINC1500 Module Firmware Overview</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV WINC1500 SOCKET MODE Firmware Overview Topic Title: WINC1500 Module Firmware Overview)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Audio Protocol Interface Mode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23143.html">SPI Peripheral Library</a> &gt; <a href="18024.html">Using the Library</a> &gt; <a href="18002.html">How the Library Works</a> &gt; <a href="17988.html">Audio Protocol Interface Mode</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="18018.html">Previous</a> | <a href="18002.html">Up</a> | <a href="18007.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SPI Audio Protocol Interface Mode Topic Title: Audio Protocol Interface Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Audio Protocol Interface Mode</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The SPI module provides support to the audio protocol functionality via four standard I/O pins. The four pins that make up the audio protocol interface modes are:
+<ul class="Element630">
+<li class="Element600">SDIx: Serial Data Input for receiving sample digital audio data</li>
+<li class="Element600">SDOx: Serial Data Output for transmitting digital audio data</li>
+<li class="Element600">SCKx: Serial Clock (also known as bit clock)</li>
+<li class="Element600">/SSx: Left/Right Channel Clock</li>
+</ul>The SPI module supports four audio protocol modes and can be operated in any one of these modes: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Each of the modes can additionally support some or all of the following features. Please refer to the&quot;<strong>Serial Peripheral Interface (SPI)&quot; </strong>chapter in the specific device data sheet for more information.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+I2S Mode</div>
+<p class="Element10">
+The Inter-IC Sound (I2S) protocol enables transmission of two channels of digital audio data over a single serial interface. The I2S specification defines a half-duplex interface that supports transmit or receive, but not both at the same time. With both SDO and SDI available, full-duplex operation is supported by this peripheral, as shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="I2S_Waveform.png" border="0" alt="" title=""></p><p class="Element10">
+Data Transmit and Clocking:
+<ul class="Element630">
+<li class="Element600">The transmitter shifts the audio sample data’s Most Significant bit (MSb) on the first falling edge of SCK after an LRCK transition</li>
+<li class="Element600">The receiver samples the MSB on the second rising edge of SCK</li>
+<li class="Element600">The left channel data shifts out while LRCK is low and right channel data is shifted out while LRCK is high</li>
+<li class="Element600">The data in the left and right channel consists of a single frame</li>
+</ul>To set the module to I2S mode, the following bits must be set:
+<ul class="Element630">
+<li class="Element600">Set SPI to I2S Mode by calling <a href="20719.html">PLIB_SPI_AudioProtocolModeSelect</a></li>
+<li class="Element600">Select <a href="20788.html">PLIB_SPI_FrameSyncPulsePolaritySelect</a> (as active low)</li>
+<li class="Element600">Select <a href="20731.html">PLIB_SPI_ClockPolaritySelect</a> (as active low)</li>
+</ul>Setting these bits enables the SDO and LRCK (/SSx) transitions to occur on the falling edge of SCK (BCLK) and sampling of SDI to occur on the rising edge of SCK.</p><div class="Element15">
+Left-Justified Mode</div>
+<p class="Element10">
+The Left-Justified mode is similar to I2S mode; however, in this mode, the SPI shifts the audio data’s MSb on the first SCK edge that is coincident with an LRCK transition. On the receiver side, the SPI module samples the MSb on the next SCK edge.&nbsp;</p>
+<p class="Element10">
+In general, a codec using justified protocols defaults to transmitting data on the rising edge of SCK and receiving data on the falling edge of SCK.&nbsp;</p>
+<p class="Element10">
+To set the module to Left-Justified mode, the following bits must to be set
+<ul class="Element630">
+<li class="Element600">Set SPI to Left Justified Mode by calling <a href="20719.html">PLIB_SPI_AudioProtocolModeSelect</a></li>
+<li class="Element600">Select <a href="20788.html">PLIB_SPI_FrameSyncPulsePolaritySelect</a> (as active high)</li>
+<li class="Element600">Select <a href="20731.html">PLIB_SPI_ClockPolaritySelect</a> (as active high)</li>
+</ul>This enables the SDO and LRCK transitions to occur on the rising edge of SCK. Refer to the following sample waveform diagrams for 16-, 24-, and 32-bit audio data transfers. </p><p class="Element10" style="text-align: center;">
+<img src="Left_Justified_Waveform.png" border="0" alt="" title=""></p><div class="Element15">
+Right-Justified Mode</div>
+<p class="Element10">
+In Right-Justified mode, the SPI module shifts the audio sample data’s MSb after aligning the data to the last clock cycle. The bits preceding the audio sample data can be driven to logic level 0 .&nbsp;</p>
+<p class="Element10">
+To set the module to Right-Justified mode, the following bits must to be set:
+<ul class="Element630">
+<li class="Element600">Set SPI to Right Justified Mode by calling <a href="20719.html">PLIB_SPI_AudioProtocolModeSelect</a></li>
+<li class="Element600">Select <a href="20788.html">PLIB_SPI_FrameSyncPulsePolaritySelect</a> (as active high)</li>
+<li class="Element600">Select <a href="20731.html">PLIB_SPI_ClockPolaritySelect</a> (as active high)</li>
+</ul>This enables the SDO and LRCK transitions to occur on the rising edge of SCK after the Least Significant bit (LSb) being aligned to the last clock cycle. Refer to the following sample waveform diagrams for 16-, 24-, and 32-bit audio data transfers. </p><p class="Element10" style="text-align: center;">
+<img src="Right_Justified_Waveform.png" border="0" alt="" title=""></p><div class="Element15">
+PCM/DSP Mode</div>
+<p class="Element10">
+This mode modifies the behavior of LRCK and audio data spacing. In PCM/DSP mode, the LRCK can be a single bit wide (i.e., 1 SCK) or as wide as the audio data (16-, 24-, and 32-bits). The audio data is packed in the frame with the left channel data immediately followed by the right channel data. The frame length is still either 32 or 64 clocks when this device is the master.&nbsp;</p>
+<p class="Element10">
+In PCM/DSP mode, the transmitter drives the audio data’s (left channel) MSb on the first or second transmit edge of SCK (after an LRCK transition). Immediately after the (left channel) LSb, the transmitter drives the (right channel) MSb.&nbsp;</p>
+<p class="Element10">
+To set the module to Left-Justified mode, the following bit must to be set:
+<ul class="Element630">
+<li class="Element600">Set the SPI module to Right-Justified Mode by calling <a href="20719.html">PLIB_SPI_AudioProtocolModeSelect</a></li>
+</ul>Refer to the following sample waveform for 16-, 24-, and 32-bit audio data transfers. </p><p class="Element10" style="text-align: center;">
+<img src="PCM_DSP_Waveform.png" border="0" alt="" title=""></p><div class="Element15">
+Mono Mode Versus Stereo Mode</div>
+<p class="Element10">
+The SPI module enables the audio data transmission in Mono or Stereo mode by setting <a href="20720.html">PLIB_SPI_AudioTransmitModeSelect</a>. In Stereo mode, the shift register uses each FIFO location once, which gives each channel a unique stream of data for stereo data. In Mono mode, the shift register uses each FIFO location twice, to give each channel the same mono stream of audio data.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="18007.html">Master Mode</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes Master mode for the Audio Protocol Interface mode.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="18011.html">Slave Mode</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Describes Slave mode for the Audio Protocol Interface mode.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="23143.html">SPI Peripheral Library</a> &gt; <a href="18024.html">Using the Library</a> &gt; <a href="18002.html">How the Library Works</a> &gt; <a href="17988.html">Audio Protocol Interface Mode</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB SPI Audio Protocol Interface Mode Topic Title: Audio Protocol Interface Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

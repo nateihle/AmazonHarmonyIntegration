@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Source/Destination/Peripheral Address Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17622.html">Source/Destination/Peripheral Address Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17598.html">Previous</a> | <a href="17616.html">Up</a> | <a href="17623.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Source/Destination/Peripheral Address Management Topic Title: Source/Destination/Peripheral Address Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Source/Destination/Peripheral Address Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This topic describes configuring the source/destination/peripheral addresses involved in the DMA transfer.</p><div class="Element15">
+Source/Destination Start Address</div>
+<p class="Element10">
+Before initiating a DMA transfer, the channel should be programmed with the source and the destination addresses. In supported devices, this can be done using the <a href="18943.html">PLIB_DMA_ChannelXSourceStartAddressSet</a> Function and the <a href="18902.html">PLIB_DMA_ChannelXDestinationStartAddressSet</a> Function, respectively. At any point, the programmed addresses can be read using the <a href="18942.html">PLIB_DMA_ChannelXSourceStartAddressGet</a> Function and the <a href="18901.html">PLIB_DMA_ChannelXDestinationStartAddressGet</a> Function.</p><div class="Element15">
+Source/Destination Start Address Offset</div>
+<p class="Element10">
+In some devices, a dedicated region of RAM is allocated for DMA transfers typically called DMA RAM. For any DMA transfer, the source or destination address needs to be defined as an offset from the starting of the DMA RAM for such devices. Use the <a href="18945.html">PLIB_DMA_ChannelXStartAddressOffsetSet</a> Function to set the offset addresses of buffers A and B. Buffers A and B are used in Ping-Pong mode. To learn more, refer to <a href="17621.html">Operating/Addressing Mode Management</a>.</p><div class="Element15">
+Peripheral Address</div>
+<p class="Element10">
+When DMA is used for a peripheral to memory or a memory to peripheral transfer, the peripheral address within a register must be set. This register needs to be programmed with the peripheral location where data transfers takes place. For example this can be the I2C buffer Special Function Register (SFR) location or the UART Receive register, etc. To set the peripheral address use the <a href="18930.html">PLIB_DMA_ChannelXPeripheralAddressSet</a> Function.</p><div class="Element15">
+DMA Source/Destination/Peripheral Address Control</div>
+<p class="Element10">
+The first step in initiating a DMA transfer is to set the source and destination addresses.&nbsp;</p>
+<p class="Element10">
+The following example sets the source address and the destination address for Channel 3.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01906');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01906"><pre class="Element12"><i><span style="color: #008000">// Set the source starting address to 0x1000</span></i>
+PLIB_DMA_ChannelXSourceStartAddressSet ( DMA_ID_0, DMA_CHANNEL_3, 0x1000 );
+<i><span style="color: #008000">// Set the destination starting address to 0x2000</span></i>
+PLIB_DMA_ChannelXDestinationStartAddressSet ( DMA_ID_0, DMA_CHANNEL_3, 0x2000 );</pre></div></div>
+<p class="Element10">
+On certain devices, the source starting address needs to be given as an offset from the start of the DMA RAM address (in such devices, only memory to peripheral transfers and vice-versa are possible). In such devices, the source start address is set using the <a href="18945.html">PLIB_DMA_ChannelXStartAddressOffsetSet</a> function, as shown in the following code.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01907');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01907"><pre class="Element12"><i><span style="color: #008000">// Set the offset-A register to 0x1000</span></i>
+PLIB_DMA_ChannelXStartAddressOffsetSet ( DMA_ID_0, DMA_CHANNEL_3, 0x1000, DMA_ADDRESS_OFFSET_PRIMARY);
+<i><span style="color: #008000">// If ping-pong mode is enabled we will make use of buffer-B, and in that case</span></i>
+<i><span style="color: #008000">// we need to set an address for that also</span></i>
+<i><span style="color: #008000">// Set the offset-B to 0x2000</span></i>
+PLIB_DMA_ChannelXStartAddressOffsetSet ( DMA_ID_0, DMA_CHANNEL_3, 0x2000, DMA_ADDRESS_OFFSET_SECONDARY);</pre></div></div>
+<p class="Element10">
+The following example sets the peripheral address when the DMA needs to be initiated between memory and peripheral.&nbsp;</p>
+<p class="Element10">
+DMA Peripheral Address Set Example: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01908');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01908"><pre class="Element12"><i><span style="color: #008000">// Set the peripheral address to ADC1 buffer for channel-3 transfers.</span></i>
+PLIB_DMA_ChannelXPeripheralAddressSet ( DMA_ID_0, DMA_CHANNEL_3, (<strong><span style="color: #000080">volatile</span></strong> uint16_t)(&amp;ADC1BUF0));</pre></div></div>
+<p class="Element10">
+There are also equivalent functions available within this library that read the source/destination/peripheral address set.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07978.html">DMA Peripheral Library Help</a> &gt; <a href="17628.html">Using the Library</a> &gt; <a href="17616.html">How the Library Works</a> &gt; <a href="17622.html">Source/Destination/Peripheral Address Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB DMA Source/Destination/Peripheral Address Management Topic Title: Source/Destination/Peripheral Address Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

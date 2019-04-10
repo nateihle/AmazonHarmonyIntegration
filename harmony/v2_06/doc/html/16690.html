@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Module Reinitialize</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="16690.html">Module Reinitialize</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11789.html">Previous</a> | <a href="11804.html">Up</a> | <a href="11772.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: Module Reinitialize Topic Title: Module Reinitialize)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Module Reinitialize</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The function signature of a module’s reinitialize function is defined by a pointer data type that is defined by the system module interface header, in the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> file, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Module Reinitialize Function Signature</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00132');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00132"><pre class="Element12"><i><span style="color: #008000">// *****************************************************************************</span></i>
+<i><span style="color: #008000">/* System Module Reinitialization Function Pointer
+
+  Function:
+    void (* SYS_MODULE_REINITIALIZE_ROUTINE) ( SYS_MODULE_OBJ object,
+                                               const SYS_MODULE_INIT * const init)
+
+  Summary:
+    Pointer to a routine that reinitializes a module.
+
+  Description:
+    This data type is a pointer to a routine that reinitializes a system
+    module (driver, library, or application).
+
+  Preconditions:
+    The low-level board initialization must have been completed and the
+    module's initialization function must have been called before the system
+    will call the reinitialization function for any module.
+
+  Parameters:
+    object          - Handle to the module instance
+
+    init            - Pointer to the data structure containing any data
+                      necessary to initialize the module. This pointer may
+                      be null if no data is required and default initialization
+                      is to be used.
+
+  Returns:
+    None.
+
+  Remarks:
+    This function uses the same initialization data structure as the Initialize
+    function.
+    This function can be used to change the power state of a module by passing
+    in a different set of initial data values to reconfigure the module to a
+    different power level.
+    This function can also be used to refresh the hardware state as defined
+    by the initialization data by passing in initial data values that match the
+    previously given initial data values.  Thus, this function should guarantee
+    that all hardware state is refreshed.
+    This function can be called multiple times to reinitialize the module.
+*/</span></i>
+
+<strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">void</span></strong> (* SYS_MODULE_REINITIALIZE_ROUTINE) ( SYS_MODULE_OBJ object,
+                                                   <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> init );</pre></div></div>
+<p class="Element10">
+An implementation of a module’s reinitialize function might look like the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Sample Module Reinitialize Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00133');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00133"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> SAMPLE_Reinitialize ( SYS_MODULE_OBJ                object,
+                           <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> init )
+{
+    SAMPLE_MODULE_DATA         *pObj  = (SAMPLE_MODULE_DATA *)object;
+    SAMPLE_MODULE_INIT_DATA    *pInit = (SAMPLE_MODULE_INIT_DATA *)init;
+
+    <strong><span style="color: #000080">if</span></strong> (NULL == pInit)
+    {
+        pObj-&gt;status            = SYS_STATUS_READY;
+        pObj-&gt;dataNewIsValid    = <strong><span style="color: #000080">false</span></strong>;
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        pObj-&gt;status            = SYS_STATUS_BUSY;
+        pObj-&gt;dataNew           = pInit-&gt;dataSome;
+        pObj-&gt;dataNewIsValid    = <strong><span style="color: #000080">true</span></strong>;
+    }
+
+    <strong><span style="color: #000080">return</span></strong>;
+}</pre></div></div>
+<p class="Element10">
+The previous example initialize function for the sample module simulates resetting the hardware by resetting the <span class="Element146">dataNew</span> value. If no <span class="Element146">init</span> data is provided, it simply invalidates the current value by clearing the <span class="Element146">dataNewIsValid</span> flag to false. However, if <span class="Element146">init</span> data is provided, it stores the value and sets the library into a busy status that will be cleared once the library’s tasks function has processed the data.&nbsp;</p>
+<p class="Element10">
+This may not be a particularly useful example, because it is possible to lose data given by the client if the <span class="Element146">dataNew</span> value was currently valid. However, it does illustrate that the decision of what is preserved and what is not preserved when a module is reinitialized is a module-specific design decision that will depend on the type of module and how it operates safely. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This function is optional. Any module that does not support power management or the ability to dynamically change initial settings while it is running does not need to implement this function.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11804.html">System Interface</a> &gt; <a href="16690.html">Module Reinitialize</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: Module Reinitialize Topic Title: Module Reinitialize)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

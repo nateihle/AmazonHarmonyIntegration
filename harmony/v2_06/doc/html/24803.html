@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>MPLAB Harmony TCP/IP Stack Heap Configuration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24800.html">MPLAB Harmony TCP/IP Stack Configuration Changes</a> &gt; <a href="24803.html">MPLAB Harmony TCP/IP Stack Heap Configuration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24799.html">Previous</a> | <a href="24800.html">Up</a> | <a href="24810.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING MPLAB Harmony TCP/IP Stack Heap Configuration Topic Title: MPLAB Harmony TCP/IP Stack Heap Configuration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+MPLAB Harmony TCP/IP Stack Heap Configuration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+MPLAB Harmony TCP/IP Stack Heap Configuration</div>
+<p class="Element10">
+The MPLAB Harmony TCP/IP Stack uses dynamic memory for both initialization and run time buffers. Therefore, there are two requirements for a project containing the stack to work properly.&nbsp;</p>
+<p class="Element10">
+The first requirement is that the TCP/IP stack should be configured with enough heap space. The amount of heap used by the stack is specified by the TCPIP_STACK_DRAM_SIZE parameter in the <span class="Element146">tcpip_config.h</span> file.&nbsp;</p>
+<p class="Element10">
+The value of the required TCP/IP heap for a project is application dependent. Some of the most important factors that impact the heap size are:
+<ul class="Element630">
+<li class="Element600">Number of TCP sockets
+<ul class="Element630">
+<li class="Element600">By default, each TCP<span style="color: #FFFFFF">_</span>socket<span style="color: #FFFFFF">_</span>requires 512 bytes for a RX buffer and 512 bytes for a TX buffer. These parameters can be adjusted by modifying the values specified in <span class="Element146"><a href="24497.html">tcp_config.h</a></span> or dynamically through the <a href="26842.html">TCPIP_TCP_OptionsSet</a> function.</li>
+</ul></li>
+<li class="Element600">Number of UDP sockets:
+<ul class="Element630">
+<li class="Element600">For each UDP<span style="color: #FFFFFF">_</span>socket<span style="color: #FFFFFF">_</span>that needs to initiate a transmission, the IP<span style="color: #FFFFFF">_</span>layer will have to allocate the required space (suggested by the functions, UDPv4IsTxPutReady or UDPv4IsTxPutReady</li>
+<li class="Element600"> Once the UDP buffering will be added, each<span style="color: #FFFFFF">_</span>socket<span style="color: #FFFFFF">_</span>will have its own RX and TX buffers. These parameters can be adjusted by modifying the values specified in the file, <span class="Element146"><a href="27127.html">udp_config.h</a></span>, or dynamically through the <a href="26967.html">TCPIP_UDP_OptionsSet</a> function</li>
+</ul></li>
+<li class="Element600">The type of Ethernet MAC that is used:
+<ul class="Element630">
+<li class="Element600">The PIC32MX6XX/7XX devices with a built-in 100 Mbps Ethernet controller use system memory for buffering incoming RX traffic. For sustained 100 Mbps operation, adequate RX buffer space must be provided. This parameter can be adjusted by modifying the values specified in the file, <span class="Element146">network_config.h</span>, using the array, TCPIP_HOSTS_CONFIGURATION.</li>
+</ul></li>
+<li class="Element600">If SSL is enabled, it will require additional buffering for encryption/decryption at run-time. The SSL module buffering requirement is dependent on the RSA key length specified in <span class="Element146">ssl_config.h</span>.</li>
+</ul>The second requirement is that the project that includes the MPLAB Harmony TCP/IP Stack must be built with sufficient heap size to accommodate the stack (at a minimum, the project needs the TCPIP_STACK_DRAM_SIZE bytes of heap). This parameter is adjusted on the Linker tab in the project properties.&nbsp;</p>
+<p class="Element10">
+In general, for a TCP/IP project running on a PIC32MX device with an embedded Ethernet controller, at least 8 KB of heap space is needed by the stack. However, the following is implied:
+<ul class="Element630">
+<li class="Element600">100 Mbps traffic is not sustained</li>
+<li class="Element600">No SSL</li>
+<li class="Element600">Relatively few sockets</li>
+</ul>A typical value for comfortably handling 100 Mbps Ethernet traffic would be 40 KB of TCP/IP heap space.&nbsp;</p>
+<p class="Element10">
+The amount of the required heap is less for an external Ethernet MAC.&nbsp;</p>
+<p class="Element10">
+Keep in mind the following when assigning heap space:
+<ul class="Element630">
+<li class="Element600">If there is not enough heap space the stack initialization may fail</li>
+<li class="Element600">If there is not enough heap space some run time buffer allocation may fail and some packets transmission will have to be deferred until a later time, thus impacting the stack performance</li>
+<li class="Element600">It is always a good idea to have a reserve, at least an extra 2 KB of heap space above the total amount of space that is used</li>
+<li class="Element600">A very useful tool in understanding the heap allocation and how the space is distributed among the stack modules is the TCP/IP command processor</li>
+</ul>By enabling the parameter, TCPIP_STACK_DRAM_DEBUG_ENABLE, in the <span class="Element146">tcpip_config.h</span> file, the stack will output debug messages when it runs out of memory. Then, using the <span class="Element146">heapinfo</span> command at the TCP/IP command processor prompt will return a snapshot of the current TCP/IP heap status and can help in early detection of problems.&nbsp;</p>
+<p class="Element10">
+Optionally, enabling the parameter, TCPIP_STACK_DRAM_TRACE_ENABLE in the <span class="Element146">tcpip_config.h</span> file, will instruct the TCP/IP heap allocation module to store trace information that will be displayed with the <span class="Element146">heapinfo</span> command.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24800.html">MPLAB Harmony TCP/IP Stack Configuration Changes</a> &gt; <a href="24803.html">MPLAB Harmony TCP/IP Stack Heap Configuration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING MPLAB Harmony TCP/IP Stack Heap Configuration Topic Title: MPLAB Harmony TCP/IP Stack Heap Configuration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

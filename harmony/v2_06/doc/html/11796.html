@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Optional Feature Sets</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11775.html">Configuration and Implementations</a> &gt; <a href="11796.html">Optional Feature Sets</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11775.html">Previous</a> | <a href="11775.html">Up</a> | <a href="11776.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Optional Feature Sets Topic Title: Optional Feature Sets)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Optional Feature Sets</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Any MPLAB Harmony library or driver should have a core feature set and interface to that feature set. This is the simplest and most basic functionality that is always provided by that driver, without which, there is no reason to use the driver in a system. All other features that may be provided by the driver can be considered optional and should be broken into sets, as shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<strong>Library Feature Sets</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE Library Feature Sets.png" border="0" alt="" title=""></p><p class="Element10">
+These feature sets should be identified and described in the <strong>Configuring the Library</strong> section of the driver’s Help documentation, along with a description of how to select and configure each feature set. Any implementation of a driver that supports a feature set should support all features that are part of the set. Configuration options may affect how that feature set is supported (for example, buffer sizes used or minimums and maximums supported), but the inclusion or exclusion of that feature must happen as a single unit. Either all features in a set are included in the project when support for the feature is selected or they are all excluded from the project, based on a single MHC selection. Driver implementations that support <i>rogue</i> features that are undocumented or are not part of any defined feature set dramatically complicate the usage of the driver, make it difficult to represent its configuration in the MHC and prevent the user from treating different implementations of the driver as a simple building blocks.&nbsp;</p>
+<p class="Element10">
+In general, it is best to develop a driver so that it builds upon the core feature set in a clean and modular way. A good way to do this is to think of a feature set as a sub-module of its own and implement all code for that one feature set in a common source file. The source file for the core feature set will always be included in the project whenever the driver is included. The source file for an optional feature can then be included or excluded from the project, depending on whether or not the user selects the feature, as shown by the following examples.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Core Feature (<span class="Element146">drv_mydev.c</span>)</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00159');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00159"><pre class="Element12">MY_RETVAL DRV_MYDEV_CoreFunction1 ( DRV_MYDEV_HANDLE handle, DRV_MYDEV_A *data )
+{
+    <i><span style="color: #008000">/* Implementation of core interface function 1 */</span></i>
+}
+
+MY_RETVAL DRV_MYDEV_CoreFunction2 ( DRV_MYDEV_HANDLE handle, DRV_MYDEV_B *data )
+{
+    <i><span style="color: #008000">/* Implementation of core interface function 2 */</span></i>
+}
+
+<i><span style="color: #008000">/* Additional core interface and internal functions... */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> __attribute__((weak)) _DRV_MYDEV_TasksOpt1 ( DRV_MYDEV_OBJ obj )
+{
+    <strong><span style="color: #000080">return</span></strong>;
+}
+
+<strong><span style="color: #000080">void</span></strong> DRV_MYDEV_Tasks ( DRV_MYDEV_OBJ obj )
+{
+    <i><span style="color: #008000">/* Implementation of core tasks state machine. */</span></i>
+
+    _DRV_MYDEV_TasksOpt1(obj);
+}</pre></div></div>
+<p class="Element10">
+<strong>Example: Optional Feature (<span class="Element146">drv_mydev_opt1.c</span>)</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00160');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00160"><pre class="Element12">MY_RETVAL DRV_MYDEV_Option1Function1 (DRV_MYDEV_HANDLE handle, DRV_MYDEV_A *data )
+{
+    <i><span style="color: #008000">/* Implementation of option 1 interface function 1 */</span></i>
+}
+
+MY_RETVAL DRV_MYDEV_InterfaceFunction2 ( DRV_MYDEV_HANDLE handle, DRV_MYDEV_B *data )
+{
+    <i><span style="color: #008000">/* Implementation of option 1 interface function 2 */</span></i>
+}
+
+<i><span style="color: #008000">/* Additional option 1 interface and internal functions... */</span></i>
+
+<strong><span style="color: #000080">void</span></strong> _DRV_MYDEV_TasksOpt1 ( DRV_MYDEV_OBJ obj )
+{
+    <i><span style="color: #008000">/* Implementation of optional feature set 1 state machine. */</span></i>
+}</pre></div></div>
+<p class="Element10">
+In the previous examples, the any interface or internal functions that are specific to the optional feature are implemented in a separate source file (<span class="Element146">drv_mydev_opt1.c</span>) from the core feature set functions implemented in the driver’s primary source file (<span class="Element146">drv_mydev.c</span>). The core driver implementation file is always included in a project if the <i>mydev</i> driver is used. If the optional feature set is selected, the optional source file is also included. This provides implementations of the optional interface functions (DRV_MYDEV_InterfaceFunction1 and DRV_MYDEV_InterfaceFunction1, for example) as well as any internal and tasks or sub-tasks functions.&nbsp;</p>
+<p class="Element10">
+The _DRV_MYDEV_TasksOpt1 function shows the technique of using a weak function in the core feature set’s implementation file to implement a sub-tasks state machine function. This can then be called from within the main state machine’s tasks function. If the optional feature file (<span class="Element146">drv_mydev_opt1.c</span>) is not included in the build, the weak implementation of the function will be called (and likely removed from the build, depending on the level of optimization chosen). However, if the optional feature set is selected and the implementation of the _DRV_MYDEV_TasksOpt1 function is built, the linker will override the weak definition in <span class="Element146">drv_mydev.c</span> and link the call to the full non-weak implementation in the <span class="Element146">drv_mydev_opt1.c</span> file calling the optional feature’s state machine when the driver’s core state machine is called.&nbsp;</p>
+<p class="Element10">
+This is the preferred method for implementing optional features (in separate files), but if this method is not feasible or if it adds more complexity than it saves, it is acceptable to use preprocessor macros to switch implementations of a function or short sequence of code based upon the selection of a configuration option, using the mapping method shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Macro Mapping Function Implementations</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00161');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00161"><pre class="Element12"><strong><span style="color: #000080">#if</span></strong> defined(DRV_MYDEV_USE_OPT1)
+
+    <strong><span style="color: #000080">#define</span></strong> _DRV_MYDEV_TasksOpt1(obj)    _DRV_MYDEV_TasksOpt1Implementation(obj)
+
+<strong><span style="color: #000080">#else</span></strong>
+
+    <strong><span style="color: #000080">#define</span></strong> _DRV_MYDEV_TasksOpt1(obj)
+
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<p class="Element10">
+This method allows the optional function’s code to be removed even in builds with no optimizations, but it is more confusing and can be harder to debug. It is most useful an optional feature requires one or two short code sequences, when the first method is too much. This method can also be used to wrap data allocations (see the <a href="17230.html">OSAL_MUTEX_DECLARE</a> and <a href="17240.html">OSAL_SEM_DECLARE</a> macros for examples).&nbsp;</p>
+<p class="Element10">
+In general, it is best to work to minimize the use of preprocessor <span class="Element146">#if</span> directives as much as possible as they tend complicate the code and obfuscate the logic. If they must be used (as shown previously), it is best to group them into a single local mapping header included (for example the previous macros might be defined in a <span class="Element146">drv_mydev_local_mapping.h</span> file). If they must be used directly in source code, it is best to indent them and the contents as if they were normal <span class="Element146">if</span> statements. Do not force them to align at column 0. That is an old C-language standard that is no longer required and only serves to render code harder to read.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11775.html">Configuration and Implementations</a> &gt; <a href="11796.html">Optional Feature Sets</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Optional Feature Sets Topic Title: Optional Feature Sets)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

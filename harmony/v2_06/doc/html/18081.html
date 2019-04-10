@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18081.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27175.html">Previous</a> | <a href="27175.html">Up</a> | <a href="18090.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Universal Synchronous/Asynchronous Receiver/Transmitter (USART) module is the key component of the serial communications sub-system of a computer. The USART takes the data and transmits the individual bits in a sequential fashion. While receiving, the USART reassembles the bits into complete bytes. The data can be <strong>8-bit </strong>or<strong> 9-bit</strong>.&nbsp;</p>
+<p class="Element10">
+There are two primary forms of serial transmission: Asynchronous and Synchronous.</p><div class="Element15">
+Asynchronous</div>
+<p class="Element10">
+Asynchronous transmission allows data to be transmitted without the sender having to send a clock signal to the receiver. Instead, the sender and receiver must agree on timing parameters (i.e., baud rate) in advance and special bits are added to each word, which are used to synchronize the sending and receiving units.&nbsp;</p>
+<p class="Element10">
+When a word is given to the USART for asynchronous transmissions, a bit called the &quot;Start&quot; bit is added to the beginning of each word that is to be transmitted. The Start bit is used to alert the receiver that a word of data is about to be sent. After the Start bit, the individual bits of the word of data are sent, with the Least Significant bit (LSb) being sent first. When the entire data word has been sent, the transmitter may add a Parity bit that the transmitter generates. The Parity bit may be used by the receiver to perform simple error checking. Then, at least one Stop bit is sent by the transmitter.&nbsp;</p>
+<p class="Element10">
+The Start bit is always a space and the Stop bits are always marks. Each transmitted bit persists for a period of 1/(Baud Rate). An on-chip dedicated Baud Rate Generator (BRG) is used to derive standard baud rate frequencies.&nbsp;</p>
+<p class="Element10">
+When the receiver has received all of the bits in the data word, it may check for the Parity bits (both sender and receiver must agree on whether a Parity bit is to be used), and then the receiver looks for a Stop bit. If the Stop bit does not appear when it is supposed to, the USART module considers the entire word to be unintelligible and will report a framing error to the host processor when the data word is read. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Please refer to the <strong>&quot;USART&quot;</strong> chapter in the specific device data sheet or the family reference manual section specified in that chapter for details.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Synchronous</div>
+<p class="Element10">
+Synchronous serial transmission requires that the sender and receiver share a clock with one another, or that the sender provide a strobe or other timing signal so that the receiver knows when to &quot;read&quot; the next bit of the data. This mode is not available on all microcontrollers.&nbsp;</p>
+<p class="Element10">
+It is typically used in systems with a single master and one or more slaves. The master device contains the necessary circuitry for baud rate generation and supplies the clock for all devices in the system.&nbsp;</p>
+<p class="Element10">
+There are two signal lines a bidirectional data line and a clock line. Since the data line is bidirectional, synchronous operation is only half-duplex.&nbsp;</p>
+<p class="Element10">
+Start and Stop bits are not used in synchronous transmissions.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="27175.html">USART Peripheral Library</a> &gt; <a href="18081.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB USART Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

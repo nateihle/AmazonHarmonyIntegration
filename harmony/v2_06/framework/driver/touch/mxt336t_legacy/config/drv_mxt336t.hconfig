@@ -1,0 +1,194 @@
+enum DRV_TOUCH_MXT336T_I2C_INSTANCE_INDEX_TYPE
+	"DRV_I2C_INDEX_0" ||
+	"DRV_I2C_INDEX_1" ||
+	"DRV_I2C_INDEX_2" ||
+	"DRV_I2C_INDEX_3" ||
+	"DRV_I2C_INDEX_4" ||
+	"DRV_I2C_INDEX_5"
+
+enum DRV_TOUCH_MXT336T_CHANGE_PIN_CHANNELS
+	"PORT_CHANNEL_A" ||
+	"PORT_CHANNEL_B" ||
+	"PORT_CHANNEL_C" ||
+	"PORT_CHANNEL_D" ||
+	"PORT_CHANNEL_E" ||
+	"PORT_CHANNEL_F" ||
+	"PORT_CHANNEL_G" ||
+	"PORT_CHANNEL_H"
+
+enum DRV_TOUCH_MXT336T_CHANGE_PIN_NUMBERS
+	"PORTS_BIT_POS_1" ||
+	"PORTS_BIT_POS_2" ||
+	"PORTS_BIT_POS_3" ||
+	"PORTS_BIT_POS_4" ||
+	"PORTS_BIT_POS_5" ||
+	"PORTS_BIT_POS_6" ||
+	"PORTS_BIT_POS_7" ||
+	"PORTS_BIT_POS_8" ||
+	"PORTS_BIT_POS_9" ||
+	"PORTS_BIT_POS_10" ||
+	"PORTS_BIT_POS_11" ||
+	"PORTS_BIT_POS_12" ||
+	"PORTS_BIT_POS_13" ||
+	"PORTS_BIT_POS_14" ||	
+	"PORTS_BIT_POS_15" ||	
+	"PORTS_BIT_POS_16" 
+	
+					
+enum DRV_TOUCH_MXT_CHANGE_INTERRUPT
+	"EXTERNAL INTERRUPT" ||
+	"OTHER INTERRUPT SOURCE"
+
+config USE_DRV_TOUCH_MXT336T_NEEDED
+    bool
+
+config USE_DRV_TOUCH_MXT336T
+    bool "Use MXT336T Legacy Driver?"
+	select USE_SYS_TMR_NEEDED
+    select USE_DRV_I2C_NEEDED
+    select USE_DRV_I2C_DYNAMIC_NEEDED
+    select DRV_I2C_INTERRUPT_MODE_NEEDED
+    select USE_SYS_TOUCH_NEEDED
+    select USE_SYS_INT_NEEDED
+    select USE_EXT_INT_NEEDED
+    default y if USE_DRV_TOUCH_MXT336T_NEEDED
+    default n
+    ---help---
+		IDH_HTML_MXT336T_Touch_Driver_Library
+    ---endhelp---
+
+menu "RTOS Configuration"
+    depends on USE_DRV_TOUCH_MXT336T
+    depends on USE_3RDPARTY_RTOS
+
+config DRV_TOUCH_MXT336T_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Combined with System Tasks"
+
+config DRV_TOUCH_MXT336T_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_TOUCH_MXT336T_RTOS = "Standalone"
+    default 1024
+
+config DRV_TOUCH_MXT336T_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_TOUCH_MXT336T_RTOS = "Standalone"
+    default 1
+
+config DRV_TOUCH_MXT336T_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_TOUCH_MXT336T_RTOS = "Standalone"
+    default y
+
+config DRV_TOUCH_MXT336T_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_TOUCH_MXT336T_RTOS = "Standalone"
+    depends on DRV_TOUCH_MXT336T_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_TOUCH_MXT336T_I2C_MODULE_INDEX
+    string "I2C driver module index"
+    depends on USE_DRV_TOUCH_MXT336T
+    range DRV_TOUCH_MXT336T_I2C_INSTANCE_INDEX_TYPE
+	default "DRV_I2C_INDEX_0"	
+
+config DRV_TOUCH_MXT336T_TASK_QUEUE_SIZE
+    int "Task Queue Size"
+    depends on USE_DRV_TOUCH_MXT336T
+    default 9
+
+config DRV_TOUCH_MXT336T_INSTANCES_NUMBER
+    int "Number of Instances"
+    depends on USE_DRV_TOUCH_MXT336T
+    default 1
+
+config DRV_TOUCH_MXT336T_CLIENTS_NUMBER
+    int "Number of Clients"
+    depends on USE_DRV_TOUCH_MXT336T
+    default 5
+
+config DRV_TOUCH_MXT336T_INTERRUPT_MODE
+    bool "Interrupt Mode"
+    depends on USE_DRV_TOUCH_MXT336T
+    default y
+
+config DRV_TOUCH_MXT336T_INTERRUPT_TYPE
+	string "Interrupt Source"
+	depends on USE_DRV_TOUCH_MXT336T
+	depends on DRV_TOUCH_MXT336T_INTERRUPT_MODE
+	range DRV_TOUCH_MXT_CHANGE_INTERRUPT
+	default "EXTERNAL INTERRUPT"
+	
+config DRV_TOUCH_MXT336T_INTERRUPT_SOURCE
+    string "External Interrupt Source"
+    depends on DRV_TOUCH_MXT336T_INTERRUPT_TYPE = "EXTERNAL INTERRUPT"
+	depends on DRV_TOUCH_MXT336T_INTERRUPT_MODE
+    range DRV_TOUCH_INT_SOURCE_EXTERNAL
+    default "INT_SOURCE_EXTERNAL_1" 
+
+
+config DRV_TOUCH_MXT336T_INTERRUPT_GPIO
+	string "Other Interrupt Source"
+	depends on DRV_TOUCH_MXT336T_INTERRUPT_TYPE = "OTHER INTERRUPT SOURCE"
+	depends on DRV_TOUCH_MXT336T_INTERRUPT_MODE
+	range INT_VECTOR
+	default "INT_VECTOR_CHANGE_NOTICE_F"
+
+config DRV_TOUCH_MXT336T_CHANGE_PIN_CHANNEL
+    string "Change Notification Pin Channel"
+    depends on DRV_TOUCH_MXT336T_INTERRUPT_MODE
+	depends on USE_DRV_TOUCH_MXT336T
+    range DRV_TOUCH_MXT336T_CHANGE_PIN_CHANNELS
+	default "PORT_CHANNEL_E"
+
+config DRV_TOUCH_MXT336T_CHANGE_PIN_NUMBER
+    string "Change Notification Pin Number"
+    depends on DRV_TOUCH_MXT336T_INTERRUPT_MODE
+	depends on USE_DRV_TOUCH_MXT336T
+	range DRV_TOUCH_MXT336T_CHANGE_PIN_NUMBERS
+    default "PORTS_BIT_POS_8"	
+	
+	
+	/*** MXT Driver Configuration ***/
+
+config DRV_MXT_NUM_QUEUE_SIZE
+    int "Mxt Task Queue Size"
+    depends on USE_DRV_TOUCH_MXT336T
+    default 1
+
+config DRV_MXT_INSTANCES_NUMBER
+    int "Number of Mxt Instances"
+    depends on USE_DRV_TOUCH_MXT336T
+    default 1
+
+config DRV_MXT_CLIENTS_NUMBER
+    int "Number of Mxt Clients"
+    depends on USE_DRV_TOUCH_MXT336T
+    default 1	
+	
+config DRV_MXT_MODULE_INDEX
+    string "MXT336T driver module index"
+    depends on USE_DRV_TOUCH_MXT336T
+    default "DRV_MAXTOUCH_INDEX_0"	
+
+ifblock USE_DRV_TOUCH_MXT336T
+
+add "<#include \"/framework/driver/touch/mxt336t_legacy/config/drv_mxt336t.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/touch/mxt336t_legacy/config/drv_mxt336t_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/touch/mxt336t_legacy/config/drv_mxt336t_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/touch/mxt336t_legacy/config/drv_mxt336t.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_MXT336T_H "$HARMONY_VERSION_PATH/framework/driver/touch/mxt336t_legacy/drv_mxt336t.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/mxt336t_legacy/drv_mxt336t.h"
+file DRV_MXT336T_TOUCH_H "$HARMONY_VERSION_PATH/framework/driver/touch/drv_touch.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/drv_touch.h"
+file DRV_MXT336T_TOUCH_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/touch/mxt336t_legacy/src/drv_mxt336t_local.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/mxt336t_legacy/drv_mxt336t_local.h"
+file DRV_MXT336T_C "$HARMONY_VERSION_PATH/framework/driver/touch/mxt336t_legacy/src/drv_mxt336t.c" to "$PROJECT_SOURCE_FILES/framework/driver/touch/mxt336t_legacy/src/drv_mxt336t.c"
+
+file DRV_MXT_H "$HARMONY_VERSION_PATH/framework/driver/touch/mxt336t_legacy/drv_mxt.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/mxt336t_legacy/drv_mxt.h"
+file DRV_MXT_C "$HARMONY_VERSION_PATH/framework/driver/touch/mxt336t_legacy/src/drv_mxt.c" to "$PROJECT_SOURCE_FILES/framework/driver/touch/mxt336t_legacy/src/drv_mxt.c"
+
+
+endif
+
+

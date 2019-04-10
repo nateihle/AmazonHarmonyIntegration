@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Creating a New SEGGER emWin Application Within MPLAB Harmony</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22950.html">Start-to-End Example of SEGGER emWin Graphics with MPLAB Harmony</a> &gt; <a href="22946.html">SEGGER emWin GUI Application Design Process</a> &gt; <a href="22924.html">Creating a New SEGGER emWin Application Within MPLAB Harmony</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22947.html">Previous</a> | <a href="22946.html">Up</a> | <a href="22940.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN Creating a New SEGGER emWin Application Within MPLAB Harmony Topic Title: Creating a New SEGGER emWin Application Within MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Creating a New SEGGER emWin Application Within MPLAB Harmony</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Creating the Application</div>
+<p class="Element10">
+The following steps describe how to create a new SEGGER emWin Graphics application within MPLAB Harmony. This MPLAB Harmony application uses the screen/dialog C files that were created in <a href="22947.html">GUIBuilder Example</a>.
+<ol class="Element630">
+<li value="1" class="Element600">Open MPLAB X IDE and create a new project by selecting <i>File &gt; New Project</i>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Create New MPLAB X IDE Project.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="2" class="Element600">Choose the project type <strong>32-bit MPLAB Harmony Project</strong>, and then click <strong>Next</strong>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Choose Project Type.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="3" class="Element600">Specify the Name and Location project details, as shown in the following figure:
+<ul class="Element630">
+<li class="Element600">Harmony Path: Specify the path to your installation of MPLAB Harmony (i.e., <span class="Element146">&lt;install-dir&gt;</span>)</li>
+<li class="Element600">Project Location: <span class="Element146">&lt;install-dir&gt;\apps\gfx</span></li>
+<li class="Element600">Project Name: <strong>emwin_app</strong></li>
+<li class="Element600">Configuration Name: <strong>pic32mz_ef_sk_meb2</strong></li>
+<li class="Element600">Target Device: <strong>PIC32MZ2048EFM144</strong></li>
+<li class="Element600">Click <strong>Finish</strong></li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Project Properties.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="4" class="Element600">Once the new project is created in MPLAB X IDE, right click the project and select <strong>Set as Main Project</strong>. This will apply all future actions to this application in case multiple applications are open.</li>
+<li value="5" class="Element600">Project properties such as Hardware Tools and Compiler Toolchains need to be set, as shown in the following figure:
+<ul class="Element630">
+<li class="Element600">Right click the project and select <strong>Properties</strong></li>
+<li class="Element600">Select the desired Hardware Tools and Compiler Toolchains</li>
+<li class="Element600">Click <strong>Apply</strong>, and then click <strong>OK</strong></li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Tools and Compiler Toolchains.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="6" class="Element600">Start MHC by selecting <i>Tools &gt; Embedded MPLAB Harmony Configurator</i>. It is assumed that the MHC plug-in is installed in MPLAB X IDE from the location &lt;install-dir&gt;\utilities\MHC. MHC will run only if at least one of the projects is set as the Main Project.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Start MHC.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="7" class="Element600">In MHC, select the desired Board Support Package (BSP) for the hardware platform, as shown in the following figure:
+<ul class="Element630">
+<li class="Element600">Expand BSP Configuration and select <strong>Use BSP?</strong></li>
+<li class="Element600">Expand Select BSP to Use For PIC32MZ2048EFM144 Device and select <strong>PIC32MZ EF Starter Kit w\ Multimedia Expansion Board (MEB) II</strong></li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Select BSP.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="8" class="Element600">Select the Clock Diagram tab and configure the following clock settings:
+<ul class="Element630">
+<li class="Element600">Primary Oscillator Frequency</li>
+<li class="Element600">PLL Clock Source</li>
+<li class="Element600">PLL Divider values</li>
+<li class="Element600">Primary Oscillator Mode</li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN MHC Clock Settings.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="9" class="Element600"> From the Options tab expand <i>Harmony Framework Configuration &gt; Graphics Library &gt; SEGGER emWin Graphics Library</i> and select <strong>Use SEGGER emWin Graphics Library?</strong>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Use SEGGER emWin Graphics Library.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="10" class="Element600">Based on the BSP selected, the required drivers are selected for the devices including display timing controller, display controller, Touch driver and Touch Bus (I2C) driver.</li>
+<li value="11" class="Element600">For the MEB II, the touch device (MTCH6301) reports available touch input by raising an external interrupt. The external interrupt pin needs to be mapped from the list of available pins. In this case, RE8 is the correct pin. To map the RE8 pin as an external interrupt pin do the following:</li>
+</ol>
+<ul class="Element630">
+<li class="Element600">Select the “Pin Table” tab and scroll down the pin table until the external interrupt tab appears</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Select Pin Table.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">Right click the External Interrupt 1 tab and select <strong>Isolate</strong></li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Select Isolate.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ul class="Element630">
+<li class="Element600">In the External Interrupt 1 row select the RE8 pin to map it as External Interrupt 1 by clicking the blue block beneath RE8</li>
+</ul></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Select RE8 Pin.png" border="0" alt="" title=""></p><div class="Element15">
+Generate the Code</div>
+<p class="Element10">
+All of required hardware configuration for our demonstration has been selected. It is now time to generate the demonstration hardware related application code. Use the following steps to generate the code:
+<ol class="Element630">
+<li value="1" class="Element600">In MHC, click <strong>Generate Code</strong>.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Generate Code.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="2" class="Element600">Next, in the Modified Configuration dialog, click <strong>Save</strong> to save the modified configuration.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Save Modified Configuration.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="3" class="Element600">Then, in the Generate Project dialog, click <strong>Generate</strong>. This will generate the code for BSP, Drivers, System Services, Configuration, and the application template at the corresponding branch of the application directory tree.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Generate Project Dialog.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Generated Code Files.png" border="0" alt="" title=""></p><p class="Element10">
+
+<ol class="Element630">
+<li value="4" class="Element600">MHC will also add the SEGGER emWin Library binary file, <span class="Element146">emwin.a</span>. to the Libraries folder.</li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="SEGGER EMWIN Binary File.png" border="0" alt="" title=""></p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="22940.html">Loading the GUIBuilder Output into the MPLAB Harmony Project</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the loading of the GUIBuilder output (C files) into your MPLAB Harmony project.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="22942.html">Integrating the GUIBuilder Output with MPLAB Harmony</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the integration of SEGGER emWin application code with MPLAB Harmony using the MPLAB Harmony GUI and Touch Wrapper Library.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="22920.html">Build and Program the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the process to build the application and program the application binary to the development hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="22925.html">Demonstration Output</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the output of the demonstration from the development hardware.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22950.html">Start-to-End Example of SEGGER emWin Graphics with MPLAB Harmony</a> &gt; <a href="22946.html">SEGGER emWin GUI Application Design Process</a> &gt; <a href="22924.html">Creating a New SEGGER emWin Application Within MPLAB Harmony</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN Creating a New SEGGER emWin Application Within MPLAB Harmony Topic Title: Creating a New SEGGER emWin Application Within MPLAB Harmony)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

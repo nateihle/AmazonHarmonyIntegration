@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initializing the Driver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13090.html">Touch Driver Libraries Help</a> &gt; <a href="02683.html">ADC Touch Driver Library</a> &gt; <a href="08283.html">Using the Library</a> &gt; <a href="08275.html">How the Library Works</a> &gt; <a href="08276.html">Initializing the Driver</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08275.html">Previous</a> | <a href="08275.html">Up</a> | <a href="08280.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV ADC TOUCH Initializing the Driver Topic Title: Initializing the Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initializing the Driver</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Before the ADC Touch Driver can be opened, it must be configured and initialized. The driver build time configuration is defined by the configuration macros. Refer to the <a href="08271.html">Building the Library</a> section for the location of and more information on the various configuration macros and how these macros should be designed. The driver initialization is configured through the <a href="11375.html">DRV_TOUCH_INIT</a> data structure that is passed to the DRV_TOUCH_ADC_Initialize function. The initialization parameters include the interrupt source, interrupt pin remap configuration and touch screen resolution. The following code shows an example of initializing the ADC Touch Touch Driver. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00954');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00954"><pre class="Element12"><i><span style="color: #008000">/* The following code shows an example of designing the
+ *  DRV_TOUCH_INIT data structure. It also shows how an example
+ *  usage of the DRV_TOUCH_ADC_Initialize function.
+ */</span></i>
+
+DRV_TOUCH_INIT drvTouchInitData;
+SYS_MODULE_OBJ objectHandle;
+
+<i><span style="color: #008000">/* Touch Module Id*/</span></i>
+drvTouchInitData.touchId                     = DRV_TOUCH_INDEX_0;
+
+<i><span style="color: #008000">/* I2C Bus driver open */</span></i>
+drvTouchInitData.drvOpen                     = DRV_I2C_Open;
+
+<i><span style="color: #008000">/* Interrupt Source for Touch */</span></i>
+drvTouchInitData.interruptSource             = INT_SOURCE_EXTERNAL_1;
+
+<i><span style="color: #008000">/* Interrupt Pin function mapping */</span></i>
+drvTouchInitData.interruptPort.inputFunction = INPUT_FUNC_INT1;
+
+<i><span style="color: #008000">/* Pin to be mapped as interrupt pin */</span></i>
+drvTouchInitData.interruptPort.inputPin      = INPUT_PIN_RPE8;
+
+<i><span style="color: #008000">/* Analog pin number */</span></i>
+drvTouchInitData.interruptPort.analogPin     = PORTS_ANALOG_PIN_25;
+
+<i><span style="color: #008000">/* Pin Mode of analog pin */</span></i>
+drvTouchInitData.interruptPort.pinMode       = PORTS_PIN_MODE_DIGITAL;
+
+<i><span style="color: #008000">/* Interrupt pin port */</span></i>
+drvTouchInitData.interruptPort.channel       = PORT_CHANNEL_E;
+
+<i><span style="color: #008000">/* Interrupt pin port maskl */</span></i>
+drvTouchInitData.interruptPort.dataMask      = 0x8;
+
+<i><span style="color: #008000">/* Touch screen orientation */</span></i>
+drvTouchInitData.orientation                 = DISP_ORIENTATION;
+
+<i><span style="color: #008000">/* Touch screen horizontal resolution */</span></i>
+drvTouchInitData.horizontalResolution            = DISP_HOR_RESOLUTION;
+
+<i><span style="color: #008000">/* Touch screen vertical resolution */</span></i>
+drvTouchInitData.verticalResolution          = DISP_VER_RESOLUTION;
+
+<i><span style="color: #008000">/* Driver initialization */</span></i>
+objectHandle = DRV_TOUCH_ADC_Initialize(DRV_TOUCH_INDEX_0,
+                                              (SYS_MODULE_INIT*)drvTouchInitData);
+    <strong><span style="color: #000080">if</span></strong> (SYS_MODULE_OBJ_INVALID == objectHandle)
+    {
+        <i><span style="color: #008000">// Handle error</span></i>
+    }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13090.html">Touch Driver Libraries Help</a> &gt; <a href="02683.html">ADC Touch Driver Library</a> &gt; <a href="08283.html">Using the Library</a> &gt; <a href="08275.html">How the Library Works</a> &gt; <a href="08276.html">Initializing the Driver</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV ADC TOUCH Initializing the Driver Topic Title: Initializing the Driver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

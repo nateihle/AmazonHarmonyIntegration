@@ -1,0 +1,117 @@
+menu "EEPROM"
+    depends on HAVE_EEPROM
+
+enum DRV_EEPROM_MODE
+     "DYNAMIC"
+
+enum DRV_EEPROM_IDX
+    "DRV_EEPROM_INDEX_0"
+
+config DRV_EEPROM_NEEDED
+    bool 
+	
+config USE_DRV_EEPROM
+    bool "Use EEPROM Driver?"
+    select DRIVER
+    select USE_SYS_INT_NEEDED
+    default n if !DRV_EEPROM_NEEDED
+    default y if DRV_EEPROM_NEEDED
+    ---help---
+      IDH_HTML_EEPROM_Driver_Library
+    ---endhelp---
+
+config DRV_EEPROM_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_EEPROM
+    range DRV_EEPROM_MODE
+    default "DYNAMIC"
+    ---help---
+    IDH_HTML__EEPROM_Driver_Library
+    ---endhelp---
+
+config DRV_EEPROM_INSTANCES_NUMBER
+    int
+    depends on USE_DRV_EEPROM
+    default 1
+    ---help---
+      IDH_HTML_DRV_EEPROM_INSTANCES_NUMBER
+    ---endhelp---
+
+config DRV_EEPROM_INDEX
+    string
+    depends on USE_DRV_EEPROM
+    range DRV_EEPROM_IDX
+    default "DRV_EEPROM_INDEX_0"
+    ---help---
+      IDH_HTML_DRV_EEPROM_INDEX_0
+    ---endhelp---
+
+config DRV_EEPROM_CLIENTS_NUMBER
+    int "Number of Driver Clients"
+    depends on USE_DRV_EEPROM
+    default 1
+    ---help---
+      IDH_HTML_DRV_EEPROM_CLIENTS_NUMBER
+    ---endhelp---
+    
+config DRV_EEPROM_BUFFER_OBJECT_NUMBER
+    int "Number of Buffer Objects"
+    depends on USE_DRV_EEPROM
+    range 1 10
+    default 5
+    ---help---
+      IDH_HTML_DRV_EEPROM_BUFFER_OBJECT_NUMBER
+    ---endhelp---
+    
+config DRV_EEPROM_MEDIA_SIZE
+    int "EEPROM Media Size in Kilo Bytes"
+    depends on USE_DRV_EEPROM
+    default 32
+    ---help---
+      IDH_HTML_DRV_EEPROM_MEDIA_SIZE
+    ---endhelp---
+
+config DRV_EEPROM_PERIPHERAL_ID
+    string
+    depends on USE_DRV_EEPROM
+    range FLASH_MODULE_ID
+    default "NVM_ID_0"
+    ---help---
+      IDH_HTML_NVM_MODULE_ID
+    ---endhelp---
+
+config USE_DRV_EEPROM_SYS_FS_REGISTER
+    bool "Register with File System?"
+    depends on USE_DRV_EEPROM
+    select USE_SYS_FS_NEEDED
+    select DRIVER
+    default n
+    ---help---
+      IDH_HTML_DRV_EEPROM_SYS_FS_REGISTER
+    ---endhelp---
+
+config DRV_EEPROM_POWER_STATE
+    depends on USE_DRV_EEPROM
+    depends on USE_DRV_EEPROM && DRV_EEPROM_DRIVER_MODE = "DYNAMIC"
+    string "Power State"
+    range SYS_MODULE_POWER_STATE
+    default "SYS_MODULE_POWER_RUN_FULL"
+    ---help---
+    IDH_HTML_SYS_MODULE_INIT
+    ---endhelp---
+
+endmenu
+
+ifblock USE_DRV_EEPROM
+
+add "<#include \"/framework/driver/eeprom/config/drv_eeprom.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/eeprom/config/drv_eeprom_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/eeprom/config/drv_eeprom_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/eeprom/config/drv_eeprom.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_EEPROM_H "$HARMONY_VERSION_PATH/framework/driver/eeprom/drv_eeprom.h" to "$PROJECT_HEADER_FILES/framework/driver/eeprom/drv_eeprom.h"
+file DRV_EEPROM_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/eeprom/src/drv_eeprom_local.h" to "$PROJECT_HEADER_FILES/framework/driver/eeprom/src/drv_eeprom_local.h"
+file DRV_EEPROM_VAR_MAP_H "$HARMONY_VERSION_PATH/framework/driver/eeprom/src/drv_eeprom_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/eeprom/src/drv_eeprom_variant_mapping.h"
+file DRV_EEPROM_C "$HARMONY_VERSION_PATH/framework/driver/eeprom/src/dynamic/drv_eeprom.c" to "$PROJECT_SOURCE_FILES/framework/driver/eeprom/src/dynamic/drv_eeprom.c"
+
+endif

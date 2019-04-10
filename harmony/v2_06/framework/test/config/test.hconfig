@@ -1,0 +1,39 @@
+menu "Tests"
+
+config USE_TEST_HARNESS
+    bool "Use Test Harness?"
+    select USE_SYS_INT_NEEDED
+    default n
+    ---help---
+    The test harness facilitates testing of MPLAB Harmony compatible libraries.
+    ---endhelp---
+
+ifblock USE_TEST_HARNESS
+add "<#include \"/framework/test/templates/system_init.c.data.ftl\">"  to list SYSTEM_INIT_C_MODULE_INITIALIZATION_DATA
+add "<#include \"/framework/test/templates/system_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_LIB_TASKS
+add "<#include \"/framework/test/templates/system_config.h.ftl\">"  to list SYSTEM_CONFIG_H_MIDDLEWARE_CONFIGURATION 
+
+# List of available tests.
+# Add new tests as they become available.
+enum TESTS_AVAILABLE
+        "Custom Test"
+     || "Sample Module Functional Test 0"
+     || "Sample Module Functional Test 1"
+#    || "Add new test name above"
+
+# Index for library under test
+enum LIBRARY_UNDER_TEST_INDEX
+    "Library 0"  || "Library 1"  || "Library 2"  || "Library 3"  || 
+    "Library 4"  || "Library 5"  || "Library 6"  || "Library 7"  || 
+    "Library 8"  || "Library 9"  || "Library 10" || "Library 11" || 
+    "Library 12" || "Library 13" || "Library 14" || "Library 15"
+
+# Test Sub-menus
+source "$HARMONY_VERSION_PATH/framework/test/config/test_harness.hconfig"
+source "$HARMONY_VERSION_PATH/framework/test/config/test_sample_func.hconfig"
+
+endif # USE_TEST_HARNESS
+
+endmenu
+
+

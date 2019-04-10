@@ -1,0 +1,127 @@
+menu "BSP Configuration"
+
+  config USE_BSP_NEEDED
+    bool
+    default n
+
+  config USE_BSP
+    bool "Use BSP?"
+    default y if USE_BSP_NEEDED
+    default n
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+  config BSP_JTAG
+    depends on USE_BSP
+    bool
+
+  config BSP_USE_USBSWITCH
+    depends on USE_BSP
+    bool
+
+  config BSP_POSC_8MHz
+    depends on USE_BSP
+    bool
+
+  config BSP_POSC_12MHz
+    depends on USE_BSP
+    bool
+
+  config BSP_POSC_24MHz
+    depends on USE_BSP
+    bool
+
+  config BSP_BT_AUDIO_DK_BOARD
+    depends on USE_BSP
+    bool
+
+  config BSP_BT_AUDIO_DK_AK4642_BOARD
+    depends on USE_BSP
+    bool
+
+  config BSP_BT_AUDIO_DK_AK7755_BOARD
+    depends on USE_BSP
+    bool
+
+  config BSP_BT_AUDIO_DK_AK4954_BOARD
+    depends on USE_BSP
+    bool
+
+  config BSP_BT_AUDIO_DK_BM64_BOARD
+    depends on USE_BSP
+    bool
+
+  config BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    depends on USE_BSP
+    bool
+
+  config BSP_TRIGGER
+    depends on USE_BSP
+    bool
+
+  config BSP_GRAPHICS_NEEDED
+    depends on USE_BSP
+    bool
+
+  config BSP_TOUCH_INPUT_NEEDED
+    depends on USE_BSP
+	default n
+    bool
+  
+  config BSP_TOUCH_INPUT_SYSTEM_SERVICE_NEEDED
+    depends on USE_BSP
+    bool
+	
+  config BSP_USART_BRIDGE_NEEDED
+    depends on USE_BSP
+    default n
+    bool
+
+  source "$HARMONY_VERSION_PATH/bsp/config/$DATA_SHEET_ID.hconfig"
+
+  menu "Custom Board Configurations"
+    depends on USE_BSP
+
+    import BSP_IMPORT_ICB "Select Custom Configuration To Import"
+      default "../custom/*.mhc"
+      ---help---
+      IDH_HTML_Board_Support_Package_Help
+      ---endhelp---
+  endmenu
+
+  config BSP_CUSTOM_TYPES
+    string
+    default "9"
+    set BSP_CUSTOM_TYPE0 to "LED_AH"
+    set BSP_CUSTOM_MODE0 to "DIGITAL"
+    set BSP_CUSTOM_DIR0 to "OUT"
+    set BSP_CUSTOM_TYPE1 to "SWITCH"
+    set BSP_CUSTOM_MODE1 to "DIGITAL"
+    set BSP_CUSTOM_PU1 to "TRUE"
+    set BSP_CUSTOM_TYPE2 to "VBUS"
+    set BSP_CUSTOM_MODE2 to "DIGITAL"
+    set BSP_CUSTOM_DIR2 to "OUT"
+    set BSP_CUSTOM_TYPE3 to "GPIO_OUT"
+    set BSP_CUSTOM_MODE3 to "DIGITAL"
+    set BSP_CUSTOM_DIR3 to "OUT"
+    set BSP_CUSTOM_TYPE4 to "GPIO_IN"
+    set BSP_CUSTOM_MODE4 to "DIGITAL"
+    set BSP_CUSTOM_TYPE5 to "GPIO_CN"
+    set BSP_CUSTOM_MODE5 to "DIGITAL"
+    set BSP_CUSTOM_CN5 to "TRUE"
+    set BSP_CUSTOM_TYPE6 to "GPIO"
+	set BSP_CUSTOM_MODE6 to "DIGITAL"
+    set BSP_CUSTOM_TYPE7 to "LED_AL"
+    set BSP_CUSTOM_MODE7 to "DIGITAL"
+    set BSP_CUSTOM_DIR7 to "OUT"
+    set BSP_CUSTOM_TYPE8 to "VBUS_AL"
+    set BSP_CUSTOM_MODE8 to "DIGITAL"
+    set BSP_CUSTOM_DIR8 to "OUT"
+endmenu
+
+ifblock USE_BSP
+  add "<#include \"/bsp/templates/bsp_system_config_global_include.h.ftl\">"  to list SYSTEM_CONFIG_H_GLOBAL_INCLUDES
+endif
+
+add "<#include \"/bsp/templates/bsp_config.h.ftl\">"  to list SYSTEM_CONFIG_H_MIDDLEWARE_CONFIGURATION

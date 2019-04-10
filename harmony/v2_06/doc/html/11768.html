@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Buffer Queuing</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11774.html">Common Data Transfer Models</a> &gt; <a href="11768.html">Buffer Queuing</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11779.html">Previous</a> | <a href="11774.html">Up</a> | <a href="11780.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Buffer Queuing Topic Title: Buffer Queuing)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Buffer Queuing</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The buffer queuing data transfer model is an asynchronous transfer mode. It is always non-blocking, so it allows the client to call the buffer add function multiple times, without waiting for each transfer to complete. This allows the caller to queue up more than one buffer at a time, potentially before the first buffer has finished (depending on buffer size and data transfer speed). The following examples show how this is done.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Reading Data Using the Buffer Queuing Model</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00141');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00141"><pre class="Element12">DRV_USART_BUFFER_HANDLE handle1;
+DRV_USART_BUFFER_HANDLE handle2;
+<strong><span style="color: #000080">char</span></strong> buffer1[BUFFER_1_SIZE];
+<strong><span style="color: #000080">char</span></strong> buffer2[BUFFER_2_SIZE];
+
+DRV_USART_BufferAddRead(myUsart, &amp;handle1, buffer1, BUFFER_1_SIZE);
+DRV_USART_BufferAddRead(myUsart, &amp;handle2, buffer2, BUFFER_2_SIZE);</pre></div></div>
+<p class="Element10">
+The previous example shows the caller queuing up two buffers to read data from the USART driver. When the first call to <a href="11474.html">DRV_USART_BufferAddRead</a> occurs, the driver will place the address and size of <span class="Element146">buffer1</span> into its queue. Then, it will store a unique handle, identifying the data transfer request, into the <span class="Element146">handle1</span> variable and begin copying data into the buffer (unless the driver was already busy placing data into a different buffer). Then the call will return. When the second call to <a href="11474.html">DRV_USART_BufferAddRead</a> occurs, the process repeats. If the driver has not yet finished filling <span class="Element146">buffer1</span>, it will add the address and size of <span class="Element146">buffer2</span> into its queue, provide a handle to it, and return.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Writing Data Using the Buffer Queuing Model</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00142');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00142"><pre class="Element12">DRV_USART_BUFFER_HANDLE handle1;
+DRV_USART_BUFFER_HANDLE handle2;
+<strong><span style="color: #000080">char</span></strong>                    buffer1 = “Hello World\n”;
+<strong><span style="color: #000080">char</span></strong>                    buffer2 = “Hello Again\n”;
+
+DRV_USART_BufferAddWrite(myUsart, &amp;handle1, buffer1, strlen(buffer1));
+DRV_USART_BufferAddWrite(myUsart, &amp;handle2, buffer2, strlen(buffer2));</pre></div></div>
+<p class="Element10">
+Similarly, the previous example shows the caller queuing up two buffers to write data to the USART driver. When the first call to <a href="11475.html">DRV_USART_BufferAddWrite</a> occurs, the driver will place the address and size of <span class="Element146">buffer1</span> into its queue. Then, it will store a unique handle, identifying the data transfer request, into the <span class="Element146">handle1</span> variable and begin copying data from the buffer (unless the driver was already busy copying data from a different buffer). Then, the call will return. When the second call to <a href="11475.html">DRV_USART_BufferAddWrite</a> occurs, the process repeats. If the driver has not yet finished copying all data from <span class="Element146">buffer1</span>, it will add the address and size of <span class="Element146">buffer2</span> into its queue, provide a handle to it, and return.&nbsp;</p>
+<p class="Element10">
+A driver that supports the buffer queuing model usually provides either a callback notification function or a status function (or both) so that a client can determine when the data transfer request has completed, as shown by the following examples.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Using Callback Notification</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00143');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00143"><pre class="Element12">DRV_USART_BUFFER_HANDLE handle1;
+<strong><span style="color: #000080">char</span></strong>                    buffer1 = “Hello World\n”;
+
+DRV_USART_BufferEventHandlerSet(myUsart, MyUsartCallback, NULL);
+
+DRV_USART_BufferAddWrite(myUsart, &amp;handle1, buffer1, strlen(buffer1));</pre></div></div>
+<p class="Element10">
+In the previous example, the client registers a callback function called MyUsartCallback with the USART driver before calling the <a href="11475.html">DRV_USART_BufferAddWrite</a> function to transmit of the contents of buffer1 on the USART. When the driver has completely transferred all data from buffer1 by the USART, it will call the MyUsartCallback function, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Callback Implementation</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00144');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00144"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> MyUsartCallback ( DRV_USART_BUFFER_EVENT event,
+                       DRV_USART_BUFFER_HANDLE bufferHandle,
+                       uintptr_t context )
+{
+    <strong><span style="color: #000080">switch</span></strong> ( event )
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_USART_BUFFER_EVENT_COMPLETE:
+        {
+            <strong><span style="color: #000080">if</span></strong> (bufferHandle == handle1)
+            {
+                 <i><span style="color: #008000">/* buffer1 data transfer complete */</span></i>
+            }
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <i><span style="color: #008000">/* Handle other possible transfer events. */</span></i>
+    }
+}</pre></div></div>
+<p class="Element10">
+The MyUsartCallback function (described previously) is an example of how the client might handle the callback from the USART driver. In this example, the USART driver passes the DRV_USART_BUFFER_EVENT_COMPLETE ID in the <span class="Element146">event</span> parameter to indicate that the data from <span class="Element146">buffer1</span> has been completely transmitted by the USART. The value of the <span class="Element146">bufferHandle</span> parameter will match the value assigned into the <span class="Element146">handle1</span> parameter of the <a href="11475.html">DRV_USART_BufferAddWrite</a> function call so that the client can verify which buffer transfer has completed. (Recall that the driver can queue multiple transfers. It may, in fact, have multiple read and multiple write transfers queued at the same time.) For now, ignore the <span class="Element146">context</span> parameter, which is explained in the <a href="11799.html">Single Client vs. Multiple Client</a> section.&nbsp;</p>
+<p class="Element10">
+The callback mechanism allows a client to synchronize to the timing of when the data transfers have completed. However, this adds some additional complexity to the interface and has a few potential subtle concerns. For one, a very short transfer may actually complete and the callback may occur before the <a href="11475.html">DRV_USART_BufferAddWrite</a> function actually returns. This is a potential <i>race</i> condition and it is why the transfer handle value is given as an output parameter and not as a return value. It allows the driver to ensure that the client has a valid handle before it starts the transfer so that the handle value is valid when the callback occurs. Also, in an interrupt-configuration, the callback may occur in an ISR context. Therefore, the client should be careful to not call anything that may block. In particular, the client should be careful to not call any of the driver’s own API functions as they are not normally designed to be called from within the driver’s own ISR.&nbsp;</p>
+<p class="Element10">
+Alternately, client may not require hard real time notification of the completion of the transfer of the buffer data. It may just need to know when it can safely reuse the buffer. If that is the case, the driver may also provide an interface function that will allow the client to poll the driver at its convenience to determine if the buffer has completed, as shown by the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Checking for Buffer Status</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00145');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00145"><pre class="Element12">DRV_USART_TRANSFER_STATUS status;
+
+status = DRV_USART_BufferStatusGet(myUsart, handle1);
+<strong><span style="color: #000080">if</span></strong> (status == DRV_USART_BUFFER_COMPLETE)
+{
+    <i><span style="color: #008000">/* Buffer Transfer Has Completed */</span></i>
+}</pre></div></div>
+<p class="Element10">
+The previous example shows how the client can call the driver, passing in the <span class="Element146">handle1</span> value given by the <a href="11475.html">DRV_USART_BufferAddWrite</a> function, to poll at its leisure to find out when the driver has completed using <span class="Element146">buffer1</span> and has transferred all the data it contained. Most drivers will provide both the buffer status function and the callback mechanisms so that the client can choose the most appropriate one.&nbsp;</p>
+<p class="Element10">
+Using the buffer queuing model, a client can keep a driver at 100% throughput utilization by queuing up at least two buffers. When the first buffer completes, the client has until the second buffer completes to queue another buffer. Using either the byte-by-byte or file system style models requires the client to respond within the time it takes to fill or empty the driver’s built-in FIFO buffer to keep a continuous stream of data transfers. This can be a very short period, potentially as short as the time it takes to transfer a single byte on the peripheral. However, the buffer queuing method is somewhat more complex to use and usually requires more RAM and Flash to implement. Therefore, a driver may not offer it or may only offer it as an optional feature, unless the normal operation of the peripheral requires continuous, uninterrupted data transfer.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11774.html">Common Data Transfer Models</a> &gt; <a href="11768.html">Buffer Queuing</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Buffer Queuing Topic Title: Buffer Queuing)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,36 @@
+menu "Memory"
+  depends on HAVE_DDR || HAVE_EBI
+
+	config USE_SYS_MEMORY
+		bool "Use Memory System Service?"
+		default n
+
+	config USE_SYS_MEMORY_DDR
+		bool "Use DDR?"
+		depends on HAVE_DDR
+		depends on USE_SYS_MEMORY
+		default n
+
+	source "$HARMONY_VERSION_PATH/framework/system/memory/ddr/config/sys_memory_ddr.hconfig"
+
+	config USE_SYS_MEMORY_EBI
+		bool "Use EBI?"
+		depends on HAVE_EBI
+		depends on USE_SYS_MEMORY
+		default n
+
+	source "$HARMONY_VERSION_PATH/framework/system/memory/ebi/config/sys_memory_ebi.hconfig"
+
+endmenu
+
+ifblock USE_SYS_MEMORY
+	file SYSTEM_MEMORY_H "$HARMONY_VERSION_PATH/framework/system/memory/sys_memory.h" to "$PROJECT_HEADER_FILES/framework/system/memory/sys_memory.h"
+
+	template STATIC_SYS_MEMORY_C_FTL "$HARMONY_VERSION_PATH/framework/system/memory/templates/sys_memory_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/memory/src/sys_memory_static.c"
+
+	ifblock USE_SYS_MEMORY_DDR
+		add "<#include \"/framework/system/memory/templates/sys_memory.h.ftl\">"  to list SYSTEM_CONFIG_H_SYSTEM_SERVICE_CONFIGURATION
+	endif
+	add "<#include \"/framework/system/memory/templates/system_definitions.h.include.ftl\">" to list SYSTEM_DEFINITIONS_H_INCLUDES
+	add "<#include \"/framework/system/memory/templates/sys_memory_init.c.ftl\">" to list SYSTEM_INIT_C_INITIALIZE_SYSTEM_SERVICES
+endif

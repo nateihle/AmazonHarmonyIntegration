@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SYS_CLK_SystemFrequencySet Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="17337.html">Clock System Service Library</a> &gt; <a href="24230.html">Library Interface</a> &gt; a) System Clock Functions &gt; <a href="23535.html">SYS_CLK_SystemFrequencySet Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="23534.html">Previous</a> | <a href="24230.html">Up</a> | <a href="23514.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_CLK_SystemFrequencySet@CLK_SOURCES_SYSTEM@uint32_t@bool Topic Title: SYS_CLK_SystemFrequencySet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SYS_CLK_SystemFrequencySet Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100">uint32_t <strong><span style="color: #000000">SYS_CLK_SystemFrequencySet</span></strong>(
+    <a href="06859.html">CLK_SOURCES_SYSTEM</a> <strong><span style="color: #000000">systemSource</span></strong>, 
+    uint32_t <strong><span style="color: #000000">systemClockHz</span></strong>, 
+    <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">waitUntilComplete</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function configures the clock multipliers and divisors to achieve requested System clock frequency. Initially it checks the difference between the requested value and possible value. If it is not within '<a href="23494.html">SYS_CLK_CONFIG_FREQ_ERROR_LIMIT</a>', the registers values will not be changed and a value '0' will be returned to let user know that the operation was unsuccessful. If the value requested is acceptable, then it writes to the oscillator registers and return with the newly set frequency.</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The <a href="23513.html">SYS_CLK_Initialize</a> function should be called before calling this API. To change the clock source, clock switching must be enabled through 'configuration bits'.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+systemSource&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Clock source means the path of the clock signal. One of the possible value from <a href="06859.html">CLK_SOURCES_SYSTEM</a> enum. See the block diagram in the data sheet to get an idea.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+systemClockHz&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Required System Clock frequency in Hertz.&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+waitUntilComplete&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Passing this parameter as 'true' will make until the actual hardware operation is complete.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+'Zero' on an unsuccessful operation. Configured system clock frequency on successful operation.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function is supported on the following Microchip device families:
+<ul class="Element630">
+<li class="Element600">PIC32M</li>
+</ul>&nbsp;</p>
+<p class="Element10">
+Getting the new frequency doesn't mean that the operation is complete if the API is not called to 'wait until' the operation is complete. The API will return with the possible value immediately. The actual hardware switching may take longer. Use SYS_CLK_SystemClockStatus function to get the status of completion.&nbsp;</p>
+<p class="Element10">
+Calling this API is only necessary to change the system clock. Use <a href="23513.html">SYS_CLK_Initialize</a> function to set up the system clock initially.</p></div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03820');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03820"><pre class="Element12">uint32_t achievedFrequencyHz;
+
+<i><span style="color: #008000">// ******** Blocking call******</span></i>
+achievedFrequencyHz = SYS_CLK_SystemFrequencySet (
+    SYS_CLK_SOURCE_PRIMARY, 8000000, <strong><span style="color: #000080">true</span></strong> );
+
+<strong><span style="color: #000080">if</span></strong> ( achievedFrequencyHz != 0 )
+{
+    <i><span style="color: #008000">//Clock setting complete</span></i>
+}
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="17337.html">Clock System Service Library</a> &gt; <a href="24230.html">Library Interface</a> &gt; a) System Clock Functions &gt; <a href="23535.html">SYS_CLK_SystemFrequencySet Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_CLK_SystemFrequencySet@CLK_SOURCES_SYSTEM@uint32_t@bool Topic Title: SYS_CLK_SystemFrequencySet Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

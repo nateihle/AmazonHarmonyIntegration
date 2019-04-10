@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>audio_tone</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03385.html">audio_tone</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03384.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03386.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO audio_tone Topic Title: audio_tone)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+audio_tone</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In this demonstration application, depending on the configuration, the Codec Driver sets up the AK4384 DAC, AK4953 Codec, or AK4954 Codec. The demonstration sends out generated audio waveforms (sine tone and chirp) with parameters modifiable through on-board push buttons. Success is indicated by an audible output corresponding to displayed parameters.&nbsp;</p>
+<p class="Element10">
+The sine tone is of any frequency that is four times less than the sampling rate using a 32-bit fixed point algorithm. The tone can be continuously modified in frequency so as to also generate a chirp waveform. A timer is used control the duration of the sine tone or chirp, based on displayed settings modified by the buttons.&nbsp;</p>
+<p class="Element10">
+To know more about the MPLAB Harmony Codec Drivers, configuring the Codec Drivers, and the APIs provided by the Codec Drivers, refer to <a href="13058.html">Codec Driver Libraries</a>.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+PIC32 Bluetooth Audio Development Kit Configurations:&nbsp;</p>
+<p class="Element10">
+Three of the configurations run on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a>, which contains a <a href="05024.html">PIC32MX470F512L</a> microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 96 MHz using the following features:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD</li>
+<li class="Element600">Five push buttons (SW1-SW5)</li>
+<li class="Element600">Five LEDs</li>
+<li class="Element600">PIC32 Audio AK 4384 DAC Daughter Board, or AK4954A Codec Daughter Board mounted on a X32 socket</li>
+<li class="Element600">Potentiometer</li>
+</ul><p class="Element10">
+The program takes up to approximately 32% (166K) of the PIC32MX470F512L microcontroller’s program space. The 16-bit configuration uses 20% (25K) of the RAM (with 15K of that used by the three audio buffers), and the 24-bit configuration uses 32% (40K) of the RAM (with 30K used by the audio buffers). The rest is largely used by graphics. The heap uses an additional 16K, with its size based on the graphics taking up about 12K of that.&nbsp;</p>
+<p class="Element10">
+A fourth configuration also makes use of the PIC32 Bluetooth Audio Development Kit, but runs on a PIC32MX270F512L PIM attached to the board. It has 512 KB of Flash memory and 64 KB of RAM running at 48 MHz.&nbsp;</p>
+<p class="Element10">
+The program takes up to approximately 34% (173K) of the PIC32MX270F512L microcontroller’s program space, and uses 39% (25K) of the RAM (with 15K of that used by the three audio buffers). The rest is largely used by graphics. The heap uses an additional 16K, with its size based on the graphics taking up about 12K.&nbsp;</p>
+<p class="Element10">
+The following figure illustrates the application architecture, for the four PIC32 Bluetooth Audio Development Kit configurations: </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO audio_tone bluetooth audio development kit block diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+Multimedia Expansion Board II configuration:&nbsp;</p>
+<p class="Element10">
+This configuration runs on a PIC32MZ EF Starter Kit, mounted on a Multimedia Expansion Board II (MEB-II). The PIC32MZ2048EF microcontroller has 2 MB of Flash memory and 512 KB of RAM, running at 198 MHz. The program makes use of the following features on the MEB-II board:</p>
+<ul class="Element630">
+<li class="Element600">PDA 480x272 (WQVGA) MaxTouch LCD display daughter board</li>
+<li class="Element600">PIC32 AK4953 Audio Codec</li>
+</ul><p class="Element10">
+The program takes up to approximately 11% (220K) of the PIC32MZ2048EF microcontroller’s program space. The 16-bit configuration uses 55% (284K) of the RAM (only 15K of that used by the three audio buffers). The rest is largely used by graphics. The heap uses an additional 20K, with its size based on the graphics taking up about 15K of that. The following figure illustrates the application architecture: </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO audio_tone MEB2 block diagram.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Curiosity PIC32MX470 Development Board configuration:&nbsp;</p>
+<p class="Element10">
+This configuration runs on the Curiosity PIC32MX470 Development Board, which contains a PIC32MX470F512H microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 120 MHz making use of the following features:</p>
+<ul class="Element630">
+<li class="Element600">One push button (S1)</li>
+<li class="Element600">Two of the four LEDs</li>
+<li class="Element600">PIC32 AK4954 Audio Codec Daughter Card mounted on an X32 socket</li>
+</ul><p class="Element10">
+The program takes up to approximately 7% (34K) of the PIC32MX470F512H microcontroller’s program space. The 16-bit configuration uses 13% (17K) of the RAM (with 15K of that used by the three audio buffers). The heap is not used. The following figure illustrates the application architecture. </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO audio_tone Curiosity block diagram.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The PIC32 microcontroller (MCU) runs the application code, and communicates with the AK4384 DAC via I2S and a bit-banged SPI interface.&nbsp;</p>
+<p class="Element10">
+The audio interface between the PIC32 and the AK4384 DAC, AK4953, or AK4954 codecs use the I2S interface. There are two configurations as set up in MPLAB Harmony Configurator (MHC):</p>
+<ul class="Element630">
+<li class="Element600">16-bit, 48,000 samples/second, right-justified. 16-bit, 48 kHz is the standard rate used for DVD audio. This rate reproduces music faithfully.</li>
+<li class="Element600">24-bit, 44,100 samples/second, I2S format. This is the same sample rate as used for CD's, but at a higher bit depth (CD uses 16-bit at 44.1 kHz). This rate also reproduces music very well. The higher bit depth (24) provides a significantly better (49 dB) signal to quantization noise ratio than 16-bits.</li>
+</ul><p class="Element10">
+The Master Clock (MCLK) signal used by the DAC is generated by the Reference Clock section of the PIC32. For a sample rate of 48 kHz it is 48,000 times 256, or 12,288,000 Hz. (The 256 value is set up in MHC as the Sampling Rate Multiplier.) MCLK, or REFCLKO, is generated from the 96 MHz PLL clock of the PIC32MX470512L using the formula shown in the following figure: </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO audio_microphone_loopback mclk calc-48000.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The calculations for the other PIC32 boards is similar, just substituting different clock inputs for the 96000000 Hz in the formula.&nbsp;</p>
+<p class="Element10">
+For a sample rate of 44.1 kHz it is 44,100 times 256, or 11,289,600 Hz. MCLK, or REFCLKO, is generated from the 96 MHz PLL clock using the formula as shown below. Note that it is not possible to generate the desired frequency exactly. The first value is the one used by the application, as it is the one generated using the Auto_Calulate button in the Clock Diagram: </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO mclk calc-44100.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The calculations for the other PIC32 boards is similar, just substituting different clock inputs for the 96000000 Hz in the formula.&nbsp;</p>
+<p class="Element10">
+For configurations running on the Bluetooth Audio Development Kit, the interface between the PIC32 MCU and the LCD is an 8-bit parallel master port (PMP). The program uses the MPLAB Harmony v2.x Graphics Library to draw on the screen. The buttons are also interfaced using GPIO pins. Volume is controlled by a potentiometer, which is read via an ADC interface.&nbsp;</p>
+<p class="Element10">
+For the configuration running on the Multimedia Expansion Board II, the interface between the PIC32 MCU and the LCD uses the External Bus Interface (EBI).&nbsp;</p>
+<p class="Element10">
+For the configuration running on the Curiosity PIC32MX470 Development Board, the button and LEDs are interfaced using GPIO pins. There is no screen.&nbsp;</p>
+<p class="Element10">
+As with any MPLAB Harmony application, the <a href="23925.html">SYS_Initialize</a> function, which is located in the <span class="Element146">system_init.c</span> source file, makes calls to initialize various subsystems as needed, such as the clock, ports, board support package (BSP), ADC, AK4384 DAC, AK4953 codec, AK4954 codec, I2S, PMP, EBI, DMA, timers, graphics, and interrupts.&nbsp;</p>
+<p class="Element10">
+The DAC or codec driver, graphics (if used), and the application state machines are all updated through calls located in the <a href="24151.html">SYS_Tasks</a> function in the <span class="Element146">system_tasks.c</span> file. Interrupt handlers in the <span class="Element146">system_interrupt.c</span> file are used for the single DMA channel, port change notices (if physical buttons are used), and three timers.&nbsp;</p>
+<p class="Element10">
+The application code is contained in the several source files. The application’s state machine (APP_Tasks) is contained in <span class="Element146">app.c</span>. It first initializes the application, which includes getting a handle to a timer driver instance and sets up a periodic (alarm) callback. For the configurations running on the Bluetooth Audio Development Kit, APP_Tasks then periodically calls APP_ButtonTask in <span class="Element146">btad_buttons.c</span> to process any pending button presses and APP_VolumeTasks in <span class="Element146">volume_mx.c</span> to process the potentiometer input (ADC). Once the DAC or codec has been initialized, it also calls APP_DisplayTask in <span class="Element146">display_task.c</span> to process any pending screen updates.&nbsp;</p>
+<p class="Element10">
+For the configuration running on the MEB-II, APP_Tasks then periodically calls APP_ButtonTask in <span class="Element146">meb2_buttons.c</span> to process any pending button presses coming from the touch screen. Once the AK4954 has been initialized, it also calls APP_DisplayTask in <span class="Element146">display_task.c</span> to process ant pending screen updates.&nbsp;</p>
+<p class="Element10">
+For the configuration running on the Curiosity Board, APP_Tasks then periodically calls APP_ButtonTask in <span class="Element146">curiosity_button.c</span> to process any pending button press. It then initializes the AK4954 codec.&nbsp;</p>
+<p class="Element10">
+Then the application state machine inside APP_Tasks is given control, which first gets a handle to the DAC or codec driver by calling the DRV_CODEC_Open function (in <span class="Element146">audio_codec.c</span>) with a mode of DRV_IO_INTENT_WRITE and sets up the sampling rate. It then calls the function AudioGenerateFx (in either <span class="Element146">AudioGenerate24BitFx.c</span> or <span class="Element146">AudioGenerateFx.c</span> to generate audio samples for the next cycle. These are then added to a queue of buffers via a call to PlayBufferQueueAdd in <span class="Element146">AudioPlayBufferQueue.c</span>.&nbsp;</p>
+<p class="Element10">
+The application state machine then registers an event handler APP_CODEC_BufferEventHandler as a callback with the DAC or codec driver. Finally it makes an initial call to the codec’s DRV_CODEC_BufferAddWrite (in <span class="Element146">audio_codec.c</span>) to start playing the generated tone.&nbsp;</p>
+<p class="Element10">
+As buffers are freed up, additional cycles are generated. However in the current scheme, only one cycle is generated per buffer, so at 1000 KHz, this means a the audio generator must be called every millisecond to keep up, and at 5 KHz, every 200 µs. Since a screen update can take over 10 ms, this means an audio artifact will be heard whenever the screen is updated while audio is being played, for example when turning the volume control on the Bluetooth Audio Development Kit or adjusting the volume using touch buttons on the MEB II screen. To fix this, more cycles should be generated at a time.&nbsp;</p>
+<p class="Element10">
+Currently, the play buffer is sized as 1280 * 2 samples, where 2 refers to the number of channels. Since each buffer is only used to generate one cycle of a tone, this means the lowest frequency that can be generated at 44100 samples per second is 1 / (1280 / 44100) = 34.5 Hz.&nbsp;</p>
+<p class="Element10">
+Although the driver interfaces with the DAC or codec via I2S and DMA, which is largely transparent to the application, it is all taken care of by MPLAB Harmony.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">Uses the appropriate Codec Driver Library to write audio samples to the AK4384 DAC, AK4953, or AK4954</li>
+<li class="Element600">At a lower level, uses the <a href="13740.html">I2S Driver Library</a> between the codec library and the DAC or codec for audio</li>
+<li class="Element600">Use of a circular buffer queue</li>
+<li class="Element600">Displays graphics on the 220x176 LCD of the PIC32 Bluetooth Audio Development Kit using the MPLAB Harmony Graphics Library (see MPLAB Harmony Graphics Composer Suite) and the Parallel Master Port (see <a href="17353.html">PMP Driver Library</a>)</li>
+<li class="Element600">Displays graphics on the 480x272 LCD of the Multimedia Expansion Board II using the MPLAB Harmony Graphics Library (see <a href="07412.html">MPLAB Harmony Graphics Composer Suite</a>) and the External Bus Interface</li>
+<li class="Element600">Processing of button pushes on the PIC32 Bluetooth Audio Development Kit and Curiosity PIC32MX470 Development Board (see <a href="21622.html">Ports Peripheral Library</a>)</li>
+<li class="Element600">Processing of touch events on the MaxTouch display mounted on the MEB II using the touch API calls of the MPLAB Harmony Graphics Library</li>
+<li class="Element600">Use of three timers: one as a periodic 1 ms timer for the application, and a second used by the Codec Driver (see <a href="08887.html">Timer Driver Library</a>)</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+When building a new application, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project</i>. Select the appropriate processor (PIC32MX470F512L, PIC32MX270F512L, PIC32MX470F512H or PIC32MZ2048EFH144) and either the PIC32 Bluetooth Audio Development Kit, PIC32MZ (EF) Starter Kit + MEB II, or PIC32MX470 Curiosity Development Board. Click the MPLAB Harmony icon to start the MPLAB Harmony Configurator (MHC).&nbsp;</p>
+<p class="Element10">
+Under BSP Configuration, select either PIC32 Bluetooth Audio Development Kit (AK4384) or (AK4954); PIC32MX270F512L w/ Bluetooth Audio Development Kit (AK4384); PIC32MZ EF Starter Kit w/ Multimedia Expansion Board (MEB) II; or PIC32MX470 Curiosity Development Board as appropriate for your hardware.&nbsp;</p>
+<p class="Element10">
+If running on the PIC32 Bluetooth Audio Development Kit, navigate to <i>Harmony Framework Configuration &gt; Drivers &gt; ADC</i>, and select <strong>Use ADC Driver?</strong>. Expand <i>Clock Options</i>, and for TAD Clock (Tad), enter <strong>32</strong>. Expand <i>ADC Analog Channel Instance 0</i>, and for Select Dedicated Analog Channel select <strong>ADC_INPUT_POSITIVE_AN1</strong>.&nbsp;</p>
+<p class="Element10">
+Under <i>Drivers &gt; CODEC</i>, select the appropriate device: Use <strong>Codec AK4384?</strong> or Use Codec AK4954?, for the Bluetooth Audio Development Kit, Use <strong>Codec AK4953?</strong> for the MEB II, or Use <strong>Codec AK4954?</strong> for the Curiosity Board. The remaining default values do not require any changes. If using the AK4954, then under Drivers &gt; I2C, check the box Include Force Write I2C Function.&nbsp;</p>
+<p class="Element10">
+Under <i>Drivers &gt; I2S</i>, select <strong>Use I2S Driver?</strong>. Also, select <strong>DMA Mode</strong> along with <strong>Transmit DMA Support</strong>. <strong>Enable DMA Channel Interrupts</strong> should also be selected. Under<i> I2S Driver Instance 0</i>, for Audio Communication Width, select <strong>SPI_AUDIO_COMMUNICATION_16DATA_16FIFO_32CHANNEL</strong>. Under Audio Protocol Mode, select <strong>DRV_I2S_RIGHT_JUSTIFIED</strong>.&nbsp;</p>
+<p class="Element10">
+If running on a Bluetooth Audio Development Kit, under <i>Drivers &gt; Timer</i>, select <strong>Use Timer Driver?</strong>, and change the Number of Timer Instances to 3. Under <i>TMR Driver Instance 0</i>, change the Timer Module ID to TMR_ID_4, and the Interrupt Priority to INT_PRIORITY_LEVEL_4. Under <i>TMR Driver Instance 1</i>, change the Prescale value to TMR_PRESCALE_VALUE_1. Under <i>TMR Driver Instance 2</i>, change the Timer Module ID to TMR_ID_2, the Interrupt Priority to INT_PRIORITY_LEVEL_4, and the Prescale value to TMR_PRESCALE_VALUE_1, and the Operation Mode to DVR_TMR_OPERATION_MODE_32_BIT.&nbsp;</p>
+<p class="Element10">
+Under <i>Math Library</i>, expand <i>LibQ Fixed-Point Math Library Configuration</i> and select <strong>Use LibQ C Fixed Point Math Library?</strong>.&nbsp;</p>
+<p class="Element10">
+Under <i>System Services &gt;DMA</i>, select <strong>Use DMA System Services</strong>. Under <i>DMA Channel Instance 0</i>, change the channel number to DMA_CHANNEL_2 AND THE Interrupt Priority to to INT_PRIORITY_LEVEL_2.&nbsp;</p>
+<p class="Element10">
+For the Bluetooth Audio Development Kit or MEBII, within <i>Graphics Sta</i>ck, select <strong>Use Graphics Stack?</strong>. For the Bluetooth Audio Development Kit configurations only, further down, within <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <strong>Enable Touch</strong> since the LCD on the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Since you are using the LCD, you will also need to go back to the <i>Drivers</i> section, and within <i>PMP</i>, <strong>select Use PMP Driver</strong>?. Expand that section, and change the value of Strobe Wait Sates to PMP_STROBE_WAIT_4.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03386.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03387.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03388.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section demonstrates how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03385.html">audio_tone</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO audio_tone Topic Title: audio_tone)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Using the Set Statement</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16593.html">Adding New Libraries</a> &gt; <a href="16632.html">Using the Set Statement</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16630.html">Previous</a> | <a href="16593.html">Up</a> | <a href="16604.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Using the Set Statement Topic Title: Using the Set Statement)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Using the Set Statement</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Often one MPLAB Harmony library uses (depends upon) another and has specific requirements on how that library must be configured. To illustrate this, the following Hconfig code MHC Options menu items to allow selection and configuration of a library (library C) that might be shared by other libraries.&nbsp;</p>
+<p class="Element10">
+<strong>Library C Selection and Configuration Menu Definition</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00051');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00051"><pre class="Element12"># Library C Configuration
+config USE_LIBRARY_C
+    <strong><span style="color: #000080">bool</span></strong> &quot;Use Library C?&quot;
+    <strong><span style="color: #000080">default</span></strong> n
+
+menu &quot;Configure Library C&quot;
+    depends on USE_LIBRARY_C
+
+config LIBRARY_C_ITEM_1
+    depends on USE_LIBRARY_C
+    <strong><span style="color: #000080">int</span></strong> &quot;Library C, Item 1: Enter an integer&quot;
+    <strong><span style="color: #000080">default</span></strong> 0
+
+endmenu  # Configure Library C</pre></div></div>
+<p class="Element10">
+If another library (library A) requires the use of library C and requires library C’s configuration item (LIBRARY_C_ITEM_1) to have a specific value (42), the following Hconfig code will define an MHC options menu to satisfy this requirement.&nbsp;</p>
+<p class="Element10">
+<strong>Library A Selection and Configuration Menu Definition</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00052');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00052"><pre class="Element12"># Library A Configuration
+config USE_LIBRARY_A
+    <strong><span style="color: #000080">bool</span></strong> &quot;Use Library A?&quot;
+    <strong><span style="color: #000080">default</span></strong> n
+    set USE_LIBRARY_C to y <strong><span style="color: #000080">if</span></strong> USE_LIBRARY_A = y
+    set LIBRARY_C_ITEM_1 to 42 <strong><span style="color: #000080">if</span></strong> USE_LIBRARY_A = y
+
+comment &quot;Sets Library C, Item 1 to 42&quot;
+    depends on USE_LIBRARY_A
+
+menu &quot;Configure Library A&quot;
+    depends on USE_LIBRARY_A
+
+config LIBRARY_A_ITEM_1
+    depends on USE_LIBRARY_A
+    <strong><span style="color: #000080">int</span></strong> &quot;Library A, Item 1: Enter an integer&quot;
+    <strong><span style="color: #000080">default</span></strong> 0
+
+endmenu  # Configure Library A</pre></div></div>
+<p class="Element10">
+However, if a second library (library B) also depends on library C, it is possible that the default configuration settings for library C that it requires may be different. This is shown in the following Hconfig code that defines library B’s selection and configuration menu, and uses the <span class="Element146">set</span> statement to set library C’s item 1 to a value of 86.&nbsp;</p>
+<p class="Element10">
+<strong>Library B Selection and Configuration Menu Definition</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00053');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00053"><pre class="Element12"># Library B Configuration
+config USE_LIBRARY_B
+    <strong><span style="color: #000080">bool</span></strong> &quot;Use Library B?&quot;
+    <strong><span style="color: #000080">default</span></strong> n
+    set USE_LIBRARY_C to y <strong><span style="color: #000080">if</span></strong> USE_LIBRARY_B = y
+    set LIBRARY_C_ITEM_1 to 86 <strong><span style="color: #000080">if</span></strong> USE_LIBRARY_B = y
+
+comment &quot;Sets Library C, Item 1 to 86&quot;
+    depends on USE_LIBRARY_B
+
+menu &quot;Configure Library B&quot;
+    depends on USE_LIBRARY_B
+
+config LIBRARY_B_ITEM_1
+    depends on USE_LIBRARY_B
+    <strong><span style="color: #000080">int</span></strong> &quot;Library B, Item 1: Enter an integer&quot;
+    <strong><span style="color: #000080">default</span></strong> 0
+
+endmenu  # Configure Library B</pre></div></div>
+<p class="Element10">
+When such a conflict occurs, the MHC notifies the user, who is then required to enter a value to resolve the conflict (if possible) or disable one of the dependent libraries.&nbsp;</p>
+<p class="Element10">
+The following sequence of images illustrates the behavior of the MHC when the previous Hconfig code is used. Before any of these libraries have been selected, the MHC Options menu shows their Use Library options. </p><p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE Use Library Options.png" border="0" alt="" title=""></p><p class="Element10">
+If library A is used (but not library B), the MHC automatically sets the value of library C’s configuration item to 42. </p><p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE Use Library A.png" border="0" alt="" title=""></p><p class="Element10">
+If library B is used (but not library A), the MHC automatically sets the value of library C’s configuration item to 86. </p><p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE Use Library B.png" border="0" alt="" title=""></p><p class="Element10">
+However, if both library A and B are used, the MHC highlights the conflict in library C in red and requires the user to enter a value to resolve the conflict. </p><p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE Use Library A and B.png" border="0" alt="" title=""></p><p class="Element10">
+If the user then enters a value for library C’s item 1, the MHC recognizes that the user has set that item’s value and assumes that the conflict has been resolved. </p><p class="Element10" style="text-align: center;">
+<img src="MHC DEV GUIDE Use Library C.png" border="0" alt="" title=""></p><p class="Element10">
+It is important to understand that the MHC does not validate that the chosen value satisfies the requirements of both libraries A and B. It is up to the user to understand the requirements and select an appropriate configuration value.&nbsp;</p>
+<p class="Element10">
+It is also a good practice to provide a comment in the dependent library’s configuration menu when it sets dependencies so that the user knows it has done so.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07406.html">MPLAB Harmony Configurator Developer's Guide</a> &gt; <a href="16593.html">Adding New Libraries</a> &gt; <a href="16632.html">Using the Set Statement</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHC DEV GUIDE Using the Set Statement Topic Title: Using the Set Statement)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,70 @@
+ifblock BSP_PIC32MZ_EC_SK_S1D_PICTAIL_WVGA
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_PIC32MZ_EC_SK_S1D_PICTAIL_WVGA
+
+config BSP_CONFIGURE_PIC32MZ_EC_SK_S1D_PICTAIL_WVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_USE_USBSWITCH
+    select BSP_POSC_24MHz
+    
+	select USE_GFX_TRULY_7_800X480_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_S1D13517_NEEDED if BSP_GRAPHICS_NEEDED
+	
+	set BSP_PIN_59_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_59_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_60_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_60_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_61_FUNCTION_NAME to "BSP_SWITCH_3" 
+    set BSP_PIN_61_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_43_FUNCTION_NAME to "BSP_LED_1" 
+    set BSP_PIN_43_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_44_FUNCTION_NAME to "BSP_LED_2" 
+    set BSP_PIN_44_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_45_FUNCTION_NAME to "BSP_LED_3" 
+    set BSP_PIN_45_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_25_FUNCTION_NAME to "USB_VBUS_SWITCH" 
+    set BSP_PIN_25_FUNCTION_TYPE to "VBUS" 
+    set BSP_PIN_50_FUNCTION_NAME to "BSP_DisplayReset" 
+    set BSP_PIN_50_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_59_FUNCTION_NAME to "BSP_DisplaySet" 
+    set BSP_PIN_59_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_132_FUNCTION_NAME to "BSP_Display" 
+    set BSP_PIN_132_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_133_FUNCTION_NAME to "BSP_DisplayBacklight" 
+    set BSP_PIN_133_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_34_FUNCTION_NAME to "BSP_ADC_TOUCH_YPLUS" 
+    set BSP_PIN_34_FUNCTION_TYPE to "GPIO" 
+    set BSP_PIN_35_FUNCTION_NAME to "BSP_ADC_TOUCH_XPLUS" 
+    set BSP_PIN_35_FUNCTION_TYPE to "GPIO" 
+    set BSP_PIN_68_FUNCTION_NAME to "BSP_ADC_TOUCH_YMINUS" 
+    set BSP_PIN_68_FUNCTION_TYPE to "GPIO" 
+    set BSP_PIN_69_FUNCTION_NAME to "BSP_ADC_TOUCH_XMINUS" 
+    set BSP_PIN_69_FUNCTION_TYPE to "GPIO" 
+    bool
+    ---help---
+    IDH_HTML_BSP_pic32mz_ec_sk_s1d_pictail_wvga
+    ---endhelp---
+
+endmenu
+
+
+
+menu "Custom Board Configurations for PIC32MZ EC Starter Kit with S1D PICTail (WVGA)"
+    depends on USE_BSP
+
+import PIC32MZ_EC_SK_S1D_PICTAIL_WVGA_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32mz_ec_sk_s1d_pictail_wvga_H "$HARMONY_VERSION_PATH/bsp/pic32mz_ec_sk+s1d_pictail+wvga/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32mz_ec_sk_s1d_pictail_wvga_C "$HARMONY_VERSION_PATH/bsp/pic32mz_ec_sk+s1d_pictail+wvga/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32mz_ec_sk_s1d_pictail_wvga includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.5.2: Support One or More &quot;Tasks&quot; Functions if Required</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07122.html">3.5.2: Support One or More &quot;Tasks&quot; Functions if Required</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07112.html">Previous</a> | <a href="07121.html">Up</a> | <a href="07107.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support One or More %22Tasks%22 Functions if Required Topic Title: 3.5.2: Support One or More %22Tasks%22 Functions if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.5.2: Support One or More &quot;Tasks&quot; Functions if Required</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+If a module is an active component of the system, it will implement one or more &quot;Tasks&quot; functions.&nbsp;</p>
+<p class="Element10">
+Task functions manage the state of a module and perform the &quot;background&quot; work of a module (any work that does not occur in a client interface routine). Task routines can be called from a system-wide super loop, from OS threads, or possibly from ISRs, depending on the specific requirements and configuration of the module. Tasks routines must not make any implicit assumptions about state. They must always check the module’s current state data (be that state stored in variables or in registers) and take any appropriate actions necessary to move to the next appropriate state. If no action is necessary, the tasks routine may stay in the same state and should return as quickly as possible.&nbsp;</p>
+<p class="Element10">
+Most device drivers (and some system services) use ISR safe tasks routines to manage their state. If a tasks routine is designed to be called from an ISR, it must not call any potentially blocking routines. A module may implement both ISR-safe tasks functions and non-ISR-safe tasks functions if necessary.</p><div class="Element15">
+Function</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00102');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00102"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> &lt;module&gt;_Tasks ( SYS_MODULE_OBJ object )</pre></div></div>
+<div class="Element15">
+Summary</div>
+<p class="Element10">
+Used to maintain the module’s state machine and/or implement its ISR logic.</p><div class="Element15">
+Description</div>
+<p class="Element10">
+This routine is used to maintain the module’s internal state machine and/or implement its ISR logic for interrupt-driven tasks.</p><div class="Element15">
+Required or Optional?</div>
+<p class="Element10">
+Optional – But required for any module that requires a state machine.</p><div class="Element15">
+Preconditions</div>
+<p class="Element10">
+The driver module’s &quot;Initialize&quot; operation must have completed.</p><div class="Element15">
+Parameters</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element67" valign="top" width="16%">
+<div class="Element68">
+object&nbsp;</div></td><td class="Element67" valign="top" width="84%">
+<div class="Element68">
+Module’s instance data handle.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Returns</div>
+<p class="Element10">
+None.</p><div class="Element15">
+Code Example</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00103');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00103"><pre class="Element12">DRV_I2C_Tasks(sysObjects.i2cDriver);</pre></div></div>
+<div class="Element15">
+Blocking Behavior</div>
+<p class="Element10">
+If intended to be called from an ISR this routine must NEVER block. If polled this routine may block on OS objects, but not on external I/O.</p><div class="Element15">
+Remarks</div>
+<p class="Element10">
+This routine is not called by a client application. It is only called by the super loop, from an RTOS thread, or from an ISR by the system’s configuration code.&nbsp;</p>
+<p class="Element10">
+Refer to the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> header file or the <a href="24334.html">System Service Library Introduction</a> for additional information and definitions of the additional data types used.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07122.html">3.5.2: Support One or More &quot;Tasks&quot; Functions if Required</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support One or More %22Tasks%22 Functions if Required Topic Title: 3.5.2: Support One or More %22Tasks%22 Functions if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

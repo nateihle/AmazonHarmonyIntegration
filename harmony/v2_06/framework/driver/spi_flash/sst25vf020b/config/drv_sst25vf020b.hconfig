@@ -1,0 +1,92 @@
+config USE_DRV_SST25VF020B_NEEDED
+    bool
+
+enum DRV_SST25VF020B_MODE
+    "STATIC"
+    || "DYNAMIC"
+    
+config USE_DRV_SST25VF020B
+    bool "Use SST25VF020B Driver?"
+    depends on HAVE_SPI
+    default n if !USE_DRV_SST25VF020B_NEEDED
+    default y if USE_DRV_SST25VF020B_NEEDED
+    select DRV_SPI_USE_DRIVER_NEEDED
+    ---help---
+    IDH_HTML_SST25VF020B_Driver_Library
+    ---endhelp---
+
+config DRV_SST25VF020B_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_SST25VF020B
+    range DRV_SST25VF020B_MODE
+    default "DYNAMIC"
+    persistent
+    ---help---
+    IDH_HTML_SST25VF020B_Driver_Library
+    ---endhelp---
+    
+config USE_DRV_SST25VF020B_ERASE_WRITE
+    bool "Enable Erase Write Function?"
+    depends on USE_DRV_SST25VF020B
+    default n
+    ---help---
+      IDH_HTML_DRV_SST25VF020B_ERASE_WRITE_ENABLE
+    ---endhelp---
+
+config DRV_SST25VF020B_INSTANCES_NUMBER
+    int "Number of SST25VF020B Driver Instances"
+    depends on USE_DRV_SST25VF020B
+    range 1 2
+    default 1
+    ---help---
+    IDH_HTML_DRV_SST25VF020B_INSTANCES_NUMBER
+    ---endhelp---
+ 
+config DRV_SST25VF020B_CLIENTS_NUMBER
+    int "Number of SST25VF020B Driver Clients"
+    depends on USE_DRV_SST25VF020B
+    default 1
+    ---help---
+    IDH_HTML_DRV_SST25VF020B_CLIENTS_NUMBER
+    ---endhelp---
+    
+config DRV_SST25VF020B_QUEUE_DEPTH_COMBINED
+    int "Combined Queue Depth"
+    depends on USE_DRV_SST25VF020B 
+    default 16
+    ---help---
+    IDH_HTML_DRV_SST25VF020B_QUEUE_DEPTH_COMBINED
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25vf020b/config/drv_sst25vf020b_idx.ftl" 3 instances
+
+
+ifblock USE_DRV_SST25VF020B
+
+add "<#include \"/framework/driver/spi_flash/sst25vf020b/templates/drv_sst25vf020b.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/spi_flash/sst25vf020b/templates/drv_sst25vf020b_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/spi_flash/sst25vf020b/templates/drv_sst25vf020b_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/spi_flash/sst25vf020b/templates/drv_sst25vf020b.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25vf020b/drv_sst25vf020b.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/sst25vf020b/drv_sst25vf020b.h"
+file DRV_SST25VF020B_SYS_FS_MEDIA_MANAGER_H "$HARMONY_VERSION_PATH/framework/system/fs/sys_fs_media_manager.h"  to "$PROJECT_HEADER_FILES/framework/system/fs/sys_fs_media_manager.h"
+file DRV_SST25VF020B_SYS_FS_H "$HARMONY_VERSION_PATH/framework/system/fs/sys_fs.h" to "$PROJECT_HEADER_FILES/framework/system/fs/sys_fs.h"
+file DRV_SST25VF020B_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25vf020b/src/drv_sst25vf020b_local.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/sst25vf020b/src/drv_sst25vf020b_local.h"
+file DRV_SST25VF020B_VAR_MAPPING_H "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25vf020b/src/drv_sst25vf020b_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/spi_flash/sst25vf020b/src/drv_sst25vf020b_variant_mapping.h"
+file DRV_SST25VF020B_C "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25vf020b/src/dynamic/drv_sst25vf020b.c" to "$PROJECT_SOURCE_FILES/framework/driver/spi_flash/sst25vf020b/src/dynamic/drv_sst25vf020b.c"
+
+file DRV_SPI_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/driver/spi/drv_spi.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/drv_spi.h"
+file DRV_SPI_SYS_INT_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/system/int/sys_int.h" to "$PROJECT_HEADER_FILES/framework/system/int/sys_int.h"
+file DRV_SPI_SYS_INT_MAPPING_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/system/int/sys_int_mapping.h" to "$PROJECT_HEADER_FILES/framework/system/int/sys_int_mapping.h"
+file DRV_SPI_SYS_DMA_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/system/dma/sys_dma.h" to "$PROJECT_HEADER_FILES/framework/system/dma/sys_dma.h"
+file DRV_SPI_QUEUE_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/drv_spi_sys_queue.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/drv_spi_sys_queue.h"
+file DRV_SPI_QUEUE_FIFO_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/drv_spi_sys_queue_local_fifo.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/drv_spi_sys_queue_local_fifo.h"
+file DRV_SPI_INTERNAL_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/dynamic/drv_spi_internal.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/dynamic/drv_spi_internal.h"
+file DRV_SPI_VAR_MAPPING_SST25VF020B_H "$HARMONY_VERSION_PATH/framework/driver/spi/src/drv_spi_variant_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/spi/src/drv_spi_variant_mapping.h"
+
+endif
+
+ifblock USE_DRV_SST25VF020B_ERASE_WRITE
+file DRV_SST25VF020B_ERASEWRITE_C "$HARMONY_VERSION_PATH/framework/driver/spi_flash/sst25vf020b/src/dynamic/drv_sst25vf020b_erasewrite.c" to "$PROJECT_SOURCE_FILES/framework/driver/spi_flash/sst25vf020b/src/dynamic/drv_sst25vf020b_erasewrite.c"
+endif
+

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Handling Endpoint 0 (EP0) Packets</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27289.html">Handling Endpoint 0 (EP0) Packets</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27290.html">Previous</a> | <a href="27322.html">Up</a> | <a href="27301.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Handling Endpoint 0 (EP0) Packets Topic Title: Handling Endpoint 0 (EP0) Packets)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Handling Endpoint 0 (EP0) Packets</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Standard device requests are handled by device stack in both MLA and MPLAB Harmony. The difference lies in handling class specific requests. In MLA, the class specific requests are forwarded to the application as EP0 events and application forwards them to appropriate function driver. The following code shows how the application forwards them to appropriate function driver in the event handler.&nbsp;</p>
+<p class="Element10">
+<img src="usb_dev_mig_code4.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+For the MPLAB Harmony USB Device Stack, EP0 events are generated from the appropriate function driver as meaningful events. For example, the HID function driver in MPLAB Harmony parses the EP0 packet to generate events like USB_DEVICE_HID_EVENT_GET_IDLE, USB_DEVICE_HID_EVENT_SET_REPORT, and USB_DEVICE_HID_EVENT_SET_IDLE, etc.&nbsp;</p>
+<p class="Element10">
+The following code shows how the event handler callback is registered with the HID function driver using the <a href="27789.html">USB_DEVICE_HID_EventHandlerSet</a> function. This is done in the Device Layer USB_DEVICE_EVENT_CONFIGURED event. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04306');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04306"><pre class="Element12"><strong><span style="color: #000080">case</span></strong> USB_DEVICE_EVENT_CONFIGURED:
+     <i><span style="color: #008000">/* Set the flag indicating device is configured. */</span></i>
+     appData.deviceConfigured = <strong><span style="color: #000080">true</span></strong>;
+
+     <i><span style="color: #008000">/* Save the other details for later use. */</span></i>
+     appData.configurationValue = ((USB_DEVICE_EVENT_DATA_CONFIGURED*)
+                                  eventData)-&gt;configurationValue;
+
+     <i><span style="color: #008000">/* Register application HID event handler */</span></i>
+     USB_DEVICE_HID_EventHandlerSet(USB_DEVICE_HID_INDEX_0, APP_USBDeviceHIDEventHandler,
+                                   (uintptr_t)&amp;appData);</pre></div></div>
+<p class="Element10">
+The following code shows the implementation of the HID event handler function in the application. Note how the HID function driver converts EP0 requests to a HID class-specific control transfer event. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04307');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04307"><pre class="Element12">USB_DEVICE_HID_EVENT_RESPONSE APP_USBDeviceHIDEventHandler
+(
+    USB_DEVICE_HID_INDEX iHID,
+    USB_DEVICE_HID_EVENT event,
+    <strong><span style="color: #000080">void</span></strong> * eventData,
+    uintptr_t userData
+)
+{
+    USB_DEVICE_HID_EVENT_DATA_REPORT_SENT * reportSent;
+    USB_DEVICE_HID_EVENT_DATA_REPORT_RECEIVED * reportReceived;
+
+    <i><span style="color: #008000">/* Check type of event */</span></i>
+    <strong><span style="color: #000080">switch</span></strong> (event)
+    {
+
+        <strong><span style="color: #000080">case</span></strong> USB_DEVICE_HID_EVENT_SET_IDLE:
+
+            <i><span style="color: #008000">/* For now we just accept this request as is. We acknowledge
+             * this request using the USB_DEVICE_HID_ControlStatus()
+             * function with a USB_DEVICE_CONTROL_STATUS_OK flag */</span></i>
+
+            USB_DEVICE_ControlStatus(appData.usbDevHandle, USB_DEVICE_CONTROL_STATUS_OK);
+
+            <i><span style="color: #008000">/* Save Idle rate received from Host */</span></i>
+            appData.idleRate = ((USB_DEVICE_HID_EVENT_DATA_SET_IDLE*)eventData)-&gt;duration;
+            <strong><span style="color: #000080">break</span></strong>;</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27322.html">USB Device Stack Porting Guide</a> &gt; <a href="27289.html">Handling Endpoint 0 (EP0) Packets</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEV PORTING Handling Endpoint 0 (EP0) Packets Topic Title: Handling Endpoint 0 (EP0) Packets)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

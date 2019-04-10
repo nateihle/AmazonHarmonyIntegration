@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Block Operations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08806.html">SPI PIC32WK IPF Flash Driver Library</a> &gt; <a href="08815.html">Using the Library</a> &gt; <a href="08807.html">How the Library Works</a> &gt; <a href="08800.html">Block Operations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08811.html">Previous</a> | <a href="08807.html">Up</a> | <a href="08803.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI PIC32WK IPF Block Operations Topic Title: Block Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Block Operations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This driver provides simple client interfaces to Erase, Write, and Read the IPF in blocks. A block is the unit to represent minimum amount of data that can be erased, written, or read. Block size may differ for Erase, Write, and Read operations. The <a href="10284.html">DRV_IPF_GeometryGet</a> function can be used to determine the different block sizes for the driver.&nbsp;</p>
+<p class="Element10">
+The <a href="10264.html">DRV_IPF_BlockErase</a>, <a href="10267.html">DRV_IPF_BlockWrite</a>, and <a href="10266.html">DRV_IPF_BlockRead</a> functions are used to erase, write, and read the data to/from IPF. These functions are always non-blocking. All of these functions follow a standard queue model to read, write, and erase. When any of these functions are called (i.e., a block request is made), the request is queued. The size of the queue is determined by the queueSize member of the <a href="10288.html">DRV_IPF_INIT</a> data structure. All of the requests in the queue are executed by the <a href="10309.html">DRV_IPF_Tasks</a> function one-by-one.&nbsp;</p>
+<p class="Element10">
+When the driver adds a request to the queue, it returns a buffer handle. This handle allows the client to track the request as it progresses through the queue. The buffer handle expires when the event associated with the buffer completes. The driver provides driver events (<a href="10254.html">DRV_IPF_BLOCK_EVENT</a>) that indicate termination of the buffer requests.&nbsp;</p>
+<p class="Element10">
+For a simple Block Data Operation, perform the following steps :
+<ol class="Element636">
+<li value="1" class="Element606">The system should have completed necessary initialization of the SPI Driver and the IPF Driver, and the <a href="10309.html">DRV_IPF_Tasks</a> function should be running in a polled environment.</li>
+<li value="2" class="Element606">The <a href="10922.html">DRV_SPI_Tasks</a> function should be running in either a polled environment or an interrupt environment.</li>
+<li value="3" class="Element606">Open the driver using <a href="10302.html">DRV_IPF_Open</a> with the necessary intent.</li>
+<li value="4" class="Element606">Set an event handler callback using the function <a href="10265.html">DRV_IPF_BlockEventHandlerSet</a>.</li>
+<li value="5" class="Element606">Request for block operations using the functions, <a href="10264.html">DRV_IPF_BlockErase</a>, <a href="10267.html">DRV_IPF_BlockWrite</a>, and <a href="10266.html">DRV_IPF_BlockRead</a>, with the appropriate parameters.</li>
+<li value="6" class="Element606">Wait for event handler callback to occur and check the status of the block operation using the callback function parameter of type <a href="10254.html">DRV_IPF_BLOCK_EVENT</a>.</li>
+<li value="7" class="Element606">The client will be able to close the driver using the function, <a href="10275.html">DRV_IPF_Close</a>, when required.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00827');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00827"><pre class="Element12"><i><span style="color: #008000">/* This code example shows usage of the block operations
+* on the PIC32WK IPF */</span></i>
+DRV_HANDLE ipfHandle1;
+uint8_t myData1[10], myData2[10];
+DRV_IPF_BLOCK_COMMAND_HANDLE blockHandle1, blockHandle2, blockHandle3;
+
+<i><span style="color: #008000">/* The driver is opened for read-write in Exclusive mode */</span></i>
+ipfHandle1 = DRV_IPF_Open(DRV_IPF_INDEX_0,
+DRV_IO_INTENT_READWRITE | DRV_IO_INTENT_EXCLUSIVE);
+
+<i><span style="color: #008000">/* Check if the driver was opened successfully */</span></i>
+<strong><span style="color: #000080">if</span></strong>(DRV_HANDLE_INVALID == ipfHandle1)
+{
+ <i><span style="color: #008000">/* The driver could not be opened successfully */</span></i>
+}
+
+<i><span style="color: #008000">/* Register a Buffer Event Handler with IPF driver.
+* This event handler function will be called whenever
+* there is a buffer event. An application defined
+* context can also be specified. This is returned when
+* the event handler is called.
+* */</span></i>
+DRV_IPF_BlockEventHandlerSet(sstHandle1,APP_IPFBufferEventHandler, NULL);
+
+<i><span style="color: #008000">/* Request for all the three block operations one by one */</span></i>
+<i><span style="color: #008000">/* first block API to erase 1 block of the flash starting from address 0x0, each block is of 4kbyte */</span></i>
+DRV_IPF_BlockErase(ipfHandle1, &amp;blockHandle1, 0x0, 1);
+
+<i><span style="color: #008000">/* 2nd block API to write myData1 in the first 10 locations of the flash */</span></i>
+DRV_SST25VF020B_BlockWrite(ipfHandle1, &amp;blockHandle2, &amp;myData1[0], 0x0, 10);
+
+<i><span style="color: #008000">/* 3rd block API to read the first 10 locations of the flash into myData2 */</span></i>
+DRV_SST25VF020B_BlockRead(ipfHandle1, &amp;blockHandle3, &amp;myData2[0], 0x0, 10);
+
+<i><span style="color: #008000">/* This is the Driver Event Handler */</span></i>
+<strong><span style="color: #000080">void</span></strong> APP_IPFBufferEventHandler(DRV_SST25VF020B_BLOCK_EVENT event, DRV_SST25VF020B_BLOCK_COMMAND_HANDLE blockHandle, uintptr_t contextHandle)
+{
+ <strong><span style="color: #000080">switch</span></strong>(event)
+ {
+ <strong><span style="color: #000080">case</span></strong> DRV_IPF_EVENT_BLOCK_COMMAND_COMPLETE:
+ <strong><span style="color: #000080">if</span></strong> ( blockHandle == blockHandle3)
+ {
+ <i><span style="color: #008000">/* This means the data was read */</span></i>
+ <i><span style="color: #008000">/* Do data verification/processing */</span></i>
+ }
+ <strong><span style="color: #000080">break</span></strong>;
+ <strong><span style="color: #000080">case</span></strong> DRV_IPF_EVENT_BLOCK_COMMAND_ERROR:
+ <i><span style="color: #008000">/* Error handling here. */</span></i>
+ <strong><span style="color: #000080">break</span></strong>;
+ <strong><span style="color: #000080">default</span></strong>:
+ <strong><span style="color: #000080">break</span></strong>;
+ }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="08806.html">SPI PIC32WK IPF Flash Driver Library</a> &gt; <a href="08815.html">Using the Library</a> &gt; <a href="08807.html">How the Library Works</a> &gt; <a href="08800.html">Block Operations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SPI PIC32WK IPF Block Operations Topic Title: Block Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

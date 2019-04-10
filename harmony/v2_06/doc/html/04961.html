@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="23445.html">Volume II: Supported Hardware</a> &gt; <a href="04862.html">Board Support Packages Help</a> &gt; <a href="04961.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04862.html">Previous</a> | <a href="04862.html">Up</a> | <a href="05075.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BSP Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A MPLAB Harmony Board Support Package (BSP) provides support for board-specific hardware, which is provided in two forms:</p>
+<ul class="Element630">
+<li class="Element600"><strong>BSP Library</strong>: Provides board-specific initialization code and an interface to switches, LEDs, and GPIO pins</li>
+<li class="Element600"><strong>Initial Configuration</strong>: Provides a starting point for configuration settings for clocks, ports, and selected libraries when creating a new project (or project configuration)</li>
+</ul><div class="Element15">
+BSP Library</div>
+<p class="Element10">
+A MPLAB Harmony BSP library (consisting of a <span class="Element146">bsp.h</span> and <span class="Element146">bsp.c</span> file) is configured specifically for the selected board and generated into the project’s configuration folder at the following location:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">&lt;project&gt;/firmware/src/system_config/&lt;configuration&gt;/bsp</span>&nbsp;</p>
+<p class="Element10">
+Where:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">&lt;project&gt;</span> - Is the root folder of the project&nbsp;</p>
+<p class="Element10">
+<span class="Element146">&lt;configuration&gt;</span> - Is the project’s configuration folder when the BSP is generated&nbsp;</p>
+<p class="Element10">
+A BSP library has a set of system interface functions and a set of client interface functions. However, unlike most MPLAB Harmony library modules, BSPs do not often have a state machine of their own, and therefore, they usually do not have a BSP_Tasks function or other system interface functions. In a project configuration, the BSP's initialize function (<a href="05079.html">BSP_Initialize</a>) is normally called from the system's <a href="23925.html">SYS_Initialize</a> function before any other initialization function (except those that initialize any required core processor capabilities). This allows the BSP to initialize any necessary board-specific hardware (like memory and GPIO controllers) before other libraries are initialized. Refer to <i>Volume IV: MPLAB Harmony Development &gt; MPLAB Harmony Driver Development Guide &gt; <a href="11804.html">System Interface</a></i> for additional information on system interface functions.)&nbsp;</p>
+<p class="Element10">
+A BSP also provides a simple and extensible client interface for controlling switches, LEDs, and other GPIO pins. This interface includes functions to turn LEDs and pins on-or-off and to toggle, set, or get their current state, where so configured. The names of these functions all begin with &quot;<a href="05080.html">BSP_LED</a>&quot; and are followed by the operation verb (On, Off, Toggle, StateSet, or StateGet). There is also a BSP function to get the current state of switches on the board called <a href="05102.html">BSP_SwitchStateGet</a>. These functions accept values from a custom-generated enumeration as a parameter to identify the specific switches, LEDs, and pins on which to perform the operation. The names given to the switches, LEDs, and other pins used by the BSP interface functions are defined in the MPLAB Harmony Configurator's Pin Settings window. These names are used to define the labels in the custom-generated enumerations used by these BSP functions. Refer to <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Configurator User's Guide &gt; <a href="07411.html">MPLAB Harmony Graphical Pin Manager</a></i> and to the following topics in this section for additional information on how to define custom pin names.&nbsp;</p>
+<p class="Element10">
+Additionally, the BSP client interface is extensible. The names given to the switches, LEDs, and pins in the Graphical Pin Manager are also prepended to the operation verbs (On, Off, Toggle, StateSet, and StateGet) to generate a completely custom set of control functions for each pin. These functions are described in the Library Interface section of this document using monikers prefixed with &quot;custom_gpio_name&quot;, &quot;custom_switch_name&quot;, and &quot;custom_gpio_name&quot;. No actual functions exist with these names. Instead, these labels are replaced with the custom name given to each pin and function-like macros are generated (defined in <span class="Element146">system_config.h</span>) to provide functions that directly access these IO pins. These macros can be used by the application, but be aware that the common BSP functions may be more portable as these custom macros must be generated by the configuration. For more information, refer to <a href="04949.html">Extending the BSP Library Interface</a>.</p><div class="Element15">
+Initial Configuration</div>
+<p class="Element10">
+An initial BSP configuration is basically another type of MHC configuration file. (Refer to <i>Volume III: MPLAB Harmony Configurator (MHC) &gt; MPLAB Harmony Configurator Developer's Guide &gt; <a href="16617.html">MHC Files</a></i> for details of the MHC file.) The initial configuration can contain settings selected using the MHC (see <i><a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a></i> for information on using the MHC). When a new project (or a new configuration of an existing project) is created (or any time a BSP configuration is imported), the MHC allows the user the option to select an initial board configuration (MHC) file. If one is selected, the MHC initializes the project configuration with the settings in the selected file (overwriting the default or existing settings). This gives the user a known starting point from which to configure the project, based upon the board selected. A single BSP can have multiple initial board configuration files with different configuration settings, allowing the user to select the initial configuration that most closely represents the desired project configuration.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="23445.html">Volume II: Supported Hardware</a> &gt; <a href="04862.html">Board Support Packages Help</a> &gt; <a href="04961.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BSP Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,25 @@
+config IN_TCPIP_USE_ESMTP
+    bool "ESMTP"
+    select IN_TCPIP_CE_LITE_NEEDED
+    depends on IN_TCPIP
+    default n
+    ---help---
+         This product is available for license from InterNiche Technologies. http://www.iniche.com
+    ---endhelp---
+
+config IN_TCPIP_USE_ESMTP_DEBUG
+    bool "debug output for ESMTP"
+    depends on IN_TCPIP_USE_ESMTP
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_ESMTP_SECURITY
+    bool "SSL for ESMTP"
+    depends on IN_TCPIP_USE_ESMTP
+    select IN_TCPIP_CE_SSL_NEEDED
+    default n
+    ---help---
+      Support STARTTLS
+    ---endhelp---
+

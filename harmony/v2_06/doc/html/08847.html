@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>System Functions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23261.html">SQI Driver Library</a> &gt; <a href="08849.html">Using the Library</a> &gt; <a href="08843.html">How the Library Works</a> &gt; <a href="08847.html">System Functions</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08843.html">Previous</a> | <a href="08843.html">Up</a> | <a href="08822.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SQI System Functions Topic Title: System Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+System Functions</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+SQI Driver Initialization</div>
+<p class="Element10">
+The system performs the initialization of the device driver with settings that affect only the instance of the device that is being initialized. During system initialization, each instance of the SQI would be initialized with the following configuration settings (either passed dynamically at run time using DRV_SQI_INIT or by using initialization overrides) that are supported by the specific SQI Controller hardware:
+<ul class="Element636">
+<li class="Element606">SQI Peripheral ID - Identifies the SQI Peripheral ID to be used</li>
+<li class="Element606">Interrupt Source - The interrupt source associated with the SQI Controller</li>
+<li class="Element606">Enabled Devices - Number of devices to enable</li>
+<li class="Element606">Device Configuration - This configuration is per enabled device. A maximum of two devices are supported. The following configurations are allowed per device:
+<ul class="Element637">
+<li class="Element607">Clock Divider Value - Clock divider value to be used</li>
+<li class="Element607">SPI Mode of Operation - SPI mode of operation to be used for this device</li>
+<li class="Element607">LSB First - Send or receive least significant bit of a byte first</li>
+</ul></li>
+</ul>The <a href="10989.html">DRV_SQI_Initialize</a> function configures and initializes the SQI controller using the configuration information provided. It returns an object handle of the type <a href="23975.html">SYS_MODULE_OBJ</a>. This object handle would be used by other system interfaces such as <a href="11004.html">DRV_SQI_Status</a>, <a href="11005.html">DRV_SQI_Tasks</a> and <a href="10938.html">DRV_SQI_Deinitialize</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00849');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00849"><pre class="Element12"><i><span style="color: #008000">/* SQI Driver Initialization Data */</span></i>
+<strong><span style="color: #000080">const</span></strong> DRV_SQI_INIT drvSqiInit =
+{
+    .sqiId = SQI_ID_0,
+    .interruptSource = INT_SOURCE_SQI1,
+    .enabledDevices = DRV_SQI_ENABLE_DEVICE_1,
+    .clockDivider = DRV_SQI_CLK_DIV_1,
+    .devCfg[0].spiMode = DRV_SQI_SPI_MODE_0,
+    .devCfg[0].lsbFirst = <strong><span style="color: #000080">false</span></strong>,
+};
+
+<i><span style="color: #008000">/* Initialize the SQI Driver */</span></i>
+sysObj.drvSqi = DRV_SQI_Initialize(DRV_SQI_INDEX_0, (SYS_MODULE_INIT *)&amp;drvSqiInit);</pre></div></div>
+<div class="Element15">
+SQI Driver Task Routine</div>
+<p class="Element10">
+The SQI driver data transfers are interrupt driven. The data transfer request from the client results in the SQI driver kick starting the transfer if there is no transfer in progress otherwise the request is added to the driver queue. The SQI interrupt handler is responsible for invoking the <a href="11005.html">DRV_SQI_Tasks</a>, which maintains the driver state machine. The task routine checks if the current request is complete and if there is another data transfer request queued, then it kick starts the processing of the request.</p><div class="Element15">
+SQI Driver Status</div>
+<p class="Element10">
+<a href="11004.html">DRV_SQI_Status</a> returns the current status of the SQI driver module and is called by the Harmony System. The application may not find the need to call this function directly.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00850');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00850"><pre class="Element12">SYS_MODULE_OBJ object;
+<i><span style="color: #008000">// Returned from DRV_SQI_Initialize</span></i>
+SYS_STATUS sqiStatus;
+
+sqiStatus = DRV_SQI_Status(object);
+<strong><span style="color: #000080">if</span></strong> (SYS_STATUS_ERROR &gt;= sqiStatus)
+{
+    <i><span style="color: #008000">// Handle error</span></i>
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23261.html">SQI Driver Library</a> &gt; <a href="08849.html">Using the Library</a> &gt; <a href="08843.html">How the Library Works</a> &gt; <a href="08847.html">System Functions</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SQI System Functions Topic Title: System Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

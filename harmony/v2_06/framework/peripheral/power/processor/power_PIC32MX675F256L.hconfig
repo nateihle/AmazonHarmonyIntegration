@@ -1,0 +1,58 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX675F256L_POWER
+	bool
+	select HAVE_POWER
+	default y
+
+config POWER_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum POWER_MODULE_ID exclusive
+	"POWER_ID_0"
+
+enum POWER_MODULE
+	"POWER_MODULE_NONE"
+
+enum HLVD_LIMIT
+	"HLVD_LIMIT_NONE"
+
+enum HLVD_MODE
+	"HLVD_MODE_NONE"
+
+enum DEEP_SLEEP_MODULE
+	"DEEP_SLEEP_MODULE_NONE"
+
+enum DEEP_SLEEP_WAKE_UP_EVENT
+	"DEEP_SLEEP_WAKE_UP_EVENT_NONE"
+
+enum DEEP_SLEEP_EVENT
+	"DEEP_SLEEP_EVENT_NONE"
+
+enum DEEP_SLEEP_GPR
+	"DEEP_SLEEP_GPR_NONE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_POWER_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/processor/power_p32mx675f256l.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/processor/power_p32mx675f256l.h"
+
+file PLIB_POWER_PERIPHERALMODULECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_PeripheralModuleControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_PeripheralModuleControl_Unsupported.h"
+file PLIB_POWER_VOLTAGEREGULATORCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_VoltageRegulatorControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_VoltageRegulatorControl_Default.h"
+file PLIB_POWER_SLEEPSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_SleepStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_SleepStatus_Default.h"
+file PLIB_POWER_IDLESTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_IdleStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_IdleStatus_Default.h"
+file PLIB_POWER_HIGHVOLTAGEONVDD1V8_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_HighVoltageOnVDD1V8_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_HighVoltageOnVDD1V8_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPMODEOCCURRENCE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepModeOccurrence_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepModeOccurrence_Unsupported.h"
+file PLIB_POWER_HLVDENABLECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_HLVDEnableControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_HLVDEnableControl_Unsupported.h"
+file PLIB_POWER_HLVDSTOPINIDLECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_HLVDStopInIdleControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_HLVDStopInIdleControl_Unsupported.h"
+file PLIB_POWER_HLVDSTATUS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_HLVDStatus_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_HLVDStatus_Unsupported.h"
+file PLIB_POWER_HLVDMODECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_HLVDModeControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_HLVDModeControl_Unsupported.h"
+file PLIB_POWER_HLVDBANDGAPVOLTAGESTABILITY_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_HLVDBandGapVoltageStability_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_HLVDBandGapVoltageStability_Unsupported.h"
+file PLIB_POWER_HLVDLIMITSELECTION_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_HLVDLimitSelection_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_HLVDLimitSelection_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPMODECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepModeControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepModeControl_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPGPRSRETENTIONCONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepGPRsRetentionControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepGPRsRetentionControl_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPMODULECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepModuleControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepModuleControl_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPWAKEUPEVENTCONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepWakeupEventControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepWakeupEventControl_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPPORTPINSSTATECONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepPortPinsStateControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepPortPinsStateControl_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPEVENTSTATUS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepEventStatus_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepEventStatus_Unsupported.h"
+file PLIB_POWER_DEEPSLEEPGPROPERATION_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/power/templates/power_DeepSleepGPROperation_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/power/templates/power_DeepSleepGPROperation_Unsupported.h"
+endif

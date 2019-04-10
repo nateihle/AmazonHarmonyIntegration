@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>RTOS Thread Safety</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="11798.html">RTOS Thread Safety</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="14395.html">Previous</a> | <a href="11784.html">Up</a> | <a href="11770.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE RTOS Thread Safety Topic Title: RTOS Thread Safety)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+RTOS Thread Safety</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+When utilizing a RTOS, it is possible that a driver and its clients may each run in its own RTOS thread. If the RTOS is preemptive, it is possible that the scheduler may interrupt any of these threads at any time and switch to another. If the other thread happens to also non-atomically access the same shared resource or execute the same critical section of code (as shown by the following diagram), that section of code must be guarded and made atomic using the methods provided by the MPLAB Harmony Operating System Abstraction Layer (OSAL).&nbsp;</p>
+<p class="Element10">
+&nbsp;</p><p class="Element10" style="text-align: center;">
+<strong>RTOS Polled</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE RTOS Polled.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+In a RTOS configuration, where the MPLAB Harmony driver and all of its clients are running strictly polled in their own threads, a mutex or low-priority critical section is sufficient to protect non-atomic accesses to shared resources or critical sections of code. Both of these mechanisms will instruct the RTOS scheduler to only allow a single thread to access to the resource or execute the critical code sequence at a time and will block all other threads, making them idle until the first thread has released the mutex or exited the critical section.&nbsp;</p>
+<p class="Element10">
+However, MPLAB Harmony drivers normally run most efficiently when interrupt driven. So, even when utilizing a RTOS, it is common for a driver’s tasks function to be called from an interrupt context, as shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<strong>RTOS Interrupt-Driven</strong>&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE RTOS Interrupt Driven.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+In this situation, a mutex or a low-priority critical section can still be used to guard against simultaneous access to shared resources by different threads (for example client A's thread and client B's thread, as shown previously). However, neither will prevent an ISR from accessing the shared resource or critical code section right in the middle of the thread’s attempt to access it. So, if either of these methods is used, they must be augmented by also temporarily disabling (masking) the associated interrupt source, exactly the same way it is done in a bare metal environment as described in the <a href="14395.html">Interrupt Safety</a> topic. It is also possible to simply disable interrupts globally and prevent context switches by using a high-priority critical section. But, this is a brute force solution that is not recommended unless the timing of the code sequence is absolutely critical, and then only for very brief periods (see the <a href="11767.html">Blocking Guidelines</a> section for recommendations on what is an acceptably brief period).&nbsp;</p>
+<p class="Element10">
+The following example uses the _SAMPLE_InterruptDisable and _SAMPLE_InterruptRestore functions from the previous (<a href="14395.html">Interrupt Safety</a>) topic in conjunction with the OSAL mutex functions to effectively guard non-atomic accesses to shared resources from within client interface function code.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Guarding Shared Resources</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00149');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00149"><pre class="Element12">result = <strong><span style="color: #000080">false</span></strong>;
+
+<strong><span style="color: #000080">if</span></strong> (OSAL_MUTEX_Lock(&amp;pObj-&gt;mutex, SAMPLE_MODULE_TIMEOUT) == OSAL_RESULT_TRUE)
+{
+    <i><span style="color: #008000">/* Guard against interrupts */</span></i>
+    intState = _SAMPLE_InterruptDisable(pObj-&gt;interrupt);
+
+    <i><span style="color: #008000">/* Check for storage space */</span></i>
+    <strong><span style="color: #000080">if</span></strong> (!pObj-&gt;dataNewIsValid)
+    {
+        <i><span style="color: #008000">/* Store data */</span></i>
+        pObj-&gt;dataNew           = data;
+        pObj-&gt;dataNewIsValid    = <strong><span style="color: #000080">true</span></strong>;
+        pObj-&gt;status            = SYS_STATUS_BUSY;
+        result                  = <strong><span style="color: #000080">true</span></strong>;
+    }
+
+    <i><span style="color: #008000">/* Restore interrupt state and unlock module object. */</span></i>
+    _SAMPLE_InterruptRestore(pObj-&gt;interrupt, intState);
+    OSAL_MUTEX_Unlock(&amp;pObj-&gt;mutex);
+}</pre></div></div>
+<p class="Element10">
+In the previous code example, the OSAL_MUTEX_lock function is called first to lock the mutex. When using a RTOS, this is the point at which it will block any subsequent thread entering the sequence before the first exits. So, the locked mutex protects the current thread against accesses by multiple clients. However, the non-atomic access sequence still needs to be guarded against ill-timed interrupts by calling the local _SAMPLE_InterruptDisable function and passing in the appropriate interrupt flag ID. When interrupt-driven, this will disable the interrupt and (atomically) capture the previous status of the interrupt sourced passed in. Then, once finished accessing the shared resource, this example calls the inverse functions (_SAMPLE_InterruptRestore and <a href="17233.html">OSAL_MUTEX_Unlock</a>) in reverse order to restore the previous state, unlock the mutex and continue safely.&nbsp;</p>
+<p class="Element10">
+In a bare metal configuration, if the mutex is already locked, the OSAL_MUTEX_lock function will return OSAL_RESULT_FALSE and the if will fail the result variable will stay false, allowing the interface function that contains this code to provide a negative result to the caller. If the mutex is not locked, it will become locked and the <span class="Element146">if</span> clause will be taken, emulating the behavior of a RTOS. Of course, as described in the <a href="14395.html">Interrupt Safety</a> section, the interrupt enable and disable functions also change implementation depending on whether the driver is configured for interrupt-driven or polling operation. So, this method works for client interface functions in all possible execution environments (bare metal polled, bare metal interrupt-driven, RTOS polled and RTOS interrupt-driven). It has full flexibility and configurability when implementing client-interface functions. However, a driver’s tasks function requires a slightly different set of behavior, as described in the following paragraph.&nbsp;</p>
+<p class="Element10">
+When interrupt-driven, the driver’s tasks function is called from within the ISR. In an ISR, the associated interrupt source is already masked and it will be automatically unmasked when the ISR returns. This means that the driver’s tasks function does not need to disable and restore its own interrupt source, only the driver’s other functions need to do that. However, driver’s tasks function can only call potentially blocking OSAL functions when in a polled configuration (RTOS-based or bare metal). When built in an interrupt-driven configuration, any interrupt-driven tasks functions must not call OSAL functions that might block. This means that any OSAL functions called from a tasks function must switch implementations and compile away to nothing when the driver is built in an interrupt-driven configuration. The following example shows a simple way to do this based on the interrupt configuration option.&nbsp;</p>
+<p class="Element10">
+<strong>Example: OSAL Use in Interrupt Tasks Functions</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00150');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00150"><pre class="Element12"><strong><span style="color: #000080">#if</span></strong> (SAMPLE_MODULE_INTERRUPT_MODE == <strong><span style="color: #000080">false</span></strong>)
+
+    <strong><span style="color: #000080">static</span></strong> <strong><span style="color: #000080">inline</span></strong> <strong><span style="color: #000080">bool</span></strong> _SAMPLE_TasksMutexLock (SAMPLE_MODULE_DATA *pObj)
+    {
+        <strong><span style="color: #000080">if</span></strong> (OSAL_MUTEX_Lock(&amp;pObj-&gt;mutex, SAMPLE_MODULE_TIMEOUT) == OSAL_RESULT_TRUE)
+        {
+            <strong><span style="color: #000080">return</span></strong> <strong><span style="color: #000080">true</span></strong>;
+        }
+
+        <strong><span style="color: #000080">return</span></strong> <strong><span style="color: #000080">false</span></strong>;
+    }
+
+<strong><span style="color: #000080">#else</span></strong>
+
+    <strong><span style="color: #000080">#define</span></strong> _SAMPLE_TasksMutexLock(p)      <strong><span style="color: #000080">true</span></strong>
+
+<strong><span style="color: #000080">#endif</span></strong>
+
+
+<strong><span style="color: #000080">#if</span></strong> (SAMPLE_MODULE_INTERRUPT_MODE == <strong><span style="color: #000080">false</span></strong>)
+
+    <strong><span style="color: #000080">static</span></strong> <strong><span style="color: #000080">inline</span></strong> <strong><span style="color: #000080">void</span></strong> _SAMPLE_TasksMutexUnlock ( SAMPLE_MODULE_DATA *pObj )
+    {
+        OSAL_MUTEX_Unlock(&amp;pObj-&gt;mutex);
+    }
+
+<strong><span style="color: #000080">#else</span></strong>
+
+    <strong><span style="color: #000080">#define</span></strong> _SAMPLE_TasksMutexUnlock(p)
+
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<p class="Element10">
+These functions effectively compile away when used in an interrupt-driven configuration (when <a href="22652.html">SAMPLE_MODULE_INTERRUPT_MODE</a> is true), adding little or no object code. But, when used in an interrupt-driven configuration (when <a href="22652.html">SAMPLE_MODULE_INTERRUPT_MODE</a> is false), these functions translate to the desired OSAL mutex functions and can be used to guard non-atomic accesses in the tasks function, as shown in the following example. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The OSAL functions themselves map to the appropriate RTOS-specific or bare metal implementation, so no additional steps need be taken to ensure flexibility to use or not use a RTOS. Only the interrupt and non-interrupt behavior needs to be mapped by functions defined in the driver’s source code.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example: Guarding Shared Resources in Interrupt-Driven Tasks</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00151');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00151"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> SAMPLE_Tasks( SYS_MODULE_OBJ object )
+{
+    SAMPLE_MODULE_DATA     *pObj  = (SAMPLE_MODULE_DATA *)object;
+
+    SYS_ASSERT(_ObjectIsValid(object), &quot;Invalid object handle&quot;);
+
+    <strong><span style="color: #000080">if</span></strong> (!_SAMPLE_TasksMutexLock(pObj))
+    {
+        <strong><span style="color: #000080">return</span></strong>;
+    }
+
+    <i><span style="color: #008000">// Process data when ready.</span></i>
+    <strong><span style="color: #000080">if</span></strong> (pObj-&gt;dataNewIsValid &amp;&amp; !pObj-&gt;dataProcessedIsValid)
+    {
+        pObj-&gt;dataProcessed         = pObj-&gt;dataNew;
+        pObj-&gt;dataNewIsValid        = <strong><span style="color: #000080">false</span></strong>;
+        pObj-&gt;dataProcessedIsValid  = <strong><span style="color: #000080">true</span></strong>;
+        pObj-&gt;status                = SYS_STATUS_READY;
+    }
+
+    _SAMPLE_TasksMutexUnlock(pObj);
+
+    <strong><span style="color: #000080">return</span></strong>;
+}</pre></div></div>
+<p class="Element10">
+This previous example shows how to use the mapped mutex lock functions within an ISR-driven tasks function. Note that if the _SAMPLE_TasksMutexLock function returns false, it is potentially an error condition and the tasks function will be unable to perform its task because the resources are unavailable. So, be sure to perform appropriate error recovery or management if necessary.&nbsp;</p>
+<p class="Element10">
+A task function that manages an interrupt is, by nature, interrupt safe because it is either called from the appropriate ISR or it is polled and the associated interrupt source is disabled. And, the previous method can be used to also make them thread safe. So, it provides all four combinations of ISR and thread safety and can be used to make fully configurable drivers for all four combinations of interrupt versus polled and RTOS versus non-RTOS configurations. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Tasks functions that do not manage an interrupt (such as tasks functions for applications or second-level tasks function) and that can only be polled should be treated like client interface functions. Non-atomic accesses to resources that can be accessed from other thread contexts and/or interrupts must be protected using the same methods as used by client interface functions.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11784.html">Interrupt and Thread Safety</a> &gt; <a href="11798.html">RTOS Thread Safety</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE RTOS Thread Safety Topic Title: RTOS Thread Safety)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

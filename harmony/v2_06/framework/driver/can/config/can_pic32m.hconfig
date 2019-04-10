@@ -1,0 +1,62 @@
+menu "CAN"
+    depends on HAVE_CAN
+
+enum DRV_CAN_MODE
+    "STATIC"
+
+enum DRV_CAN_ERROR_JUDGEMENT
+    "NONE"
+    || "BAD"
+    || "OK"
+    || "GOOD"
+    || "INVALID"
+
+enum DRV_CAN_CHANNEL_TYPE
+    "CAN_TX_RTR_DISABLED"
+    || "CAN_TX_RTR_ENABLED"
+    || "CAN_RX_DATA_ONLY"
+    || "CAN_RX_FULL_RECEIVE"
+
+config USE_DRV_CAN
+    bool "Use CAN Driver?"
+    select DRIVER
+    default n
+    ---help---
+    IDH_HTML_CAN_Peripheral_Library
+    ---endhelp---
+
+config DRV_CAN_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_CAN
+    range DRV_CAN_MODE
+    default "STATIC"
+    persistent
+    ---help---
+    IDH_HTML_CAN_Peripheral_Library
+    ---endhelp---
+
+config DRV_CAN_INSTANCES_NUMBER
+    int "Number of CAN Driver Instances"
+    depends on USE_DRV_CAN
+    range 1 CAN_NUMBER_OF_MODULES
+    default 1
+
+source "$HARMONY_VERSION_PATH/framework/driver/can/config/drv_can_idx.ftl" 4 instances
+
+endmenu
+
+ifblock USE_DRV_CAN
+add "<#include \"/framework/driver/can/templates/drv_can_system_definitions_includes.h.ftl\">"  to list SYSTEM_DEFINITIONS_H_INCLUDES
+add "<#include \"/framework/driver/can/templates/drv_can_system_config.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+add "<#include \"/framework/driver/can/templates/drv_can_system_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+
+template DRV_CAN_MAPPING_C_FTL "$HARMONY_VERSION_PATH/framework/driver/can/templates/drv_can_mapping.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/can/src/drv_can_mapping.c"
+
+ifblock (PIC32MX || PIC32MZ || PIC32WK || PIC32MK)
+template CAN_STATIC_DRV_C "$HARMONY_VERSION_PATH/framework/driver/can/templates/drv_can_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/can/src/drv_can_static.c"
+template CAN_STATIC_DRV_H "$HARMONY_VERSION_PATH/framework/driver/can/templates/drv_can_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/can/drv_can_static.h"
+endif
+
+file DRV_CAN_H "$HARMONY_VERSION_PATH/framework/driver/can/drv_can.h" to "$PROJECT_HEADER_FILES/framework/driver/can/drv_can.h"
+endif
+

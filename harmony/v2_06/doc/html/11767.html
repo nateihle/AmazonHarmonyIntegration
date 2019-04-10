@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Blocking Guidelines</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11767.html">Blocking Guidelines</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11800.html">Previous</a> | <a href="11786.html">Up</a> | <a href="13082.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Blocking Guidelines Topic Title: Blocking Guidelines)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Blocking Guidelines</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In general, no MPLAB Harmony library or application should waste CPU processing power by performing any sort of <i>busy waiting</i> loop. Specifically, under a bare metal (i.e., no OS) configuration, a module's functions must not block waiting for external operations to complete (especially on anything that has any possibility of never completing) or it may block the entire system. If the function must wait for external operations the module must break up the operation into smaller tasks to be performed later. This is how to develop a module's state machine; by identifying when and where the module must wait for the module to complete some task.&nbsp;</p>
+<p class="Element10">
+For example, the job of a driver is to manage the sequence of interrupts that a peripheral supplies. When a client calls an API function, the driver must do whatever is necessary to ensure that the first interrupt will occur. Then, when the interrupt occurs, the driver’s state machine tasks function(s) must do everything necessary to ensure that the next interrupt occurs. This sequence must continue until the entire job, as requested by the client, is completed.&nbsp;</p>
+<p class="Element10">
+If the client needs to know when the operation completes, the driver can either provide a status function which the client can poll (from its own state machine, not in a blocking loop) until the operation completes or it can provide a way for the client to register a function pointer that will be called later by the driver. The latter mechanism is commonly called a <i>callback</i> function.&nbsp;</p>
+<p class="Element10">
+If a library's functions require an excessive amount of time to complete, even if it is doing useful processing the entire time, it becomes very difficult to create a working system in a bare metal environment. Unfortunately, determining how much time is or is not excessive cannot be normally done when a library is developed because it is entirely dependent upon the requirements of a given application.&nbsp;</p>
+<p class="Element10">
+The fundamental idea is that the processor must be shared. It should always be doing some useful work (filling a FIFO, processing some data, making useful decisions, etc.). Any time the processor is busy waiting on some event, it is wasting time and energy. Therefore, the following blocking guidelines provide a good basis for developing interoperable MPLAB Harmony libraries.</p>
+<ul class="Element630">
+<li class="Element600">Never block on any condition whose timing is under control of an external signal or that has a possibility of never happening at all</li>
+<li class="Element600">Do not block using a &quot;busy waiting&quot; loop that does nothing, but repeatedly check for some condition to change, even if the condition is based on something internal to the processor that will always happen in a timely manner (with a potential exception, described in the following paragraphs)</li>
+<li class="Element600">For best interoperability with other modules in the system, limit the amount to time spent processing in a function (even doing useful work) to a reasonable period of time, as follows</li>
+</ul><p class="Element10">
+Ultimately, it is all a matter of how long a function takes to execute. Any sort of busy waiting loop is undesirable and should be avoided if it is possible. But, sometimes it is more effective to waste a (very) few microseconds than it is to entirely switch context and spend several milliseconds. Following these general timing guidelines are intended to help ensure that your drivers and libraries are flexible and interoperable.</p>
+<ul class="Element630">
+<li class="Element600">Functions taking less than 10 <span style="color: #000000">µs</span> are ideal</li>
+<li class="Element600">No function should perform a busy waiting loop for more than 50 <span style="color: #000000">µs</span></li>
+<li class="Element600">The outside limit for time spent in a function (busy working, not waiting) is around 200 <span style="color: #000000">µs</span>. Functions taking longer than that are problematic at best.</li>
+<li class="Element600">Functions taking any number of milliseconds are unacceptable unless using a RTOS mechanism capable of switching tasks</li>
+</ul><p class="Element10">
+Blocking on anything outside of the processor’s control is not a good idea. For example, doing nothing and looping until the UART receives data is usually not a good idea because it will block the rest of the system until it does. It's also not a good idea to block in a loop until UART data is transmitted, because how long it takes to transmit the data depends on the BAUD rate and slow BAUD rates will cause excessive delays (greater than 200 <span style="color: #000000">µs</span>).&nbsp;</p>
+<p class="Element10">
+However, this should not be interpreted as blocking is always bad. For example, it is a very good idea to loop writing bytes to the UART transmitter FIFO until it is full, because any FIFO can only hold a fixed number of bytes and once it is full, the hardware may operate independently of the software until it runs low on data again.&nbsp;</p>
+<p class="Element10">
+Also, blocking in a RTOS environment is not only acceptable it is encouraged. It is one of the advantages of using a RTOS and it effectively becomes an optimization. However, blocking in a RTOS environment (for a MPLAB Harmony library) always occurs inside of OSAL functions and within an appropriate thread. See the section on <a href="11784.html">Interrupt and Thread Safety</a> and the topic on <a href="11803.html">Synchronization</a> for additional information on how to utilize the OSAL to support blocking and to synchronize between tasks and interface functions.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11767.html">Blocking Guidelines</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Blocking Guidelines Topic Title: Blocking Guidelines)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

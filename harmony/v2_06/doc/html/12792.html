@@ -1,0 +1,357 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12792.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="12780.html">Previous</a> | <a href="12780.html">Up</a> | <a href="12791.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB HAL Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The HAL serves to abstract the details of the hardware away from the application and protect the graphics state from mismanagement. This layer is designed to be similar to industry-standard graphics APIs, such as OpenGL from SGI, and DirectX from Microsoft. Applications that use graphics should only communicate with this layer at a minimum, and should not attempt to communicate with display drivers directly.&nbsp;</p>
+<p class="Element10">
+Before looking at the operation and structure of the HAL, the following definitions of the different keywords and concepts explained within the HAL are provided.</p><div class="Element15">
+Hardware Abstraction Layer Definitions:</div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606"><i>Alpha blending</i><strong>: </strong>An operation that combines two colors into a single color, based on one or more percentage values</li>
+<li class="Element606"><i>Blit</i><strong>: </strong>Writing an area of pixel data to a buffer</li>
+<li class="Element606"><i>Buffer swap</i><strong>: </strong>Cycling through a buffer chain, therefore changing the read and write buffer pointers</li>
+<li class="Element606"><i>Cache coherent</i><strong>: </strong>Data that must always be current in memory, such as data that is accessed by a peripheral, which should use coherent memory</li>
+<li class="Element606"><i>Clipping</i><strong>: </strong>Comparing a point to a rectangle, or a rectangle to a rectangle, to assess whether the point is contained inside the rectangle or conforming the area of one rectangle to fit inside another</li>
+<li class="Element606"><i>Color masking</i><strong>: </strong>An operation that compares a color value with a color mask value. If the values are equal, the color is ignored and not rendered to the write buffer.</li>
+<li class="Element606"><i>Color mode</i><strong>: </strong>Defines how pixel data is stored in memory. Some color modes consume less memory than others.</li>
+<li class="Element606"><i>Context</i><strong>: </strong>An instance of the hardware abstraction layer. Combines a display, a driver, and possibly a graphics accelerator.</li>
+<li class="Element606"><i>Display</i><strong>: </strong>A display device capable of rendering color data</li>
+<li class="Element606"><i>Draw Target</i><strong>: </strong>An application-defined area of memory to be used as the target for draw operations. This is often different than the active frame buffer and can be used for off-screen rendering operations.</li>
+<li class="Element606"><i>Driver</i><strong>: </strong>A software program that communicates directly with, and manages, hardware</li>
+<li class="Element606"><i>Double buffer</i><strong>: </strong>A display configuration in which multiple frame buffers are chained together to avoid screen tearing artifacts</li>
+<li class="Element606"><i>Frame buffer</i><strong>: </strong>An area of memory that contains pixel data. Pixel data is one of several color modes with each mode consuming various quantities of memory.</li>
+<li class="Element606"><i>Heap</i><strong>: </strong>A pool of memory that can be dynamically allocated</li>
+<li class="Element606"><i>HSync</i><strong>: </strong>A refresh state of a display device when the device is being refreshed outside the horizontal viewing area</li>
+<li class="Element606"><i>Layer</i><strong>: </strong>A rectangular area of space that contains one or more frame buffers. Can directly correspond to a hardware-managed layer.</li>
+<li class="Element606"><i>Pixel</i><strong>: </strong>A single color value stored in a predefined mode. Usually 8 to 32 bits in size.</li>
+<li class="Element606"><i>Pixel buffer</i><strong>: </strong>A struct that describes a rectangle of pixel data. May or may not actually contain valid pixel data.</li>
+<li class="Element606"><i>Point</i><strong>: </strong>A two dimensional Cartesian coordinate consisting of a horizontal “x” value and a vertical “y” value</li>
+<li class="Element606"><i>Raster operation</i><strong>: </strong>Any operation or algorithm that writes pixel data to the write buffer</li>
+<li class="Element606"><i>Read buffer</i><strong>: </strong>A buffer that is currently being used to feed display data to display hardware</li>
+<li class="Element606"><i>Size</i><strong>: </strong>A two dimensional measurement of magnitude consisting of a “width” and a “height” value</li>
+<li class="Element606"><i>VSync</i><strong>: </strong>A refresh state of a display device when the device is being refreshed outside the vertical viewing area</li>
+<li class="Element606"><i>Write buffer</i><strong>: </strong>A buffer that is designated as the receiver of raster operations</li>
+</ul></p><div class="Element15">
+HAL Features</div>
+<p class="Element10">
+What does the Hardware Abstraction Layer do?&nbsp;</p>
+<p class="Element10">
+The HAL serves four main purposes:
+<ul class="Element636">
+<li class="Element606">Configure abstract graphics and display hardware</li>
+<li class="Element606">Managing frame buffer memory</li>
+<li class="Element606">Manage draw state</li>
+<li class="Element606">Draw shapes</li>
+</ul><strong>Graphics and Display Hardware Configuration</strong>&nbsp;</p>
+<p class="Element10">
+The HAL serves as an intermediary between the higher level stack layers and the hardware drivers. Drivers are expected to conform to the HAL specification and applications interface with drivers through a simple set of APIs. The main purpose of this is to allow the framework to use various hardware drivers without ever having to make changes to the application. Each driver will interface with the HAL according to its specific needs and capabilities.&nbsp;</p>
+<p class="Element10">
+<strong>Frame Buffer Memory Management</strong>&nbsp;</p>
+<p class="Element10">
+Memory management is handled by the HAL for all drivers, libraries, and applications. This may include; buffer creation, buffer resizing, freeing buffer memory, buffer swapping, etc. The application simply requests buffer functions through the HAL APIs. Drivers may restrict how buffers are managed based on specific graphics controller needs and capabilities.</p><div class="Element15">
+Draw State Management</div>
+<p class="Element10">
+The HAL maintains a state that indicates how raster operations should be performed.</p><div class="Element15">
+Shape Drawing</div>
+<p class="Element10">
+The HAL provides APIs for basic pixel, line, circle, and rectangle drawing. These are rendered according to the draw state.</p><div class="Element15">
+HAL Context</div>
+<p class="Element10">
+What is a context?&nbsp;</p>
+<p class="Element10">
+The HAL is designed to be multi-instance, which means it supports multiple drivers and displays concurrently. This is accomplished by using a <i>context</i> or <i>layer</i> state. A context is essentially the combination of a single display descriptor, and a single graphics driver. Graphics processors may also be part of a context. The HAL allows only a single context to be <i>active</i> or in use at any one time, but the application may switch contexts at any time in order to act on another state. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Graphics drivers must also be able to support multi-instancing in order for the application to use multiple contexts.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The following block diagram shows a high-level representation of what the context contains. A description of each block follows the diagram. </p><p class="Element10" style="text-align: center;">
+<img src="HAL_context.png" border="0" alt="" title=""></p><div class="Element15">
+Graphics Display Info</div>
+<p class="Element10">
+The application uses a “Display” definition to obtain knowledge about the displays that are available through the HAL. This definition contains information such as:
+<ul class="Element636">
+<li class="Element606"><i>Name</i>: A short identifier for the display</li>
+<li class="Element606"><i>Color Modes</i>: The color modes the display supports</li>
+<li class="Element606"><i>Size</i>: A width and height</li>
+<li class="Element606"><i>Timing settings</i>: Values for the front porches, back porches, pulse widths, etc.</li>
+</ul>Display definitions are generated through the use of HConfig and Freemarker templates. These definitions are created during the code generation phase of MHC and are expected to exist at run-time.</p><div class="Element15">
+Graphics Controller Driver</div>
+<p class="Element10">
+The application uses a “Driver” definition to obtain information from the HAL about the available drivers in the system.&nbsp;</p>
+<p class="Element10">
+The driver definition consists of the following information:
+<ul class="Element636">
+<li class="Element606"><i>Name</i>: A short identifier for the controller</li>
+<li class="Element606"><i>Color Modes</i>: The color modes the controller supports</li>
+<li class="Element606"><i>Layer Count</i>: The number of hardware layers the controller supports</li>
+</ul>Driver integration with the HAL will be covered in a subsequent section.</p><div class="Element15">
+Graphics Accelerator Driver</div>
+<p class="Element10">
+A Graphics Processing Unit (GPU) may be present in the system. If one exists, the context must reroute GPU supported raster operations to the graphics accelerator driver for handling.</p><div class="Element15">
+Layer</div>
+<p class="Element10">
+A HAL layer is a representation of a hardware based display layer most likely provided by a graphics controller. Applications are capable of using one or more of these layers up to the <a href="16389.html">max</a> value indicated by a hardware driver. Layers have a width, height, and a position in absolute space on the display.&nbsp;</p>
+<p class="Element10">
+Layers may have one or more frame buffers associated with them. Layers with two buffers are often called <i>double buffered</i>. Multiple buffers of a layer are connected to form a buffer chain, and are cycled through as needed via pointer swapping. Layers have, at all times, one buffer considered to be the <i>read buffer</i> and one buffer considered to be the <i>write buffer</i>. In a single buffer layer, the read and write buffers are the same. When drawing single buffer layers, rendering artifacts such as screen tearing may be observed. This is because a single buffer may be written to, and read from at the same time. Double buffering alleviates screen tearing as all raster operations are performed on the hidden <i>write buffer</i> and the buffers are only swapped once the <i>write buffer</i> has been fully crafted. Further, by acting during display blanking periods, the driver can swap the read and write buffer pointers during periods when the display is not actively drawing. This should completely eliminate screen tearing.&nbsp;</p>
+<p class="Element10">
+A context has one active layer at all times and all operations are performed on the active layer.</p><div class="Element15">
+Frame Buffer</div>
+<p class="Element10">
+An extension of a pixel buffer, frame buffers are used by layers to track frame buffer states. Frame buffers contain a pixel buffer, but also contain the following:
+<ul class="Element636">
+<li class="Element606"><i>Pixel Buffer State</i>: An indication of the origin of the data for the pixel buffer. This can indicate that the buffer contains no pixel data, that the pixel data was allocated from the heap, or that the buffer and associated pixel data is owned and managed by the graphics driver. The latter state is used to prevent the application from freeing buffers managed by the graphic driver.</li>
+<li class="Element606"><i>Coherent</i>: An indication that the buffer should be allocated from cache coherent memory when it is dynamically allocated</li>
+</ul></p><div class="Element15">
+Memory Interface</div>
+<p class="Element10">
+By default, the HAL uses standard library memory management functions, such as malloc, free, calloc, etc. However, in the presence of memory peripherals, the application may want the Graphics Stack to utilize a custom memory manager instead. This is accomplished by providing a memory interface definition.&nbsp;</p>
+<p class="Element10">
+This definition simply provides alternate function pointers for standard memory allocation functions.</p><div class="Element15">
+Draw State</div>
+<p class="Element10">
+The context's draw state is simply a list of hints that the context feeds into raster operation functions such as a line draw. The state indicates what the draw color is, if alpha blending is enabled, if the final raster point should be adjusted for orientation or mirroring, if there is a masking or transparency color enabled, etc.</p><div class="Element15">
+HAL</div>
+<p class="Element10">
+One of the most important functions of the context is to provide hardware abstraction. By default, all raster operations are handled in software, or in the Software Functions module. However, if a GPU exists, any supported raster operation requests must be rerouted to the GPU driver for handling. In other cases, the driver may need to restrict context options or handle an operation in a manner that is different from the default implementation. Therefore, the driver may change the function routing in the context's HAL state as it sees fit. However, if the driver implements non-default functionality, it must ensure that overall functionality of the context is not compromised.</p><div class="Element15">
+Software Functions</div>
+<p class="Element10">
+The HAL contains a series of default implementation functions for most operations. These are represented by the<i> </i>Software Functions module.</p><div class="Element15">
+Color Support</div>
+<p class="Element10">
+The HAL is able to create and manage a context using one of several color formats.
+<ul class="Element636">
+<li class="Element606">GS8: 8-bit gray scale</li>
+<li class="Element606">RGB_332: 8-bit, 256 colors</li>
+<li class="Element606">RGB_565: 16-bit, 65536 colors</li>
+<li class="Element606">RGB_5551: 15-bit color, 1-bit alpha, 32767 colors</li>
+<li class="Element606">RGB_888: 24-bit color, 16 million colors</li>
+<li class="Element606">RGBA_8888: 24-bit color, 8-bit alpha, 16 million colors</li>
+<li class="Element606">ARGB_8888: 24-bit color 8-bit alpha, 16 million colors</li>
+</ul>All buffers that are created by the context will use this color mode. This can affect the sizes of the frame buffers that will be created.</p><div class="Element15">
+HAL State Management</div>
+<p class="Element10">
+The HAL is primarily interacted with through the GFX_Get and GFX_Set functions. These variable argument functions always take as the first argument an operation ID. Then, follow a variable number of supporting arguments to either set or get data. For example: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01231');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01231"><pre class="Element12">GFX_Set(GFXF_DRAW_COLOR, 0xFFFF);</pre></div></div>
+<p class="Element10">
+This code would set the current draw color for the active context to white, assuming a 16-bit color space. The first argument is one of the values listed in the GFX_FLAG enum and the second is the argument expected by that operation.&nbsp;</p>
+<p class="Element10">
+To get the current draw color the code would appear as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01232');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01232"><pre class="Element12">GFX_Get(GFXF_DRAW_COLOR, &amp;color);</pre></div></div>
+<p class="Element10">
+These get and set functions can return these status values:
+<ul class="Element636">
+<li class="Element606"><a href="12456.html">GFX_FAILURE</a>: An error occurred during this operation</li>
+<li class="Element606"><a href="12755.html">GFX_SUCCESS</a>: The operation was successful</li>
+<li class="Element606"><a href="12758.html">GFX_UNSUPPORTED</a>: The operation is not supported by the context</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element636">
+<li value="1" class="Element606">All features may not be supported by all drivers. Software fall backs and default implementations may be provided for some features when hardware support is not available.</li>
+<li value="2" class="Element606">Most flags have a get and set mode. A few are get only and a few are set only. For detailed interface information, refer to <span class="Element146"><a href="12340.html">gfx_common.h</a></span>.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Pixel Transformation Pipeline</div>
+<p class="Element10">
+Overview of the Pixel Transformation Pipeline.&nbsp;</p>
+<p class="Element10">
+The HAL uses a multi-stage pixel rendering pipeline to apply the various effects that may have been enabled by the application. The stages are shown in the following figure: </p><p class="Element10" style="text-align: center;">
+<img src="GFXLIB HAL pixel transformation pipeline.png" border="0" alt="" title=""></p><div class="Element15">
+Stage Description</div>
+<p class="Element10">
+
+<ul class="Element636">
+<li class="Element606"><i>Layer Clipping</i><strong>: </strong>The pixel is clipped to the destination layer. It is rejected if it falls outside the layer. Writing outside of the layer can cause memory out-of-bounds exceptions.</li>
+<li class="Element606"><i>Orientation and Mirroring</i><strong>: </strong>The pixel's destination point is rotated and mirrored according to the draw state</li>
+<li class="Element606"><i>Rectangle Clipping</i><strong>: </strong>The pixel is containment evaluated with the context's clipping rectangle and rejected if it is out of bounds</li>
+<li class="Element606"><i>Color Masking</i><strong>: </strong>The pixel is compared to the context's color mask value. If the color matches the value it is rejected</li>
+<li class="Element606"><i>Alpha Blending</i><strong>: </strong>The source pixel is blended with the destination pixel. Both the color's alpha channel and the global alpha blending value is taken into consideration. A color without an alpha channel is upscaled to 32-bits and its alpha channel is set to <a href="16389.html">max</a>.</li>
+<li class="Element606"><i>Color Conversion</i><strong>: </strong>The color is converted to the color mode of the destination buffer. This only applies to blits.</li>
+<li class="Element606"><i>Buffer Write</i><strong>: </strong>The result color is written to the frame buffer at the potentially transformed point</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element636">
+<li value="1" class="Element606">These stages can be disabled in the GFX Options in the MHC option tree. Disabling them can increase speed but can cause the program to become unstable or draw incorrectly.</li>
+<li value="2" class="Element606">This flow is meant to show how the stages might interact but the exact order of execution is dependent on the state of the HAL and the operation being performed.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Using The Library</div>
+<p class="Element10">
+To access the HAL, simply include the header file <span class="Element146">gfx.h</span> in your application. This is assuming that the appropriate flags have been checked in the configuration.&nbsp;</p>
+<p class="Element10">
+The HAL APIs typically fall into one of several groups:
+<ul class="Element636">
+<li class="Element606"><i>Initialization</i><strong>: </strong>Interfaces in the MHC configuration that are responsible for setting up the state of the HAL</li>
+<li class="Element606"><i>Context Management</i><strong>: </strong>Interfaces that create or destroy a graphics context</li>
+<li class="Element606"><i>Context Maintenance</i><strong>: </strong>Interfaces that allow the context to perform tasks such as HAL or driver state updates</li>
+<li class="Element606"><i>Draw State Management</i><strong>: </strong>This consists of two generic interfaces that allow the application to manage the state of a context. This is accomplished by indicating the get/set operation from a predefined list of option IDs, and sending the appropriate arguments into the variable argument functions</li>
+<li class="Element606"><i>Blitting and</i> <i>Shape Drawing</i><strong>: </strong>These interfaces perform raster operations on the active frame buffer according to the current draw state of the HAL</li>
+</ul>The following sample code displays how to initialize the HAL, create a context, create some layers and buffers, and draw a rectangle. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The following code example is not performing any return value checking.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01233');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01233"><pre class="Element12"><i><span style="color: #008000">// context variable</span></i>
+GFX_Handle* context;
+
+<i><span style="color: #008000">// initialize the HAL layer</span></i>
+GFX_Initialize();
+
+<i><span style="color: #008000">// create a context.  the zeros indicate the display and driver to</span></i>
+<i><span style="color: #008000">// use.  the third argument would be for a custom memory interface</span></i>
+context = GFX_Open(0, 0, NULL);
+
+<i><span style="color: #008000">// make sure the context is active</span></i>
+GFX_ContextActiveSet(context);
+
+<i><span style="color: #008000">// set the context color mode to RGB_565</span></i>
+GFX_Set(GFXF_COLOR_MODE, GFX_COLOR_MODE_RGB_565);
+
+<i><span style="color: #008000">// make sure the zeroth layer is active, enabled and visible</span></i>
+GFX_Set(GFXF_LAYER_ACTIVE, 0);
+GFX_Set(GFXF_LAYER_ENABLED, GFX_TRUE);
+GFX_Set(GFXF_LAYER_VISIBLE, GFX_TRUE);
+
+<i><span style="color: #008000">// typically the bottom layer is going to fill the entire</span></i>
+<i><span style="color: #008000">// display area but for demonstration purposes change</span></i>
+<i><span style="color: #008000">// the position and size of the layer</span></i>
+GFX_Set(GFXF_LAYER_POSITION, 100, 100); <i><span style="color: #008000">// x = 100, y = 100</span></i>
+GFX_Set(GFXF_LAYER_SIZE, 320, 200); <i><span style="color: #008000">// width = 320, height = 200</span></i>
+
+<i><span style="color: #008000">// set the layer to two buffers and set to use coherent memory</span></i>
+GFX_Set(GFXF_LAYER_BUFFER_COUNT, 2);
+GFX_Set(GFXF_LAYER_BUFFER_COHERENT, 0, GFX_TRUE);
+GFX_Set(GFXF_LAYER_BUFFER_COHERENT, 1, GFX_TRUE);
+
+<i><span style="color: #008000">// allocate the buffers</span></i>
+GFX_Set(GFXF_LAYER_BUFFER_ALLOCATE, 0);
+GFX_Set(GFXF_LAYER_BUFFER_ALLOCATE, 1);
+
+<i><span style="color: #008000">// set the draw mode and color</span></i>
+GFX_Set(GFXF_DRAW_MODE, GFX_DRAW_FILL);
+GFX_Set(GFXF_DRAW_COLOR, 0xFFFF);
+
+<i><span style="color: #008000">// indicate intent to draw, if this returns GFX_FAILURE then</span></i>
+<i><span style="color: #008000">// draw operations will fail</span></i>
+GFX_Begin();
+
+<i><span style="color: #008000">// fill the entire layer with white</span></i>
+GFX_DrawRect(0, 0, 320, 200); <i><span style="color: #008000">// x, y, width, height</span></i>
+
+GFX_Set(GFXF_DRAW_COLOR,
+        GFX_ColorValue(GFX_COLOR_MODE_RGB_565, GFX_COLOR_MAGENTA));
+
+<i><span style="color: #008000">// draw a smaller magenta rectangle</span></i>
+GFX_DrawRect(10, 10, 100, 100);
+
+<i><span style="color: #008000">// finish drawing</span></i>
+GFX_End();
+
+<i><span style="color: #008000">// swap the buffers</span></i>
+GFX_Set(GFXF_LAYER_SWAP, GFX_TRUE);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="12784.html">Graphics Libraries Help</a> &gt; <a href="12777.html">MPLAB Harmony Graphics Composer (MHGC) Suite</a> &gt; <a href="12780.html">Hardware Abstraction Layer (HAL)</a> &gt; <a href="12792.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: GFXLIB HAL Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

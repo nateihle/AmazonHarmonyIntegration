@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SYS_INT_DynamicRegister Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="14396.html">Interrupt System Service Library</a> &gt; <a href="24329.html">Library Interface</a> &gt; a) Interrupt System Setup Functions &gt; <a href="23944.html">SYS_INT_DynamicRegister Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="23943.html">Previous</a> | <a href="24329.html">Up</a> | <a href="23950.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_INT_DynamicRegister@INT_SOURCE@SYS_INT_TASKS_POINTER@SYS_MODULE_OBJ Topic Title: SYS_INT_DynamicRegister Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SYS_INT_DynamicRegister Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">void</span></strong> <strong><span style="color: #000000">SYS_INT_DynamicRegister</span></strong>(
+    <a href="14033.html">INT_SOURCE</a> <strong><span style="color: #000000">source</span></strong>, 
+    <a href="23960.html">SYS_INT_TASKS_POINTER</a> <strong><span style="color: #000000">tasks</span></strong>, 
+    <a href="23975.html">SYS_MODULE_OBJ</a> <strong><span style="color: #000000">object</span></strong>
+);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This function registers an Interrupt &quot;Tasks&quot; Routine for the specified interrupt source or trap).</p></div>
+</div>
+<a name="507265636F6E646974696F6E73"></a><div class="Element14">
+Preconditions</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<a href="23947.html">SYS_INT_Initialize</a> must have been called.</p></div>
+</div>
+<a name="506172616D6574657273"></a><div class="Element14">
+Parameters</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element312">
+<div class="TableDiv">
+<table cellspacing="0" class="Table4">
+<tr>
+<td class="Element300" valign="top" width="35%">
+<div class="Element301">
+Parameters&nbsp;</div></td><td class="Element304" valign="top" width="65%">
+<div class="Element305">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+source&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Identifier for the desired interrupt source&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+tasks&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Pointer to the tasks routine&nbsp;</div></td></tr><tr>
+<td class="Element302" valign="top" width="35%">
+<div class="Element303">
+object&nbsp;</div></td><td class="Element306" valign="top" width="65%">
+<div class="Element307">
+Handle to the module instance&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52657475726E73"></a><div class="Element14">
+Returns</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This routine only generates executable code when a driver is configured to register dynamically its &quot;Tasks&quot; routine with the system interrupt service. However, it should be called even if the ISR-to-source association is defined statically at compile time to maintain source code compatibility. A device driver normally registers its own ISR from its initialization routine.&nbsp;</p>
+<p class="Element10">
+In the example code, the macros MY_DRIVER_INTERRUPT_SOURCE would be defined in the appropriate configuration header, which would be included by the driver source file where the &quot;DRV_MYDEV_Tasks&quot; routine and the MyParam data would be defined.&nbsp;</p>
+<p class="Element10">
+It is safe to call this routine without first calling <a href="23943.html">SYS_INT_DynamicDeregister</a>, even if a previous ISR has been registered. The effect will be that the new ISR supplants the old one.&nbsp;</p>
+<p class="Element10">
+The System Interrupt library must be initialized by calling the <a href="23947.html">SYS_INT_Initialize</a> routine. This is normally done in the &quot;<a href="23925.html">SYS_Initialize</a>&quot; routine before any interrupt support is used.&nbsp;</p>
+<p class="Element10">
+If the dynamic interrupt system service is not used, the &quot;<a href="23925.html">SYS_Initialize</a>&quot; routine must be implemented by the system designer or integrator as required by the system design and is not implemented by the System Interrupt library.&nbsp;</p>
+<p class="Element10">
+Once the library has been initialized, call the function <a href="23945.html">SYS_INT_Enable</a> to enable interrupts to the processor. However, before enabling the generation of interrupts to the processor, each individual module (driver, library, or application) must have a &quot;Tasks&quot; routine to in place (either registered with SYS_INT_DynamicRegister or statically linked to the raw ISR) to handle the interrupt before it enables it's own interrupt.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Example: Initializing the System Interrupt Library </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04018');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04018"><pre class="Element12"><i><span style="color: #008000">// Initialize the interrupt system.</span></i>
+<a href="23947.html">SYS_INT_Initialize</a>();
+<i><span style="color: #008000">// Initialize all interrupt-aware software modules</span></i>
+<a href="23945.html">SYS_INT_Enable</a>();</pre></div></div>
+</div>
+</div>
+<a name="4578616D706C65"></a><div class="Element14">
+Example</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04019');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04019"><pre class="Element12"><a href="23947.html">SYS_INT_Initialize</a>();
+SYS_INT_DynamicRegister(MY_DRIVER_INTERRUPT_SOURCE, DRV_MYDEV_Tasks, MyObject);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="14396.html">Interrupt System Service Library</a> &gt; <a href="24329.html">Library Interface</a> &gt; a) Interrupt System Setup Functions &gt; <a href="23944.html">SYS_INT_DynamicRegister Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_INT_DynamicRegister@INT_SOURCE@SYS_INT_TASKS_POINTER@SYS_MODULE_OBJ Topic Title: SYS_INT_DynamicRegister Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

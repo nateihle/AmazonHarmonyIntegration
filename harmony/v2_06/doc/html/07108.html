@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.5.5: Support a &quot;Reinitialize&quot; Function if Required</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07108.html">3.5.5: Support a &quot;Reinitialize&quot; Function if Required</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07109.html">Previous</a> | <a href="07121.html">Up</a> | <a href="07087.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support a %22Reinitialize%22 Function if Required Topic Title: 3.5.5: Support a %22Reinitialize%22 Function if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.5.5: Support a &quot;Reinitialize&quot; Function if Required</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A module may support a &quot;Reinitialize&quot; function if it provides the ability to change initialization parameters dynamically, while the system is running.&nbsp;</p>
+<p class="Element10">
+The primary purpose of this operation is to support dynamic power management by allowing initial power states and parameters to be changed without damaging ongoing client activity. If supported, this operation must either temporarily suspend ongoing client activity (but not invalidate opened client handles or ongoing requests) before making the requested change in initial parameters or it must make the change in a safe (non-destructive) way while client operations are ongoing (if that is possible).&nbsp;</p>
+<p class="Element10">
+This operation will primarily be used by a system power management module (if utilized) or by safety monitoring system module to guarantee active modules are in the correct power state.</p><div class="Element15">
+Function</div>
+<p class="Element10">
+<span class="Element146">void &lt;module&gt;_Reinitialize (<a href="23975.html">SYS_MODULE_OBJ</a> object,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> const <a href="23969.html">SYS_MODULE_INIT</a> * const data )</span>&nbsp;</p><div class="Element15">
+Summary</div>
+<p class="Element10">
+Reinitializes and refreshes the state data for the identified instance of the module.</p><div class="Element15">
+Description</div>
+<p class="Element10">
+This routine reinitializes and refreshes the state data (particularly the hardware settings) for the identified instance of the module using the initialization given data. It does this in a client safe manner, not by arbitrarily clearing or reinitializing internal data structures and it does not disconnect or interrupt any ongoing client operations (although, it may temporarily suspend them).</p><div class="Element15">
+Required or Optional?</div>
+<p class="Element10">
+Optional – not required if the module is not power-state aware or safety critical.</p><div class="Element15">
+Preconditions</div>
+<p class="Element10">
+The associated initialization routine must have been called and the module’s state machine(s) must be running.</p><div class="Element15">
+Parameters</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="5%" style="border:none;">
+<div class="Element68">
+object&nbsp;</div></td><td class="Element67" valign="top" width="95%" style="border:none;">
+<div class="Element68">
+Module’s instance data handle.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="5%" style="border:none;">
+<div class="Element68">
+data&nbsp;</div></td><td class="Element67" valign="top" width="95%" style="border:none;">
+<div class="Element68">
+Pointer to a module implementation specific data structure. This is identical to the structure passed to the module’s &quot;Initialize&quot; function.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Returns</div>
+<p class="Element10">
+None.</p><div class="Element15">
+Code Example</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00106');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00106"><pre class="Element12">DRV_I2C_Reinitialize(sysObjects.i2cDriver, &amp;i2c_init_low_power_state);</pre></div></div>
+<div class="Element15">
+Blocking Behavior</div>
+<p class="Element10">
+This function must not block or wait for ongoing operations to complete. If time is required to complete the re-initialization operation, then the process must be completed by the module’s state machine and the module’s &quot;Status&quot; must indicate a status less than SYS_STATUS_READY until the operation is complete.</p><div class="Element15">
+Remarks</div>
+<p class="Element10">
+The Status operation will return SYS_STATUS_READY (or greater) when this operation has completed.&nbsp;</p>
+<p class="Element10">
+This operation uses the same initialization data structure as the Initialize operation.&nbsp;</p>
+<p class="Element10">
+This operation can be used to change the power state of the peripheral the module manages.&nbsp;</p>
+<p class="Element10">
+This operation will not interrupt any ongoing client operations. (Effects on queued operations are module dependent, but the module must provide a way to identify and handle any errors in queued operations that it allows to occur.)&nbsp;</p>
+<p class="Element10">
+This operation must refresh the hardware and state data (as affected by the initialization data) to ensure that the module operates using the new settings.&nbsp;</p>
+<p class="Element10">
+Refer to the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> header file or the <a href="24334.html">System Service Library Introduction</a> for additional information and definitions of the additional data types used.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07108.html">3.5.5: Support a &quot;Reinitialize&quot; Function if Required</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support a %22Reinitialize%22 Function if Required Topic Title: 3.5.5: Support a %22Reinitialize%22 Function if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

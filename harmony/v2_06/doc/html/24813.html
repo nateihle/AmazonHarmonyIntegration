@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>TCP Changes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24813.html">TCP Changes</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24798.html">Previous</a> | <a href="24798.html">Up</a> | <a href="24815.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING TCP Changes Topic Title: TCP Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+TCP Changes</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+TCP Changes</div>
+<p class="Element10">
+The TCP/IP Stack include header file, <span class="Element146"><a href="24485.html">tcp.h</a></span>, has been updated as follows.
+<ul class="Element630">
+<li class="Element600"><i>DNS Resolution </i>- DNS resolution is no longer performed automatically when opening a TCP<span style="color: #FFFFFF">_</span>socket. The TCP<span style="color: #FFFFFF">_</span>layer takes only an IP address as an input parameter. If you need a DNS resolution, you have to perform it before opening a<span style="color: #FFFFFF">_</span>socket<span style="color: #FFFFFF">_</span>(see <span class="Element146"><a href="08227.html">dns.h</a></span>).</li>
+<li class="Element600"><i>IPv6 Support </i>- Support for IPv6 has been added</li>
+</ul><u>Opening TCP Sockets</u>&nbsp;</p>
+<p class="Element10">
+To open TCP sockets, the required functions are now: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04181');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04181"><pre class="Element12">TCP_SOCKET TCPIP_TCP_ServerOpen(IP_ADDRESS_TYPE addType, TCP_PORT localPort, IP_MULTI_ADDRESS* localAddress)</pre></div></div>
+<p class="Element10">
+and </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04182');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04182"><pre class="Element12">TCP_SOCKET TCPIP_TCP_ClientOpen(IP_ADDRESS_TYPE addType, TCP_PORT remotePort, IP_MULTI_ADDRESS* remoteAddress)</pre></div></div>
+<p class="Element10">
+These two new functions replace the V5 TCP/IP Stack TCPOpen function. The application code must replace the calls to TCPOpen with <a href="24512.html">TCP_SOCKET</a> <a href="26848.html">TCPIP_TCP_ServerOpen</a> or <a href="24512.html">TCP_SOCKET</a> <a href="26809.html">TCPIP_TCP_ClientOpen</a>, as appropriate.&nbsp;</p>
+<p class="Element10">
+The new calls add the possibility to use IPV6 addresses and make clear the choice of parameters for server or client sockets. The parameters are:&nbsp;</p>
+<p class="Element10">
+typedef union </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04183');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04183"><pre class="Element12">{
+IPV4_ADDR v4Add;
+IPV6_ADDR v6Add;
+}IP_MULTI_ADDRESS;</pre></div></div>
+<p class="Element10">
+typedef enum </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04184');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04184"><pre class="Element12">{
+IP_ADDRESS_TYPE_ANY = 0, <i><span style="color: #008000">// either IPv4 or IPv6; unspecified;</span></i>
+IP_ADDRESS_TYPE_IPV4 = 1, <i><span style="color: #008000">// IPv4 address type</span></i>
+IP_ADDRESS_TYPE_IPV6 <i><span style="color: #008000">// IPv6 address type</span></i>
+}IP_ADDRESS_TYPE;</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Currently, <span class="Element146">IP_ADDRESS_TYPE_ANY</span> is only supported for server sockets.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<u>Disconnecting a Socket</u>&nbsp;</p>
+<p class="Element10">
+The functions to disconnect a<span style="color: #FFFFFF">_</span>socket<span style="color: #FFFFFF">_</span>have changed to include added functionality: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04185');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04185"><pre class="Element12">TCPIP_TCP_Disconnect(TCP_SOCKET hTCP)</pre></div></div>
+<p class="Element10">
+This function closes the TX side of a connection by sending a FIN (if currently connected) to the remote node of the connection. It no longer sends a RST signal to the remote node so that a sequence of two sequential calls to the function is no longer needed.&nbsp;</p>
+<p class="Element10">
+If the socket<span style="color: #FFFFFF">_</span>has the Linger option set (default), the queued TX data transmission will be attempted before sending the FIN. If the Linger option is off, the queued TX data will be discarded.&nbsp;</p>
+<p class="Element10">
+No more data can be sent by this<span style="color: #FFFFFF">_</span>socket, but more data can be received (the socket<span style="color: #FFFFFF">_</span>will be eventually closed when a FIN is received from the remote node or by a time-out dictated by the TCP_FIN_WAIT_2_TIMEOUT value in <span class="Element146"><a href="24497.html">tcp_config.h</a></span>).&nbsp;</p>
+<p class="Element10">
+Please note that this call may fail in which case it can be reissued.&nbsp;</p>
+<p class="Element10">
+Setting the socket<span style="color: #FFFFFF">_</span>options is done using the function <a href="26842.html">TCPIP_TCP_OptionsSet</a>. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04186');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04186"><pre class="Element12">TCPIP_TCP_Abort(TCP_SOCKET hTCP, <strong><span style="color: #000080">bool</span></strong> killSocket)</pre></div></div>
+<p class="Element10">
+This function aborts a connection to a remote node by sending a RST (if currently connected). Any pending TX/RX data is discarded.&nbsp;</p>
+<p class="Element10">
+A client socket<span style="color: #FFFFFF">_</span>will always be closed and the associated resources released. The socket<span style="color: #FFFFFF">_</span>cannot be used again after this call.&nbsp;</p>
+<p class="Element10">
+A server socket<span style="color: #FFFFFF">_</span>will abort the current connection if:
+<ul class="Element630">
+<li class="Element600"><span class="Element146">killSocket == false</span> (the socket<span style="color: #FFFFFF">_</span>will remain listening)</li>
+<li class="Element600"><span class="Element146">killSocket == true</span> (the socket<span style="color: #FFFFFF">_</span>will be closed and all associated resources released. The socket<span style="color: #FFFFFF">_</span>cannot be used again after this call.)</li>
+</ul></p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04187');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04187"><pre class="Element12">TCPIP_TCP_Close(TCP_SOCKET hTCP)</pre></div></div>
+<p class="Element10">
+This function disconnects an open socket<span style="color: #FFFFFF">_</span>and destroys the socket<span style="color: #FFFFFF">_</span>handle, releasing the associated resources.&nbsp;</p>
+<p class="Element10">
+If the graceful option is set for the socket<span style="color: #FFFFFF">_</span>(default) a <span class="Element146"><a href="26816.html">TCPIP_TCP_Disconnect</a></span> will be tried (FIN will be sent):
+<ul class="Element630">
+<li class="Element600">If the <a href="16306.html">linger</a> option is set (default) the<span class="Element146"> <a href="26816.html">TCPIP_TCP_Disconnect</a></span> will attempt to send any queued TX data before issuing the FIN</li>
+<li class="Element600">If the FIN send operation fails or the socket<span style="color: #FFFFFF">_</span>is not connected, an abort is generated</li>
+<li class="Element600">If the graceful option is not set, or the previous step could not send the FIN:</li>
+<li class="Element600">A <a href="26802.html">TCPIP_TCP_Abort</a>( is called, sending a RST to the remote node and communication is closed. The socket<span style="color: #FFFFFF">_</span>is no longer valid and the associated resources are freed.</li>
+</ul>Setting the socket<span style="color: #FFFFFF">_</span>options is done using the call <a href="26842.html">TCPIP_TCP_OptionsSet</a>();.&nbsp;</p>
+<p class="Element10">
+<u>Adjusting Socket Size</u>&nbsp;</p>
+<p class="Element10">
+The function to adjust the size of a socket’s RX and TX buffers has changed to include added functionality: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04188');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04188"><pre class="Element12">TCPIP_TCP_FifoSizeAdjust(TCP_SOCKET hTCP, uint16_t wMinRXSize, uint16_t wMinTXSize, TCP_ADJUST_FLAGS vFlags)</pre></div></div>
+<p class="Element10">
+The TX and RX FIFOs (buffers) associated with a socket<span style="color: #FFFFFF">_</span>are now completely separate and independent.&nbsp;</p>
+<p class="Element10">
+Two new flags, TCP_ADJUST_TX_ONLY and TCP_ADJUST_RX_ONLY, have been added, which allow changing the size of TX and RX buffers independently. This is the preferred option.&nbsp;</p>
+<p class="Element10">
+However, when either flag is not set, for the purpose of this function, the TX and RX FIFOs are considered to be contiguous so that the total FIFO space is divided between the TX and RX FIFOs. This provides backward compatibility with previous versions of this function. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The TX or RX associated buffer sizes can be independently changed too using the socket<span style="color: #FFFFFF">_</span>options. See the <span class="Element146"><a href="26842.html">TCPIP_TCP_OptionsSet</a></span> function for more information.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24816.html">Upgrading from the V5 TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24798.html">MPLAB Harmony TCP/IP Stack API Changes</a> &gt; <a href="24813.html">TCP Changes</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING TCP Changes Topic Title: TCP Changes)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

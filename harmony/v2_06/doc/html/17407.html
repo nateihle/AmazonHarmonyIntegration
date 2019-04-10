@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Functionality</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17431.html">Using the Library</a> &gt; <a href="17423.html">How the Library Works</a> &gt; <a href="17407.html">Functionality</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17423.html">Previous</a> | <a href="17423.html">Up</a> | <a href="17418.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCHS Core Functionality Topic Title: Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Functionality</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Analog-to-Digital conversion using the ADCHS involves the following three steps:
+<ol class="Element636">
+<li value="1" class="Element606">Sampling of the input signal.</li>
+<li value="2" class="Element606">Capture of the input signal by the S&amp;<a href="13056.html">H</a> circuit and transfer to the converter.</li>
+<li value="3" class="Element606">Conversion of the analog signal to its digital representation.</li>
+</ol>Sampling of the input signal involves charging of the S&amp;<a href="13056.html">H</a> capacitor. The sampling time must be adequate so that the capacitor charges to a value equal to the input voltage. At the appropriate time, the input is disconnected and the capacitor voltage is transferred to the converter. The converter then digitizes the analog signal and provides the result. The converter requires a clock source (common input to individual clock setting of all channels) and a reference voltage. The common input clock is referred to as the control clock and has a period of TQ. The control clock and reference voltage sources are selectable, as well as the clock prescaling that determines the TQ.&nbsp;</p>
+<p class="Element10">
+The ADCHS has multiple SAR channels. Each channel has independent clocks named TAD0 through TAD7. The analog inputs connected to the SAR channels can be divided as Class 1, Class 2, and Class 3.
+<ul class="Element636">
+<li class="Element606">Class 1 inputs are associated with a SAR Channel 0 through 6. Each SAR channel has a single (selectable) Class 1 input associated with it. Each Class 1 input has a unique trigger selection register. Class 1 inputs can also be part of a channel scan list, triggered by the common scan trigger source.</li>
+<li class="Element606">Class 2 inputs are connected to Channel 7 and are either individually triggered or as part of a channel scan list. When used individually their trigger source is selected by their unique trigger register.</li>
+<li class="Element606">Class 3 inputs are connected to Channel 7 and are used in channel scan exclusively. They share a common trigger source. When using channel scan it is possible to combine Class 1, Class 2, and Class 3 inputs in the scan list.</li>
+</ul></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+For details regarding configuration and triggering options was well as sampling requirements, refer to the <strong>&quot;ADC&quot; </strong>chapter in the specific device data sheet and the family reference manual section specified in that chapter.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17418.html">Example - Simultaneous Sampling and Conversion of Three Class 1 Inputs</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Simultaneous sampling and conversion is used when the application requires capture of more than one signal at the same instance of time. Simultaneous sampling and conversion requires the use of multiple Class 1 inputs where each is assigned the same trigger source. The following example illustrates simultaneous sampling of AN0, AN1 and AN2 using the global software trigger as the trigger source. The respective SAR channels are configured for single-ended input and a unipolar (unsigned) output.<br>No interrupts are used so the results are polled for ready status. &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17414.html">Example - Channel Scanning</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Channel scanning is used in applications where precise timing of the sample to an external source is not needed. Channel scanning allows a large number of analog inputs to be sampled and converted in sequence each time a single trigger occurs.<br>The following example illustrates how to configure channel scanning of multiple Class 2 and Class 3 inputs using Channel 7. This example uses inputs AN8, AN31 through AN33. AN8 is Class 2 inputs. AN31 to AN33 are Class 3 inputs. The global software trigger is used to initiate the scan. A 3 TAD7 sample time is specified for Channel... <a href="17414.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17417.html">Example - Digital Filter</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The Digital Oversampling filter can be used to increase resolution of the conversion result at the expense of throughput. The following example shows how two extra bits of resolution can be obtained using 16x oversampling (sixteen samples are used to create one higher resolution result). AN0 is used for the input. The sampling time for the retriggers is set to 3 TAD0. &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17416.html">Example - Digital Comparator</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The Digital Comparator is used to automatically evaluate results as they are output by the converter. The following example illustrates an automated test of AN8 for values that are greater than or equal to 80% of full scale or less than 20% of full scale. A count is incremented each time an event occurs. &nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17415.html">Example - CVD Mode</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+The CVD mode is used to detect a touch event by measuring the voltage across external capacitor using the capacitive voltage divider method. The Digital Comparator used in conjunction with CVD mode automatically compares the voltage with set limits. Once the voltage is beyond the set limit, a comparator event is generated. In the following example, AN40 is used as an analog input. Physically, the AN40 pin should be connected to a touch sense pad. Once a touch is detected, a comparator event will be generated. &nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17431.html">Using the Library</a> &gt; <a href="17423.html">How the Library Works</a> &gt; <a href="17407.html">Functionality</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCHS Core Functionality Topic Title: Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

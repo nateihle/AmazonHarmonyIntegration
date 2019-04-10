@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>real_time_fft</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03399.html">real_time_fft</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03398.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03400.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO real_time_fft Topic Title: real_time_fft)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+real_time_fft</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This application analyzes the audio data received from the microphone and displays the spectrum of frequencies present in the audio data. The application also allows users to generate complex signals by mixing up to three pure sine tones of different frequencies and amplitude. The generated complex signal is then fed as an input to the FFT algorithm, and the frequency components present in the signal are displayed on the GUI. The application demonstrates the usage of windowing functions before the time domain signal is passed to the FFT algorithm.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Architecture</strong> &nbsp;</p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO real_time_fft architecture diagram.png" border="0" alt="" title="">&nbsp;</p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The real_time_fft application provides two modes of operation, MIC and Tone, selected through the GUI.</p>
+<ol class="Element630">
+<li value="1" class="Element600"><strong>MIC mode:</strong> By default, the application is in the microphone mode. In this mode, the AK4953A codec is configured to sample the microphone data at 48000 Hz. (The codec driver internally uses the I2S driver with DMA for data interface and the I2C driver for the command interface). Using the AK4953A codec driver, the application reads chunks of 4096 samples (or 4096/48000 = 85.33 ms) of single channel microphone data and saves it in a buffer. This data is then passed to the FFT task for frequency analysis. The FFT transform assumes the signal to be continuous, as the input signal to the FFT algorithm contains nonintegral cycles of the signal, the sharp discontinuities spread out in the frequency domain resulting in spectral leakage. To reduce the spectral leakage, the data is first passed through a Hanning window function, using the windowing functions provided by the math library. The windowed output is then passed through the FFT function provided by the math library, which calculates the frequency components present in the time-domain signal. In this case, the FFT output will have a frequency resolution of 11.71875 Hz (?f = Fs/N = 48000/4096 = 11.71875 Hz). The frequency output is then represented in one-third octave frequency bands, with the entire frequency spectrum divided into 24 bands (100Hz, 125Hz … 16kHz, 20kHz). The center frequency of each band is calculated by multiplying the center frequency of previous band by 2 <sup>1/3</sup>. The amplitude is displayed in the dBFS unit.</li>
+<li value="2" class="Element600"><strong>Tone mode:</strong> The Tone mode allows the user to generate complex signals by mixing up to three pure sine tones of different frequencies and amplitudes. This complex signal is passed through a window function (Hanning or Blackman window, selected by user through the GUI). The windowed signal is then passed to the FFT algorithm for frequency analysis. The FFT results on the display can be used to verify the frequency components present in the complex signal. The signal data is also sent to the codec and can be heard by connecting a headphone to the HP <a href="17338.html">OUT</a> on the MEB II board. The time domain view of the generated signal can also be viewed on the GUI.</li>
+</ol><p class="Element10">
+<strong>Demonstration Features</strong></p>
+<ul class="Element630">
+<li class="Element600">DSP Fixed-Point Math Library (see <i>Volume V: <a href="16811.html">MPLAB Harmony Framework Reference</a> &gt; Math Libraries Help &gt; <a href="06498.html">DSP Fixed-Point Math Library</a></i>).</li>
+<li class="Element600">AK4953 Codec Driver (see <i>Volume V: MPLAB Harmony Framework Reference &gt; Driver Libraries Help &gt; Codec Driver Libraries &gt; <a href="03268.html">AK4953 Codec Driver Library</a></i>).</li>
+<li class="Element600">I2S Driver used by the Codec Driver for audio data transfer (see <i>Volume V: MPLAB Harmony Framework Reference &gt; Driver Libraries Help &gt; <a href="13740.html">I2S Driver Library Help</a></i>).</li>
+<li class="Element600">I2C Driver used by the Codec (for command transfer) and Touch Drivers (see <i>Volume V: MPLAB Harmony Framework Reference &gt; Driver Libraries Help &gt; <a href="13729.html">I2C Driver Library Help</a></i>).</li>
+<li class="Element600">DMA System Service (see <i>Volume V: MPLAB Harmony Framework Reference &gt; System Service Libraries Help &gt; <a href="07980.html">Direct Memory Access (DMA) System Service Library</a></i>).</li>
+<li class="Element600">Aria User Interface Library (see <i>Volume V: MPLAB Harmony Framework Reference &gt; Graphics Libraries Help &gt; MPLAB Harmony Graphics Composer (MHGC) Suite &gt; <a href="12771.html">Aria User Interface Library</a>)</i>.</li>
+<li class="Element600">MXT336T Touch Driver (<i>see Volume V: MPLAB Harmony Framework Reference &gt; Driver Libraries Help &gt; Touch Driver Libraries Help &gt; <a href="16823.html">mXT336T Touch Driver Library</a></i>).</li>
+<li class="Element600">Low Cost Controllerless (LCC) Graphics Driver.</li>
+</ul><p class="Element10">
+<strong>Tools Setup Differences</strong>&nbsp;</p>
+<p class="Element10">
+<a href="05058.html">pic32mz_ef_sk_meb2</a> Configuration&nbsp;</p>
+<p class="Element10">
+MHC changes:</p>
+<ul class="Element630">
+<li class="Element600">The output of the System PLL is set to 198 MHz to accurately generate the REFCLKO1 which is set to 48000 x 256 = 12288000 Hz. This is done by setting the System PLL in the <i>MPLAB Harmony Configurator &gt; Clock Diagram</i>. Here, click on the <strong>Auto Calculate button</strong> and set the desired system frequency to 198 MHz</li>
+<li class="Element600">The MCKI (Master Clock Input) to the Codec is provided by the Reference Clock Generator Output1 (REFCLKO1) of the PIC32. The value for REFCLKO1 is set by navigating to the <i>MPLAB Harmony Configurator &gt; Clock Diagram</i> and clicking on the <strong>Auto Calculate button</strong> under the REFCLKO1. Here, select the <strong>Target I2S</strong> <strong>Input Frequency Radio button</strong> and click on Apply. The REFCLKO1 will be set to 256 times the sampling frequency or 48000 x 256 = 12288000 Hz.</li>
+<li class="Element600">The REFCLKO1 signal is mapped to PIN 70 (RD15). This is done in the <i>MPLAB Harmony Configurator &gt; Pin Table</i>.</li>
+<li class="Element600">The touch driver uses the PIC32's &quot;External Interrupt 1&quot; (INT1) signal for touch events. The &quot;External Interrupt 1&quot; signal is mapped to pin RE8 (Pin 23). This is done in the <i>MPLAB Harmony Configurator &gt; Pin Table</i>.</li>
+<li class="Element600">Under Harmony Framework Configuration select <strong>Use Graphics stack?</strong> Under <i>Graphics Controller&gt;Low Cost Controllerless</i> set <strong>Frame Buffer Mode</strong> to <strong>Double Buffer</strong>. Expand <strong>Draw Settings&gt;Draw Count Limited</strong> and set the <strong>Max Draw Count Per DMA Transmit</strong> to 100. Expand Memory Settings and set the <strong>Memory Interface Mode</strong> to External Memory.</li>
+<li class="Element600">Under <i>Harmony Framework Configuration&gt;Math Library&gt;DSP Fixed-Point Math Library Configuration</i>, select <strong>Use DSP Fixed-Point Math Library</strong>?</li>
+<li class="Element600">Under <strong>Harmony Framework Configuration&gt;Drivers&gt;CODEC select Use Codec AK4953?</strong> And set the number of AK4953 Driver Clients to 2. One client will transmit data to the codec (speaker output), and the other client will receive data from the codec (microphone input). The codec will use I2S driver instance 0 and I2C driver instance 0.</li>
+<li class="Element600">Under <i>Harmony Framework Configuration&gt;Drivers&gt;Input Drivers&gt;Touch Drivers&gt;Use MXT336T Driver?</i> set the I2C driver module index to<strong> DRV_I2C_INDEX_1</strong> to use I2C driver instance 1.</li>
+<li class="Element600">Under <i>Harmony Framework Configuration&gt;Drivers&gt;I2C&gt;Use I2C Driver?</i> set the number of I2C Driver Instances to 2 and select <strong>Include Force Write I2C Function</strong>. This is needed by the AK4953 CODEC since it NACKs I2C data during the initialization sequence. Expand I2C Driver Instance 0 and set the I2C Module ID to <span class="Element146">I2C_ID_2</span>. Set the Bit Bang Timer Source to <span class="Element146">TIMER_ID_8</span>. Expand I2C Driver Instance 1 and set<span class="Element146"> I2C CLOCK FREQUENCY </span>(Hz) to 10000.</li>
+<li class="Element600">Under <strong>Harmony Framework Configuration&gt;Drivers&gt;I2S&gt;Use I2S Driver,</strong> select DMA Mode and select <strong>Transmit DMA Support</strong> and <strong>Receive DMA Support</strong>. Set the number of I2S Driver Clients to 2. Expand I2S Driver Instance 0 and set Audio Communication Width to <span class="Element146">SPI_AUDIO_COMMUNICATION_16DATA_16FIFO_32CHANNEL</span> and Audio Mode to <span class="Element146">SPI_AUDIO_TRANSMIT_MONO</span>. Set Queue Size Transmit to 5 and Queue Size Receive to 3. Set Receive DMA Channel Instance to 1.</li>
+<li class="Element600">Under <i>Harmony Framework Configuration&gt;System Services&gt;DMA</i> set the number of DMA Channel Instances to 2. DMA Instance 0 will be used for the I2S data transmission, and DMA Instance 1 will be used for I2S data reception. Expand DMA System Channel Instance 0 and set the DMA Channel to use <span class="Element146">DMA_CHANNEL_2</span>. Expand DMA System Channel Instance 1 and set the DMA Channel to use <span class="Element146">DMA_CHANNEL_3</span>.</li>
+<li class="Element600">The heap size is set to 60,000 to ensure enough memory for dynamic memory allocations. This is done in the MPLAB Harmony Configurator (MHC) by setting the size in <i>Device &amp; Project Configuration &gt;Project Configuration &gt;XC32 (Global Options) &gt;xc32-ld &gt;General</i>.</li>
+</ul></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03400.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location, and lists and describes the available configurations for the real time fft demo.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03401.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03402.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to use the real time fft application.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03399.html">real_time_fft</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO real_time_fft Topic Title: real_time_fft)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

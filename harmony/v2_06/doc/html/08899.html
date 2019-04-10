@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>File I/O Type Read/Write Data Transfer Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08909.html">Using the Library</a> &gt; <a href="08902.html">How the Library Works</a> &gt; <a href="08899.html">File I/O Type Read/Write Data Transfer Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08893.html">Previous</a> | <a href="08902.html">Up</a> | <a href="08890.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USART File I/O Type Read Write Data Transfer Model Topic Title: File I/O Type Read/Write Data Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+File I/O Type Read/Write Data Transfer Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+To use the file I/O type read/write data transfer model, the <a href="11507.html">DRV_USART_READ_WRITE_MODEL_SUPPORT</a> configuration macro should be 'true'. The file <span class="Element146">drv_usart_read_write.c</span> file should be included in the application project. The driver can support the non-DMA buffer queue data transfer model along with the file I/O type read/write data transfer model. The byte transfer model and DMA buffer queue model cannot be enabled if the file I/O type read/write data transfer model is enabled.&nbsp;</p>
+<p class="Element10">
+The <a href="11506.html">DRV_USART_Read</a> and <a href="11520.html">DRV_USART_Write</a> function represent the file I/O type read/write data transfer model. The functional behavior of these API is affected by the mode in which the client opened the driver. If the client opened the driver in blocking mode these API will block. In blocking mode, the <a href="11506.html">DRV_USART_Read</a> and <a href="11520.html">DRV_USART_Write</a> functions will not return until the requested number of bytes have been read or written. When operating in a RTOS application, the application thread that has opened driver in blocking mode, will enter a blocked state when it calls <a href="11520.html">DRV_USART_Write</a> or <a href="11506.html">DRV_USART_Read</a> function. This will allow the RTOS scheduler to schedule other threads which are ready to run. If the client opened the driver in non-blocking mode these API will not block. In non-blocking mode, the <a href="11506.html">DRV_USART_Read</a> and <a href="11520.html">DRV_USART_Write</a> functions will return immediately with the amount of data that could be read or written. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Do not open the driver in Blocking mode when the driver is configured for polling operation (<a href="11495.html">DRV_USART_INTERRUPT_MODE</a> is false) in a bare-metal (non-RTOS) application. This will cause the system to enter an infinite loop condition when the <a href="11506.html">DRV_USART_Read</a> or <a href="11520.html">DRV_USART_Write</a> function is called.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The following code shows an example of file I/O type read/write data transfer model usage when the driver is opened in Blocking mode. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01185');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01185"><pre class="Element12"><i><span style="color: #008000">/* This code shows the functionality of the DRV_USART_Write and
+ * DRV_USART_Read function when the driver is opened in blocking mode */</span></i>
+
+DRV_HANDLE usartHandle1;
+uint8_t myData[10];
+size_t bytesProcessed;
+
+<i><span style="color: #008000">/* The driver is opened in blocking mode */</span></i>
+usartHandle1 = DRV_USART_Open(DRV_USART_0, DRV_IO_INTENT_READWRITE|DRV_IO_INTENT_BLOCKING);
+
+<i><span style="color: #008000">/* Check if the driver was opened successfully */</span></i>
+<strong><span style="color: #000080">if</span></strong>(DRV_HANDLE_INVALID == usartHandle1)
+{
+    <i><span style="color: #008000">/* The driver could not be opened successfully */</span></i>
+}
+
+<i><span style="color: #008000">/* Transmit 10 bytes from the myData array. Function will not return until 10 bytes
+ * have been accepted by the driver. This is because the client opened the driver
+ * in blocking mode. */</span></i>
+
+bytesProcessed = DRV_USART_Write(usartHandle1, myData, 10);
+
+<i><span style="color: #008000">/* Read 10 bytes from the myData array. Function will not return until all 10 bytes
+ * have been received by the driver. This is because the client opened the driver
+ * in blocking mode. */</span></i>
+
+bytesProcessed = DRV_USART_Read(usartHandle1, myData, 10);</pre></div></div>
+<p class="Element10">
+In non-Blocking mode, the driver uses the internal USART hardware FIFO as storage. The <a href="11506.html">DRV_USART_Read</a> function checks if bytes are available in USART receive hardware FIFO. If bytes are available, these are read and the number of bytes read is returned. The <a href="11520.html">DRV_USART_Write</a> function checks if USART transmit hardware FIFO has empty location. If locations are empty, the bytes to be transmitted are queued up in the FIFO and the number of queued bytes is returned. In either case, the number of bytes read or written may be less than the number requested by the client. The client can, in such a case, call the <a href="11506.html">DRV_USART_Read</a> and/or the <a href="11520.html">DRV_USART_Write</a> functions again to process the pending bytes. The following code shows how this can be done. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01186');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01186"><pre class="Element12"><i><span style="color: #008000">/* This code shows the functionality of the DRV_USART_Write and
+ * DRV_USART_Read functions when the driver is opened in non-blocking mode */</span></i>
+
+DRV_HANDLE usartHandle1;
+uint8_t myData[10];
+size_t bytesProcessed;
+
+<i><span style="color: #008000">/* The driver is opened in non-blocking mode */</span></i>
+usartHandle1 = DRV_USART_Open(DRV_USART_0,
+        DRV_IO_INTENT_READWRITE|DRV_IO_INTENT_NONBLOCKING);
+
+<i><span style="color: #008000">/* Check if the driver was opened successfully */</span></i>
+<strong><span style="color: #000080">if</span></strong>(DRV_HANDLE_INVALID == usartHandle1)
+{
+    <i><span style="color: #008000">/* The driver could not be opened successfully */</span></i>
+}
+
+<i><span style="color: #008000">/* The following code call the DRV_USART_Write function
+ * multiple times to write 10 bytes completely. Note how the
+ * function return value is used to update the location of
+ * user source data. */</span></i>
+
+bytesProcessed = 0;
+<strong><span style="color: #000080">do</span></strong>
+{
+    <i><span style="color: #008000">/* Write data to the USART and use the return value to
+     * update the source data pointer and pending bytes number. */</span></i>
+    bytesProcessed += DRV_USART_Write(usartHandle1,
+            myData + bytesProcessed, (10 - bytesProcessed));
+
+} <strong><span style="color: #000080">while</span></strong>(bytesProcessed &lt; 10);
+
+<i><span style="color: #008000">/* The following code calls the DRV_USART_Read function multiple times to read
+ * 10 bytes completely. Note how the function return value is used to update the
+ * location of user destination array. */</span></i>
+
+bytesProcessed = 0;
+<strong><span style="color: #000080">do</span></strong>
+{
+    <i><span style="color: #008000">/* Read data from the USART and use the return value to update the
+     * destination pointer and pending bytes number. */</span></i>
+    bytesProcessed += DRV_USART_Read(usartHandle1,
+            myData + bytesProcessed, (10 - bytesProcessed));
+
+}<strong><span style="color: #000080">while</span></strong> (bytesProcessed &lt; 10);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="27174.html">USART Driver Library</a> &gt; <a href="08909.html">Using the Library</a> &gt; <a href="08902.html">How the Library Works</a> &gt; <a href="08899.html">File I/O Type Read/Write Data Transfer Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV USART File I/O Type Read Write Data Transfer Model Topic Title: File I/O Type Read/Write Data Transfer Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

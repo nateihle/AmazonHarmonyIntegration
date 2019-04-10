@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Project Layout</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04298.html">What is MPLAB Harmony?</a> &gt; <a href="04280.html">Project Layout</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04298.html">Previous</a> | <a href="04298.html">Up</a> | <a href="04294.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH Project Layout Topic Title: Project Layout)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Project Layout</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+A sample project has been created to show you the structure of a MPLAB Harmony project. The &quot;sample&quot; project is available in the following folder, within your MPLAB Harmony installation root folder:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">&lt;install-dir&gt;/apps/examples/sample/firmware/sample.X</span>&nbsp;</p>
+<p class="Element10">
+You should open this project in MPLAB X IDE and follow along with this guide.&nbsp;</p>
+<p class="Element10">
+A MPLAB Harmony project is organized within MPLAB X IDE, as shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="project_layout.png" border="0" alt="" title=""></p><p class="Element10">
+This organization consists of a few key &quot;logical&quot; folders and C language files, as follows.</p><div class="Element15">
+The Header Files and Source Files Folders</div>
+<p class="Element10">
+The MPLAB X IDE separates C-language files into header (<span class="Element146">.h</span>) files and source (<span class="Element146">.c</span>) files by placing the header files in a top-level <span class="Element146">Header Files</span> logical folder and the source files in a top-level <span class="Element146">Source Files</span> logical folder. This distinction is for display only within the MPLAB X IDE and these folders do not appear on disk. Also, in most cases, logical folders that appear as sub-folders of these top-level folders are duplicated in both the <span class="Element146">Header Files</span> and <span class="Element146">Source Files</span> top-level logical folders because header and source files are kept together on disk.</p><div class="Element15">
+The app Folder</div>
+<p class="Element10">
+This folder contains the <span class="Element146">main.c</span> and <span class="Element146">app.c</span> source files and the <span class="Element146">app.h</span> header file.&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">app</span> (i.e., application) folder and its sub-folders contain all of the project-specfic source and header files (but not the shared files stored in the framework folder, which are discussed later). In a simple project, the <span class="Element146">app</span> folder contains the <span class="Element146">main.c</span>, <span class="Element146">app.c</span>, and <span class="Element146">app.h</span> files and a <span class="Element146">system_config</span> sub-folder. More complex projects will very likely contain additional files, as needed. In a MPLAB Harmony project, the <span class="Element146">main.c</span> file normally contains the C language main function and little or nothing else. The logic of the <span class="Element146">main</span> function is consistent across all MPLAB Harmony projects and should not need to be changed. The <span class="Element146">app.c</span> file normally contains the logic of the application itself. This is where the desired overall behavior of your system is usually implemented (although complex systems may have multiple applications).&nbsp;</p>
+<p class="Element10">
+The <span class="Element146">app.h</span> file defines data types and other definitions required by the application or interface prototypes for functions the application wants to share with other applications or the system.</p><div class="Element15">
+The system_config Folder</div>
+<p class="Element10">
+The <span class="Element146">system_config</span> folder contains one or more subdirectories, each of which corresponds to an individual configuration of your project. MPLAB Harmony projects may have multiple configurations. Each project configuration creates a different variation of your embedded system with potentially different hardware or features. In each configuration, you can select a different set of libraries or modules, select different build parameters for each module and even select different source files for your application(s). A configuration consists of a specific set of properties (tools settings) in MPLAB X IDE, a set of source files that define the build parameters, and a set of source and header files that control which modules are initialized and maintained in your system. </p><p class="Element10" style="text-align: center;">
+<img src="configurations.png" border="0" alt="" title=""></p><p class="Element10">
+In MPLAB X IDE, the project configuration can be selected by using a pull-down menu in the tool bar at the top of the window or by right-clicking the project name and selecting <strong>Properties</strong>. In most example and demonstration projects distributed with MPLAB Harmony, the name of each MPLAB X IDE configuration will match the name of the associated folder within the <span class="Element146">system_config</span> folder in the project (the 795_pim_e16 folder in the sample project). When a specific MPLAB X IDE configuration is selected, the configuration files for that configuration are included in the build and the configuration files in other configuration folders are excluded from the build. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This is the project convention used by the example and demonstration projects provided with MPLAB Harmony. You, of course, may organize your own projects any way you desire. However, it is recommended to follow this convention if you use multiple configurations in your projects. We think you'll appreciate the power and flexibility it provides.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Configuration Files:</div>
+
+<ul class="Element630">
+<li class="Element600"><span class="Element146">system_config.h</span></li>
+<li class="Element600"><span class="Element146">system_init.c</span></li>
+<li class="Element600"><span class="Element146">system_tasks.c</span></li>
+<li class="Element600"><span class="Element146">system_interrupt.c</span></li>
+<li class="Element600"><span class="Element146">system_exceptions.c</span></li>
+<li class="Element600"><span class="Element146">system_definitions.h</span></li>
+</ul><p class="Element10">
+This set of files define a configuration of the system. The purpose of each of these files is described in more detail in the following sections. But, the basic idea is that you may want different configurations of your application for different hardware boards, different Microchip microcontrollers, or different feature sets, depending on your specific needs.&nbsp;</p>
+<p class="Element10">
+Allowing different configurations of the same application logic makes your application more flexible and provides a well-organized way to deal with the sort of variation that usually occurs in any project of sufficient size and complexity. This technique helps to eliminate the duplication of code (and labor) that would otherwise be necessary to manage multiple related projects. Of course, if you don't need or want that flexibility, all of these files are specifically created for your project and you can make any modifications to them that you like. The choice is always yours. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="15%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="85%" style="border:none;">
+<div class="Element68">
+The relative path, from the MPLAB X IDE project folder to the configuration folder (containing the <span class="Element146">system_config.h</span> file) for each project configuration is automatically placed in the &quot;Includes directories&quot; list in the compiler properties for each configuration of the MPLAB X IDE project by the MHC.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+The framework Folder</div>
+<p class="Element10">
+The <span class="Element146">framework</span> logical folder contains the source files for the MPLAB Harmony framework and libraries. Depending on your project configuration, there can be many, many files and sub-folders within this folder. These files are for MPLAB Harmony libraries that you should not need to edit. In fact, the framework source files are not normally located in your project. Instead, these files are included in your project directly from the MPLAB Harmony installation (using relative directory paths). All of the actual files stay in the MPLAB Harmony installation folder, out of the way. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong>Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+</p>
+<ol class="Element630">
+<li value="1" class="Element600">You always have the option of copying the framework files directly into your project's source folder, if desired. In fact, doing so is a good idea if you plan to move or distribute your project separately from the MPLAB Harmony installation.</li>
+<li value="2" class="Element600">In most cases, the &quot;logical folder&quot; organization within the MPLAB X IDE project matches exactly with the physical directory organization within the MPLAB Harmony installation (and within your project directory) on your disk drive. This is done to keep things simple and consistent so you only need to learn a single layout. But, there are a couple of notable exceptions.
+<ul class="Element631">
+<li class="Element601">MPLAB X IDE has a convention of splitting out &quot;Header Files&quot; (<span class="Element146">.h</span>) and &quot;Source Files&quot; (<span class="Element146">.c</span>), so that the virtual folder organization in project separates the files in to these two groups and the physical directories on disk do not</li>
+<li class="Element601">In a MPLAB Harmony example or demonstration project, the <span class="Element146">app</span> folder will correspond to the <span class="Element146">src</span> directory on disk within the <span class="Element146">firmware</span> folder of the project</li>
+</ul></li>
+</ol><p class="Element68">
+&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04294.html">The Main File</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This topic describes the logic of the <span class="Element146">main.c</span> file and the C language <span class="Element146">main</span> function in a MPLAB Harmony project.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04292.html">The Application File(s)</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This topic describes the normal structure of MPLAB Harmony application files.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="04285.html">System Configurations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes the files that make up a system configuration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="04298.html">What is MPLAB Harmony?</a> &gt; <a href="04280.html">Project Layout</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: ARCH Project Layout Topic Title: Project Layout)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

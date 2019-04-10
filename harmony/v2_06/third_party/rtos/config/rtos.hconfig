@@ -1,0 +1,99 @@
+# file: rtos.hconfig
+
+menu "RTOS"
+
+    enum 3RDPARTY_RTOS_SOURCE
+        "FreeRTOS"
+        || "FreeRTOS_V9.x.x"
+        || "FreeRTOS_V8.x.x"
+        || "FreeRTOS_V7.x.x"
+        || "OpenRTOS_V8.x.x"
+        || "OpenRTOS_V7.x.x"
+        || "uC/OS-II"
+        || "uC/OS-III"
+        || "ThreadX"
+        || "embOS"
+
+    enum 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+        "Standalone"
+        || "Combined with System Tasks"
+
+    config USE_3RDPARTY_FREERTOS_NEEDED
+        bool
+
+    config USE_3RDPARTY_OPENRTOS_NEEDED
+        bool
+
+    config USE_3RDPARTY_UCOS3_NEEDED
+        bool
+
+    config USE_3RDPARTY_UCOS2_NEEDED
+        bool
+
+    config USE_3RDPARTY_THREADX_NEEDED
+        bool
+
+    config USE_3RDPARTY_EMBOS_NEEDED
+        bool
+
+    config USE_3RDPARTY_RTOS
+        bool "Use RTOS?"
+        default y if USE_3RDPARTY_FREERTOS_NEEDED
+        default y if USE_3RDPARTY_OPENRTOS_NEEDED
+        default y if USE_3RDPARTY_UCOS3_NEEDED
+        default y if USE_3RDPARTY_UCOS2_NEEDED
+        default y if USE_3RDPARTY_THREADX_NEEDED
+        default y if USE_3RDPARTY_EMBOS_NEEDED
+
+    config 3RDPARTY_RTOS_USED
+        string "Select RTOS"
+        depends on USE_3RDPARTY_RTOS
+        range 3RDPARTY_RTOS_SOURCE
+        default "FreeRTOS" if USE_3RDPARTY_FREERTOS_NEEDED
+        default "OpenRTOS_V8.x.x" if USE_3RDPARTY_OPENRTOS_NEEDED
+        default "uC/OS-III" if USE_3RDPARTY_UCOS3_NEEDED
+        default "uC/OS-II" if USE_3RDPARTY_UCOS3_NEEDED
+        default "ThreadX" if USE_3RDPARTY_THREADX_NEEDED
+        default "embOS" if USE_3RDPARTY_EMBOS_NEEDED
+
+    ifblock (3RDPARTY_RTOS_USED = "FreeRTOS")
+        comment "Amazon FreeRTOS latest version 10.0.1 - configurable with MHC"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "OpenRTOS_V8.x.x")
+        comment "OpenRTOS version 8.x.x - configurable with MHC"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "FreeRTOS") || (3RDPARTY_RTOS_USED = "OpenRTOS_V8.x.x")
+        source  "$HARMONY_VERSION_PATH/third_party/rtos/FreeRTOS/config/freertos_menu.hconfig"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "FreeRTOS_V9.x.x") || (3RDPARTY_RTOS_USED = "FreeRTOS_V8.x.x") || (3RDPARTY_RTOS_USED = "FreeRTOS_V7.x.x")
+        comment "**** Note: This version of FreeRTOS is supported by Harmony, but is not configurable with MHC ****"
+        comment "**** Note: Please install this version of FreeRTOS and add it to your project manually ****"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "OpenRTOS_V7.x.x")
+        comment "**** Note: This version of OpenRTOS is supported by Harmony, but is not configurable with MHC ****"
+        comment "**** Note: Please install this version of OpenRTOS and add it to your project manually ****"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "uC/OS-II")
+        source  "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSII/config/MicriumOSII.hconfig"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "uC/OS-III")
+        source  "$HARMONY_VERSION_PATH/third_party/rtos/MicriumOSIII/config/MicriumOSIII.hconfig"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "ThreadX")
+        comment "**** Note: Please install this RTOS before configuring it ****"
+        source  "$HARMONY_VERSION_PATH/third_party/rtos/ThreadX/config/ThreadX.hconfig"
+    endif
+
+    ifblock (3RDPARTY_RTOS_USED = "embOS")
+        comment "**** Note: Please get this RTOS License before configuring it ****"
+        source  "$HARMONY_VERSION_PATH/third_party/rtos/embOS/config/embOS.hconfig"
+    endif
+
+endmenu

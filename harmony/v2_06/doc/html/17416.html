@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Example - Digital Comparator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17431.html">Using the Library</a> &gt; <a href="17423.html">How the Library Works</a> &gt; <a href="17407.html">Functionality</a> &gt; <a href="17416.html">Example - Digital Comparator</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17417.html">Previous</a> | <a href="17407.html">Up</a> | <a href="17415.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCHS Example - Digital Comparator Topic Title: Example - Digital Comparator)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Example - Digital Comparator</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Digital Comparator is used to automatically evaluate results as they are output by the converter. The following example illustrates an automated test of AN8 for values that are greater than or equal to 80% of full scale or less than 20% of full scale. A count is incremented each time an event occurs. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01465');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01465"><pre class="Element12">{
+    <strong><span style="color: #000080">int</span></strong> result; <i><span style="color: #008000">// storage for results</span></i>
+    <strong><span style="color: #000080">bool</span></strong> eventFlag = <strong><span style="color: #000080">false</span></strong>; <i><span style="color: #008000">// Digital comparator event flag</span></i>
+    <i><span style="color: #008000">// Configure the ADC</span></i>
+    PLIB_ADCHS_Setup
+    (
+        MY_ADCHS_INSTANCE,
+        ADCHS_VREF_AVDD_AVSS,                     <i><span style="color: #008000">// AVDD and AVSS as reference</span></i>
+        ADCHS_CHARGEPUMP_DISABLE,                 <i><span style="color: #008000">// No charge pump</span></i>
+        ADCHS_OUTPUT_DATA_FORMAT_FRACTIONAL,      <i><span style="color: #008000">// Use fractional format</span></i>
+        <strong><span style="color: #000080">true</span></strong>,                                     <i><span style="color: #008000">// Do stop in idle</span></i>
+        ADCHS_FAST_SYNC_SYSTEM_CLOCK_ENABLE,      <i><span style="color: #008000">// Enable Fast synchronous system clock</span></i>
+        ADCHS_FAST_SYNC_PERIPHERAL_CLOCK_DISABLE, <i><span style="color: #008000">// Disable Fast synchronous peripheral clock</span></i>
+        ADCHS_INTERRUPT_BIT_SHIFT_LEFT_0_BITS,    <i><span style="color: #008000">// vector shift not used since interrupt not used</span></i>
+        0,                                        <i><span style="color: #008000">// vector base address unused, interrupt not used</span></i>
+        ADCHS_CLOCK_SOURCE_SYSCLK,                <i><span style="color: #008000">// SYSCLK is the clock source</span></i>
+        1,                                        <i><span style="color: #008000">// TQ = 1/SYSCLK * 2</span></i>
+        ADCHS_WARMUP_CLOCK_32                     <i><span style="color: #008000">// Warm-up time = 32 clocks</span></i>
+    );
+    <i><span style="color: #008000">// Configure the ADC SAR Channel-7</span></i>
+    PLIB_ADCHS_ChannelSetup
+    (
+        MY_ADCHS_INSTANCE,
+        ADCHS_CHANNEL_7,                          <i><span style="color: #008000">// Channel - 7</span></i>
+        ADCHS_DATA_RESOLUTION_12BIT,              <i><span style="color: #008000">// resolution is set to 12bits</span></i>
+        1,                                        <i><span style="color: #008000">// clock divider bit is, TAD7 = 2 * TQ</span></i>
+        1,                                        <i><span style="color: #008000">// Sample time is 3 * TAD7</span></i>
+        ADCHS_EARLY_INTERRUPT_PRIOR_CLOCK_1       <i><span style="color: #008000">// 1 clock early interrupt (ignored, interrupt not used)</span></i>
+    );
+    <i><span style="color: #008000">// Select input mode for AN8</span></i>
+    PLIB_ADCHS_AnalogInputModeSelect
+    (
+        MY_ADCHS_INSTANCE,
+        ADCHS_AN8,
+        ADCHS_INPUT_MODE_SINGLE_ENDED_UNIPOLAR
+    );
+    <i><span style="color: #008000">// Configure the digital comparator - 1</span></i>
+    PLIB_ADCHS_DigitalComparatorSetup
+    (
+        MY_ADCHS_INSTANCE,          <i><span style="color: #008000">// ADCHS channel ID</span></i>
+        ADCHS_DIGITAL_COMPARATOR_1, <i><span style="color: #008000">// Comparator ID</span></i>
+        <strong><span style="color: #000080">false</span></strong>,                      <i><span style="color: #008000">// Global Int Enable</span></i>
+        <strong><span style="color: #000080">true</span></strong>,                       <i><span style="color: #008000">// test for between low and high</span></i>
+        <strong><span style="color: #000080">false</span></strong>,                      <i><span style="color: #008000">// no test for greater than equal to high</span></i>
+        <strong><span style="color: #000080">false</span></strong>,                      <i><span style="color: #008000">// no test for less than high</span></i>
+        <strong><span style="color: #000080">false</span></strong>,                      <i><span style="color: #008000">// no test for greater than equal to low</span></i>
+        <strong><span style="color: #000080">false</span></strong>,                      <i><span style="color: #008000">// no test for less than low</span></i>
+        ADCHS_AN8,                  <i><span style="color: #008000">// select AN8</span></i>
+        0xFFF - (0xFFF/5),          <i><span style="color: #008000">// high limit, 80% of full scale</span></i>
+        (0xFFF/5)                   <i><span style="color: #008000">// low limit, 20% of full scale</span></i>
+    );
+    <i><span style="color: #008000">// Select individual trigger for class-2 channels viz. AN8 to be global software trigger.</span></i>
+    PLIB_ADCHS_AnalogInputTriggerSourceSelect
+    (
+        MY_ADCHS_INSTANCE,
+        ADCHS_CLASS12_AN8,
+        ADCHS_TRIGGER_SOURCE_GLOBAL_SOFTWARE_EDGE
+    );
+    <i><span style="color: #008000">// Select edge trigger</span></i>
+    PLIB_ADCHS_AnalogInputEdgeTriggerSet( MY_ADCHS_INSTANCE, ADCHS_CLASS12_AN8 );
+    <i><span style="color: #008000">// Enable the digital comparator</span></i>
+    PLIB_ADCHS_DigitalComparatorEnable(MY_ADCHS_INSTANCE, ADCHS_DIGITAL_COMPARATOR_1);
+    <i><span style="color: #008000">// Enable ADC</span></i>
+    PLIB_ADCHS_Enable(MY_ADCHS_INSTANCE);
+    <i><span style="color: #008000">// Check VREF to be ready</span></i>
+    While(!PLIB_ADCHS_VREFIsReady(MY_ADCHS_INSTANCE));
+    <i><span style="color: #008000">// Check for VREF Fault</span></i>
+    While(PLIB_ADCHS_VREFFaultHasOccurred(MY_ADCHS_INSTANCE));
+    <i><span style="color: #008000">// Enable analog circuit for channel-7</span></i>
+    PLIB_ADCHS_ChannelAnalogFeatureEnable
+    (
+        MY_ADCHS_INSTANCE,
+        ADCHS_CHANNEL_7
+    );
+    <i><span style="color: #008000">// Wait for the channel-7 to be ready</span></i>
+    <strong><span style="color: #000080">while</span></strong>(!PLIB_ADCHS_ChannelIsReady
+        (
+            MY_ADCHS_INSTANCE,
+            ADCHS_CHANNEL_7
+        )
+    );
+    <i><span style="color: #008000">// Enable digital circuit for channels 7</span></i>
+    PLIB_ADCHS_ChannelDigitalFeatureEnable
+    (
+        MY_ADCHS_INSTANCE,
+        ADCHS_CHANNEL_7
+    );
+    <strong><span style="color: #000080">while</span></strong>(1)
+    {
+        <i><span style="color: #008000">// Enable global software trigger</span></i>
+        PLIB_ADCHS_GlobalSoftwareTriggerEnable( MY_ADCHS_INSTANCE );
+        <i><span style="color: #008000">// Wait for conversion complete for AN8</span></i>
+        <strong><span style="color: #000080">while</span></strong>(!PLIB_ADCHS_AnalogInputDataIsReady(MY_ADCHS_INSTANCE, ADCHS_AN8));
+        result = PLIB_ADCHS_AnalogInputResultGet( MY_ADCHS_INSTANCE, ADCHS_AN8 );
+        <i><span style="color: #008000">// Note: It is not necessary to read the conversion result for digital comparator</span></i>
+        <i><span style="color: #008000">// to work</span></i>
+        <i><span style="color: #008000">// See if we have comparator event</span></i>
+        <strong><span style="color: #000080">if</span></strong>(PLIB_ADCHS_DigitalComparatorEventHasOccurred( MY_ADCHS_INSTANCE, ADCHS_DIGITAL_COMPARATOR_1 ))
+        {
+            eventFlag = <strong><span style="color: #000080">true</span></strong>;
+        }
+    }
+    <strong><span style="color: #000080">return</span></strong>(1);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="02553.html">ADCHS Peripheral Library</a> &gt; <a href="17431.html">Using the Library</a> &gt; <a href="17423.html">How the Library Works</a> &gt; <a href="17407.html">Functionality</a> &gt; <a href="17416.html">Example - Digital Comparator</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCHS Example - Digital Comparator Topic Title: Example - Digital Comparator)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

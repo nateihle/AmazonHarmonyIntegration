@@ -1,0 +1,634 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>libq.h</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11807.html">LibQ Fixed-Point Math Library</a> &gt; <a href="16364.html">Files</a> &gt; <a href="16273.html">libq.h</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16364.html">Previous</a> | <a href="16364.html">Up</a> | <a href="16813.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: libq.h Topic Title: libq.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+libq.h</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The LibQ Fixed-Point Math Library provides fixed-point math functions that are optimized for performance on the PIC32MZ families of devices that have microAptiv core features. All functions are optimized for speed. This header file specifies characteristics of each function, including execution time, memory size, and resolution.&nbsp;</p>
+<p class="Element10">
+Signed fixed point types are defined as follows:&nbsp;</p>
+<p class="Element10">
+Qn_m where:
+<ul class="Element636">
+<li class="Element606">n is the number of data bits to the left of the radix point</li>
+<li class="Element606">m is the number of data bits to the right of the radix point</li>
+<li class="Element606">a signed bit is implied</li>
+</ul>&nbsp;</p>
+<p class="Element10">
+For convenience, short names are also defined:&nbsp;</p>
+<p class="Element10">
+Exact Name (&amp; Bits) Required Short Name <a href="02209.html">_Q0_15</a> (16) <a href="02211.html">_Q15</a>; <a href="02212.html">_Q15_16</a> (32) <a href="02215.html">_Q16</a>; <a href="02210.html">_Q0_31</a> (32) <a href="02227.html">_Q31</a>&nbsp;</p>
+<p class="Element10">
+Functions in the library are prefixed with the type of the return value. For example, <a href="02091.html">_LIBQ_Q16Sqrt</a> returns a Q16 value equal to the square root of its argument.&nbsp;</p>
+<p class="Element10">
+Argument types do not always match the return type. Refer to the function prototype for a specification of its arguments.&nbsp;</p>
+<p class="Element10">
+In cases where the return value is not a fixed point type, the argument type is appended to the function name. For example, <a href="02111.html">_LIBQ_ToFloatQ31</a> accepts a type <a href="02227.html">_Q31</a> argument.&nbsp;</p>
+<p class="Element10">
+In some cases, both the return type and the argument type are specified within the function name. For example,&nbsp;</p>
+<p class="Element10">
+Function Name (Return Type) [Argument Type]: <a href="02083.html">_LIBQ_Q15_sin_Q2_13</a> (<a href="02211.html">_Q15</a>) [<a href="02218.html">_Q2_13</a>]; <a href="02104.html">_LIBQ_Q31_sin_Q2_29</a> (<a href="02227.html">_Q31</a>) [<a href="02221.html">_Q2_29</a>]&nbsp;</p>
+<p class="Element10">
+Table of LIBQ functions:&nbsp;</p>
+<p class="Element10">
+Divide: <a href="02215.html">_Q16</a> <a href="02088.html">_LIBQ_Q16Div</a> (<a href="02215.html">_Q16</a> dividend, <a href="02215.html">_Q16</a> divisor);&nbsp;</p>
+<p class="Element10">
+Square root: <a href="02215.html">_Q16</a> <a href="02091.html">_LIBQ_Q16Sqrt</a> (<a href="02215.html">_Q16</a> x);&nbsp;</p>
+<p class="Element10">
+Exponential: <a href="02215.html">_Q16</a> <a href="02089.html">_LIBQ_Q16Exp</a> (<a href="02215.html">_Q16</a> x);&nbsp;</p>
+<p class="Element10">
+Log: <a href="02230.html">_Q4_11</a> <a href="02107.html">_LIBQ_Q4_11_ln_Q16</a> (<a href="02215.html">_Q16</a> x); <a href="02224.html">_Q3_12</a> <a href="02102.html">_LIBQ_Q3_12_log10_Q16</a> (<a href="02215.html">_Q16</a> x); <a href="02233.html">_Q5_10</a> <a href="02108.html">_LIBQ_Q5_10_log2_Q16</a> (<a href="02215.html">_Q16</a> x);&nbsp;</p>
+<p class="Element10">
+Power: <a href="02215.html">_Q16</a> <a href="02090.html">_LIBQ_Q16Power</a> (<a href="02215.html">_Q16</a> x, <a href="02215.html">_Q16</a> y);&nbsp;</p>
+<p class="Element10">
+Sine: <a href="02211.html">_Q15</a> <a href="02083.html">_LIBQ_Q15_sin_Q2_13</a> (<a href="02218.html">_Q2_13</a> x); <a href="02227.html">_Q31</a> <a href="02104.html">_LIBQ_Q31_sin_Q2_29</a> (<a href="02221.html">_Q2_29</a> x);&nbsp;</p>
+<p class="Element10">
+Cosine: <a href="02211.html">_Q15</a> <a href="02082.html">_LIBQ_Q15_cos_Q2_13</a> (<a href="02218.html">_Q2_13</a> x); <a href="02227.html">_Q31</a> <a href="02103.html">_LIBQ_Q31_cos_Q2_29</a> (<a href="02221.html">_Q2_29</a> x);&nbsp;</p>
+<p class="Element10">
+Tangent: <a href="02236.html">_Q7_8</a> <a href="02109.html">_LIBQ_Q7_8_tan_Q2_13</a> (<a href="02218.html">_Q2_13</a> x); _Q16z <a href="02087.html">_LIBQ_Q16_tan_Q2_29</a> (<a href="02221.html">_Q2_29</a> x);&nbsp;</p>
+<p class="Element10">
+Arcsin: <a href="02218.html">_Q2_13</a> <a href="02093.html">_LIBQ_Q2_13_asin_Q15</a> (<a href="02211.html">_Q15</a> x); <a href="02221.html">_Q2_29</a> <a href="02098.html">_LIBQ_Q2_29_asin_Q31</a> (<a href="02227.html">_Q31</a> x); <a href="02221.html">_Q2_29</a> <a href="02099.html">_LIBQ_Q2_29_asin_Q31_Fast</a> (<a href="02227.html">_Q31</a> x);&nbsp;</p>
+<p class="Element10">
+Arccos: <a href="02218.html">_Q2_13</a> <a href="02092.html">_LIBQ_Q2_13_acos_Q15</a> (<a href="02211.html">_Q15</a> x); <a href="02221.html">_Q2_29</a> <a href="02096.html">_LIBQ_Q2_29_acos_Q31</a> (<a href="02227.html">_Q31</a> x); <a href="02221.html">_Q2_29</a> <a href="02097.html">_LIBQ_Q2_29_acos_Q31_Fast</a> (<a href="02227.html">_Q31</a> x);&nbsp;</p>
+<p class="Element10">
+Arctan: <a href="02218.html">_Q2_13</a> <a href="02094.html">_LIBQ_Q2_13_atan_Q7_8</a> (<a href="02236.html">_Q7_8</a> x); <a href="02221.html">_Q2_29</a> <a href="02100.html">_LIBQ_Q2_29_atan_Q16</a> (<a href="02215.html">_Q16</a> x);&nbsp;</p>
+<p class="Element10">
+Arctan2: <a href="02218.html">_Q2_13</a> <a href="02095.html">_LIBQ_Q2_13_atan2_Q7_8</a> (<a href="02236.html">_Q7_8</a> y, <a href="02236.html">_Q7_8</a> x); <a href="02221.html">_Q2_29</a> <a href="02101.html">_LIBQ_Q2_29_atan2_Q16</a> (<a href="02215.html">_Q16</a> y, <a href="02215.html">_Q16</a> x);&nbsp;</p>
+<p class="Element10">
+Random number: <a href="02211.html">_Q15</a> <a href="02086.html">_LIBQ_Q15Rand</a> (int64_t &amp;pSeed); <a href="02227.html">_Q31</a> <a href="02106.html">_LIBQ_Q31Rand</a> (int64_t &amp;pSeed);&nbsp;</p>
+<p class="Element10">
+Float: float <a href="02111.html">_LIBQ_ToFloatQ31</a> (<a href="02227.html">_Q31</a> x); float <a href="02110.html">_LIBQ_ToFloatQ15</a> (<a href="02211.html">_Q15</a> x); <a href="02227.html">_Q31</a> <a href="02105.html">_LIBQ_Q31FromFloat</a> (float x); <a href="02211.html">_Q15</a> <a href="02084.html">_LIBQ_Q15FromFloat</a> (float x);&nbsp;</p>
+<p class="Element10">
+String: void <a href="02112.html">_LIBQ_ToStringQ15</a> (<a href="02211.html">_Q15</a> x, char &amp;s); <a href="02211.html">_Q15</a> <a href="02085.html">_LIBQ_Q15FromString</a> (char &amp;s);</p></div>
+</div>
+<a name="46756E6374696F6E73"></a><div class="Element14">
+Functions</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02082.html">_LIBQ_Q15_cos_Q2_13</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of cosine(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02083.html">_LIBQ_Q15_sin_Q2_13</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of sine(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02084.html">_LIBQ_Q15FromFloat</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts a float to a <a href="02211.html">_Q15</a> value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02085.html">_LIBQ_Q15FromString</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+ASCII to <a href="02211.html">_Q15</a> conversion.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02086.html">_LIBQ_Q15Rand</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Generate a <a href="02211.html">_Q15</a> random number.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02087.html">_LIBQ_Q16_tan_Q2_29</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of tan(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02088.html">_LIBQ_Q16Div</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<a href="02215.html">_Q16</a> fixed point divide.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02089.html">_LIBQ_Q16Exp</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the exponential function e^x.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02090.html">_LIBQ_Q16Power</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of x raised to the y power (x^y).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02091.html">_LIBQ_Q16Sqrt</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Square root of a positive <a href="02215.html">_Q16</a> fixed point value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02092.html">_LIBQ_Q2_13_acos_Q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of acos(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02093.html">_LIBQ_Q2_13_asin_Q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the asin value of asin(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02094.html">_LIBQ_Q2_13_atan_Q7_8</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of atan(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02095.html">_LIBQ_Q2_13_atan2_Q7_8</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of atan2(y, x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02096.html">_LIBQ_Q2_29_acos_Q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of acos(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02097.html">_LIBQ_Q2_29_acos_Q31_Fast</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of acos(x). This function executes faster than <a href="02096.html">_LIBQ_Q2_29_acos_Q31</a> but is less precise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02098.html">_LIBQ_Q2_29_asin_Q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of asin(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02099.html">_LIBQ_Q2_29_asin_Q31_Fast</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of asin(x). This function executes faster than the <a href="02098.html">_LIBQ_Q2_29_asin_Q31</a> function, but is less precise.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02100.html">_LIBQ_Q2_29_atan_Q16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of atan(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02101.html">_LIBQ_Q2_29_atan2_Q16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of atan2(y, x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02102.html">_LIBQ_Q3_12_log10_Q16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of Log10(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02103.html">_LIBQ_Q31_cos_Q2_29</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of cosine(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02104.html">_LIBQ_Q31_sin_Q2_29</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of sine(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02105.html">_LIBQ_Q31FromFloat</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts a float to a <a href="02227.html">_Q31</a> value.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02106.html">_LIBQ_Q31Rand</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Generate a <a href="02227.html">_Q31</a> random number.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02107.html">_LIBQ_Q4_11_ln_Q16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the natural logarithm ln(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02108.html">_LIBQ_Q5_10_log2_Q16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of log2(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02109.html">_LIBQ_Q7_8_tan_Q2_13</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Calculates the value of tan(x).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02110.html">_LIBQ_ToFloatQ15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts a <a href="02211.html">_Q15</a> value to a float.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02111.html">_LIBQ_ToFloatQ31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Converts a <a href="02227.html">_Q31</a> value to a float.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_method.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02112.html">_LIBQ_ToStringQ15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<a href="02211.html">_Q15</a> to ASCII conversion.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="4D6163726F73"></a><div class="Element14">
+Macros</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02081.html">_LIBQ_H</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Guards against multiple inclusion&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02213.html">_Q15_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02211.html">_Q15</a> (~1.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02214.html">_Q15_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02211.html">_Q15</a> (-1.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02216.html">_Q16_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02215.html">_Q16</a> (~32768.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02217.html">_Q16_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02215.html">_Q16</a> (-32768.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02219.html">_Q2_13_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02218.html">_Q2_13</a> (~4.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02220.html">_Q2_13_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02218.html">_Q2_13</a> (-4.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02222.html">_Q2_29_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02221.html">_Q2_29</a> (~4.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02223.html">_Q2_29_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02221.html">_Q2_29</a> (-4.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02225.html">_Q3_12_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02224.html">_Q3_12</a> (~8.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02226.html">_Q3_12_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02224.html">_Q3_12</a> (-8.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02228.html">_Q31_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02227.html">_Q31</a> (~1.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02229.html">_Q31_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02227.html">_Q31</a> (-1.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02231.html">_Q4_11_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02230.html">_Q4_11</a> (~16.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02232.html">_Q4_11_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02230.html">_Q4_11</a> (-16.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02234.html">_Q5_10_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02233.html">_Q5_10</a> (~32.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02235.html">_Q5_10_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02233.html">_Q5_10</a> (-32.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02237.html">_Q7_8_MAX</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Maximum value of <a href="02236.html">_Q7_8</a> (~128.0)&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02238.html">_Q7_8_MIN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Minimum value of <a href="02236.html">_Q7_8</a> (-128.0)&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="5479706573"></a><div class="Element14">
+Types</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02209.html">_Q0_15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 15 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02210.html">_Q0_31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 31 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02211.html">_Q15</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Short name for <a href="02209.html">_Q0_15</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02212.html">_Q15_16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 15 bits left of radix, 16 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02215.html">_Q16</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Short name for <a href="02212.html">_Q15_16</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02218.html">_Q2_13</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 2 bits left of radix, 13 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02221.html">_Q2_29</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 2 bits left of radix, 29 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02224.html">_Q3_12</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 3 bits left of radix, 12 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02227.html">_Q31</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Short name for _Q_0_31&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02230.html">_Q4_11</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 4 bits left of radix, 11 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02233.html">_Q5_10</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 5 bits left of radix, 10 bits right of radix&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_structure.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="02236.html">_Q7_8</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+1 sign bit, 7 bits left of radix, 8 bits right of radix&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="46696C65204E616D65"></a><div class="Element14">
+File Name</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+libq.h</p></div>
+</div>
+<a name="436F6D70616E79"></a><div class="Element14">
+Company</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Microchip Technology Inc.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11807.html">LibQ Fixed-Point Math Library</a> &gt; <a href="16364.html">Files</a> &gt; <a href="16273.html">libq.h</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: libq.h Topic Title: libq.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

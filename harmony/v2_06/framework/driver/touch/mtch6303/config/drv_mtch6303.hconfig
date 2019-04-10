@@ -1,0 +1,125 @@
+
+menu "MTCH6303"
+
+enum DRV_TOUCH_MTCH6303_BUS_TYPE
+    "DRV_TOUCH_MTCH6303_BUS_I2C" ||
+    "DRV_TOUCH_MTCH6303_BUS_USB"
+
+enum DRV_TOUCH_MTCH6303_I2C_INSTANCE_INDEX_TYPE
+	"DRV_I2C_INDEX_0" ||
+	"DRV_I2C_INDEX_1" ||
+	"DRV_I2C_INDEX_2" ||
+	"DRV_I2C_INDEX_3" ||
+	"DRV_I2C_INDEX_4" ||
+	"DRV_I2C_INDEX_5"
+
+config USE_DRV_TOUCH_MTCH6303_NEEDED
+    bool
+
+config USE_DRV_TOUCH_MTCH6303
+    bool "Use MTCH6303 driver?"
+    select USE_SYS_TOUCH_NEEDED
+    select USE_SYS_INT_NEEDED
+    select USE_EXT_INT_NEEDED
+    default y if USE_DRV_TOUCH_MTCH6303_NEEDED
+    default n
+    ---help---
+    IDH_HTML_MTCH6303_Driver_Library
+    ---endhelp---
+
+config DRV_TOUCH_MTCH6303_MESSAGE_STREAM_SUPPORT
+    bool "Use MTCH6303 message stream?"
+    depends on USE_DRV_TOUCH_MTCH6303
+    default n
+    ---help---
+    IDH_HTML_MTCH6303_Driver_Library
+    ---endhelp---
+
+config DRV_TOUCH_MTCH6303_BUS_SELECT
+    string
+    depends on USE_DRV_TOUCH_MTCH6303
+    range DRV_TOUCH_MTCH6303_BUS_TYPE
+    default "DRV_TOUCH_MTCH6303_BUS_I2C"
+
+ifblock DRV_TOUCH_MTCH6303_BUS_SELECT = "DRV_TOUCH_MTCH6303_BUS_I2C"
+
+config DRV_TOUCH_MTCH6303_I2C_MODULE_INDEX
+    string "I2C driver module index"
+    depends on USE_DRV_TOUCH_MTCH6303
+    range DRV_TOUCH_MTCH6303_I2C_INSTANCE_INDEX_TYPE
+	default "DRV_I2C_INDEX_0"
+
+config DRV_TOUCH_MTCH6303_BUS_SELECT_I2C
+    bool
+    depends on USE_DRV_TOUCH_MTCH6303
+    select USE_DRV_I2C_NEEDED
+    select USE_DRV_I2C_DYNAMIC_NEEDED
+    select DRV_I2C_INTERRUPT_MODE_NEEDED
+    default y
+
+endif
+
+config DRV_TOUCH_MTCH6303_QUEUE_DEPTH
+    int "Queue depth"
+    depends on USE_DRV_TOUCH_MTCH6303 
+    default 10
+    ---help---
+    IDH_HTML_DRV_TOUCH_MTCH6303_QUEUE_DEPTH
+    ---endhelp---
+
+config DRV_TOUCH_MTCH6303_MESSAGE_QUEUE_DEPTH
+    int "Message stream queue depth"
+    depends on USE_DRV_TOUCH_MTCH6303
+    depends on DRV_TOUCH_MTCH6303_MESSAGE_STREAM_SUPPORT
+    default 10
+    ---help---
+    IDH_HTML_DRV_TOUCH_MTCH6303_QUEUE_DEPTH
+    ---endhelp---
+
+config DRV_TOUCH_MTCH6303_INTERRUPT_MODE
+    bool "Interrupt mode"
+    depends on USE_DRV_TOUCH_MTCH6303
+    default y
+    ---help---
+    IDH_HTML_DRV_TOUCH_MTCH6303_INTERRUPT_MODE
+    ---endhelp---
+
+config DRV_TOUCH_MTCH6303_INTERRUPT_SOURCE
+    string "External interrupt source"
+    depends on DRV_TOUCH_MTCH6303_INTERRUPT_MODE
+    range DRV_TOUCH_INT_SOURCE_EXTERNAL
+    default "INT_SOURCE_EXTERNAL_1" 
+
+endmenu
+
+ifblock USE_DRV_TOUCH_MTCH6303
+
+add "<#include \"/framework/driver/touch/mtch6303/templates/drv_mtch6303_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/touch/mtch6303/templates/drv_mtch6303_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+
+file DRV_MTCH6303_H "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/drv_mtch6303.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/mtch6303/drv_mtch6303.h"
+file DRV_MTCH6303_TOUCH_H "$HARMONY_VERSION_PATH/framework/driver/touch/drv_touch.h" to "$PROJECT_HEADER_FILES/framework/driver/touch/drv_touch.h"
+
+template DRV_TOUCH_MTCH6303_STATIC_H_FTL "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/templates/drv_mtch6303_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/mtch6303/drv_mtch6303_static.h"
+template DRV_TOUCH_MTCH6303_STATIC_C_FTL "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/templates/drv_mtch6303_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/mtch6303/src/drv_mtch6303_static.c"
+template DRV_TOUCH_MTCH6303_STATIC_LOCAL_H_FTL "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/templates/drv_mtch6303_static_local.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/mtch6303/src/drv_mtch6303_static_local.h"
+
+ifblock DRV_TOUCH_MTCH6303_MESSAGE_STREAM_SUPPORT
+
+template DRV_TOUCH_MTCH6303_TOUCH_STATIC_C_FTL "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/templates/drv_mtch6303_buffer_queue_touch_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/mtch6303/src/drv_mtch6303_buffer_queue_touch_static.c"
+
+endif
+
+ifblock ( DRV_TOUCH_MTCH6303_BUS_SELECT = "DRV_TOUCH_MTCH6303_BUS_I2C" )
+
+template DRV_TOUCH_MTCH6303_STATIC_I2C_C_FTL "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/templates/drv_mtch6303_buffer_queue_i2c_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/mtch6303/src/drv_mtch6303_buffer_queue_i2c_static.c"
+
+endif
+
+ifblock ( DRV_TOUCH_MTCH6303_BUS_SELECT = "DRV_TOUCH_MTCH6303_BUS_USB" )
+
+template DRV_TOUCH_MTCH6303_STATIC_USB_C_FTL "$HARMONY_VERSION_PATH/framework/driver/touch/mtch6303/templates/drv_mtch6303_buffer_queue_usb_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/touch/mtch6303/src/drv_mtch6303_buffer_queue_usb_static.c"
+
+endif
+
+endif

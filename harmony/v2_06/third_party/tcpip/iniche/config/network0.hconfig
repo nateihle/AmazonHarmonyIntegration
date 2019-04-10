@@ -1,0 +1,44 @@
+ifblock IN_TCPIP_IF0
+
+config IN_TCPIP_IF0_NETCFG0_TYPE
+    string "Interface"
+    range IN_TCPIP_IF_TYPES
+    default "PIC32INT"
+
+config IN_TCPIP_IF0_USE_DHCP
+    bool "DHCP address"
+    depends on IN_TCPIP_USE_V4
+    default n if ! IN_TCPIP_USE_DHCP
+    default y
+    ---help---
+      Use DHCP (and autoip) to acquire an address
+    ---endhelp---
+
+config IN_TCPIP_IF0_IP4ADDR
+    string "V4 ip address"
+    depends on IN_TCPIP_USE_V4
+    depends on ! IN_TCPIP_IF0_USE_DHCP
+    default "192.168.0.111"
+    ---help---
+      IPv4 static address
+    ---endhelp---
+
+config IN_TCPIP_IF0_IP4MASK
+    string "V4 Netmask"
+    depends on IN_TCPIP_USE_V4
+    depends on ! IN_TCPIP_IF0_USE_DHCP
+    default "255.255.255.0"
+    ---help---
+      IPv4 static netmask
+    ---endhelp---
+
+config IN_TCPIP_IF0_IP4GW
+    string "V4 Default Gateway"
+    depends on IN_TCPIP_USE_V4
+    depends on ! IN_TCPIP_IF0_USE_DHCP
+    default "192.168.0.1"
+    ---help---
+      IPv4 static gateway
+    ---endhelp---
+
+endif

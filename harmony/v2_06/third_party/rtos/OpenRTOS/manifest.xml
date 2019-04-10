@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE module SYSTEM "ispmodule.dtd">
+<module name="OPENRTOS" help="http://www.highintegritysystems.com/openrtos/">
+    <component name="PIC32MZ">
+        <files>
+            <file name="third_party/rtos/OPENRTOS/Source/croutine.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/list.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/queue.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/tasks.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/timers.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/portable/MemMang/heap_3.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MZ/port.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MZ/port_asm.S" logicalpath="/OPENRTOS"/>
+            <file name="/framework/osal/osal_freertos.c" logicalpath="/OPENRTOS"/>
+        </files>
+        <includes>
+            <include name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MZ/ISR_Support.h" logicalpath="/OPENRTOS"/>
+            <include name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MZ/portmacro.h" logicalpath="/OPENRTOS"/>           
+        </includes>
+        <paths>
+            <path name="third_party/rtos/OPENRTOS/Source/include"/>
+            <path name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MZ"/>
+        </paths>
+        <code dataobject="harmony_sys_init">
+            OSAL_Initialize();
+        </code>
+        <code dataobject="harmony_sys_tasks">
+            OSAL_Start();
+        </code>
+    </component>
+    <component name="PIC32MX">
+        <files>
+            <file name="third_party/rtos/OPENRTOS/Source/croutine.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/list.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/queue.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/tasks.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/timers.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/portable/MemMang/heap_3.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MX/port.c" logicalpath="/OPENRTOS"/>
+            <file name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MX/port_asm.S" logicalpath="/OPENRTOS"/>
+            <file name="/framework/osal/osal_freertos.c" logicalpath="/OPENRTOS"/>
+        </files>
+        <includes>
+            <include name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MX/ISR_Support.h" logicalpath="/OPENRTOS"/>
+            <include name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MX/portmacro.h" logicalpath="/OPENRTOS"/>           
+        </includes>
+        <paths>
+            <path name="third_party/rtos/OPENRTOS/Source/include"/>
+            <path name="third_party/rtos/OPENRTOS/Source/portable/MPLAB/PIC32MX"/>
+        </paths>
+        <code dataobject="harmony_sys_init">
+            OSAL_Initialize();
+        </code>
+        <code dataobject="harmony_sys_tasks">
+            OSAL_Start();
+        </code>
+    </component>    
+</module>

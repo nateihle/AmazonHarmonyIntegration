@@ -1,0 +1,21 @@
+menu "Graphics"
+
+config USE_SEGGER_EMWIN_LIBRARY_NEEDED
+    bool
+
+config USE_SEGGER_EMWIN_LIBRARY
+    bool "Use SEGGER emWin Graphics Library?"
+	select USE_GFX_STACK_NEEDED
+	select USE_GFX_DRV_ONLY_NEEDED
+    default y if USE_SEGGER_EMWIN_LIBRARY_NEEDED
+    default n
+	---help---
+    IDH_HTML_SEGGER_emWin_Library
+	---endhelp---
+	
+menu "SEGGER emWin Graphics Library" depends on (USE_SEGGER_EMWIN_LIBRARY)
+source "$HARMONY_VERSION_PATH/third_party/gfx/emwin/config/emwin.hconfig"
+endmenu
+
+endmenu
+

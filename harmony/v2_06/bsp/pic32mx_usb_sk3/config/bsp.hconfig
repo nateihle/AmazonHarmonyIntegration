@@ -1,0 +1,52 @@
+ifblock BSP_PIC32MX_USB_SK3
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_PIC32MX_USB_SK3
+
+config BSP_CONFIGURE_PIC32MX_USB_SK3
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "8000000"
+    set POSCMOD optionally to "XT" 
+    set FPLLIDIV optionally to "DIV_2" 
+    set UPLLIDIV optionally to "DIV_2" 
+    set BSP_PIN_83_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_83_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_84_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_84_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_80_FUNCTION_NAME to "BSP_SWITCH_3" 
+    set BSP_PIN_80_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_72_FUNCTION_NAME to "BSP_LED_1" 
+    set BSP_PIN_72_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_76_FUNCTION_NAME to "BSP_LED_2" 
+    set BSP_PIN_76_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_77_FUNCTION_NAME to "BSP_LED_3" 
+    set BSP_PIN_77_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_20_FUNCTION_NAME to "USB_VBUS_SWITCH" 
+    set BSP_PIN_20_FUNCTION_TYPE to "VBUS" 
+    bool
+    ---help---
+    IDH_HTML_BSP_pic32mx_usb_sk3
+    ---endhelp---
+
+endmenu
+
+
+menu "Custom Board Configurations for PIC32MX USB Starter Kit 3"
+    depends on USE_BSP
+
+import PIC32MX_USB_SK3_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32mx_usb_sk3_H "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk3/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32mx_usb_sk3_C "$HARMONY_VERSION_PATH/bsp/pic32mx_usb_sk3/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32mx_usb_sk3 includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif

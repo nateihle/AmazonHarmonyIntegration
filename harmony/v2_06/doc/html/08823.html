@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Data Transfer Functions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23261.html">SQI Driver Library</a> &gt; <a href="08849.html">Using the Library</a> &gt; <a href="08843.html">How the Library Works</a> &gt; <a href="08823.html">Client Data Transfer Functions</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08822.html">Previous</a> | <a href="08843.html">Up</a> | <a href="08825.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SQI Client Data Transfer Functions Topic Title: Client Data Transfer Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Data Transfer Functions</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Client data transfer functionality provides API interfaces for the data transfer operation. The following diagram illustrates the data transfer model. </p><p class="Element10" style="text-align: center;">
+<img src="DRV SQI Data Transfer Model.png" border="0" alt="" title=""></p><p class="Element10">
+Applications need to perform the following steps to transfer data using the SQI Driver:
+<ol class="Element636">
+<li value="1" class="Element606">The system should have completed necessary initialization and the <a href="11005.html">DRV_SQI_Tasks</a> should be running in an interrupt environment.</li>
+<li value="2" class="Element606">Open_the driver using <a href="11000.html">DRV_SQI_Open</a> with the necessary intent. The application should wait call the <a href="11000.html">DRV_SQI_Open</a> until the function returns a valid open handle.</li>
+<li value="3" class="Element606">Register callback function using the <a href="10944.html">DRV_SQI_EventHandlerSet</a>.</li>
+<li value="4" class="Element606">Add a transfer request using the buffer using the <a href="11013.html">DRV_SQI_TransferData</a> function. The reads or writes of blocks of data generally involves sending down the read or a write command, the address on the device from/to which data is to be read/written. The client also has to specify the source or destination buffer and the number of bytes to be read or written. The client builds an array of transfer elements containing this information and passes the array and the number of elements of the array as part of this transfer request.</li>
+<li value="5" class="Element606">Check for the current transfer status using <a href="10936.html">DRV_SQI_CommandStatus</a> until the transfer progress is DRV_SQI_COMMAND_COMPLETED, or wait for the callback to be called.</li>
+<li value="6" class="Element606">When the client has no more data to be transferred, the client can close the driver using <a href="10928.html">DRV_SQI_Close</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00853');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00853"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> READ_BUF_SIZE 512
+
+uint8_t readBuffer[READ_BUF_SIZE] __attribute__((coherent, aligned(16)));
+uint8_t command [5] __attribute__((coherent, aligned(16)) = {0x0B, 0x00, 0x00, 0x00, 0x0FF};
+uint8_t numElements = 0;
+DRV_SQI_COMMAND_HANDLE commandHandle;
+MY_APP_OBJ myAppObj;
+DRV_SQI_TRANSFER_ELEMENT xferData[2];
+
+<i><span style="color: #008000">// mySQIHandle is the handle returned by the DRV_SQI_Open function.</span></i>
+<i><span style="color: #008000">// Setup the transfer elements.</span></i>
+
+xferData[0].data = &amp;command[0];
+xferData[0].length = <strong><span style="color: #000080">sizeof</span></strong>(command);
+xferData[0].flag = (DRV_SQI_FLAG_MODE_SINGLE_LANE);
+
+xferData[1].data = readBuffer;
+xferData[1].length = READ_BUF_SIZE;
+xferData[1].flag = (DRV_SQI_FLAG_MODE_QUAD_LANE | DRV_SQI_FLAG_DIR_READ | DRV_SQI_FLAG_DEASSERT_CS);
+
+DRV_SQI_TransferData(mySQIHandle, &amp;commandHandle, 0, xferData, 2);
+
+<strong><span style="color: #000080">if</span></strong>(DRV_SQI_COMMAND_HANDLE_INVALID == commandHandle)
+{
+    <i><span style="color: #008000">// Error handling here</span></i>
+}
+<strong><span style="color: #000080">else</span></strong>
+{
+    <i><span style="color: #008000">// Transfer operation queued successfully. Wait for the</span></i>
+    <i><span style="color: #008000">// completion event.</span></i>
+}
+
+<i><span style="color: #008000">// Transfer completion can be tracked either by polling on the commandHandle or waiting</span></i>
+<i><span style="color: #008000">// for the event using the event callback function.</span></i>
+status = DRV_SQI_CommandStatus(mySQIHandle, commandHandle);
+<strong><span style="color: #000080">if</span></strong>(status == DRV_SQI_COMMAND_COMPLETED)
+{
+    <i><span style="color: #008000">// Operation Done</span></i>
+}
+
+<i><span style="color: #008000">// Event handler.</span></i>
+<strong><span style="color: #000080">void</span></strong> APP_SQIEventHandler
+(
+    DRV_SQI_EVENT event,
+    DRV_SQI_COMMAND_HANDLE handle,
+    uintptr_t context
+)
+{
+    <i><span style="color: #008000">// The context handle was set to an application specific</span></i>
+    <i><span style="color: #008000">// object. It is now retrievable easily in the event</span></i>
+    <i><span style="color: #008000">// handler.</span></i>
+    MY_APP_OBJ myAppObj = (MY_APP_OBJ *) context;
+
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_SQI_EVENT_COMMAND_COMPLETE:
+            <i><span style="color: #008000">// This means the operation was completed</span></i>
+            <i><span style="color: #008000">// successfully.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> DRV_SQI_EVENT_COMMAND_ERROR:
+            <i><span style="color: #008000">// Operation failed. Handle the error.</span></i>
+            <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+            <strong><span style="color: #000080">break</span></strong>;
+    }
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="23261.html">SQI Driver Library</a> &gt; <a href="08849.html">Using the Library</a> &gt; <a href="08843.html">How the Library Works</a> &gt; <a href="08823.html">Client Data Transfer Functions</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV SQI Client Data Transfer Functions Topic Title: Client Data Transfer Functions)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

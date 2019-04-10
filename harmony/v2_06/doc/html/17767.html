@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>ADC Trigger Generation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17767.html">ADC Trigger Generation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17786.html">Previous</a> | <a href="17777.html">Up</a> | <a href="17772.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM ADC Trigger Generation Topic Title: ADC Trigger Generation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+ADC Trigger Generation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MCPWM module has the ability to trigger ADC at any instant within the PWM cycle without any software intervention. There are two module-level triggers and two channel-level triggers per channel. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="12%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="88%" style="border:none;">
+<div class="Element68">
+Please refer to the specific device data sheet for the exact count of available PWM channels that have the ability to generate ADC triggers.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The available ADC triggers from the MCPWM module are as follows:&nbsp;</p>
+<p class="Element10">
+<strong>MCPWM Module-level ADC Triggers:</strong>
+<ul class="Element630">
+<li class="Element600">Primary Special Event Trigger – Synchronized with Primary Master Time Base</li>
+<li class="Element600">Secondary Special Event Trigger – Synchronized with Secondary Master Time Base</li>
+</ul><strong>Channel-level ADC Triggers:</strong>
+<ul class="Element630">
+<li class="Element600">Primary Trigger – Synchronized with local time base of the PWM channel.</li>
+<li class="Element600">Secondary Trigger – Synchronized with local time base of the PWM channel.</li>
+</ul>&nbsp;</p><div class="Element15">
+Configuring the MCPWM Module-level ADC Trigger</div>
+<p class="Element10">
+Use the following steps to set up MCPWM module-level ADC triggers:
+<ol class="Element630">
+<li value="1" class="Element600">Disable the MCPWM module using <a href="19791.html">PLIB_MCPWM_Disable</a></li>
+<li value="2" class="Element600">Set the special event trigger instant and trigger post-scaler for Primary / Secondary Special Event trigger using <a href="19818.html">PLIB_MCPWM_PrimarySpecialEventTriggerSetup</a> / <a href="19824.html">PLIB_MCPWM_SecondarySpecialEventTriggerSetup</a></li>
+<li value="3" class="Element600">Enable the MCPWM module using <a href="19792.html">PLIB_MCPWM_Enable</a></li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02629');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02629"><pre class="Element12"><i><span style="color: #008000">/*Disable the MCPWM Module*/</span></i>
+PLIB_MCPWM_Enable (MCPWM_ID_0);
+
+<i><span style="color: #008000">/*Generate primary special even trigger when the primary master time base reaches 600 counts*/</span></i>
+<i><span style="color: #008000">/*Post scale the trigger output such that every second trigger is passed on to the ADC/interrupt controller*/</span></i>
+PLIB_MCPWM_PrimarySpecialEventTriggerSetup(MCPWM_ID_0, MCPWM_CHANNEL1, 600, 2);
+
+<i><span style="color: #008000">/*Enable MCPWM Module*/</span></i>
+PLIB_MCPWM_Enable (MCPWM_ID_0);</pre></div></div>
+<div class="Element15">
+Configuring the MCPWM Channel-level ADC Trigger</div>
+<p class="Element10">
+Use the following steps to set up MCPWM channel-level ADC triggers:
+<ol class="Element630">
+<li value="1" class="Element600">Disable the MCPWM module using <a href="19792.html">PLIB_MCPWM_Enable</a></li>
+<li value="2" class="Element600">Set the following parameters of channel-level triggers using <a href="19789.html">PLIB_MCPWM_ChannelTriggerSetup</a>:
+<ul class="Element630">
+<li class="Element600">PWM Channel ID: ID of the PWM Channel whose triggers are being configured.</li>
+<li class="Element600">Trigger Post-Scaler: same parameter controls post-scaler for both Primary and Secondary triggers</li>
+<li class="Element600">Primary Trigger Cycle: Generate primary trigger while local timer is counting up/down/both.</li>
+<li class="Element600">Secondary Trigger Cycle: Generate secondary trigger while local timer is counting up/down/both.</li>
+<li class="Element600">ADC Trigger Source: ADC trigger asserted by primary trigger only / ADC trigger asserted by both primary and secondary triggers.</li>
+<li class="Element600">Trigger Interrupt Source: Interrupt is generated by Primary Trigger Event/ Secondary Trigger Event/ both.</li>
+<li class="Element600">Primary Trigger instant</li>
+<li class="Element600">Secondary Trigger instant</li>
+</ul></li>
+<li value="3" class="Element600">Enable the MCPWM module using <a href="19792.html">PLIB_MCPWM_Enable</a>.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02630');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02630"><pre class="Element12"><i><span style="color: #008000">/*Disable the MCPWM Module*/</span></i>
+PLIB_MCPWM_Enable (MCPWM_ID_0);
+<i><span style="color: #008000">/*Configure channel-level trigger for PWM Channel 1*/</span></i>
+<i><span style="color: #008000">/*Trigger prescaler = 4, i.e., Trigger output is asserted every fourth primary/secondary trigger event is asserted*/</span></i>
+<i><span style="color: #008000">/*Primary Trigger output is asserted for a primary trigger compare match event while the local timer is counting up*/</span></i>
+<i><span style="color: #008000">/*Secondary Trigger output is asserted for a secondary trigger compare match event while the local timer is counting up*/</span></i>
+<i><span style="color: #008000">/* ADC Trigger is asserted by both Primary and Secondary trigger output*/</span></i>
+<i><span style="color: #008000">/*Primary Trigger event generates an interrupt*/</span></i>
+<i><span style="color: #008000">/*Primary Trigger match occurs at 100 counts and Secondary Trigger match occurs at 500 counts*/</span></i>
+PLIB_MCPWM_ChannelTriggerSetup(MCPWM_ID_0 ,MCPWM_CHANNEL1, DIV_BY_4, COUNT_UP, COUNT_UP,
+                               PRIMARY_SECONDARY, PRIMARY, 100, 500);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="16693.html">Motor Control PWM (MCPWM) Peripheral Library</a> &gt; <a href="17791.html">Using the Library</a> &gt; <a href="17777.html">How the Library Works</a> &gt; <a href="17767.html">ADC Trigger Generation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB MCPWM ADC Trigger Generation Topic Title: ADC Trigger Generation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

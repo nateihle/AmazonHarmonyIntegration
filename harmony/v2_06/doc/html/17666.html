@@ -1,0 +1,210 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Initialization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a> &gt; <a href="17666.html">Initialization</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17676.html">Previous</a> | <a href="17676.html">Up</a> | <a href="17655.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Initialization</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02114');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02114"><pre class="Element12"><strong><span style="color: #000080">#include</span></strong> &quot;plib_eth.h&quot;
+
+<i><span style="color: #008000">/*******************************************************************************
+*/</span></i>
+<strong><span style="color: #000080">void</span></strong> my_ETH_Initialize(ETH_MODULE_ID id)
+{
+
+    <i><span style="color: #008000">//Disable System (CPU) Interrupt associated with Ethernet Peripheral</span></i>
+    <i><span style="color: #008000">// using the Interrupt Peripheral Library</span></i>
+    <i><span style="color: #008000">// Example: PLIB_INT_SourceDisable(PLIB_INT_SOURCE_ETH_1);</span></i>
+
+    <i><span style="color: #008000">//Disable Ethernet Peripheral in case it was previously enabled</span></i>
+    PLIB_ETH_Disable(ETH_MODULE_ID1);
+
+    <i><span style="color: #008000">//Disable any Ethernet Controller interrupt generation:</span></i>
+    PLIB_ETH_InterruptSourceDisable(ETH_MODULE_ID1, ETH_ALL_INTERRUPT_SOURCES);
+
+    PLIB_ETH_RxDisable(ETH_MODULE_ID1);
+    PLIB_ETH_TxRTSDisable(ETH_MODULE_ID1);
+
+    <strong><span style="color: #000080">while</span></strong> (PLIB_ETH_EthernetIsBusy(ETH_MODULE_ID1)) {<i><span style="color: #008000">/*wait*/</span></i> }
+
+    <i><span style="color: #008000">//Clear the System Interrupt Flag associated with Ethernet Peripheral</span></i>
+    <i><span style="color: #008000">// using the Interrupt Peripheral Library</span></i>
+    <i><span style="color: #008000">// Example:     PLIB_INT_SourceFlagClear(PLIB_INT_SOURCE_ETH_1);</span></i>
+
+    <i><span style="color: #008000">/////////////////////////////////////////////////</span></i>
+    <i><span style="color: #008000">//MAC Initialize</span></i>
+    PLIB_ETH_MIIResetEnable(ETH_MODULE_ID1);
+    PLIB_ETH_MIIResetDisable(ETH_MODULE_ID1);
+
+    <i><span style="color: #008000">//A configuration fuse (FETHIO) setting shows which digital pins need to be configured</span></i>
+    <strong><span style="color: #000080">if</span></strong> (CONFIGURATION_FUSE_PRIMARY_ETH_PINS==1)
+    {
+        ConfigurePrimaryEthernetPinsAsDigital();
+    }
+    <strong><span style="color: #000080">else</span></strong> <i><span style="color: #008000">//(CONFIGURATION_FUSE_PRIMARY_ETH_PINS==0)</span></i>
+    {
+        ConfigureAlternateEthernetPinsAsDigital();
+    }
+
+    <i><span style="color: #008000">//A configuration fuse (FMIIEN) settings shows which digital pins need to be configured</span></i>
+    <strong><span style="color: #000080">if</span></strong> (CONFIGURATION_FUSE_MII_STYLE==RMII)
+    {
+        PLIB_ETH_RMIIResetEnable(ETH_MODULE_ID1);
+        PLIB_ETH_RMIIResetDisable(ETH_MODULE_ID1);
+        PLIB_ETH_RMIISpeedSet(ETH_MODULE_ID1, ETH_RMII_100Mps);
+    }
+    PLIB_ETH_MIIResetEnable(ETH_MODULE_ID1);
+    PLIB_ETH_MIIResetDisable(ETH_MODULE_ID1);
+    PLIB_ETH_MIIMClockSet(ETH_MODULE_ID1, ETH_MII_SYSCLK_DIV_BY_10);
+
+
+    <i><span style="color: #008000">/////////////////////////////////////////////////</span></i>
+    <i><span style="color: #008000">//PHY Initialize is PHY dependent.</span></i>
+    <i><span style="color: #008000">// Common procedures (which may vary by PHY vender) include the following:</span></i>
+    <i><span style="color: #008000">//</span></i>
+    <i><span style="color: #008000">//Reset PHY (using Control Register 0)</span></i>
+    <i><span style="color: #008000">//Set the MII/RMII operation mode</span></i>
+    <i><span style="color: #008000">//Set the normal, swapped, or auto (preferred)MDIX</span></i>
+    <i><span style="color: #008000">//Check the PY capabilities (using Status Register 1)</span></i>
+    <i><span style="color: #008000">//Preferably the auto-negotiation should be selected if the PHY supports it.</span></i>
+    <i><span style="color: #008000">//Expose the supported capabilities (extended Register 4)</span></i>
+    <i><span style="color: #008000">//Start the negotiation (using Control Register 0)</span></i>
+    <i><span style="color: #008000">//wait for the negotiation to complete and get the link partner capabilities (extended Register 5)</span></i>
+    <i><span style="color: #008000">//negotiation result (vendor-specific register)</span></i>
+    <i><span style="color: #008000">//If auto-negotiation is not supported (or not selected)</span></i>
+    <i><span style="color: #008000">//update the PHY Duplex and speed settings (use Control Register 0 or vender-specific register)</span></i>
+
+    <i><span style="color: #008000">/////////////////////////////////////////////////</span></i>
+    <i><span style="color: #008000">//MAC Configuration</span></i>
+    PLIB_ETH_RxEnable(ETH_MODULE_ID1);
+    PLIB_ETH_TxPauseEnable(ETH_MODULE_ID1);
+    PLIB_ETH_RxPauseEnable(ETH_MODULE_ID1);
+
+    <i><span style="color: #008000">//Select the desired auto-padding, duplex, huge frame, and CRC capabilities</span></i>
+    PLIB_ETH_AutoDetecPadSet(ETH_MODULE_ID1, ETH_AUTOPAD_BY_PKT_TYPE_ADD_CRC );
+    PLIB_ETH_FullDuplexEnable(ETH_MODULE_ID1); <i><span style="color: #008000">//or disable for half-duplex</span></i>
+    PLIB_ETH_CRCEnable(ETH_MODULE_ID1); <i><span style="color: #008000">//or disable if EMAC does not add CRC when no padding is necessary</span></i>
+    PLIB_ETH_HugeFrameDisable(ETH_MODULE_ID1); <i><span style="color: #008000">//or enable to receive huge frames</span></i>
+
+    <i><span style="color: #008000">//Program back-to-back inter-packet gap and non-back-to-back interpacket gap</span></i>
+    PLIB_ETH_BackToBackIPGpSet(ETH_MODULE_ID1, 0x15 <i><span style="color: #008000">/*backToBackGapValue*/</span></i>);
+    PLIB_ETH_NonBackToBackIPG1Set(ETH_MODULE_ID1, 0x0C <i><span style="color: #008000">/*nonBackToBackGap1Value*/</span></i>);
+    PLIB_ETH_NonBackToBackIPG2Set(ETH_MODULE_ID1, 0x12 <i><span style="color: #008000">/*nonBackToBackGap2Value*/</span></i>);
+
+    <i><span style="color: #008000">//Set Maximum frame length</span></i>
+    PLIB_ETH_MaxFrameLengthSet(ETH_MODULE_ID1, 1527 <i><span style="color: #008000">/*maxFrameLenValue*/</span></i>);
+
+    <i><span style="color: #008000">//Optionally set the station MAC address(es) (or let them default to the factory value)</span></i>
+    PLIB_ETH_StationAddressSet(ETH_MODULE_ID1, 1, 0x13 <i><span style="color: #008000">/*stationAddr1Value*/</span></i>);
+
+
+    <i><span style="color: #008000">/////////////////////////////////////////////////</span></i>
+    <i><span style="color: #008000">//Continue Ethernet Controller Initialization</span></i>
+
+    <i><span style="color: #008000">//Set receive buffer size - using packets that are too small impacts performance</span></i>
+    PLIB_ETH_ReceiveBufferSizeSet(ETH_MODULE_ID1, 200 <i><span style="color: #008000">/*receiveBufSizeValue*/</span></i>);
+
+    <i><span style="color: #008000">//Prepare the list/ring of transmit descriptors - refer to the device data sheet for more information</span></i>
+    <i><span style="color: #008000">//Prepare the list of receive descriptors populated with valid buffers for messages to be received - refer</span></i>
+    <i><span style="color: #008000">//to the device data sheet for more information</span></i>
+    <i><span style="color: #008000">//Update the transmit buffer start address and the receive buffer start address</span></i>
+    PLIB_ETH_TxPacketDescAddrSet(ETH_MODULE_ID1, (uint8_t *)0xadd1add0<i><span style="color: #008000">/*txPktDescStartAddrValue*/</span></i>);
+    PLIB_ETH_RxPacketDescAddrSet(ETH_MODULE_ID1, (uint8_t *)0xadd3add2<i><span style="color: #008000">/*rxPktDescStartAddrValue*/</span></i>);
+
+    <i><span style="color: #008000">//If using auto flow control, set up the full/empty watermarks and enable it</span></i>
+    PLIB_ETH_PauseTimerSet(ETH_MODULE_ID1, 0x64 <i><span style="color: #008000">/*pauseTimerValue*/</span></i>);
+    PLIB_ETH_RxEmptyWmarkSet(ETH_MODULE_ID1, 0x3F<i><span style="color: #008000">/*emptyRxWatermarkValue*/</span></i>);
+    PLIB_ETH_RxFullWmarkSet(ETH_MODULE_ID1, 0x10 <i><span style="color: #008000">/*fullRxWatermarkValue*/</span></i>);
+    PLIB_ETH_AutoFlowControlEnable(ETH_MODULE_ID1);
+
+    PLIB_ETH_ReceiveFilterEnable(ETH_MODULE_ID1,
+                                 ETH_MULTICAST_FILT |   <i><span style="color: #008000">// enable to accept multicast address packets</span></i>
+                                 ETH_BROADCAST_FILTER );<i><span style="color: #008000">// enable to accept all broadcast address packets</span></i>
+
+    PLIB_ETH_InterruptSourceDisable(ETH_MODULE_ID1, ETH_ALL_INTERRUPT_SOURCES);
+
+    <i><span style="color: #008000">//Enable the Ethernet Controller and wait until the module is ready</span></i>
+    PLIB_ETH_Enable(ETH_MODULE_ID1);
+    <strong><span style="color: #000080">while</span></strong> (PLIB_ETH_EthernetIsBusy(ETH_MODULE_ID1))
+    {
+        <i><span style="color: #008000">//Wait</span></i>
+    }
+
+    PLIB_ETH_RxEnable(ETH_MODULE_ID1);
+
+    <strong><span style="color: #000080">return</span></strong> (EXIT_SUCCESS);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a> &gt; <a href="17666.html">Initialization</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Initialization Topic Title: Initialization)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

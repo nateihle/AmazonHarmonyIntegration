@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Enabling Demo Mode in a MPLAB Harmony Graphics Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="22364.html">Quick Start Guides</a> &gt; <a href="22365.html">Graphics and Touch Quick Start Guides</a> &gt; <a href="22359.html">Enabling Demo Mode in a MPLAB Harmony Graphics Application</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22360.html">Previous</a> | <a href="22365.html">Up</a> | <a href="22361.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: QSG  Enabling Demo Mode in a MPLAB Harmony Graphics Application Topic Title: Enabling Demo Mode in a MPLAB Harmony Graphics Application)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Enabling Demo Mode in a MPLAB Harmony Graphics Application</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Demo Mode is a feature in the MPLAB Harmony Graphics Library that enables an application to automatically replay touch input events after a specified period of idle time. This feature is useful if you would like your application to automatically show simulated user activity, and show various screens and widgets without user input.&nbsp;</p>
+<p class="Element10">
+Demo Mode can be enabled through MHC by selecting <i>Graphics Stack &gt;Use MHGC &gt; Use Aria User Interface Library &gt; Enable Demo </i>Mode.&nbsp;</p>
+<p class="Element10">
+The following table lists the Demo mode options and their functions: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="25%">
+<div class="Element66">
+MHC Option&nbsp;</div></td><td class="Element65" valign="top" width="75%">
+<div class="Element66">
+Function&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="25%">
+<div class="Element68">
+Record Input Events&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Enables input recording (touch input events are recorded and replayed).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="25%">
+<div class="Element68">
+Record Tick Period&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Minimum time stamp interval between recorded input events.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="25%">
+<div class="Element68">
+Maximum number of events&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Size of the events list (statically allocated).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="25%">
+<div class="Element68">
+Idle Timeout (seconds)&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Period of inactivity before Demo mode starts. The idle time-out counter resets when a touch input event occurs.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="25%">
+<div class="Element68">
+Replay Delay (seconds)&nbsp;</div></td><td class="Element67" valign="top" width="75%">
+<div class="Element68">
+Delay period in after Demo mode ends and restarts.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The Demo Mode feature can record input touch events, or load a default (programmed) list of events and replay them after the idle time-out period lapses.&nbsp;</p>
+<p class="Element10">
+To configure Demo mode to record touch events, select the Record Input Events option in Demo Mode in MHC. This will start capturing touch input events by recording the event type and the interval between events. Intervals will be a multiple of the Record Tick Period time. The first touch event should occur before the Idle Timeout period lapses; otherwise, it will stop recording and use a default list of events, if available.&nbsp;</p>
+<p class="Element10">
+To program a default list of touch events, go to LibAria_LoadDefaultEvents(void) in <span class="Element146">libaria_demo_mode.c</span> and call LibAria_DemoModeAddInputEvents with the desired touch parameters. This list of touch events will be loaded when Demo mode starts.&nbsp;</p>
+<p class="Element10">
+The following figure shows the Demo Mode states and the actions in each state. </p><p class="Element10" style="text-align: center;">
+<img src="QSP Demo Mode Diagram.png" border="0" alt="" title=""></p><p class="Element10">
+The following table lists and describes each state. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="12%">
+<div class="Element66">
+State&nbsp;</div></td><td class="Element65" valign="top" width="88%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Demo Init&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Initializes data structures, launches record and idle timeout timers.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Demo Recording&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+If recording is enabled, touch events are captured to a list. Idle timeout timer is reset when a touch event occurs.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Demo Idle&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Waits for idle timeout timer to trigger. If a touch event occurs, idle timeout timer is reset.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Demo Starting&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Loads captured or default events list, reset application to first screen.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Demo Running&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Replays events list. If a touch event occurs, demo is stopped and goes back to idle state. If all events have been replayed, starts replay delay timer.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="12%">
+<div class="Element68">
+Demo Restarting&nbsp;</div></td><td class="Element67" valign="top" width="88%">
+<div class="Element68">
+Restarts demo mode after the delay timer lapses.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="22364.html">Quick Start Guides</a> &gt; <a href="22365.html">Graphics and Touch Quick Start Guides</a> &gt; <a href="22359.html">Enabling Demo Mode in a MPLAB Harmony Graphics Application</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: QSG  Enabling Demo Mode in a MPLAB Harmony Graphics Application Topic Title: Enabling Demo Mode in a MPLAB Harmony Graphics Application)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

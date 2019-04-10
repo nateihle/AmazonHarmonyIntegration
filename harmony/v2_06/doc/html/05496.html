@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>bt_avrcp_mgr_callback_fp Type</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; AVRCP Data Types and Constants &gt; <a href="05496.html">bt_avrcp_mgr_callback_fp Type</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="05453.html">Previous</a> | <a href="06308.html">Up</a> | <a href="05497.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_avrcp_mgr_callback_fp Topic Title: bt_avrcp_mgr_callback_fp Type)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+bt_avrcp_mgr_callback_fp Type</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">bt_avrcp_mgr_callback_fp</span></strong>)(<a href="05497.html">bt_avrcp_mgr_t</a>* mgr, <a href="05592.html">bt_byte</a> evt, <a href="05409.html">bt_avrcp_event_t</a>* evt_param, <strong><span style="color: #000080">void</span></strong>* callback_param);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+brief AVRCP application callback. ingroup avrcp&nbsp;</p>
+<p class="Element10">
+details In order to be notified of various events a consumer of the AVRCP layer has to register a callback function (done with <a href="05558.html">bt_avrcp_start</a>()). The stack will call that function whenever a new event has been generated.&nbsp;</p>
+<p class="Element10">
+param mgr AVRCP manager.&nbsp;</p>
+<p class="Element10">
+param evt AVRCP event. The event can be one of the following values: @arg <a href="04789.html">AVRCP_EVT_CONTROL_CHANNEL_CONNECTED</a> This event is generated when a control channel between two AVRCP entities has been established. @arg <a href="04790.html">AVRCP_EVT_CONTROL_CHANNEL_DISCONNECTED</a> This event is generated when a control channel between two AVRCP entities has been terminated. @arg <a href="04791.html">AVRCP_EVT_CONTROL_CONNECTION_FAILED</a> This event is generated when a local device failed to create a control channel between two AVRCP entities. @arg <a href="04785.html">AVRCP_EVT_BROWSING_CHANNEL_CONNECTED</a> This event is generated when a browsing channel between two AVRCP entities has been established. @arg <a href="04786.html">AVRCP_EVT_BROWSING_CHANNEL_DISCONNECTED</a> This event is generated when a browsing channel between two AVRCP entities has been terminated. @arg <a href="04787.html">AVRCP_EVT_BROWSING_CONNECTION_FAILED</a> This event is generated when a local device failed to create a browsing channel between two AVRCP entities. @arg <a href="04814.html">AVRCP_EVT_SEARCH_COMPLETED</a> This event is generated when a local device completed searching for nearby targets.&nbsp;</p>
+<p class="Element10">
+@arg <a href="04802.html">AVRCP_EVT_PANEL_RESPONSE_RECEIVED</a> This event is generated when a local device received a response to a PASS THROUGH command. @arg <a href="04788.html">AVRCP_EVT_COMPANY_ID_LIST_RECEIVED</a> This event is generated when a local device received a response to a &quot;get company id&quot; request. @arg <a href="04794.html">AVRCP_EVT_EVENT_ID_LIST_RECEIVED</a> This event is generated when a local device received a response to a &quot;get supported events&quot; request. @arg <a href="04808.html">AVRCP_EVT_PLAYER_SETTING_ATTRIBUTES_RECEIVED</a> This event is generated when a local device received a response to a &quot;get supported player setting attributes&quot; request. @arg <a href="04810.html">AVRCP_EVT_PLAYER_SETTING_VALUES_RECEIVED</a> This event is generated when a local device received a response to a &quot;get player setting attribute values&quot; request. @arg <a href="04807.html">AVRCP_EVT_PLAYER_CURRENT_SETTING_VALUES_RECEIVED</a> This event is generated when a local device received a response to a &quot;get current player setting attribute values&quot; request. @arg <a href="04818.html">AVRCP_EVT_SET_PLAYER_SETTING_VALUES_COMPLETED</a> This event is generated when a local device received a response to a &quot;set player setting attribute values&quot; request. @arg <a href="04809.html">AVRCP_EVT_PLAYER_SETTING_ATTRIBUTES_TEXT_RECEIVED</a> This event is generated when a local device received a response to a &quot;get player setting attributes displayable text&quot; request. @arg <a href="04811.html">AVRCP_EVT_PLAYER_SETTING_VALUES_TEXT_RECEIVED</a> This event is generated when a local device received a response to a &quot;get player setting attribute values displayable text&quot; request. @arg <a href="04798.html">AVRCP_EVT_INFORM_DISPLAYABLE_CHARACTER_SET_COMPLETED</a> This event is generated when a local device received a response to a &quot;inform displayable character set&quot; request. @arg <a href="04797.html">AVRCP_EVT_INFORM_BATTERY_STATUS_OF_CT_COMPLETED</a> This event is generated when a local device received a response to a &quot;inform battery status&quot; request. @arg <a href="04795.html">AVRCP_EVT_GET_ELEMENT_ATTRIBUTES_RECEIVED</a> This event is generated when a local device received a response to a &quot;get media element attributes&quot; request. @arg <a href="04796.html">AVRCP_EVT_GET_PLAY_STATUS_RECEIVED</a> This event is generated when a local device received a response to a &quot;get play status&quot; request. @arg <a href="04805.html">AVRCP_EVT_PLAYBACK_STATUS_CHANGED</a> This event is generated when a local device received a &quot;play status changed&quot; notification. @arg <a href="04820.html">AVRCP_EVT_TRACK_CHANGED</a> This event is generated when a local device received a &quot;track changed changed&quot; notification. @arg <a href="04821.html">AVRCP_EVT_TRACK_REACHED_END</a> This event is generated when a local device received a &quot;track reached end&quot; notification. @arg <a href="04822.html">AVRCP_EVT_TRACK_REACHED_START</a> This event is generated when a local device received a &quot;track reached start&quot; notification. @arg <a href="04804.html">AVRCP_EVT_PLAYBACK_POS_CHANGED</a> This event is generated when a local device received a &quot;playback position changed&quot; notification. @arg <a href="04783.html">AVRCP_EVT_BATT_STATUS_CHANGED</a> This event is generated when a local device received a &quot;battery status changed&quot; notification. @arg <a href="04819.html">AVRCP_EVT_SYSTEM_STATUS_CHANGED</a> This event is generated when a local device received a &quot;system status changed&quot; notification. @arg <a href="04806.html">AVRCP_EVT_PLAYER_APPLICATION_SETTING_CHANGED</a> This event is generated when a local device received a &quot;player application setting changed&quot; notification. @arg <a href="04800.html">AVRCP_EVT_NOW_PLAYING_CONTENT_CHANGED</a> This event is generated when a local device received a &quot;now playing content changed&quot; notification. @arg <a href="04782.html">AVRCP_EVT_AVAILABLE_PLAYERS_CHANGED</a> This event is generated when a local device received a &quot;available players changed&quot; notification. @arg <a href="04781.html">AVRCP_EVT_ADDRESSED_PLAYER_CHANGED</a> This event is generated when a local device received a &quot;addressed player changed&quot; notification. @arg <a href="04823.html">AVRCP_EVT_UIDS_CHANGED</a> This event is generated when a local device received a &quot;UIDs changed&quot; notification. @arg <a href="04824.html">AVRCP_EVT_VOLUME_CHANGED</a> This event is generated when a local device received a &quot;volume changed&quot; notification. @arg <a href="04815.html">AVRCP_EVT_SET_ABSOLUTE_VOLUME_COMPLETED</a> This event is generated when a local device received a response to a &quot;set absolute volume&quot; request. @arg <a href="04817.html">AVRCP_EVT_SET_ADDRESSED_PLAYER_COMPLETED</a> This event is generated when a local device received a response to a &quot;set addressed player&quot; request. @arg <a href="04803.html">AVRCP_EVT_PLAY_ITEM_COMPLETED</a> This event is generated when a local device received a response to a &quot;play item&quot; request. @arg <a href="04780.html">AVRCP_EVT_ADD_TO_NOW_PLAYING_COMPLETED</a> This event is generated when a local device received a response to a &quot;add to now playing&quot; request. @arg <a href="04813.html">AVRCP_EVT_REGISTER_NOTIFICATIONS_COMPLETED</a> This event is generated when a local device received a response to a &quot;register notification&quot; request.&nbsp;</p>
+<p class="Element10">
+@arg <a href="04801.html">AVRCP_EVT_PANEL_COMMAND_RECEIVED</a> This event is generated when a local device received a PASS THROUGH command. @arg <a href="04816.html">AVRCP_EVT_SET_ABSOLUTE_VOLUME_REQUESTED</a> This event is generated when a local device received a &quot;set absolute volume&quot; request. @arg <a href="04784.html">AVRCP_EVT_BATTERY_STATUS_OF_CT_RECEIVED</a> This event is generated when a local device received a &quot;battery status of controller&quot; command. @arg <a href="04792.html">AVRCP_EVT_DISPLAYABLE_CHARACTER_SET_RECEIVED</a> This event is generated when a local device received a &quot;displayable chracter set command&quot; request. @arg <a href="04793.html">AVRCP_EVT_ELEMENT_ATTRIBUTES_REQUESTED</a> This event is generated when a local device received a &quot;get element attributes&quot; request.&nbsp;</p>
+<p class="Element10">
+param evt_param Event parameter. Which member of the <a href="05409.html">bt_avrcp_event_t</a> union is valid depends on the event: @arg <a href="04789.html">AVRCP_EVT_CONTROL_CHANNEL_CONNECTED</a> c <a href="05410.html">bt_avrcp_evt_channel_connected_t</a> channel_connected @arg <a href="04790.html">AVRCP_EVT_CONTROL_CHANNEL_DISCONNECTED</a> c <a href="05411.html">bt_avrcp_evt_channel_disconnected_t</a> channel_disconnected @arg <a href="04791.html">AVRCP_EVT_CONTROL_CONNECTION_FAILED</a> c <a href="05412.html">bt_avrcp_evt_connection_failed_t</a> connection_failed @arg <a href="04802.html">AVRCP_EVT_PANEL_RESPONSE_RECEIVED</a> c <a href="05414.html">bt_avrcp_evt_panel_response_received_t</a> panel_response_received @arg <a href="04814.html">AVRCP_EVT_SEARCH_COMPLETED</a> c <a href="05416.html">bt_avrcp_evt_search_completed_t</a> device_search @arg <a href="04788.html">AVRCP_EVT_COMPANY_ID_LIST_RECEIVED</a> c <a href="05171.html">bt_av_capability_company_id_t</a> company_id @arg <a href="04794.html">AVRCP_EVT_EVENT_ID_LIST_RECEIVED</a> c <a href="05172.html">bt_av_capability_event_id_t</a> supported_event_id @arg <a href="04808.html">AVRCP_EVT_PLAYER_SETTING_ATTRIBUTES_RECEIVED</a> c <a href="05194.html">bt_av_player_settings_t</a> player_settings @arg <a href="04810.html">AVRCP_EVT_PLAYER_SETTING_VALUES_RECEIVED</a> c <a href="05192.html">bt_av_player_setting_values_t</a> player_setting_values @arg <a href="04807.html">AVRCP_EVT_PLAYER_CURRENT_SETTING_VALUES_RECEIVED</a> c <a href="05191.html">bt_av_player_setting_current_values_t</a> player_setting_current_values @arg <a href="04809.html">AVRCP_EVT_PLAYER_SETTING_ATTRIBUTES_TEXT_RECEIVED</a> c <a href="05195.html">bt_av_player_settings_text_t</a> player_settings_text @arg <a href="04811.html">AVRCP_EVT_PLAYER_SETTING_VALUES_TEXT_RECEIVED</a> c <a href="05193.html">bt_av_player_setting_values_text_t</a> player_setting_values_text @arg <a href="04795.html">AVRCP_EVT_GET_ELEMENT_ATTRIBUTES_RECEIVED</a> c <a href="05176.html">bt_av_element_attributes_t</a> element_attributes @arg <a href="04796.html">AVRCP_EVT_GET_PLAY_STATUS_RECEIVED</a> c <a href="05190.html">bt_av_play_status_t</a> play_status @arg <a href="04815.html">AVRCP_EVT_SET_ABSOLUTE_VOLUME_COMPLETED</a> c <a href="05199.html">bt_av_set_absolute_volume_t</a> absolute_volume @arg <a href="04817.html">AVRCP_EVT_SET_ADDRESSED_PLAYER_COMPLETED</a> c <a href="05200.html">bt_av_set_addressed_player_t</a> addressed_player @arg <a href="04803.html">AVRCP_EVT_PLAY_ITEM_COMPLETED</a> c <a href="05189.html">bt_av_play_item_t</a> play_item_status @arg <a href="04780.html">AVRCP_EVT_ADD_TO_NOW_PLAYING_COMPLETED</a> c <a href="05169.html">bt_av_add_to_now_playing_t</a> add_to_now_playing_status @arg <a href="04805.html">AVRCP_EVT_PLAYBACK_STATUS_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04820.html">AVRCP_EVT_TRACK_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04821.html">AVRCP_EVT_TRACK_REACHED_END</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04822.html">AVRCP_EVT_TRACK_REACHED_START</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04804.html">AVRCP_EVT_PLAYBACK_POS_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04783.html">AVRCP_EVT_BATT_STATUS_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04819.html">AVRCP_EVT_SYSTEM_STATUS_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04806.html">AVRCP_EVT_PLAYER_APPLICATION_SETTING_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04800.html">AVRCP_EVT_NOW_PLAYING_CONTENT_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04782.html">AVRCP_EVT_AVAILABLE_PLAYERS_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04781.html">AVRCP_EVT_ADDRESSED_PLAYER_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04823.html">AVRCP_EVT_UIDS_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification @arg <a href="04824.html">AVRCP_EVT_VOLUME_CHANGED</a> c <a href="05185.html">bt_av_notification_t</a> notification&nbsp;</p>
+<p class="Element10">
+@arg <a href="04801.html">AVRCP_EVT_PANEL_COMMAND_RECEIVED</a> c <a href="05413.html">bt_avrcp_evt_panel_command_received_t</a> panel_command_received @arg <a href="04784.html">AVRCP_EVT_BATTERY_STATUS_OF_CT_RECEIVED</a> c <a href="05170.html">bt_av_battery_status_of_ct_t</a> battery_status_of_ct @arg <a href="04792.html">AVRCP_EVT_DISPLAYABLE_CHARACTER_SET_RECEIVED</a> c <a href="05174.html">bt_av_displayable_character_set_t</a> displayable_character_set @arg <a href="04793.html">AVRCP_EVT_ELEMENT_ATTRIBUTES_REQUESTED</a> c <a href="05178.html">bt_av_get_element_attributes_t</a> get_element_attributes&nbsp;</p>
+<p class="Element10">
+param callback_param A pointer to an arbitrary data set by a call to <a href="05558.html">bt_avrcp_start</a>.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06308.html">Library Interface</a> &gt; AVRCP Data Types and Constants &gt; <a href="05496.html">bt_avrcp_mgr_callback_fp Type</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: bt_avrcp_mgr_callback_fp Topic Title: bt_avrcp_mgr_callback_fp Type)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

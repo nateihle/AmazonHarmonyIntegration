@@ -1,0 +1,418 @@
+enum SYS_MEMORY_DDR_MODE
+    "STATIC"
+    
+enum SYS_MEMORY_DDR_DDR_TYPE
+    "Internal"
+    || "Micron MT47H64M16"
+    || "Custom"
+
+config SYS_MEMORY_DDR_SERVICE_MODE
+    string "Driver Implementation"
+	depends on USE_SYS_MEMORY_DDR
+    range SYS_MEMORY_DDR_MODE
+    default "STATIC"
+    persistent
+    ---help---
+    ---endhelp---
+
+ifblock SYS_MEMORY_DDR_SERVICE_MODE = "STATIC"
+ifblock USE_SYS_MEMORY_DDR
+
+config SYS_MEMORY_DDR_TYPE
+    string "DDR Type"
+    range SYS_MEMORY_DDR_DDR_TYPE
+    default "Micron MT47H64M16"
+
+config SYS_MEMORY_DDR_SIZE
+	int "DDR Size (MB)"
+	default 128 if SYS_MEMORY_DDR_TYPE = "Micron MT47H64M16"
+	default 32 if SYS_MEMORY_DDR_TYPE = "Internal"
+	default 0
+
+menu "Arbiter"
+    depends on USE_SYS_MEMORY_DDR
+
+config SYS_MEMORY_DDR_MINLIM_TGT0
+    hex "Target 0 Minimum Burst Limit"
+    default 0x1F
+    
+config SYS_MEMORY_DDR_REQPER_TGT0
+    hex "Target 0 Request Period"
+    default 0xFF
+    
+config SYS_MEMORY_DDR_MINCMD_TGT0
+    hex "Target 0 Minimum Command"
+    default 0x04
+    
+config SYS_MEMORY_DDR_MINLIM_TGT1
+    hex "Target 1 Minimum Burst Limit"
+    default 0x1F
+    
+config SYS_MEMORY_DDR_REQPER_TGT1
+    hex "Target 1 Request Period"
+    default 0xFF
+    
+config SYS_MEMORY_DDR_MINCMD_TGT1
+    hex "Target 1 Minimum Command"
+    default 0x10
+    
+config SYS_MEMORY_DDR_MINLIM_TGT2
+    hex "Target 2 Minimum Burst Limit"
+    default 0x1F
+    
+config SYS_MEMORY_DDR_REQPER_TGT2
+    hex "Target 2 Request Period"
+    default 0xFF
+    
+config SYS_MEMORY_DDR_MINCMD_TGT2
+    hex "Target 2 Minimum Command"
+    default 0x10
+    
+config SYS_MEMORY_DDR_MINLIM_TGT3
+    hex "Target 3 Minimum Burst Limit"
+    default 0x04
+    
+config SYS_MEMORY_DDR_REQPER_TGT3
+    hex "Target 3 Request Period"
+    default 0xFF
+    
+config SYS_MEMORY_DDR_MINCMD_TGT3
+    hex "Target 3 Minimum Command"
+    default 0x04
+    
+config SYS_MEMORY_DDR_MINLIM_TGT4
+    hex "Target 4 Minimum Burst Limit"
+    default 0x04
+    
+config SYS_MEMORY_DDR_REQPER_TGT4
+    hex "Target 4 Request Period"
+    default 0xFF
+    
+config SYS_MEMORY_DDR_MINCMD_TGT4
+    hex "Target 4 Minimum Command"
+    default 0x04
+endmenu
+
+menu "Addressing"
+    depends on USE_SYS_MEMORY_DDR
+
+config SYS_MEMORY_DDR_COL_BITS
+    int "Number of Column Bits"
+    default 10 if SYS_MEMORY_DDR_TYPE = "Micron MT47H64M16"
+    default 9 if SYS_MEMORY_DDR_TYPE = "Internal"
+    default 0
+
+config SYS_MEMORY_DDR_ROW_BITS
+    int "Number of Row Bits"
+    default 13
+
+config SYS_MEMORY_DDR_BANK_BITS
+    int "Number of Bank Bits"
+    default 3 if SYS_MEMORY_DDR_TYPE = "Micron MT47H64M16"
+    default 2 if SYS_MEMORY_DDR_TYPE = "Internal"
+    default 0
+endmenu
+
+menu "Timing"
+    depends on USE_SYS_MEMORY_DDR
+
+config SYS_MEMORY_DDR_CLK_PER
+    int "DDR Clock Period (psec)"
+    default 2500
+
+config SYS_MEMORY_DDR_BRST_LEN
+    int "Burst Length (BL)"
+    default 2
+
+config SYS_MEMORY_DDR_CAS_LAT
+    int "Read Latency (CAS, clock cycles)"
+    default 5
+
+config SYS_MEMORY_DDR_WR_LAT
+    int "Write Latency (WL, clock cycles)"
+    default 4
+
+config SYS_MEMORY_DDR_TRFC
+    int "Refresh Cycle Time (tRFC, psec)"
+    default 127500
+
+config SYS_MEMORY_DDR_TRFI
+    int "Refresh Interval (tRFI, clock cycles)"
+    default 7800000
+
+config SYS_MEMORY_DDR_MAX_PEND_REFS
+    int "Maximum Number of Pending Refreshes"
+    default 7
+
+config SYS_MEMORY_DDR_TWR
+    int "Write Recovery Time (tWR, psec)"
+    default 15000
+
+config SYS_MEMORY_DDR_TRP
+    int "RAS Precharge Time (tRP, psec)"
+    default 12500
+
+config SYS_MEMORY_DDR_TRCD
+    int "RAS to CAS Delay Time (tRCD, psec)"
+    default 12500
+
+config SYS_MEMORY_DDR_TRRD
+    int "Activate to Activate Delay Time (tRRD, psec)"
+    default 7500
+
+config SYS_MEMORY_DDR_TWTR
+    int "Write to Read Command Delay Time (tWTR, psec)"
+    default 7500
+
+config SYS_MEMORY_DDR_TRTP
+    int "Read to Precharge Delay Time (tRTP, psec)"
+    default 7500
+
+config SYS_MEMORY_DDR_TRAS
+    int "Active to Precharge Delay Time (tRAS, psec)"
+    default 45000
+
+config SYS_MEMORY_DDR_TRC
+    int "Row Cycle Time (tRC, psec)"
+    default 57500
+
+config SYS_MEMORY_DDR_TFAW
+    int "Four Bank Activate Window (tFAW, psec)"
+    default 45000 if SYS_MEMORY_DDR_TYPE = "Micron MT47H64M16"
+    default 35000 if SYS_MEMORY_DDR_TYPE = "Internal"
+    default 0
+
+config SYS_MEMORY_DDR_TXP
+    int "Exit Precharge Power Down to Any Command Time (tXP, clock cycles)"
+    default 2
+
+config SYS_MEMORY_DDR_TCKE
+    int "CKE Minimum High/Low Time (tCKE, clock cycles)"
+    default 3
+
+config SYS_MEMORY_DDR_TMRD
+    int "Mode Register Set Command Cycle Time (tMRD, clock cycles)"
+    default 2
+
+config SYS_MEMORY_DDR_TDLLK
+    int "DLL Lock Time (number of clocks)"
+    default 200
+
+endmenu
+
+menu "Power Control"
+    depends on USE_SYS_MEMORY_DDR
+
+config SYS_MEMORY_DDR_AUTO_PWR_DOWN
+    bool "Enable Auto Power Down?"
+    default n
+
+config SYS_MEMORY_DDR_AUTO_PCHRG
+    bool "Enable Auto Precharge?"
+    default n
+
+config SYS_MEMORY_DDR_AUTO_PCHRG_PWR_DOWN
+    bool "Enable Auto Precharge Power Down?"
+    default n
+
+config SYS_MEMORY_DDR_SELF_REFRESH_DELAY
+    int "Self Refresh Delay"
+    default 17
+
+config SYS_MEMORY_DDR_PWR_DOWN_DELAY
+    int "Power Down Delay"
+    default 8
+endmenu
+
+menu "Host Commands"
+config SYS_MEMORY_DDR_NUM_CMDS
+    hex "Number of Host Commands"
+    default 0x1B
+endmenu
+	
+menu "On-Die Termination"
+    depends on USE_SYS_MEMORY_DDR
+
+config SYS_MEMORY_DDR_ODT_READ_ENABLE
+    bool "Enable ODT for Reads?"
+    default n
+
+config SYS_MEMORY_DDR_ODT_READ_CLOCKS 
+    int "Number of Clocks ODT is Turned On for Reads"
+    depends on SYS_MEMORY_DDR_ODT_READ_ENABLE
+    default 2
+
+config SYS_MEMORY_DDR_ODT_READ_DLY
+    int "Number of Clocks After Read Command Before Turning on ODT"
+    depends on SYS_MEMORY_DDR_ODT_READ_ENABLE
+    default 4
+
+config SYS_MEMORY_DDR_ODT_WRITE_ENABLE
+    bool "Enable ODT for Writes?"
+    default n
+
+config SYS_MEMORY_DDR_ODT_WRITE_CLOCKS 
+    int "Number of Clocks ODT is Turned On for Writes"
+    depends on SYS_MEMORY_DDR_ODT_WRITE_ENABLE
+    default 3
+
+config SYS_MEMORY_DDR_ODT_WRITE_DLY
+    int "Number of Clocks After Write Command Before Turning on ODT"
+    depends on SYS_MEMORY_DDR_ODT_WRITE_ENABLE
+    default 1
+endmenu
+#endmenu
+
+enum SYS_MEMORY_DDR_PHY_ODT_VAL
+    "DDR_PHY_ODT_75_OHM"
+    || "DDR_PHY_ODT_150_OHM"
+
+enum SYS_MEMORY_DDR_PHY_SYS_MEMORY_STG
+    "DDR_PHY_DRIVE_STRENGTH_60"
+    || "DDR_PHY_DRIVE_STRENGTH_FULL"
+
+enum SYS_MEMORY_DDR_PHY_DLL_LOC
+    "Internal"
+    || "External"
+
+enum SYS_MEMORY_DDR_PHY_PREAMBLE_DLY
+    "DDR_PHY_PREAMBLE_DLY_1_0"
+    || "DDR_PHY_PREAMBLE_DLY_1_5"
+    || "DDR_PHY_PREAMBLE_DLY_2_0"
+
+enum SYS_MEMORY_DDR_PHY_SCL_BRST_MODE
+    "DDR_PHY_SCL_BURST_MODE_4"
+    || "DDR_PHY_SCL_BURST_MODE_8"
+
+enum SYS_MEMORY_DDR_PHY_DDR_TYP
+    "DDR_PHY_DDR_TYPE_DDR2"
+    || "DDR_PHY_DDR_TYPE_DDR3"
+
+enum SYS_MEMORY_DDR_PHY_SCL_DELAY
+    "DDR_PHY_SCL_DELAY_SINGLE"
+    || "DDR_PHY_SCL_DELAY_DOUBLE"
+
+menu "DDR PHY Configuration Parameters"
+    depends on USE_SYS_MEMORY_DDR
+
+config SYS_MEMORY_DDR_PHY_ODT_ENABLE
+    bool "Enable PHY ODT?"
+    default y
+
+config SYS_MEMORY_DDR_PHY_ODT_VALUE
+    string "PHY ODT Value"
+    depends on SYS_MEMORY_DDR_PHY_ODT_ENABLE
+    range SYS_MEMORY_DDR_PHY_ODT_VAL
+    default "DDR_PHY_ODT_150_OHM"
+
+config SYS_MEMORY_DDR_PHY_SYS_MEMORY_STRENGTH_DATA
+    string "PHY Drive Strength for Data Pads"
+    range SYS_MEMORY_DDR_PHY_SYS_MEMORY_STG
+    default "DDR_PHY_DRIVE_STRENGTH_60"
+
+config SYS_MEMORY_DDR_PHY_SYS_MEMORY_STRENGTH_ADDC
+    string "PHY Drive Strength for Address and Control Pads"
+    range SYS_MEMORY_DDR_PHY_SYS_MEMORY_STG
+    default "DDR_PHY_DRIVE_STRENGTH_60"
+
+config SYS_MEMORY_DDR_PHY_ODT_PU_CAL
+    int "PHY ODT Pull-Up Calibration Value (0-3)"
+    range 0 3
+    default 3
+
+config SYS_MEMORY_DDR_PHY_ODT_PD_CAL
+    int "PHY ODT Pull-Down Calibration Value (0-3)"
+    range 0 3
+    default 2
+
+config SYS_MEMORY_DDR_PHY_SYS_MEMORY_STR_NFET_CAL
+    int "PHY Drive Strength (NFET) Calibration Value (0-15)"
+    range 0 15
+    default 14
+
+config SYS_MEMORY_DDR_PHY_SYS_MEMORY_STR_PFET_CAL
+    int "PHY Drive Strength (PFET) Calibration Value (0-15)"
+    range 0 15
+    default 14
+
+config SYS_MEMORY_DDR_PHY_EXTRA_CLK
+    bool "Enable Drive Pad for an Extra Clock After Write Burst?"
+    default n
+
+config SYS_MEMORY_DDR_PHY_DLL
+    string "DLL Location"
+    range SYS_MEMORY_DDR_PHY_DLL_LOC
+    default "Internal"
+    persistent
+
+config SYS_MEMORY_DDR_PHY_RCVREN
+    bool "Enable Pad Receivers on Bidirectional I/Os?"
+    default y
+
+config SYS_MEMORY_DDR_PHY_WR_CMD_DLY
+    bool "Enable Pad Write Command Delay?"
+    default y
+
+config SYS_MEMORY_DDR_PHY_PRE_DLY
+    string "Preamble Delay for Writes"
+    range SYS_MEMORY_DDR_PHY_PREAMBLE_DLY
+    default "DDR_PHY_PREAMBLE_DLY_1_0"
+
+config SYS_MEMORY_DDR_PHY_RECALIB_EN
+    bool "Enable DLL Recalibration?"
+    default y
+
+config SYS_MEMORY_DDR_PHY_RECALIB_COUNT
+    int "DLL Recalibration Count"
+    depends on SYS_MEMORY_DDR_PHY_RECALIB_EN
+    range 0 262143
+    default 16
+
+config SYS_MEMORY_DDR_PHY_DLL_MASTER_DELAY_START
+    int "Start Value of the DLL Master Delay Line"
+    range 0 15
+    default 3
+
+config SYS_MEMORY_DDR_PHY_SCL_CAP_CLK_DELAY
+	int "PHY SCL Capture Clock Delay"
+	range 0 15
+	default 3
+
+config SYS_MEMORY_DDR_PHY_SCL_MAIN_CLK_DELAY
+	int "PHY SCL Main Clock Delay"
+	range 0 15
+	default 4
+
+config SYS_MEMORY_DDR_PHY_SCL_BURST_MODE
+    string "SCL Burst Mode"
+    range DDR_PHY_SCL_BRST_MODE
+    default "DDR_PHY_SCL_BURST_MODE_8"
+
+config SYS_MEMORY_DDR_PHY_DDR_TYPE
+    string "DDR Type (for PHY configuration)"
+    range DDR_PHY_DDR_TYP
+    default "DDR_PHY_DDR_TYPE_DDR2"
+
+config SYS_MEMORY_DDR_PHY_ODT_CS_EN
+    bool "Enable ODT on Chip Select Line While Running SCL?"
+    default y
+
+config SYS_MEMORY_DDR_PHY_SCL_DLY
+    string "SCL Reference Delay"
+    range DDR_PHY_SCL_DELAY
+    default "DDR_PHY_SCL_DELAY_SINGLE"
+
+config SYS_MEMORY_DDR_SCL_CS_EN
+    bool "Enable SCL on Chip Select 0"
+    default y
+	
+endmenu
+endif
+endif
+
+ifblock USE_SYS_MEMORY_DDR
+
+template DDR_STATIC_SYS_MEMORY_C_FTL "$HARMONY_VERSION_PATH/framework/system/memory/ddr/templates/sys_memory_ddr_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/memory/ddr/src/sys_memory_ddr_static.c"
+template DDR_STATIC_SYS_MEMORY_H_FTL "$HARMONY_VERSION_PATH/framework/system/memory/ddr/templates/sys_memory_ddr_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/system/memory/ddr/sys_memory_ddr_static.h"
+endif
+

@@ -1,0 +1,59 @@
+config USE_GFX_UTILITIES_LIB
+    bool "Use Graphics Utilities Library?"
+	default y if USE_LIBARIA
+    default n
+	---help---
+	---endhelp---
+
+config GFX_UTIL_JPEG_DECODER_ENABLED
+    depends on USE_GFX_UTILITIES_LIB
+    bool "Enable JPEG Decoder"
+    default y
+
+config GFX_UTIL_PNG_DECODER_ENABLED
+    depends on USE_GFX_UTILITIES_LIB
+    bool "Enable PNG Decoder"
+    default y
+
+ifblock USE_GFX_UTILITIES_LIB
+file GFX_UTILS_H "$HARMONY_VERSION_PATH/framework/gfx/utils/gfx_utils.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfx_utils.h"
+
+file GFXU_BINARY_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_binary.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_binary.h"
+file GFXU_FONT_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_font.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_font.h"
+file GFXU_GLOBAL_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_global.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_global.h"
+file GFXU_IMAGE_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_image.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_image.h"
+file GFXU_IMAGE_UTILS_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_image_utils.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_image_utils.h"
+file GFXU_PALETTE_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_palette.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_palette.h"
+file GFXU_STRING_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_string.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_string.h"
+file GFXU_STRING_UTILS_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_string_utils.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_string_utils.h"
+file LODE_PNG_DECODER_H "$HARMONY_VERSION_PATH/third_party/decoder/lodepng/lodepng.h" to "$PROJECT_HEADER_FILES/third_party/decoder/lodepng/lodepng.h"
+
+ifblock GFX_UTIL_JPEG_DECODER_ENABLED
+file GFXU_IMAGE_JPG_COMMON_H "$HARMONY_VERSION_PATH/framework/gfx/utils/inc/gfxu_image_jpg_common.h" to "$PROJECT_HEADER_FILES/framework/gfx/utils/gfxu_image_jpg_common.h"
+file JIDCTINT_C "$HARMONY_VERSION_PATH/third_party/decoder/jidctint/src/jidctint.c" to "$PROJECT_SOURCE_FILES/third_party/decoder/jidctint/jidctint.c"
+file GFXU_IMAGE_JPG_COMMON_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_jpg_common.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_jpg_common.c"
+file GFXU_IMAGE_JPG_INTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_jpg_internal.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_jpg_internal.c"
+file GFXU_IMAGE_JPG_EXTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_jpg_external.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_jpg_external.c"
+endif
+
+ifblock GFX_UTIL_PNG_DECODER_ENABLED
+file GFXU_IMAGE_PNG_EXTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_png_external.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_png_external.c"
+file GFXU_IMAGE_PNG_INTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_png_internal.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_png_internal.c"
+file LODE_PNG_DECODER_C "$HARMONY_VERSION_PATH/third_party/decoder/lodepng/lodepng.c" to "$PROJECT_SOURCE_FILES/third_party/decoder/lodepng/lodepng.c"
+endif
+
+file GFXU_IMAGE_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image.c"
+file GFXU_IMAGE_RAW_EXTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_raw_external.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_raw_external.c"
+file GFXU_IMAGE_RAW_INTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_raw_internal.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_raw_internal.c"
+file GFXU_IMAGE_RLE_EXTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_rle_external.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_rle_external.c"
+file GFXU_IMAGE_RLE_INTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_rle_internal.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_rle_internal.c"
+file GFXU_IMAGE_UTILS_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_image_utils.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_image_utils.c"
+file GFXU_PALETTE_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_palette.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_palette.c"
+file GFXU_STRING_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_string.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_string.c"
+file GFXU_STRING_EXTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_string_external.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_string_external.c"
+file GFXU_STRINGBUFFER_EXTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_stringbuffer_external.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_stringbuffer_external.c"
+file GFXU_STRING_INTERNAL_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_string_internal.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_string_internal.c"
+file GFXU_STRING_QUERY_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_string_query.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_string_query.c"
+file GFXU_STRING_UTILS_C "$HARMONY_VERSION_PATH/framework/gfx/utils/src/gfxu_string_utils.c" to "$PROJECT_SOURCE_FILES/framework/gfx/utils/gfxu_string_utils.c"
+
+endif

@@ -1,0 +1,156 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ2048ECG100_SB
+	bool
+	select HAVE_SB
+	default y
+
+config SB_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum SB_MODULE_ID exclusive
+	"SB_ID_0"
+
+enum PLIB_SB_INIT_ID
+	"PLIB_SB_INIT_ID_CPU_LRS"
+	|| "PLIB_SB_INIT_ID_CPU_HI"
+	|| "PLIB_SB_INIT_ID_DMA1_RD_LRS"
+	|| "PLIB_SB_INIT_ID_DMA1_RD_HI"
+	|| "PLIB_SB_INIT_ID_DMA1_WR_LRS"
+	|| "PLIB_SB_INIT_ID_DMA1_WR_HI"
+	|| "PLIB_SB_INIT_ID_USB1"
+	|| "PLIB_SB_INIT_ID_ETH1_RD"
+	|| "PLIB_SB_INIT_ID_ETH1_WR"
+	|| "PLIB_SB_INIT_ID_SQI1"
+	|| "PLIB_SB_INIT_ID_FLASH_CTL"
+
+enum PLIB_SB_PG_INITIATOR
+	"PLIB_SB_PG_INITIATOR_CPU"
+	|| "PLIB_SB_PG_INITIATOR_DMA1"
+	|| "PLIB_SB_PG_INITIATOR_USB1"
+	|| "PLIB_SB_PG_INITIATOR_ETH1"
+	|| "PLIB_SB_PG_INITIATOR_SQI1"
+	|| "PLIB_SB_PG_INITIATOR_FLASH_CTL"
+
+enum PLIB_SB_TGT_ID
+	"PLIB_SB_TGT_ID_T0"
+	|| "PLIB_SB_TGT_ID_T1"
+	|| "PLIB_SB_TGT_ID_T2"
+	|| "PLIB_SB_TGT_ID_T3"
+	|| "PLIB_SB_TGT_ID_T4"
+	|| "PLIB_SB_TGT_ID_T5"
+	|| "PLIB_SB_TGT_ID_T6"
+	|| "PLIB_SB_TGT_ID_T7"
+	|| "PLIB_SB_TGT_ID_T8"
+	|| "PLIB_SB_TGT_ID_T9"
+	|| "PLIB_SB_TGT_ID_T10"
+	|| "PLIB_SB_TGT_ID_T11"
+	|| "PLIB_SB_TGT_ID_T12"
+	|| "PLIB_SB_TGT_ID_T13"
+
+enum PLIB_SB_TGT_REGION
+	"PLIB_SB_T0_REGION_0"
+	|| "PLIB_SB_T0_REGION_1"
+	|| "PLIB_SB_T1_REGION_0"
+	|| "PLIB_SB_T1_REGION_2"
+	|| "PLIB_SB_T1_REGION_3"
+	|| "PLIB_SB_T1_REGION_4"
+	|| "PLIB_SB_T1_REGION_5"
+	|| "PLIB_SB_T1_REGION_6"
+	|| "PLIB_SB_T1_REGION_7"
+	|| "PLIB_SB_T1_REGION_8"
+	|| "PLIB_SB_T2_REGION_0"
+	|| "PLIB_SB_T2_REGION_1"
+	|| "PLIB_SB_T2_REGION_2"
+	|| "PLIB_SB_T3_REGION_0"
+	|| "PLIB_SB_T3_REGION_1"
+	|| "PLIB_SB_T3_REGION_2"
+	|| "PLIB_SB_T4_REGION_0"
+	|| "PLIB_SB_T4_REGION_2"
+	|| "PLIB_SB_T5_REGION_0"
+	|| "PLIB_SB_T5_REGION_1"
+	|| "PLIB_SB_T5_REGION_2"
+	|| "PLIB_SB_T6_REGION_0"
+	|| "PLIB_SB_T6_REGION_1"
+	|| "PLIB_SB_T7_REGION_0"
+	|| "PLIB_SB_T7_REGION_1"
+	|| "PLIB_SB_T8_REGION_0"
+	|| "PLIB_SB_T8_REGION_1"
+	|| "PLIB_SB_T9_REGION_0"
+	|| "PLIB_SB_T9_REGION_1"
+	|| "PLIB_SB_T10_REGION_0"
+	|| "PLIB_SB_T11_REGION_0"
+	|| "PLIB_SB_T11_REGION_1"
+	|| "PLIB_SB_T12_REGION_0"
+	|| "PLIB_SB_T13_REGION_0"
+
+enum PLIB_SB_ERROR
+	"PLIB_SB_ERROR_NONE"
+	|| "PLIB_SB_ERROR_PGV"
+
+enum PLIB_SB_REGION_PG
+	"REGION_PG_0"
+	|| "REGION_PG_1"
+	|| "REGION_PG_2"
+	|| "REGION_PG_3"
+
+enum PLIB_SB_INIT_PG
+	"PLIB_SB_INIT_PG_0"
+	|| "PLIB_SB_INIT_PG_1"
+	|| "PLIB_SB_INIT_PG_2"
+	|| "PLIB_SB_INIT_PG_3"
+
+enum PLIB_SB_ARB_POLICY
+	"PRIORITY_LRS"
+	|| "PRIORITY_HI"
+
+enum PLIB_SB_OCP_CMD_CODE
+	"PLIB_SB_OCP_CMD_IDLE"
+	|| "PLIB_SB_OCP_CMD_WRITE"
+	|| "PLIB_SB_OCP_CMD_READ"
+	|| "PLIB_SB_OCP_CMD_READEX"
+	|| "PLIB_SB_OCP_CMD_WRITE_NON_POST"
+	|| "PLIB_SB_OCP_CMD_BROADCAST"
+
+enum PLIB_SB_PGV_GROUP_ID
+	"PLIB_SB_PGV_GROUP_ID_NONE"
+
+enum PLIB_SB_PGV_GROUP0_TGT
+	"PLIB_SB_PGV_GROUP0_TGT_NONE"
+
+enum PLIB_SB_PGV_GROUP1_TGT
+	"PLIB_SB_PGV_GROUP1_TGT_NONE"
+
+enum PLIB_SB_PGV_GROUP2_TGT
+	"PLIB_SB_PGV_GROUP2_TGT_NONE"
+
+enum PLIB_SB_PGV_GROUP3_TGT
+	"PLIB_SB_PGV_GROUP3_TGT_NONE"
+
+ifblock PROJECT_STANDALONE
+file PLIB_SB_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/processor/sb_p32mz2048ecg100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/processor/sb_p32mz2048ecg100.h"
+
+file PLIB_SB_PGVERRGROUPSTATUS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrGroupStatus_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrGroupStatus_Unsupported.h"
+file PLIB_SB_PGVERRGROUP0STATUS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrGroup0Status_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrGroup0Status_Unsupported.h"
+file PLIB_SB_PGVERRGROUP1STATUS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrGroup1Status_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrGroup1Status_Unsupported.h"
+file PLIB_SB_PGVERRGROUP2STATUS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrGroup2Status_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrGroup2Status_Unsupported.h"
+file PLIB_SB_PGVERRGROUP3STATUS_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrGroup3Status_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrGroup3Status_Unsupported.h"
+file PLIB_SB_PGVERRSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrStatus_Default.h"
+file PLIB_SB_PGVERRCLEAR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrClear_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrClear_Default.h"
+file PLIB_SB_PGVERRINITID_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrInitID_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrInitID_Default.h"
+file PLIB_SB_PGVERRREGION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrRegion_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrRegion_Default.h"
+file PLIB_SB_PGVERRCMDCODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrCmdCode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrCmdCode_Default.h"
+file PLIB_SB_PGVERRPG_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrPG_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrPG_Default.h"
+file PLIB_SB_PGVERRRPTPRI_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrRptPri_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrRptPri_Default.h"
+file PLIB_SB_PGVERRCLRSINGLE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrClrSingle_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrClrSingle_Default.h"
+file PLIB_SB_PGVERRCLRMULTI_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGVErrClrMulti_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGVErrClrMulti_Default.h"
+file PLIB_SB_PGREGADDR_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGRegAddr_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGRegAddr_Default.h"
+file PLIB_SB_PGREGSIZE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGRegSize_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGRegSize_Default.h"
+file PLIB_SB_PGREGRDPERM_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGRegRdPerm_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGRegRdPerm_Default.h"
+file PLIB_SB_PGREGWRPERM_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_PGRegWrPerm_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_PGRegWrPerm_Default.h"
+file PLIB_SB_INITPERMGRP_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_InitPermGrp_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_InitPermGrp_Default.h"
+file PLIB_SB_CPUPRIORITY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_CPUPriority_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_CPUPriority_Default.h"
+file PLIB_SB_DMAPRIORITY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_DMAPriority_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_DMAPriority_Default.h"
+file PLIB_SB_ADCPRIORITY_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/sb/templates/sb_ADCPriority_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/sb/templates/sb_ADCPriority_Unsupported.h"
+endif

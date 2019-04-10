@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Other Functionality</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22592.html">RTCC Peripheral Library</a> &gt; <a href="17970.html">Using the Library</a> &gt; <a href="17961.html">How the Library Works</a> &gt; <a href="17965.html">Other Functionality</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17954.html">Previous</a> | <a href="17961.html">Up</a> | <a href="17955.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB RTCC Other Functionality Topic Title: Other Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Other Functionality</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The real-time crystal input can be calibrated using the periodic auto-adjust feature. When properly calibrated, the RTCC module can provide an error of less than 0.66 seconds per month. Calibration has the ability to eliminate an error of up to 260 ppm.&nbsp;</p>
+<p class="Element10">
+The calibration is accomplished by finding the number of error clock pulses and writing this value into the calibration bit fields using <a href="20511.html">PLIB_RTCC_DriftCalibrateSet</a>.</p><div class="Element15">
+Drift Calibration</div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="1" class="Element600">Using another timer resource, the user must find the error of the 32.768 kHz crystal.</li>
+<li value="2" class="Element600">Once the error is known, it must be converted to the number of error clock pulses per minute, as shown by <strong><i>(Ideal Frequency(32,758) - Measured Frequency) * 60 = Error Clocks Per Minute</i></strong>.</li>
+<li value="3" class="Element600">If the error is negative, the input to <a href="20511.html">PLIB_RTCC_DriftCalibrateSet</a> is negative. Likewise, if the error is positive, the input is positive. The negative and positive values are the actual number of clock pulses to be added or subtracted from the timer counter per minute.</li>
+</ol><strong>Example: Configuring the One-Time-Per-Day Alarm</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code03178');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code03178"><pre class="Element12"><i><span style="color: #008000">// Assume Write Enable has been performed correctly</span></i>
+<i><span style="color: #008000">// Assume steps 1 and 2 are performed and the error is determined.</span></i>
+
+<strong><span style="color: #000080">int</span></strong> driftValue = 0x3FD   <i><span style="color: #008000">// 10 bits Adjustment, -3 in value</span></i>
+<strong><span style="color: #000080">int</span></strong> T0,T1;
+
+<strong><span style="color: #000080">do</span></strong>
+{
+    T0 = PLIB_RTCC_RTCTimeGet(MY_RTCC_INSTANCE);
+    T1 = PLIB_RTCC_RTCTimeGet(MY_RTCC_INSTANCE);
+    <i><span style="color: #008000">// where, MY_RTCC_INSTANCE is a specific instance of the hardware peripheral</span></i>
+}<strong><span style="color: #000080">while</span></strong>(T0!=T1)     <i><span style="color: #008000">// Read Valid Time Value</span></i>
+
+<strong><span style="color: #000080">if</span></strong>((T0 &amp; 0XFF) == 0) <i><span style="color: #008000">// we are at seconds exactly 00, wait for auto adjust</span></i>
+{
+    <strong><span style="color: #000080">while</span></strong> PLIB_RTCC_HalfSecondStatusGet(MY_RTCC_INSTANCE); <i><span style="color: #008000">// Wait for the second Half</span></i>
+}
+
+PLIB_RTCC_DriftCalibrateSet(MY_RTCC_INSTANCE, 0x00); <i><span style="color: #008000">//Clear the calibration</span></i>
+
+PLIB_RTCC_DriftCalibrateSet(MY_RTCC_INSTANCE, 0xdriftValue);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="22592.html">RTCC Peripheral Library</a> &gt; <a href="17970.html">Using the Library</a> &gt; <a href="17961.html">How the Library Works</a> &gt; <a href="17965.html">Other Functionality</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB RTCC Other Functionality Topic Title: Other Functionality)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>User Interface</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16592.html">MPLAB Harmony ADC Manager User's Guide</a> &gt; <a href="16591.html">User Interface</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16589.html">Previous</a> | <a href="16592.html">Up</a> | <a href="16812.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHADCM User Interface Topic Title: User Interface)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+User Interface</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following describes each section of the MPLAB Harmony ADC Manager user interface.</p><div class="Element15">
+User Interface Layout</div>
+<p class="Element10">
+The following figure shows the initial user interface layout. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_initial_UI_layout.png" border="0" alt="" title=""></p><div class="Element15">
+Clock Source Selection</div>
+<p class="Element10">
+The Clock Source Selection area:</p>
+<ul class="Element630">
+<li class="Element600">Is the interface for choosing a clock source for all of the ADC modules, and how that clock source is divided for the final ADC clock (TQ).</li>
+<li class="Element600">Lets you configure the source and speed of the overall ADC clock, which affects all ADC modules.</li>
+</ul><p class="Element10" style="text-align: center;">
+<img src="MHADCM_clock_src_sel_1.png" border="0" alt="" title=""></p><p class="Element10">
+The High-speed ADC has four possible clock sources:</p>
+<ul class="Element630">
+<li class="Element600">The Peripheral Bus Clock (PBCLK)</li>
+<li class="Element600">The Internal 8 MHz Oscillator (FRC)</li>
+<li class="Element600">One of the Reference Clock Modules (RFCLKx)</li>
+<li class="Element600">The System Clock (SYSCLK). On some parts, the SYSCLK will automatically be divided by two before getting to the ADC clock divider.</li>
+</ul><p class="Element10">
+The clock source is selected with the drop-down menu on the left. If the Reference Clock is selected, it must be configured using the Clock Manager screen. Please refer to the <a href="07390.html">Clock Manager</a> help documentation for information about how to configure the Reference Clock.&nbsp;</p>
+<p class="Element10">
+The drop-down box on the right sets a clock divider between the source clock and the ADC modules. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The ADC has a requirement for a minimum time for TQ. If the speed of the clock going into the ADC is faster than the requirement, the label with “TQ =” will turn red to show the violation of the timing specification. To resolve it, select another clock source, a different divider, or adjust the clock settings by using the Clock Manager.<br><img src="MHADCM_clock_src_sel_2.png" border="0" alt="" title="">&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Reference Voltage Selection</div>
+<p class="Element10">
+The Reference Voltage Selection area lets you configure the reference voltages (VREFL and VREFH) that are used for all ADC modules. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ref_volt_sel.png" border="0" alt="" title=""></p><p class="Element10">
+The options available depend on the device in use. When you make a selection from the drop-down menu, the labels (AVDD/VREF+, AVSS/VREF-) change the highlight according to the selection.</p><div class="Element15">
+Scan Trigger Source Selection</div>
+<p class="Element10">
+This drop-down menu lets you configure the interrupt source that is used when scanning is triggered. This is done selecting which interrupt source will trigger a scan operation. Selecting this interrupt source mainly affects the shared ADC (ADC7); however, the dedicated channels can also use the same source if desired. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_scan_trigger_src_sel.png" border="0" alt="" title=""></p><p class="Element10">
+The options for the Scan Trigger Source depends on the part in use. Most of the options are the same between all devices, such as the Global Software Level trigger and the Global Software Edge trigger. Refer to the device-specific data sheet for information about which trigger sources are available. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This does not configure the trigger source, which must be done separately within MHC. For example, if you have selected a PWM or TMR as the trigger source, that module must be configured separately within MHC.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+ADC Configuration</div>
+<p class="Element10">
+The ADC Configuration section lets you configure each ADC channel, what inputs are in use, whether it is differential or single-ended, along with sampling rate, and whether the data from the ADC results in an interrupt.&nbsp;</p>
+<p class="Element10">
+Each available ADC module is chosen on the right side of the area. From there, each ADC can be individually configured for input sources, resolution, sampling rate, trigger source for starting the conversion (dedicated channels) or scan mode (shared channels), and whether the module will interrupt the processor when conversions are complete. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>Turning on an ADC channel</strong>&nbsp;</p>
+<p class="Element10">
+When setting up an ADC channel, the first step is to select a particular ADC from the tabs on the right, and then enable the channel by selecting the <strong>Channel Enable</strong> check box. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config2.png" border="0" alt="" title=""></p><p class="Element10">
+The <strong>Instance Number</strong> box gives you an idea of which ADC driver instance to refer to when calling various ADC driver functions.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Input Source Selection</strong>&nbsp;</p>
+<p class="Element10">
+The area on the left lets you select which input source is used by the ADC, and whether the channel is single-ended or differential. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config3.png" border="0" alt="" title=""></p><p class="Element10">
+For the dedicated channels, there will be available one alternate source or three alternate sources. Whichever source is selected, the data will arrive the in data register for the first source, that is, the data register for that ADC channel.&nbsp;</p>
+<p class="Element10">
+For example, ADC 0 will always write the result into ADCDATA0, irrespective of which input is selected.&nbsp;</p>
+<p class="Element10">
+The DIFFx drop-down menu lets you select the negative input source for the ADC. If VREFL is selected, the input is configured as single-ended. If the alternate input is selected (AN5 in the figure), the channel is configured as differential.&nbsp;</p>
+<p class="Element10">
+For the shared channel, there is a different way to select the inputs that are sampled and converted during a scan sequence. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config4.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+There is no drop-down menu for the negative input to the ADC. Click <strong>Channel Selection</strong>, and a dialog appears with all of the available inputs for the shared ADC.<br><img src="MHADCM_ADC_config5.png" border="0" alt="" title="">&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+In the Channel Selection dialog, each available input has a check box to the left, and a drop-down menu to the right. Use the check box to enable the channel input to the shared ADC. You use the drop-down menu to select whether that input is to be in single-ended mode (by using VREFL as the Negative Input), or differential mode (by selecting the alternate input option). </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Currently, the dialog shows both Class 2 (independent trigger source) and Class 3 (shared trigger source) inputs; however, selection of the Class 2 trigger sources is not available here. It is necessary at this time to go to the ADC Driver in the regular MHC tree, which is located within <i>Framework &gt;Drivers &gt;ADC &gt;Enable Analog Input Conversion?</i>. A future version of the ADC Manager will provide this capability from this dialog.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Output Resolution</strong>&nbsp;</p>
+<p class="Element10">
+Each ADC can be configured for different data resolution rates by using the drop-down menu above the ADC symbol. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config6.png" border="0" alt="" title=""></p><p class="Element10">
+A lower resolution can yield a faster sampling rate. The available resolutions are 12-bit, 10-bit, 8-bit, and 6-bit.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Individual ADC Sampling Rate selection</strong>&nbsp;</p>
+<p class="Element10">
+Each ADC can be configured for its own ADC clock (TAD) and sampling time (SAMC). </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config7.png" border="0" alt="" title=""></p><p class="Element10">
+The <strong>Clock Divider</strong> drop-down menu in the <strong>Sampling Rate</strong> panel controls how much the ADC module clock (TQ) is divided to produce the final TAD clock. There are minimum requirements for the TAD timing, and if the current setting violates that minimum, the text label above the drop-down box will turn red.&nbsp;</p>
+<p class="Element10">
+The <strong>Sample Count</strong> drop-down menu in the <strong>Sampling Rate</strong> panel controls how long the sampling capacitor is connected to the input pin(s) during the sampling phase. For dedicated ADC channels, this controls the minimum time for the sampling, as the ADC goes into sampling phase after a conversion is complete. For the shared ADC, each input that is selected is sampled for the specified number of TAD clocks before going into conversion mode.&nbsp;</p>
+<p class="Element10">
+The <strong>Actual Rate</strong> box to the right of the <strong>Sampling Rate</strong> panel indicates how many samples per second will actually be produced by the combination of Clock Divider and Sample Count. There is also an option for auto-calculating both the ADCDIV and SAMC values based on a desired sampling rate. Clicking the <strong>Auto-Calculate</strong> button displays the following dialog box: </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config8.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Selecting the desired conversion rate (in ksps) by using the <strong>Desired Conversion Rate</strong> spin buttons shows the achievable conversion rate in <strong>Best Achievable Conversion Rate</strong> box. When the desired setting has been reached, clicking <strong>Apply</strong> updates the new settings to the ADC settings.&nbsp;</p>
+<p class="Element10">
+As an example, use the PIC32MZ EF device, and use PBCLK as the input to the ADC. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config9.png" border="0" alt="" title=""></p><p class="Element10">
+Let’s say we would like to have a sample rate of 900 ksps on ADC0. Bringing up the auto-calculate dialog box and entering 900 into the input box, we see that the ADC Manager has determined that the best achievable rate is actually 892 ksps. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config10.png" border="0" alt="" title=""></p><p class="Element10">
+Going to 901 ksps provides a best conversion rate of 909 ksps. Therefore, it would be up to the user to decide whether the available rate is acceptable, or whether it would be necessary to adjust clocks or use another clock source. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The conversion rate is based on the assumption of continuous sampling and converting, while trigger sources would determine what is actually accomplished. Therefore, it might be necessary to set the ADC for a faster rate than the desired rate (i.e., the 909 ksps), and then adjust the trigger source (e.g., TMR3 match) to get the exact conversion rate desired. If the 909 ksps is accepted, we see the ADC configured as follows:<br><img src="MHADCM_ADC_config11.png" border="0" alt="" title=""><br>In this case, the TQ clock is divided by 2 for a TAD clock of 20 ns (50 MHz). The Sample Count (SAMC) is set for 42 TAD, so the sample phase will take 840 ns (20 ns * 42).&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>Polling/Interrupt Selection</strong>&nbsp;</p>
+<p class="Element10">
+Each ADC can be configured to generate an interrupt when a sample has been converted. For the dedicated channels, use the drop-down menu to the left of the ADC symbol to make the selection. </p><p class="Element10" style="text-align: center;">
+<img src="MHADCM_ADC_config12.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The shared ADC channel has a button that displays a dialog box for selecting <strong>Interrupt</strong> for <strong>Polling</strong> for each of the available inputs to the ADC. However, this dialog box does not modify anything in the MHC tree, so it is not necessary to use it at this time.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Conclusion</div>
+<p class="Element10">
+Using the ADC Manager can allow setup of the ADCs in PIC32MZ EF, PIC32MZ DA, and PIC32MK devices to be simple and elegant.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16592.html">MPLAB Harmony ADC Manager User's Guide</a> &gt; <a href="16591.html">User Interface</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHADCM User Interface Topic Title: User Interface)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,238 @@
+menu "SQI"
+    depends on HAVE_SQI
+	
+enum DRV_SQI_MODE
+    "DYNAMIC"
+	
+enum DRV_SQI_CLOCK_DIVIDER
+    "CLK_DIV_2048"
+    || "CLK_DIV_1024"
+    || "CLK_DIV_512"
+    || "CLK_DIV_256"
+    || "CLK_DIV_128"
+    || "CLK_DIV_64"
+    || "CLK_DIV_32"
+    || "CLK_DIV_16"
+    || "CLK_DIV_8"
+    || "CLK_DIV_4"
+    || "CLK_DIV_2"
+    || "CLK_DIV_1"
+
+enum DRV_SQI_SPI_OPERATION_MODE
+    "MODE_0"
+    || "MODE_3"
+
+config DRV_SQI_NEEDED
+    bool
+
+config USE_DRV_SQI
+    depends on HAVE_SQI
+    bool "Use SQI Driver?"
+    select DRIVER
+    select USE_SYS_INT_NEEDED
+	select SYS_QUEUE
+    default n if !DRV_SQI_NEEDED
+    default y if DRV_SQI_NEEDED
+    ---help---
+      IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+    
+config DRV_SQI_DRIVER_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_SQI
+    range DRV_SQI_MODE
+    default "DYNAMIC"
+    ---help---
+    IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+config DRV_SQI_PERIPHERAL_ID
+    string
+    depends on USE_DRV_SQI
+    range SQI_MODULE_ID
+    default "SQI_ID_0"
+    ---help---
+    IDH_HTML_SQI_MODULE_ID
+    ---endhelp---
+
+config DRV_SQI_INSTANCES_NUMBER
+    int
+    depends on USE_DRV_SQI && DRV_SQI_DRIVER_MODE = "DYNAMIC"
+    default 1
+    ---help---
+      IDH_HTML_DRV_SQI_INSTANCES_NUMBER
+    ---endhelp---
+
+config DRV_SQI_CLIENTS_NUMBER
+    int "Number of Clients"
+    depends on USE_DRV_SQI && DRV_SQI_DRIVER_MODE = "DYNAMIC"
+    default 1
+    ---help---
+      IDH_HTML_DRV_SQI_CLIENTS_NUMBER
+    ---endhelp---
+
+config DRV_SQI_BUFFER_OBJECT_NUMBER
+    int "Number of Buffer Objects"
+    depends on USE_DRV_SQI
+    range 1 10
+    default 5
+    ---help---
+      IDH_HTML_DRV_SQI_BUFFER_OBJECT_NUMBER
+    ---endhelp---
+
+config DRV_SQI_DMA_BUFFER_DESCRIPTORS_NUMBER
+    int "Number of DMA Buffer Descriptors"
+    depends on USE_DRV_SQI
+    range 4 256
+    default 4
+    ---help---
+      IDH_HTML_DRV_SQI_DMA_BUFFER_DESCRIPTORS_NUMBER
+    ---endhelp---
+
+config DRV_SQI_INTERRUPT_MODE
+    bool
+    depends on USE_DRV_SQI
+    default y
+    ---help---
+      IDH_HTML_DRV_SQI_INTERRUPT_MODE
+    ---endhelp---
+    
+config DRV_SQI_INTERRUPT_SOURCE
+    string
+    depends on USE_DRV_SQI
+    default "INT_SOURCE_SQI1"
+    ---help---
+      IDH_HTML_INT_SOURCE
+    ---endhelp---
+    
+config DRV_SQI_INTERRUPT_VECTOR
+    string
+    depends on USE_DRV_SQI && DRV_SQI_INTERRUPT_MODE
+    default "INT_VECTOR_SQI1"
+    ---help---
+      IDH_HTML_INT_VECTOR
+    ---endhelp---
+    
+config DRV_SQI_INTERRUPT_PRIORITY
+    string "Interrupt Priority"
+    depends on USE_DRV_SQI && DRV_SQI_INTERRUPT_MODE
+    range INT_PRIORITY_LEVEL
+    default "INT_PRIORITY_LEVEL3"
+    ---help---
+      IDH_HTML_INT_PRIORITY_LEVEL
+    ---endhelp---
+    
+config DRV_SQI_INTERRUPT_SUB_PRIORITY
+    string "Interrupt Sub-priority"
+    depends on USE_DRV_SQI && DRV_SQI_INTERRUPT_MODE
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+    ---help---
+      IDH_HTML_INT_SUBPRIORITY_LEVEL
+    ---endhelp---
+
+config DRV_SQI_ISR_VECTOR
+    string
+    depends on USE_DRV_SQI && DRV_SQI_INTERRUPT_MODE
+    default "_SQI1_VECTOR"
+
+config DRV_SQI_INT_IPL
+    string
+    depends on USE_DRV_SQI && DRV_SQI_INTERRUPT_MODE
+    default "0" if DRV_SQI_INTERRUPT_PRIORITY = "INT_DISABLE_INTERRUPT"
+    default "1" if DRV_SQI_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_SQI_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_SQI_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_SQI_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_SQI_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_SQI_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_SQI_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_SQI_CLK_FREQ
+    int "SQI Clock Frequency(Hz)"
+    depends on USE_DRV_SQI
+    default 50000000
+    set SYS_CLK_REFCLK1_ENABLE to y
+    ---help---
+      IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+config USE_DRV_SQI_DEVICE_0
+    bool "Use Chip Select Line 0?"
+    depends on USE_DRV_SQI
+    default n
+    ---help---
+      IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+config DRV_SQI_DEVICE_0_SPI_OP_MODE
+    string "SPI Mode of operation"
+    depends on USE_DRV_SQI_DEVICE_0
+    range DRV_SQI_SPI_OPERATION_MODE
+    default "MODE_0"
+    ---help---
+    IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+config DRV_SQI_DEVICE_0_SPI_OP_MODE_VALUE
+    string
+    depends on USE_DRV_SQI
+    depends on USE_DRV_SQI_DEVICE_0
+    default "DRV_SQI_SPI_MODE_0" if DRV_SQI_DEVICE_0_SPI_OP_MODE = "MODE_0"
+    default "DRV_SQI_SPI_MODE_3" if DRV_SQI_DEVICE_0_SPI_OP_MODE = "MODE_3"
+
+config DRV_SQI_DEVICE_0_LSB_FIRST
+    bool "Send or receive least significant bit of a byte first"
+    depends on USE_DRV_SQI_DEVICE_0
+    default y
+    ---help---
+    IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+config USE_DRV_SQI_DEVICE_1
+    bool "Use Chip Select Line 1?"
+    depends on USE_DRV_SQI
+    default n
+    ---help---
+      IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+config DRV_SQI_DEVICE_1_SPI_OP_MODE
+    string "SPI Mode of operation"
+    depends on USE_DRV_SQI_DEVICE_1
+    range DRV_SQI_SPI_OPERATION_MODE
+    default "MODE_0"
+    ---help---
+    IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+config DRV_SQI_DEVICE_1_SPI_OP_MODE_VALUE
+    string
+    depends on USE_DRV_SQI
+    depends on USE_DRV_SQI_DEVICE_1
+    default "DRV_SQI_SPI_MODE_0" if DRV_SQI_DEVICE_1_SPI_OP_MODE = "MODE_0"
+    default "DRV_SQI_SPI_MODE_3" if DRV_SQI_DEVICE_1_SPI_OP_MODE = "MODE_3"
+
+config DRV_SQI_DEVICE_1_LSB_FIRST
+    bool "Send or receive least significant bit of a byte first"
+    depends on USE_DRV_SQI_DEVICE_1
+    default y
+    ---help---
+    IDH_HTML_SQI_Driver_Library
+    ---endhelp---
+
+endmenu
+
+
+ifblock USE_DRV_SQI
+add "<#include \"/framework/driver/sqi/config/drv_sqi.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/sqi/config/drv_sqi_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/sqi/config/drv_sqi_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/sqi/templates/drv_sqi_int.c.ftl\">"  to list SYSTEM_INTERRUPT_C_VECTORS
+add "<#include \"/framework/driver/sqi/config/drv_sqi.h.ftl\">"  to list SYSTEM_CONFIG_H_GLOBAL_INCLUDES
+
+file DRV_SQI_H "$HARMONY_VERSION_PATH/framework/driver/sqi/drv_sqi.h" to "$PROJECT_HEADER_FILES/framework/driver/sqi/drv_sqi.h"
+template DRV_SQI_INIT_H "$HARMONY_VERSION_PATH/framework/driver/sqi/templates/drv_sqi_init.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/sqi/drv_sqi_init.h"
+template DRV_SQI_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/sqi/templates/drv_sqi_local.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/sqi/src/drv_sqi_local.h"
+file DRV_SQI_C "$HARMONY_VERSION_PATH/framework/driver/sqi/src/dynamic/drv_sqi.c" to "$PROJECT_SOURCE_FILES/framework/driver/sqi/src/dynamic/drv_sqi.c"
+endif

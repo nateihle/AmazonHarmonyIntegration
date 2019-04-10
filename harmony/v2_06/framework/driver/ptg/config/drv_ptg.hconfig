@@ -1,0 +1,609 @@
+menu "PTG"
+    depends on HAVE_PTG
+
+enum DRV_PTG_MODE_ENUM
+    "STATIC"
+
+enum DRV_PTG_OUT_MODE_ENUM
+    "PULSE"
+	|| "TOGGLE"
+
+	enum DRV_PTG_CMD	
+	"PTGCTRL"	
+	|| "PTGADD_COPY"
+	|| "PTGSTRB"	
+	|| "PTGWHI"
+	|| "PTGWLO"	
+	|| "PTGIRQ"	
+	|| "PTGTRIG"	
+	|| "PTGJMP"	
+	|| "PTGJMPC0"
+	|| "PTGJMPC1"
+
+enum PTGADD_PARAM
+	"ADD_ADJ_C1"
+	|| "ADD_ADJ_T0"
+	|| "ADD_ADJ_T1"
+	|| "ADD_ADJ_SD"
+	|| "ADD_ADJ_L0"
+	|| "COPY_HLD_C0"
+	|| "COPY_HLD_C1"
+	|| "COPY_HLD_T0"
+	|| "COPY_HLD_T1"
+	|| "COPY_HLD_SD"
+	|| "COPY_HLD_L0"
+
+enum PTGHILO_PARAM
+	"WAIT_OCMP1"
+	|| "WAIT_OCMP2"
+	|| "WAIT_OCMP3"
+	|| "WAIT_OCMP4"
+	|| "WAIT_ICAP1"
+	|| "WAIT_ICAP2"
+	|| "WAIT_ICAP3"
+	|| "WAIT_ICAP4"
+	|| "WAIT_ADC_EVENT_99"
+	|| "WAIT_ADC_EVENT_100"
+	|| "WAIT_ADC_EVENT_101"
+
+enum PTGIRQ_PARAM
+	"PTG_IRQ0"
+	|| "PTG_IRQ1"
+	|| "PTG_IRQ2"
+	|| "PTG_IRQ3"
+
+enum PTGTRIG_PARAM
+	"PTG_ADC_TRIG12"
+	|| "PTG_ADC_TRIG13"
+	|| "PTG_ADC_TRIG14"
+	|| "PTG_ADC_TRIG15"
+	|| "PTG_PPS_TRIG28"
+	|| "PTG_PPS_TRIG29"
+	|| "PTG_PPS_TRIG30"
+	|| "PTG_PPS_TRIG31"
+	
+enum PTGCTRL_PARAM
+	"NOP"
+	|| "SDOFF"
+	|| "SDON"
+	|| "PTGT0"
+	|| "PTGT1"
+	|| "SWTRGL"
+	|| "SWTRGE"
+	|| "STRBC0"
+	|| "STRBC1"
+	|| "STRBL0"
+	|| "BTRIG"
+	
+config USE_DRV_PTG
+    depends on HAVE_PTG
+    bool "Use PTG Driver?"
+	select DRIVER
+    default n 
+    ---help---
+    PTG static driver implementation (only for PIC32WK)
+    ---endhelp---
+
+config DRV_PTG_PERIPHERAL_ID
+    depends on USE_DRV_PTG
+    string 
+    default "PTG_ID_1"
+
+config DRV_PTG_DRIVER_MODE
+    depends on USE_DRV_PTG
+    string "Driver Implementation"
+    range DRV_PTG_MODE_ENUM
+    default "STATIC"
+	persistent
+	
+config DRV_PTG_CLOCK_SRC
+	string "Clock Source"
+	depends on USE_DRV_PTG
+    range PTG_CLK_SRC_SEL
+    default "PTG_CLK_SRC_PB_CLK"
+    ---help---
+    PTG Clock Source Configuration
+    ---endhelp---
+
+config DRV_PTG_PRESCALE
+	int "Prescale"
+	depends on USE_DRV_PTG
+    range 0 31
+    default 0
+    ---help---
+    PTG prescaler Configuration
+    ---endhelp---
+
+config DRV_PTG_INPUT_MODE
+	string "Input Mode"
+	depends on USE_DRV_PTG
+    range PTG_INPUT_MODE
+    default "PTG_INPUT_MODE_0"
+    ---help---
+    PTG Input Mode Configuration
+    ---endhelp---
+	
+config DRV_PTG_OUTPUT_MODE
+	string "Output Mode"
+	depends on USE_DRV_PTG
+    range DRV_PTG_OUT_MODE_ENUM
+    default "PULSE"
+    ---help---
+    PTG Output Mode Configuration
+    ---endhelp---
+
+config DRV_PTG_WDT
+	string "WDT Configuration"
+	depends on USE_DRV_PTG
+    range PTG_WDT_TIMEOUT_SEL
+    default "PTG_WDT_DISABLE"
+    ---help---
+    PTG WDT Configuration
+    ---endhelp---
+
+config DRV_PTG_IVIS
+	bool "Visibility"
+	depends on USE_DRV_PTG
+    default n
+    ---help---
+    PTG visibility Configuration for timer/counter registers
+    ---endhelp---
+
+config DRV_PTG_TIMER
+	bool "using PTG Timer?"
+	depends on USE_DRV_PTG
+    default n
+    ---help---
+    PTG Timer
+    ---endhelp---
+
+config DRV_PTG_TIMER0
+	int "Timer0 Limit"
+	depends on DRV_PTG_TIMER
+    range 0 65535
+    default 0
+    ---help---
+    PTG Timer0 Configuration
+    ---endhelp---
+
+config DRV_PTG_TIMER1
+	int "Timer1 Limit"
+	depends on DRV_PTG_TIMER
+    range 0 65535
+    default 0
+    ---help---
+    PTG Timer1 Configuration
+    ---endhelp---
+
+config DRV_PTG_COUNTER
+	bool "using PTG Counter?"
+	depends on USE_DRV_PTG
+    default n
+    ---help---
+    PTG Timer
+    ---endhelp---
+
+config DRV_PTG_COUNTER0
+	int "Counter0 Limit"
+	depends on DRV_PTG_COUNTER
+    range 0 65535
+    default 0
+    ---help---
+    PTG Timer0 Configuration
+    ---endhelp---
+
+config DRV_PTG_COUNTER1
+	int "Counter1 Limit"
+	depends on DRV_PTG_COUNTER
+    range 0 65535
+    default 0
+    ---help---
+    PTG Timer1 Configuration
+    ---endhelp---
+	
+config DRV_PTG_BTE
+	int "Broadcast Trigger Mask"
+	depends on USE_DRV_PTG
+    range 0 4294967295
+    default 0
+    ---help---
+    PTG BTE Configuration
+    ---endhelp---
+
+config DRV_PTG_HOLD
+	int "Hold Value"
+	depends on USE_DRV_PTG
+    range 0 65535
+    default 0
+    ---help---
+    PTG Hold Configuration
+    ---endhelp---
+
+config DRV_PTG_ADJ
+	int "Adjust Value"
+	depends on USE_DRV_PTG
+    range 0 65535
+    default 0
+    ---help---
+    PTG Adjust Configuration
+    ---endhelp---
+
+config DRV_PTG_LIT
+	int "Literal Value"
+	depends on USE_DRV_PTG
+    range 0 65535
+    default 0
+    ---help---
+    PTG Literal Configuration
+    ---endhelp---
+
+config DRV_PTG_STEP_DELAY
+	int "Step Delay Limit"
+	depends on USE_DRV_PTG
+    range 0 65535
+    default 0
+    ---help---
+    PTG Literal Configuration
+    ---endhelp---
+
+config DRV_PTG_SINGLE_STEP_INT
+	bool "Single Step Interrupt"
+	depends on USE_DRV_PTG
+    default n
+
+config DRV_PTG_SS_INTERRUPT_PRIORITY
+    string "Single Step Interrupt Priority"
+    depends on DRV_PTG_SINGLE_STEP_INT
+    range INT_PRIORITY_LEVEL 
+    default "INT_DISABLE_INTERRUPT"
+
+config DRV_PTG_SS_INTERRUPT_SUB_PRIORITY
+    string "Single Step Interrupt Sub-priority"
+    depends on DRV_PTG_SINGLE_STEP_INT
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+
+config DRV_PTG_SSTEP_INTERRUPT_SOURCE
+    string
+    depends on DRV_PTG_SINGLE_STEP_INT
+    default "INT_SOURCE_PTG_SSTEP"
+    
+config DRV_PTG_SSTEP_INTERRUPT_VECTOR
+    string
+    depends on DRV_PTG_SINGLE_STEP_INT
+    default "INT_VECTOR_PTG_SSTEP"
+
+config DRV_PTG_SSTEP_INT_PRIO_NUM
+    string
+    depends on DRV_PTG_SINGLE_STEP_INT
+    default "INT_PRIORITY_LEVEL0" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_PTG_SSTEP_INT_IPL
+    string
+    depends on DRV_PTG_SINGLE_STEP_INT
+    default "0" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_PTG_SS_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_PTG_SSTEP_ISR_VECTOR
+    string
+    depends on DRV_PTG_SINGLE_STEP_INT
+    default "_PTGSTEP_VECTOR" if (DRV_PTG_SSTEP_INTERRUPT_VECTOR = "INT_VECTOR_PTG_SSTEP")
+
+config DRV_PTG_WDT_INT
+	bool "Watch Dog Time-Out Interrupt"
+	depends on USE_DRV_PTG
+    default n
+
+config DRV_PTG_WDT_INTERRUPT_PRIORITY
+    string "Watch Dog Time-Out Interrupt Priority"
+    depends on DRV_PTG_WDT_INT
+    range INT_PRIORITY_LEVEL 
+    default "INT_DISABLE_INTERRUPT"
+
+config DRV_PTG_WDT_INTERRUPT_SUB_PRIORITY
+    string "Watch Dog Time-Out Interrupt Sub-priority"
+    depends on DRV_PTG_WDT_INT
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+
+config DRV_PTG_WDT_INTERRUPT_SOURCE
+    string
+    depends on DRV_PTG_WDT_INT
+    default "INT_SOURCE_PTG_WDT"
+    
+config DRV_PTG_WDT_INTERRUPT_VECTOR
+    string
+    depends on DRV_PTG_WDT_INT
+    default "INT_VECTOR_PTG_WDT"
+
+config DRV_PTG_WDT_INT_PRIO_NUM
+    string
+    depends on DRV_PTG_WDT_INT
+    default "INT_PRIORITY_LEVEL0" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_PTG_WDT_INT_IPL
+    string
+    depends on DRV_PTG_WDT_INT
+    default "0" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_PTG_WDT_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_PTG_WDT_ISR_VECTOR
+    string
+    depends on DRV_PTG_WDT_INT
+    default "_PTGWDT_VECTOR" if (DRV_PTG_WDT_INTERRUPT_VECTOR = "INT_VECTOR_PTG_WDT")
+	
+config DRV_PTG_IRQ0_INT
+	bool "Trigger Interrupt 0"
+	depends on USE_DRV_PTG
+    default n
+
+config DRV_PTG_IRQ0_INTERRUPT_PRIORITY
+    string "Trigger Interrupt 0 Interrupt Priority"
+    depends on DRV_PTG_IRQ0_INT
+    range INT_PRIORITY_LEVEL 
+    default "INT_DISABLE_INTERRUPT"
+
+config DRV_PTG_IRQ0_INTERRUPT_SUB_PRIORITY
+    string "Trigger Interrupt 0 Interrupt Sub-priority"
+    depends on DRV_PTG_IRQ0_INT
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+
+config DRV_PTG_IRQ0_INTERRUPT_SOURCE
+    string
+    depends on DRV_PTG_IRQ0_INT
+    default "INT_SOURCE_PTG_IRQ0"
+    
+config DRV_PTG_IRQ0_INTERRUPT_VECTOR
+    string
+    depends on DRV_PTG_IRQ0_INT
+    default "INT_VECTOR_PTG_IRQ0"
+
+config DRV_PTG_IRQ0_INT_PRIO_NUM
+    string
+    depends on DRV_PTG_IRQ0_INT
+    default "INT_PRIORITY_LEVEL0" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_PTG_IRQ0_INT_IPL
+    string
+    depends on DRV_PTG_IRQ0_INT
+    default "0" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_PTG_IRQ0_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_PTG_IRQ0_ISR_VECTOR
+    string
+    depends on DRV_PTG_IRQ0_INT
+    default "_PTG0TR0_VECTOR" if (DRV_PTG_IRQ0_INTERRUPT_VECTOR = "INT_VECTOR_PTG_IRQ0")
+	
+config DRV_PTG_IRQ1_INT
+	bool "Trigger Interrupt 1"
+	depends on USE_DRV_PTG
+    default n
+
+config DRV_PTG_IRQ1_INTERRUPT_PRIORITY
+    string "Trigger Interrupt 1 Interrupt Priority"
+    depends on DRV_PTG_IRQ1_INT
+    range INT_PRIORITY_LEVEL 
+    default "INT_DISABLE_INTERRUPT"
+
+config DRV_PTG_IRQ1_INTERRUPT_SUB_PRIORITY
+    string "Trigger Interrupt 1 Interrupt Sub-priority"
+    depends on DRV_PTG_IRQ1_INT
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+
+config DRV_PTG_IRQ1_INTERRUPT_SOURCE
+    string
+    depends on DRV_PTG_IRQ1_INT
+    default "INT_SOURCE_PTG_IRQ1"
+    
+config DRV_PTG_IRQ1_INTERRUPT_VECTOR
+    string
+    depends on DRV_PTG_IRQ1_INT
+    default "INT_VECTOR_PTG_IRQ1"
+
+config DRV_PTG_IRQ1_INT_PRIO_NUM
+    string
+    depends on DRV_PTG_IRQ1_INT
+    default "INT_PRIORITY_LEVEL0" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_PTG_IRQ1_INT_IPL
+    string
+    depends on DRV_PTG_IRQ1_INT
+    default "0" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_PTG_IRQ1_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_PTG_IRQ1_ISR_VECTOR
+    string
+    depends on DRV_PTG_IRQ1_INT
+    default "_PTG0TR1_VECTOR" if (DRV_PTG_IRQ1_INTERRUPT_VECTOR = "INT_VECTOR_PTG_IRQ1")
+	
+config DRV_PTG_IRQ2_INT
+	bool "Trigger Interrupt 2"
+	depends on USE_DRV_PTG
+    default n
+
+config DRV_PTG_IRQ2_INTERRUPT_PRIORITY
+    string "Trigger Interrupt 2 Interrupt Priority"
+    depends on DRV_PTG_IRQ2_INT
+    range INT_PRIORITY_LEVEL 
+    default "INT_DISABLE_INTERRUPT"
+
+config DRV_PTG_IRQ2_INTERRUPT_SUB_PRIORITY
+    string "Trigger Interrupt 2 Interrupt Sub-priority"
+    depends on DRV_PTG_IRQ2_INT
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+
+config DRV_PTG_IRQ2_INTERRUPT_SOURCE
+    string
+    depends on DRV_PTG_IRQ2_INT
+    default "INT_SOURCE_PTG_IRQ2"
+    
+config DRV_PTG_IRQ2_INTERRUPT_VECTOR
+    string
+    depends on DRV_PTG_IRQ2_INT
+    default "INT_VECTOR_PTG_IRQ2"
+
+config DRV_PTG_IRQ2_INT_PRIO_NUM
+    string
+    depends on DRV_PTG_IRQ2_INT
+    default "INT_PRIORITY_LEVEL0" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_PTG_IRQ2_INT_IPL
+    string
+    depends on DRV_PTG_IRQ2_INT
+    default "0" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_PTG_IRQ2_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_PTG_IRQ2_ISR_VECTOR
+    string
+    depends on DRV_PTG_IRQ2_INT
+    default "_PTG0TR2_VECTOR" if (DRV_PTG_IRQ2_INTERRUPT_VECTOR = "INT_VECTOR_PTG_IRQ2")
+	
+config DRV_PTG_IRQ3_INT
+	bool "Trigger Interrupt 3"
+	depends on USE_DRV_PTG
+    default n
+
+config DRV_PTG_IRQ3_INTERRUPT_PRIORITY
+    string "Trigger Interrupt 3 Interrupt Priority"
+    depends on DRV_PTG_IRQ3_INT
+    range INT_PRIORITY_LEVEL 
+    default "INT_DISABLE_INTERRUPT"
+
+config DRV_PTG_IRQ3_INTERRUPT_SUB_PRIORITY
+    string "Trigger Interrupt 3 Interrupt Sub-priority"
+    depends on DRV_PTG_IRQ3_INT
+    range INT_SUBPRIORITY_LEVEL
+    default "INT_SUBPRIORITY_LEVEL0"
+
+config DRV_PTG_IRQ3_INTERRUPT_SOURCE
+    string
+    depends on DRV_PTG_IRQ3_INT
+    default "INT_SOURCE_PTG_IRQ3"
+    
+config DRV_PTG_IRQ3_INTERRUPT_VECTOR
+    string
+    depends on DRV_PTG_IRQ3_INT
+    default "INT_VECTOR_PTG_IRQ3"
+
+config DRV_PTG_IRQ3_INT_PRIO_NUM
+    string
+    depends on DRV_PTG_IRQ3_INT
+    default "INT_PRIORITY_LEVEL0" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "INT_PRIORITY_LEVEL1" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "INT_PRIORITY_LEVEL2" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "INT_PRIORITY_LEVEL3" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "INT_PRIORITY_LEVEL4" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "INT_PRIORITY_LEVEL5" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "INT_PRIORITY_LEVEL6" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "INT_PRIORITY_LEVEL7" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"    
+
+config DRV_PTG_IRQ3_INT_IPL
+    string
+    depends on DRV_PTG_IRQ3_INT
+    default "0" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL0"
+    default "1" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL1"
+    default "2" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL2"
+    default "3" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL3"
+    default "4" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL4"
+    default "5" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL5"
+    default "6" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL6"
+    default "7" if DRV_PTG_IRQ3_INTERRUPT_PRIORITY = "INT_PRIORITY_LEVEL7"
+ 
+config DRV_PTG_IRQ3_ISR_VECTOR
+    string
+    depends on DRV_PTG_IRQ3_INT
+    default "_PTG0TR3_VECTOR" if (DRV_PTG_IRQ3_INTERRUPT_VECTOR = "INT_VECTOR_PTG_IRQ3")
+	
+config DRV_PTG_STEP_INSTANCES_NUMBER
+	depends on USE_DRV_PTG
+	int "Number of steps to program"	
+    range 1 32
+    default 1
+    ---help---
+    PTG Steps Configuration
+    ---endhelp---
+
+ifblock USE_DRV_PTG
+source "$HARMONY_VERSION_PATH/framework/driver/ptg/config/drv_ptg_steps.ftl" 32 instances
+endif	
+
+add "<#include \"/framework/driver/ptg/templates/drv_ptg_static_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+#add "<#include \"/framework/driver/ptg/templates/drv_ptg.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+
+endmenu
+
+ifblock DRV_PTG_DRIVER_MODE = "STATIC"
+ifblock USE_DRV_PTG
+file DRV_PTG_H "$HARMONY_VERSION_PATH/framework/driver/ptg/drv_ptg.h" to "$PROJECT_HEADER_FILES/framework/driver/ptg/drv_ptg.h"
+template DRV_PTG_STATIC_H "$HARMONY_VERSION_PATH/framework/driver/ptg/templates/drv_ptg_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/ptg/drv_ptg_static.h"
+template DRV_PTG_STATIC_C "$HARMONY_VERSION_PATH/framework/driver/ptg/templates/drv_ptg_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/ptg/src/drv_ptg_static.c"
+endif
+endif

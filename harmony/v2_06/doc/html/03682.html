@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>aria_external_resources</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03682.html">aria_external_resources</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03681.html">Previous</a> | <a href="03738.html">Up</a> | <a href="03683.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_external_resources Topic Title: aria_external_resources)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+aria_external_resources</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The capability of storing resources on external memory is useful for applications that have large graphics resource requirements, such as storing large bitmap files or multiple page menu screens that require several images or large or multiple font packages, etc. In these instances, storing these graphics resources on-chip may result in insufficient memory or may be prohibitive to a possible cost benefit. A solution is to store the graphics resources to off-chip memory, such as non-volatile memory or MSD, thereby preserving the on-chip memory for program memory and allowing for more complex functional features.&nbsp;</p>
+<p class="Element10">
+To demonstrate how to access graphics resources stored on an external memory device, three components are needed:</p>
+<ul class="Element630">
+<li class="Element600">File Packaging</li>
+<li class="Element600">Bootloader Application</li>
+<li class="Element600">Fetch Application</li>
+</ul><p class="Element10">
+The following figure shows the external resources process diagram. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_external_resources processes diagram.png" border="0" alt="" title=""></p><div class="Element15">
+File Packaging</div>
+<p class="Element10">
+The resources to be stored externally need to be packaged into a resource file that would be flashed into the external memory. The <a href="12777.html">MPLAB Harmony Graphics Composer</a>, which is the primary tool used by the MPLAB Harmony application for configuring the graphic design for this application, has the ability to generate the required resource file containing the binary data for all of the graphics images to be stored on external memory, such as SQI, as well as a binary file to be stored on USB.&nbsp;</p>
+<p class="Element10">
+The graphics composer has the capability to manage the application assets by importing different resources including images, fonts, etc., into an application and choosing the memory location to store it (see the following figure).&nbsp;</p>
+<p class="Element10">
+Generating the graphics composer configuration creates the <span class="Element146">SQI.hex</span> file as well as <span class="Element146">USBBin.bin</span> file if resources were to be placed in USB by the composer design. The images to be stored as files on the USB can be loaded on the USB and do not need any HEX or BIN file information. However the user must make sure, when adding images to the MHGC design in the Graphics Composer, that the USB File option is selected, and in the Configuration tab, the <i>None</i> setting is selected for the memory location. Please refer to the following figure for further information. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_ext_res Memory Configuration.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>MHGC <a href="16647.html">Asset Manager</a> for External Memory Resource Management</strong> </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_external_resources File Packaging.png" border="0" alt="" title=""></p><div class="Element15">
+Memory Writer Application</div>
+<p class="Element10">
+A memory writer application is required to flash the .hex file containing the binary data of the external graphics resources, in this case SQI.hex into the external non-volatile memory. The memory writer application, aria_flash, uses a USB Flash drive or SD card, which has a FAT32 file system installed, in the Host mode as the source for the SQI.hex file. The USB Flash drive in the Host mode is scanned by the memory writer for this file and it is flashed onto the SQI Flash external memory. Refer to <a href="03686.html">aria_flash</a> for usage information.</p><div class="Element15">
+Fetching the Resources</div>
+<p class="Element10">
+The third component is the fetching of the stored external graphics resources. The aria_external_resources application will demonstrate the fetching of the externally stored graphics images and using the MPLAB Harmony framework drivers, display controllers, etc., display those resources on the screen. The demos aim is to showcase the capability of storing media to internal as well as external memory and outline the procedure for the users of how this can be achieved.&nbsp;</p>
+<p class="Element10">
+The application currently supports jpeg images and fonts. The same image/ text are stored and fetched from Internal Flash, SQI memory and USB. Selecting a listwheel setting, the user can choose which two media locations to load the resources from and compare the quality as well as efficiency loading from the different storage locations.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The aria_external_resources application uses the <a href="12784.html">Graphics Library</a> to render graphics to the display. The Graphics Library draws the widgets and images to the frame buffer that is stored in internal SRAM. Using the DMA, the Low-Cost Controllerless (LCC) Display Driver continuously transfers frame data from the frame buffer out to the LCD display. The resources (images and fonts) are fetched from the Internal SRAM, external non-volatile SQI memory and from the USB MSD attached to the Multimedia Expansion Board II (MEB II) using the USB file system.&nbsp;</p>
+<p class="Element10">
+The application also features user touch input through the integrated touch screen on the display panel. Touch input from the touch controller goes through the I2C port, and the <a href="13983.html">Input System Service</a> acquires the touch input information from the Touch and I2C drivers. The Input System Service sends touch events to the Graphics Library, which processes these events and updates the frame data accordingly.&nbsp;</p>
+<p class="Element10">
+<strong>Demonstration Architecture Diagram:</strong> <strong>pic32mz_ef_sk_meb2</strong> &nbsp;</p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_external_resources pic32mz_ef_sk_meb2_aria_external_resources.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mz_da_sk_intddr_meb2</strong> </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_external_resources pic32mz_da_sk_intddr_meb2_aria_external_resources.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>pic32mz_da_sk_extddr_meb2</strong> </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_external_resources pic32mz_da_sk_extddr_meb2_aria_external_resources.png" border="0" alt="" title=""></p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600"><a href="12771.html">Aria User Interface Library</a></li>
+<li class="Element600"><a href="13983.html">Input System Service</a></li>
+<li class="Element600"><a href="13090.html">Touch Driver</a></li>
+<li class="Element600"><a href="07980.html">DMA System Service</a></li>
+<li class="Element600"><a href="13729.html">I2C Driver</a></li>
+<li class="Element600">External SQI memory</li>
+<li class="Element600">USB system services and driver</li>
+<li class="Element600">pic32mz_ef_sk_meb2 specific features:
+<ul class="Element631">
+<li class="Element601">6 bit RGB565 color depth</li>
+<li class="Element601">LCC graphics</li>
+</ul></li>
+<li class="Element600">pic32mz_da_sk_intddr_meb2 and pic32mz_da_sk_extddr_meb2 specific features:
+<ul class="Element631">
+<li class="Element601">24 bit RGBA8888 color</li>
+<li class="Element601">GLCD internal display controller</li>
+<li class="Element601">Multiple layer graphics facilitated by DA hardware layers</li>
+<li class="Element601">Single frame buffer stored in the DDR</li>
+</ul></li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+
+<ul class="Element630">
+<li class="Element600">“Use Graphics Stack” is selected in the <a href="16809.html">MPLAB Harmony Configurator (MHC)</a>, which enables the Graphics and Touch libraries and drivers for the <a href="04862.html">Board Support Package (BSP)</a>.</li>
+<li class="Element600">The heap size is set to 204800 bytes to ensure enough memory for dynamic allocations. This is done by setting the size in MHC through the following menu selection: <i>Device &amp; Project Configuration &gt; Project Configuration &gt; XC32 (Global Options) &gt; xc32-ld &gt; </i>General.</li>
+<li class="Element600">USB Stack and USB Host Mode Driver</li>
+</ul></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03683.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Aria External Resources demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03684.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03685.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides instructions on how to use the Aria External Resources demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03682.html">aria_external_resources</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_external_resources Topic Title: aria_external_resources)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

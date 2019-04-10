@@ -1,0 +1,27 @@
+ifblock DRV_GFX_CONTROLLER_TYPE = "Epson S1D13517"
+
+enum DRV_GFX_S1D13517_COLOR_MODES
+    "RGB_565" ||
+	"RGB_888"
+	
+enum DRV_GFX_S1D13517_ORIENTATION_VALS
+    "0" ||
+	"180"
+
+config DRV_GFX_S1D13517_COLOR_MODE
+	string "Color Mode"
+	select USE_DRV_PMP_NEEDED
+	range DRV_GFX_S1D13517_COLOR_MODES
+	default "RGB_565"
+
+endif
+
+ifblock DRV_GFX_CONTROLLER_TYPE = "Epson S1D13517"
+
+template DRV_GFX_S1D13517_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/s1d13517/templates/drv_gfx_s1d13517.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/s1d13517/drv_gfx_s1d13517.h"
+
+template DRV_GFX_S1D13517_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/s1d13517/templates/drv_gfx_s1d13517.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/s1d13517/drv_gfx_s1d13517.c"
+
+template DRV_GFX_S1D13517_DRAW_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/s1d13517/templates/drv_gfx_s1d13517_draw.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/s1d13517/drv_gfx_s1d13517_draw.c"
+
+endif

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Bootloader Flow</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04889.html">Using the Library</a> &gt; <a href="04882.html">How the Library Works</a> &gt; <a href="04869.html">Bootloader Flow</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04882.html">Previous</a> | <a href="04882.html">Up</a> | <a href="04870.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Flow Topic Title: Bootloader Flow)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Bootloader Flow</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+Basic Flow of the Bootloader</div>
+<p class="Element10">
+The Bootloader code starts executing on a device Reset. If there are no conditions to enter the firmware upgrade mode, the Bootloader starts executing the user application. The Bootloader performs Flash erase/program operations while in the firmware upgrade mode.&nbsp;</p>
+<p class="Element10">
+The following figure illustrates the <span style="color: #000000">Bootloader</span> architecture. The <span style="color: #000000">Bootloader</span> framework provides several API functions, which can be called by the <span style="color: #000000">Bootloader</span>application and the data stream layer. The <span style="color: #000000">Bootloader</span> framework assists the user to easily modify the <span style="color: #000000">Bootloader</span> application to adapt to different requirements. Refer to the <a href="04885.html">Library Interface</a> section for the available APIs. </p><p class="Element10" style="text-align: center;">
+<img src="Bootloader Flow Diagram.png" border="0" alt="" title=""></p><div class="Element15">
+LiveUpdate Flow of the Bootloader</div>
+<p class="Element10">
+
+<ol class="Element635">
+<li value="1" class="Element605">The Bootloader code starts executing on a device Reset.</li>
+<li value="2" class="Element605">If there are conditions to enter the firmware upgrade mode:
+<ul class="Element636">
+<li class="Element606">The Bootloader performs erase/program operations while in the firmware upgrade mode for the lower Flash region of program Flash memory.</li>
+<li class="Element606">Initializes the flash_id and flash_id_checksum of both program Flash panels</li>
+<li class="Element606">Jumps to application in Panel 1</li>
+</ul></li>
+<li value="3" class="Element605">If there are no conditions to enter firmware upgrade mode:
+<ul class="Element636">
+<li class="Element606">The Bootloader behaves as a Switcher</li>
+<li class="Element606">It checks for the Flash ID being programmed in both panels (starting 16 bytes) by the application when the LiveUpdate occurred</li>
+<li class="Element606">Switches to the panel with the higher Flash ID and jumps to the application programmed in that panel</li>
+</ul></li>
+</ol></p><p class="Element10" style="text-align: center;">
+<img src="LiveUpdate Flow Block Diagram.png" border="0" alt="" title=""></p><div class="Element15">
+Entering the Firmware Upgrade Mode</div>
+<p class="Element10">
+On a device Reset, the Bootloader forces itself into the firmware upgrade mode if the content of the user application’s reset vector address is erased. During power-up press and hold switch SW1. While in firmware upgrade mode, the LED labeled LED1 will blink.&nbsp;</p>
+<p class="Element10">
+For your custom <span style="color: #000000">Bootloader</span>, call the function, BOOTLOADER_ForceBootloadRegister, to register a custom function. From the callback function, the <span style="color: #000000">Bootloader</span> can check whatever situation is necessary for forcing the Bootloader into Bootloader mode.</p><div class="Element15">
+Exiting the Firmware Upgrade Mode</div>
+<p class="Element10">
+For USB HID, Ethernet, or the UART Bootloader, the firmware upgrade mode can be exited either by applying a hard Reset to the device, or by sending a “Jump to Application” command from the PC. For the USB Flash drive Bootloader, the firmware upgrade mode is exited either by a hard Reset or upon completion of firmware programming. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The Bootloader should disable and clear any enabled interrupts before running the user application. The stray interrupts from the Bootloader may interfere with the user application and cause the application to fail. If applicable, interrupts and peripherals should be reinitialized in the user application.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04889.html">Using the Library</a> &gt; <a href="04882.html">How the Library Works</a> &gt; <a href="04869.html">Bootloader Flow</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Flow Topic Title: Bootloader Flow)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

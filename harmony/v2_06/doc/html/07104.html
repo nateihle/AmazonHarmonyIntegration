@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.3.2: Protect Owned Resources From Accesses by Multiple Threads</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07101.html">3.3: Protect Owned Resources</a> &gt; <a href="07104.html">3.3.2: Protect Owned Resources From Accesses by Multiple Threads</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07103.html">Previous</a> | <a href="07101.html">Up</a> | <a href="07102.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Protect Owned Resources From Accesses by Multiple Threads Topic Title: 3.3.2: Protect Owned Resources From Accesses by Multiple Threads)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.3.2: Protect Owned Resources From Accesses by Multiple Threads</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Any library that supports operation in one or more multi-threading RTOS environments must use operating system methods to protect non-atomic accesses to modifiable resources that it owns.&nbsp;</p>
+<p class="Element10">
+The preferred method for doing this is to use the appropriate MPLAB Harmony OSAL functions, unless the library is restricted to use within a specific operating system (in which case OS-specific methods may be used). For example, if multiple clients can use a module (as shown in the diagram in <a href="07103.html">3.3.1: Protect Owned Resources From Accesses by Multiple Clients</a>), it may be called from multiple operating system threads. If that is the case, the module must protect its shared resources using operating system methods. For example, the MPLAB Harmony OSAL provides a mutex mechanism that can be used to protect access to a shared data structure, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: OSAL Mutex Protecting Shared Data Structure</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00098');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00098"><pre class="Element12"><i><span style="color: #008000">/* Perform operations on a shared data structure */</span></i>
+<strong><span style="color: #000080">struct</span></strong> myDataStructure
+{
+    uint16_t  x;
+    uint8_t   y;
+
+} myDataStructure;
+
+...
+OSAL_MUTEX_DECLARE(mutexDS);
+OSAL_MUTEX_Create(&amp;mutexDS);
+
+...
+<i><span style="color: #008000">/* Wait 2 seconds to obtain the mutex */</span></i>
+<strong><span style="color: #000080">if</span></strong> (OSAL_MUTEX_Lock(mutexDS, 2000) == OSAL_RESULT_TRUE)
+{
+    <i><span style="color: #008000">/* Operate on the data structure */</span></i>
+    myDataStructure.x = 32;
+    myDataStructure.y = 42;
+    OSAL_MUTEX_Unlock(mutexDS);
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07101.html">3.3: Protect Owned Resources</a> &gt; <a href="07104.html">3.3.2: Protect Owned Resources From Accesses by Multiple Threads</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Protect Owned Resources From Accesses by Multiple Threads Topic Title: 3.3.2: Protect Owned Resources From Accesses by Multiple Threads)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

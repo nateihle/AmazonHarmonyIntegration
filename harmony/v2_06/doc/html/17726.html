@@ -1,0 +1,479 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Operating as a Master Receiver</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17726.html">Operating as a Master Receiver</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17727.html">Previous</a> | <a href="17718.html">Up</a> | <a href="17720.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Operating as a Master Receiver Topic Title: Operating as a Master Receiver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Operating as a Master Receiver</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Any time the I2C module initiates a transfer on the bus, it is acting as a master. A transfer can be initiated any time the bus is idle. If two masters attempt to initiate transfers at nearly the same time, one of them will lose arbitration and must retry the transfer later when the bus becomes idle. The winner of arbitration can continue, without any data loss.&nbsp;</p>
+<p class="Element10">
+An I2C bus transfer always begins with a Start condition, followed by a 7-bit or 10-bit (1-byte or 2-byte) target slave address. Therefore, every master transfer starts off transmitting at least one byte. The direction of transfer of subsequent bytes (after the first byte has been sent) is indicated by bit 0 of the first address byte (0 = write/transmitting, 1 = read/receiving, from the point of view of the master). If 10-bit addressing is used or additional data (such as an internal address) is to be transmitted after the first address byte, the first address byte must indicate a write transfer. To change the direction after transmitting more than just a single address byte, a repeated Start condition (followed by another single address byte) must be sent (see <a href="17713.html">Forming Transfers</a> for details of the possible transfer formats). When the master is finished, an I2C bus transfer always ends with a Stop condition. This results in two basic formats for receiving data as a master, summarized as follows:&nbsp;</p>
+<p class="Element10">
+<strong>Summary of Steps: Read Only</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Send a Start condition.</li>
+<li value="2" class="Element600">Send a 7-bit address with a read transfer indication in bit 0.</li>
+<li value="3" class="Element600">Receive data bytes.</li>
+<li value="4" class="Element600">Send a Stop condition.</li>
+</ol><strong>Summary of Steps: Combined Read-Write</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Send a Start condition.</li>
+<li value="2" class="Element600">Send a 7-bit address (or the first byte of a 10-bit address) with a write transfer indication in bit 0.</li>
+<li value="3" class="Element600">Send the second byte of a 10-bit address (and/or any additional data to be transmitted).</li>
+<li value="4" class="Element600">Send a repeated Start condition.</li>
+<li value="5" class="Element600">Resend the first byte of the 10-bit address (or a 7-bit address) with a read indication in bit 0.</li>
+<li value="6" class="Element600">Receive data bytes.</li>
+<li value="7" class="Element600">Send a Stop condition.</li>
+</ol>Each of these steps making up a transfer will take some time to complete. The completion of each step will cause an I2C master interrupt. The software must always keep track of which state it was in and respond to the interrupt by performing the next appropriate step.&nbsp;</p>
+<p class="Element10">
+<strong>Sending a Start Condition</strong>&nbsp;</p>
+<p class="Element10">
+To start a master transfer, the software must do the following:&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>&nbsp;</p>
+<p class="Element10">
+The module must have had its basic options and clock frequency initialized and have been enabled (see <a href="17719.html">Initializing the I2C</a>).&nbsp;</p>
+<p class="Element10">
+<strong>Process</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Verify that the bus is idle using the <a href="19533.html">PLIB_I2C_BusIsIdle</a> function.</li>
+<li value="2" class="Element600">Send the start signal using the <a href="19588.html">PLIB_I2C_MasterStart</a> function.</li>
+</ol><strong>Example</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02490');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02490"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID  I2C_ID_1
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_BusIsIdle(MY_I2C_ID))
+{
+    PLIB_I2C_MasterStart(MY_I2C_ID);
+}</pre></div></div>
+<p class="Element10">
+The Start condition must be allowed to complete before any additional steps can be taken. The only way to determine this is to wait for a master interrupt to occur after the Start condition has been initiated. Even if the bus is verified to be idle before sending the Start condition, a bus collision can still occur while the Start condition is being transmitted. To verify that arbitration has not been lost during transmission of the Start condition, the software should check the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function after the Start condition has completed.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Checking for Arbitration Loss</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02491');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02491"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID  I2C_ID_1
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_ArbitrationLossHasOccurred(MY_I2C_ID))
+{
+    <i><span style="color: #008000">// Abort transfer, retry later</span></i>
+    PLIB_I2C_ArbitrationLossClear(MY_I2C_ID);
+}</pre></div></div>
+<p class="Element10">
+<strong>Sending a 7-bit Address</strong>&nbsp;</p>
+<p class="Element10">
+To send a 7-bit address (or the first byte of a 10-bit address), the software must do the following:&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>&nbsp;</p>
+<p class="Element10">
+The Start condition must have been sent and completed as previously described.&nbsp;</p>
+<p class="Element10">
+<strong>Process</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Ensure that the TX buffer is currently ready to<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>a byte to be transmitted using the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function.</li>
+<li value="2" class="Element600">Format the address byte correctly with the 7-bit address and the read/write bit appropriately set (for a read transfer) or cleared (for a write transfer).</li>
+<li value="3" class="Element600">Write the address byte to the TX buffer using the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function.</li>
+</ol>&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+A master interrupt will occur once the address byte has been transmitted and ACKed or NAKed by the targeted slave device (or if arbitration was lost). If the slave device does not answer, an implicit NAK will occur.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="4" class="Element600">Once the address byte has been ACKed or NAKed by the slave target (or if arbitration was lost), software must verify the result and respond appropriately. The Acknowledgement and Arbitration process is described in a subsequent section, just before the description of how to send a Stop condition.)</li>
+</ol><strong>Example: Sending a 7-bit Address</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02492');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02492"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID  I2C_ID_1
+<strong><span style="color: #000080">#define</span></strong> SLAVE_TARGET_ADDRESS 0x22
+uint8_t slaveAddress = 0;
+
+<i><span style="color: #008000">// Format the 7-bit address byte with the read indication in bit 0</span></i>
+slaveAddress = (SLAVE_TARGET_ADDRESS | 0x01);
+
+<i><span style="color: #008000">// Send the address byte</span></i>
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_TransmitterIsReady(MY_I2C_ID))
+{
+    PLIB_I2C_TransmitterByteSend(MY_I2C_ID, slaveAddress);
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Bits 7-1 contain the 7-bit target slave address. Bit 0 indicates read or write direction for the remainder of the transfer.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Sending a 10-bit Target Slave Address</strong>&nbsp;</p>
+<p class="Element10">
+To send a 10-bit address, the software must do the following:&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>&nbsp;</p>
+<p class="Element10">
+The Start condition must have been sent and completed as previously described.&nbsp;</p>
+<p class="Element10">
+<strong>Process</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Format the two address bytes correctly with the 10-bit address and the read/write bit cleared, indicating a write transfer.</li>
+<li value="2" class="Element600">Ensure that the TX buffer is currently ready to<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>a byte to be transmitted using the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function.</li>
+<li value="3" class="Element600">Write the first address byte to the TX buffer using the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function.</li>
+</ol>&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+After the first byte has been sent and ACKed or NAKed by the slave, a master interrupt will occur (or poll the <a href="19637.html">PLIB_I2C_TransmitterByteHasCompleted</a> function).&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="4" class="Element600">Ensure that the first address byte was ACKed by the slave target and check for arbitration loss. To do this, use the Acknowledgement and Arbitration process, which described in the next section.</li>
+<li value="5" class="Element600">Write the second address byte to the TX buffer using the <a href="19641.html">PLIB_I2C_TransmitterIsReady</a> function and the <a href="19638.html">PLIB_I2C_TransmitterByteSend</a> function.</li>
+</ol></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+After the second byte has been sent and ACKed or NAKed by the slave, a master interrupt will occur (or you can poll the <a href="19637.html">PLIB_I2C_TransmitterByteHasCompleted</a> function).&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ol class="Element630">
+<li value="6" class="Element600">Ensure that the second address byte was ACKed by the slave target and that arbitration was not lost. To do this, use the Acknowledgement and Arbitration process, which described in the next section.</li>
+</ol><strong>Example: Formatting the 10-bit Address in Two Bytes</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02493');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02493"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+
+<i><span style="color: #008000">/* first byte of 10-bit address which is inclusive of R/W bit */</span></i>
+<strong><span style="color: #000080">#define</span></strong> SLAVE_TARGET_10BIT_ADDRESS_BYTE1 0xF6
+
+<i><span style="color: #008000">/* second byte of 10-bit address */</span></i>
+<strong><span style="color: #000080">#define</span></strong> SLAVE_TARGET_10BIT_ADDRESS_BYTE2 0x22
+
+uint8_t slaveAddressByte1 = 0;
+uint8_t slaveAddressByte2 = 0;
+
+<i><span style="color: #008000">/* including the R/W bit in byte-1 of 10-bit address */</span></i>
+slaveAddressByte1 = (SLAVE_TARGET_10BIT_ADDRESS_BYTE1 | 0x01);
+
+<i><span style="color: #008000">/* the second byte is included as is */</span></i>
+slaveAddressByte2 = SLAVE_TARGET_10BIT_ADDRESS_BYTE2;</pre></div></div>
+<p class="Element10">
+<strong>Example: Sending the First Byte of a 10-bit Address</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02494');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02494"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_TransmitterIsReady(MY_I2C_ID))
+{
+    PLIB_I2C_TransmitterByteSend(MY_I2C_ID, slaveAddressByte1);
+}</pre></div></div>
+<p class="Element10">
+Wait for transmission to complete and check for acknowledgement and/or arbitration loss.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Sending the Second Byte of a 10-bit Address</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02495');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02495"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_TransmitterIsReady(MY_I2C_ID))
+{
+    PLIB_I2C_TransmitterByteSend(MY_I2C_ID, slaveAddressByte2);
+}</pre></div></div>
+<p class="Element10">
+Wait for transmission to complete and check for acknowledgement and/or arbitration loss.&nbsp;</p>
+<p class="Element10">
+<strong>Acknowledgement and Arbitration</strong>&nbsp;</p>
+<p class="Element10">
+After sending a data or address byte (as previously described), the master transmitter must check to see if arbitration was lost and if the byte was ACKed or NAKed. If the byte was ACKed, the slave receiver is ready to receive more bytes. If the byte was NAKed, the slave receiver cannot<span style="color: #FFFFFF">_</span>accept<span style="color: #FFFFFF">_</span>any more bytes at this time.&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>
+<ul class="Element630">
+<li class="Element600">The Start condition must have been sent and completed as previously described</li>
+<li class="Element600">A byte (address or data) must have been transmitted, using one of the previous processes</li>
+</ul><strong>Process</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Ensure that the byte has been completely transmitted using the <a href="19637.html">PLIB_I2C_TransmitterByteHasCompleted</a> function (and/or by waiting for the master interrupt).</li>
+<li value="2" class="Element600">Determine if arbitration loss has occurred using the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function.</li>
+<li value="3" class="Element600">Determine if the byte was ACKed or NAKed using the <a href="19639.html">PLIB_I2C_TransmitterByteWasAcknowledged</a> function.</li>
+</ol>&nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02496');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02496"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_TransmitterByteHasCompleted(MY_I2C_ID))
+{
+    <strong><span style="color: #000080">if</span></strong> (PLIB_I2C_ArbitrationLossHasOccurred(MY_I2C_ID))
+    {
+        <i><span style="color: #008000">// Handle arbitration loss</span></i>
+        PLIB_I2C_ArbitrationLossClear(MY_I2C_ID);
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        <strong><span style="color: #000080">if</span></strong> (PLIB_I2C_TransmitterByteWasAcknowledged(MY_I2C_ID))
+        {
+            <i><span style="color: #008000">// Transmission successful</span></i>
+        }
+        <strong><span style="color: #000080">else</span></strong>
+        {
+            <i><span style="color: #008000">// Transmission was not successful</span></i>
+        }
+    }
+}</pre></div></div>
+<p class="Element10">
+To handle arbitration loss, the master must stop the transfer process and retry the entire transfer again at a later time when the bus is not busy.&nbsp;</p>
+<p class="Element10">
+<strong>Sending a Repeated Start Condition</strong>&nbsp;</p>
+<p class="Element10">
+If the master wants to change slave targets or transfer directions, it must send a repeated Start condition followed by a new address at any time after the previous target slave address has been acknowledged (and before the Stop condition has been sent).&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>
+<ul class="Element630">
+<li class="Element600">The Start condition must have been sent and completed as previously described</li>
+<li class="Element600">A target slave address must have been transmitted and ACKed.</li>
+<li class="Element600">Zero or more data bytes may also have been sent or received and ACKed as appropriate.</li>
+</ul><strong>Process</strong>&nbsp;</p>
+<p class="Element10">
+Send the repeated Start condition using the <a href="19589.html">PLIB_I2C_MasterStartRepeat</a> function.&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02497');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02497"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+
+PLIB_I2C_MasterStartRepeat(MY_I2C_ID);</pre></div></div>
+<p class="Element10">
+The repeated Start condition must be allowed to complete before any additional steps can be taken. The only way to determine this is to wait for a master interrupt to occur after the Start condition has been initiated. It must then be followed by another target slave address (either 7-bit or 10-bit, as appropriate). Strictly speaking, a bus collision can still occur while the repeated start condition is being transmitted. To verify that arbitration has not been lost during transmission of the repeated Start condition, the software should check the <a href="19530.html">PLIB_I2C_ArbitrationLossHasOccurred</a> function after the repeated Start condition has completed.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Checking for Arbitration Loss</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02498');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02498"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_ArbitrationLossHasOccurred(MY_I2C_ID))
+{
+    <i><span style="color: #008000">// Abort transfer, retry later</span></i>
+
+    PLIB_I2C_ArbitrationLossClear(MY_I2C_ID);
+}</pre></div></div>
+<p class="Element10">
+<strong>Receiving a Data Byte</strong>&nbsp;</p>
+<p class="Element10">
+The following sequence can be used to receive a data byte and repeated to receive an arbitrary number of data bytes.&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>
+<ul class="Element630">
+<li class="Element600">The Start condition must have been sent and completed as previously described</li>
+<li class="Element600">The target slave address must have been fully transmitted (with the read indication in bit 0) and ACKed by the targeted slave device</li>
+</ul><strong>Process</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Start the I2C module cycling the clock line to receive one byte by calling the <a href="19586.html">PLIB_I2C_MasterReceiverClock1Byte</a> function. The I2C module will generate a master interrupt once the eighth clock cycle has completed, but before the ninth cycle has started.</li>
+<li value="2" class="Element600">Ensure that a byte was received and is available in the RX buffer using the <a href="19593.html">PLIB_I2C_ReceivedByteIsAvailable</a> function.</li>
+<li value="3" class="Element600">If a byte is available, get it from the RX buffer using the <a href="19592.html">PLIB_I2C_ReceivedByteGet</a> function.</li>
+<li value="4" class="Element600">ACK or NAK the byte (as determined by software) using the <a href="19591.html">PLIB_I2C_ReceivedByteAcknowledge</a> function. The master receiver indicates to the slave transmitter that it wants to terminate the transfer by NAKing the last byte. All other bytes should be ACKed after reception.</li>
+<li value="5" class="Element600">Ensure that the ACK/NAK signal has completed using the <a href="19594.html">PLIB_I2C_ReceiverByteAcknowledgeHasCompleted</a> function or by waiting for the master interrupt.</li>
+</ol>&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Arbitration loss cannot occur during a master reception (only during transmission).&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example: Enabling the Receiver</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02499');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02499"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+PLIB_I2C_MasterReceiverClock1Byte(MY_I2C_ID);</pre></div></div>
+<p class="Element10">
+Wait for reception to complete before attempting to get the byte from the receiver.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Reading a Byte from the RX Buffer</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02500');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02500"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+<strong><span style="color: #000080">#define</span></strong> MY_MAX_COUNT  10
+uint8_t data;
+<strong><span style="color: #000080">int</span></strong>     count;
+
+<strong><span style="color: #000080">if</span></strong> ( PLIB_I2C_ReceivedByteIsAvailable(MY_I2C_ID) )
+{
+    data = PLIB_I2C_ReceivedByteGet(MY_I2C_ID);
+    count++;
+
+    <i><span style="color: #008000">// Determine if the data should be ACKed or NAKed</span></i>
+    <strong><span style="color: #000080">if</span></strong> (count &lt; MY_MAX_COUNT)
+    {
+        PLIB_I2C_ReceivedByteAcknowledge(MY_I2C_ID, <strong><span style="color: #000080">true</span></strong>);
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        PLIB_I2C_ReceivedByteAcknowledge(MY_I2C_ID, <strong><span style="color: #000080">false</span></strong>);
+    }
+}</pre></div></div>
+<p class="Element10">
+Wait for the ACK/NAK to complete by waiting for the next master interrupt.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Verifying ACK/NAK Signal is Complete</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02501');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02501"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_ReceiverByteAcknowledgeHasCompleted(MY_I2C_ID))
+{
+    <i><span style="color: #008000">// Byte reception sequence complete</span></i>
+}</pre></div></div>
+<p class="Element10">
+<strong>Sending a Stop Condition</strong>&nbsp;</p>
+<p class="Element10">
+When the master transmitter has finished sending data, it must end the transfer with a Stop condition.&nbsp;</p>
+<p class="Element10">
+<strong>Preconditions</strong>
+<ul class="Element630">
+<li class="Element600">The Start condition must have been sent and completed as previously described</li>
+<li class="Element600">A target slave address must have been transmitted and ACKed.</li>
+<li class="Element600">Zero or more data bytes may also have been sent or received and ACKed as appropriate</li>
+</ul>&nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+At least one address byte must be transmitted between the Start and Stop conditions. Following a Start condition immediately with a Stop condition is a protocol error and can cause some slave devices to lock up and stop responding to the bus.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Process</strong>&nbsp;</p>
+<p class="Element10">
+Send a Stop condition using the <a href="19590.html">PLIB_I2C_MasterStop</a> function.&nbsp;</p>
+<p class="Element10">
+<strong>Example</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02502');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02502"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+
+PLIB_I2C_MasterStop(MY_I2C_ID);</pre></div></div>
+<p class="Element10">
+The Stop condition must be allowed to complete before any additional steps can be taken. The only way to determine this is to wait for a master interrupt to occur after the Stop condition has been initiated.&nbsp;</p>
+<p class="Element10">
+After a Stop condition, the bus should be idle unless a master immediately starts a new transfer. Strictly speaking, a bus collision can still occur while the stop condition is being transmitted. Although the transfer is already completed when the Stop condition has been sent, software does not have to abort the transfer; however, it should still check for and clear the arbitration loss condition if it occurs.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Checking for Arbitration Loss</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02503');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02503"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> MY_I2C_ID I2C_ID_1
+
+<strong><span style="color: #000080">if</span></strong> (PLIB_I2C_ArbitrationLossHasOccurred(MY_I2C_ID))
+{
+    PLIB_I2C_ArbitrationLossClear(MY_I2C_ID);
+}</pre></div></div>
+<p class="Element10">
+The previous example uses the following constants and variables: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="18%">
+<div class="Element66">
+Symbol&nbsp;</div></td><td class="Element65" valign="top" width="82%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+MY_I2C_ID&nbsp;</div></td><td class="Element67" valign="top" width="82%">
+<div class="Element68">
+Defined as the selected I2C module value from the I2C Module enumeration. Example: <span class="Element146">#define MY_I2C_ID I2C_ID_1</span>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+data&nbsp;</div></td><td class="Element67" valign="top" width="82%">
+<div class="Element68">
+This is the buffer to hold byte of data received.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+<span class="Element146">slaveTargetAddress7Bit</span>&nbsp;</div></td><td class="Element67" valign="top" width="82%">
+<div class="Element68">
+This variable is used to demonstrate how to properly format and access a 7-bit target slave address&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+<span class="Element146">SLAVE_TARGET_7BIT_ADDRESS</span>&nbsp;</div></td><td class="Element67" valign="top" width="82%">
+<div class="Element68">
+This constant is used as a place holder for the actual 7-bit target slave address that must be defined by the client code.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+<span class="Element146">slaveAddress10Bit</span>&nbsp;</div></td><td class="Element67" valign="top" width="82%">
+<div class="Element68">
+This variable is used to demonstrate how to properly format and access a 10-bit target slave address&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="18%">
+<div class="Element68">
+<span class="Element146">SLAVE_TARGET_10BIT_ADDRESS</span>&nbsp;</div></td><td class="Element67" valign="top" width="82%">
+<div class="Element68">
+This constant is used as a place holder for the actual 10-bit target slave address that must be defined by the client code.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="13730.html">I2C Peripheral Library</a> &gt; <a href="17736.html">Using the Library</a> &gt; <a href="17718.html">How the Library Works</a> &gt; <a href="17726.html">Operating as a Master Receiver</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB I2C Operating as a Master Receiver Topic Title: Operating as a Master Receiver)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

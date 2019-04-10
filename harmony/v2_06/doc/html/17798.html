@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>EEPROM Operations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17078.html">NVM Peripheral Library</a> &gt; <a href="17811.html">Using the Library</a> &gt; <a href="17804.html">How the Library Works</a> &gt; <a href="17798.html">EEPROM Operations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17802.html">Previous</a> | <a href="17804.html">Up</a> | <a href="17808.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB NVM EEPROM Operations Topic Title: EEPROM Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+EEPROM Operations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+EEPROM operations vary across microcontrollers. Please refer to the <strong>&quot;Data EEPROM&quot;</strong> chapter in the specific device data sheet or the family reference manual section specified in that chapter to determine which features are supported by the device in use.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Before accessing the EEPROM at full speed, it is necessary to program configuration values into the Data EEPROM controller after enabling it. Refer to <strong>&quot;EEPROM Configuration Write Operation Setup&quot;</strong> in <a href="17802.html">Flash Operations</a> for more information.</p><div class="Element15">
+EEPROM Read Operation Setup</div>
+<p class="Element10">
+Prior to reading the Data EEPROM, the Data EEPROM must be enabled and ready. There can be no ongoing command when a new command is issued to the Data EEPROM.&nbsp;</p>
+<p class="Element10">
+Do the following to execute a Data EEPROM read operation:
+<ol class="Element630">
+<li value="1" class="Element600">Load the Data EEPROM address to be read. The address must be on a 32-bit boundary and the last two bits must be ‘<span class="Element146">00</span>’.</li>
+<li value="2" class="Element600">Select the read operation command.</li>
+<li value="3" class="Element600">Enable for read access.</li>
+<li value="4" class="Element600">Start the read operation.</li>
+<li value="5" class="Element600">Wait until the read cycle is complete.</li>
+<li value="6" class="Element600">Read the data from the intermediate register.</li>
+</ol><strong>Example: EEPROM Read</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02721');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02721"><pre class="Element12">    <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMIsReady( NVM_ID_0 ))
+    {
+        <i><span style="color: #008000">// There should be no ongoing operation.</span></i>
+        <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ))
+        {
+            <i><span style="color: #008000">// Set address on 32-bit boundary, last two bits must be '00'</span></i>
+            uint32_t ADDR = 0x0100;
+            <i><span style="color: #008000">// Load Data EEPROM read command</span></i>
+            PLIB_NVM_EEPROMOperationSelect( NVM_ID_0 , EEPROM_WORD_READ_OPERATION);
+            <i><span style="color: #008000">// Load address and check if it is valid</span></i>
+            <strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">true</span></strong> ==PLIB_NVM_EEPROMAddress( NVM_ID_0 , ADDR ))
+            {
+                <i><span style="color: #008000">// Enable access for read</span></i>
+                PLIB_NVM_EEPROMReadEnable( NVM_ID_0 );
+                <i><span style="color: #008000">// Start the read operation</span></i>
+                PLIB_NVM_EEPROMReadStart( NVM_MODULE_ID index );
+                <i><span style="color: #008000">// Wait until read is complete</span></i>
+                <strong><span style="color: #000080">while</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ));
+                <i><span style="color: #008000">// Read the data</span></i>
+                *ee_data = PLIB_NVM_EEPROMRead( NVM_ID_0 );
+            }
+        }
+    }</pre></div></div>
+<div class="Element15">
+EEPROM Write Operation Setup</div>
+<p class="Element10">
+Prior to writing to the Data EEPROM, the Data EEPROM must be enabled and ready. There can be no ongoing command when a new command is issued to the Data EEPROM.&nbsp;</p>
+<p class="Element10">
+Do the following to execute a Data EEPROM write operation:
+<ol class="Element630">
+<li value="1" class="Element600">Load the Data EEPROM address where data has to be stored. The address must be on a 32-bit boundary so that the last two bits must be ‘<span class="Element146">00</span>’.</li>
+<li value="2" class="Element600">Select the write operation command.</li>
+<li value="3" class="Element600">Enable for write access.</li>
+<li value="4" class="Element600">Write data into the intermediate register.</li>
+<li value="5" class="Element600">Execute the Data EEPROM unlock sequence.</li>
+<li value="6" class="Element600">Start the write operation.</li>
+<li value="7" class="Element600">Wait until the write cycle is complete.</li>
+</ol><strong>Example: EEPROM Write</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02722');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02722"><pre class="Element12">    <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMIsReady( NVM_ID_0 ))
+    {
+        <i><span style="color: #008000">// There should be no ongoing operation.</span></i>
+        <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ))
+        {
+            <i><span style="color: #008000">// Set address on 32-bit boundary, last two bits must be '00'</span></i>
+            uint32_t ADDR = 0x0100;
+            <i><span style="color: #008000">//Keys to unlock EEPROM</span></i>
+            uint32_t key1 = 0xEDB7;
+            uint32_t key2 = 0x1248;
+            <i><span style="color: #008000">// Load Data EEPROM write command</span></i>
+            PLIB_NVM_EEPROMOperationSelect( NVM_ID_0 , EEPROM_WORD_WRITE_OPERATION);
+            <i><span style="color: #008000">// Load address and check if it is valid</span></i>
+            <strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">true</span></strong> ==PLIB_NVM_EEPROMAddress( NVM_ID_0 , ADDR ))
+            {
+                <i><span style="color: #008000">// Enable access to write</span></i>
+                PLIB_NVM_EEPROMWriteEnable( NVM_ID_0 );
+                <i><span style="color: #008000">// Load data to intermediate register</span></i>
+                PLIB_NVM_EEPROMDataToWrite ( NVM_ID_0 , ee_data ) ;
+                <i><span style="color: #008000">// Unlock the EEPROM</span></i>
+                PLIB_NVM_EEPROMKeySequenceWrite(MY_NVM_INSTANCE, key1);
+                PLIB_NVM_EEPROMKeySequenceWrite(MY_NVM_INSTANCE, key2);
+                <i><span style="color: #008000">// Start the write operation</span></i>
+                PLIB_NVM_EEPROMWriteStart( NVM_MODULE_ID index );
+                <i><span style="color: #008000">// Wait until write is complete</span></i>
+                <strong><span style="color: #000080">while</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ));
+            }
+        }
+    }</pre></div></div>
+<div class="Element15">
+EEPROM Forced Word Erase Operation Setup</div>
+<p class="Element10">
+Under normal conditions, there is no need to attempt a Forced Word Erase. The Data EEPROM has internal logic which automatically manages all read, erase, and write command sequences.&nbsp;</p>
+<p class="Element10">
+If a verification error occurs during a write to the Data EEPROM, the user can attempt a Forced Word Erase operation to recover the Data EEPROM word storage location.&nbsp;</p>
+<p class="Element10">
+The Word Erase operation is similar to the write operation.&nbsp;</p>
+<p class="Element10">
+<strong>Example: EEPROM Word Erase</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02723');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02723"><pre class="Element12">    <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMIsReady( NVM_ID_0 ))
+    {
+       <i><span style="color: #008000">// There should be no ongoing operation.</span></i>
+        <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ))
+        {
+            <i><span style="color: #008000">// Set address on 32-bit boundary, last two bits must be '00'</span></i>
+            uint32_t ADDR = 0x0100;
+            <i><span style="color: #008000">//Keys to unlock EEPROM</span></i>
+            uint32_t key1 = 0xEDB7;
+            uint32_t key2 = 0x1248;
+            <i><span style="color: #008000">// Load Data EEPROM forced word erase command</span></i>
+            PLIB_NVM_EEPROMOperationSelect( NVM_ID_0 , EEPROM_FORCED_WORD_ERASE_OPERATION);
+            <i><span style="color: #008000">// Load address and check if it is valid</span></i>
+            <strong><span style="color: #000080">if</span></strong>(<strong><span style="color: #000080">true</span></strong> ==PLIB_NVM_EEPROMAddress( NVM_ID_0 , ADDR ))
+            {
+                <i><span style="color: #008000">// Enable access to write</span></i>
+                PLIB_NVM_EEPROMWriteEnable( NVM_ID_0 );
+                <i><span style="color: #008000">// Unlock the EEPROM</span></i>
+                PLIB_NVM_EEPROMKeySequenceWrite(MY_NVM_INSTANCE, key1);
+                PLIB_NVM_EEPROMKeySequenceWrite(MY_NVM_INSTANCE, key2);
+                <i><span style="color: #008000">// Start the write operation</span></i>
+                PLIB_NVM_EEPROMEraseStart( NVM_MODULE_ID index );
+                <i><span style="color: #008000">// Wait until write is complete</span></i>
+                <strong><span style="color: #000080">while</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ));
+        }
+    }</pre></div></div>
+<div class="Element15">
+EEPROM Bulk Erase Operation Setup</div>
+<p class="Element10">
+Prior to erasing the entire Data EEPROM, the Data EEPROM must be enabled and ready. There can be no ongoing command when a new command is issued to the Data EEPROM.&nbsp;</p>
+<p class="Element10">
+The Bulk Erase operation is similar to the write operation except the EEPROM operation is selected for Bulk erase and the data or address does not need to be loaded.&nbsp;</p>
+<p class="Element10">
+<strong>Example: EEPROM Bulk Erase</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02724');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02724"><pre class="Element12">    <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMIsReady( NVM_ID_0 ))
+    {
+        <i><span style="color: #008000">// There should be no ongoing operation.</span></i>
+        <strong><span style="color: #000080">if</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ))
+        {
+            <i><span style="color: #008000">//Keys to unlock EEPROM</span></i>
+            uint32_t key1 = 0xEDB7;
+            uint32_t key2 = 0x1248;
+            <i><span style="color: #008000">// Load Data EEPROM forced word erase command</span></i>
+            PLIB_NVM_EEPROMOperationSelect( NVM_ID_0 , EEPROM_ERASE_ALL_OPERATION);
+            <i><span style="color: #008000">// Enable access to write</span></i>
+            PLIB_NVM_EEPROMWriteEnable( NVM_ID_0 );
+            <i><span style="color: #008000">// Unlock the EEPROM</span></i>
+            PLIB_NVM_EEPROMKeySequenceWrite(MY_NVM_INSTANCE, key1);
+            PLIB_NVM_EEPROMKeySequenceWrite(MY_NVM_INSTANCE, key2);
+            <i><span style="color: #008000">// Start the write operation</span></i>
+            PLIB_NVM_EEPROMEraseStart( NVM_MODULE_ID index );
+            <i><span style="color: #008000">// Wait until write is complete</span></i>
+            <strong><span style="color: #000080">while</span></strong> (PLIB_NVM_EEPROMOperationHasCompleted( NVM_ID_0 ));
+        }
+    }</pre></div></div>
+<div class="Element15">
+EEPROM Configuration Write Operation Setup</div>
+<p class="Element10">
+Before accessing the EEPROM at full speed, it is necessary to program configuration values into the Data EEPROM controller after enabling it. This is done through the Configuration Write operation. The configuration values to be written to the Data EEPROM Controller are stored in the DEVEE1 through DEVEE8 registers. Eight consecutive word write cycles should be performed with the EEPROM Configuration Write mode operation selected.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17078.html">NVM Peripheral Library</a> &gt; <a href="17811.html">Using the Library</a> &gt; <a href="17804.html">How the Library Works</a> &gt; <a href="17798.html">EEPROM Operations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB NVM EEPROM Operations Topic Title: EEPROM Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

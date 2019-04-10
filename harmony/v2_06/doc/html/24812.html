@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Porting the MPLAB Harmony Drivers and Peripheral Library</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24811.html">Porting Applications from the V6 Beta TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24793.html">Development Information (Advance Information)</a> &gt; <a href="24812.html">Porting the MPLAB Harmony Drivers and Peripheral Library</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="24793.html">Previous</a> | <a href="24793.html">Up</a> | <a href="03340.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING Porting the MPLAB Harmony Drivers and Peripheral Library Topic Title: Porting the MPLAB Harmony Drivers and Peripheral Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Porting the MPLAB Harmony Drivers and Peripheral Library</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+This content in this section is considered to be <i>Advance Information</i>.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Porting the MPLAB Harmony Ethernet Drivers and the MPLAB Harmony Ethernet Peripheral Library involves replacing the Ethernet Controller Library with calls to MPLAB Harmony equivalents. This information is listed in Table 1. Please note that function arguments were modified in some instances.&nbsp;</p>
+<p class="Element10">
+To understand how a function of the Ethernet Controller Library is different from its equivalent MPLAB Harmony function, the header of the MPLAB Harmony function should be examined. The MPLAB Harmony function header always lists the Ethernet Controller Library function(s) that the new MPLAB Harmony function replaces, including the arguments of the old function.</p><div class="Element15">
+Table 1: TCP/IP Stack Function Mapping</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="42%">
+<div class="Element66">
+Ethernet Controller Peripheral Library Name&nbsp;</div></td><td class="Element65" valign="top" width="58%">
+<div class="Element66">
+MPLAB Harmony Name&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="42%">
+<div class="Element68">
+EthDescriptorGetBuffer<br>EthDescriptorsPoolAdd<br>EthDescriptorsPoolCleanUp<br>EthDescriptorsPoolRemove<br>EthEventsClr<br>EthEventsEnableClr<br>EthEventsEnableGet<br>EthEventsEnableSet<br>EthEventsEnableWrite<br>EthEventsGet<br>EthInit<br>EthMACGetAddress<br>EthMACOpen<br>EthMACSetAddress<br>EthMACSetMaxFrame<br>EthRxAcknowledgeBuffer<br>EthRxAcknowledgePacket<br>EthRxBuffersAppend<br>EthRxFiltersClr<br>EthRxFiltersHTSet<br>EthRxFiltersPMClr<br>EthRxFiltersPMSet<br>EthRxFiltersSet<br>EthRxFiltersWrite<br>EthRxGetBuffer<br>EthRxGetPacket<br>EthRxSetBufferSize<br>EthStatRxAlgnErrCnt<br>EthStatRxFcsErrCnt<br>EthStatRxOkCnt<br>EthStatRxOvflCnt<br>EthStatTxMColCnt<br>EthStatTxOkCnt<br>EthStatTxSColCnt<br>EthTxAcknowledgeBuffer<br>EthTxAcknowledgePacket<br>EthTxGetBufferStatus<br>EthTxGetPacketStatus<br>EthTxSendBuffer<br>EthTxSendPacket&nbsp;</div></td><td class="Element67" valign="top" width="58%">
+<div class="Element68">
+DRV_ETHMAC_LegacyDescriptorGetBuffer<br>DRV_ETHMAC_LegacyDescriptorsPoolAdd<br>DRV_ETHMAC_LegacyDescriptorsPoolCleanUp<br>DRV_ETHMAC_LegacyDescriptorsPoolRemove<br><a href="19156.html">PLIB_ETH_EventsClr</a><br><a href="19157.html">PLIB_ETH_EventsEnableClr</a><br><a href="19158.html">PLIB_ETH_EventsEnableGet</a><br><a href="19159.html">PLIB_ETH_EventsEnableSet</a><br><a href="19160.html">PLIB_ETH_EventsEnableWrite</a><br><a href="19161.html">PLIB_ETH_EventsGet</a><br>DRV_ETHMAC_LegacyInit<br><a href="19237.html">PLIB_ETH_MACGetAddress</a><br>DRV_ETHMAC_LegacyMACOpen<br><a href="19238.html">PLIB_ETH_MACSetAddress</a><br><a href="19239.html">PLIB_ETH_MACSetMaxFrame</a><br>DRV_ETHMAC_LegacyRxAcknowledgeBuffer<br>DRV_ETHMAC_LegacyRxAcknowledgePacket<br>DRV_ETHMAC_LegacyRxBuffersAppend<br><a href="19324.html">PLIB_ETH_RxFiltersClr</a><br><a href="19325.html">PLIB_ETH_RxFiltersHTSet</a><br><a href="19326.html">PLIB_ETH_RxFiltersPMClr</a><br><a href="19327.html">PLIB_ETH_RxFiltersPMSet</a><br><a href="19328.html">PLIB_ETH_RxFiltersSet</a><br><a href="19329.html">PLIB_ETH_RxFiltersWrite</a><br>DRV_ETHMAC_LegacyRxGetBuffer<br>DRV_ETHMAC_LegacyRxGetPacket<br><a href="19344.html">PLIB_ETH_RxSetBufferSize</a><br><a href="19355.html">PLIB_ETH_StatRxAlgnErrCnt</a><br><a href="19356.html">PLIB_ETH_StatRxFcsErrCnt</a><br><a href="19357.html">PLIB_ETH_StatRxOkCnt</a><br><a href="19358.html">PLIB_ETH_StatRxOvflCnt</a><br><a href="19359.html">PLIB_ETH_StatTxMColCnt</a><br><a href="19360.html">PLIB_ETH_StatTxOkCnt</a><br><a href="19361.html">PLIB_ETH_StatTxSColCnt</a><br>DRV_ETHMAC_LegacyTxAcknowledgeBuffer<br>DRV_ETHMAC_LegacyTxAcknowledgePacket<br>DRV_ETHMAC_LegacyTxGetBufferStatus<br>DRV_ETHMAC_LegacyTxGetPacketStatus<br>DRV_ETHMAC_LegacyTxSendBuffer<br>DRV_ETHMAC_LegacyTxSendPacket&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Table 2 shows the MPLAB Harmony Ethernet Controller Peripheral Library equivalents for functions in the MPLAB Harmony Ethernet MAC Driver and the MPLAB Harmony Ethernet PHY Driver.&nbsp;</p>
+<p class="Element10">
+The Ethernet Controller Library files are located in the following Windows® installation path:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">C:\Program Files\Microchip\xc32\&lt;version&gt;\pic32-libs\peripheral\eth\source</span></p><div class="Element15">
+Table 2: Ethernet Controller Peripheral Library Function Mapping</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="39%">
+<div class="Element66">
+Ethernet Controller Peripheral Library Name&nbsp;</div></td><td class="Element65" valign="top" width="61%">
+<div class="Element66">
+MPLAB Harmony Ethernet MAC Driver Name&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+EthClose<br>EthDescriptorGetBuffer<br>EthDescriptorsPoolAdd<br>EthDescriptorsPoolCleanUp<br>EthDescriptorsPoolRemove<br>EthInit<br>EthMACOpen<br>EthRxAcknowledgeBuffer<br>EthRxAcknowledgePacket<br>EthRxBuffersAppend<br>EthRxGetBuffer<br>EthRxGetPacket<br>EthTxAcknowledgeBuffer<br>EthTxAcknowledgePacket<br>EthTxGetBufferStatus<br>EthTxGetPacketStatus<br>EthTxSendBuffer<br>EthTxSendPacket&nbsp;</div></td><td class="Element67" valign="top" width="61%">
+<div class="Element68">
+DRV_ETHMAC_LegacyClose<br>DRV_ETHMAC_LegacyDescriptorGetBuffer<br>DRV_ETHMAC_LegacyDescriptorsPoolAdd<br>DRV_ETHMAC_LegacyDescriptorsPoolCleanUp<br>DRV_ETHMAC_LegacyDescriptorsPoolRemove<br>DRV_ETHMAC_LegacyInit<br>DRV_ETHMAC_LegacyMACOpen<br>DRV_ETHMAC_LegacyRxAcknowledgeBuffer<br>DRV_ETHMAC_LegacyRxAcknowledgePacket<br>DRV_ETHMAC_LegacyRxBuffersAppend<br>DRV_ETHMAC_LegacyRxGetBuffer<br>DRV_ETHMAC_LegacyRxGetPacket<br>DRV_ETHMAC_LegacyTxAcknowledgeBuffer<br>DRV_ETHMAC_LegacyTxAcknowledgePacket<br>DRV_ETHMAC_LegacyTxGetBufferStatus<br>DRV_ETHMAC_LegacyTxGetPacketStatus<br>DRV_ETHMAC_LegacyTxSendBuffer<br>DRV_ETHMAC_LegacyTxSendPacket&nbsp;</div></td></tr></table></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="44%">
+<div class="Element66">
+Ethernet Controller Peripheral Library Name&nbsp;</div></td><td class="Element65" valign="top" width="56%">
+<div class="Element66">
+MPLAB Harmony Ethernet Peripheral Library Name&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="44%">
+<div class="Element68">
+EthEventsEnableClr<br>EthEventsEnableGet<br>EthEventsEnableSet<br>EthEventsEnableWrite<br>EthEventsGet<br>EthMACGetAddress<br>EthMACSetAddress<br>EthMACSetMaxFrame<br>EthRxFiltersClr<br>EthRxFiltersHTSet<br>EthRxFiltersPMClr<br>EthRxFiltersPMSet<br>EthRxFiltersSet<br>EthRxFiltersWrite<br>EthRxSetBufferSize<br>EthStatRxAlgnErrCnt<br>EthStatRxFcsErrCnt<br>EthStatRxOkCnt<br>EthStatRxOvflCnt<br>EthStatTxMColCnt<br>EthStatTxOkCnt<br>EthStatTxSColCnt&nbsp;</div></td><td class="Element67" valign="top" width="56%">
+<div class="Element68">
+<a href="19157.html">PLIB_ETH_EventsEnableClr</a><br><a href="19158.html">PLIB_ETH_EventsEnableGet</a><br><a href="19159.html">PLIB_ETH_EventsEnableSet</a><br><a href="19160.html">PLIB_ETH_EventsEnableWrite</a><br><a href="19161.html">PLIB_ETH_EventsGet</a><br><a href="19237.html">PLIB_ETH_MACGetAddress</a><br><a href="19238.html">PLIB_ETH_MACSetAddress</a><br><a href="19239.html">PLIB_ETH_MACSetMaxFrame</a><br><a href="19324.html">PLIB_ETH_RxFiltersClr</a><br><a href="19325.html">PLIB_ETH_RxFiltersHTSet</a><br><a href="19326.html">PLIB_ETH_RxFiltersPMClr</a><br><a href="19327.html">PLIB_ETH_RxFiltersPMSet</a><br><a href="19328.html">PLIB_ETH_RxFiltersSet</a><br><a href="19329.html">PLIB_ETH_RxFiltersWrite</a><br><a href="19344.html">PLIB_ETH_RxSetBufferSize</a><br><a href="19355.html">PLIB_ETH_StatRxAlgnErrCnt</a><br><a href="19356.html">PLIB_ETH_StatRxFcsErrCnt</a><br><a href="19357.html">PLIB_ETH_StatRxOkCnt</a><br><a href="19358.html">PLIB_ETH_StatRxOvflCnt</a><br><a href="19359.html">PLIB_ETH_StatTxMColCnt</a><br><a href="19360.html">PLIB_ETH_StatTxOkCnt</a><br><a href="19361.html">PLIB_ETH_StatTxSColCnt</a>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Table 3 shows the existing and new function names for the TCP/IP MAC driver.&nbsp;</p>
+<p class="Element10">
+Please note that the following v6 Beta TCP/IP Stack files are now obsolete:
+<ul class="Element630">
+<li class="Element600"><span class="Element146">eth_pic32_ext_phy.c</span></li>
+<li class="Element600"><span class="Element146">eth_pic32_ext_phy_*.c</span></li>
+<li class="Element600"><span class="Element146">eth_pic32_int_mac.c</span></li>
+<li class="Element600"><span class="Element146">mac_events_pic32.c</span></li>
+</ul></p><div class="Element15">
+Table 3: TCP/IP MAC Driver (tcpip_mac.h) – V6 Beta TCP/IP Stack to MPLAB Harmony TCP/IP Stack Conversion</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="40%">
+<div class="Element66">
+V6 Beta TCP/IP Stack Name&nbsp;</div></td><td class="Element65" valign="top" width="60%">
+<div class="Element66">
+MPLAB Harmony Compliant Name&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MAC_ADDR&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="25993.html">TCPIP_MAC_ADDR</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MAC_ETHERNET_HEADER&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="26000.html">TCPIP_MAC_ETHERNET_HEADER</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MAC_NOTIFY_HANDLER&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_NOTIFY_HANDLER&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MAC_PACKET&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="26063.html">TCPIP_MAC_PACKET</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MAC_RX_PKT_STAT&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RX_PKT_STAT&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACEventAck&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_EventAck&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACEventClearNotifyEvents&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_EventNotifyClear&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACEventGetPending&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_EventPendingEventsGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACEventSetNotifyEvents&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_EventNotifyEventsSet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACEventSetNotifyHandler&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_EventNotifyHandlerSet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACFCEnable&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_FlowControlEnable&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACFCSetPauseValue&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_FlowControlPauseValueSet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACFCSetRxWMark&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_FlowControlRxWMarkSet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+TCPIP_MAC_FC_TYPE&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_FLOWCONTROLTYPE&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACCheckLink&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="26044.html">TCPIP_MAC_LinkCheck</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACCalcIPBufferChecksum&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_ChecksumIPBufferCalc&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACCalcRxChecksum&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_ChecksumRxCalc&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACConnect&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_Connect&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACPowerDown&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_PowerDown&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACPowerUp&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_PowerUp&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGetHeader&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_HeaderGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACDiscardRx&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxDiscard&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGet&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_Get&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGetArray&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_ArrayGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGetReadPtrInRx&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxReadPtrGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGetRxSize&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxSizeGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACSetBaseReadPtr&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_ReadPtrBaseSet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACSetReadPtr&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_ReadPtrSet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACSetReadPtrInRx&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxReadPtrSet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACIsRxReady&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxIsReady&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACRxAcknowledge&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxAcknowledge&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACRxGetPacket&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxPacketGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACRxProfile&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxProfile&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACRxRegisterNotifyHandler&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxNotifyHandlerRegister&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACRxFilterOperation&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxFilterOperation&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACRxFilterPatternMode&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_RxFilterPatternMode&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACRxFilterSetHashTableEntry&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+<a href="26161.html">TCPIP_MAC_RxFilterHashTableEntrySet</a>&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACTxPacket&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_TxPacket&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACTxProfile&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_TxProfile&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACTxRegisterNotifyHandler&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_TxNotifyHandlerRegister&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACIsTxReady&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_TxIsReady&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACFlush&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_Flush&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGetSslBaseAddr&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_SslBaseAddrGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGetTxBaseAddr&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_TxBaseAddrGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACGetTxBuffSize&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_TxBuffSizeGet&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACPut&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_Put&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACPutArray&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_ArrayPut&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACPutHeader&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_HeaderPut&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+MACSetWritePtr&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+TCPIP_MAC_WritePtrSet&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24489.html">TCP/IP Stack Libraries Help</a> &gt; <a href="24814.html">TCP/IP Stack Library Porting Guide</a> &gt; <a href="24811.html">Porting Applications from the V6 Beta TCP/IP Stack to the MPLAB Harmony TCP/IP Stack</a> &gt; <a href="24793.html">Development Information (Advance Information)</a> &gt; <a href="24812.html">Porting the MPLAB Harmony Drivers and Peripheral Library</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: TCPIP PORTING Porting the MPLAB Harmony Drivers and Peripheral Library Topic Title: Porting the MPLAB Harmony Drivers and Peripheral Library)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

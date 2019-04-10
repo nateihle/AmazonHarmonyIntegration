@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Event Manager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16648.html">Graphics Composer Window User Interface</a> &gt; <a href="16659.html">MHGC Tools</a> &gt; <a href="16644.html">Event Manager</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16659.html">Previous</a> | <a href="16659.html">Up</a> | <a href="16651.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Event Manager Topic Title: Event Manager)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Event Manager</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Graphics Composer Event Manager provides a GUI interface to manage all of the events associated with a graphics application. In a general sense, an event is an action or occurrence that is processed by software using an “event handler”. Button pushes or keystrokes are widely recognized and handled events. Events related to a touch screen are commonly called “gestures”. This GUI allows the assignment of actions to events associated with graphics widgets and to events outside of the graphics library. Under the Graphics Composer Event Manager tab there are two sub-tabs, one for “Events” and a second for “Macros”. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Event Manager.png" border="0" alt="" title=""></p><p class="Element10">
+The following table summarizes the difference between &quot;events&quot; and &quot;macros&quot; and provides examples of each instance of source to destination: </p><p class="Element10" style="text-align: center;">
+<strong>Differences Between Events and Macros</strong></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="15%">
+<div class="Element66">
+Source&nbsp;</div></td><td class="Element65" valign="top" width="44%">
+<div class="Element66">
+Inside of Graphics (Destination)&nbsp;</div></td><td class="Element65" valign="top" width="40%">
+<div class="Element66">
+Outside of Graphics (Destination)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="15%">
+<div class="Element68">
+Inside of Graphics&nbsp;</div></td><td class="Element67" valign="top" width="44%">
+<div class="Element68">
+&quot;Event&quot;<br>Example: Button changes button text&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+&quot;Event&quot;<br>Example: Button changes MEB2 LED color&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="15%">
+<div class="Element68">
+Outside of Graphics&nbsp;</div></td><td class="Element67" valign="top" width="44%">
+<div class="Element68">
+&quot;Macro&quot;<br>Example: Mounting SD card changes screen&nbsp;</div></td><td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Not supported by Event Manager Tool&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+“Events” under the first tab are generated from within graphics widgets and can manipulate the properties of screen widgets or set semaphores that engage with the rest of the application. “Macros” are executed outside of graphics widgets by other parts of the application. “Macros” allow the application to change widget properties or behavior.&nbsp;</p>
+<p class="Element10">
+Both “Events” and “Macros” event handlers can be built using collections of “Template” actions or using “Custom” developer-provided code. Most widget properties have an associated Template action that can be used to manipulate that property in an event handler (either “Event” or “Macro”). For more information on properties and related actions, see the discussion on the Properties Window below.&nbsp;</p>
+<p class="Element10">
+To explore these capabilities, let’s look at the <a href="03698.html">Aria Quickstart</a> project after the completion of the <a href="22360.html">Adding an Event to the Aria Quickstart Demonstration</a> Quick Start Guide.</p><div class="Element15">
+Graphics Composer Events</div>
+<p class="Element10">
+The Graphics Composer Screen Designer shows that there is one layer and three widgets in this demonstration. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Graphics Composer Events Tree View.png" border="0" alt="" title=""></p><p class="Element10">
+Of the three widgets shown above, only ButtonWidget1 can have events associated with it, one for button pressed and a second for button released. This can be seen in the Graphics Composer Event Manager window, which is available from the Tools menu: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Event Management Pressed.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The events shown under “ButtonWidget1” are mirrored in the widget’s properties. Selecting or clearing an event in one window does the same in the other window, thus enabling (selecting) or disabling (clearing) the corresponding event. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Event Selection.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+We can add a Check Box widget to the applications display and then use the Event Manager to assign actions to the widget’s events. A Check Box widget has two events, one for being “Checked” (i.e., selected) and another for being “Unchecked” (i.e., cleared). Enabling the “Checked” event then allows the selection of the action or actions for that event. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Checked Unchecked Events.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+The Actions: sub-window has five tool icons for managing the actions associated with an event: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Actions Subwindow.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+Clicking the Create New Action icon ( <img src="MHGC UG Create New Action Icon.png" border="0" alt="" title=""> ) opens the Action Edit dialog. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Action Edit Dialog.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+If you select Custom and click <strong>Next</strong>, you will see the following dialog. Unfortunately, there is no C code error checking with this window. It just copies the code into <span class="Element146">libaria.c</span> and <span class="Element146">libaria.h</span>. If there is a problem with the code you will not know about it until you try to build your application. An alternative is just to type a comment such as <span class="Element146">/*My event goes here*/</span>, generate the code, and then find out where this comment landed in the code. (Typically, inside <span class="Element146">libaria_events.c</span>, or <span class="Element146">libaria_macros.c</span>) You can then write the action routine from within the MPLAB X IDE editor and compile just that file to debug the code written. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Action Edit Dialog CheckBoxAction.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+If you select Template, the Action Edit dialog will update, as follows. Select ButtonWidget1. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Action Edit Dialog Template Selection.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+As shown previously, you next need to select the widget that you want to manipulate with this action. Note that the event originated with CheckBoxWidget1, but the event’s action can manipulate any of the existing widgets. In this case, ButtonWidget1 has been selected. Clicking Next will then bring up a list of the actions available in manipulating a button widget. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Action Edit Dialog Set Text.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+You can select the “Set Text” action, which will then change the button’s text property, followed by NEXT, which will open a dialog to select the text string for this action. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Action Edit Dialog Select Text String.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+You can then select from the available (already defined) strings which text to use for the button’s text field. Press the Finish button to complete the definition of this action.</p><div class="Element15">
+Screen Events</div>
+<p class="Element10">
+As shown previously, the Graphics Composer Event Manager, Events sub-tab supports screen events when the screen is visible (On Show) and hidden (On Hide). These events can define event handlers based on Template actions or Custom, user-defined code.</p><div class="Element15">
+Widget Events</div>
+<p class="Element10">
+Not all widgets can generate an event. For example, a Label Widget has nothing to generate, it just sits there on the screen, labeling. Here is a list of the widgets that can generate an event:</p>
+<ul class="Element630">
+<li class="Element600">Button – Pressed and Released events</li>
+<li class="Element600">Check Box – Checked and Unchecked events</li>
+<li class="Element600">Draw Surface – Draw Notification event</li>
+<li class="Element600">Image Sequence – Image Changed event</li>
+<li class="Element600">Key Pad – Key Click event</li>
+<li class="Element600">List Wheel – Select Item Changed event</li>
+<li class="Element600">List – Selection Changed event</li>
+<li class="Element600">Progress Bar – Value Changed event</li>
+<li class="Element600">Radio Button – Selected and Deselected event</li>
+<li class="Element600">Scroll Bar – Value Changed event</li>
+<li class="Element600">Slider Widget – Value Changed event</li>
+<li class="Element600">Text Field – Text Changed event</li>
+<li class="Element600">Touch Test – Point Added event</li>
+</ul><div class="Element15">
+Graphics Composer Macros</div>
+<p class="Element10">
+Macros implement event handlers for events that originate outside of graphics primitives such as widgets and are designed to change or manipulate widgets inside of the graphics part of an application. (Events that originate outside of graphics and don’t touch the graphics part of the application are outside of the scope of the Graphics Event Manager and are not discussed here.)&nbsp;</p>
+<p class="Element10">
+The following figure shows a simple example of a macro. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Simple Macro Example.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The toolbar for Macros has three icons. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Macros Tool Bar Icons.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Creating a new macro and selecting its actions is just like that of a widget event:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Create a new macro using the “Create New Macro” tool. The check box to the left of the new macro’s name enables/disables the macro. Clearing it removes the macro from the next code generation.</li>
+<li value="2" class="Element600">Select the new macro and edit it using the second icon (shown previously).</li>
+<li value="3" class="Element600">In the Actions: window, select Create New Action. An optional name can be provided in the Name: box. You can then choose to use a Template and select a predefined action or Custom to create a customized action.</li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Create New Action Macro.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ol class="Element630">
+<li value="4" class="Element600">If you chose a “Custom” action, proceed as discussed previous in Graphics Composer Events. When using templates the next step is to choose the target widget for the action. This choice is limited to those only the widgets in the currently “active” screen. If your application has multiple screens and the widget you are targeting is not part of the currently active screen you need to change the active screen.
+<ul class="Element631">
+<li class="Element601">Changing the active screen can be done by selecting the corresponding screen tab at the bottom of the Graphics Composer Screen Designer</li>
+</ul></li>
+</ol><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Macro FirstScreen.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+
+<ul class="Element630">
+<li class="Element600">Alternately, you can switch using the Graphics Composer Manager:Screens tab</li>
+</ul><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Screens Tab Macro.png" border="0" alt="" title=""></p>
+<ol class="Element630">
+<li value="5" class="Element600">After selecting the target widget for this macro, click Next button to select an action related to this widget. (Just as with template-based widget events.) The macro can contain more than one action, targeting more than one widget.</li>
+</ol><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Graphics Events Test Bed</div>
+<p class="Element10">
+Additional examples of events and macros can be found in the MPLAB Harmony project found in <i>./apps/examples/events_testbed</i>. This project is based on the Quick Start Guide “Adding an Event to the Aria Quickstart Demonstration” found in Volume 1 of MPLAB Harmony’s built-in documentation.&nbsp;</p>
+<p class="Element10">
+This project has target configurations for PIC32MZ DA and EF starter kits with the MEB2 graphics board. It demonstrates the following events/macros: </p><p class="Element10" style="text-align: center;">
+<strong>Event Testbed</strong></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="10%">
+<div class="Element66">
+Source&nbsp;</div></td><td class="Element65" valign="top" width="48%">
+<div class="Element66">
+Inside of Graphics (Destination)&nbsp;</div></td><td class="Element65" valign="top" width="42%">
+<div class="Element66">
+Outside of Graphics (Destination)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+Inside of Graphics&nbsp;</div></td><td class="Element67" valign="top" width="48%">
+<div class="Element68">
+&quot;Event&quot;<br>Button changes button text from &quot;Make Changes. Generate. Run&quot; to &quot;Ouch! Ouch! Ouch!&quot;&nbsp;</div></td><td class="Element67" valign="top" width="42%">
+<div class="Element68">
+&quot;Event&quot;<br>Virtual Switch S1 changes MED2 LEDs D6 and D7 on/off via boolean semaphore&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="10%">
+<div class="Element68">
+Outside of Graphics&nbsp;</div></td><td class="Element67" valign="top" width="48%">
+<div class="Element68">
+&quot;Macro&quot;<br>APP_Tasks changes color scheme for Virtual LEDs D6 and D7 between LED_OFF and LED_ON&nbsp;</div></td><td class="Element67" valign="top" width="42%">
+<div class="Element68">
+Not supported by Event Manager Tool<br>MEB2 S1 changes MEB2 LEDs D6 and D7&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+Asserting the “Make Changes. Generate. Run” button on the display changes its text to “Ouch! Ouch! Ouch!”. Pressing the MEB2’s Switch S1 changes the LED D6 and D7 on the MEB2 board as well as changing the virtual LEDs D6 and D7 on the display. Pressing the display’s virtual S1 switch does the same. </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG MEB2 display.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The application’s events are defined in <span class="Element146">libaria_events.c</span>:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">#include &quot;gfx/libaria/libaria_events.h&quot;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// CUSTOM CODE - DO NOT DELETE</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">extern bool bDisplay_S1State;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// END OF CUSTOM CODE</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// ButtonWidget1 - PressedEvent</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void ButtonWidget1_PressedEvent(<a href="14930.html">laButtonWidget</a>* btn)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // ButtonDown - Set Text - ButtonWidget1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="14955.html">laButtonWidget_SetText</a>((<a href="14930.html">laButtonWidget</a>*)ButtonWidget1,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="15925.html">laString_CreateFromID</a>(string_OuchOuchOuch));</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// ButtonWidget1 - ReleasedEvent</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void ButtonWidget1_ReleasedEvent(<a href="14930.html">laButtonWidget</a>* btn)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // ButtonUp - Set Text - ButtonWidget1</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="14955.html">laButtonWidget_SetText</a>((<a href="14930.html">laButtonWidget</a>*)ButtonWidget1,</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="15925.html">laString_CreateFromID</a>(string_Instructions));</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// Display_S1 - PressedEvent</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void Display_S1_PressedEvent(<a href="14930.html">laButtonWidget</a>* btn)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // CUSTOM CODE - DO NOT DELETE</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> bDisplay_S1State = true;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // END OF CUSTOM CODE</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">// Display_S1 - ReleasedEvent</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void Display_S1_ReleasedEvent(<a href="14930.html">laButtonWidget</a>* btn)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // CUSTOM CODE - DO NOT DELETE</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> bDisplay_S1State = false;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // END OF CUSTOM CODE</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The <i>ButtonWidget1</i> changes the text using the <span class="Element146"><a href="14955.html">laButtonWidget_SetText</a></span> function. Details on how this is accomplished are discussed in the Quick Start Guide “Adding an Event to the Aria Quickstart Demonstration”.&nbsp;</p>
+<p class="Element10">
+The <i>Display_S1</i> widget just sets a Boolean semaphore <span class="Element146">bDisplay_S1State</span>. Creating the events for the Display_S1 virtual switch is easy, just enable the widget’s events in the widget’s properties: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG Display s1 widget properties.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+This will create empty event handlers in <span class="Element146">libaria_events.c</span>, which can then be modified to change the boolean semaphore <span class="Element146">bDisplay_S1State</span> as shown above.&nbsp;</p>
+<p class="Element10">
+The application’s macros are defined in <span class="Element146">libaria_macros.c</span> change the coloring scheme for the display’s virtual LEDs:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">#include &quot;gfx/libaria/libaria_macros.h&quot;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void LEDsTurnOn(void)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if(<a href="15028.html">laContext_GetActiveScreenIndex</a>() != default_ID)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> return;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // TurnOnDisplayD6 - Set Scheme - MEB2_LED_D6</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="16088.html">laWidget_SetScheme</a>((<a href="16034.html">laWidget</a>*)MEB2_LED_D6, &amp;LED_ON);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // TurnOnDisplayD7 - Set Scheme - MEB2_LED_D7</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="16088.html">laWidget_SetScheme</a>((<a href="16034.html">laWidget</a>*)MEB2_LED_D7, &amp;LED_ON);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void LEDsTurnOff(void)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if(<a href="15028.html">laContext_GetActiveScreenIndex</a>() != default_ID)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> return;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // TurnOffDisplayD6 - Set Scheme - MEB2_LED_D6</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="16088.html">laWidget_SetScheme</a>((<a href="16034.html">laWidget</a>*)MEB2_LED_D6, &amp;LED_OFF);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> // TurnOffDisplayD7 - Set Scheme - MEB2_LED_D7</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> <a href="16088.html">laWidget_SetScheme</a>((<a href="16034.html">laWidget</a>*)MEB2_LED_D7, &amp;LED_OFF);</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The difference between the color scheme LED_OFF and LED_ON is only in the base color: </p><p class="Element10" style="text-align: center;">
+<img src="MHGC UG led base color.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+The macros <i>LEDsTurnOn</i> and <i>LEDsTurnOff</i> are called from the application’s main task loop, <span class="Element146">APP_Tasks</span>. The work of controlling the LEDs is done in the <span class="Element146">APP_STATE_SERVICE_TASKS</span> case.:&nbsp;</p>
+<p class="Element10">
+<span class="Element146">#include &quot;gfx/libaria/libaria_macros.h&quot;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">bool bMEB2_S1State = false;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">bool bDisplay_S1State = false;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">bool bLED_State = false;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">bool bLED_StateNow;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146">void APP_Tasks ( void )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">{</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Check the application's current state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> switch ( appData.state )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* Application's initial state. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> case APP_STATE_INIT:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> bool appInitialized = true;</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if (appInitialized)</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> appData.state = APP_STATE_SERVICE_TASKS;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> case APP_STATE_SERVICE_TASKS:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> bMEB2_S1State = !BSP_SWITCH_S1StateGet(); // Closed --&gt; grounded</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> bLED_StateNow = bMEB2_S1State || bDisplay_S1State;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if ( bLED_State != bLED_StateNow )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {// LED state has changed</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> if ( bLED_StateNow )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> BSP_LED_D6On(); // MEB2 LED D6 On</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> BSP_LED_D7On(); // MEB2 LED D7 On</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> LEDsTurnOn(); // Turn display LEDs on</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> else</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> BSP_LED_D6Off(); // MEB2 LED D6 Off</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> BSP_LED_D7Off(); // MEB2 LED D7 Off</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> LEDsTurnOff(); // Turn display LEDs off</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }//end if ( bMEB2_S1State || bDisplay_S1State )</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> bLED_State = bLED_StateNow; // Remember new state</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: implement your application state machine.*/</span>&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* The default state should never be executed. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> default:</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> {</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> /* TODO: Handle error in application's state machine. */</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> break;</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146"> }</span>&nbsp;</p>
+<p class="Element10">
+<span class="Element146">}</span>&nbsp;</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16648.html">Graphics Composer Window User Interface</a> &gt; <a href="16659.html">MHGC Tools</a> &gt; <a href="16644.html">Event Manager</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Event Manager Topic Title: Event Manager)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

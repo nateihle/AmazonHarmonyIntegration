@@ -1,0 +1,969 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Events>
+	<Screen>
+		<action_list>
+            <list>Go To Screen</list>
+            <list>Turn Display ON</list>
+			<list>Turn Display OFF</list>
+        </action_list>
+	</Screen>
+	<ButtonWidget>
+		<action_list>
+            <list>Set Text</list>
+            <list>Set Press_Bitmap</list>
+			<list>Set Release_Bitmap</list>
+            <list>Show Button</list>
+            <list>Hide Button</list>
+			<list>Disable Button</list>
+			<list>Enable Button</list>
+			<list>Set Alignment</list>
+        </action_list>
+		<action text="Set Text">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_ButtonTextSet</function>
+			<drawfunc macro="GFX_GOL_BUTTON_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="GFX_XCHAR*">pick_user_text</param2>
+		</action>			
+		<action text="Set Press_Bitmap">
+			<edittype>bitmapitem</edittype>
+			<function>GFX_GOL_ButtonPressStateImageSet</function>
+			<drawfunc macro="GFX_GOL_BUTTON_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="void*">bmpName</param2>
+		</action>
+		<action text="Set Release_Bitmap">
+			<edittype>bitmapitem</edittype>
+			<function>GFX_GOL_ButtonReleaseStateImageSet</function>
+			<drawfunc macro="GFX_GOL_BUTTON_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="void*">bmpName</param2>
+		</action>
+		<action text="Show Button">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_BUTTON_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Button">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_BUTTON_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Button">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_BUTTON_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Button">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_BUTTON_DRAW_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_ButtonTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_BUTTON_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_BUTTON*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>		
+	</ButtonWidget>
+	<!-- CheckBoxWidget entry --> 
+	<CheckBoxWidget>
+		<action_list>
+			<list>Set Text</list>
+            <list>Set Checked</list>
+            <list>Set Unchecked</list>
+            <list>Show CheckBox</list>
+            <list>Hide CheckBox</list>
+			<list>Disable CheckBox</list>
+			<list>Enable CheckBox</list>
+			<list>Set Alignment</list>
+		</action_list>
+		<action text="Set Text">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_CheckBoxTextSet</function>
+			<drawfunc macro="GFX_GOL_CHECKBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="GFX_XCHAR*">text</param2>
+		</action>
+		<action text="Set Checked">			
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_CHECKBOX_CHECKED_STATE | GFX_GOL_CHECKBOX_DRAW_CHECK_STATE</param2>
+		</action>
+		<action text="Set Unchecked">			
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc macro="GFX_GOL_CHECKBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_CHECKBOX_CHECKED_STATE</param2>
+		</action>
+		<action text="Show CheckBox">		
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_CHECKBOX_DRAW_STATE</param2>
+		</action>
+		<action text="Hide CheckBox">			
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_CHECKBOX_HIDE_STATE</param2>
+		</action>
+		<action text="Disable CheckBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_CHECKBOX_DRAW_STATE | GFX_GOL_CHECKBOX_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable CheckBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_CHECKBOX_DRAW_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_CheckBoxTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_CHECKBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_CHECKBOX*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>
+	</CheckBoxWidget>
+	<!-- DigitalMeterWidget entry --> 
+	<DigitalMeterWidget>
+		<action_list>
+			<list>Set Value</list>
+            <list>Increment Value</list>
+            <list>Decrement Value</list>
+            <list>Show Digital Meter</list>
+            <list>Hide Digital Meter</list>
+			<list>Disable Digital Meter</list>
+			<list>Enable Digital Meter</list>
+			<list>Set Alignment</list>
+		</action_list>
+		<action text="Set Value">
+			<edittype>numitem</edittype>
+			<function>GFX_GOL_DigitalMeterValueSet</function>
+			<drawfunc macro="GFX_GOL_DIGITALMETER_UPDATE_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="int16_t">text</param2>
+		</action>
+		<action text="Increment Value">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_DigitalMeterIncrement</function>
+			<drawfunc macro="GFX_GOL_DIGITALMETER_UPDATE_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="uint16_t">deltaValue</param2>
+		</action>
+		<action text="Decrement Value">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_DigitalMeterDecrement</function>
+			<drawfunc macro="GFX_GOL_DIGITALMETER_UPDATE_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="uint16_t">deltaValue</param2>
+		</action>
+		<action text="Show Digital Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_DIGITALMETER_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Digital Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_DIGITALMETER_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Digital Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_DIGITALMETER_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Digital Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_DIGITALMETER_DISABLED_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_DigitalMeterTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_DIGITALMETER_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_DIGITALMETER*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>
+	</DigitalMeterWidget>
+	<!-- EditBoxWidget entry --> 
+	<EditBoxWidget>
+		<action_list>
+			<list>Set Text</list>
+            <list>Add Char</list>
+			<list>Delete Char</list>
+            <list>Show Editbox</list>
+            <list>Hide Editbox</list>
+			<list>Disable Editbox</list>
+			<list>Enable Editbox</list>
+			<list>Set Alignment</list>
+		</action_list>
+		<action text="Set Text">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_EditBoxTextSet</function>
+			<drawfunc macro="GFX_GOL_EDITBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+			<param2 datatype="GFX_XCHAR*">text</param2>
+		</action>
+		<action text="Add Char">
+			<edittype>charitem</edittype>
+			<function>GFX_GOL_EditBoxCharAdd</function>
+			<drawfunc macro="GFX_GOL_EDITBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+			<param2 datatype="GFX_XCHAR">char</param2>
+		</action>
+		<action text="Delete Char">
+			<edittype>none</edittype>
+			<function>GFX_GOL_EditBoxCharRemove</function>
+			<drawfunc macro="GFX_GOL_EDITBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>1</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+		</action>
+		<action text="Show Editbox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_EDITBOX_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Editbox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_EDITBOX_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Editbox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_EDITBOX_DRAW_STATE | GFX_GOL_EDITBOX_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Editbox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_EDITBOX_DISABLED_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_EditBoxTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_EDITBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_EDITBOX*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>
+	</EditBoxWidget>
+	<!-- GroupBoxWidget entry --> 
+	<GroupBoxWidget>
+		<action_list>
+			<list>Set Text</list>
+            <list>Show GroupBox</list>
+            <list>Hide GroupBox</list>
+			<list>Disable GroupBox</list>
+			<list>Enable GroupBox</list>
+			<list>Set Alignment</list>
+		</action_list>
+		<action text="Set Text">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_GroupboxTextSet</function>
+			<drawfunc macro="GFX_GOL_GROUPBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_GROUPBOX*">pObj</param1>
+			<param2 datatype="GFX_XCHAR*">text</param2>
+		</action>
+		<action text="Show GroupBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_GROUPBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_GROUPBOX_DRAW_STATE</param2>
+		</action>
+		<action text="Hide GroupBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_GROUPBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_GROUPBOX_HIDE_STATE</param2>
+		</action>
+		<action text="Disable GroupBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_GROUPBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_GROUPBOX_DRAW_STATE | GFX_GOL_GROUPBOX_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable GroupBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_GROUPBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_GROUPBOX_DISABLED_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_GroupboxTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_GROUPBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_GROUPBOX*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>
+	</GroupBoxWidget>
+	<!-- ListBoxWidget entry --> 
+	<ListBoxWidget>
+		<action_list>
+			<list>Set Selected Index</list>
+			<list>Add New Item</list>
+			<list>Show ListBox</list>
+			<list>Hide ListBox</list>
+			<list>Disable ListBox</list>
+			<list>Enable ListBox</list>
+			<list>Set Alignment</list>
+		</action_list>
+		<action text="Set Selected Index">
+            <edittype>spinneritem</edittype>
+            <function>GFX_GOL_ListBoxItemFocusSet</function>
+			<drawfunc macro="GFX_GOL_LISTBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+            <paramcount>2</paramcount>
+            <param1 datatype="GFX_GOL_LISTBOX*">pObj</param1>
+            <param2 datatype="uint16_t">index</param2>
+        </action>
+		<action text="Add New Item">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_ListBoxItemAdd</function>
+			<drawfunc macro="GFX_GOL_LISTBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>6</paramcount>
+            <param1 datatype="GFX_GOL_LISTBOX*">pObj</param1>
+			<param2 datatype="GFX_GOL_LISTITEM*">pPrevItem</param2>
+			<param3 datatype="GFX_XCHAR*">pText</param3>
+			<param4 datatype="GFX_RESOURCE_HDR*">pImage</param4>
+			<param5 datatype="uint16_t">status</param5>
+            <param6 datatype="uint16_t">data</param6>
+		</action>
+        <action text="Show ListBox">
+            <edittype>none</edittype>
+            <function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+            <paramcount>2</paramcount>
+            <param1 datatype="GFX_GOL_LISTBOX*">pObj</param1>
+            <param2 datatype="">GFX_GOL_LISTBOX_DRAW_STATE</param2>
+        </action>
+        <action text="Hide ListBox">
+            <edittype>none</edittype>
+            <function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+            <paramcount>2</paramcount>
+            <param1 datatype="GFX_GOL_LISTBOX*">pObj</param1>
+            <param2 datatype="">GFX_GOL_LISTBOX_HIDE_STATE</param2>
+        </action>	
+		<action text="Disable ListBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_LISTBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_LISTBOX_DRAW_STATE | GFX_GOL_LISTBOX_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable ListBox">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_LISTBOX*">pObj</param1>
+			<param2 datatype="">GFX_GOL_LISTBOX_DISABLED_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_ListBoxTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_LISTBOX_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_LISTBOX*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>
+	</ListBoxWidget>
+	<!-- MeterWidget entry --> 
+	<MeterWidget>
+		<action_list>
+			<list>Set Meter Value</list>
+            <list>Increment Value</list>
+            <list>Decrement Value</list>
+			<list>Show Value Font</list>
+			<list>Show Title Font</list>
+            <list>Show Meter</list>
+            <list>Hide Meter</list>
+			<list>Disable Meter</list>
+			<list>Enable Meter</list>
+		</action_list>
+		<action text="Set Meter Value">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_MeterValueSet</function>
+			<drawfunc macro="GFX_GOL_METER_UPDATE_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="uint16_t">value</param2>
+		</action>
+		<action text="Increment Value">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_MeterValueSet</function>
+			<drawfunc macro="GFX_GOL_METER_UPDATE_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="uint16_t">deltavalue</param2>
+		</action>
+		<action text="Decrement Value">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_MeterValueSet</function>
+			<drawfunc macro="GFX_GOL_METER_UPDATE_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="uint16_t">deltavalue</param2>
+		</action>
+		<action text="Show Value Font">
+			<edittype>fontitem</edittype>
+			<function>GFX_GOL_MeterValueFontSet</function>
+			<drawfunc macro="GFX_GOL_METER_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="GFX_RESOURCE_HDR*">pick_font</param2>
+		</action>
+		<action text="Show Title Font">
+			<edittype>fontitem</edittype>
+			<function>GFX_GOL_MeterTitleFontSet</function>
+			<drawfunc macro="GFX_GOL_METER_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="GFX_RESOURCE_HDR*">pick_font</param2>
+		</action>
+		<action text="Show Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_METER_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_METER_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_METER_DRAW_STATE | GFX_GOL_METER_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Meter">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_METER*">pObj</param1>
+			<param2 datatype="">GFX_GOL_METER_DISABLED_STATE</param2>
+		</action>
+	</MeterWidget>
+	<!-- PictureWidget entry --> 
+	<PictureWidget>
+		<action_list>
+			<!--<list>Set Scale</list>-->
+            <list>Set Bitmap</list>
+            <list>Show Picture</list>
+            <list>Hide Picture</list>
+			<list>Disable Picture</list>
+			<list>Enable Picture</list>
+		</action_list>
+		<!--<action text="Set Scale">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_PictureControlScaleSet</function>
+			<drawfunc macro="GFX_GOL_PICTURECONTROL_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PICTURECONTROL*">pObj</param1>
+			<param2 datatype="">scale</param2>
+		</action>-->
+		<action text="Set Bitmap">
+			<edittype>bitmapitem</edittype>
+			<function>GFX_GOL_PictureControlImageSet</function>
+			<drawfunc macro="GFX_GOL_PICTURECONTROL_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PICTURECONTROL*">pObj</param1>
+			<param2 datatype="GFX_RESOURCE_HDR*">bmpName</param2>
+		</action>
+		<action text="Show Picture">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PICTURECONTROL*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PICTURECONTROL_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Picture">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PICTURECONTROL*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PICTURECONTROL_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Picture">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PICTURECONTROL*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PICTURECONTROL_DRAW_STATE | GFX_GOL_PICTURECONTROL_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Picture">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PICTURECONTROL*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PICTURECONTROL_DISABLED_STATE</param2>
+		</action>
+	</PictureWidget>
+	<!-- ProgressBarWidget entry --> 
+	<ProgressBarWidget>
+		<action_list>
+			<list>Set Range</list>
+            <list>Set Position</list>
+            <list>Show Progress Bar</list>
+            <list>Hide Progress Bar</list>
+			<list>Disable Progress Bar</list>
+			<list>Enable Progress Bar</list>
+		</action_list>
+		<action text="Set Range">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_ProgressBarRangeSet</function>
+			<drawfunc macro="GFX_GOL_PROGRESSBAR_DRAW_BAR_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PROGRESSBAR*">pObj</param1>
+			<param2 datatype="uint16_t">range</param2>
+		</action>
+		<action text="Set Position">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_ProgressBarPositionSet</function>
+			<drawfunc macro="GFX_GOL_PROGRESSBAR_DRAW_BAR_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PROGRESSBAR*">pObj</param1>
+			<param2 datatype="uint16_t">position</param2>
+		</action>
+		<action text="Show Progress Bar">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PROGRESSBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PROGRESSBAR_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Progress Bar">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PROGRESSBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PROGRESSBAR_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Progress Bar">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PROGRESSBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PROGRESSBAR_DRAW_STATE | GFX_GOL_PROGRESSBAR_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Progress Bar">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_PROGRESSBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_PROGRESSBAR_DISABLED_STATE</param2>
+		</action>
+	</ProgressBarWidget>
+	<!-- RadioButtonWidget entry --> 
+	<RadioButtonWidget>
+		<action_list>
+			<list>Set Text</list>
+            <list>Set Checked</list>			
+            <list>Show RadioButton</list>
+            <list>Hide RadioButton</list>
+			<list>Disable RadioButton</list>
+			<list>Enable RadioButton</list>
+			<list>Set Alignment</list>
+		</action_list>
+		<action text="Set Text">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_RadioButtonTextSet</function>
+			<drawfunc macro="GFX_GOL_RADIOBUTTON_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_RADIOBUTTON*">pObj</param1>
+			<param2 datatype="GFX_XCHAR*">text</param2>
+		</action>
+		<action text="Set Checked">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_RADIOBUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_RADIOBUTTON_DRAW_STATE | GFX_GOL_RADIOBUTTON_CHECKED_STATE | GFX_GOL_RADIOBUTTON_DRAW_CHECK_STATE</param2>
+		</action>
+		<action text="Show RadioButton">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_RADIOBUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_RADIOBUTTON_DRAW_STATE</param2>
+		</action>
+		<action text="Hide RadioButton">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_RADIOBUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_RADIOBUTTON_HIDE_STATE</param2>
+		</action>
+		<action text="Disable RadioButton">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_RADIOBUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_RADIOBUTTON_DRAW_STATE | GFX_GOL_RADIOBUTTON_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable RadioButton">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_RADIOBUTTON*">pObj</param1>
+			<param2 datatype="">GFX_GOL_RADIOBUTTON_DISABLED_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_RadioButtonTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_RADIOBUTTON_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_RADIOBUTTON*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>
+	</RadioButtonWidget>
+	<!-- SliderWidget entry --> 
+	<SliderWidget>
+		<action_list>
+			<list>Set Page</list>
+            <list>Set Position</list>
+            <list>Set Range</list>
+			<!--<list>Increment Position</list>
+            <list>Decrement Position</list> -->
+            <list>Show Slider</list>
+            <list>Hide Slider</list>
+			<list>Disable Slider</list>
+			<list>Enable Slider</list>
+		</action_list>
+		<action text="Set Page">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_ScrollBarPageSet</function>
+			<drawfunc macro="GFX_GOL_SCROLLBAR_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+			<param2 datatype="uint16_t">newPage</param2>
+		</action>
+		<action text="Set Position">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_ScrollBarPositionSet</function>
+			<drawfunc macro="GFX_GOL_SCROLLBAR_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+			<param2 datatype="uint16_t">newPos</param2>
+		</action>
+		<action text="Set Range">
+			<edittype>spinneritem</edittype>
+			<function>GFX_GOL_ScrollBarRangeSet</function>
+			<drawfunc macro="GFX_GOL_SCROLLBAR_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+			<param2 datatype="uint16_t">newRange</param2>
+		</action>
+<!--            <action text="Increment Position">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ScrollBarPositionIncrement</function>
+			<drawfunc macro="GFX_GOL_SCROLLBAR_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>1</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+		</action>
+		<action text="Decrement Position">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ScrollBarPositionDecrement</function>
+			<drawfunc macro="GFX_GOL_SCROLLBAR_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>1</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+		</action> -->
+		<action text="Show Slider">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_SCROLLBAR_DRAW_STATE</param2>
+		</action>					
+		<action text="Hide Slider">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_SCROLLBAR_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Slider">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_SCROLLBAR_DRAW_STATE | GFX_GOL_SCROLLBAR_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Slider">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_SCROLLBAR*">pObj</param1>
+			<param2 datatype="">GFX_GOL_SCROLLBAR_DISABLED_STATE</param2>
+		</action>
+	</SliderWidget>
+	<!-- StaticTextWidget entry --> 
+	<StaticTextWidget>
+		<action_list>
+			<list>Set Text</list>
+            <list>Show Static Text</list>
+            <list>Hide Static Text</list>
+			<list>Disable Static Text</list>
+			<list>Enable Static Text</list>
+		</action_list>
+		<action text="Set Text">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_StaticTextSet</function>
+			<drawfunc macro="GFX_GOL_STATICTEXT_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_STATICTEXT*">pObj</param1>
+			<param2 datatype="GFX_XCHAR*">text</param2>
+		</action>
+		<action text="Show Static Text">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_STATICTEXT*">pObj</param1>
+			<param2 datatype="">GFX_GOL_STATICTEXT_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Static Text">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_STATICTEXT*">pObj</param1>
+			<param2 datatype="">GFX_GOL_STATICTEXT_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Static Text">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_STATICTEXT*">pObj</param1>
+			<param2 datatype="">GFX_GOL_STATICTEXT_DRAW_STATE | GFX_GOL_STATICTEXT_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Static Text">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_STATICTEXT*">pObj</param1>
+			<param2 datatype="">GFX_GOL_STATICTEXT_DISABLED_STATE</param2>
+		</action>
+	</StaticTextWidget>
+	<!-- WindowWidget entry -->
+	<WindowWidget>
+		<action_list>
+			<list>Set Text</list>
+            <list>Set Bitmap</list>
+            <list>Show Window</list>
+            <list>Hide Window</list>
+			<list>Disable Window</list>
+			<list>Enable Window</list>
+			<list>Set Alignment</list>
+		</action_list>
+		<action text="Set Text">
+			<edittype>textitem</edittype>
+			<function>GFX_GOL_WindowTextSet</function>
+			<drawfunc macro="GFX_GOL_WINDOW_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_WINDOW*">pObj</param1>
+			<param2 datatype="GFX_XCHAR*">text</param2>
+		</action>
+		<action text="Set Bitmap">
+			<edittype>bitmapitem</edittype>
+			<function>GFX_GOL_WindowImageSet</function>
+			<drawfunc macro="GFX_GOL_WINDOW_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_WINDOW*">pObj</param1>
+			<param2 datatype="GFX_RESOURCE_HDR*">bmpName</param2>
+		</action>
+		<action text="Show Window">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_WINDOW*">pObj</param1>
+			<param2 datatype="">GFX_GOL_WINDOW_DRAW_STATE</param2>
+		</action>
+		<action text="Hide Window">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_WINDOW*">pObj</param1>
+			<param2 datatype="">GFX_GOL_WINDOW_HIDE_STATE</param2>
+		</action>
+		<action text="Disable Window">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_WINDOW*">pObj</param1>
+			<param2 datatype="">GFX_GOL_WINDOW_DRAW_STATE | GFX_GOL_WINDOW_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable Window">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_WINDOW*">pObj</param1>
+			<param2 datatype="">GFX_GOL_WINDOW_DISABLED_STATE</param2>
+		</action>
+		<action text="Set Alignment">
+			<edittype>alignitem</edittype>
+			<function>GFX_GOL_WindowTextAlignmentSet </function>
+			<drawfunc macro="GFX_GOL_WINDOW_DRAW_STATE">GFX_GOL_ObjectStateSet</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_WINDOW*">pObj</param1>
+			<param2 datatype="GFX_ALIGNMENT">align</param2>
+		</action>
+	</WindowWidget>
+	<TextEntryWidget>
+		<action_list>
+			<list>Clear TextEntry Buffer</list>			
+			<list>Show TextEntry</list>
+			<list>Hide TextEntry</list>
+			<list>Disable TextEntry</list>
+			<list>Enable TextEntry</list>
+		</action_list>
+		<action text="Clear TextEntry Buffer">
+			<edittype>none</edittype>
+			<function>GFX_GOL_TextEntryBufferClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>1</paramcount>
+			<param1 datatype="GFX_GOL_TEXTENTRY*">pObj</param1>			
+		</action>
+		<action text="Show TextEntry">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_TEXTENTRY*">pObj</param1>
+			<param2 datatype="">GFX_GOL_TEXTENTRY_DRAW_STATE</param2>
+		</action>
+		<action text="Hide TextEntry">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_TEXTENTRY*">pObj</param1>
+			<param2 datatype="">GFX_GOL_TEXTENTRY_HIDE_STATE</param2>
+		</action>
+		<action text="Disable TextEntry">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateSet</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_TEXTENTRY*">pObj</param1>
+			<param2 datatype="">GFX_GOL_TEXTENTRY_DRAW_STATE | GFX_GOL_TEXTENTRY_DISABLED_STATE</param2>
+		</action>		
+		<action text="Enable TextEntry">
+			<edittype>none</edittype>
+			<function>GFX_GOL_ObjectStateClear</function>
+			<drawfunc>none</drawfunc>
+			<paramcount>2</paramcount>
+			<param1 datatype="GFX_GOL_TEXTENTRY*">pObj</param1>
+			<param2 datatype="">GFX_GOL_TEXTENTRY_DISABLED_STATE</param2>
+		</action>
+	</TextEntryWidget>
+</Events>

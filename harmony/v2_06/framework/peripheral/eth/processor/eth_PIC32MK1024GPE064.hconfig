@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MK1024GPE064_ETH
+	bool
+	select HAVE_ETH
+	default n
+
+config ETH_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_ETH_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/eth/processor/eth_p32mk1024gpe064.h" to "$PROJECT_HEADER_FILES/framework/peripheral/eth/processor/eth_p32mk1024gpe064.h"
+
+endif

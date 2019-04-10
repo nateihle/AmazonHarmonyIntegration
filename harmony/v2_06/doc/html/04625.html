@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>avdtp_config.h</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06298.html">Files</a> &gt; <a href="04625.html">avdtp_config.h</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04599.html">Previous</a> | <a href="06298.html">Up</a> | <a href="04627.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: avdtp_config.h Topic Title: avdtp_config.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+avdtp_config.h</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Contains proprietary and confidential information of SEARAN LLC. May not be used or disclosed to any other party except in accordance with a license from SEARAN LLC. Copyright (c) 2011-2016 SEARAN LLC. All Rights Reserved.</p></div>
+</div>
+<a name="4D6163726F73"></a><div class="Element14">
+Macros</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element201">
+ &nbsp;</div></td><td class="Element200" valign="top" width="25%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="00011.html">__AVDTP_CONFIG_H</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro __AVDTP_CONFIG_H.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04600.html">AVDTP_ALLOCATE_BUFFERS_FUNCTION</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_ALLOCATE_BUFFERS_FUNCTION.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04601.html">AVDTP_ALLOCATE_BUFFERS_RAM_SIZE_VAR</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+
+<ul class="Element633">
+<li class="Element603">defgroup avdtp_config Configuration</li>
+<li class="Element603">ingroup avdtp</li>
+</ul>*
+<ul class="Element633">
+<li class="Element603">This module describes parameters used to configure AVDTP layer.</li>
+</ul>*
+<ul class="Element633">
+<li class="Element603">dotstack is customized using a configuration file. The configuration file tailors the dotstack to the application being built. It has to have the structure shown below.</li>
+</ul>* code #include &quot;cdbt/bt/<a href="06235.html">bt_std.h</a>&quot;<br>// HCI, L2CAP and SDP must always be present<br>// HCI configuration parameters #define HCI_MAX_CMD_BUFFERS ... #define <a href="13420.html">HCI_MAX_DATA_BUFFERS</a> ... #define HCI_MAX_HCI_CONNECTIONS ... #define HCI_RX_BUFFER_LEN ... #define <a href="13578.html">HCI_TX_BUFFER_LEN</a> ... #define <a href="13323.html">HCI_L2CAP_BUFFER_LEN</a> ... #define HCI_MAX_CMD_PARAM_LEN ...<br>// L2CAP configuration parameters #define L2CAP_MAX_CMD_BUFFERS ... #define <a href="14847.html">L2CAP_MAX_FRAME_BUFFERS</a> ... #define L2CAP_MAX_PSMS ... #define L2CAP_MAX_CHANNELS ...<br>// SDP... <a href="04601.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04602.html">AVDTP_ALLOCATE_BUFFERS_VARS</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This is macro AVDTP_ALLOCATE_BUFFERS_VARS.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04616.html">AVDTP_CODEC_CONFIG_BUFFER_LEN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Size of the buffer used to store codec specific configuration. ingroup avdtp_config<br>details Each codec uses unique configuration which can take different amount of memory. This parameter defines the size of the buffer for storing codec's configuration. The value of 16 is sufficient for SBC, AAC and MPEG1,2. If vendor specific codec is to be used this value may need to increased.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04707.html">AVDTP_MAX_CMD_BUFFERS</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Maximum number of command buffers. ingroup avdtp_config<br>details This parameter defines the number of buffers reserved for sending commands to a remote device over its control channel. Each channel uses its own buffers so the total number of buffers is <a href="04709.html">AVDTP_MAX_REMOTE_DEVICES</a> * AVDTP_MAX_CMD_BUFFERS. The minimum value is 1. The maximum value is 255. 2 is usually sufficient.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04708.html">AVDTP_MAX_CMD_PARAM_LEN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Maximum length of control command parameters ingroup avdtp_config<br>details This parameter defines the maximum length of all command parameters. The value should not exceed <a href="04714.html">AVDTP_MAX_TX_BUFFER_LEN</a> - 2 (command header).&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04709.html">AVDTP_MAX_REMOTE_DEVICES</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Maximum number of remote devices a local device can be connected to ingroup avdtp_config<br>details This parameter defines the number of remote devices a local device can have simultaneous connections to (i.e. control channels). This value should not exceed <a href="04712.html">AVDTP_MAX_STREAMS</a>. For each remote device AVDTP creates one control channel regardless of the number of streams between the local and the remote devices. Assuming that the local devices wants to have only one channel with each remote device and if AVDTP_MAX_REMOTE_DEVICES &gt; <a href="04712.html">AVDTP_MAX_STREAMS</a> all memory reserved for devices in excess of <a href="04712.html">AVDTP_MAX_STREAMS</a> will be wasted. The minimum value is... <a href="04709.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04710.html">AVDTP_MAX_SEP</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Maximum number of SEPs that can be exposed by a local device ingroup avdtp_config<br>details This parameter defines the number of SEPs an application can expose to remote devices. The minimum value is 1. The maximum value is 255.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04712.html">AVDTP_MAX_STREAMS</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Maximum number of streams that can be exposed by a local device ingroup avdtp_config<br>details This parameter defines the number of streams an application can open between local and remote devices. This value can be different from <a href="04710.html">AVDTP_MAX_SEP</a> but should not exceed it. Since each SEP can only be used once the local device can only have as much streams as there are SEPs. If AVDTP_MAX_STREAMS &gt; <a href="04710.html">AVDTP_MAX_SEP</a> all memory reserved for streams in excess of <a href="04710.html">AVDTP_MAX_SEP</a> will be wasted. The minimum value is 1. The maximum value is 255.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04713.html">AVDTP_MAX_TRANSPORT_CHANNELS</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Maximum number of transport channels. ingroup avdtp_config<br>details Depending on the SEP capabilities (multiplexing, recovery, reporting) each stream may need up to 3 transport channels. E.g., if multiplexing is not supported and recovery and reporting are supported a stream will use 3 transport channels - 1 for media transport session, 1 for recovery transport session and 1 for reporting transport session. If multiplexing is not supported and only reporting is supported the stream will use 2 transport channels - 1 for media transport session and 1 for reporting transport session. If multiplexing is supported the stream will need only... <a href="04713.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="10%" style="white-space: nowrap;">
+<div class="Element203">
+<img src="indicator_interface.gif" border="0" alt="" title="">&nbsp;</div></td><td class="Element202" valign="top" width="25%">
+<div class="Element203">
+<a href="04714.html">AVDTP_MAX_TX_BUFFER_LEN</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+brief Size of the transmit buffer. ingroup avdtp_config<br>details This parameter defines the size of the buffer used to send AVDTP control commands to L2CAP layer. Each control channel has it own buffer so the total amount of memory allocated for these buffers is AVDTP_MAX_TX_BUFFER_LEN) * <a href="04709.html">AVDTP_MAX_REMOTE_DEVICES</a>. The minimum value is 1. The maximum value is 255. The value of 32 is usually sufficient.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17373.html">Bluetooth Stack Library Help</a> &gt; <a href="06298.html">Files</a> &gt; <a href="04625.html">avdtp_config.h</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: avdtp_config.h Topic Title: avdtp_config.h)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

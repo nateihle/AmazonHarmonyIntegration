@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Driver-Client Usage Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11778.html">Driver-Client Usage Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11772.html">Previous</a> | <a href="11772.html">Up</a> | <a href="11777.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Driver-Client Usage Model Topic Title: Driver-Client Usage Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Driver-Client Usage Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+MPLAB Harmony device drivers follow a file system style device driver model, similar to that of POSIX-based operating systems, with a few primary differences. First, clients can directly access the drivers, through their own driver-specific functions instead of (or in addition to) indirectly through file system functions. Second, instead of having a single read/write data transfer model, there are multiple common data transfer models and some drivers may provide their own unique data transfer models. Third, instead of grouping all other input/output control operations into a single I/O control or IOCTL function, MPLAB Harmony drivers each provide a set of functions used to control the device.&nbsp;</p>
+<p class="Element10">
+In fact, the primary distinguishing feature of a MPLAB Harmony driver is that it uses a consistent driver-client usage model. This means that it has an open function and (optionally) a close function, and that before a client may use a device driver, it must call the driver’s open function to obtain a driver handle. The handle is then passed into all other client-level interface functions as a parameter to identify the instance of the client that is calling and the instance of the driver (and, by implication the instance of the peripheral device) it is using, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Driver-Client Usage Model</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00134');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00134"><pre class="Element12">DRV_HANDLE  myUsart;
+<strong><span style="color: #000080">char</span></strong>       *message = “Hello World\n”;
+
+<i><span style="color: #008000">/* Obtain an open handle to the USART driver. */</span></i>
+myUsart = DRV_USART_Open(MY_UART_INDEX, DRV_IO_INTENT_READWRITE);
+
+<i><span style="color: #008000">/* Interact with the USART driver. */</span></i>
+DRV_USART_Write(myUsart, message, <strong><span style="color: #000080">sizeof</span></strong>(message));
+
+<i><span style="color: #008000">/* Continue using other USART driver client-interface functions as needed. */</span></i>
+
+<i><span style="color: #008000">/* Close USART driver if no longer needed. */</span></i>
+DRV_USART_Close(myUsart);</pre></div></div>
+<p class="Element10">
+This example is somewhat simplified for the purpose of explanation. In normal usage, a client should test the value of the handle returned from the open function to ensure that it is not invalid (equal to <a href="10089.html">DRV_HANDLE_INVALID</a>). If the value of the handle returned is invalid, the caller should retry the open function later as it is possible that the driver is not yet ready for client usage. A client that requires the usage of a driver will normally prevent its state machine from advancing until a valid open handle has been obtained or it may eventually time-out and go into an error handling state.&nbsp;</p>
+<p class="Element10">
+The requirements of the open and close functions are described in the following section. The need for this model and the driver’s internal usage of the handle are described in the <a href="11799.html">Single Client vs. Multiple Client</a> section.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11772.html">Client Interface</a> &gt; <a href="11778.html">Driver-Client Usage Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Driver-Client Usage Model Topic Title: Driver-Client Usage Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

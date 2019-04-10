@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Device Layer Task Routines</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27319.html">USB Device Layer Library</a> &gt; <a href="27348.html">Using the Library</a> &gt; <a href="27338.html">How the Library Works</a> &gt; <a href="27340.html">Library Initialization</a> &gt; <a href="27331.html">Device Layer Task Routines</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="27339.html">Previous</a> | <a href="27340.html">Up</a> | <a href="27324.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEVLAYER Device Layer Task Routines Topic Title: Device Layer Task Routines)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Device Layer Task Routines</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In a case where the USB Controller driver is configured for interrupt mode operation (DRV_USB_INTERRUPT_MODE is true), the USB_DEVICE_Tasks_ISR() function should be called in the USB module interrupt associated with the Device Layer. The following code shows an example of this. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04335');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04335"><pre class="Element12"><i><span style="color: #008000">/************************************************
+ * Example of instantiating the USB Interrupt
+ * and call the Device Layer ISR Tasks Routines.
+ ************************************************/</span></i>
+
+<strong><span style="color: #000080">void</span></strong> __ISR ( _USB_1_VECTOR, ipl3 ) _InterruptHandler_USB_stub ( <strong><span style="color: #000080">void</span></strong> )
+{
+    USB_DEVICE_Tasks_ISR(sysObjects.usbDevObject);
+}</pre></div></div>
+<p class="Element10">
+If the USB Controller driver is configured for polled mode, the Device Layer will automatically invoke the USB_DEVICE_Tasks_ISR() functions from the <a href="27928.html">USB_DEVICE_Tasks</a>() function. Irrespective of whether the USB Controller driver is configured for polled or interrupt mode, the <a href="27928.html">USB_DEVICE_Tasks</a>() function should be called from <a href="24151.html">SYS_Tasks</a>() function. This will ensure that this function is called periodically. The <a href="27928.html">USB_DEVICE_Tasks</a>() function in turn calls the tasks routines of the applicable functions drivers and the USB Controller Driver (when the driver is configured for polled mode). The following code shows an example of how the <a href="27928.html">USB_DEVICE_Tasks</a>() function is called in the <a href="24151.html">SYS_Tasks</a>() function. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code04336');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code04336"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> SYS_Tasks ( <strong><span style="color: #000080">void</span></strong> )
+{
+    <i><span style="color: #008000">/* Device layer tasks routine. Function Driver tasks gets called
+     * from device layer tasks */</span></i>
+
+    USB_DEVICE_Tasks(sysObjects.usbDevObject);
+
+    <i><span style="color: #008000">/* Call the application's tasks routine */</span></i>
+    APP_Tasks ();
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="27418.html">USB Libraries Help</a> &gt; <a href="27320.html">USB Device Library</a> &gt; <a href="27319.html">USB Device Layer Library</a> &gt; <a href="27348.html">Using the Library</a> &gt; <a href="27338.html">How the Library Works</a> &gt; <a href="27340.html">Library Initialization</a> &gt; <a href="27331.html">Device Layer Task Routines</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: USB DEVLAYER Device Layer Task Routines Topic Title: Device Layer Task Routines)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

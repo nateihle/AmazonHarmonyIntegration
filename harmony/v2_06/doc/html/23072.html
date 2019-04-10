@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>sOggPageHdr Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13063.html">Decoder Libraries Help</a> &gt; <a href="17168.html">Opus Decoder Library</a> &gt; <a href="07841.html">Library Interface</a> &gt; b) Data Types and Constants &gt; <a href="23072.html">sOggPageHdr Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17190.html">Previous</a> | <a href="07841.html">Up</a> | <a href="23093.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: sOggPageHdr Topic Title: sOggPageHdr Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+sOggPageHdr Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> {
+  int32_t <strong><span style="color: #000000">pageCapture</span></strong>;
+  int8_t <strong><span style="color: #000000">struct_ver</span></strong>;
+  int8_t <strong><span style="color: #000000">headerFlags</span></strong>;
+  int64_t <strong><span style="color: #000000">granulePos</span></strong>;
+  int32_t <strong><span style="color: #000000">streamNo</span></strong>;
+  int32_t <strong><span style="color: #000000">pageNo</span></strong>;
+  int32_t <strong><span style="color: #000000">pageCrc</span></strong>;
+  uint8_t <strong><span style="color: #000000">pageSegments</span></strong>;
+  uint8_t <strong><span style="color: #000000">segmentTbl</span></strong>[255];
+} sOggPageHdr;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+header of an Ogg page, full segment info included</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+int32_t pageCapture;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+should be OGG_ID_MAGIC&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+int8_t struct_ver;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+version of the Ogg file format. Should be 0 (RFC3533)&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+int8_t headerFlags;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+an eOggHeaderFlags value&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+int64_t granulePos;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+stream dependent position info&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+int32_t streamNo;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+logical bit stream identifier&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+int32_t pageNo;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+page sequence number&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+int32_t pageCrc;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+CRC32 checksum of the page&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint8_t pageSegments;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+number of page segments to follow&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint8_t segmentTbl[255];&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+actually segmentTbl[pageSegments]; contains the lace values for all segments in the page&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13063.html">Decoder Libraries Help</a> &gt; <a href="17168.html">Opus Decoder Library</a> &gt; <a href="07841.html">Library Interface</a> &gt; b) Data Types and Constants &gt; <a href="23072.html">sOggPageHdr Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: sOggPageHdr Topic Title: sOggPageHdr Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,94 @@
+ifblock BSP_PIC32MX_125_SK_LCC_PICTAIL_QVGA
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_PIC32MX_125_SK_LCC_PICTAIL_QVGA
+
+
+
+config BSP_CONFIGURE_PIC32MX_125_SK_LCC_PICTAIL_QVGA
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_8MHz
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "8000000"
+    
+	select USE_GFX_TRULY_32_240X320_NEEDED if BSP_GRAPHICS_NEEDED
+    select USE_DRV_GFX_LCC_NEEDED if BSP_GRAPHICS_NEEDED
+	
+	set POSCMOD optionally to "XT" 
+    set FPLLIDIV optionally to "DIV_2" 
+    set UPLLIDIV optionally to "DIV_2" 
+    set BSP_PIN_83_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_83_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_84_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_84_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_80_FUNCTION_NAME to "BSP_SWITCH_3" 
+    set BSP_PIN_80_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_76_FUNCTION_NAME to "BSP_LED_2" 
+    set BSP_PIN_76_FUNCTION_TYPE to "LED_AH" 
+    set BSP_PIN_48_FUNCTION_NAME to "BSP_TXRX_CTRL" 
+    set BSP_PIN_48_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_8_FUNCTION_NAME to "BSP_LCD_VSYNC"
+    set BSP_PIN_8_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_32_FUNCTION_NAME to "BSP_LCD_HSYNC"
+    set BSP_PIN_32_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_77_FUNCTION_NAME to "BSP_LCD_DE"
+    set BSP_PIN_77_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_78_FUNCTION_NAME to "BSP_LCD_BACKLIGHT"
+    set BSP_PIN_78_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_6_FUNCTION_NAME to "BSP_LCD_RESET" 
+    set BSP_PIN_6_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_39_FUNCTION_NAME to "BSP_LCD_CS"
+    set BSP_PIN_39_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_67_FUNCTION_NAME to "BSP_SRAM_A15" 
+    set BSP_PIN_67_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_68_FUNCTION_NAME to "BSP_SRAM_A16" 
+    set BSP_PIN_68_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_19_FUNCTION_NAME to "BSP_SRAM_A17" 
+    set BSP_PIN_19_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_40_FUNCTION_NAME to "BSP_SRAM_A18" 
+    set BSP_PIN_40_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_39_FUNCTION_NAME to "BSP_SRAM_CS" 
+    set BSP_PIN_39_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_24_FUNCTION_NAME to "BSP_ADC_TOUCH_YPLUS" 
+    set BSP_PIN_24_FUNCTION_TYPE to "GPIO" 
+    set BSP_PIN_25_FUNCTION_NAME to "BSP_ADC_TOUCH_XPLUS" 
+    set BSP_PIN_25_FUNCTION_TYPE to "GPIO" 
+    set BSP_PIN_33_FUNCTION_NAME to "BSP_ADC_TOUCH_YMINUS" 
+    set BSP_PIN_33_FUNCTION_TYPE to "GPIO" 
+    set BSP_PIN_69_FUNCTION_NAME to "BSP_ADC_TOUCH_XMINUS" 
+    set BSP_PIN_69_FUNCTION_TYPE to "GPIO" 
+    set BSP_PIN_70_FUNCTION_NAME to "BSP_TCON_SCL"
+    set BSP_PIN_70_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_72_FUNCTION_NAME to "BSP_TCON_SDO"
+    set BSP_PIN_72_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_7_FUNCTION_NAME to "BSP_TCON_CS"
+    set BSP_PIN_7_FUNCTION_TYPE to "GPIO_OUT"
+    set BSP_PIN_22_FUNCTION_NAME to "BSP_TCON_DC"
+    set BSP_PIN_22_FUNCTION_TYPE to "GPIO_OUT"
+    bool
+    ---help---
+    IDH_HTML_BSP_pic32mx_125_sk_lcc_pictail_qvga
+    ---endhelp---
+
+endmenu
+
+
+
+menu "Custom Board Configurations for PIC32MX 125 Starter Kit with QVGA LCC PICTail"
+    depends on USE_BSP
+
+import PIC32MX_125_SK_LCC_PICTAIL_QVGA_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32mx_125_sk_lcc_pictail_qvga_H "$HARMONY_VERSION_PATH/bsp/pic32mx_125_sk+lcc_pictail+qvga/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32mx_125_sk_lcc_pictail_qvga_C "$HARMONY_VERSION_PATH/bsp/pic32mx_125_sk+lcc_pictail+qvga/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32mx_125_sk_lcc_pictail_qvga includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif
+

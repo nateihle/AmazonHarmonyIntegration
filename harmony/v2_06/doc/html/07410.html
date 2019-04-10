@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Understanding MPLAB Harmony and MHC Version Numbers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07409.html">MPLAB Harmony Configurator User's Guide</a> &gt; <a href="07410.html">Understanding MPLAB Harmony and MHC Version Numbers</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07399.html">Previous</a> | <a href="07409.html">Up</a> | <a href="07406.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CONFIGURATOR MPLAB Harmony and MHC Version Numbers Topic Title: Understanding MPLAB Harmony and MHC Version Numbers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Understanding MPLAB Harmony and MHC Version Numbers</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Starting in version 2.02b, the architecture of the MPLAB Harmony Configurator has been separated into several sections and can be described, as shown in the following figure: </p><p class="Element10" style="text-align: center;">
+<img src="MHC UG Architecture Diagram.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>MPLAB X IDE Plug-in (MHC Loader)</strong> - This is the plug-in to MPLAB X IDE and is responsible for loading the MPLAB Harmony Configurator from the MPLAB Harmony Framework. Information about this plug-in can be obtained through MPLAB X IDE by navigating to <i>Tools &gt; Plugins &gt; Installed</i>. </p><p class="Element10" style="text-align: center;">
+<img src="MHC UG Plugin MHC Loader.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>MPLAB Harmony Configurator Core (mhc.jar)</strong> - This Java module contains the core code for the MHC system. Prior to version 2.02b, this functionality was contained with the MPLAB X IDE MHC Plug-in and would often cause the plug-in to be out of sync with a given MPLAB Harmony framework. In the v2.02b release, the core MHC module was moved to reside inside of the MPLAB Harmony framework itself to help decouple the MPLAB X IDE plug-in from the framework used. The core module is located in the <span class="Element146">utilities/mhc</span> folder within the MPLAB Harmony framework installation. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+<strong>MPLAB X IDE MHC Plug-ins v2.01 and earlier are not compatible with frameworks v2.02b and later and and vice versa</strong>. While it is always recommended to keep the loader version and the framework version synchronized, from v2.02b forward, the MPLAB X IDE plug-in is expected to be backwards and forwards compatible between MHC core versions.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+You can see the version of MPLAB Harmony that you are currently using by using the Framework Configuration dialog box inside MHC. </p><p class="Element10" style="text-align: center;">
+<img src="MHC UG Harmony Current Version.png" border="0" alt="" title=""></p><p class="Element10">
+This dialog allows the user to change the MPLAB Harmony framework path that the application configuration is currently using. When opened, the dialog shows the current MPLAB Harmony path and the version number of the framework.&nbsp;</p>
+<p class="Element10">
+To change the framework that is used by the active configuration:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Open the Framework Configuration dialog box by click MPLAB Harmony icon.</li>
+<li value="2" class="Element600">Click <strong>Browse</strong> on the right side of the path text box.</li>
+<li value="3" class="Element600">Browse to the root path of the new framework for the configuration and click <strong>OK</strong>.</li>
+<li value="4" class="Element600">Click <strong>Change</strong> and accept the warning.</li>
+<li value="5" class="Element600">Save your project after making the change.</li>
+</ol><p class="Element10">
+The application configuration will now use the new MPLAB Harmony framework.&nbsp;</p>
+<p class="Element10">
+<strong>MPLAB Harmony Configurator Plug-ins </strong>- MHC loads many plug-ins from the MPLAB Harmony framework. All of these plug-ins reside in <span class="Element146">&lt;install-dir&gt;/utilities/mhc/plugins</span>. You can see the versions of these plug-ins in the Output Window when they are loaded by MHC. </p><p class="Element10" style="text-align: center;">
+<img src="MHC UG Load Success Output.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+All plug-ins within a given MPLAB Harmony framework are guaranteed to be compatible with the version of MHC (<span class="Element146">mhc.jar</span>) contained in that framework.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="07409.html">MPLAB Harmony Configurator User's Guide</a> &gt; <a href="07410.html">Understanding MPLAB Harmony and MHC Version Numbers</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: CONFIGURATOR MPLAB Harmony and MHC Version Numbers Topic Title: Understanding MPLAB Harmony and MHC Version Numbers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,13 @@
+<#include "/gencode/framework/audio/config/audio_gencode.ftl">
+<#include "/gencode/framework/classb/config/classb_gencode.ftl">
+<#include "/gencode/framework/bootloader/config/bootloader_gencode.ftl">
+<#include "/gencode/framework/crypto/config/crypto_gencode.ftl">
+<#include "/gencode/framework/driver/config/driver_gencode.ftl">
+<#include "/gencode/framework/math/dsp/config/math_dsp_gencode.ftl">
+<#include "/gencode/framework/power_factor_correction/config/pfc_gencode.ftl">
+<#include "/gencode/framework/motor_control/config/motor_control_gencode.ftl">
+<#include "/gencode/framework/rtdm/config/rtdm_gencode.ftl">
+<#include "/gencode/framework/system/config/system_gencode.ftl">
+<#include "/gencode/framework/tcpip/config/tcpip_gencode.ftl">
+<#include "/gencode/framework/usb/config/usb_gencode.ftl">
+<#include "/gencode/framework/x2c_scope/config/x2c_scope_gencode.ftl">

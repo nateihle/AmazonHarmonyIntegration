@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GUI Resource Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22952.html">Using SEGGER emWin with MPLAB Harmony</a> &gt; <a href="22931.html">GUI Resource Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="22945.html">Previous</a> | <a href="22952.html">Up</a> | <a href="22950.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN GUI Resource Management Topic Title: GUI Resource Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+GUI Resource Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The various GUI resources are images, fonts, video streams, etc. The images can be of different types, such as uncompressed bitmap images, images compressed using lossless compression methods, or images compressed using lossy compression methods. Bitmap images can have different types of pixel color formats, such as raw BGR (Blue, Green, and Red) 888, or palletized formats. The bitmap formats containing the raw pixel color format BGR888 will take 1 byte for each color, and eventually, will take 3 bytes for each pixel. Based on the image size, the memory requirement will vary. If image size grows, the memory size required to store the image will also grow. The following example shows the calculation of memory size required for the image.&nbsp;</p>
+<p class="Element10">
+Considering image dimensions in pixels with Image Width = 480 and Image Height = 272, if the color format is BGR888, the size of memory required to store the pixel data will be: Image Size (in bytes) = Image Width x Image Height x Bytes Per Pixel = 480 x 272 x 3 = 391680 bytes. Please note that in this calculation the image header size is ignored.&nbsp;</p>
+<p class="Element10">
+The size of Image is accountable considering the RAM memory size of an embedded system device, which could be in form of 10s of KBytes. There are different methods to handle this scenario, as follows:&nbsp;</p>
+<p class="Element10">
+a) Reduce the size of Image by changing the color format&nbsp;</p>
+<p class="Element10">
+b) Reduce the size of Image by applying compression&nbsp;</p>
+<p class="Element10">
+c) Moving Image to Program Flash memory&nbsp;</p>
+<p class="Element10">
+d) Moving Image to external Flash memory</p><div class="Element15">
+Reducing Image Size by Changing the Color Format</div>
+<p class="Element10">
+In this method, the color format of Image is modified to reduce the size of the image. As seen in the previous formula to calculate the Image size, one of the contributing factors to the image size is: Bytes Per Pixel. To be able to reduce the number of bytes required for storing one pixel, Image size can be reduced. For example, with color format BGR888, the image size in bytes is calculated as 391680 bytes. The same image with a color format of RGB565 will take 261120 bytes. Please note for color format RGB565 it takes 2 bytes for each pixel. Similarly, further reduction in the number bytes required for each pixel, the image size will reduce in proportion. Also note for palletized formats, a few more bytes are required to store the color table.&nbsp;</p>
+<p class="Element10">
+Please note that a reduction in the number of bytes required per pixel will reduce the number of colors from image and will affect the image quality, as well. The reduction of the number of colors can be decided based on the number of different colors available in the image and size of the image. For smaller images, the reduction in the number of colors from Image may not be visible, allowing reduction in memory requirements for storing such an image.&nbsp;</p>
+<p class="Element10">
+SEGGER emWin provides the Bitmap Converter utility to achieve the change in color format and saving the image as a C file. The C file can be further linked with the application code. The SEGGER emWin Graphics Library supports drawing of images edited by the Bitmap Converter using the library APIs.&nbsp;</p>
+<p class="Element10">
+For more information on using the Bitmap Converter to change the image format and on the APIs to access the image data, refer to the <i>&quot;emWin Graphic Library with Graphical User Interface User and Reference Guide&quot;</i>, document UM03001, which is available for download from the SEGGER website at: <a href="#" onclick="openExternalLink('https://www.segger.com/downloads/emwin');"><img src="indicator_external_link.gif" border="0" alt="" title="">https://www.segger.com/downloads/emwin</a>.</p><div class="Element15">
+Reduce Image Size by Applying Compression</div>
+<p class="Element10">
+There are various compression algorithms available, which can help reduce the size of the image. The size of the image is reduced by compressing the image data. The compression can be lossless compression or lossy compression. The Bitmap Converter utility can apply the lossless compression algorithm, such as RLE, and the lossy compression algorithm, such as JPEG. The original image size to compressed image size ratio (compression ratio) varies with the image pixel data and applied algorithm. The JPEG algorithm will be more efficient in terms of the compression ratio, but will be less efficient in terms of image quality, as the JPEG algorithm is a lossy compression algorithm. The SEGGER emWin Graphics Library supports drawing of RLE or JPEG compressed images by using suitable library APIs.&nbsp;</p>
+<p class="Element10">
+For more information on using the Bitmap Converter utility to change the image format, refer to the <i>&quot;emWin Graphic Library with Graphical User Interface User and Reference Guide&quot;</i>, document UM03001, which is available for download from the SEGGER website at: <a href="#" onclick="openExternalLink('https://www.segger.com/downloads/emwin');"><img src="indicator_external_link.gif" border="0" alt="" title="">https://www.segger.com/downloads/emwin</a>.</p><div class="Element15">
+Moving an Image to Program Flash Memory</div>
+<p class="Element10">
+The static image or font data can be placed in the directly accessible memory such as program Flash. The data is placed in directly accessible memory such as program Flash using compiler attribute commands or in some cases by defining static data as const.&nbsp;</p>
+<p class="Element10">
+The XC32 compiler for PIC32 devices places the data into directly accessible program flash memory if the data is defined as const. The only disadvantage in this case is that the program flash size is now reduced by the size of image or font data. By default, SEGGER emWin tools define the image or font data as const or as GUI_CONST_STORAGE. The SEGGER emWin library for PIC32 defines the GUI_CONST_STORAGE as const.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="27074.html">Volume VI: Third-Party Products</a> &gt; <a href="22930.html">SEGGER emWin Graphics Library Help</a> &gt; <a href="22952.html">Using SEGGER emWin with MPLAB Harmony</a> &gt; <a href="22931.html">GUI Resource Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SEGGER EMWIN GUI Resource Management Topic Title: GUI Resource Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

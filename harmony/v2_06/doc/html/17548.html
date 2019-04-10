@@ -1,0 +1,273 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07638.html">CTMU Peripheral Library</a> &gt; <a href="17554.html">Using the Library</a> &gt; <a href="17548.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17551.html">Previous</a> | <a href="17554.html">Up</a> | <a href="17542.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CTMU How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The CTMU is a simple analog module, built around a high precision charge pump.&nbsp;</p>
+<p class="Element10">
+The focus of the CTMU peripheral library is controlling the output of the charge pump and interfacing with the CTMU's associated on-chip ADC.&nbsp;</p>
+<p class="Element10">
+The block diagram of the CTMU module is repeated here for reference. Next, we will discuss library primitives by functional group, starting with simple things such as turning the module on or off, and then proceeding to more complicated topics such as edge control.&nbsp;</p>
+<p class="Element10">
+<img src="PLIB_CTMU_Block_Diagram.png" border="0" alt="" title="">&nbsp;</p><div class="Element15">
+CTMU On/Off and Reset</div>
+<p class="Element10">
+These features are controlled by these functions: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01774');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01774"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> PLIB_CTMU_Enable ( CTMU_MODULE_ID ctmu_id )
+<strong><span style="color: #000080">void</span></strong> PLIB_CTMU_Disable ( CTMU_MODULE_ID ctmu_id )
+<strong><span style="color: #000080">void</span></strong> PLIB_CTMU_PORDefaultsRestore ( CTMU_MODULE_ID ctmu_id )</pre></div></div>
+<p class="Element10">
+The parameter ctmu_id identifies which CTMU module is referenced. Since all currently available devices only have a single CTMU, this parameter is primarily in support of future expansion.</p><div class="Element15">
+Operation in Idle Mode</div>
+<p class="Element10">
+The CTMU can stop operating in Idle mode or operate when the chip is in Idle mode depending on: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01775');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01775"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> PLIB_CTMU_StopInIdleEnable( CTMU_MODULE_ID ctmu_id )
+<strong><span style="color: #000080">void</span></strong> PLIB_CTMU_StopInIdleDisable( CTMU_MODULE_ID ctmu_id )</pre></div></div>
+<div class="Element15">
+Current Source</div>
+<p class="Element10">
+Charge pump output is controlled by a current range, and then a trim off of the nominal current of each of four current ranges.&nbsp;</p>
+<p class="Element10">
+These functions control current range and current trim: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01776');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01776"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> PLIB_CTMU_CurrentTrimSet( CTMU_MODULE_ID ctmu_id, <strong><span style="color: #000080">signed</span></strong> <strong><span style="color: #000080">short</span></strong> current_trim )
+<strong><span style="color: #000080">void</span></strong> PLIB_CTMU_CurrentRangeSet( CTMU_MODULE_ID ctmu_id, CTMU_CURRENT_RANGE current_range )</pre></div></div>
+<p class="Element10">
+Current is shut off by grounding the charge pump or manipulating the status of two trigger edges, as shown previously. Edge status can be directly controlled in software or determined by two input signals.&nbsp;</p>
+<p class="Element10">
+The charge pump is grounded or not grounded using: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01777');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01777"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> PLIB_CTMU_CurrentSourceGrounded( CTMU_MODULE_ID ctmu_id )
+<strong><span style="color: #000080">void</span></strong> PLIB_CTMU_CurrentSourceNotGrounded( CTMU_MODULE_ID ctmu_id )</pre></div></div>
+<div class="Element15">
+Edge Control</div>
+<p class="Element10">
+The CTMU can use from four to 16 different sources to provide on and off triggers for the charge pump.&nbsp;</p>
+<p class="Element10">
+How a source changes edge status is completely controlled. Edges can trigger on source signals going high-to-low or low-to-high. On some devices, source signal transitions can also trigger an edge. On these devices triggers can occur on for both high-low transitions and low-high transitions.&nbsp;</p>
+<p class="Element10">
+The CTMU can require an edge sequence, with Edge 1 triggering before Edge 2 triggers, or can respond to either Edge 1 or Edge 2 in any order.&nbsp;</p>
+<p class="Element10">
+After edge sources have caused the charge pump to start and then stop, edge status must be reset by software before the CTMU can respond to edge sources again.&nbsp;</p>
+<p class="Element10">
+All CTMU edge control functions start with &quot;PLIB_CTMU_Edge&quot;. Each type of control function is discussed in the following section.&nbsp;</p>
+<p class="Element10">
+Control of the CTMU charge pump by the edges is enabled/disabled by: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01778');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01778"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeEnable(CTMU_MODULE_ID ctmu_id)
+ <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeDisable(CTMU_MODULE_ID ctmu_id)</pre></div></div>
+<p class="Element10">
+Even with edges disabled (the default setting after POR) the charge pump can be controlled in software by setting and clearing the module's edge status bits using: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01779');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01779"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeStatusGotEdgeSet(CTMU_MODULE_ID ctmu_id, CTMU_EDGE_NUM edge_number)
+ <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeStatusNoEdgeSet(CTMU_MODULE_ID ctmu_id, CTMU_EDGE_NUM edge_number)</pre></div></div>
+<p class="Element10">
+Since there are two edges and the charge pump is turned on when the edge status is unequal, there are two ways of turning the charge pump on/off in software. The first way is to leave one edge set to its POR default (off) and to manipulate the other status. Typically, Edge 1 is modified and Edge 2 is untouched, as shown in this code example: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01780');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01780"><pre class="Element12">PLIB_CTMU_EdgeStatusGotEdgeSet( CTMU_ID_1, CTMU_Edge1 ); <i><span style="color: #008000">// Start charging button</span></i>
+<i><span style="color: #008000">// TO DO: Charge Delay</span></i>
+PLIB_CTMU_EdgeStatusNoEdgeSet( CTMU_ID_1, CTMU_Edge1 ); <i><span style="color: #008000">// Stop charging button</span></i></pre></div></div>
+<p class="Element10">
+The other way of turning the charge pump on/off in software mimics what happens when using external sources for edge signals. One edge is set to turn the charge pump on and then the other edge is set to turn the charge pump off: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01781');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01781"><pre class="Element12">PLIB_CTMU_EdgeStatusGotEdgeSet( CTMU_ID_1, CTMU_Edge1 ); <i><span style="color: #008000">// Start charging button</span></i>
+<i><span style="color: #008000">// TO DO: Charge Delay</span></i>
+PLIB_CTMU_EdgeStatusGotEdgeSet( CTMU_ID_1, CTMU_Edge2 ); <i><span style="color: #008000">// Stop charging button</span></i></pre></div></div>
+<p class="Element10">
+To reset edge status for the next measurement you must clear both edges at the same time: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01782');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01782"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeStatusNoEdgesAllSet(CTMU_MODULE_ID ctmu_id)</pre></div></div>
+<p class="Element10">
+(To use two calls to PLIB_CTMU_EdgeStatusSetNoEdge<strong> </strong> would cause the charge pump to pulse between the first call and the second call because in between the status would not be equal, thus enabling the charge pump again.)&nbsp;</p>
+<p class="Element10">
+Edges can fire based on edges (i.e., transitions) or levels (POR default): </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01783');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01783"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeModeEdgeSensitiveSet(CTMU_MODULE_ID ctmu_id, CTMU_EDGE_NUM edge_number)
+ <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeModeLevelSensitiveSet(CTMU_MODULE_ID ctmu_id, CTMU_EDGE_NUM edge_number)</pre></div></div>
+<p class="Element10">
+You can also determine whether a low-to-high change triggers an edge: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01784');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01784"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgePolarityPositiveSet(CTMU_MODULE_ID ctmu_id, CTMU_EDGE_NUM edge_number)</pre></div></div>
+<p class="Element10">
+or whether a high-to-low change triggers an edge: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01785');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01785"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgePolarityNegativeSet(CTMU_MODULE_ID ctmu_id, CTMU_EDGE_NUM edge_number)</pre></div></div>
+<p class="Element10">
+If Edge 1 turns on the charge pump and Edge 2 turns it off, you must call: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01786');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01786"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeSequenceEnable(CTMU_MODULE_ID ctmu_id)</pre></div></div>
+<p class="Element10">
+in setting up the CTMU. This feature can be disabled to reinstate the POR default behavior using: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01787');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01787"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeSequenceDisable(CTMU_MODULE_ID ctmu_id)</pre></div></div>
+<p class="Element10">
+With edge sequencing disabled, either edge can be used to control the charge pump.&nbsp;</p>
+<p class="Element10">
+Finally, the choice of signals for both edges is controlled by: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01788');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01788"><pre class="Element12"> <strong><span style="color: #000080">void</span></strong> PLIB_CTMU_EdgeSourceSelect(CTMU_MODULE_ID ctmu_id,
+ CTMU_EDGE_NUM edge_number,
+ CTMU_EDGE_SOURCE edge_source)</pre></div></div>
+<div class="Element15">
+Current Output Control</div>
+<p class="Element10">
+As shown in the previous block diagram, where the charge pump current goes is controlled by he CTMU mode as well as the edge status.&nbsp;</p>
+<p class="Element10">
+Whether the CTMU is in capacitance/time or time pulse generation mode is controlled by: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01789');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01789"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> PLIB_CTMU_TimePulseGenEnable( CTMU_MODULE_ID ctmu_id )
+<strong><span style="color: #000080">void</span></strong> PLIB_CTMU_TimePulseGenDisable( CTMU_MODULE_ID ctmu_id )</pre></div></div>
+<p class="Element10">
+As shown in the previous block diagram, when the CTMU is in capacitance/time (normal) mode the charge pump runs when Edge 1 Status != Edge 2 Status and stops when Edge 1 Status = Edge 2 Status. (Actually what happens is the charge pump switches from the ADC S&amp;<a href="13056.html">H</a> capacitor to the on-chip temperature diode (if available), but the effect is the same, charge stops flowing.) In pulse generation mode, the charge pump switches to a &quot;no<span style="color: #FFFFFF">_</span>connect&quot; when Edge 1 Status = Edge 2 Status and is connected to CTMUP when Edge 1 Status != Edge 2 Status.&nbsp;</p>
+<p class="Element10">
+The CTMU charge pump can be manually turned on by the call: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01790');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01790"><pre class="Element12">PLIB_CTMU_EdgeStatusGotEdgeSet( CTMU_ID_1, PLIB_CTMU_Edge1 );</pre></div></div>
+<p class="Element10">
+and turned off by the call: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01791');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01791"><pre class="Element12">PLIB_CTMU_EdgeStatusNoEdgeSet( CTMU_ID_1, PLIB_CTMU_Edge1 );</pre></div></div>
+<p class="Element10">
+assuming that Edge 2 status is &quot;NoEdge&quot;.</p><div class="Element15">
+Interface with the ADC</div>
+<p class="Element10">
+Absolute and relative capacitance measurements, as well as pulse timing measurements, require using the associated on-chip ADC to measure the resulting voltage across an ADC input pin. ADC conversion can be triggered by a special ADC trigger strobe signal between the CTMU and ADC modules. The ADC trigger strobe fires when the charge pump changes from running to stopped. Temperature measurements by the ADC involve switching the ADC to a special (internal) input pin attached to the voltage diode.&nbsp;</p>
+<p class="Element10">
+The ADC trigger strobe is controlled by: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01792');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01792"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> PLIB_CTMU_ADCTriggerEnable( CTMU_MODULE_ID ctmu_id )
+<strong><span style="color: #000080">void</span></strong> PLIB_CTMU_ADCTriggerDisable( CTMU_MODULE_ID ctmu_id )</pre></div></div>
+<div class="Element15">
+Power On Reset (POR) Status</div>
+<p class="Element10">
+The CTMU after a power on reset (POR) has its features configured as follows: </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01793');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01793"><pre class="Element12">PLIB_CTMU_Disable(CTMU_ID_1);              <i><span style="color: #008000">// Turn CTMU off</span></i>
+PLIB_CTMU_EdgeModeLevelSensitiveSet(CTMU_ID_1,CTMU_Edge1);
+PLIB_CTMU_EdgeModeLevelSensitiveSet(CTMU_ID_1,CTMU_Edge2);
+PLIB_CTMU_EdgePolarityNegativeSet(CTMU_ID_1,CTMU_Edge1);
+PLIB_CTMU_EdgePolarityNegativeSet(CTMU_ID_1,CTMU_Edge2);
+PLIB_CTMU_EdgeSourceSelect(CTMU_ID_1,CTMU_Edge1,CTMU_EdgeSource_0);
+PLIB_CTMU_EdgeSourceSelect(CTMU_ID_1,CTMU_Edge2,CTMU_EdgeSource_0);
+PLIB_CTMU_EdgeStatusNoEdgesAllSet(CTMU_ID_1);
+PLIB_CTMU_StopInIdleDisable(CTMU_ID_1);   <i><span style="color: #008000">// Continue CTMU operation in Idle mode</span></i>
+PLIB_CTMU_TimePulseGenDisable(CTMU_ID_1); <i><span style="color: #008000">// Capacitance/time measurement</span></i>
+PLIB_CTMU_EdgeDisable(CTMU_ID_1);         <i><span style="color: #008000">// Edges are blocked</span></i>
+PLIB_CTMU_EdgeSequenceDisable(CTMU_ID_1); <i><span style="color: #008000">// Edges can fire in any order</span></i>
+PLIB_CTMU_CurrentSourceNotGrounded(CTMU_ID_1);
+PLIB_CTMU_ADCTriggerDisable(CTMU_ID_1);
+PLIB_CTMU_CurrentTrimSet(CTMU_ID_1,0);
+PLIB_CTMU_CurrentRangeSet(CTMU_ID_1,CTMU_CurrentRangeBase_1000xBase);
+All of these functions can be accomplished by a single call to
+PLIB_CTMU_PORDefaultsRestore(CTMU_ID_1);</pre></div></div>
+<div class="Element15">
+Device-to-Device Variations</div>
+<p class="Element10">
+Some devices do not have an on-chip temperature diode.&nbsp;</p>
+<p class="Element10">
+Some devices only support edge triggering based on source signal levels rather than transitions. For these devices the function PLIB_CTMU_EdgeModeSetEdgeSensitive does not apply.&nbsp;</p>
+<p class="Element10">
+The number of possible edge sources varies from device to device. Some have only four possible sources for Edge 1 and Edge 2. Other devices support up to 16 possible sources.&nbsp;</p>
+<p class="Element10">
+Refer to the <strong>&quot;Charge Time Measurement Unit (CTMU)</strong>&quot; chapter in the specific device data sheet for more information.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17542.html">CTMU Setup</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides the CTMU setup sequence.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17544.html">Example Applications</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+Examples of CTMU applications are discussed.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07638.html">CTMU Peripheral Library</a> &gt; <a href="17554.html">Using the Library</a> &gt; <a href="17548.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CTMU How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

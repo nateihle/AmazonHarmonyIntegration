@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Hardware Abstraction Model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07638.html">CTMU Peripheral Library</a> &gt; <a href="17554.html">Using the Library</a> &gt; <a href="17547.html">Hardware Abstraction Model</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17554.html">Previous</a> | <a href="17554.html">Up</a> | <a href="17551.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CTMU Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Hardware Abstraction Model</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The following figure shows a block diagram of the CTMU module, focusing on CTMU function rather than the bits in the interface:&nbsp;</p>
+<p class="Element10">
+<img src="PLIB_CTMU_Block_Diagram.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10">
+The CTMU is built around a high precision current source (i.e., charge pump) and is closely integrated with the device's on-chip Analog-to-Digital Converter (ADC) module and an on-chip Comparator module. The ADC converts the voltage carried by the Sample and Hold (S&amp;<a href="13056.html">H</a>) capacitor into a digital number representing ADC counts. These counts can be converted into a voltage and the voltage used by the embedded application. The Comparator module associated with the CTMU can compare the voltage on an external capacitor with a known voltage and output when the voltages match. See the <a href="17544.html">Example Applications</a> section, for details of these applications.&nbsp;</p>
+<p class="Element10">
+In the previous block diagram, an analog multiplexer (MUX) controls where the charge pump sends current. This multiplexer is controlled by the CTMU's mode (Normal versus Pulse Generation) and edge status, as shown by the look-up table. In Normal mode, current is switched between the on-chip temperature sensor (<strong>CTMUT</strong> path) and the ADC's S&amp;<a href="13056.html">H</a> capacitor (<strong>CTMUI</strong> path). In the Pulse Generation mode, current is switched on and off over the <strong>CTMUP</strong> path, with the &quot;on&quot; current going to the negative input of the associated comparator and its special input pin, labeled &quot;Comparator Input/ANx&quot; in the diagram.&nbsp;</p>
+<p class="Element10">
+External triggers can be used to start and stop the charge pump using up to 16 edge sources. The charge pump is also controlled by manipulating two edge status bits in software.&nbsp;</p>
+<p class="Element10">
+The block labeled Edge Control Logic determines the edge status based on the selected edge sources and edge control settings. Basically, current is off if the edges are equal, and on if the edges are unequal. In other words, Current (on/off) = Edge 1 XOR Edge 2. Sources can trigger an edge in the control logic based on levels or transitions and can trigger going high-low or low-high. The order of edge events can be controlled, with Edge 1 always occurring before Edge 2, or edge events can occur in any order.&nbsp;</p>
+<p class="Element10">
+The <i>Ground? </i>control signal created by the CTMU Control Logic block enables the grounding of the <strong>CTMUI</strong> path, connecting the charge pump and the ADC's S&amp;<a href="13056.html">H</a> capacitor. This is done before starting any capacitance or timing measurement to make sure there is no residual charge on the ADC's Sample and Hold capacitor and on any external capacitor, such as a button. To discharge the ADC's Sample and Hold capacitor the ADC must be sampling the input voltage (i.e., the switch before the S&amp;<a href="13056.html">H</a> capacitor is closed). This is normally done by manually starting ADC sampling using the &quot;Sampling&quot; bit in one the ADC's control registers.&nbsp;</p>
+<p class="Element10">
+In Normal mode, current flows from the charge pump to the ADC via the <strong>CTMUI</strong> path. Current flows to external capacitors (such as button capacitors) through the ADC's analog input multiplexer.&nbsp;</p>
+<p class="Element10">
+The ADC input multiplexer has a special input signal, named &quot;Open&quot;, which does not<span style="color: #FFFFFF">_</span>connect<span style="color: #FFFFFF">_</span>anything to the ADC's input. This minimizes stray capacitance and provides the smallest internal capacitance for very fast time measurements.&nbsp;</p>
+<p class="Element10">
+In Pulse Generation mode, current flows directly to a special comparator/analog input pin via the <strong>CTMUP</strong> path, bypassing the ADC's input multiplexer and its approximately 2500 ohm series resistance. This extra series resistance is why the charge pump should only be calibrated in Pulse Generation mode, as shown in the block diagram. Except in the lowest current settings, this series resistance causes an error that is too large in the overall calibration resistance value to provide useable charge pump current measurements.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07638.html">CTMU Peripheral Library</a> &gt; <a href="17554.html">Using the Library</a> &gt; <a href="17547.html">Hardware Abstraction Model</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CTMU Hardware Abstraction Model Topic Title: Hardware Abstraction Model)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

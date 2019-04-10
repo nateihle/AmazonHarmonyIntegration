@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.5.1: Support an &quot;Initialize&quot; Function if Required</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07112.html">3.5.1: Support an &quot;Initialize&quot; Function if Required</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07121.html">Previous</a> | <a href="07121.html">Up</a> | <a href="07122.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support an %22Initialize%22 Function if Required Topic Title: 3.5.1: Support an %22Initialize%22 Function if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.5.1: Support an &quot;Initialize&quot; Function if Required</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Support of an &quot;Initialize&quot; function is the minimal criterion for a MPLAB Harmony library to be considered a module.&nbsp;</p>
+<p class="Element10">
+The primary purpose of the &quot;Initialize&quot; function is to place an instance of a module into its initial state and return an object handle used by the other system interface functions to access the instance of the module that was initialized. The &quot;Initialize&quot; routine must store any required data passed to it, place the module’s state machine into its initial state and return immediately (without blocking). Any initialization that may take significant time to complete must be carried out in the module's state machine.</p><div class="Element15">
+Function</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00100');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00100"><pre class="Element12">SYS_MODULE_OBJ &lt;module&gt;_Initialize( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX index,
+                                    <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> data )</pre></div></div>
+<div class="Element15">
+Summary</div>
+<p class="Element10">
+Initializes the module with data for the index instance of the <span class="Element146">&lt;module&gt;</span> module.</p><div class="Element15">
+Description</div>
+<p class="Element10">
+This routine initializes the module for the index instance of the &lt;module&gt; module, using the initialization given data, placing the module in its initial state. It will be called only once, at system initialization and will not be called again unless the system first calls the module’s &quot;Deinitialize&quot; routine, if supported.</p><div class="Element15">
+Required or Optional?</div>
+<p class="Element10">
+Optional – if the library does not require any initialization.</p><div class="Element15">
+Preconditions</div>
+<p class="Element10">
+The low-level processor and board initialization must be completed before the system will call the initialization routine for any modules.</p><div class="Element15">
+Parameters</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element67" valign="top" width="2%">
+<div class="Element68">
+index&nbsp;</div></td><td class="Element67" valign="top" width="98%">
+<div class="Element68">
+Zero-based index, identifying the instance of the module to be initialized.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="2%">
+<div class="Element68">
+data&nbsp;</div></td><td class="Element67" valign="top" width="98%">
+<div class="Element68">
+Pointer to a module implementation specific data structure.<br>Although the data type of this pointer is to a standard structure, structure actually used can (and usually will) be extended to include additional implementation-specific data as long as the first member of the structure is a <a href="23969.html">SYS_MODULE_INIT</a> structure.<br>If this pointer is NULL, then build-time configuration options must be given to override the items contained in the structure.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Returns</div>
+<p class="Element10">
+A handle to the instance of the system module that was initialized or <a href="23976.html">SYS_MODULE_OBJ_INVALID</a> if an error occurred. This handle is a necessary parameter to all of the other system-module interface routines for that module.</p><div class="Element15">
+Code Example</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00101');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00101"><pre class="Element12"><i><span style="color: #008000">// Initialize the I2C driver</span></i>
+sysObjects.i2cDriver = DRV_I2C_Initialize(I2C_ID_1, &amp;i2c_init_data);</pre></div></div>
+<div class="Element15">
+Blocking Behavior</div>
+<p class="Element10">
+This function must not block waiting for external I/O, other modules, or anything that may take significant time.</p><div class="Element15">
+Remarks</div>
+<p class="Element10">
+The &quot;Status&quot; operation will return SYS_STATUS_READY when the module is fully initialized and ready for client access.&nbsp;</p>
+<p class="Element10">
+Every module should define its own initialization data structure type named <i>&lt;module&gt;</i>_INIT, where <i>&lt;module&gt;</i> is the abbreviation identifying the module to be initialized. This structure must be an extension of the <a href="23969.html">SYS_MODULE_INIT</a> structure (i.e., its first member must be the <a href="23969.html">SYS_MODULE_INIT</a> structure or equivalent). Any parameter that can change the power state of the module must be included in the data structure.&nbsp;</p>
+<p class="Element10">
+Once the Initialize operation has been called, the Deinitialize operation must be called before the Initialize operation can be called again.&nbsp;</p>
+<p class="Element10">
+Refer to the <span class="Element146">&lt;install-dir&gt;/framework/system/common/<a href="23966.html">sys_module.h</a></span> header file or <a href="24334.html">System Service Library Introduction</a> for additional information and definitions of the additional data types used.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07121.html">3.5: Support MPLAB Harmony System Module Model When Applicable</a> &gt; <a href="07112.html">3.5.1: Support an &quot;Initialize&quot; Function if Required</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support an %22Initialize%22 Function if Required Topic Title: 3.5.1: Support an %22Initialize%22 Function if Required)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

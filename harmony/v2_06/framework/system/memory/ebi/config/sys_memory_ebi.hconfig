@@ -1,0 +1,945 @@
+enum SYS_MEMORY_EBI_MODE
+    "STATIC"
+    
+enum SYS_MEMORY_EBI_RDYPIN_SENS
+    "EDGE"
+    || "LEVEL"
+
+enum SYS_MEMORY_EBI_CS_NUM exclusive
+    "/EBICS0"
+    || "/EBICS1"
+    || "/EBICS2"
+    || "/EBICS3"
+    
+config SYS_MEMORY_EBI_SERVICE_MODE
+    string "Implementation"
+    depends on USE_SYS_MEMORY_EBI
+    range SYS_MEMORY_EBI_MODE
+    default "STATIC"
+    persistent
+
+ifblock SYS_MEMORY_EBI_SERVICE_MODE = "STATIC"
+
+menu "EBI Pin Configuration"
+	depends on USE_SYS_MEMORY_EBI
+	
+config SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG
+    string "External Memory Address Bus Width (Maximum)"
+    depends on USE_SYS_MEMORY_EBI
+    range EBI_ADDRESS_PORT
+    default "EBI_EBIADDR_PIN19"
+    ---help---
+    IDH_HTML_PLIB_EBI_AddressPinEnableBitsSet_EBI_MODULE_ID_EBI_ADDRESS_PORT
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_DATA_PINS_CONFIG
+    string "External Memory Data Bus Width (Maximum)"
+    depends on USE_SYS_MEMORY_EBI
+    range EBI_STATIC_MEMORY_WIDTH
+    default "MEMORY_WIDTH_16BIT"
+    ---help---
+    IDH_HTML_PLIB_EBI_DataEnableSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+
+config SYS_MEMORY_EBI_BYTE_SELECT_PIN0
+    bool "Use /EBIBS0 pin?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ByteSelectPinSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_BYTE_SELECT_PIN1
+    bool "Use /EBIBS1 pin?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ByteSelectPinSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_ENABLE_WE
+    bool "Enable /EBIWE?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_WriteOutputControlSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+
+config SYS_MEMORY_EBI_ENABLE_OE
+    bool "Enable /EBIOE?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_WriteOutputControlSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_USE_RDY_PINS
+    bool "Use EBIRDYx Pins?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    Select if EBIRDYx (x=1,2,3) pins are needed
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_USE_RDY1_PIN
+    bool "Use EBIRDY1 pin?"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_USE_RDY_PINS
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ReadyPin1ConfigSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_USE_RDY1_PIN_INV
+    bool "Use Inverted EBIRDY1 pin?"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_USE_RDY_PINS
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ReadyPin1ConfigSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+
+config SYS_MEMORY_EBI_USE_RDY2_PIN
+    bool "Use EBIRDY2 pin?"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_USE_RDY_PINS
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ReadyPin2ConfigSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_USE_RDY2_PIN_INV
+    bool "Use Inverted EBIRDY2 pin?"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_USE_RDY_PINS
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ReadyPin2ConfigSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_USE_RDY3_PIN
+    bool "Use EBIRDY3 pin?"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_USE_RDY_PINS
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ReadyPin3ConfigSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_USE_RDY3_PIN_INV
+    bool "Use Inverted EBIRDY3 pin?"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_USE_RDY_PINS
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_ReadyPin3ConfigSet_EBI_MODULE_ID_bool_bool
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_RDY_PIN_SENSITIVITY
+    string "Ready Pin Sensitivity"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_USE_RDY_PINS
+    range SYS_MEMORY_EBI_RDYPIN_SENS
+    default "EDGE"
+    ---help---
+    IDH_HTML_PLIB_EBI_ReadyPinSensSet_EBI_MODULE_ID_bool
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEMORY_NOR_FLASH_RP_CONFIG
+    bool "Use /EBIRP pin?"
+    depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_MEMORY_NOR_FLASH
+    default n
+    ---help---
+    IDH_HTML_PLIB_EBI_FlashResetPinSet_EBI_MODULE_ID_bool
+    ---endhelp---
+
+endmenu
+
+config SYS_MEMORY_EBI_MEMORY_NOR_FLASH
+    bool "Is External Memory an Asynchronous NOR Flash?"
+    depends on USE_SYS_MEMORY_EBI
+	default n
+	---help---
+	Select this if an Asynchronous NOR Flash is used
+	---endhelp---
+
+config SYS_MEMORY_EBI_MEMORY_NOR_FLASH_PD_MODE
+    bool "Should Flash Power-Down After Reset?"
+    depends on USE_SYS_MEMORY_EBI
+    depends on SYS_MEMORY_EBI_MEMORY_NOR_FLASH
+	default n
+	---help---
+	IDH_HTML_PLIB_EBI_FlashPowerDownModeSet_EBI_MODULE_ID_bool
+	---endhelp---
+	
+config 	SYS_MEMORY_EBI_MEMORY_NOR_FLASH_TIMING
+    int "Flash Wait Time"
+	depends on USE_SYS_MEMORY_EBI
+	depends on SYS_MEMORY_EBI_MEMORY_NOR_FLASH
+	default 0
+	---help---
+	IDH_HTML_PLIB_EBI_FlashTimingSet_EBI_MODULE_ID_int
+	---endhelp---
+    
+menu "Timing Register 0 (CS_TIMING_0) Settings"
+    depends on USE_SYS_MEMORY_EBI
+
+config SYS_MEMORY_EBI_MEM_READ_CYCLE_TIME_TMG0
+    int "Read Cycle Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 63
+    default 1
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_ADDRESS_SETUP_TIME_TMG0
+    int "Address Setup Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 3
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_ADDRESS_DATA_HOLD_TIME_TMG0
+    int "Address/Data Hold Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 3
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_MEM_WRITE_PULSE_WIDTH_TMG0
+    int "Write Pulse Width"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 63
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_DATABUS_TURNAROUND_TIME_TMG0
+    int "Data Bus Turn Around Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 7
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG0
+    bool "Is External Memory Page Aligned?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    Select if External Memory is Page Based (NOR FLASH type)
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_MEM_PAGE_MODE_TRC_TMG0
+    int "Page Mode Read Cycle Time"
+    depends on USE_SYS_MEMORY_EBI	
+    depends on SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG0
+    range 0 15
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_PAGE_SIZE_TMG0
+    string "External Flash Page Size"
+    depends on USE_SYS_MEMORY_EBI	
+    depends on SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG0
+    range EBI_PAGE_SIZE
+    default "PAGE_WORD32"
+    ---help---
+    IDH_HTML_EBI_PAGE_SIZE
+    ---endhelp---	
+
+config SYS_MEMORY_EBI_MEM_RDY_PIN_TMG0
+    bool "Does the External Memory Support RDY pin?"
+    depends on USE_SYS_MEMORY_EBI	
+    default n
+    ---help---
+    IDH_HTML_EBI_PAGE_SIZE
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_MEM_WIDTH_SET_TMG0
+    string "Memory Data Bus Width"
+	depends on USE_SYS_MEMORY_EBI
+	range EBI_STATIC_MEMORY_WIDTH
+	default "MEMORY_WIDTH_16BIT"
+    ---help---
+    IDH_HTML_EBI_STATIC_MEMORY_WIDTH
+	---endhelp---
+	
+endmenu
+
+menu "Timing Register 1 (CS_TIMING_1) Settings"
+    depends on USE_SYS_MEMORY_EBI
+
+config SYS_MEMORY_EBI_MEM_READ_CYCLE_TIME_TMG1
+    int "Read Cycle Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 63
+    default 1
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_ADDRESS_SETUP_TIME_TMG1
+    int "Address Setup Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 3
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_ADDRESS_DATA_HOLD_TIME_TMG1
+    int "Address/Data Hold Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 3
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_MEM_WRITE_PULSE_WIDTH_TMG1
+    int "Write Pulse Width"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 63
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_DATABUS_TURNAROUND_TIME_TMG1
+    int "Data Bus Turn Around Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 7
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG1
+    bool "Is External Memory Page Aligned?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    Select if External Memory is Page Based (NOR FLASH type)
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_MEM_PAGE_MODE_TRC_TMG1
+    int "Page Mode Read Cycle Time"
+    depends on USE_SYS_MEMORY_EBI	
+    depends on SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG1
+    range 0 15
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_PAGE_SIZE_TMG1
+    string "External Flash Page Size"
+    depends on USE_SYS_MEMORY_EBI	
+    depends on SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG1
+    range EBI_PAGE_SIZE
+    default "PAGE_WORD32"
+    ---help---
+    IDH_HTML_EBI_PAGE_SIZE
+    ---endhelp---	
+
+config SYS_MEMORY_EBI_MEM_RDY_PIN_TMG1
+    bool "Does the External Memory Support RDY pin?"
+    depends on USE_SYS_MEMORY_EBI	
+    default n
+    ---help---
+    IDH_HTML_EBI_PAGE_SIZE
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_MEM_WIDTH_SET_TMG1
+    string "Memory Data Bus Width"
+	depends on USE_SYS_MEMORY_EBI
+	range EBI_STATIC_MEMORY_WIDTH
+	default "MEMORY_WIDTH_16BIT"
+    ---help---
+    IDH_HTML_EBI_STATIC_MEMORY_WIDTH
+	---endhelp---
+	
+endmenu
+
+menu "Timing Register 2 (CS_TIMING_2) Settings"
+    depends on USE_SYS_MEMORY_EBI
+
+config SYS_MEMORY_EBI_MEM_READ_CYCLE_TIME_TMG2
+    int "Read Cycle Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 63
+    default 1
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_ADDRESS_SETUP_TIME_TMG2
+    int "Address Setup Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 3
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_ADDRESS_DATA_HOLD_TIME_TMG2
+    int "Address/Data Hold Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 3
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_MEM_WRITE_PULSE_WIDTH_TMG2
+    int "Write Pulse Width"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 63
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_DATABUS_TURNAROUND_TIME_TMG2
+    int "Data Bus Turn Around Time"
+    depends on USE_SYS_MEMORY_EBI
+    range 0 7
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG2
+    bool "Is External Memory Page Aligned?"
+    depends on USE_SYS_MEMORY_EBI
+    default n
+    ---help---
+    Select if External Memory is Page Based (NOR FLASH type)
+    ---endhelp---
+    
+config SYS_MEMORY_EBI_MEM_PAGE_MODE_TRC_TMG2
+    int "Page Mode Read Cycle Time"
+    depends on USE_SYS_MEMORY_EBI	
+    depends on SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG2
+    range 0 15
+    default 0
+    ---help---
+    IDH_HTML_PLIB_EBI_MemoryTimingConfigSet_EBI_MODULE_ID_int_int_int_int_int_int_int
+    ---endhelp---
+
+config SYS_MEMORY_EBI_MEM_PAGE_SIZE_TMG2
+    string "External Flash Page Size"
+    depends on USE_SYS_MEMORY_EBI	
+    depends on SYS_MEMORY_EBI_MEM_PAGE_MODE_TMG2
+    range EBI_PAGE_SIZE
+    default "PAGE_WORD32"
+    ---help---
+    IDH_HTML_EBI_PAGE_SIZE
+    ---endhelp---	
+
+config SYS_MEMORY_EBI_MEM_RDY_PIN_TMG2
+    bool "Does the External Memory Support RDY pin?"
+    depends on USE_SYS_MEMORY_EBI	
+    default n
+    ---help---
+    IDH_HTML_EBI_PAGE_SIZE
+    ---endhelp---
+	
+config SYS_MEMORY_EBI_MEM_WIDTH_SET_TMG2
+    string "Memory Data Bus Width"
+	depends on USE_SYS_MEMORY_EBI
+	range EBI_STATIC_MEMORY_WIDTH
+	default "MEMORY_WIDTH_16BIT"
+    ---help---
+    IDH_HTML_EBI_STATIC_MEMORY_WIDTH
+	---endhelp---
+
+endmenu
+
+config SYS_MEMORY_EBI_CS_NUMBER
+    int "Number of Chip Selects"
+    depends on USE_SYS_MEMORY_EBI
+    range 1 4
+    default 1
+    ---help---
+    IDH_HTML_PLIB_EBI_ChipSelectEnableSet_EBI_MODULE_ID_bool_bool_bool_bool
+    ---endhelp---
+	
+
+source "$HARMONY_VERSION_PATH/framework/system/memory/ebi/config/sys_memory_ebi_csx.ftl" 4 instances
+endif    
+
+
+config SYS_MEMORY_EBI_USE_ADDR0_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN0"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN1"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN2"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN3"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN4"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN5"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN6"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR1_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN1"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN2"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN3"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN4"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN5"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN6"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR2_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN2"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN3"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN4"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN5"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN6"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR3_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN3"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN4"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN5"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN6"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR4_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN4"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN5"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN6"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR5_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN5"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN6"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR6_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN6"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR7_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN7"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR8_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN8"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR9_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN9"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR10_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN10"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR11_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN11"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR12_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN12"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR13_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN13"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR14_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN14"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR15_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN15"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR16_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN16"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR17_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN17"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR18_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN18"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR19_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN19"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR20_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN20"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR21_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN21"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR22_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN22"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+config SYS_MEMORY_EBI_USE_ADDR23_PIN
+    bool
+    depends on USE_SYS_MEMORY_EBI
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_EBIADDR_PIN23"
+    default y if SYS_MEMORY_EBI_ADDRESS_PINS_CONFIG = "EBI_ADDR_PRESET_ALL"
+
+ifblock USE_SYS_MEMORY_EBI
+
+template EBI_STATIC_SYS_MEMORY_C_FTL "$HARMONY_VERSION_PATH/framework/system/memory/ebi/templates/sys_memory_ebi_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/system/memory/ebi/src/sys_memory_ebi_static.c"
+template EBI_STATIC_SYS_MEMORY_H_FTL "$HARMONY_VERSION_PATH/framework/system/memory/ebi/templates/sys_memory_ebi_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/system/memory/ebi/sys_memory_ebi_static.h"
+endif
+

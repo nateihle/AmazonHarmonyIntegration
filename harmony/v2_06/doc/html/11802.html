@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Static vs. Dynamic</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11787.html">Key One-to-Many Relationships</a> &gt; <a href="11802.html">Static vs. Dynamic</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11781.html">Previous</a> | <a href="11787.html">Up</a> | <a href="11799.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Static vs. Dynamic Topic Title: Static vs. Dynamic)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Static vs. Dynamic</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The techniques used to implement a dynamic driver (described previously in <a href="11781.html">Implementation vs. Instances</a>) allow one instance of a driver’s object code to manage multiple instances of a physical peripheral. However, in systems where only a single instance of a peripheral (or other resource) is used, there may be some savings in code size by utilizing a static implementation.&nbsp;</p>
+<p class="Element10">
+The primary difference between a static driver implementation and a dynamic driver implementation is that the dynamic driver uses an index or pointer variable to access its internal data and the instance of the peripheral it will use. Conversely, a static driver does this by hard-coding the peripheral instance ID directly into the driver’s source code (using a constant), as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Static Driver Implementation</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00085');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00085"><pre class="Element12"><strong><span style="color: #000080">for</span></strong> (i=0; i &lt; bufferSize; i++)
+{
+    <strong><span style="color: #000080">if</span></strong> ( PLIB_USART_TransmitterBufferIsFull(USART_ID_2) )
+    {
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        PLIB_USART_TransmitterByteSend(USART_ID_2, buffer[i]);
+    }
+}</pre></div></div>
+<p class="Element10">
+This technique saves some code size by eliminating the additional code generated to remove the reference to the pointer or index variable. Also, since the peripheral library functions are all defined as inline functions, it allows the compiler to identify the peripheral instance at compile time, instead of generating code to do so at run-time. This results in a significant reduction in generated object code size.&nbsp;</p>
+<p class="Element10">
+However, there is a drawback to this method. If a system did require multiple instances of a peripheral, this method would result in multiple copies of the driver’s object code, each directly accessing different SFRs and different variables, as shown in the following diagram. </p><p class="Element10" style="text-align: center;">
+<img src="DRVDEVGUIDE Static Driver Diagram.png" border="0" alt="" title=""></p><p class="Element10">
+Therefore, unlike a dynamic driver where a single instance of the driver’s object code manages multiple instances of the data and SFRs, each instance of a static driver requires its own SFRs, data, and object code. This drawback is not a problem if only a single instance of the peripheral is used in the system. Also, overall code size is reduced because a single instance of the object code for a static driver is smaller than a single instance of the object code for a dynamic driver (assuming both implement the exact same functionality). However, two or more instances of a static driver implementation are normally larger than a single instance of a dynamic driver implementation (again, assuming both implement the exact same functionality). This means that while it is possible to use multiple instances of a static driver, there is usually no reason to do so.&nbsp;</p>
+<p class="Element10">
+In addition, using multiple implementations of a static driver adds some complexity to the process of calling a driver, because the interface (the function names, parameters, return values, data types, etc.) must remain exactly the same when using either a static and dynamic implementation. If it does not, the source code of any application (or other client module) that uses the library would have to be changed to use the new interface. However, the functions for a static driver do not necessarily need all of the parameters and cannot have the same names as the dynamic driver, as shown by the following examples.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Dynamic Driver Functions</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00086');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00086"><pre class="Element12">SYS_MODULE_OBJ DRV_USART_Initialize ( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX drvIndex,
+                                      <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> init );
+<strong><span style="color: #000080">void</span></strong> DRV_USART_TasksTransmit ( SYS_MODULE_OBJ object );
+<strong><span style="color: #000080">void</span></strong> DRV_USART_TasksReceive (  SYS_MODULE_OBJ object );
+<strong><span style="color: #000080">void</span></strong> DRV_USART_TasksError (    SYS_MODULE_OBJ object );</pre></div></div>
+<p class="Element10">
+The previous function prototypes are part of the USART driver’s system interface. These functions are called, as shown in the <a href="11781.html">Implementation Vs. Instances</a> section. They can be called multiple times using different driver index values to initialize and run multiple instances of the driver. However, the equivalent static versions for the first two instances would be as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Static Driver Functions</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00087');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00087"><pre class="Element12"><i><span style="color: #008000">/* Static USART Driver Instance 0 functions */</span></i>
+<strong><span style="color: #000080">void</span></strong> DRV_USART0_Initialize ( <strong><span style="color: #000080">void</span></strong> );
+<strong><span style="color: #000080">void</span></strong> DRV_USART0_TasksTransmit ( <strong><span style="color: #000080">void</span></strong> );
+<strong><span style="color: #000080">void</span></strong> DRV_USART0_TasksReceive ( <strong><span style="color: #000080">void</span></strong>);
+<strong><span style="color: #000080">void</span></strong> DRV_USART0_TasksError ( <strong><span style="color: #000080">void</span></strong> );
+
+<i><span style="color: #008000">/* Static USART Driver Instance 1 functions */</span></i>
+<strong><span style="color: #000080">void</span></strong> DRV_USART1_Initialize ( <strong><span style="color: #000080">void</span></strong> );
+<strong><span style="color: #000080">void</span></strong> DRV_USART1_TasksTransmit ( <strong><span style="color: #000080">void</span></strong> );
+<strong><span style="color: #000080">void</span></strong> DRV_USART1_TasksReceive ( <strong><span style="color: #000080">void</span></strong>);
+<strong><span style="color: #000080">void</span></strong> DRV_USART1_TasksError ( <strong><span style="color: #000080">void</span></strong> );</pre></div></div>
+<p class="Element10">
+The names must be different because the driver instance number must be encoded into the name to differentiate the functions of one driver instance from the functions of another. Also, the function parameters are different because they can be hard-coded directly into the functions at build time. And, in some cases, even the return values are different because they are no longer needed.&nbsp;</p>
+<p class="Element10">
+However, client applications and modules must call the interface defined for the dynamic diver. The interface definition must match the interface of a dynamic implementation or no driver would ever be able to provide a dynamic implementation and every client would be hard-coded to a specific instance of the driver. To resolve this difference, mapping functions can be implemented, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Mapping Functions</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00088');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00088"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> DRV_USART_INDEX_0  0
+<strong><span style="color: #000080">#define</span></strong> DRV_USART_INDEX_1  1
+
+<strong><span style="color: #000080">extern</span></strong> DRV_USART_OBJ drvUsart0;
+<strong><span style="color: #000080">extern</span></strong> DRV_USART_OBJ drvUsart1;
+
+SYS_MODULE_OBJ DRV_USART_Initialize ( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX drvIndex,
+                                      <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INIT * <strong><span style="color: #000080">const</span></strong> init )
+{
+    SYS_MODULE_OBJ obj = SYS_MODULE_OBJ_INVALID;
+
+    <strong><span style="color: #000080">switch</span></strong>( drvIndex )
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_USART_INDEX_0:
+        {
+            DRV_USART0_Initialize();
+            obj = (SYS_MODULE_OBJ)drvUsart0;
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">case</span></strong> DRV_USART_INDEX_1:
+        {
+            DRV_USART1_Initialize();
+            obj = (SYS_MODULE_OBJ)drvUsart1;
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">default</span></strong>:
+        <i><span style="color: #008000">/* invalid instance. */</span></i>
+    }
+
+    <strong><span style="color: #000080">return</span></strong> obj;
+}
+
+<strong><span style="color: #000080">void</span></strong> DRV_USART_TasksTransmit ( SYS_MODULE_OBJ object )
+{
+    <strong><span style="color: #000080">switch</span></strong>( (DRV_USART_OBJ *)object )
+    {
+        <strong><span style="color: #000080">case</span></strong> &amp;drvUsart0:
+        {
+            DRV_USART0_TasksTransmit();
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">case</span></strong> &amp;drvUsart1:
+        {
+            DRV_USART1_TasksTransmit();
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">default</span></strong>:
+        <i><span style="color: #008000">/* invalid instance. */</span></i>
+    }
+}</pre></div></div>
+<p class="Element10">
+Mapping functions, such as those shown previously, can translate between the dynamic interface called by clients and the static implementation. These functions discard unneeded parameters whose values are hard-coded into the static implementation. They provide constant return values, and they translate dynamic non-instance-specific interface function names to instance-specific static function names. However, this method does add a small amount of overhead.&nbsp;</p>
+<p class="Element10">
+The mapping functions shown previously are for the system interface functions. The client interface mapping functions are a little more complex, particularly if the driver is multiple client, as explained in <a href="11799.html">Single Client vs. Multiple Client</a>.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="11786.html">Key Concepts</a> &gt; <a href="11787.html">Key One-to-Many Relationships</a> &gt; <a href="11802.html">Static vs. Dynamic</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Static vs. Dynamic Topic Title: Static vs. Dynamic)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

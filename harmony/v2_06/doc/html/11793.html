@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Multiple Client Static Drivers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11793.html">Multiple Client Static Drivers</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11801.html">Previous</a> | <a href="16810.html">Up</a> | <a href="11797.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Multiple Client Static Drivers Topic Title: Multiple Client Static Drivers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Multiple Client Static Drivers</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Supporting multiple clients also has an affect on how static drivers are implemented, particularly if mapping functions are used (see the <a href="11802.html">Static vs. Dynamic</a> section for a description of a static implementation). Other than the open function, all client interface functions require the use of an opened driver. For static implementations, this can be done the same way it is done in a dynamic implementation. The main difference is that the driver object instance is identified in the driver structure name, so the index parameter is ignored, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Static Multiple Client Open Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00171');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00171"><pre class="Element12">DRV_USART_OBJ        drvUsart0;
+DRV_USART_CLIENT_OBJ drvUsartClient[DRV_USART_CLIENTS_NUMBER];
+
+
+DRV_HANDLE DRV_USART0_Open( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX index,
+                           <strong><span style="color: #000080">const</span></strong> DRV_IO_INTENT ioIntent )
+{
+    <strong><span style="color: #000080">int</span></strong> i;
+    DRV_USART_CLIENT_OBJ pClient = (DRV_USART_CLIENT_OBJ *)DRV_HANDLE_INVALID;
+
+    <strong><span style="color: #000080">for</span></strong> (i=0; i &lt; DRV_USART_CLIENTS_NUMBER; i++)
+    {
+        <strong><span style="color: #000080">if</span></strong> (drvUsartClient[i].driver == NULL)
+        {
+            pClient = &amp;drvUsartClient[i];
+            pClient-&gt;driver = &amp;drvUsart0;
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+    }
+
+    <strong><span style="color: #000080">return</span></strong> (DRV_HANDLE)pClient;
+}</pre></div></div>
+<p class="Element10">
+If multiple static implementations are defined, the static driver’s client API mapping functions can use the driver object pointer in the client object structure to identify driver instance. The following example shows how this can be done.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Multiple Client Dynamic-to-Static Mapping Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00172');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00172"><pre class="Element12"><strong><span style="color: #000080">inline</span></strong> <strong><span style="color: #000080">void</span></strong> DRV_USART_BufferAddRead ( <strong><span style="color: #000080">const</span></strong> DRV_HANDLE handle,
+                                      DRV_USART_BUFFER_HANDLE * <strong><span style="color: #000080">const</span></strong> bufferHandle,
+                                      <strong><span style="color: #000080">void</span></strong> * buffer, <strong><span style="color: #000080">const</span></strong> size_t size )
+{
+    DRV_USART_CLIENT_OBJ *client = (DRV_USART_CLIENT_OBJ *)handle;
+
+    <strong><span style="color: #000080">switch</span></strong> (client-&gt;driver)
+    {
+        <strong><span style="color: #000080">case</span></strong> &amp;drvUsart0:
+        {
+            DRV_USART0_BufferAddRead(handle, bufferHandle, buffer, size);
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">case</span></strong> &amp;drvUsart1:
+        {
+            DRV_USART1_BufferAddRead(handle, bufferHandle, buffer, size);
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+
+        <strong><span style="color: #000080">default</span></strong>:
+        <i><span style="color: #008000">/* invalid instance. */</span></i>
+    }
+
+    <strong><span style="color: #000080">return</span></strong>;
+}</pre></div></div>
+<p class="Element10">
+However, as stated in the <a href="11802.html">Static vs. Dynamic</a> section, it normally does not make sense to implement multiple static driver instances for the same system. (If you need multiple instances of a driver, using a dynamic implementation would be more efficient.) So, if only a single instance of a static driver is implemented and if static and dynamic driver implementations are never used together in the same system (which they should not be because nothing is gained), the open function can be simplified by removing the driver object pointer altogether, as shown in the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Simplified Static Multiple Client Open Function</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00173');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00173"><pre class="Element12">DRV_USART_OBJ        drvUsart0;
+DRV_USART_CLIENT_OBJ drvUsartClient[DRV_USART_CLIENTS_NUMBER];
+
+
+DRV_HANDLE DRV_USART_Open( <strong><span style="color: #000080">const</span></strong> SYS_MODULE_INDEX index,
+                           <strong><span style="color: #000080">const</span></strong> DRV_IO_INTENT ioIntent )
+{
+    <strong><span style="color: #000080">int</span></strong> i;
+    DRV_USART_CLIENT_OBJ pClient = (DRV_USART_CLIENT_OBJ *)DRV_HANDLE_INVALID;
+
+    <strong><span style="color: #000080">for</span></strong> (i=0; i &lt; DRV_USART_CLIENTS_NUMBER; i++)
+    {
+        <strong><span style="color: #000080">if</span></strong> (drvUsartClient[i].driver == NULL)
+        {
+            pClient = &amp;drvUsartClient[i];
+            <strong><span style="color: #000080">break</span></strong>;
+        }
+    }
+
+    <strong><span style="color: #000080">return</span></strong> (DRV_HANDLE)pClient;
+}</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+If this method is used, some method of marking a client object structure as assigned to a client, like an &quot;in use&quot; Boolean flag, must be used because you cannot rely on a NULL value for the driver pointer as the indicator.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Also, the mapping function is unnecessary because there is only one mapping. Instead, the client API functions can utilize the exact same names as the dynamic driver’s client API functions (meaning both cannot be used together in the same system), as shown by the following example.&nbsp;</p>
+<p class="Element10">
+<strong>Example: Simplified Static Client API Function Implementation</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00174');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00174"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> DRV_USART_BufferAddRead ( <strong><span style="color: #000080">const</span></strong> DRV_HANDLE handle,
+                               DRV_USART_BUFFER_HANDLE * <strong><span style="color: #000080">const</span></strong> bufferHandle,
+                               <strong><span style="color: #000080">void</span></strong> * buffer, <strong><span style="color: #000080">const</span></strong> size_t size )
+{
+    DRV_USART_CLIENT_OBJ *client = (DRV_USART_CLIENT_OBJ *)handle;
+
+    <strong><span style="color: #000080">if</span></strong> (drvUsart0.buffer == NULL)
+    {
+        drvUsart0.buffer     = buffer;
+        drvUsart0.bufferSize = size;
+        bufferHandle         = buffer;
+
+        <i><span style="color: #008000">/* Start the data transfer process. */</span></i>
+
+    }
+    <strong><span style="color: #000080">else</span></strong>
+    {
+        *bufferHandle = DRV_USART_BUFFER_HANDLE_INVALID;
+    }
+
+    <strong><span style="color: #000080">return</span></strong>;
+}</pre></div></div>
+<p class="Element10">
+Notice that in this example, the client API function does not need to retrieve the driver instance structure pointer from the client object. Since there is only one driver object structure (<span class="Element146">drvUsart0</span>), it is always used. No other driver object instance is possible. When used throughout the client interface routines in a static implementation of the driver, the elimination of repeated cleared pointer references will reduce the size of the generated object code.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16810.html">MPLAB Harmony Driver Development Guide</a> &gt; <a href="11793.html">Multiple Client Static Drivers</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRVDEVGUIDE Multiple Client Static Drivers Topic Title: Multiple Client Static Drivers)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

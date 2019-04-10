@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Descriptor Table Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a> &gt; <a href="17655.html">Descriptor Table Example</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17666.html">Previous</a> | <a href="17676.html">Up</a> | <a href="17680.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Descriptor Tables Topic Title: Descriptor Table Example)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Descriptor Table Example</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02115');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02115"><pre class="Element12">
+<strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">volatile</span></strong> <strong><span style="color: #000080">struct</span></strong>
+{
+    <strong><span style="color: #000080">union</span></strong>
+    { <i><span style="color: #008000">//Common to both Receive and Transmit</span></i>
+        <strong><span style="color: #000080">struct</span></strong>
+        {
+            <strong><span style="color: #000080">unsigned</span></strong>: 7;
+            <strong><span style="color: #000080">unsigned</span></strong> EOWN: 1; <i><span style="color: #008000">//0=Software owns, 1=Ethernet Controller owns</span></i>
+            <strong><span style="color: #000080">unsigned</span></strong> NPV: 1;  <i><span style="color: #008000">//0=Next Desc follows this, 1=Next Desc pointed to by NEXT_ED</span></i>
+            <strong><span style="color: #000080">unsigned</span></strong>: 7;
+            <strong><span style="color: #000080">unsigned</span></strong> bCount: 11;
+            <strong><span style="color: #000080">unsigned</span></strong>: 3;
+            <strong><span style="color: #000080">unsigned</span></strong> EOP: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> SOP: 1;
+        };
+        uint32_t w;
+    };                       <i><span style="color: #008000">// descriptor header</span></i>
+
+    <i><span style="color: #008000">//Common to both Receive and Transmit</span></i>
+    uint8_t* pEDBuff;     <i><span style="color: #008000">// pointer to data buffer</span></i>
+
+    <strong><span style="color: #000080">union</span></strong>
+    { <i><span style="color: #008000">//This portion differs from Receive to Transmit</span></i>
+        uint64_t RX_STATUS;    <i><span style="color: #008000">//Receive Status</span></i>
+        <strong><span style="color: #000080">struct</span></strong>
+        {
+            <strong><span style="color: #000080">unsigned</span></strong> RX_PKT_CHECKSUM: 16;
+            <strong><span style="color: #000080">unsigned</span></strong>: 8;
+            <strong><span style="color: #000080">unsigned</span></strong> RXF_RSV: 8;
+            <strong><span style="color: #000080">unsigned</span></strong> RSV: 32;
+        };
+
+        uint64_t TX_STATUS;    <i><span style="color: #008000">// Transmit Status</span></i>
+        <strong><span style="color: #000080">struct</span></strong> <i><span style="color: #008000">//Transmit Struct</span></i>
+        {
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TRANSMIT_BYTE_COUNT: 16;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_COLLISION_COUNT: 4;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_CRC_ERROR: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_LENGTH_CHECK_ERROR: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_DONE: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_MULTICAST: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_BROADCAST: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_PACKET_DEFER: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_EXCESSIVE_DEFER: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_MAXIMUM_COLLISION: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_LATE_COLLISION: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_GIANT: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_UNDER_RUN: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_STATUS_VECTOR:1;
+
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TOTAL_BYTES_TX_ON_WIRE: 16;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_CONTROL_FRAME: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_PAUSE_CONTROL_FRAME: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_BACKPRESSURE_APPLIED: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_TX_VLAN_TAGGED_FRAME: 1;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_IGNORED: 4;
+            <strong><span style="color: #000080">unsigned</span></strong> TSV_USER_DEFINED: 8;
+        };
+    };                  <i><span style="color: #008000">// descriptor header</span></i>
+
+    <i><span style="color: #008000">//Common to both Receive and Transmit</span></i>
+    uint8_t* next_ed;       <i><span style="color: #008000">// next descriptor (NPV==1);</span></i>
+
+}__attribute__((__packed__)) eth_buffer_descriptor_t; <i><span style="color: #008000">// hardware RX descriptor (linked).</span></i>
+</pre></div></div>
+<p class="Element10">
+For more information on this structure, refer to the <strong>&quot;Ethernet&quot;</strong> section in the family reference manual.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="12122.html">Ethernet Peripheral Library</a> &gt; <a href="17681.html">Using the Library</a> &gt; <a href="17676.html">Sample Code</a> &gt; <a href="17655.html">Descriptor Table Example</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ETH Descriptor Tables Topic Title: Descriptor Table Example)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

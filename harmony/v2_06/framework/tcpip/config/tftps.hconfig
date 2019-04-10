@@ -1,0 +1,83 @@
+config TCPIP_USE_TFTPS_MODULE
+    bool "Use TFTP Server Module"
+    depends on USE_TCPIP_STACK && TCPIP_USE_UDP 
+	select USE_SYS_FS_NEEDED
+    default n
+    ---help---
+    
+    ---endhelp---
+
+config TCPIP_TFTP_SERVER_TMO
+    int "Number seconds for Server Timeout"
+    depends on TCPIP_USE_TFTPS_MODULE
+    default 3
+    ---help---
+    
+    ---endhelp---
+
+config TCPIP_TFTPS_CLIENT_NUMBER
+    int "Maximum Number of Client Supported "
+    depends on TCPIP_USE_TFTPS_MODULE
+    default 2
+    ---help---
+
+    ---endhelp---
+
+config TCPIP_TFTPS_RETRANSMIT_COUNT
+    int "Number of Retransmit Count"
+    depends on TCPIP_USE_TFTPS_MODULE
+    default 3
+    ---help---
+
+    ---endhelp---
+
+
+config TCPIP_TFTPS_TASK_TICK_RATE
+    int "TFTP Server Task Rate in msec"
+    depends on TCPIP_USE_TFTPS_MODULE
+    default 60
+    ---help---
+
+    ---endhelp---
+	
+config TCPIP_TFTPS_DEFAULT_FILESIZE
+    int "TFTP Client File Size Option"
+    depends on TCPIP_USE_TFTPS_MODULE
+    default 64000
+    ---help---
+    
+    ---endhelp---
+
+config TCPIP_TFTPS_DEFAULT_BLOCK_SIZE
+    int "TFTP Blocksize Option"
+    depends on TCPIP_USE_TFTPS_MODULE
+    default 512
+    ---help---
+    
+    ---endhelp---
+
+config TCPIP_TFTPS_DEFAULT_TIMEOUT
+    int "TFTP Server Timeout Option"
+    depends on TCPIP_USE_TFTPS_MODULE
+    default 3
+    ---help---
+    
+    ---endhelp---
+
+config TCPIP_TFTPS_USER_NOTIFICATION
+    bool "Enable User Notification"
+    depends on TCPIP_USE_TFTPS_MODULE
+    default n
+    ---help---
+   
+    ---endhelp---
+	
+ifblock USE_TCPIP_STACK
+file TCPIP_TFTPS_H "$HARMONY_VERSION_PATH/framework/tcpip/tftps.h" to "$PROJECT_HEADER_FILES/framework/tcpip/tftps.h"
+file TCPIP_TFTPS_MANAGER_H "$HARMONY_VERSION_PATH/framework/tcpip/src/tftps_manager.h" to "$PROJECT_HEADER_FILES/framework/tcpip/src/tftps_manager.h"
+file TCPIP_TFTPS_PRIVATE_H "$HARMONY_VERSION_PATH/framework/tcpip/src/tftps_private.h" to "$PROJECT_HEADER_FILES/framework/tcpip/src/tftps_private.h"
+endif
+
+ifblock TCPIP_USE_TFTPS_MODULE
+file TCPIP_TFTPS_C "$HARMONY_VERSION_PATH/framework/tcpip/src/tftps.c" to "$PROJECT_SOURCE_FILES/framework/tcpip/src/tftps.c"
+endif

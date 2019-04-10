@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Example - Digital Oversampling Filter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17455.html">Using the Library</a> &gt; <a href="17442.html">How the Library Works</a> &gt; <a href="17454.html">Other Functionality</a> &gt; <a href="17438.html">Example - Digital Oversampling Filter</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17454.html">Previous</a> | <a href="17454.html">Up</a> | <a href="17437.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCP Example - Digital Oversampling Filter Topic Title: Example - Digital Oversampling Filter)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Example - Digital Oversampling Filter</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Digital Oversampling filter can be used to increase resolution of the conversion result at the expense of throughput. The following example shows how two extra bits of resolution can be obtained using 16X oversampling (sixteen samples are used to create one higher resolution result). AN0 is used for the input. The sampling time for the retriggers is set to 3.5 TAD.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01586');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01586"><pre class="Element12">    int32_t result; <i><span style="color: #008000">// storage for result</span></i>
+
+    <i><span style="color: #008000">// Configure the ADC</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01587');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01587"><pre class="Element12">    <i><span style="color: #008000">// AVDD/AVSS reference, ADC clock is system clock (SYSCLK) divided by 8</span></i>
+    <i><span style="color: #008000">// No need to specify sample time for Class 2/3 inputs as they are not used.</span></i>
+    <i><span style="color: #008000">// Oversampling sample time is set to 3.5 TAD.</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01588');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01588"><pre class="Element12">    PLIB_ADCP_Configure(ADCP_ID_1,
+                        ADCP_VREF_AVDD_AVSS, <i><span style="color: #008000">// AVDD and AVSS as reference</span></i>
+                        FALSE,               <i><span style="color: #008000">// No VREF boost</span></i>
+                        FALSE,               <i><span style="color: #008000">// Do not use fractional format</span></i>
+                        FALSE,               <i><span style="color: #008000">// Do not stop in idle</span></i>
+                        ADCP_CLK_SRC_SYSCLK, <i><span style="color: #008000">// SYSCLK is the clock source</span></i>
+                        4,                   <i><span style="color: #008000">// TAD = 1/SYSCLK * 2 * 4</span></i>
+                                             <i><span style="color: #008000">// or ADC Clock = SYSCLK / (2 * 4)</span></i>
+                        2,                   <i><span style="color: #008000">// 2 + 1.5 = 3.5 TAD between</span></i>
+                                             <i><span style="color: #008000">// oversampling triggers</span></i>
+                        0,                   <i><span style="color: #008000">// No early interrupt.</span></i>
+                        0);                  <i><span style="color: #008000">// No Class 2 and 3 are used.</span></i>
+
+    <i><span style="color: #008000">// Set up the triggers</span></i>
+    <i><span style="color: #008000">// Configure AN0 for triggering from software.</span></i>
+    PLIB_ADCP_Class12TriggerConfigure(ADCP_ID_1, ADCP_CLASS12_AN0, ADCP_TRG_SRC_SOFTWARE);
+
+    <i><span style="color: #008000">// Set S&amp;H modes</span></i>
+    <i><span style="color: #008000">// Set S&amp;H 0 to use the single ended, unipolar mode</span></i>
+    PLIB_ADCP_SHModeSelect(ADCP_ID_1, ADCP_SH0, ADCP_SH_MODE_SINGLE_ENDED_UNIPOLAR);
+
+    <i><span style="color: #008000">// Configure the Oversampling Filter</span></i>
+    PLIB_ADCP_OsampDigFilterConfig(ADCP_ID_1,             <i><span style="color: #008000">// ADCP module ID</span></i>
+                                   ADCP_ODFLTR1,          <i><span style="color: #008000">// Filter ID</span></i>
+                                   ADCP_AN0,              <i><span style="color: #008000">// Oversample AN0</span></i>
+                                   ADCP_ODFLTR_16X,       <i><span style="color: #008000">// 16 x oversampling</span></i>
+                                   FALSE);                <i><span style="color: #008000">// No Global Int Enable</span></i>
+
+
+    <i><span style="color: #008000">// Enable ODFLTR0</span></i>
+    PLIB_ADCP_OsampDigFilterEnable(ADCP_ID_1, ADCP_ODFLTR1);
+
+    <i><span style="color: #008000">// Enable the ADC Module</span></i>
+    PLIB_ADCP_Enable(ADCP_ID_1);
+
+    <i><span style="color: #008000">// Wait for a ready status</span></i>
+    <strong><span style="color: #000080">while</span></strong> (!PLIB_ADCP_ModuleIsReady(ADCP_ID_1));
+
+    <strong><span style="color: #000080">while</span></strong> (1) {
+        <i><span style="color: #008000">// Initiate a trigger</span></i>
+        PLIB_ADCP_GlobalSoftwareTrigger(ADCP_ID_1);
+
+        <i><span style="color: #008000">// Wait for data to be ready</span></i>
+        <strong><span style="color: #000080">while</span></strong> (PLIB_ADCP_OsampDigFilterDataRdy(ADCP_ID_1, ADCP_ODFLTR1) == FALSE);
+
+        <i><span style="color: #008000">// get the result</span></i>
+        result = PLIB_ADCP_OsampDigFilterDataGet(ADCP_ID_1, ADCP_ODFLTR1);
+
+    }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17455.html">Using the Library</a> &gt; <a href="17442.html">How the Library Works</a> &gt; <a href="17454.html">Other Functionality</a> &gt; <a href="17438.html">Example - Digital Oversampling Filter</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCP Example - Digital Oversampling Filter Topic Title: Example - Digital Oversampling Filter)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

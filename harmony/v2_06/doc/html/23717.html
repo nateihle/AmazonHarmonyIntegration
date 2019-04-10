@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Type</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07980.html">Direct Memory Access (DMA) System Service Library</a> &gt; <a href="24283.html">Library Interface</a> &gt; d) Data Types and Constants &gt; <a href="23717.html">SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Type</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="23741.html">Previous</a> | <a href="24283.html">Up</a> | <a href="24276.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Topic Title: SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Type)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Type</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">void</span></strong> (* <strong><span style="color: #000000">SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER</span></strong>)(SYS_DMA_TRANSFER_EVENT event, SYS_DMA_CHANNEL_HANDLE handle, uintptr_t contextHandle);</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+DMA System service Transfer Event Handler Function&nbsp;</p>
+<p class="Element10">
+This data type defines a DMA System service Transfer Event Handler Function.&nbsp;</p>
+<p class="Element10">
+A DMA system service client must register an transfer event handler function of this type to receive transfer related events from the system service.&nbsp;</p>
+<p class="Element10">
+If the event is SYS_DMA_TRANSFER_EVENT_COMPLETE, this means that the data was transferred successfully. The channelHandle parameter contains the channel handle of the channel on which the transfer was processed.&nbsp;</p>
+<p class="Element10">
+If the event is SYS_DMA_TRANSFER_EVENT_ERROR, this means that the data was not transferred successfully. TThe channelHandle parameter contains the channel handle of the channel on which the transfer had failed.&nbsp;</p>
+<p class="Element10">
+The contextHandle parameter contains the context handle that was provided by the client at the time of registering the event handler. This context handle can be anything that the client consider helpful or necessary to identify the client context object associated with the channel of the system service that generated the event.&nbsp;</p>
+<p class="Element10">
+The event handler function executes in an interrupt context when DMA is setup to start operation by an interrupt trigger source. It is recommended of the application to not perform process intensive operations with in this function.</p></div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07980.html">Direct Memory Access (DMA) System Service Library</a> &gt; <a href="24283.html">Library Interface</a> &gt; d) Data Types and Constants &gt; <a href="23717.html">SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Type</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Topic Title: SYS_DMA_CHANNEL_TRANSFER_EVENT_HANDLER Type)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

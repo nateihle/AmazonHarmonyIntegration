@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17914.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17917.html">Previous</a> | <a href="17925.html">Up</a> | <a href="17922.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<strong>How the Library Works</strong>&nbsp;</p>
+<p class="Element10">
+The following topics discuss the processes involved while using a Ports module:
+<ul class="Element630">
+<li class="Element600"><a href="17922.html">Ports Control</a></li>
+<li class="Element600"><a href="17923.html">Ports Function Remap</a></li>
+<li class="Element600"><a href="17921.html">Ports Change Notification</a></li>
+<li class="Element600"><a href="17924.html">Special Considerations</a></li>
+</ul></p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17922.html">Ports Control</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Port Functions Usage:</strong>
+<ul class="Element630">
+<li class="Element600">Port Read - Ports can be read at byte/word level using <a href="20395.html">PLIB_PORTS_Read</a>, and at the bit/pin level using <a href="20385.html">PLIB_PORTS_PinGet</a></li>
+<li class="Element600">Port Write - Ports can be written to at byte/word level using <a href="20401.html">PLIB_PORTS_Write</a> and at the bit/pin level using <a href="20394.html">PLIB_PORTS_PinWrite</a>. The function <a href="20391.html">PLIB_PORTS_PinSet</a> can be used to set a specific bit/pin of a port. A mask-based PORTx write can be accomplished using the function <a href="20399.html">PLIB_PORTS_Set</a> with the appropriate mask as a parameter along with the value.</li>
+<li class="Element600">Port Clear - Ports can be cleared at byte/word level using <a href="20342.html">PLIB_PORTS_Clear</a> with appropriate mask as a parameter and at... <a href="17922.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17923.html">Ports Function Remap</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Using the PPS Feature:</strong>
+<ol class="Element630">
+<li value="1" class="Element600">Ensure that any fixed digital peripherals on the pins to be used are disabled.</li>
+<li value="2" class="Element600">Ensure that pins with analog functionality are set to Digital mode.</li>
+<li value="3" class="Element600">Enable writing to the Input/Output control register using <a href="18864.html">PLIB_DEVCON_SystemUnlock</a> and <a href="18826.html">PLIB_DEVCON_DeviceRegistersUnlock</a>.</li>
+<li value="4" class="Element600">Remap the input and/or output pins using the internal PPS module. This can be achieved with the functions <a href="20397.html">PLIB_PORTS_RemapInput</a> and <a href="20398.html">PLIB_PORTS_RemapOutput</a> with the respective parameters defined in the processor specific headers.</li>
+<li value="5" class="Element600">Lock the Input/Output control register using <a href="18864.html">PLIB_DEVCON_SystemUnlock</a> and <a href="18826.html">PLIB_DEVCON_DeviceRegistersUnlock</a>.</li>
+<li value="6" class="Element600">Configure and enable newly mapped PPS peripherals.</li>
+</ol></p><p class="Element207" style="text-align: justify;">
+<strong>Example:</strong></p><p class="Element207">
+&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17921.html">Ports Change Notification</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Change Notification Feature Usage</strong><br>1. Ensure that the change notify pin is configured as a digital input by setting the associated bit in the direction register using the <a href="20383.html">PLIB_PORTS_PinDirectionInputSet</a> or <a href="20348.html">PLIB_PORTS_DirectionInputSet</a> functions.<br>2. Select the desired change notification pin using <a href="20379.html">PLIB_PORTS_PinChangeNoticeEnable</a>.<br>3. Turn on the weak pull-up devices (if desired) for the selected change notification pins using <a href="20327.html">PLIB_PORTS_ChangeNoticePullUpEnable</a> (weak pull-ups can be disabled using <a href="20326.html">PLIB_PORTS_ChangeNoticePullUpDisable</a>).<br>4. Clear the selected change notification interrupt flag.<br>5. Select the desired interrupt priority for change notification pin.<br>6. Enable change notification interrupts.<br>7. Change notification can be disabled after the successful usage... <a href="17921.html">more</a>&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="17924.html">Special Considerations</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+<strong>Considerations on Ports Usage</strong><br>When reading a port register, all pins configured as analog input channels will read as cleared.<br>Pins configured as digital inputs will not operate correctly with analog peripherals. Analog levels on any pin that is defined as a digital input may cause the input buffer of analog peripherals to consume current that exceeds the device specifications.<br>Pull-ups and pull-downs on change notification pins should always be disabled when the port pin is configured as a digital output.<br>One instruction cycle is required between a port direction change or port write operation and a read operation of... <a href="17924.html">more</a>&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="21622.html">Ports Peripheral Library</a> &gt; <a href="17925.html">Using the Library</a> &gt; <a href="17914.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB PORTS How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

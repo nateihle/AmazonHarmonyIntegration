@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>3.6.3: Support Driver &quot;Close&quot; Function</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07087.html">3.6: Drivers Use Driver-Client Model</a> &gt; <a href="07116.html">3.6.3: Support Driver &quot;Close&quot; Function</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07118.html">Previous</a> | <a href="07087.html">Up</a> | <a href="07139.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Driver %22Close%22 Function Topic Title: 3.6.3: Support Driver %22Close%22 Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+3.6.3: Support Driver &quot;Close&quot; Function</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The purpose of the driver &quot;Close&quot; function is to allow a client module to release an opened link to a driver module, freeing any allocated resources and making the link available to other modules.&nbsp;</p>
+<p class="Element10">
+Simple drivers might not support this operation if they are normally never closed without a complete system reset.</p><div class="Element15">
+Function</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00109');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00109"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> DRV_&lt;module&gt;_Close ( <strong><span style="color: #000080">const</span></strong> DRV_HANDLE handle )</pre></div></div>
+<div class="Element15">
+Summary</div>
+<p class="Element10">
+Closes an opened-instance of a driver.</p><div class="Element15">
+Description</div>
+<p class="Element10">
+This routine closes an opened-instance of a driver, invalidating the given handle and freeing any allocated resources.</p><div class="Element15">
+Required or Optional?</div>
+<p class="Element10">
+Optional – Not required if the driver is designed to never be closed.</p><div class="Element15">
+Preconditions</div>
+<p class="Element10">
+The driver module’s &quot;Initialize&quot; operation must have completed (meaning that the DRV_&lt;module&gt;_Status routine should have returned SYS_STATUS_READY (or greater)) and the driver’s &quot;Open&quot; routine must have returned a valid device handle.</p><div class="Element15">
+Parameters</div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="8%" style="border:none;">
+<div class="Element68">
+handle&nbsp;</div></td><td class="Element67" valign="top" width="92%" style="border:none;">
+<div class="Element68">
+A valid open-instance handle, returned from the driver’s open routine&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Returns</div>
+<p class="Element10">
+None.</p><div class="Element15">
+Code Example</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00110');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00110"><pre class="Element12"><i><span style="color: #008000">// Close the driver</span></i>
+DRV_I2C_Close(handle);</pre></div></div>
+<div class="Element15">
+Blocking Behavior</div>
+<p class="Element10">
+This routine can block until all pending driver operations have completed if the driver was appropriately configured and built and if the system is OS-based. Otherwise, it must not block.</p><div class="Element15">
+Remarks</div>
+<p class="Element10">
+Once this routine has been called, the given handle will become invalid.&nbsp;</p>
+<p class="Element10">
+In non-blocking configurations, a closed driver may go into a &quot;zombie&quot; mode until the driver’s state machine has finished closing out any ongoing client operations. In &quot;zombie&quot; mode, a client may continue to use the handle only to call a driver’s ClientStatus routine (if supported). When the client link has been successfully closed, the ClientStatus routine will return the DRV_CLIENT_STATUS_CLOSED value from the <a href="09746.html">DRV_CLIENT_STATUS</a> enumeration.&nbsp;</p>
+<p class="Element10">
+Refer to the <span class="Element146">&lt;install-dir&gt;/framework/driver/<a href="08266.html">driver_common.h</a></span> header file or the <a href="08451.html">Driver Library Introduction</a> for additional information and definitions of the additional data types used.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="13064.html">Volume IV: MPLAB Harmony Development</a> &gt; <a href="16808.html">MPLAB Harmony Compatibility Guide</a> &gt; <a href="07096.html">3: Modularity Guidelines</a> &gt; <a href="07087.html">3.6: Drivers Use Driver-Client Model</a> &gt; <a href="07116.html">3.6.3: Support Driver &quot;Close&quot; Function</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: COMPGUIDE Support Driver %22Close%22 Function Topic Title: 3.6.3: Support Driver %22Close%22 Function)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

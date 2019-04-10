@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Example - Channel Scanning</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17455.html">Using the Library</a> &gt; <a href="17442.html">How the Library Works</a> &gt; <a href="17434.html">Core Functionality</a> &gt; <a href="17436.html">Example - Channel Scanning</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17439.html">Previous</a> | <a href="17434.html">Up</a> | <a href="17454.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCP Example - Channel Scanning Topic Title: Example - Channel Scanning)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Example - Channel Scanning</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Channel scanning is used in applications where precise timing of the sample to an external source is not needed. Channel scanning allows a large number of analog inputs to be sampled and converted in sequence each time a single trigger occurs. The following example illustrates how to configure channel scanning of multiple Class 2 and Class 3 inputs using the shared S&amp;<a href="13056.html">H</a>. This example uses inputs AN5, AN11 - AN14. AN5 and AN11 are Class 2 inputs. AN13 and AN 14 are Class 3 inputs. The global software trigger is used to initiate the scan. A 4 TAD sample time is specified for the shared S&amp;<a href="13056.html">H</a>. The shared S&amp;<a href="13056.html">H</a> is configured for single-ended operation and a unipolar output. No interrupts are used so the results are polled for ready status.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01581');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01581"><pre class="Element12">    int32_t results[5] ;  <i><span style="color: #008000">// storage for results</span></i>
+
+    <i><span style="color: #008000">// This structure is used to simplify testing of the ready status</span></i>
+    AN_READY anReady ;
+
+    <i><span style="color: #008000">// This structure is used to simplify specifying channels for scan</span></i>
+    <i><span style="color: #008000">// AN5, AN11, AN12, AN13 and AN14 are selected for scanning.</span></i>
+    AN_SELECT anSelect ;
+    anSelect.highWord = 0 ;
+    anSelect.lowWord = 0 ;
+    anSelect.AN5 = 1 ;
+    anSelect.AN11 = 1 ;
+    anSelect.AN12 = 1 ;
+    anSelect.AN13 = 1 ;
+    anSelect.AN14 = 1 ;
+
+    <i><span style="color: #008000">// Configure the ADC</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01582');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01582"><pre class="Element12">    <i><span style="color: #008000">// AVDD/AVSS reference, ADC clock is system clock (SYSCLK) divided by 8</span></i>
+    <i><span style="color: #008000">// The sample for the shared S&amp;H must be adequate for all inputs.</span></i>
+    <i><span style="color: #008000">// In this example it is set to 4 TAD.</span></i>
+    <i><span style="color: #008000">// No need to specify sample time for oversampling as it is not used.</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01583');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01583"><pre class="Element12">    PLIB_ADCP_Configure ( ADCP_ID_1 ,
+                          ADCP_VREF_AVDD_AVSS ,    <i><span style="color: #008000">// AVDD and AVSS as reference</span></i>
+                          FALSE ,                  <i><span style="color: #008000">// No VREF boost</span></i>
+                          FALSE ,                  <i><span style="color: #008000">// Do not use fractional format</span></i>
+                          FALSE ,                  <i><span style="color: #008000">// Do not stop in idle</span></i>
+                          ADCP_CLK_SRC_SYSCLK ,    <i><span style="color: #008000">// SYSCLK is the clock source</span></i>
+                          4 ,                      <i><span style="color: #008000">// TAD = 1/SYSCLK * 2 * 4</span></i>
+                                                   <i><span style="color: #008000">// or ADC Clock = SYSCLK / (2 * 4)</span></i>
+                          0 ,                      <i><span style="color: #008000">// Oversampling is not used.</span></i>
+                          0 ,                      <i><span style="color: #008000">// No early interrupt.</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01584');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01584"><pre class="Element12">                          3 ) ;                    <i><span style="color: #008000">// 3 + 1 = 4 TAD for Class 2 and 3</span></i>
+                                                   <i><span style="color: #008000">// Sample Time.</span></i></pre></div></div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01585');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01585"><pre class="Element12">
+    <i><span style="color: #008000">// Specify the inputs to include in the Channel Scan using the selections made when</span></i>
+    <i><span style="color: #008000">// initializing anSelect.  Use the software trigger to initiate the scan.</span></i>
+    PLIB_ADCP_ChannelScanConfigure ( ADCP_ID_1 ,
+                                     anSelect.lowWord , anSelect.highWord ,
+                                     ADCP_SCAN_TRG_SRC_SOFTWARE ) ;
+
+    <i><span style="color: #008000">// Set S&amp;H 5 (shared S&amp;H) to use the single ended, unipolar mode</span></i>
+    PLIB_ADCP_SHModeSelect ( ADCP_ID_1 , ADCP_SH5 , ADCP_SH_MODE_SINGLE_ENDED_UNIPOLAR ) ;
+
+    <i><span style="color: #008000">// Enable the ADC Module</span></i>
+    PLIB_ADCP_Enable ( ADCP_ID_1 ) ;
+
+    <i><span style="color: #008000">// Wait for a ready status</span></i>
+    <strong><span style="color: #000080">while</span></strong> (!PLIB_ADCP_ModuleIsReady ( ADCP_ID_1 )) ;
+
+    <strong><span style="color: #000080">while</span></strong> (1)
+    {
+        <i><span style="color: #008000">// Initiate a trigger</span></i>
+        PLIB_ADCP_GlobalSoftwareTrigger ( ADCP_ID_1 ) ;
+
+        <i><span style="color: #008000">// Wait for a data results to be ready</span></i>
+        <i><span style="color: #008000">// if lowest priority channel is done then all are done.</span></i>
+        <strong><span style="color: #000080">do</span></strong>
+        {
+            anReady = PLIB_ADCP_ResultReady ( ADCP_ID_1 ) ;
+        }
+        <strong><span style="color: #000080">while</span></strong> (anReady.AN14 == 0) ;
+
+        <i><span style="color: #008000">// fetch AN5</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN5 == 1)
+            results[0] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN5 ) ;
+
+        <i><span style="color: #008000">// fetch AN11</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN11 == 1)
+            results[1] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN11 ) ;
+
+        <i><span style="color: #008000">// fetch AN12</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN12 == 1)
+            results[2] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN12 ) ;
+
+        <i><span style="color: #008000">// fetch AN13</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN13 == 1)
+            results[3] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN13 ) ;
+
+        <i><span style="color: #008000">// fetch AN14</span></i>
+        <strong><span style="color: #000080">if</span></strong> (anReady.AN14 == 1)
+            results[4] = PLIB_ADCP_ResultGet ( ADCP_ID_1 , ADCP_AN14 ) ;
+    }</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="03087.html">ADCP Peripheral Library</a> &gt; <a href="17455.html">Using the Library</a> &gt; <a href="17442.html">How the Library Works</a> &gt; <a href="17434.html">Core Functionality</a> &gt; <a href="17436.html">Example - Channel Scanning</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB ADCP Example - Channel Scanning Topic Title: Example - Channel Scanning)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

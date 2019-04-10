@@ -1,0 +1,910 @@
+#Created by proc_hconfig_gen $Revision: 1.00 
+
+config FAMILY
+	bool
+	select PIC32WK
+	select HAVE_JTAG
+	select NO_CRYPTO
+	default y
+
+enum DEVCFG_TDOEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_TROEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_JTAGEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_USBSSEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_PGLOCK
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_PMDLOCK
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_IOLOCK
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_CFGLOCK
+	 "ON"
+	 || "ON_W"
+	 || "OFF"
+
+enum DEVCFG_OC_ACLK
+	 "OCMP_ALT_TMR"
+	 || "OCMP_TMR2_TMR3"
+
+enum DEVCFG_IC_ACLK
+	 "ICAP_ALT_TMR"
+	 || "ICAP_TMR2_TMR3"
+
+enum DEVCFG_EPGMCLK
+	 "TSTFRC"
+	 || "FRC"
+
+enum DEVCFG_DEBUG
+	 "JTAG"
+	 || "JTAG_ICD"
+	 || "EMUC"
+	 || "EMUC_ICD"
+
+enum DEVCFG_ICESEL
+	 "ICS_PGx1"
+	 || "ICS_PGx2"
+	 || "ICS_PGx3"
+	 || "ICS_PGx4"
+
+enum DEVCFG_TRCEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_SMCLR
+	 "MCLR_NORM"
+	 || "MCLR_POR"
+
+enum DEVCFG_HSUARTEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_CLASSBDIS
+	 "ENABLE"
+	 || "DISABLE"
+
+enum DEVCFG_USBIDIO
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_VBUSIO
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_WDTPSS
+	 "PSS1048576"
+	 || "PSS524288"
+	 || "PSS262144"
+	 || "PSS131072"
+	 || "PSS65536"
+	 || "PSS32768"
+	 || "PSS16384"
+	 || "PSS8192"
+	 || "PSS4096"
+	 || "PSS2048"
+	 || "PSS1024"
+	 || "PSS512"
+	 || "PSS256"
+	 || "PSS128"
+	 || "PSS64"
+	 || "PSS32"
+	 || "PSS16"
+	 || "PSS8"
+	 || "PSS4"
+	 || "PSS2"
+	 || "PSS1"
+
+enum DEVCFG_DMTINTV
+	 "WIN_0"
+	 || "WIN_1_2"
+	 || "WIN_3_4"
+	 || "WIN_7_8"
+	 || "WIN_15_16"
+	 || "WIN_31_32"
+	 || "WIN_63_64"
+	 || "WIN_127_128"
+
+enum DEVCFG_LPOSCEN
+	 "LPOSCE"
+	 || "LPOSCD"
+
+enum DEVCFG_POSCMOD
+	 "OFF"
+	 || "HS"
+
+enum DEVCFG_SOSCSEL
+	 "CRYSTAL"
+	 || "DIGITAL"
+
+enum DEVCFG_CKSWEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_FSCMEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_WDTPSR
+	 "PSR1048576"
+	 || "PSR524288"
+	 || "PSR262144"
+	 || "PSR131072"
+	 || "PSR65536"
+	 || "PSR32768"
+	 || "PSR16384"
+	 || "PSR8192"
+	 || "PSR4096"
+	 || "PSR2048"
+	 || "PSR1024"
+	 || "PSR512"
+	 || "PSR256"
+	 || "PSR128"
+	 || "PSR64"
+	 || "PSR32"
+	 || "PSR16"
+	 || "PSR8"
+	 || "PSR4"
+	 || "PSR2"
+	 || "PSR1"
+
+enum DEVCFG_WDTSPGM
+	 "STOP"
+	 || "RUN"
+
+enum DEVCFG_WINDIS
+	 "NORMAL"
+	 || "WINDOW"
+
+enum DEVCFG_WDT_EN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_WINSZ
+	 "WINSZ_75"
+	 || "WINSZ_50"
+	 || "WINSZ_37"
+	 || "WINSZ_25"
+
+enum DEVCFG_DMTCNT
+	 "DMT8"
+	 || "DMT9"
+	 || "DMT10"
+	 || "DMT11"
+	 || "DMT12"
+	 || "DMT13"
+	 || "DMT14"
+	 || "DMT15"
+	 || "DMT16"
+	 || "DMT17"
+	 || "DMT18"
+	 || "DMT19"
+	 || "DMT20"
+	 || "DMT21"
+	 || "DMT22"
+	 || "DMT23"
+	 || "DMT24"
+	 || "DMT25"
+	 || "DMT26"
+	 || "DMT27"
+	 || "DMT28"
+	 || "DMT29"
+	 || "DMT30"
+	 || "DMT31"
+
+enum DEVCFG_DMT_EN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_CPN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_BOOTSEL
+	 "IPF"
+	 || "EXTF"
+
+menu "DEVCFG0"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config TDOEN
+	string "TDO enable for 2-wire JTAG (TDOEN)"
+	range DEVCFG_TDOEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config TROEN
+	string "Trace Output Enable (TROEN)"
+	range DEVCFG_TROEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config JTAGEN
+	string "JTAG Enable (JTAGEN)"
+	range DEVCFG_JTAGEN
+	default "ON"
+	set SYS_DEVCON_USE_JTAG_NEEDED to "ON" if JTAGEN = "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config USBSSEN
+	string "USB Suspend Sleep Enable (USBSSEN)"
+	range DEVCFG_USBSSEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config PGLOCK
+	string "Permission Group LOCK (PGLOCK)"
+	range DEVCFG_PGLOCK
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config PMDLOCK
+	string "Peripheral Module Disable (PMD) LOCK (PMDLOCK)"
+	range DEVCFG_PMDLOCK
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config IOLOCK
+	string "IO LOCK (IOLOCK)"
+	range DEVCFG_IOLOCK
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config CFGLOCK
+	string "Configuration Register Lock (CFGLOCK)"
+	range DEVCFG_CFGLOCK
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config OC_ACLK
+	string "OCMP Alternate Clock Selection (OC_ACLK)"
+	range DEVCFG_OC_ACLK
+	default "OCMP_ALT_TMR"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config IC_ACLK
+	string "ICAP Alternate Clock Selection (IC_ACLK)"
+	range DEVCFG_IC_ACLK
+	default "ICAP_ALT_TMR"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config EPGMCLK
+	string "External Programming Clock enable (EPGMCLK)"
+	range DEVCFG_EPGMCLK
+	default "TSTFRC"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG1"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config DEBUG
+	string "Background Debugger Access Selection (DEBUG)"
+	range DEVCFG_DEBUG
+	default "JTAG"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config ICESEL
+	string "EMUC/EMUD Communication Channel Select (ICESEL)"
+	range DEVCFG_ICESEL
+	default "ICS_PGx1"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config TRCEN
+	string "Trace Enable (TRCEN)"
+	range DEVCFG_TRCEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config SMCLR
+	string "Selects CRU handling of MCLR Control (SMCLR)"
+	range DEVCFG_SMCLR
+	default "MCLR_NORM"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config HSUARTEN
+	string "UART1 High Speed Mode Enable (HSUARTEN)"
+	range DEVCFG_HSUARTEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config CLASSBDIS
+	string "Disable CLASSB Device Functionality (CLASSBDIS)"
+	range DEVCFG_CLASSBDIS
+	default "DISABLE"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config USBIDIO
+	string "USB USBID Selection bit (USBIDIO)"
+	range DEVCFG_USBIDIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config VBUSIO
+	string "USB VBUS_ON Selection bit (VBUSIO)"
+	range DEVCFG_VBUSIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config WDTPSS
+	string "Watchdog Timer Post-scale Select Sleep bits (WDTPSS)"
+	range DEVCFG_WDTPSS
+	default "PSS1048576"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG2"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config DMTINTV
+	string "Dead Man Timer Count Window Interval bits (DMTINTV)"
+	range DEVCFG_DMTINTV
+	default "WIN_127_128"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config LPOSCEN
+	string "Low Power (Secondary) Oscillator Enable bit (LPOSCEN)"
+	range DEVCFG_LPOSCEN
+	default "LPOSCE"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config POSCMOD
+	string "Primary Oscillator Configuration bits (POSCMOD)"
+	range DEVCFG_POSCMOD
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config SOSCSEL
+	string "SOSC Selection Configuration bit (SOSCSEL)"
+	range DEVCFG_SOSCSEL
+	default "CRYSTAL"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config CKSWEN
+	string "Software Clock Switching Enable (CKSWEN)"
+	range DEVCFG_CKSWEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config FSCMEN
+	string "Fail-Safe Clock Monitor Enable (FSCMEN)"
+	range DEVCFG_FSCMEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config WDTPSR
+	string "Watchdog Timer Post-scale Select Run bits (WDTPSR)"
+	range DEVCFG_WDTPSR
+	default "PSR1048576"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config WDTSPGM
+	string "Watchdog Timer Stop during Flash Programming bit (WDTSPGM)"
+	range DEVCFG_WDTSPGM
+	default "STOP"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config WINDIS
+	string "Windowed Watchdog Timer Disable bit (WINDIS)"
+	range DEVCFG_WINDIS
+	default "NORMAL"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config WDT_EN
+	string "Watchdog Timer Enable bit (WDT_EN)"
+	range DEVCFG_WDT_EN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config WINSZ
+	string "Watchdog Timer Window Size bits (WINSZ)"
+	range DEVCFG_WINSZ
+	default "WINSZ_25"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config DMTCNT
+	string "Dead Man Timer Count Select bits (DMTCNT)"
+	range DEVCFG_DMTCNT
+	default "DMT31"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config DMT_EN
+	string "Dead Man Timer Enable bit (DMT_EN)"
+	range DEVCFG_DMT_EN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG3"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config USER_ID
+	hex "User unique ID, readable using the JTAG USER_ID instruction (USER_ID)"
+	default 0x3ff
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG4"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+config CPN
+config BOOTSEL
+	string "Boot Source Select (BOOTSEL)"
+	range DEVCFG_BOOTSEL
+	default "EXTF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32WK2057GPD132
+	---endhelp---
+
+endmenu
+
+
+config FMIIEN
+	string
+
+config FETHIO
+	string
+	
+config BOOT_ADDR_SIZE
+	string
+	
+config INT_VECT_CORE_TIMER
+	string
+	default "0"
+config INT_VECT_CORE_SOFTWARE_0
+	string
+	default "1"
+config INT_VECT_CORE_SOFTWARE_1
+	string
+	default "2"
+config INT_VECT_EXTERNAL_0
+	string
+	default "3"
+config INT_VECT_TIMER_1
+	string
+	default "4"
+config INT_VECT_INPUT_CAPTURE_1_ERROR
+	string
+	default "5"
+config INT_VECT_INPUT_CAPTURE_1
+	string
+	default "6"
+config INT_VECT_OUTPUT_COMPARE_1
+	string
+	default "7"
+config INT_VECT_EXTERNAL_1
+	string
+	default "8"
+config INT_VECT_TIMER_2
+	string
+	default "9"
+config INT_VECT_INPUT_CAPTURE_2_ERROR
+	string
+	default "10"
+config INT_VECT_INPUT_CAPTURE_2
+	string
+	default "11"
+config INT_VECT_OUTPUT_COMPARE_2
+	string
+	default "12"
+config INT_VECT_EXTERNAL_2
+	string
+	default "13"
+config INT_VECT_TIMER_3
+	string
+	default "14"
+config INT_VECT_INPUT_CAPTURE_3_ERROR
+	string
+	default "15"
+config INT_VECT_INPUT_CAPTURE_3
+	string
+	default "16"
+config INT_VECT_OUTPUT_COMPARE_3
+	string
+	default "17"
+config INT_VECT_EXTERNAL_3
+	string
+	default "18"
+config INT_VECT_TIMER_4
+	string
+	default "19"
+config INT_VECT_INPUT_CAPTURE_4_ERROR
+	string
+	default "20"
+config INT_VECT_INPUT_CAPTURE_4
+	string
+	default "21"
+config INT_VECT_OUTPUT_COMPARE_4
+	string
+	default "22"
+config INT_VECT_EXTERNAL_4
+	string
+	default "23"
+config INT_VECT_TIMER_5
+	string
+	default "24"
+config INT_VECT_SPI0_FAULT
+	string
+	default "25"
+config INT_VECT_SPI0_RX
+	string
+	default "26"
+config INT_VECT_SPI0_TX
+	string
+	default "27"
+config INT_VECT_CTR1_EVENT
+	string
+	default "28"
+config INT_VECT_CTR1_TRG
+	string
+	default "29"
+config INT_VECT_OTP_DONE
+	string
+	default "30"
+config INT_VECT_OTP_FAULT
+	string
+	default "31"
+config INT_VECT_RTCC
+	string
+	default "32"
+config INT_VECT_USB
+	string
+	default "34"
+config INT_VECT_SPI1_FAULT
+	string
+	default "35"
+config INT_VECT_SPI1_RX
+	string
+	default "36"
+config INT_VECT_SPI1_TX
+	string
+	default "37"
+config INT_VECT_UART1_FAULT
+	string
+	default "38"
+config INT_VECT_UART1_RX
+	string
+	default "39"
+config INT_VECT_UART1_TX
+	string
+	default "40"
+config INT_VECT_I2C1_BUS
+	string
+	default "41"
+config INT_VECT_I2C1_SLAVE
+	string
+	default "42"
+config INT_VECT_I2C1_MASTER
+	string
+	default "43"
+config INT_VECT_CHANGE_NOTICE_A
+	string
+	default "44"
+config INT_VECT_CHANGE_NOTICE_B
+	string
+	default "45"
+config INT_VECT_CHANGE_NOTICE_C
+	string
+	default "46"
+config INT_VECT_CHANGE_NOTICE_K
+	string
+	default "47"
+config INT_VECT_SPI2_FAULT
+	string
+	default "53"
+config INT_VECT_SPI2_RX
+	string
+	default "54"
+config INT_VECT_SPI2_TX
+	string
+	default "55"
+config INT_VECT_UART2_FAULT
+	string
+	default "56"
+config INT_VECT_UART2_RX
+	string
+	default "57"
+config INT_VECT_UART2_TX
+	string
+	default "58"
+config INT_VECT_I2C2_BUS
+	string
+	default "59"
+config INT_VECT_I2C2_SLAVE
+	string
+	default "60"
+config INT_VECT_I2C2_MASTER
+	string
+	default "61"
+config INT_VECT_DMA0
+	string
+	default "68"
+config INT_VECT_DMA1
+	string
+	default "69"
+config INT_VECT_DMA2
+	string
+	default "70"
+config INT_VECT_DMA3
+	string
+	default "71"
+config INT_VECT_DMA4
+	string
+	default "72"
+config INT_VECT_DMA5
+	string
+	default "73"
+config INT_VECT_DMA6
+	string
+	default "74"
+config INT_VECT_DMA7
+	string
+	default "75"
+config INT_VECT_TIMER_6
+	string
+	default "76"
+config INT_VECT_TIMER_7
+	string
+	default "80"
+config INT_VECT_RFMAC
+	string
+	default "84"
+config INT_VECT_RFSNIF
+	string
+	default "85"
+config INT_VECT_RFTM0
+	string
+	default "86"
+config INT_VECT_RFTM1
+	string
+	default "87"
+config INT_VECT_RFTM2
+	string
+	default "88"
+config INT_VECT_RFTM3
+	string
+	default "89"
+config INT_VECT_RFARB
+	string
+	default "90"
+config INT_VECT_RFWCOE
+	string
+	default "91"
+config INT_VECT_ADC
+	string
+	default "92"
+config INT_VECT_ADC_DC1
+	string
+	default "94"
+config INT_VECT_ADC_DC2
+	string
+	default "95"
+config INT_VECT_ADC_DF1
+	string
+	default "96"
+config INT_VECT_ADC_DF2
+	string
+	default "97"
+config INT_VECT_ADC_FAULT
+	string
+	default "100"
+config INT_VECT_ADC_EOS
+	string
+	default "101"
+config INT_VECT_ADC_ARDY
+	string
+	default "102"
+config INT_VECT_ADC_URDY
+	string
+	default "103"
+config INT_VECT_ADC_DMA
+	string
+	default "104"
+config INT_VECT_ADC_DATA0
+	string
+	default "106"
+config INT_VECT_ADC_DATA1
+	string
+	default "107"
+config INT_VECT_ADC_DATA2
+	string
+	default "108"
+config INT_VECT_ADC_DATA3
+	string
+	default "109"
+config INT_VECT_ADC_DATA4
+	string
+	default "110"
+config INT_VECT_ADC_DATA5
+	string
+	default "111"
+config INT_VECT_ADC_DATA6
+	string
+	default "112"
+config INT_VECT_ADC_DATA7
+	string
+	default "113"
+config INT_VECT_ADC_DATA8
+	string
+	default "114"
+config INT_VECT_ADC_DATA9
+	string
+	default "115"
+config INT_VECT_ADC_DATA10
+	string
+	default "116"
+config INT_VECT_ADC_DATA11
+	string
+	default "117"
+config INT_VECT_ADC_DATA12
+	string
+	default "118"
+config INT_VECT_ADC_DATA13
+	string
+	default "119"
+config INT_VECT_ADC_DATA14
+	string
+	default "120"
+config INT_VECT_ADC_DATA15
+	string
+	default "121"
+config INT_VECT_ADC_DATA16
+	string
+	default "122"
+config INT_VECT_ADC_DATA17
+	string
+	default "123"
+config INT_VECT_ADC_DATA18
+	string
+	default "124"
+config INT_VECT_ADC_DATA19
+	string
+	default "125"
+config INT_VECT_CAN1
+	string
+	default "142"
+config INT_VECT_SQI1
+	string
+	default "150"
+config INT_VECT_PTG0_STEP
+	string
+	default "152"
+config INT_VECT_PTG0_WDT
+	string
+	default "153"
+config INT_VECT_PTG0_TRG0
+	string
+	default "154"
+config INT_VECT_PTG0_TRG1
+	string
+	default "155"
+config INT_VECT_PTG0_TRG2
+	string
+	default "156"
+config INT_VECT_PTG0_TRG3
+	string
+	default "157"
+config INT_VECT_MPUPC
+	string
+	default "162"
+config INT_VECT_FDC
+	string
+	default "163"
+
+config CODE_ADDR_START
+	string
+	default "0x00000000"
+config CODE_ADDR_END
+	string
+	default "0x00080000"
+config CODE_ADDR_SIZE
+	string
+	default "0x80000"
+
+config DATA_ADDR_START
+	string
+	default "0x00080000"
+config DATA_ADDR_END
+	string
+	default "0x00090000"
+config DATA_ADDR_SIZE
+	string
+	default "0x10000"

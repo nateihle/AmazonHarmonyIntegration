@@ -1,0 +1,85 @@
+ifblock BSP_PIC32MZ_EC_PIM_BT_AUDIO_DK
+
+menu "Select BSP Features"
+    depends on USE_BSP
+    depends on BSP_PIC32MZ_EC_PIM_BT_AUDIO_DK
+
+config BSP_CONFIGURE_PIC32MZ_EC_PIM_BT_AUDIO_DK
+    depends on USE_BSP
+    select BSP_TRIGGER
+    select BSP_POSC_12MHz
+    set FPLLMULT to "MUL_33"
+    set FPLLIDIV to "DIV_1"
+    set FPLLRNG to "RANGE_8_16_MHZ"
+    set UPLLFSEL to "FREQ_12MHZ"
+    set POSCMOD to "HS"
+    set SYS_CLK_CONFIG_PRIMARY_XTAL to "12000000"
+    select BSP_BT_AUDIO_DK_BOARD
+    set DRV_GFX_DISPLAY_TYPE to "Crystal Fontz 2-inch 176x220"
+    set BSP_PIN_19_FUNCTION_NAME to "BSP_SWITCH_1" 
+    set BSP_PIN_19_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_40_FUNCTION_NAME to "BSP_SWITCH_2" 
+    set BSP_PIN_40_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_29_FUNCTION_NAME to "BSP_SWITCH_3" 
+    set BSP_PIN_29_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_43_FUNCTION_NAME to "BSP_SWITCH_4" 
+    set BSP_PIN_43_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_44_FUNCTION_NAME to "BSP_SWITCH_5" 
+    set BSP_PIN_44_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_45_FUNCTION_NAME to "BSP_SWITCH_6" 
+    set BSP_PIN_45_FUNCTION_TYPE to "SWITCH" 	
+    set BSP_PIN_93_FUNCTION_NAME to "USB_SW0" 
+    set BSP_PIN_93_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_92_FUNCTION_NAME to "USB_SW1" 
+    set BSP_PIN_92_FUNCTION_TYPE to "SWITCH" 
+    set BSP_PIN_60_FUNCTION_NAME to "BSP_LED_5" 
+    set BSP_PIN_60_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_61_FUNCTION_NAME to "BSP_LED_6" 
+    set BSP_PIN_61_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_79_FUNCTION_NAME to "BSP_LED_7" 
+    set BSP_PIN_79_FUNCTION_TYPE to "LED_AL" 
+	set BSP_PIN_100_FUNCTION_NAME to "BSP_LED_8" 
+    set BSP_PIN_100_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_28_FUNCTION_NAME to "BSP_LED_9" 
+    set BSP_PIN_28_FUNCTION_TYPE to "LED_AL" 
+    set BSP_PIN_111_FUNCTION_NAME to "BSP_AK4384_CONTROL_CLK" 
+    set BSP_PIN_111_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_110_FUNCTION_NAME to "BSP__AK4384_CONTROL_CS" 
+    set BSP_PIN_110_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_112_FUNCTION_NAME to "BSP__AK4384_CONTROL_DO" 
+    set BSP_PIN_112_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_1_FUNCTION_NAME to "BSP_AK4384_PDN"
+    set BSP_PIN_1_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_119_FUNCTION_NAME to "BSP_AK4201_AMPLIFIER_PDN" 
+    set BSP_PIN_119_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_6_FUNCTION_NAME to "BSP_DisplayReset" 
+    set BSP_PIN_6_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_30_FUNCTION_NAME to "BSP_DisplaySet" 
+    set BSP_PIN_30_FUNCTION_TYPE to "GPIO_OUT" 
+    set BSP_PIN_87_FUNCTION_NAME to "BSP_Display" 
+    set BSP_PIN_87_FUNCTION_TYPE to "GPIO_OUT"
+    bool
+    ---help---
+    IDH_HTML_BSP_pic32mz_ec_pim_bt_audio_dk
+    ---endhelp---
+
+endmenu
+
+
+menu "Custom Board Configurations for Bluetooth Audio Development Kit wiht PIC32MZ EC PIM"
+    depends on USE_BSP
+
+import PIC32MZ_EC_PIM_BT_AUDIO_DK_IMPORT_ICB "Select Custom Configuration To Import" 
+    default "../*/*.mhc"
+    ---help---
+    IDH_HTML_Board_Support_Package_Help
+    ---endhelp---
+
+template BSP_pic32mz_ec_pim_bt_audio_dk_H "$HARMONY_VERSION_PATH/bsp/pic32mz_ec_pim+bt_audio_dk/templates/bsp.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/bsp/bsp.h"
+template BSP_pic32mz_ec_pim_bt_audio_dk_C "$HARMONY_VERSION_PATH/bsp/pic32mz_ec_pim+bt_audio_dk/templates/bsp.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/bsp/bsp.c"
+
+compiler BSP_COMPILER_INCLUDE_pic32mz_ec_pim_bt_audio_dk includepath "$PROJECT_HEADER_FILES/system_config/$CONFIGURATION/bsp"
+endmenu
+
+endif
+

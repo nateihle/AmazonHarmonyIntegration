@@ -1,0 +1,173 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MX250F128D_PMP
+	bool
+	select HAVE_PMP
+	default y
+
+config PMP_NUMBER_OF_MODULES
+	int
+	default 1
+
+enum PMP_MODULE_ID exclusive
+	"PMP_ID_0"
+
+enum PMP_OPERATION_MODE
+	"PMP_LEGACY_SLAVE"
+	|| "PMP_ENHANCED_SLAVE"
+	|| "PMP_MASTER_READ_WRITE_STROBES_INDEPENDENT"
+	|| "PMP_MASTER_READ_WRITE_STROBES_MULTIPLEXED"
+
+enum PMP_MUX_MODE
+	"PMP_MUX_LINES_16_ADDRESS_16_DATA"
+	|| "PMP_MUX_LINES_16_ADDRESS_8_DATA"
+	|| "PMP_MUX_LINES_8_ADDRESS_8_DATA"
+	|| "PMP_MUX_NONE"
+
+enum PMP_INCREMENT_MODE
+	"PMP_BUFFERS_AUTO_INCREMENT"
+	|| "PMP_ADDRESS_AUTO_DECREMENT"
+	|| "PMP_ADDRESS_AUTO_INCREMENT"
+	|| "PMP_ADDRESS_INCREMENT_DECREMENT_DISABLE"
+
+enum PMP_ADDRESS_LATCH
+	"PMP_ADDRESS_LATCH_HIGH"
+	|| "PMP_ADDRESS_LATCH_LOW"
+
+enum PMP_DATA_WAIT_STATES
+	"PMP_DATA_WAIT_FOUR"
+	|| "PMP_DATA_WAIT_THREE"
+	|| "PMP_DATA_WAIT_TWO"
+	|| "PMP_DATA_WAIT_ONE"
+
+enum PMP_STROBE_WAIT_STATES
+	"PMP_STROBE_WAIT_1"
+	|| "PMP_STROBE_WAIT_2"
+	|| "PMP_STROBE_WAIT_3"
+	|| "PMP_STROBE_WAIT_4"
+	|| "PMP_STROBE_WAIT_5"
+	|| "PMP_STROBE_WAIT_6"
+	|| "PMP_STROBE_WAIT_7"
+	|| "PMP_STROBE_WAIT_8"
+	|| "PMP_STROBE_WAIT_9"
+	|| "PMP_STROBE_WAIT_10"
+	|| "PMP_STROBE_WAIT_11"
+	|| "PMP_STROBE_WAIT_12"
+	|| "PMP_STROBE_WAIT_13"
+	|| "PMP_STROBE_WAIT_14"
+	|| "PMP_STROBE_WAIT_15"
+	|| "PMP_STROBE_WAIT_16"
+
+enum PMP_DATA_HOLD_STATES
+	"PMP_DATA_HOLD_1"
+	|| "PMP_DATA_HOLD_2"
+	|| "PMP_DATA_HOLD_3"
+	|| "PMP_DATA_HOLD_4"
+
+enum PMP_INTERRUPT_MODE
+	"PMP_INTERRUPT_NONE"
+	|| "PMP_INTERRUPT_EVERY_RW_CYCLE"
+	|| "PMP_INTERRUPT_BUFFER_3_IS_ACCESSED"
+
+enum PMP_DATA_SIZE
+	"PMP_DATA_SIZE_8_BITS"
+
+enum PMP_CHIP_SELECT
+	"PMP_CHIP_SELECT_ONE"
+
+enum PMP_CHIPSELECT_FUNCTION
+	"PMCS1_AS_CHIP_SELECT"
+	|| "PMCS1_AS_ADDRESS_LINE"
+
+enum PMP_ADDRESS_PORT
+	"PMP_PMA0_PORT"
+	|| "PMP_PMA1_PORT"
+	|| "PMP_PMA2_PORT"
+	|| "PMP_PMA3_PORT"
+	|| "PMP_PMA4_PORT"
+	|| "PMP_PMA5_PORT"
+	|| "PMP_PMA6_PORT"
+	|| "PMP_PMA7_PORT"
+	|| "PMP_PMA8_PORT"
+	|| "PMP_PMA9_PORT"
+	|| "PMP_PMA10_PORT"
+	|| "PMP_PMA14_PORT"
+	|| "PMP_PMA2_TO_PMA10_PORTS"
+
+enum PMP_INPUT_BUFFER_TYPE
+	"PMP_INPUT_BUFFER_TTL"
+	|| "PMP_INPUT_BUFFER_SCHMITT"
+
+enum PMP_POLARITY_LEVEL
+	"PMP_POLARITY_ACTIVE_HIGH"
+	|| "PMP_POLARITY_ACTIVE_LOW"
+
+enum PMP_ACK_MODE
+	"PMP_ACK_MODE_NONE"
+
+enum PMP_ADDRESS_LATCH_WAIT_STATES
+	"PMP_ADDRESS_WAIT_HALF"
+
+enum PMP_ADDRESS_HOLD_LATCH_WAIT_STATES
+	"PMP_ADDRESS_HOLD_LATCH_WAIT_STATES_NONE"
+
+enum PMP_PMBE_PORT
+	"PMP_PMBE_PORT_NONE"
+
+enum PMP_MASTER_MODE
+	"PMP_MASTER_MODE_NONE"
+
+enum PMP_ALTERNATE_MASTER_WAIT_STATES
+	"PMP_ALTERNATE_MASTER_WAIT_3_NOT_SUPPORTED"
+	|| "PMP_ALTERNATE_MASTER_WAIT_4_NOT_SUPPORTED"
+	|| "PMP_ALTERNATE_MASTER_WAIT_5_NOT_SUPPORTED"
+	|| "PMP_ALTERNATE_MASTER_WAIT_6_NOT_SUPPORTED"
+	|| "PMP_ALTERNATE_MASTER_WAIT_7_NOT_SUPPORTED"
+	|| "PMP_ALTERNATE_MASTER_WAIT_8_NOT_SUPPORTED"
+
+ifblock PROJECT_STANDALONE
+file PLIB_PMP_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/processor/pmp_p32mx250f128d.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/processor/pmp_p32mx250f128d.h"
+
+file PLIB_PMP_STARTREADCONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_StartReadControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_StartReadControl_Unsupported.h"
+file PLIB_PMP_DUALBUFFERCONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DualBufferControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DualBufferControl_Unsupported.h"
+file PLIB_PMP_ENABLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_EnableControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_EnableControl_Default.h"
+file PLIB_PMP_STOPINIDLECONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_StopInIdleControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_StopInIdleControl_Default.h"
+file PLIB_PMP_MUXMODESELECT_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_MUXModeSelect_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_MUXModeSelect_Default.h"
+file PLIB_PMP_BUFFERTYPE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_BufferType_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_BufferType_Default.h"
+file PLIB_PMP_WRITEENABLEPORTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_WriteEnablePortControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_WriteEnablePortControl_Default.h"
+file PLIB_PMP_READWRITESTROBEPORTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_ReadWriteStrobePortControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_ReadWriteStrobePortControl_Default.h"
+file PLIB_PMP_CHIPSELECTOPERATION_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_ChipSelectoperation_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_ChipSelectoperation_Default.h"
+file PLIB_PMP_ADDRESSLATCHPOLARITY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_AddressLatchPolarity_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_AddressLatchPolarity_Default.h"
+file PLIB_PMP_CHIPXPOLARITY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_ChipXPolarity_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_ChipXPolarity_Default.h"
+file PLIB_PMP_WRITEENABLEPOLARITY_BASIC_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_WriteEnablePolarity_Basic.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_WriteEnablePolarity_Basic.h"
+file PLIB_PMP_READWRITEPOLARITY_BASIC_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_ReadWritePolarity_Basic.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_ReadWritePolarity_Basic.h"
+file PLIB_PMP_BUSYSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_BusyStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_BusyStatus_Default.h"
+file PLIB_PMP_INTERRUPTMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_InterruptMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_InterruptMode_Default.h"
+file PLIB_PMP_INCREMENTMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_IncrementMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_IncrementMode_Default.h"
+file PLIB_PMP_DATATRANSFERSIZE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DataTransferSize_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DataTransferSize_Unsupported.h"
+file PLIB_PMP_OPERATIONMODE_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_OperationMode_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_OperationMode_Default.h"
+file PLIB_PMP_DATASETUPWAITSTATES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DataSetUpWaitStates_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DataSetUpWaitStates_Default.h"
+file PLIB_PMP_DATASTROBEWAITSTATES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DataStrobeWaitStates_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DataStrobeWaitStates_Default.h"
+file PLIB_PMP_DATAHOLDWAITSTATES_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DataHoldWaitStates_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DataHoldWaitStates_Default.h"
+file PLIB_PMP_CHIPSELECTENABLE_BASIC_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_ChipSelectEnable_Basic.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_ChipSelectEnable_Basic.h"
+file PLIB_PMP_WRITECHIPSELECTENABLE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_WriteChipSelectEnable_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_WriteChipSelectEnable_Unsupported.h"
+file PLIB_PMP_READCHIPSELECTENABLE_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_ReadChipSelectEnable_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_ReadChipSelectEnable_Unsupported.h"
+file PLIB_PMP_ADDRESSCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_AddressControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_AddressControl_Default.h"
+file PLIB_PMP_DUALMODEWRITEADDRESSCONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DualModeWriteAddressControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DualModeWriteAddressControl_Unsupported.h"
+file PLIB_PMP_DUALMODEREADADDRESSCONTROL_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DualModeReadAddressControl_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DualModeReadAddressControl_Unsupported.h"
+file PLIB_PMP_ADDRESSPORTPINCONTROL_BASIC_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_AddressPortPinControl_Basic.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_AddressPortPinControl_Basic.h"
+file PLIB_PMP_ADDRESSLATCHSTROBEPORTCONTROL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_AddressLatchStrobePortControl_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_AddressLatchStrobePortControl_Default.h"
+file PLIB_PMP_INPUTBUFFERFULL_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_InputBufferFull_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_InputBufferFull_Default.h"
+file PLIB_PMP_BUFFEROVERFLOW_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_BufferOverFlow_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_BufferOverFlow_Default.h"
+file PLIB_PMP_INPUTBUFFERXSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_InputBufferXStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_InputBufferXStatus_Default.h"
+file PLIB_PMP_OUTPUTBUFFEREMPTY_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_OutPutBufferEmpty_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_OutPutBufferEmpty_Default.h"
+file PLIB_PMP_BUFFERUNDERFLOW_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_BufferUnderFlow_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_BufferUnderFlow_Default.h"
+file PLIB_PMP_OUTPUTBUFFERXSTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_OutputBufferXStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_OutputBufferXStatus_Default.h"
+file PLIB_PMP_BUFFERREAD_32BIT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_BufferRead_32bit.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_BufferRead_32bit.h"
+file PLIB_PMP_BUFFERWRITE_32BIT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_BufferWrite_32bit.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_BufferWrite_32bit.h"
+file PLIB_PMP_MASTERRXTX_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_MasterRXTX_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_MasterRXTX_Default.h"
+file PLIB_PMP_DUALMODEMASTERRXTX_UNSUPPORTED_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_DualModeMasterRXTX_Unsupported.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_DualModeMasterRXTX_Unsupported.h"
+file PLIB_PMP_SLAVETX_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_SlaveTX_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_SlaveTX_Default.h"
+file PLIB_PMP_SLAVERX_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_SlaveRX_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_SlaveRX_Default.h"
+file PLIB_PMP_CSXACTIVESTATUS_DEFAULT_TEMPLATE_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/pmp/templates/pmp_CSXActiveStatus_Default.h" to "$PROJECT_HEADER_FILES/framework/peripheral/pmp/templates/pmp_CSXActiveStatus_Default.h"
+endif

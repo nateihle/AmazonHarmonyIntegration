@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Operation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a> &gt; <a href="08714.html">Client Operation</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08727.html">Previous</a> | <a href="08726.html">Up</a> | <a href="08718.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP Client Operation Topic Title: Client Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Operation</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<div class="Element15">
+General Client Operation</div>
+<p class="Element10" style="text-align: justify;">
+For the application to start using an instance of the module, it must call the <a href="10802.html">DRV_PMP_Open</a> function with a specific intent. This provides the configuration required to open the PMP instance for operation. If the driver is deinitialized using the function <a href="10775.html">DRV_PMP_Deinitialize</a>, the application must call the <a href="10802.html">DRV_PMP_Open</a> function again to set up the instance of the PMP. The function <a href="10802.html">DRV_PMP_Open</a> need not be called again if the system is reinitialized using the <a href="10821.html">DRV_PMP_Reinitialize</a> function.</p><p class="Element10">
+The PMP driver supports DRV_IO_INTENT_NONBLOCKING, DRV_IO_INTENT_BLOCKING, DRV_IO_INTENT_EXCLUSIVE, and DRV_IO_INTENT_SHARED IO.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00723');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00723"><pre class="Element12">DRV_HANDLE handle;
+
+<i><span style="color: #008000">// Open the instance DRV_PMP_INDEX_0 with Non-blocking and Shared intent</span></i>
+handle = DRV_PMP_Open(DRV_PMP_INDEX_0, DRV_IO_INTENT_SHARED | DRV_IO_INTENT_NONBLOCKING);
+
+<strong><span style="color: #000080">if</span></strong>( handle == DRV_HANDLE_INVALID )
+{
+    <i><span style="color: #008000">// Client cannot open the instance.</span></i>
+}</pre></div></div>
+<p class="Element10">
+The function <a href="10773.html">DRV_PMP_Close</a> closes an already opened instance of the PMP driver, invalidating the handle. <a href="10802.html">DRV_PMP_Open</a> must have been called to obtain a valid opened device handle.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00724');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00724"><pre class="Element12">DRV_HANDLE handle;
+
+<i><span style="color: #008000">// Open the instance DRV_PMP_INDEX_0 with Non-blocking and Shared intent</span></i>
+handle = DRV_PMP_Open(DRV_PMP_INDEX_0, DRV_IO_INTENT_SHARED | DRV_IO_INTENT_NONBLOCKING);
+
+<i><span style="color: #008000">/*...*/</span></i>
+
+DRV_PMP_Close( handle );</pre></div></div>
+<p class="Element10">
+The client has the option to check the status through the function <a href="10772.html">DRV_PMP_ClientStatus</a>.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00725');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00725"><pre class="Element12">DRV_HANDLE handle;
+
+<i><span style="color: #008000">// Open the instance DRV_PMP_INDEX_0 with Non-blocking and Shared intent</span></i>
+handle = DRV_PMP_Open(DRV_PMP_INDEX_0, DRV_IO_INTENT_SHARED | DRV_IO_INTENT_NONBLOCKING);
+
+<strong><span style="color: #000080">if</span></strong> ( DRV_PMP_CLIENT_STATUS_OPEN != DRV_PMP_ClientStatus( handle ) )
+   <strong><span style="color: #000080">return</span></strong> 0;</pre></div></div>
+<div class="Element15">
+Client Mode Setting</div>
+<p class="Element10">
+Any client-specific PMP configuration has to be done using a separate function, <a href="10801.html">DRV_PMP_ModeConfig</a>. This function must be called after the client is open using <a href="10802.html">DRV_PMP_Open</a>.&nbsp;</p>
+<p class="Element10">
+Following are the client-specific configuration parameters the user can set using this function: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="32%">
+<div class="Element66">
+Configuration Parameter&nbsp;</div></td><td class="Element65" valign="top" width="68%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">pmpMode</span>&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Selects the PMP mode (master or slave) to use.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">intMode</span>&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Selects the interrupt mode to use.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">incrementMode</span>&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Sets up address for either auto-increment or decrement mode.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">endianMode</span>&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Sets Little/Big endian mode.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">portSize</span>&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Specifies the data width (8-bit or 16-bit).&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">waitStates</span>&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Selects the different wait states.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">chipSelect</span>&nbsp;</div></td><td class="Element67" valign="top" width="68%">
+<div class="Element68">
+Selects the Chip Select line.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00726');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00726"><pre class="Element12">DRV_HANDLE handle;
+DRV_PMP_MODE_CONFIG config;
+
+config.chipSelect = PMCS1_AND_PMCS2_AS_CHIP_SELECT;
+config.endianMode = LITTLE_ENDIAN;
+config.incrementMode = PMP_ADDRESS_AUTO_INCREMENT;
+config.intMode =  PMP_INTERRUPT_NONE;
+config.pmpMode = PMP_MASTER_READ_WRITE_STROBES_INDEPENDENT; <i><span style="color: #008000">//Master Mode 2</span></i>
+config.portSize =  PMP_DATA_SIZE_8_BITS;
+config.waitStates.dataHoldWait = PMP_DATA_HOLD_2;
+config.waitStates.dataWait = PMP_DATA_WAIT_THREE;
+config.waitStates.strobeWait = PMP_STROBE_WAIT_5;
+
+<i><span style="color: #008000">// Open the instance DRV_PMP_INDEX_0 with Non-blocking and Shared intent</span></i>
+handle = DRV_PMP_Open(DRV_PMP_INDEX_0, DRV_IO_INTENT_SHARED | DRV_IO_INTENT_NONBLOCKING);
+
+<i><span style="color: #008000">// Configure the client</span></i>
+DRV_PMP_ModeConfig ( handle, config );</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="17353.html">Parallel Master Port (PMP) Driver Library</a> &gt; <a href="08728.html">Using the Library</a> &gt; <a href="08720.html">How the Library Works</a> &gt; <a href="08726.html">System Initialization</a> &gt; <a href="08714.html">Client Operation</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV PMP Client Operation Topic Title: Client Operation)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

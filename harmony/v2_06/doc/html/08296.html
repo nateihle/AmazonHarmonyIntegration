@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Client Operations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13058.html">Codec Driver Libraries</a> &gt; <a href="03266.html">AK4384 Codec Driver Library</a> &gt; <a href="08311.html">Using the Library</a> &gt; <a href="08304.html">How the Library Works</a> &gt; <a href="08296.html">Client Operations</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="08295.html">Previous</a> | <a href="08304.html">Up</a> | <a href="08299.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV AK4384 Client Operations Topic Title: Client Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Client Operations</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Client operations provide the API interface for control command and audio data transfer to the AK4384 Codec.&nbsp;</p>
+<p class="Element10">
+The following AK4384 Codec specific control command functions are provided: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Notes:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+
+<ol class="Element635">
+<li value="1" class="Element605">The calling and execution of the following functions does not guarantee that the function (and its associated Codec command) has been set in the Codec peer interfaced through the SPI. It just means that the submission of the command has started over the SPI.</li>
+<li value="2" class="Element605">Regarding Note 1, the user should not call the following functions consecutively, which could result in unexpected behavior. If needed, the user should confirm the completion status of a function before calling any of the other functions.</li>
+<li value="3" class="Element605">To know the completion status of the following functions, users can register a command event callback handler by calling the function ‘<a href="09080.html">DRV_AK4384_CommandEventHandlerSet</a>’. The callback handler will be called when the last submitted command (submitted by calling one of the following functions) has completed.</li>
+</ol>&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+
+<ul class="Element635">
+<li class="Element605"><a href="09115.html">DRV_AK4384_SamplingRateSet</a></li>
+<li class="Element605"><a href="09114.html">DRV_AK4384_SamplingRateGet</a></li>
+<li class="Element605"><a href="09126.html">DRV_AK4384_VolumeSet</a></li>
+<li class="Element605"><a href="09125.html">DRV_AK4384_VolumeGet</a></li>
+<li class="Element605"><a href="09112.html">DRV_AK4384_MuteOn</a></li>
+<li class="Element605"><a href="09111.html">DRV_AK4384_MuteOff</a></li>
+<li class="Element605"><a href="09131.html">DRV_AK4384_ZeroDetectEnable</a></li>
+<li class="Element605"><a href="09130.html">DRV_AK4384_ZeroDetectDisable</a></li>
+<li class="Element605"><a href="09134.html">DRV_AK4384_ZeroDetectModeSet</a></li>
+<li class="Element605"><a href="09133.html">DRV_AK4384_ZeroDetectInvertEnable</a></li>
+<li class="Element605"><a href="09132.html">DRV_AK4384_ZeroDetectInvertDisable</a></li>
+<li class="Element605"><a href="09076.html">DRV_AK4384_ChannelOutputInvertEnable</a></li>
+<li class="Element605"><a href="09075.html">DRV_AK4384_ChannelOutputInvertDisable</a></li>
+<li class="Element605"><a href="09118.html">DRV_AK4384_SlowRollOffFilterEnable</a></li>
+<li class="Element605"><a href="09117.html">DRV_AK4384_SlowRollOffFilterDisable</a></li>
+<li class="Element605"><a href="09089.html">DRV_AK4384_DeEmphasisFilterSet</a></li>
+</ul>These functions schedule a non-blocking control command transfer operation. These functions submit the control command request to the AK4384 Codec. A notification for the submitted requests can be received by registering a command callback event with the driver. The driver notifies by calling the callback on successfully transmitting the command to the AK4384 Codec module.&nbsp;</p>
+<p class="Element10">
+The function <a href="09065.html">DRV_AK4384_BufferAddWrite</a> is a buffered data operation functions. This function schedules non-blocking audio data transfer operation. The function adds the request to the hardware instance queues and returns a buffer handle. The requesting client also registers a callback event with the driver. The driver notifies the client with DRV_AK4384_BUFFER_EVENT_COMPLETE, DRV_AK4384_BUFFER_EVENT_ERROR, or DRV_AK4384_BUFFER_EVENT_ABORT events.&nbsp;</p>
+<p class="Element10">
+The submitted control commands and audio buffer add requests are processed under <a href="09120.html">DRV_AK4384_Tasks</a> function. This function is called from the <a href="24151.html">SYS_Tasks</a> routine.&nbsp;</p>
+<p class="Element10">
+The following diagram illustrates the control commands and audio buffered data operations.&nbsp;</p>
+<p class="Element10">
+<img src="DRV AK4384 Client Access Diagram.png" border="0" alt="" title=""> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+It is not necessary to close and reopen the client between multiple transfers.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+An application using the buffered functionality needs to perform the following steps:
+<ol class="Element635">
+<li value="1" class="Element605">The system should have completed necessary setup and initializations.</li>
+<li value="2" class="Element605">The I2S Driver object should have been initialized by calling <a href="10181.html">DRV_I2S_Initialize</a>.</li>
+<li value="3" class="Element605">The SPI Driver object should have been initialized by calling <a href="10913.html">DRV_SPI_Initialize</a>.</li>
+<li value="4" class="Element605">The AK4384 Codec Driver object should be initialized by calling <a href="09104.html">DRV_AK4384_Initialize</a>.</li>
+<li value="5" class="Element605">The necessary sampling rate value should be set up by calling DRV_AK4384_ SamplingRateSet.</li>
+<li value="6" class="Element605">Register buffer event handler for the client handle by calling <a href="09067.html">DRV_AK4384_BufferEventHandlerSet</a>.</li>
+<li value="7" class="Element605">Register command event handler for the client handle by calling <a href="09080.html">DRV_AK4384_CommandEventHandlerSet</a>.</li>
+<li value="8" class="Element605">Submit a command by calling specific command API.</li>
+<li value="9" class="Element605">Add a buffer to initiate the data transfer by calling <a href="09065.html">DRV_AK4384_BufferAddWrite</a>.</li>
+<li value="10" class="Element605">The submitted command and Audio data processing happens b calling <a href="09120.html">DRV_AK4384_Tasks</a> from <a href="24151.html">SYS_Tasks</a>.</li>
+<li value="11" class="Element605">Repeat steps 9 through 10 to handle multiple buffer transmission and reception.</li>
+<li value="12" class="Element605">When the client is done, it can use <a href="09078.html">DRV_AK4384_Close</a> to close the client handle.</li>
+</ol><strong>Example:</strong> </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00379');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00379"><pre class="Element12"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">enum</span></strong>
+{
+    APP_STATE_AK4384_OPEN,
+    APP_STATE_AK4384_SET_COMMAND_HANDLER,
+    APP_STATE_AK4384_SET_BUFFER_HANDLER,
+    APP_STATE_AK4384_SET_SAMPLING_RATE_COMMAND,
+    APP_STATE_AK4384_ADD_BUFFER,
+    APP_STATE_AK4384_WAIT_FOR_BUFFER_COMPLETE,
+    APP_STATE_AK4384_BUFFER_COMPLETE
+} APP_STATES;
+
+<strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong>
+{
+    DRV_HANDLE handle;
+    DRV_AK4384_BUFFER_HANDLE writeBufHandle;
+    DRV_AK4384_BUFFER_EVENT_HANDLER bufferHandler;
+    DRV_AK4384_COMMAND_EVENT_HANDLER commandHandler;
+    uintptr_t context;
+    uint8_t *txbufferObject;
+    size_t bufferSize;
+
+} APP_AK4384_CLIENT;
+
+<strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong>
+{
+    <i><span style="color: #008000">/* Application's current state*/</span></i>
+    APP_STATES state;
+    <i><span style="color: #008000">/* USART client handle */</span></i>
+    APP_AK4384_CLIENT ak4384Client;
+} APP_DATA;
+APP_DATA appData;
+SYS_MODULE_OBJ ak4384DevObject;
+DRV_AK4384_INIT drvak4384Init =
+{
+    .moduleInit.value = SYS_MODULE_POWER_RUN_FULL,
+    .volume = 120,
+    .mclkMode = DRV_AK4384_MCLK_MODE_MANUAL,
+    .queueSizeTransmit = 2,
+};
+
+<strong><span style="color: #000080">void</span></strong> SYS_Initialize(<strong><span style="color: #000080">void</span></strong> * data)
+{
+    <i><span style="color: #008000">/*
+     The SPI module index should be same as the one used in
+     initializing the SPI driver.
+     The SPI module index initialization is redundant
+     if Implementation 3 (Described in System Access) is in use.
+     */</span></i>
+    drvak4384Init.spiDriverModuleIndex = DRV_SPI_INDEX_0;
+
+    <i><span style="color: #008000">/*
+     The I2S module index should be same as the one used in
+     initializing the I2S driver.
+     */</span></i>
+    drvak4384Init.i2sDriverModuleIndex = DRV_I2S_INDEX_0;
+
+    ak4384DevObject = DRV_AK4384_Initialize(DRV_AK4384_INDEX_0, (SYS_MODULE_INIT *) &amp; drvak4384Init);
+    <strong><span style="color: #000080">if</span></strong> (SYS_MODULE_OBJ_INVALID == ak4384DevObject) {
+        <i><span style="color: #008000">// Handle error</span></i>
+    }
+}
+
+<strong><span style="color: #000080">void</span></strong> APP_Tasks (<strong><span style="color: #000080">void</span></strong> )
+{
+    <strong><span style="color: #000080">switch</span></strong>(appData.state)
+    {
+        <i><span style="color: #008000">/* Open the ak4384 client and get an Handle */</span></i>
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_AK4384_OPEN:
+        {
+            SYS_STATUS ak4384Status;
+            ak4384Status = DRV_AK4384_Status(sysObjects.ak4384DevObject);
+            <strong><span style="color: #000080">if</span></strong> (SYS_STATUS_READY == ak4384Status)
+            {
+                <i><span style="color: #008000">// This means the driver can now be opened.</span></i>
+                appData.ak4384Client.handle = DRV_AK4384_Open(DRV_AK4384_INDEX_0, DRV_IO_INTENT_EXCLUSIVE);
+                <strong><span style="color: #000080">if</span></strong>(appData.ak4384Client.handle != DRV_HANDLE_INVALID)
+                {
+                    appData.state = APP_STATE_AK4384_SET_COMMAND_HANDLER;
+                }
+                <strong><span style="color: #000080">else</span></strong>
+                {
+                    SYS_DEBUG(0, &quot;Find out what is wrong \r\n&quot;);
+                }
+            }
+            <strong><span style="color: #000080">else</span></strong>
+            {
+                <i><span style="color: #008000">/* Wait for AK4384 to Initialize */</span></i>
+                ;
+            }
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+
+        <i><span style="color: #008000">/* Register a command event handler */</span></i>
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_AK4384_SET_COMMAND_HANDLER:
+        {
+            DRV_AK4384_CommandEventHandlerSet(appData.ak4384Client.handle,
+                    appData.ak4384Client.commandHandler,
+                    appData.ak4384Client.context);
+            appData.state = APP_STATE_AK4384_SET_BUFFER_HANDLER;
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+
+
+        <i><span style="color: #008000">/* Register a buffer event handler */</span></i>
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_AK4384_SET_BUFFER_HANDLER:
+        {
+            DRV_AK4384_BufferEventHandlerSet(appData.ak4384Client.handle,
+                    appData.ak4384Client.bufferHandler,
+                    appData.ak4384Client.context);
+            appData.state = APP_STATE_AK4384_SET_SAMPLING_RATE_COMMAND;
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+
+        <i><span style="color: #008000">/* Submit a set sampling rate command */</span></i>
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_AK4384_SET_SAMPLING_RATE_COMMAND:
+        {
+            DRV_AK4384_SamplingRateSet(appData.ak4384Client.handle,48000);
+            appData.state = APP_STATE_AK4384_ADD_BUFFER;
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+
+        <i><span style="color: #008000">/* Add the Audio buffer to be transmitted */</span></i>
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_AK4384_ADD_BUFFER:
+        {
+            DRV_AK4384_BufferAddWrite(appData.ak4384Client.handle, &amp;appData.ak4384Client.writeBufHandle,
+            appData.ak4384Client.txbufferObject, appData.ak4384Client.bufferSize);
+            <strong><span style="color: #000080">if</span></strong>(appData.ak4384Client.writeBufHandle != DRV_AK4384_BUFFER_HANDLE_INVALID)
+            {
+                appData.state = APP_STATE_AK4384_WAIT_FOR_BUFFER_COMPLETE;
+            }
+            <strong><span style="color: #000080">else</span></strong>
+            {
+                SYS_DEBUG(0, &quot;Find out what is wrong \r\n&quot;);
+            }
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+
+    <i><span style="color: #008000">/* Audio Buffer transmission under process */</span></i>
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_AK4384_WAIT_FOR_BUFFER_COMPLETE:
+        {
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+
+    <i><span style="color: #008000">/* Audio Buffer transmission completed */</span></i>
+        <strong><span style="color: #000080">case</span></strong> APP_STATE_AK4384_BUFFER_COMPLETE:
+        {
+            <i><span style="color: #008000">/* Add another buffer */</span></i>
+            appData.state = APP_STATE_AK4384_ADD_BUFFER;
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">default</span></strong>:
+        {
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+    }
+
+}
+
+<strong><span style="color: #000080">void</span></strong> APP_AK4384CommandEventHandler(uintptr_t context )
+{
+
+    <i><span style="color: #008000">// Last submitted command successful. Take action as needed.</span></i>
+}
+
+<strong><span style="color: #000080">void</span></strong> APP_AK4384BufferEventHandler(DRV_AK4384_BUFFER_EVENT event,
+        DRV_AK4384_BUFFER_HANDLE handle, uintptr_t context )
+{
+
+    <strong><span style="color: #000080">switch</span></strong>(event)
+    {
+        <strong><span style="color: #000080">case</span></strong> DRV_AK4384_BUFFER_EVENT_COMPLETE:
+        {
+            <i><span style="color: #008000">// Can set appData.state = APP_STATE_AK4384_BUFFER_COMPLETE;</span></i>
+        <i><span style="color: #008000">// Take Action as needed</span></i>
+
+        }
+        <strong><span style="color: #000080">break</span></strong>;
+        <strong><span style="color: #000080">case</span></strong> DRV_AK4384_BUFFER_EVENT_ERROR:
+        {
+        <i><span style="color: #008000">// Take Action as needed</span></i>
+
+        } <strong><span style="color: #000080">break</span></strong>;
+
+        <strong><span style="color: #000080">case</span></strong> DRV_AK4384_BUFFER_EVENT_ABORT:
+        {
+        <i><span style="color: #008000">// Take Action as needed</span></i>
+
+        } <strong><span style="color: #000080">break</span></strong>;
+
+    }
+}
+
+<strong><span style="color: #000080">void</span></strong> SYS_Tasks(<strong><span style="color: #000080">void</span></strong>)
+{
+    DRV_AK4384_Tasks(ak4384DevObject);
+    APP_Tasks();
+}</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="13058.html">Codec Driver Libraries</a> &gt; <a href="03266.html">AK4384 Codec Driver Library</a> &gt; <a href="08311.html">Using the Library</a> &gt; <a href="08304.html">How the Library Works</a> &gt; <a href="08296.html">Client Operations</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV AK4384 Client Operations Topic Title: Client Operations)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

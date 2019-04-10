@@ -1,0 +1,210 @@
+menu "Interniche TCPIP Stack"
+    depends on HAVE_ETH
+
+config IN_TCPIP
+    bool "Build with InterNiche stack"
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_V4
+    depends on IN_TCPIP
+    bool "ipV4 support"
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_V6
+    bool "ipV6 support"
+    depends on IN_TCPIP
+    default n
+    ---help---
+    ---endhelp---
+
+config IN_TCPIP_USE_DHCP
+    bool "Use DHCP"
+    depends on IN_TCPIP_USE_V4
+    default y
+    ---help---
+        Use DHCP to get address
+    ---endhelp---
+
+config IN_TCPIP_USE_AUTOIP
+    bool "Use autoIP"
+    depends on IN_TCPIP_USE_V4
+    default y
+    ---help---
+        Use DHCP to get address
+    ---endhelp---
+
+config IN_TCPIP_USE_DHCP6
+    bool "Use DHCPv6"
+    depends on IN_TCPIP_USE_V6
+    default n
+    ---help---
+        Use DHCP to get address over ipV6
+    ---endhelp---
+
+config IN_TCPIP_USE_EIFEL
+    bool "Use EIFEL"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use EIFEL
+    ---endhelp---
+
+config IN_TCPIP_USE_PPP
+    bool "Use PPP"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        PPP link. Either server or client
+    ---endhelp---
+
+config IN_TCPIP_USE_PPPOE
+    bool "Use DHCP"
+    depends on IN_TCPIP_USE_PPP
+    default n
+    ---help---
+        Use PPPoE
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTP
+    bool "Use DHCP"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use HTTP server
+    ---endhelp---
+
+config IN_TCPIP_USE_HTTPS
+    bool "Use DHCP"
+    depends on IN_TCPIP_USE_HTTP
+    default n
+    ---help---
+        Use SSL for https
+    ---endhelp---
+
+config IN_TCPIP_USE_SNMP
+    bool "Use SNMP"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use DHCP to get address
+    ---endhelp---
+
+config IN_TCPIP_USE_DHCP_SERVER
+    bool "Use DHCP server"
+    depends on IN_TCPIP_USE_V4
+    default n
+    ---help---
+        Use DHCP server
+    ---endhelp---
+
+config IN_TCPIP_USE_IGMPv3
+    bool "Use IGMPv3"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use IGMPv3
+    ---endhelp---
+
+config IN_TCPIP_USE_MLD
+    bool "Use MLD"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use MLD
+    ---endhelp---
+
+config IN_TCPIP_USE_IKE
+    bool "Use IKE"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use IKE v2 support
+    ---endhelp---
+
+config IN_TCPIP_USE_IPSEC
+    bool "Use IPSec"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use IPSec
+    ---endhelp---
+
+config IN_TCPIP_USE_SSH
+    bool "Use SSH"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use SSH tunnels
+    ---endhelp---
+
+config IN_TCPIP_USE_SSL
+    bool "Use SSL"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use SSL
+    ---endhelp---
+
+config IN_TCPIP_USE_SSL_PROVIDER
+    bool "Use DHCP"
+    depends on IN_TCPIP_USE_V4
+    default n
+    ---help---
+        Use DHCP
+    ---endhelp---
+
+config IN_TCPIP_USE_ESMTP
+    bool "Use ESMTP"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use ESMTP
+    ---endhelp---
+
+config IN_TCPIP_USE_FTP
+    bool "Use FTP"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use FTP
+    ---endhelp---
+
+config IN_TCPIP_USE_SNTP
+    bool "Use SNTP"
+    depends on IN_TCPIP_USE_V4
+    default n
+    ---help---
+        Use SNTP
+    ---endhelp---
+
+config IN_TCPIP_USE_SYSLOG
+    bool "Use SysLog"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use SysLog
+    ---endhelp---
+
+config IN_TCPIP_USE_TELNET
+    bool "Use Telnet"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use Telnet
+    ---endhelp---
+
+config IN_TCPIP_USE_TFTP
+    bool "Use TFTP"
+    depends on IN_TCPIP
+    default n
+    ---help---
+        Use TFTP
+    ---endhelp---
+
+
+endmenu
+

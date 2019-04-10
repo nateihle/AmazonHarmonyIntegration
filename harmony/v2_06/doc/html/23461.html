@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introduction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07421.html">Console System Service Library</a> &gt; <a href="23461.html">Introduction</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07421.html">Previous</a> | <a href="07421.html">Up</a> | <a href="23469.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS CONSOLE Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Introduction</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Console System Service consists of a core<span style="color: #FFFFFF">_</span>layer and a console device<span style="color: #FFFFFF">_</span>layer. The core<span style="color: #FFFFFF">_</span>layer handles module initialization and system functions. It provides a common API for use by applications and middleware libraries to send and receive data to and from one or more console devices. The Console System core layer<span style="color: #FFFFFF">_</span>maintains the status and device descriptor information for each console instance that has been initialized. The maximum number of simultaneous console instances supported by the service is defined by a configuration option. The default is four.&nbsp;</p>
+<p class="Element10">
+The console device layer<span style="color: #FFFFFF">_</span>contains the functional implementation of the core layer<span style="color: #FFFFFF">_</span>APIs. Each console device may have a different implementation, but the behavior of the API should be uniform across different devices. The console device layer<span style="color: #FFFFFF">_</span>interacts with the peripheral device drivers to send and receive data to and from the hardware peripheral. The details of the data transaction are abstracted by the console device layer<span style="color: #FFFFFF">_</span>and the peripheral device driver.&nbsp;</p>
+<p class="Element10">
+Both blocking and non-blocking implementations are provided. For a blocking implementation, the API to transfer data to or from the console device will return after the data has been successfully transferred, or an error has occurred. Non-blocking implementations return immediately and the data transfer is controlled by a state machine implemented in the console device<span style="color: #FFFFFF">_</span>layer. The calling program is notified of the data transfer completion by a callback mechanism, or can optionally poll the status of the console device<span style="color: #FFFFFF">_</span>layer to see if it is busy or ready for more data.&nbsp;</p>
+<p class="Element10">
+The console device layer<span style="color: #FFFFFF">_</span>provides the ability to queue data buffers written to the console. The size of the queue is defined by a configuration option. Read data is queued internally in the console device layer<span style="color: #FFFFFF">_</span>depending on the console device. The size of this queue is also defined by a configuration option. Each console device has configuration options specific to that device. They are explained in their respective sections in this document.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="24419.html">System Service Libraries Help</a> &gt; <a href="07421.html">Console System Service Library</a> &gt; <a href="23461.html">Introduction</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: SYS CONSOLE Introduction Topic Title: Introduction)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Extending the BSP Library Interface</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="23445.html">Volume II: Supported Hardware</a> &gt; <a href="04862.html">Board Support Packages Help</a> &gt; <a href="05075.html">Using a BSP</a> &gt; <a href="04949.html">Extending the BSP Library Interface</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04941.html">Previous</a> | <a href="05075.html">Up</a> | <a href="04968.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BSP Extending the BSP Library Interface Topic Title: Extending the BSP Library Interface)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Extending the BSP Library Interface</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The MHC will generate custom code that extends the BSP API when any of the following pin functions are selected in the Pin Settings table.</p><div class="Element15">
+BSP-Related Pin Functions</div>
+
+<ul class="Element630">
+<li class="Element600">LED_AH Selects active high LED functionality that will generate custom named macros to control an LED that turns on when the pin is driven high</li>
+<li class="Element600">LED_AL Selects active low LED functionality that will generate custom named macros to control an LED that turns on when the pin is driven low</li>
+<li class="Element600">GPIO Selects general purpose IO pin functionality that will generate custom named macro constants for use with the Ports System Service functions</li>
+<li class="Element600">GPIO_IN Selects general purpose input pin that will generate a custom named macro to obtain the state of a general purpose input pin</li>
+<li class="Element600">GPIO_OUT Selects general purpose output pin functionality that will generate custom named macros to control a general purpose output pin</li>
+</ul><p class="Element10">
+Select one of the BSP-related pin functions in the MHC’s Pin Setting window and provide a custom name for the pin, as shown in the following figure. </p><p class="Element10" style="text-align: center;">
+<img src="BSP Selecting the related BSP function.png" border="0" alt="" title=""></p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Be sure to correctly configure the pin direction, initial latch value, digital-or-analog mode, and other settings.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+After clicking the <strong>Generate Code</strong> button, the <span class="Element146">bsp.h</span> file will be updated to contain macro definitions for any custom-named pins that are configured for BSP-related pin functions, as shown in the following examples.</p><div class="Element15">
+Example Macros for LED_AH or LED_AL Pin Named CUSTOM_LED</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00039');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00039"><pre class="Element12"><strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_LEDToggle
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_LEDToggle() PLIB_PORTS_PinToggle \
+                               (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_LEDOn
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_LEDOn() PLIB_PORTS_PinSet \
+                           (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_LEDOff
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_LEDOff() PLIB_PORTS_PinClear \
+                            (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_LEDStateGet
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_LEDStateGet() PLIB_PORTS_PinGetLatched \
+                                 (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_15)
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The macros will be implemented to correctly set or clear the pin based on the selection of active-high or active-low LED function.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Example Macro for SWITCH Pin Named CUSTOM_SWITCH</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00040');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00040"><pre class="Element12"><strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_SWITCHStateGet
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_SWITCHStateGet() PLIB_PORTS_PinGet \
+                                    (PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_5)
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<div class="Element15">
+Example Macros for GPIO_OUT Pin Named CUSTOM_GPIO_OUT</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00041');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00041"><pre class="Element12"><strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_GPIO_OUTToggle
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_OUTToggle() PLIB_PORTS_PinToggle \
+                                    (PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_GPIO_OUTOn
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_OUTOn() PLIB_PORTS_PinSet \
+                                (PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_GPIO_OUTOff
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_OUTOff() PLIB_PORTS_PinClear
+                                 (PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_GPIO_OUTStateGet
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_OUTStateGet() PLIB_PORTS_PinGetLatched \
+                                      (PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7)
+<strong><span style="color: #000080">#endif</span></strong>
+<strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_GPIO_OUTStateSet
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_OUTStateSet(Value) PLIB_PORTS_PinWrite \
+                                           (PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_7, Value)
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<div class="Element15">
+Example Macro for GPIO_IN Pin Named CUSTOM_GPIO_IN</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00042');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00042"><pre class="Element12"><strong><span style="color: #000080">#ifndef</span></strong> CUSTOM_GPIO_INStateGet
+    <strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_INStateGet() PLIB_PORTS_PinGet \
+                                     (PORTS_ID_0, PORT_CHANNEL_E, PORTS_BIT_POS_6)
+<strong><span style="color: #000080">#endif</span></strong></pre></div></div>
+<div class="Element15">
+Example Macros for GPIO Pin Named CUSTOM_GPIO</div>
+<div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00043');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00043"><pre class="Element12"><strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_PORT PORT_CHANNEL_E
+<strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_PIN PORTS_BIT_POS_5
+<strong><span style="color: #000080">#define</span></strong> CUSTOM_GPIO_PIN_MASK (0x1 &lt;&lt; 5)</pre></div></div>
+<div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Custom GPIO pin name macros are intended for use with the PORTS PLIB or System Service library interface functions. Refer to <i>Volume IV: MPLAB Harmony Framework Reference &gt; Peripheral Libraries Help &gt; <a href="21622.html">Ports Peripheral Library</a></i> or <i>Volume IV: MPLAB Harmony Framework Reference &gt; System Service Libraries Help &gt; <a href="21624.html">Ports System Service Library</a></i> for information on these functions.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The extended BSP interface macros can be overridden by defining them in the project’s <span class="Element146">system_config.h</span> header, if desired. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""> <strong>Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+Current versions of MPLAB Harmony only define these macros in the <span class="Element146">system_config.h </span>file, so they may be overridden by redefining them there.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="23445.html">Volume II: Supported Hardware</a> &gt; <a href="04862.html">Board Support Packages Help</a> &gt; <a href="05075.html">Using a BSP</a> &gt; <a href="04949.html">Extending the BSP Library Interface</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BSP Extending the BSP Library Interface Topic Title: Extending the BSP Library Interface)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,143 @@
+menu "BM64"
+
+enum DRV_BM64_IMPLEMENTATION_RANGE
+    "STATIC"
+
+config BM64_BLE_NEEDED
+    depends on INCLUDE_BM64_BLE
+    bool
+    select DRIVER
+    select USE_DRV_TMR_NEEDED
+    select USE_SYS_TMR_NEEDED
+    select USE_DRV_USART_NEEDED
+    set DRV_USART_PERIPHERAL_ID_IDX0 to "USART_ID_2"
+    set DRV_USART_BAUD_RATE_IDX0 to "115200"
+
+config BM64_I2S_NEEDED
+    depends on INCLUDE_BM64_I2S
+    bool
+    select DRIVER
+    select USE_DRV_TMR_NEEDED
+    select SELECT_DRV_AK4384 if BSP_BT_AUDIO_DK_BM64_BOARD
+    select SELECT_DRV_AK4954 if BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    select USE_DRV_I2S
+    select USE_DRV_I2S_NEEDED
+    select DRV_I2S_ENABLE_DMA
+    select DRV_I2S_SUPPORT_TRANSMIT_DMA
+    select DRV_I2S_SUPPORT_RECEIVE_DMA
+    select DRV_I2S_DMA_INTERRUPTS_ENABLE
+    set DRV_I2S_PERIPHERAL_ID_IDX0 to "SPI_ID_2"
+    set DRV_I2S_BAUD_RATE to "8000"
+    set DRV_AK4384_I2S_DRIVER_MODULE_INDEX_IDX0 to "DRV_I2S_INDEX_1" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    set SPI_AUDIO_COMM_WIDTH_IDX0 to "SPI_AUDIO_COMMUNICATION_32DATA_32FIFO_32CHANNEL"
+    set SPI_AUDIO_COMM_WIDTH_IDX1 to "SPI_AUDIO_COMMUNICATION_32DATA_32FIFO_32CHANNEL" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    set QUEUE_SIZE_TX_IDX0 to "8"
+    set QUEUE_SIZE_RX_IDX0 to "8"
+    set DRV_I2S_TX_DMA_CHANNEL_IDX0 to "2"
+    set DRV_I2S_RX_DMA_CHANNEL_IDX0 to "0"
+    set QUEUE_SIZE_TX_IDX1 to "8" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    set QUEUE_SIZE_RX_IDX1 to "8" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    set DRV_I2S_TX_DMA_CHANNEL_IDX1 to "3" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    set DRV_I2S_RX_DMA_CHANNEL_IDX1 to "1" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    set DRV_I2S_AUDIO_PROTOCOL_MODE_IDX1 to "DRV_I2S_AUDIO_LFET_JUSTIFIED"
+    set DRV_I2S_BAUD_RATE to "44100"
+    set DRV_I2S_INSTANCES_NUMBER to "2" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD
+    set DRV_I2S_CLIENTS_NUMBER to "4" if BSP_BT_AUDIO_DK_BM64_BOARD||BSP_BT_AUDIO_DK_BM64_AK4954_BOARD 
+    select USE_SYS_DMA
+    set SYS_DMA_CHANNEL_ID_IDX0 to "DMA_CHANNEL_0"
+    set SYS_DMA_CHANNEL_ID_IDX1 to "DMA_CHANNEL_1"
+    set SYS_DMA_CHANNEL_ID_IDX2 to "DMA_CHANNEL_2"
+    set SYS_DMA_CHANNEL_ID_IDX3 to "DMA_CHANNEL_3"
+    select USE_SYS_CLK
+    select USE_SYS_CLK_DYNAMIC_NEEDED
+    select SYS_CLK_REFCLK_ENABLE
+    set SYS_CLK_REFCLK_SOURCE to "USB PLL UPLL"
+    set SYS_CLK_RODIV to "4"
+    set SYS_CLK_ROTRIM to "129"
+    select USE_SYS_TMR_NEEDED
+    select USE_DRV_USART_NEEDED
+    set DRV_USART_PERIPHERAL_ID_IDX0 to "USART_ID_2"
+    set DRV_USART_BAUD_RATE_IDX0 to "115200"
+  
+config USE_DRV_BLUETOOTH_BM64
+    depends on HAVE_TMR
+    bool "Use BM64 Driver?"
+    default n
+    ---help---
+    IDH_HTML_BM64_Bluetooth_Driver_Library
+    ---endhelp---
+
+config INCLUDE_DEPRECATED_MMI_COMMANDS
+    depends on USE_DRV_BLUETOOTH_BM64
+    bool "Use Deprecated MMI Commands?"
+    default y
+    ---help---
+    IDH_HTML_INCLUDE_DEPRECATED_MMI_COMMANDS
+    ---endhelp---
+
+config INCLUDE_BM64_I2S
+    depends on HAVE_I2S	
+    depends on USE_DRV_BLUETOOTH_BM64
+    bool "Include HFP,A2DP,AVRCP Protocols?"
+    select BM64_I2S_NEEDED
+    default y
+    ---help---
+    IDH_HTML_INCLUDE_BM64_I2S
+    ---endhelp---
+
+config INCLUDE_BM64_BLE
+    depends on USE_DRV_BLUETOOTH_BM64
+    bool "Include BLE Features?"
+    select BM64_BLE_NEEDED
+    default y
+    ---help---
+    IDH_HTML_INCLUDE_BM64_BLE
+    ---endhelp---
+
+config DRV_BM64_IMPLEMENTATION
+    string "Driver Implementation"    	
+    depends on USE_DRV_BLUETOOTH_BM64
+    range DRV_BM64_IMPLEMENTATION_RANGE
+    default "STATIC"
+    persistent
+    ---help---
+    IDH_HTML_BM64_Bluetooth_Driver_Library
+    ---endhelp---
+
+config DRV_BM64_CLIENTS_NUMBER
+    int "Number of BM64 Driver Clients"
+    depends on USE_DRV_BLUETOOTH_BM64
+    range 1 DRV_BM64_CLIENTS_NUMBER
+    default 1
+    persistent
+    ---help---
+    IDH_HTML_BM64_Bluetooth_Driver_Library
+    ---endhelp---
+endmenu  	
+
+ifblock USE_DRV_BLUETOOTH_BM64=y
+add "<#include \"/framework/driver/bluetooth/bm64/templates/drv_bm64_system_definitions.h.ftl\">" to list SYSTEM_DEFINITIONS_H_INCLUDES
+add "<#include \"/framework/driver/bluetooth/bm64/templates/drv_bm64_init.c.ftl\">" to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/bluetooth/bm64/templates/drv_bm64_tasks.c.ftl\">" to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/bluetooth/bm64/templates/drv_bm64_system_config.h.ftl\">" to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION
+
+template DRV_BM64_LOCAL_H_FTL "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/templates/drv_bm64_local.h.ftl" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_local.h"
+template DRV_BM64_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/templates/drv_bm64.c.ftl" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64.c"
+ 
+file DRV_BM64_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64.h"
+file DRV_BM64_BLE_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64_ble.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_ble.h"
+file DRV_BM64_COMMAND_DECODE_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64_command_decode.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_command_decode.h"
+file DRV_BM64_COMMAND_SEND_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64_command_send.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_command_send.h"
+file DRV_BM64_GPIO_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64_gpio.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_gpio.h"
+file DRV_BM64_LINE_IN_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64_line_in.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_line_in.h"
+file DRV_BM64_SHA1_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64_sha1.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_sha1.h"
+file DRV_BM64_UART_H "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/drv_bm64_uart.h" to "$PROJECT_HEADER_FILES/framework/driver/bluetooth/bm64/drv_bm64_uart.h"
+
+file DRV_BM64_BLE_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/src/drv_bm64_ble.c" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64_ble.c"
+file DRV_BM64_COMMAND_DECODE_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/src/drv_bm64_command_decode.c" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64_command_decode.c"
+file DRV_BM64_COMMAND_SEND_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/src/drv_bm64_command_send.c" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64_command_send.c"
+file DRV_BM64_GPIO_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/src/drv_bm64_gpio.c" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64_gpio.c"
+file DRV_BM64_LINE_IN_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/src/drv_bm64_line_in.c" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64_line_in.c"
+file DRV_BM64_SHA1_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/src/drv_bm64_sha1.c" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64_sha1.c"
+file DRV_BM64_UART_C "$HARMONY_VERSION_PATH/framework/driver/bluetooth/bm64/src/drv_bm64_uart.c" to "$PROJECT_SOURCE_FILES/framework/driver/bluetooth/bm64/src/drv_bm64_uart.c"
+endif	

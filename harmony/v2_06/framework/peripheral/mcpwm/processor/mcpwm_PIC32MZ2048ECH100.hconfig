@@ -1,0 +1,15 @@
+#Created by plib_hconfig_gen $Revision: 1.00 
+
+config PIC32MZ2048ECH100_MCPWM
+	bool
+	select HAVE_MCPWM
+	default n
+
+config MCPWM_NUMBER_OF_MODULES
+	int
+	default 0
+
+ifblock PROJECT_STANDALONE
+file PLIB_MCPWM_INTERNAL_H "$HARMONY_VERSION_PATH/framework/peripheral/mcpwm/processor/mcpwm_p32mz2048ech100.h" to "$PROJECT_HEADER_FILES/framework/peripheral/mcpwm/processor/mcpwm_p32mz2048ech100.h"
+
+endif

@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>aria_video_player</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03726.html">aria_video_player</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03725.html">Previous</a> | <a href="03738.html">Up</a> | <a href="03727.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_video_player Topic Title: aria_video_player)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+aria_video_player</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+This application is an example on how to play video with user-interface controls using the <a href="12771.html">Aria User Interface Library</a>. The video is in RAW format that is pre-generated using publicly available software like FFMPEG. The video file is then read by the application from external media like a USB drive or SD card.&nbsp;</p>
+<p class="Element10">
+User interface controls are also shown simultaneously with the video playback. This allows the user to control the video playback properties, and also shows useful information such as frame rates, bandwidth, etc.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+The following block diagrams show the various software and hardware blocks used in this application.&nbsp;</p>
+<p class="Element10">
+In all configurations, the application reads the video frame data from raw video files in a USB thumb drive or a microSD card. To optimize the video frame rendering process, the application writes the frame data directly to the frame buffer. Thus the video frame format should match the format of the frame buffer; in this case it is RGB565. A hardware timer and the Timer System Service send events to the application to update the frames based on the user-selected frame update rate.&nbsp;</p>
+<p class="Element10">
+The user interface controls and widgets are rendered to the frame buffer by the Graphics Library. The Graphics library also processes the input touch events and directs them to the application as needed.&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>pic32mz_da_sk_extddr_meb2, pic32mz_da_sk_extddr_meb2_wvga</strong>&nbsp;</p>
+<p class="Element10">
+In these configurations, the frame buffers used for the video frames and the UI controls are located in the external DDR. The application takes advantage of the multiple (3) layers supported by the Graphics LCD (GLCD) Controller. The application writes out the video frames to a dedicated video layer and the Graphics Library renders the widgets and controls the other two layers. The GLCD continuously composites the video and UI layers into a single frame and sends the final frame to the display. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_video_player pic32mz_da_sk_extddr_meb2, pic32mz_da_sk_extddr_meb2_wvga aria_video_player.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+<strong>pic32mz_da_sk_intddr_meb2, pic32mz_da_sk_intddr_meb2_wvga</strong>&nbsp;</p>
+<p class="Element10">
+In these configurations, the frame buffers used for the video frames and the UI controls are located in the internal DDR. The application takes advantage of the multiple (3) layers supported by the GLCD controller. The application writes out the video frames to a dedicated video layer and the Graphics Library renders the widgets and controls the other two layers. The GLCD continuously composites the video and UI layers into a single frame and sends the final frame to the display. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_video_player pic32mz_da_sk_intddr_meb2, pic32mz_da_sk_intddr_meb2_wvga aria_video_player.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+<strong>pic32mz_da_sk_noddr_meb2</strong>&nbsp;</p>
+<p class="Element10">
+In this configuration, the video frame and UI widgets are drawn in a single frame buffer in the internal SRAM. Since only one layer is used, the application must ensure that the video frames do not overwrite the controls on the screen. When showing the playback controls in full screen playback mode, the controls are in the bottom area of the screen. Therefore, the bottom part of the video frame that would have overlapped with the controls is not rendered. In non-full screen mode, the controls and video frames are positioned so that they do not overlap with each other. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_video_player pic32mz_da_sk_noddr_meb2 for video player.png" border="0" alt="" title=""></p><p class="Element10">
+<strong>pic32mz_ef_sk_meb2</strong>&nbsp;</p>
+<p class="Element10">
+In this configuration, the video frame and UI widgets are drawn on a single frame buffer in the internal SRAM. Since only one layer is used, the application must ensure that the video frames do not overwrite the controls on the screen. When showing the playback controls in full screen playback mode, the controls are located at the bottom area of the screen, thus the bottom part of the video frame that would have overlapped with the controls are not rendered. In non-full screen mode, the controls and video frames are positioned so that they do not overlap with each other. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_video_player pic32mz_ef_sk_meb2 for aria_video_player.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">Video Playback (RAW video format)</li>
+<li class="Element600">External Media Support (USB Drive, microSD Card)</li>
+<li class="Element600">Three graphics layer supported via GLCD (PIC32MZ DA)</li>
+<li class="Element600">Per layer run-time adjustable alpha blending (PIC32MZ DA)</li>
+<li class="Element600">Hardware timer and <a href="27082.html">Timer System Service</a></li>
+<li class="Element600">Image compression techniques using Run-Length Encoding</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+
+<ul class="Element630">
+<li class="Element600">For the PIC32MZ EF configuration, <i>SD Card Driver</i> is enabled in <i>Drivers</i> in MHC</li>
+<li class="Element600">For the PIC32MZ DA configurations, <i>SD Host Controller Driver</i> is enabled in <i>Drivers</i> in MHC</li>
+<li class="Element600"><i>File System Service</i> is enabled in <i>System Services</i> in MHC
+<ul class="Element631">
+<li class="Element601"><i>Use File System Auto Mount Feature</i> is enabled</li>
+<li class="Element601">The <i>Total Number Of Media</i> is set to 2. For <i>Media 0</i>, set <i>Media Type</i> to <span class="Element146">SYS_FS_MEDIA_TYPE_MSD</span>, <i>Media Mount Name</i> to <span class="Element146">/mnt/usb</span>. For <i>Media 1</i>, set <i>Media Type</i> to <span class="Element146">SYS_FS_MEDIA_TYPE_SD_CARD</span>, <i>Media Mount Name</i> to <span class="Element146">/mnt/sdcard</span></li>
+</ul></li>
+<li class="Element600"><i>Use USB Stack</i> is enabled in <i>USB Library</i> in MHC. <i>USB Host</i> and <i>Use MSD Host Client Driver</i> are enabled</li>
+<li class="Element600">Select the ON and OE for REFCLK4 in the Clock Diagram tab in MHC</li>
+<li class="Element600">The heap size is set to 102400 bytes to ensure enough memory for dynamic allocations. This is done by setting the size in MHC through the following menu selection: <i>Device &amp; Project Configuration &gt;Project Configuration &gt; XC32 (Global Options)&gt;xc32-ld &gt;General</i></li>
+</ul></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03727.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the Aria Video Player demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03728.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03729.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section provides information on how to run and use the application.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03726.html">aria_video_player</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_video_player Topic Title: aria_video_player)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,213 @@
+enum DRV_AK4954_IMPLEMENTATION
+    "DYNAMIC"
+
+ifblock SELECT_DRV_AK4954=y    
+config USE_DRV_CODEC_AK4954
+	depends on SELECT_DRV_AK4954
+	depends on HAVE_I2S	
+	depends on HAVE_I2C
+	bool
+	select DRIVER
+	select USE_DRV_I2S_NEEDED	
+	select USE_DRV_I2C_NEEDED
+	select USE_SYS_CLK_DYNAMIC_NEEDED
+	select USE_SYS_CLK
+	default y if SELECT_DRV_AK4954	
+	default n if !SELECT_DRV_AK4954
+    	---help---
+    	IDH_HTML_AK4954_Driver_Library
+    	---endhelp---
+endif
+
+menu "RTOS Configuration"
+    depends on SELECT_DRV_AK4954
+    depends on USE_DRV_CODEC_AK4954
+    depends on USE_3RDPARTY_RTOS
+    depends on DRV_CODEC_AK4954_IMPL = "DYNAMIC"
+
+config DRV_CODEC_AK4954_RTOS
+    string "Run Library Tasks As"
+    range 3RDPARTY_RTOS_SYS_TASKS_OPTIONS
+    default "Standalone"
+
+config DRV_CODEC_AK4954_RTOS_TASK_SIZE
+    int "Task Size"
+    depends on DRV_CODEC_AK4954_RTOS = "Standalone"
+    default 1024
+
+config DRV_CODEC_AK4954_RTOS_TASK_PRIORITY
+    int "Task Priority"
+    depends on DRV_CODEC_AK4954_RTOS = "Standalone"
+    default 1
+
+config DRV_CODEC_AK4954_RTOS_USE_DELAY
+    bool "Use Task Delay?"
+    depends on DRV_CODEC_AK4954_RTOS = "Standalone"
+    default y
+
+config DRV_CODEC_AK4954_RTOS_DELAY
+    int "Task Delay"
+    depends on DRV_CODEC_AK4954_RTOS = "Standalone"
+    depends on DRV_CODEC_AK4954_RTOS_USE_DELAY
+    default 1000
+endmenu
+
+config DRV_CODEC_AK4954_IMPL
+    	string "Driver Implementation"
+	depends on SELECT_DRV_AK4954    	
+    	depends on USE_DRV_CODEC_AK4954
+    	range DRV_AK4954_IMPLEMENTATION
+    	default "DYNAMIC"
+    	persistent
+    	---help---
+    	IDH_HTML_AK4954_Driver_Library
+	---endhelp---
+
+enum DRV_AK4954_MCLK_SAMPLE_FREQ_MULTPLIER_VALUE
+	 "128"
+	|| "192"
+	|| "256"
+	|| "384"
+	|| "512"
+	|| "768"
+	|| "1152"
+
+enum DRV_AK4954_BCLK_BIT_CLK_DIVISOR_VALUE
+	 "1"
+	|| "2"
+	|| "4"
+	|| "8"	
+
+enum DRV_AK4954_AUDIO_DATA_FORMAT_VAL
+	"DRV_AK4954_AUDIO_DATA_FORMAT_24BIT_MSB_SDTO_24BIT_LSB_SDTI "
+	|| "DRV_AK4954_AUDIO_DATA_FORMAT_24BIT_MSB_SDTO_16BIT_LSB_SDTI"
+	|| "DRV_AK4954_AUDIO_DATA_FORMAT_24BIT_MSB_SDTO_24BIT_MSB_SDTI"
+        || "DRV_AK4954_AUDIO_DATA_FORMAT_I2S_16BIT_24BIT"           
+        || "DRV_AK4954_AUDIO_DATA_FORMAT_32BIT_MSB_SDTO_32BIT_MSB_SDTI"            
+        || "DRV_AK4954_AUDIO_DATA_FORMAT_I2S_32BIT"
+
+config DRV_AK4954_BCLK_BIT_CLK_DIVISOR
+string 
+depends on SELECT_DRV_AK4954
+depends on USE_DRV_CODEC_AK4954		
+default "1" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "1"
+    default "2" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "2"
+    default "4" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "4"
+    default "8" if DRV_I2S_BCLK_BIT_CLK_DIVISOR = "8"
+
+
+config DRV_AK4954_VOLUME
+	int "Volume for the DAC in the range 0(Min) - 255(Max), the real audible range in dB for the codec maps between 80(-75dB) - 255(+12dB)"
+	depends on SELECT_DRV_AK4954	
+	depends on USE_DRV_CODEC_AK4954
+	range 0 255
+	default 150
+    	---help---
+    	IDH_HTML_DRV_AK4954_INIT
+    	---endhelp---
+
+config USE_DRV_AK4954_MCLK
+    bool "Specify MCLK value"
+    depends on SELECT_DRV_AK4954
+    default n
+    select USE_DRV_I2S_CUSTOM_MULTIPLIER
+
+config DRV_AK4954_MCLK
+    string "MCLK"
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    default "128"
+    range DRV_AK4954_MCLK_SAMPLE_FREQ_MULTPLIER_VALUE
+
+config DRV_AK4954_MCLK_USE_128_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_128
+    default y if DRV_AK4954_MCLK = "128"
+    default n
+
+config DRV_AK4954_MCLK_USE_192_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_192
+    default y if DRV_AK4954_MCLK = "192"
+    default n
+
+config DRV_AK4954_MCLK_USE_256_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_256
+    default y if DRV_AK4954_MCLK = "256"
+    default n
+
+config DRV_AK4954_MCLK_USE_384_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_384
+    default y if DRV_AK4954_MCLK = "384"
+    default n
+
+config DRV_AK4954_MCLK_USE_512_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_512
+    default y if DRV_AK4954_MCLK = "512"
+    default n
+
+config DRV_AK4954_MCLK_USE_768_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_768
+    default y if DRV_AK4954_MCLK = "768"
+    default n
+
+config DRV_AK4954_MCLK_USE_1152_BAUD_RATE
+    bool
+    depends on SELECT_DRV_AK4954 && USE_DRV_AK4954_MCLK
+    select USE_DRV_I2S_BAUD_RATE_MULTIPLIER_1152
+    default y if DRV_AK4954_MCLK = "1152"
+    default n
+
+config DRV_AK4954_DELAY_INITIALIZATION
+    bool "Delay driver initialization (due to shared RESET pin)"
+    depends on SELECT_DRV_AK4954
+    default y if USE_DRV_BLUETOOTH_BM64 = "y"
+    default n
+	---help---
+	IDH_HTML_DRV_AK4954_DELAY_INITIALIZATION
+	---endhelp---
+
+config DRV_AK4954_AUDIO_DATA_FORMAT_MACRO
+	depends on SELECT_DRV_AK4954
+	depends on USE_DRV_CODEC_AK4954
+	range DRV_AK4954_AUDIO_DATA_FORMAT_VAL
+    	---help---
+    	IDH_HTML_DRV_AK4954_INIT
+    	---endhelp---
+
+config DRV_AK4954_CLIENTS_NUMBER
+    int "Number of AK4954 Driver Clients"
+    depends on USE_DRV_CODEC_AK4954
+	range 1 2
+    default 1
+
+config DRV_AK4954_INSTANCES_NUMBER
+    depends on SELECT_DRV_AK4954
+    depends on USE_DRV_CODEC_AK4954
+    range 1 DRV_AK4954_INSTANCES_NUMBER
+    default 1
+    persistent
+
+	
+source "$HARMONY_VERSION_PATH/framework/driver/codec/ak4954/config/drv_ak4954_idx.ftl" 1 instances    	
+
+ifblock USE_DRV_CODEC_AK4954=y && SELECT_DRV_AK4954=y
+
+add "<#include \"/framework/driver/codec/ak4954/templates/drv_ak4954.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/codec/ak4954/templates/drv_ak4954_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/codec/ak4954/templates/drv_ak4954_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+add "<#include \"/framework/driver/codec/ak4954/templates/drv_ak4954.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+
+file DRV_CODEC_AK4954 "$HARMONY_VERSION_PATH/framework/driver/codec/ak4954/drv_ak4954.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak4954/drv_ak4954.h"
+file DRV_CODEC_AK4954_LOCAL_H "$HARMONY_VERSION_PATH/framework/driver/codec/ak4954/src/drv_ak4954_local.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak4954/drv_ak4954_local.h"
+file DRV_CODEC_AK4954_I2C_MAPPING_H "$HARMONY_VERSION_PATH/framework/driver/codec/ak4954/drv_codec_i2c_mapping.h" to "$PROJECT_HEADER_FILES/framework/driver/codec/ak4954/drv_codec_i2c_mapping.h"
+endif	

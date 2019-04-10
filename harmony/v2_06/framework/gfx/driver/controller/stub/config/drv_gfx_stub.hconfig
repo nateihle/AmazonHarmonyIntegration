@@ -1,0 +1,25 @@
+ifblock DRV_GFX_CONTROLLER_TYPE = "STUB"
+
+menu "Stub"
+
+enum DRV_GFX_STUB_COLOR_MODES
+    "RGB_565" ||
+	"RGB_888"
+
+config DRV_GFX_STUB_COLOR_MODE
+	string "Color Mode"
+	range DRV_GFX_STUB_COLOR_MODES
+	default "RGB_565"
+	
+endmenu
+
+endif
+
+ifblock DRV_GFX_CONTROLLER_TYPE = "Stub"
+
+template DRV_GFX_STUB_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/stub/templates/drv_gfx_stub.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/stub/drv_gfx_stub.h"
+template DRV_GFX_STUB_COMMON_H "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/stub/templates/drv_gfx_stub_common.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/stub/drv_gfx_stub_common.h"
+
+template DRV_GFX_STUB_C "$HARMONY_VERSION_PATH/framework/gfx/driver/controller/stub/templates/drv_gfx_stub.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/gfx/driver/controller/stub/drv_gfx_stub.c"
+
+endif

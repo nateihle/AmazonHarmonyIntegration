@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Bootloader Communication Protocol (UART, USB HID, and Ethernet)</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04889.html">Using the Library</a> &gt; <a href="04882.html">How the Library Works</a> &gt; <a href="04867.html">Bootloader Communication Protocol (UART, USB HID, and Ethernet)</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="04888.html">Previous</a> | <a href="04882.html">Up</a> | <a href="04876.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Communication Protocol (UART, USB HID, and Ethernet) Topic Title: Bootloader Communication Protocol (UART, USB HID, and Ethernet))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Bootloader Communication Protocol (UART, USB HID, and Ethernet)</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The PC host application uses a communication protocol to interact with the Bootloader firmware. The PC host application acts as a master and issues commands to the Bootloader firmware to perform specific operations.</p><div class="Element15">
+Frame Format</div>
+<p class="Element10">
+The communication protocol follows the frame format, as shown in Example 1. The frame format remains the same in both directions, that is, from the host application to the Bootloader, and from the Bootloader to the host application.&nbsp;</p>
+<p class="Element10">
+<strong>Example 1: Frame Format</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00179');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00179"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;[&lt;DATA&gt;…]&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;
+Where:
+ &lt;...&gt; Represents a byte
+ [...] Represents an optional or variable number of bytes</pre></div></div>
+<p class="Element10">
+The frame starts with a control character, Start of Header (SOH), and ends with another control character, End of Transmission (EOT). The integrity of the frame is protected by two bytes of Cyclic Redundancy Check (CRC)-16, represented by CRCL (low-byte) and CRCH (high-byte).</p><div class="Element15">
+Control Characters</div>
+<p class="Element10">
+Some bytes in the Data field may imitate the control characters, SOH and EOT. The Data Link Escape (DLE) character is used to escape such bytes that could be interpreted as control characters. The Bootloader always accepts the byte following a &lt;DLE&gt; as data, and always sends a &lt;DLE&gt; before any of the control characters.&nbsp;</p>
+<p class="Element10">
+<strong>Table 1: Control Character Descriptions</strong> &nbsp;</p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="32%">
+<div class="Element66">
+Control&nbsp;</div></td><td class="Element65" valign="top" width="14%">
+<div class="Element66">
+Hex Value&nbsp;</div></td><td class="Element65" valign="top" width="54%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">&lt;SOH&gt;</span>&nbsp;</div></td><td class="Element67" valign="top" width="14%">
+<div class="Element68">
+0x01&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+Marks the beginning of a frame.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">&lt;EOT&gt;</span>&nbsp;</div></td><td class="Element67" valign="top" width="14%">
+<div class="Element68">
+0x04&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+Marks the end of a frame.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="32%">
+<div class="Element68">
+<span class="Element146">&lt;DLE&gt;</span>&nbsp;</div></td><td class="Element67" valign="top" width="14%">
+<div class="Element68">
+0x10&nbsp;</div></td><td class="Element67" valign="top" width="54%">
+<div class="Element68">
+Data link escape.&nbsp;</div></td></tr></table></div></div>
+<div class="Element15">
+Commands</div>
+<p class="Element10">
+The PC host application can issue the commands listed in Table 2 to the Bootloader. The first byte in the data field carries the command. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="28%">
+<div class="Element66">
+Command Value in Hexadecimal&nbsp;</div></td><td class="Element65" valign="top" width="72%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="28%">
+<div class="Element68">
+0x01&nbsp;</div></td><td class="Element67" valign="top" width="72%">
+<div class="Element68">
+Read the Bootloader version information.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="28%">
+<div class="Element68">
+0x02&nbsp;</div></td><td class="Element67" valign="top" width="72%">
+<div class="Element68">
+Erase the Flash.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="28%">
+<div class="Element68">
+0x03&nbsp;</div></td><td class="Element67" valign="top" width="72%">
+<div class="Element68">
+Program the Flash.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="28%">
+<div class="Element68">
+0x04&nbsp;</div></td><td class="Element67" valign="top" width="72%">
+<div class="Element68">
+Read the CRC.&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="28%">
+<div class="Element68">
+0x05&nbsp;</div></td><td class="Element67" valign="top" width="72%">
+<div class="Element68">
+Jump to the application.&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+<i>Read Bootloader Version Information</i>&nbsp;</p>
+<p class="Element10">
+The PC host application request for version information to the Bootloader is shown in Example 2.&nbsp;</p>
+<p class="Element10">
+<strong>Example 2: Request</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00180');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00180"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;[&lt;0x01&gt;]&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+The Bootloader responds to the PC request for version information in two bytes, as shown in Example 3.&nbsp;</p>
+<p class="Element10">
+<strong>Example 3: Response</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00181');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00181"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x01&gt;&lt;MAJOR_VER&gt;&lt;MINOR_VER&gt;
+&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;
+
+Where:
+MAJOR_VER = Major version of the Bootloader
+MINOR_VER = Minor version of the Bootloader</pre></div></div>
+<p class="Element10">
+<i>Erase Flash</i>&nbsp;</p>
+<p class="Element10">
+On receiving the erase Flash command from the PC host application, the Bootloader erases that part of the program Flash, which is allocated for the user application. The request frame from the PC host application to the Bootloader is shown in Example 4.&nbsp;</p>
+<p class="Element10">
+<strong>Example 4: Request</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00182');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00182"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x02&gt;&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+The response frame from the Bootloader to the PC host application is shown in Example 5.&nbsp;</p>
+<p class="Element10">
+<strong>Example 5: Response</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00183');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00183"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x02&gt;&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+<i>Program Flash</i>&nbsp;</p>
+<p class="Element10">
+The PC host application sends one or multiple hex records in Intel Hex format along with the program Flash command. The MPLAB XC32 C/C++ Compiler generates the image in the Intel Hex format. Each line in the Intel hexadecimal file represents a hexadecimal record. Each hexadecimal record starts with a colon (:) and is in ASCII format. The PC host application discards the colon and converts the remaining data from ASCII to hexadecimal, and then sends the data to the Bootloader. The Bootloader extracts the destination address and data from the hex record, and writes the data into program Flash.&nbsp;</p>
+<p class="Element10">
+The request frame from the PC host application to the Bootloader is shown in Example 6.&nbsp;</p>
+<p class="Element10">
+<strong>Example 6: Request</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00184');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00184"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x03&gt;[&lt;HEX_RECORD&gt;…]&lt;CRCL&gt;
+&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+Where, <span class="Element146">HEX_RECORD</span> is the Intel Hex record in hexadecimal format.&nbsp;</p>
+<p class="Element10">
+The response from the Bootloader to the PC host application is shown in Example 7.&nbsp;</p>
+<p class="Element10">
+<strong>Example 7: Response</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00185');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00185"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x03&gt;&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+<i>Read CRC</i>&nbsp;</p>
+<p class="Element10">
+The read CRC command is used to verify the content of the program Flash after programming. The request frame from the PC host application to the Bootloader is shown in Example 8.&nbsp;</p>
+<p class="Element10">
+<strong>Example 8: Request</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00186');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00186"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x04&gt;&lt;ADRS_LB&gt;&lt;ADRS_HB&gt;
+&lt;ADRS_UB&gt;&lt;ADRS_MB&gt;&lt;NUMBYTES_LB&gt;&lt;NUMBYTES_HB&gt;
+&lt;NUMBYTES_UB&gt;&lt;NUMBYTES_MB&gt;&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+<span class="Element146">ADRS_LB</span>, <span class="Element146">ADRS_HB</span>, <span class="Element146">ADRS_UB</span> and <span class="Element146">ADRS_MB</span>, as shown in Example 8, represent the 32-bit Flash addresses from where the CRC calculation begins.&nbsp;</p>
+<p class="Element10">
+<span class="Element146">NUMBYTES_LB</span>, <span class="Element146">NUMBYTES_HB</span>, <span class="Element146">NUMBYTES_UB</span> and <span class="Element146">NUMBYTES_MB</span>, as shown in Example 8, represent the total number of bytes in 32-bit format for which the CRC is to be calculated.&nbsp;</p>
+<p class="Element10">
+The response from the Bootloader to the PC host application is shown in Example 9.&nbsp;</p>
+<p class="Element10">
+<strong>Example 9: Response</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00187');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00187"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x04&gt;&lt;FLASH_CRCL&gt;&lt;FLASH_CRCH&gt;
+&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+<i>Jump to Application</i>&nbsp;</p>
+<p class="Element10">
+The Jump to Application command from the PC host application commands the Bootloader to execute the application. The request frame from the PC host application to the Bootloader is shown in Example 10.&nbsp;</p>
+<p class="Element10">
+Example 10: Request </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00188');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00188"><pre class="Element12">[&lt;SOH&gt;…]&lt;SOH&gt;&lt;0x05&gt;&lt;CRCL&gt;&lt;CRCH&gt;&lt;EOT&gt;</pre></div></div>
+<p class="Element10">
+There is no response to this command from the Bootloader because the Bootloader immediately exits the firmware upgrade mode and begins executing the application.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="04884.html">Bootloader Library Help</a> &gt; <a href="04889.html">Using the Library</a> &gt; <a href="04882.html">How the Library Works</a> &gt; <a href="04867.html">Bootloader Communication Protocol (UART, USB HID, and Ethernet)</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: BOOTLOADER Bootloader Communication Protocol (UART, USB HID, and Ethernet) Topic Title: Bootloader Communication Protocol (UART, USB HID, and Ethernet))&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Running the Demonstration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03674.html">aria_coffee_maker</a> &gt; <a href="03677.html">Running the Demonstration</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03676.html">Previous</a> | <a href="03674.html">Up</a> | <a href="03678.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_coffee_maker_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Running the Demonstration</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+ &nbsp;</p>
+<p class="Element10">
+On start-up, the application will display a splash screen: </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_coffee_maker Splash Screen.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p><p class="Element10">
+Subsequently, the demonstration’s main screen will appear. The following image shows the main screen for the pic32mz_da_sk_extddr_meb2,and pic32mz_da_sk_intddr_meb2, configurations. </p><p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_coffee_maker Main Screen.png" border="0" alt="" title="">&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+As indicated by the hand icon ( <img src="APPS GFX aria_coffee_maker Hand Icon.png" border="0" alt="" title="">), the gray areas on each side are trays that can slide horizontally.&nbsp;</p>
+<p class="Element10">
+To reveal or hide the trays from the screen area, the application can recognize two different behaviors when pressing your finger near the hand icon:</p>
+<ol class="Element630">
+<li value="1" class="Element600">Moving your finger slowly in a horizontal direction while maintaining contact with the touch screen and the tray you are in contact with will perform a pixel-by-pixel movement until the tray reaches its minimum/maximum constraint of movement.</li>
+<li value="2" class="Element600">Swiping your finger in a quicker horizontal motion will trigger the application to automatically move the tray in the same direction as your finger swipe.</li>
+</ol><div class="Element15">
+Left Tray</div>
+<p class="Element10">
+The left tray has six buttons. Touching each demonstrates a different feature.&nbsp;</p>
+<p class="Element10">
+The flag button triggers the Aria User Interface Library multi-lingual localization feature to cycle through English, German, Italian and French. The image on the button changes to American, German, Italian and French flags to indicate the current language being displayed. Note that it is not just the labels in the current screen that has their text changed. The label widgets within the Info Screen also have their text changed to reflect the current language selected.&nbsp;</p>
+<p class="Element10">
+The coffee bean button simulates changing the coffee maker appliance to use coffee beans from different roast level (Dark, Medium and Light). Each time the button is touched and released, the coffee bean image in the background changes along with the label widget indicating which roast level the application is at currently. There is one image for dark, two for medium and one for light. The image and the label widget are actually rendered on layer 0 in the application. Changing them independently while trays and list wheels are moving in the foreground serves as a way to demonstrate the hardware accelerated per-layer blending capability supported by the GLCD.&nbsp;</p>
+<p class="Element10">
+The tea cup button cycles the two trays (each on its own layer) through three different alpha-blend settings. This button demonstrates the capability for the GLCD peripheral to manage the layer-wide “global” alpha-blend value.&nbsp;</p>
+<p class="Element10">
+The coffee cup button simulates adjusting the temperature of the water for the coffee maker appliance. There are three temperature levels as indicated by the icon on the button. As the temperature level changes, the images on the list wheel on the right tray change accordingly. Touching this button also triggers the right tray to automatically slide out if it is not completely exposed.&nbsp;</p>
+<p class="Element10">
+The GPU button turns the GPU support to the Graphics Library ON or OFF at real-time. When the button shows “GPU ON”, the Graphics Library is using the Nano2D library to drive the GPU to draw to the frame buffer. When it is showing “GPU OFF”, the Graphics Library is relying solely on its own software-based drawing algorithms to compose the frame buffer.&nbsp;</p>
+<p class="Element10">
+The “?” button leads the application to switch to the Information Screen, where the features demonstrated by this application is listed in a vertically touch draggable text plane.</p><div class="Element15">
+Right Tray</div>
+<p class="Element10">
+The right tray has a list wheel and a button.&nbsp;</p>
+<p class="Element10">
+The list wheel simulates the brew size selection for a coffee maker. There are four different sizes. Depending on which one is selected, the button below the list wheel updates to the current brew size selected. As mentioned before, the images on the list wheel will change depending on the temperature selected by the button on the left tray.&nbsp;</p>
+<p class="Element10">
+Touching the brew button below the list wheel activates an LED on the MEB II to simulate triggering a motor in the appliance to begin the brewing process. Depending on which brew size is selected, a different LED is enabled.</p><div class="Element15">
+Information Screen</div>
+<p class="Element10">
+The information screen serves as a screen to list out the demonstrated features of the demo. It also provides two features.</p>
+<ul class="Element630">
+<li class="Element600">The features are located on layer1. Sliding your finger up or down will cause the feature list to scroll up and down as if it’s on an invisible glass pane. The MPLAB Harmony logo that is rendered on layer0 is another demonstration of the real-time alpha-blending capability of the GLCD.</li>
+<li class="Element600">Touching the Microchip logo will trigger the application to the splash screen. Once the splash screen animation has complete, the application will return to the information screen.</li>
+</ul><p class="Element10">
+&nbsp;</p>
+<p class="Element10" style="text-align: center;">
+<img src="APPS GFX aria_coffee_maker Information Page.png" border="0" alt="" title=""></p><p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+&nbsp;</p>
+<div class="Element15">
+Autonomous Demonstration Mode</div>
+<p class="Element10">
+As built, Demonstration Mode is always active. It consists of two phases: Record or Playback.&nbsp;</p>
+<p class="Element10">
+<strong>Record Phase:</strong>&nbsp;</p>
+<p class="Element10">
+The application starts in the Record Phase once it reaches the main screen after startup. Touch events are recorded until the event buffer is full or no touch events are seen and an idle period times out. (Idle is typically 20-60 seconds). Having recorded a buffer of touch events the Playback Phase starts.&nbsp;</p>
+<p class="Element10">
+<strong>Playback Phase:</strong>&nbsp;</p>
+<p class="Element10">
+Playback starts after the idle period times out. The application returns to the opening splash screen and the playback of recorded touch events starts when the application reaches the main screen. After executing the touch events recorded, the application will wait until a replay delay (typically 5-15 seconds) before starting the replay over.&nbsp;</p>
+<p class="Element10">
+If the user initiates a touch event during playback it will terminate and not start up again until the idle period times out again. After the idle time out, the application will return to the splash screen and event replay will start once the main screen is active.&nbsp;</p>
+<p class="Element10">
+Once the initial idle time out occurs it is not possible to record a new set of touch events except by restarting the application via a power up or master clear.&nbsp;</p>
+<p class="Element10">
+<strong>Disabling Demo Mode:</strong>&nbsp;</p>
+<p class="Element10">
+Demo mode can be disabled through MHC by selecting <i>Harmony Framework Configuration &gt; Graphics Stack &gt; Use Graphics Stack? &gt; Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library&gt; <strong>Enable Demo Mode?</i></strong>. Then, reconfigure the application using MHC, rebuild, and then reload.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="13038.html">Graphics Demonstrations</a> &gt; <a href="03738.html">Demonstrations</a> &gt; <a href="03674.html">aria_coffee_maker</a> &gt; <a href="03677.html">Running the Demonstration</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS GFX aria_coffee_maker_run Topic Title: Running the Demonstration)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

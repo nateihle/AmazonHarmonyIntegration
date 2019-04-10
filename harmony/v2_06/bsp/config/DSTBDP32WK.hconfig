@@ -1,0 +1,60 @@
+choice
+    prompt "Select BSP To Use For $DEVICE Device"
+    depends on USE_BSP
+    default BSP_PIC32WK_GPB_GPD_SK_MODULE
+    ---help---
+    BSP for PIC32WK Starter Kit with Module
+    ---endhelp---
+
+	
+config BSP_PIC32WK_GPB_GPD_SK_MODULE
+    depends on USE_BSP
+    select BSP_TRIGGER
+	select BSP_USE_USBSWITCH
+    bool "PIC32WK Starter Kit with Module"
+    ---help---
+    BSP for PIC32WK Starter Kit with Module
+    ---endhelp---
+		
+config BSP_CUSTOM
+    depends on USE_BSP
+    bool "Custom"
+
+endchoice	
+
+source "$HARMONY_VERSION_PATH/bsp/pic32wk_gpb_gpd_sk+module/config/bsp.hconfig"
+
+config BSP_DSTBDP32WK_COMMON
+    set JTAGEN optionally to "ON" if USE_BSP
+    set SYS_DEVCON_USE_JTAG optionally to y if USE_BSP
+    set TRCEN optionally to "OFF"
+	set ICESEL optionally to "ICS_PGx2" if USE_BSP
+	set SYS_CLK_NOSC optionally to "OSC_PRIMARY_WITH_PLL" if USE_BSP
+	set SYS_CLK_SOSCEN optionally to n if USE_BSP
+	set POSCMOD optionally to "HS" if USE_BSP
+	set WDT_EN optionally to "OFF"
+	set DMT_EN optionally to "OFF"
+	set PGLOCK optionally to "OFF"
+	set PMDLOCK optionally to "OFF"
+	set IOLOCK optionally to "OFF"
+	set CFGLOCK optionally to "OFF"
+    set SYS_CLK_SPLLRNG optionally to "OSC_SYSPLL_FREQ_RANGE_25M_TO_40M" if USE_BSP
+    set SYS_CLK_SPLLICLK optionally to "OSC_SYSPLL_IN_CLK_SOURCE_PRIMARY" if USE_BSP
+    set SYS_CLK_SPLLIDIV optionally to 1 if USE_BSP
+    set SYS_CLK_SPLLMULT optionally to 24 if USE_BSP
+    set SYS_CLK_SPLLODIV optionally to "OSC_SYSPLL_OUT_DIV_8" if USE_BSP	
+    set SYS_CLK_BTPLLICLK optionally to "OSC_BTPLL_IN_CLK_SOURCE_PRIMARY" if USE_BSP	
+    set SYS_CLK_BTPLLIDIV optionally to 2 if USE_BSP	
+    set SYS_CLK_BTPLLIDIV optionally to 2 if USE_BSP	
+    set SYS_CLK_BTPLLMULT optionally to 39 if USE_BSP	
+    set SYS_CLK_BTPLLODIV optionally to "OSC_BTPLL_OUT_DIV_30" if USE_BSP	
+    set SYS_CLK_BTPLLRNG optionally to "OSC_BTPLL_FREQ_RANGE_16M_TO_25M" if USE_BSP	
+    set SYS_CLK_UPLLIDIV optionally to "OSC_UPLL_IN_DIV_1" if USE_BSP	
+    set SYS_CLK_UPLLRNG optionally to "OSC_UPLL_FREQ_RANGE_25M_TO_40M" if USE_BSP	
+    set SYS_CLK_UPLLMULT optionally to 24 if USE_BSP	
+    set SYS_CLK_UPLLODIV optionally to "OSC_UPLL_OUT_DIV_10" if USE_BSP	
+    set SYS_CLK_UFRCEN optionally to "USBCLK" if USE_BSP
+	set SYS_CLK_UPOSCEN optionally to "UPLL" if USE_BSP
+    bool
+    default y if USE_BSP
+

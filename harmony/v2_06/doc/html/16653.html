@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Image Preprocessing Memory Management</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16646.html">GPU Hardware Accelerated Features</a> &gt; <a href="16653.html">Image Preprocessing Memory Management</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16646.html">Previous</a> | <a href="16646.html">Up</a> | <a href="16640.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Image Preprocessing Memory Management Topic Title: Image Preprocessing Memory Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Image Preprocessing Memory Management</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Whether using internal SRAM only or DDR memory, care must be taken when allocating memory for preprocessing images. For more information, see Image Assets and DDR Organizer under the Graphics Composer Asset Management section above.</p><div class="Element15">
+Preprocessing using DDR</div>
+<p class="Element10">
+For PIC32MZ DA devices with access to DDR memory, the frame buffer and the command buffer for the GPU is also located on the DDR. It is important for the application developer to select the appropriate memory location in DDR for image preprocessing without trampling on these other memory structures.&nbsp;</p>
+<p class="Element10">
+The following table specifies the available addressing region to access the DDR memory. </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="46%">
+<div class="Element66">
+Device Type&nbsp;</div></td><td class="Element65" valign="top" width="27%">
+<div class="Element66">
+Address Range Begin (KSEG1)&nbsp;</div></td><td class="Element65" valign="top" width="26%">
+<div class="Element66">
+Address Range End (KSEG1)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+Internal DDR (maximum size 32 MB)&nbsp;</div></td><td class="Element67" valign="top" width="27%">
+<div class="Element68">
+0xA8000000&nbsp;</div></td><td class="Element67" valign="top" width="26%">
+<div class="Element68">
+0xA9FFFFFF&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="46%">
+<div class="Element68">
+External DDR (maximum size 128 MB)&nbsp;</div></td><td class="Element67" valign="top" width="27%">
+<div class="Element68">
+0xA8000000&nbsp;</div></td><td class="Element67" valign="top" width="26%">
+<div class="Element68">
+0xAFFFFFFF&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+At configuration time, MHGC generates the frame buffer allocation in the application’s system configuration code.&nbsp;</p>
+<p class="Element10">
+This allocation is targeting a WVGA RGBA8888 3-overlay double-buffered configuration; therefore, six buffer allocations are specified. More DDR memory can be freed up for image preprocessing using the following:</p>
+<ul class="Element630">
+<li class="Element600">WVGA Resolution is not required</li>
+<li class="Element600">Enable all three overlays</li>
+<li class="Element600">Double frame buffering</li>
+</ul><p class="Element10">
+The application developer may choose to change the allocation manually in <span class="Element146">system_config.h</span>.&nbsp;</p>
+<p class="Element10">
+The following table breaks down the allocation: </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="39%">
+<div class="Element66">
+Frame Buffer&nbsp;</div></td><td class="Element65" valign="top" width="31%">
+<div class="Element66">
+Address Range Begin&nbsp;</div></td><td class="Element65" valign="top" width="30%">
+<div class="Element66">
+Address Range End&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Layer0 Buffer 0&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0xA8000000&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+0xA8176FFF&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Layer0 Buffer 1&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0xA8465000&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+0xA85DBFFF&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Layer1 Buffer 0&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0xA8177000&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+0xA82EDFFF&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Layer1 Buffer 1&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0xA85DC000&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+0xA8752FFF&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Layer2 Buffer0&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0xA82EE000&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+0xA8464FFF&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="39%">
+<div class="Element68">
+Layer2 Buffer1&nbsp;</div></td><td class="Element67" valign="top" width="31%">
+<div class="Element68">
+0xA8753000&nbsp;</div></td><td class="Element67" valign="top" width="30%">
+<div class="Element68">
+0xA88CBFFF&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+&nbsp;</p>
+<p class="Element10">
+For an example on using image preprocessing using DDR memory, please refer to the <a href="03674.html">aria_coffee_maker</a> application.</p><div class="Element15">
+Internal SRAM Only</div>
+<p class="Element10">
+When operating with only the internal SRAM, the frame buffer can take up a significant portion of available memory. To avoid system stability issues with dynamically allocating memory for the preprocessing, the application developer may want to predetermine the memory footprint required for the image and assign the memory statically.&nbsp;</p>
+<p class="Element10">
+For an example of image preprocessing using internal SRAM, please refer to the <a href="03702.html">aria_radial_menu</a> application.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16809.html">Volume III: MPLAB Harmony Configurator (MHC)</a> &gt; <a href="16812.html">MPLAB Harmony Graphics Composer User's Guide</a> &gt; <a href="16636.html">Advanced Topics</a> &gt; <a href="16646.html">GPU Hardware Accelerated Features</a> &gt; <a href="16653.html">Image Preprocessing Memory Management</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MHGC UG Image Preprocessing Memory Management Topic Title: Image Preprocessing Memory Management)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

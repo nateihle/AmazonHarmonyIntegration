@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>DRV_USBFS_INIT Structure</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08931.html">Library Interface</a> &gt; f) Data Types and Constants &gt; <a href="11585.html">DRV_USBFS_INIT Structure</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="11565.html">Previous</a> | <a href="08931.html">Up</a> | <a href="11602.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBFS_INIT Topic Title: DRV_USBFS_INIT Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+DRV_USBFS_INIT Structure</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="43"></a><div class="Element99">
+C</div>
+<div class="Element101"><div class="Element100"><pre class="Element100"><strong><span style="color: #000080">typedef</span></strong> <strong><span style="color: #000080">struct</span></strong> {
+  <a href="23969.html">SYS_MODULE_INIT</a> <strong><span style="color: #000000">moduleInit</span></strong>;
+  USB_MODULE_ID <strong><span style="color: #000000">usbID</span></strong>;
+  <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">stopInIdle</span></strong>;
+  <strong><span style="color: #000080">bool</span></strong> <strong><span style="color: #000000">suspendInSleep</span></strong>;
+  <a href="14033.html">INT_SOURCE</a> <strong><span style="color: #000000">interruptSource</span></strong>;
+  <a href="28411.html">USB_SPEED</a> <strong><span style="color: #000000">operationSpeed</span></strong>;
+  <a href="11602.html">DRV_USBFS_OPMODES</a> <strong><span style="color: #000000">operationMode</span></strong>;
+  <strong><span style="color: #000080">void</span></strong> * <strong><span style="color: #000000">endpointTable</span></strong>;
+  uint32_t <strong><span style="color: #000000">rootHubAvailableCurrent</span></strong>;
+  <a href="11609.html">DRV_USBFS_ROOT_HUB_PORT_POWER_ENABLE</a> <strong><span style="color: #000000">portPowerEnable</span></strong>;
+  <a href="11607.html">DRV_USBFS_ROOT_HUB_PORT_INDICATION</a> <strong><span style="color: #000000">portIndication</span></strong>;
+  <a href="11608.html">DRV_USBFS_ROOT_HUB_PORT_OVER_CURRENT_DETECT</a> <strong><span style="color: #000000">portOverCurrentDetect</span></strong>;
+} DRV_USBFS_INIT;</pre></div></div>
+<a name="4465736372697074696F6E"></a><div class="Element14">
+Description</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+USB Device Driver Initialization Data.&nbsp;</p>
+<p class="Element10">
+This structure contains all the data necessary to initialize the USB Driver. A pointer to a structure of this type, containing the desired initialization data, must be passed into the <a href="11598.html">DRV_USBFS_Initialize</a> function.</p></div>
+</div>
+<a name="4D656D62657273"></a><div class="Element14">
+Members</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element272">
+<div class="TableDiv">
+<table cellspacing="0" class="Table5">
+<tr>
+<td class="Element260" valign="top" width="35%">
+<div class="Element261">
+Members&nbsp;</div></td><td class="Element264" valign="top" width="65%">
+<div class="Element265">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+SYS_MODULE_INIT moduleInit;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+System Module Initialization&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+USB_MODULE_ID usbID;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Identifies the USB peripheral to be used. This should be the USB PLIB module instance identifier.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+bool stopInIdle;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+This should be set to true if the USB module must stop operation in IDLE mode&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+bool suspendInSleep;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+This should be set to true if the USB module must suspend when the CPU enters sleep mode.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+INT_SOURCE interruptSource;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Specify the interrupt source for the USB module. This should be the interrupt source identifier for the USB module instance specified in usbID.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+USB_SPEED operationSpeed;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Specify the operational speed of the USB module. This should always be set to USB_SPEED_FULL.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+DRV_USBFS_OPMODES operationMode;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Specify the operation mode of the USB module. This specifies if the USB module should operate as a Device, Host, or both (Dual Role operation).&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+void * endpointTable;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+A pointer to the endpoint descriptor table. This should be aligned at 512 byte address boundary. The size of the table is equal to <a href="11546.html">DRV_USBFS_ENDPOINT_TABLE_ENTRY_SIZE</a> times the number of endpoints needed in the application.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+uint32_t rootHubAvailableCurrent;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+Root hub available current in milliamperes. This specifies the amount of current that root hub can provide to the attached device. This should be specified in mA. This is required when the driver is required to operate in host mode.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+DRV_USBFS_ROOT_HUB_PORT_POWER_ENABLE portPowerEnable;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+When operating in Host mode, the application can specify a Root Hub port enable function. This parameter should point to Root Hub port enable function. If this parameter is NULL, it implies that the Port is always enabled.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+DRV_USBFS_ROOT_HUB_PORT_INDICATION portIndication;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+When operating in Host mode, the application can specify a Root Port Indication. This parameter should point to the Root Port Indication function. If this parameter is NULL, it implies that Root Port Indication is not supported.&nbsp;</div></td></tr><tr>
+<td class="Element262" valign="top" width="35%">
+<div class="Element263">
+DRV_USBFS_ROOT_HUB_PORT_OVER_CURRENT_DETECT portOverCurrentDetect;&nbsp;</div></td><td class="Element266" valign="top" width="65%">
+<div class="Element267">
+When operating is Host mode, the application can specify a Root Port Overcurrent detection. This parameter should point to the Root Port Indication function. If this parameter is NULL, it implies that Overcurrent detection is not supported.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+<a name="52656D61726B73"></a><div class="Element14">
+Remarks</div>
+<div class="Element11">
+<div class="Element10">
+<p class="Element10">
+None.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13069.html">Driver Libraries Help</a> &gt; <a href="28590.html">USB Driver Libraries</a> &gt; <a href="08935.html">PIC32MX USB Driver</a> &gt; <a href="08931.html">Library Interface</a> &gt; f) Data Types and Constants &gt; <a href="11585.html">DRV_USBFS_INIT Structure</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DRV_USBFS_INIT Topic Title: DRV_USBFS_INIT Structure)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

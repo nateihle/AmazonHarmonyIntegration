@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>audio_microphone_loopback</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03381.html">audio_microphone_loopback</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="03389.html">Previous</a> | <a href="03389.html">Up</a> | <a href="03382.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO audio_microphone_loopback Topic Title: audio_microphone_loopback)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+audio_microphone_loopback</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+In this demonstration application, the AK4642 or AK4954 Codec Driver sets up the codec, which is the on-board device on the <a href="04920.html">Audio Codec Daughter Board AK4642EN</a>, or AK4954A and can receive audio data through the microphone onboard the daughter board and sends this audio data out through the on-board headphones. Either the Audio Codec Daughter Board AK4642EN, or the Audio Codec Board AC324954, which are available for purchase from Microchip, can be connected to the PIC32 Bluetooth Audio Development Kit.&nbsp;</p>
+<p class="Element10">
+The demonstration application also shows how to configure the I2S client and DMA channels for applications that need two-way data communication between the Codec and the PIC32 microcontroller.&nbsp;</p>
+<p class="Element10">
+Refer to the <i>Framework Help &gt; Driver Libraries Help &gt; Decoder Libraries Help &gt;</i> <a href="03267.html">AK4642  (or AK4954) Codec Driver Library</a> section for more information on the driver, including configuration details as well as the available APIs.&nbsp;</p>
+<p class="Element10">
+The DRV_CODEC_IO_INTENT_READWRITE mode of the codec driver is useful when the application can guarantee that the I2S playback buffers (even if it is zeros) are the same size and same sampling rate as the microphone (record) buffers that are received over I2S.</p><div class="Element15">
+Architecture</div>
+<p class="Element10">
+This application runs on the <a href="04979.html">PIC32 Bluetooth Audio Development Kit</a>, which contains a PIC32MX470F512L microcontroller with 512 KB of Flash memory and 128 KB of RAM running at 96 MHz and uses the following additional feature of the PIC32 Bluetooth Audio Development Kit:</p>
+<ul class="Element630">
+<li class="Element600">220x176 color LCD</li>
+</ul><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table0">
+<tr>
+<td class="Element67" valign="top" width="10%" style="border:none;">
+<div class="Element68">
+<img src="Note Icon.png" border="0" alt="" title=""><strong> Note:</strong>&nbsp;</div></td><td class="Element67" valign="top" width="90%" style="border:none;">
+<div class="Element68">
+The PIC32 Bluetooth Audio Development Kit comes with a BTM805 Bluetooth Daughter Board and an AK4384 Audio DAC Daughter Board ,mounted on headers (J8/J11 and J9/J10); however, you must replace the AK4384 Audio DAC Daughter Board with either the <a href="04920.html">PIC32 Audio Codec Daughter Board AK4642EN</a>, which is sold separately on microchipDIRECT as part number AC320100, or the PIC32 Audio Codec Daughter Board AK4954A, which is sold separately on microchipDIRECT as part number AC324954..&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+Surrounding the PIC32MX470F512L microcontroller are a set of headers, which accept various plug-in modules (PIM), including one for a PIC32MX270F512L PIM (with 512 KB of Flash and 64 KB of RAM), and also a PIC32MZ2048EFH144 PIM (with 2 MB of Flash and 512 KB of RAM) as alternate configurations for this project.&nbsp;</p>
+<p class="Element10">
+The program takes up only about 27% (142K) of the PIC32MX470F512 microcontroller’s program space, and 15% (20K) of its RAM. The two audio buffers take up 3200 bytes, with the rest largely used by graphics. The heap uses an additional 8K, with its size based on the graphics taking up about half of that.&nbsp;</p>
+<p class="Element10">
+The following figure illustrates the application architecture. </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO audio microphone loopback block diagram.png" border="0" alt="" title=""></p><p class="Element10">
+The PIC32 microcontroller (MCU) runs the application code, and communicates with the codec using an I2C interface.&nbsp;</p>
+<p class="Element10">
+The interface between the PIC32 MCU and the LCD is an 8-bit parallel master port (PMP). The program uses the MPLAB Harmony v2.x <a href="12784.html">Graphics Library</a> to draw on the screen.&nbsp;</p>
+<p class="Element10">
+As with any MPLAB Harmony application, the <a href="23925.html">SYS_Initialize</a> function, which is located in the <span class="Element146">system_init.c</span> source file, makes calls to initialize various subsystems, such as the clock, ports, board support package (BSP), PMP, codec, graphics, and interrupts. </p><p class="Element10" style="text-align: center;">
+<img src="APPS AUDIO audio_microphone_loopback mclk calc-48000.png" border="0" alt="" title=""></p><p class="Element10">
+The codec driver, graphics, and the application state machines are all updated through calls located in the <a href="24151.html">SYS_Tasks</a> function in the <span class="Element146">system_tasks.c</span> file. Interrupt handlers in the <span class="Element146">system_interrupt.c</span> file are used for the two DMA channels, and the I2C driver which controls the codec.&nbsp;</p>
+<p class="Element10">
+The application code is contained in the source file <span class="Element146">app.c</span>, which contains a state machine (APP_Tasks). It first initializes the application, then receives a handle to the codec driver by calling the codec’s DRV_CODEC_Open function with a mode of DRV_IO_INTENT_READWRITE. Then it registers an event handler, APP_CodecBufferEventHandler as a callback with the codec driver. Finally it makes an initial call to the codec’s DRV_CODEC_BufferAddWriteRead is done to get things started (writing zeros to the output for the first buffer only).&nbsp;</p>
+<p class="Element10">
+The event handler callback is given control whenever a buffer has been processed. Two 400 word (uint16_t) buffers, micbuf1 and micbuf2, are toggled back and forth in a ping-pong fashion (one used for reading, one used for writing) so that when a buffer is filled on the receive side (from the microphone on the codec daughter board), it is turned right around and sent back as output to the transmit side and played through the headphones.&nbsp;</p>
+<p class="Element10">
+Although the codec driver interfaces with the codec via I2S and DMA, which is largely transparent to the application, it is all taken care of by MPLAB Harmony.&nbsp;</p>
+<p class="Element10">
+As a minimum, the buffers must be large enough so that there is enough time when the event handler callback is handled to process the swapping of the buffer pointers, plus a call to BufferAddWriteRead. At 48000 samples per second, a buffer with 400 entries will result in a callback every 8.3 ms. This could probably be reduced down to as low as 50 entries, or about 1 ms and still work. However, there would not be much time in the application to do anything else. If a lot of graphics processing was added to this application, or other work not associated with the audio processing, the buffer size might even need to be increased to 800 (16.7 ms) or even more.</p><div class="Element15">
+Demonstration Features</div>
+
+<ul class="Element630">
+<li class="Element600">Uses the <a href="03267.html">AK4642 or AK4954 Codec Driver Library</a> to read audio samples from the built-in microphone on the codec daughter board, and send audio back to the headphone output</li>
+<li class="Element600">I2S audio output/speaker driver</li>
+<li class="Element600">I2S microphone driver</li>
+<li class="Element600">At a lower level, using the <a href="13740.html">I2S Driver Library</a> between the codec library and the codec for audio, and the I2C Driver Library for control of the codec</li>
+<li class="Element600">Use of “ping-pong” audio buffers</li>
+<li class="Element600">Simultaneous I2S data</li>
+<li class="Element600">Displays graphics on the 220x176 LCD of the PIC32 Bluetooth Audio Development Kit using the MPLAB Harmony Graphics Library (see <a href="12777.html">MPLAB Harmony Graphics Composer Suite</a>) and the Parallel Master Port (see <a href="17353.html">PMP Driver Library</a>)</li>
+</ul><div class="Element15">
+Tools Setup Differences</div>
+<p class="Element10">
+When building a new application, start by creating a 32-bit MPLAB Harmony project in MPLAB X IDE by selecting <i>File &gt; New Project</i>. Select the desired processor (PICMX470F512L or PIC32MX270F512L), and the PIC32MX Bluetooth Audio Development Kit. Click the MPLAB Harmony icon to start the MPLAB Harmony Configurator (MHC). Under BSP Configuration, select PIC32 Bluetooth Audio Development Kit (AK4384) or (AK4954), or PIC32MX270F512L with Bluetooth Audio Development Kit (AK4384), as appropriate for your hardware.&nbsp;</p>
+<p class="Element10">
+Under <i>Drivers &gt;CODEC</i>, select <strong>Use Codec AK4642? or Use Codec AK4954?</strong>. Under <i>I2S</i>, Use I2S Driver should already be checked. Expand that option and select <strong>DMA Mode</strong>, and then also select <strong>Transmit DMA Support</strong> and <strong>Receive DMA Support</strong>. Under <i>Audio Communication Width</i>, select SPI_AUDIO_COMMUNICATION_16DATA_16FIFO_32CHANNEL. Under Audio Protocol Mode, select DRV_I2S_LEFT_JUSTIFIED if using the AK4642, or DRV_I2S_AUDIO_I2S if using the AK4954. Change the Receive DMA Channel Instance to 1.&nbsp;</p>
+<p class="Element10">
+Under <i>System Services &gt;DMA</i>, select <strong>Use DMA System Services</strong>. Change the Number of DMA Channel Instances to 2 and press <strong>Enter</strong>. Under <i>DMA Channel Instance 1</i>, change the DMA Channel to DMA_CHANNEL_2.&nbsp;</p>
+<p class="Element10">
+Note that the I2C Driver has been automatically selected and properly setup so you do not need to do anything further with it if using the AK4642. If using the Ak4954, check the box Include Force Write I2C Function.&nbsp;</p>
+<p class="Element10">
+If your application is going to be using graphics, as this one does, within <i>Graphics Stack</i>, select <strong>Use Graphics Stack?</strong>. Further down, within <i>Use Harmony Graphics Composer Suite? &gt; Middleware &gt; Use Aria User Interface Library?</i>, clear <strong>Enable Touch</strong> since the LCD on the PIC32 Bluetooth Audio Development Kit does not support a touchscreen. Since you are using the LCD, you will also need to go back to the Drivers section, and within PMP, select <strong>Use PMP Driver?</strong>. Expand that section, and change the value of Strobe Wait Sates to PMP_STROBE_WAIT_4.</p></div>
+</div>
+<a name="546F70696373"></a><div class="Element14">
+Topics</div>
+<div class="Element11">
+<div class="Element10">
+<div class="Element212">
+<div class="TableDiv">
+<table cellspacing="0" class="Table1">
+<tr>
+<td class="Element200" valign="top" width="35%">
+<div class="Element201">
+Name&nbsp;</div></td><td class="Element204" valign="top" width="65%">
+<div class="Element205">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03382.html">Building the Application</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section identifies the MPLAB X IDE project name and location and lists and describes the available configurations for the demonstration.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03383.html">Configuring the Hardware</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section describes how to configure the supported hardware.&nbsp;</div></td></tr><tr>
+<td class="Element202" valign="top" width="35%">
+<div class="Element203">
+<a href="03384.html">Running the Demonstration</a>&nbsp;</div></td><td class="Element206" valign="top" width="65%">
+<div class="Element207">
+This section demonstrates how to run the demonstration.&nbsp;</div></td></tr></table></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="04300.html">Volume I: Getting Started With MPLAB Harmony Libraries and Applications</a> &gt; <a href="03342.html">Applications Help</a> &gt; <a href="04317.html">Audio Demonstrations</a> &gt; <a href="03389.html">Demonstrations</a> &gt; <a href="03381.html">audio_microphone_loopback</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: APPS AUDIO audio_microphone_loopback Topic Title: audio_microphone_loopback)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

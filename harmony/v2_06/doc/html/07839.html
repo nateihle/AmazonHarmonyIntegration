@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>How the Library Works</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13063.html">Decoder Libraries Help</a> &gt; <a href="17168.html">Opus Decoder Library</a> &gt; <a href="07843.html">Using the Library</a> &gt; <a href="07839.html">How the Library Works</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="07842.html">Previous</a> | <a href="07843.html">Up</a> | <a href="07841.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DECODER OPUS How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+How the Library Works</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+For complete documentation and how to implement Opus, visit <a href="#" onclick="openExternalLink('https://www.opus-codec.org');"><img src="indicator_external_link.gif" border="0" alt="" title="">https://www.opus-codec.org</a>.&nbsp;</p>
+<p class="Element10">
+The following diagram describes the data flow between the Opus Decoder and an application. </p><p class="Element10" style="text-align: center;">
+<img src="DECODER OPUS opus_flow_diagram.png" border="0" alt="" title=""></p><div class="Element15">
+Initializing the Opus Decoder</div>
+<p class="Element10">
+Initialize the Opus Decoder by calling the function <a href="17186.html">OPUS_Initialize</a> from the <span class="Element146"><a href="17171.html">opus_dec.h</a></span> file. This function initializes the Opus Decoder state structure. The application can start to decode Opus frame after initialization.</p><div class="Element15">
+Decoding an Opus Frame</div>
+<p class="Element10">
+The <a href="17172.html">OPUS_Decoder</a> function in <span class="Element146"><a href="17171.html">opus_dec.h</a></span> is used to decode a single Opus frame, and write back decoded data into an output buffer.</p><div class="Element15">
+Code Example</div>
+<p class="Element10">
+The following code provides an example for initializing the Opus Decoder and decoding a packet. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code00270');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code00270"><pre class="Element12"><strong><span style="color: #000080">void</span></strong> DECODER_Initialize(decoder_type){
+  <strong><span style="color: #000080">switch</span></strong>(decoder_type){
+    <strong><span style="color: #000080">case</span></strong> OPUS:
+      APP_ERROR_MSG ret = OPUS_Initialize(appDataPtr-&gt;fileHandle);
+      <strong><span style="color: #000080">if</span></strong>(ret == APP_SUCCESS)
+      {
+        <i><span style="color: #008000">// setup other components,</span></i>
+        <i><span style="color: #008000">// for example, audio CODEC, display, etc...</span></i>
+      }
+  }
+}
+
+<strong><span style="color: #000080">void</span></strong> App_Task()
+{
+  <strong><span style="color: #000080">while</span></strong>(1){
+    <strong><span style="color: #000080">while</span></strong>(audio is not end){
+      <i><span style="color: #008000">// Read one Opus packet</span></i>
+      appData.nBytesRead = OPUS_DiskRead(input_ptr);
+     <i><span style="color: #008000">// Decode one packet</span></i>
+     ret = OPUS_Decoder (input_ptr,inSize,read,output,written,outBufSize);
+     <strong><span style="color: #000080">if</span></strong>(ret == success)
+     {
+       <i><span style="color: #008000">// continue decoding</span></i>
+     }<strong><span style="color: #000080">else</span></strong>{
+      <i><span style="color: #008000">// handle decoding errors;</span></i>
+     }
+  }
+    <i><span style="color: #008000">// Clean up</span></i>
+    OPUS_Cleanup();
+    <strong><span style="color: #000080">break</span></strong>;
+  }
+}
+
+</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="13063.html">Decoder Libraries Help</a> &gt; <a href="17168.html">Opus Decoder Library</a> &gt; <a href="07843.html">Using the Library</a> &gt; <a href="07839.html">How the Library Works</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: DECODER OPUS How the Library Works Topic Title: How the Library Works)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

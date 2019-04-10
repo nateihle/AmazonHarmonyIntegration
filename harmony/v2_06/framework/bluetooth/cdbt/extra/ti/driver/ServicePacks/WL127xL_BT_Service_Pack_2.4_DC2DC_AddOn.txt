@@ -1,0 +1,31 @@
+# Set Power tables (note the special notation, 7.1)
+Send_HCI_VS_DRPb_Set_Power_Vector 0xFD82, 0x00, -50 *2, 10 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -20 *2, -15 *2, -10 *2, -5 *2, 0 *2, 5 *2, 10 *2, 0xFF, 0x00
+Wait_HCI_Command_Complete_VS_DRPb_Set_Power_Vector_Event 5000, any, HCI_VS_DRPb_Set_Power_Vector, 0x00
+
+Send_HCI_VS_DRPb_Set_Power_Vector 0xFD82, 0x01, -50 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -20 *2, -15 *2, -10 *2, -5 *2, 0 *2, 5 *2, 10 *2, 0xFF, 0x00
+Wait_HCI_Command_Complete_VS_DRPb_Set_Power_Vector_Event 5000, any, HCI_VS_DRPb_Set_Power_Vector, 0x00
+
+Send_HCI_VS_DRPb_Set_Power_Vector 0xFD82, 0x02, -50 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -25 *2, -20 *2, -15 *2, -10 *2, -5 *2, 0 *2, 5 *2, 10 *2, 0xFF, 0x00
+Wait_HCI_Command_Complete_VS_DRPb_Set_Power_Vector_Event 5000, any, HCI_VS_DRPb_Set_Power_Vector, 0x00
+
+#Update max power (for devices which don't support power control)
+Send_HCI_VS_DRPb_Set_Class2_Single_Power 0xFD87, 13, 13, 13
+Wait_HCI_Command_Complete_VS_DRPb_Set_Class2_Single_Power_Event 5000, any, HCI_VS_DRPb_Set_Class2_Single_Power, 0x00
+
+# Set Class 1.5 mode when "0" = VBAT, "1" = DC2DC/SMPS mode
+# When at VBAT, the command below updates the Trim value to 7. at DC2DC the temperature calibration 
+# Updates the Trim value according to the temperature of the device.
+ 
+# For SMPS/DC2DC with trim 7 (default value) use the command below:
+Send_HCI_VS_Class_1p5_LDO_mode 0xFD6E, 0x1, 0x7
+Wait_HCI_Command_Complete_VS_Class_1p5_LDO_mode_Event 5000, any, HCI_VS_Class_1p5_LDO_mode, 0x00
+
+# calibration info
+Send_HCI_VS_DRPb_Set_RF_Calibration_Info 0xFD76, 0x01, 0x00005421, 0x00005761, 20, 5, 10, 5, 00, 07, 06, 10, 04, 05, 08, 09, 11, 12, 13, 14, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 0
+Wait_HCI_Command_Complete_VS_DRPb_Set_RF_Calibration_Info_Event 5000, any, HCI_VS_DRPb_Set_RF_Calibration_Info, any
+#run calibration first time (Init)
+Send_HCI_VS_DRPb_Enable_RF_Calibration 0xFD80, 0x00, 0x00000001, 0x01
+Wait_HCI_Command_Complete_VS_DRPb_Enable_RF_Calibration_Event 5000, any, HCI_VS_DRPb_Enable_RF_Calibration, 0x00
+#Enable periodic calibrations (DC+KDCO+TPC+LPS+WB_RSSI+Temperature+IFA pole)
+Send_HCI_VS_DRPb_Enable_RF_Calibration 0xFD80, 60, 0x00005ff0, 0x00
+Wait_HCI_Command_Complete_VS_DRPb_Enable_RF_Calibration_Event 5000, any, HCI_VS_DRPb_Enable_RF_Calibration, 0x00

@@ -1,0 +1,802 @@
+#Created by proc_hconfig_gen $Revision: 1.00 
+
+config FAMILY
+	bool
+	select DS60001404
+	select PIC32MX
+	select HAVE_JTAG
+	select NO_CRYPTO
+	default y
+
+enum DEVCFG_AI2C1
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_AI2C2
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_PMDL1WAY
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_IOL1WAY
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_FUSBIDIO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FPLLIDIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_3"
+	 || "DIV_4"
+	 || "DIV_5"
+	 || "DIV_6"
+	 || "DIV_10"
+	 || "DIV_12"
+
+enum DEVCFG_FPLLMUL
+	 "MUL_15"
+	 || "MUL_16"
+	 || "MUL_17"
+	 || "MUL_18"
+	 || "MUL_19"
+	 || "MUL_20"
+	 || "MUL_21"
+	 || "MUL_24"
+
+enum DEVCFG_FPLLICLK
+	 "PLL_POSC"
+	 || "PLL_FRC"
+
+enum DEVCFG_UPLLIDIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_3"
+	 || "DIV_4"
+	 || "DIV_5"
+	 || "DIV_6"
+	 || "DIV_10"
+	 || "DIV_12"
+
+enum DEVCFG_UPLLEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_FPLLODIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_4"
+	 || "DIV_8"
+	 || "DIV_16"
+	 || "DIV_32"
+	 || "DIV_64"
+	 || "DIV_256"
+
+enum DEVCFG_BOREN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_DSBOREN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_DSWDTPS
+	 "DSPS1"
+	 || "DSPS2"
+	 || "DSPS3"
+	 || "DSPS4"
+	 || "DSPS5"
+	 || "DSPS6"
+	 || "DSPS7"
+	 || "DSPS8"
+	 || "DSPS9"
+	 || "DSPS10"
+	 || "DSPS11"
+	 || "DSPS12"
+	 || "DSPS13"
+	 || "DSPS14"
+	 || "DSPS15"
+	 || "DSPS16"
+	 || "DSPS17"
+	 || "DSPS18"
+	 || "DSPS19"
+	 || "DSPS20"
+	 || "DSPS21"
+	 || "DSPS22"
+	 || "DSPS23"
+	 || "DSPS24"
+	 || "DSPS25"
+	 || "DSPS26"
+	 || "DSPS27"
+	 || "DSPS28"
+	 || "DSPS29"
+	 || "DSPS30"
+	 || "DSPS31"
+	 || "DSPS32"
+
+enum DEVCFG_DSWDTOSC
+	 "SOSC"
+	 || "LPRC"
+
+enum DEVCFG_DSWDTEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FDSEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FNOSC
+	 "FRC"
+	 || "SPLL"
+	 || "POSC"
+	 || "SOSC"
+	 || "LPRC"
+
+enum DEVCFG_FSOSCEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_IESO
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_POSCMOD
+	 "EC"
+	 || "XT"
+	 || "HS"
+	 || "OFF"
+
+enum DEVCFG_OSCIOFNC
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FPBDIV
+	 "DIV_1"
+	 || "DIV_2"
+	 || "DIV_4"
+	 || "DIV_8"
+
+enum DEVCFG_FCKSM
+	 "CSECME"
+	 || "CSECMD"
+	 || "CSDCMD"
+
+enum DEVCFG_WDTPS
+	 "PS1"
+	 || "PS2"
+	 || "PS4"
+	 || "PS8"
+	 || "PS16"
+	 || "PS32"
+	 || "PS64"
+	 || "PS128"
+	 || "PS256"
+	 || "PS512"
+	 || "PS1024"
+	 || "PS2048"
+	 || "PS4096"
+	 || "PS8192"
+	 || "PS16384"
+	 || "PS32768"
+	 || "PS65536"
+	 || "PS131072"
+	 || "PS262144"
+	 || "PS524288"
+	 || "PS1048576"
+
+enum DEVCFG_WDTSPGM
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_WINDIS
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_FWDTEN
+	 "OFF"
+	 || "ON"
+
+enum DEVCFG_FWDTWINSZ
+	 "WINSZ_75"
+	 || "WINSZ_50"
+	 || "WINSZ_37"
+	 || "WINSZ_25"
+
+enum DEVCFG_DEBUG
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_JTAGEN
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_ICESEL
+	 "ICS_PGx1"
+	 || "ICS_PGx2"
+	 || "ICS_PGx3"
+	 || "ICS_PGx4"
+
+enum DEVCFG_PWP
+	 "OFF"
+	 || "PWP4K"
+	 || "PWP8K"
+	 || "PWP12K"
+	 || "PWP16K"
+	 || "PWP20K"
+	 || "PWP24K"
+	 || "PWP28K"
+	 || "PWP32K"
+	 || "PWP36K"
+	 || "PWP40K"
+	 || "PWP44K"
+	 || "PWP48K"
+	 || "PWP52K"
+	 || "PWP56K"
+	 || "PWP60K"
+	 || "PWP64K"
+	 || "PWP68K"
+	 || "PWP72K"
+	 || "PWP76K"
+	 || "PWP80K"
+	 || "PWP84K"
+	 || "PWP88K"
+	 || "PWP92K"
+	 || "PWP96K"
+	 || "PWP100K"
+	 || "PWP104K"
+	 || "PWP108K"
+	 || "PWP112K"
+	 || "PWP116K"
+	 || "PWP120K"
+	 || "PWP124K"
+	 || "PWP128K"
+	 || "PWP132K"
+	 || "PWP136K"
+	 || "PWP140K"
+	 || "PWP144K"
+	 || "PWP148K"
+	 || "PWP152K"
+	 || "PWP156K"
+	 || "PWP160K"
+	 || "PWP164K"
+	 || "PWP168K"
+	 || "PWP172K"
+	 || "PWP176K"
+	 || "PWP180K"
+	 || "PWP184K"
+	 || "PWP188K"
+	 || "PWP192K"
+	 || "PWP196K"
+	 || "PWP200K"
+	 || "PWP204K"
+	 || "PWP208K"
+	 || "PWP212K"
+	 || "PWP216K"
+	 || "PWP220K"
+	 || "PWP224K"
+	 || "PWP228K"
+	 || "PWP232K"
+	 || "PWP236K"
+	 || "PWP240K"
+	 || "PWP244K"
+	 || "PWP248K"
+	 || "PWP252K"
+	 || "PWP256K"
+
+enum DEVCFG_SMCLR
+	 "MCLR_POR"
+	 || "MCLR_NORM"
+
+enum DEVCFG_BWP
+	 "ON"
+	 || "OFF"
+
+enum DEVCFG_CP
+	 "ON"
+	 || "OFF"
+
+menu "DEVCFG3"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config USERID
+	hex "User ID (USERID)"
+	default 0xffff
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config AI2C1
+	string "Alternate I/O Select for I2C1 (AI2C1)"
+	range DEVCFG_AI2C1
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config AI2C2
+	string "Alternate I/O Select for I2C2 (AI2C2)"
+	range DEVCFG_AI2C2
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config PMDL1WAY
+	string "Peripheral Module Disable Configuration (PMDL1WAY)"
+	range DEVCFG_PMDL1WAY
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config IOL1WAY
+	string "Peripheral Pin Select Configuration (IOL1WAY)"
+	range DEVCFG_IOL1WAY
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FUSBIDIO
+	string "USB USID Selection (FUSBIDIO)"
+	range DEVCFG_FUSBIDIO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG2"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FPLLIDIV
+	string "PLL Input Divider (FPLLIDIV)"
+	range DEVCFG_FPLLIDIV
+	default "DIV_12"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FPLLMUL
+	string "PLL Multiplier (FPLLMUL)"
+	range DEVCFG_FPLLMUL
+	default "MUL_24"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FPLLICLK
+	string "System PLL Input Clock Selection (FPLLICLK)"
+	range DEVCFG_FPLLICLK
+	default "PLL_FRC"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config UPLLIDIV
+	string "USB PLL Input Divider (UPLLIDIV)"
+	range DEVCFG_UPLLIDIV
+	default "DIV_12"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config UPLLEN
+	string "USB PLL Enable (UPLLEN)"
+	range DEVCFG_UPLLEN
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FPLLODIV
+	string "System PLL Output Clock Divider (FPLLODIV)"
+	range DEVCFG_FPLLODIV
+	default "DIV_256"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config BOREN
+	string "Brown-Out Reset (BOR) Enable (BOREN)"
+	range DEVCFG_BOREN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config DSBOREN
+	string "Deep Sleep BOR Enable (DSBOREN)"
+	range DEVCFG_DSBOREN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config DSWDTPS
+	string "Deep Sleep Watchdog Timer Postscaler (DSWDTPS)"
+	range DEVCFG_DSWDTPS
+	default "DSPS32"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config DSWDTOSC
+	string "Deep Sleep WDT Reference Clock Selection (DSWDTOSC)"
+	range DEVCFG_DSWDTOSC
+	default "LPRC"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config DSWDTEN
+	string "Deep Sleep Watchdog Timer Enable (DSWDTEN)"
+	range DEVCFG_DSWDTEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FDSEN
+	string "Deep Sleep Enable (FDSEN)"
+	range DEVCFG_FDSEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG1"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FNOSC
+	string "Oscillator Selection Bits (FNOSC)"
+	range DEVCFG_FNOSC
+	default "LPRC"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FSOSCEN
+	string "Secondary Oscillator Enable (FSOSCEN)"
+	range DEVCFG_FSOSCEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config IESO
+	string "Internal/External Switch Over (IESO)"
+	range DEVCFG_IESO
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config POSCMOD
+	string "Primary Oscillator Configuration (POSCMOD)"
+	range DEVCFG_POSCMOD
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config OSCIOFNC
+	string "CLKO Output Signal Active on the OSCO Pin (OSCIOFNC)"
+	range DEVCFG_OSCIOFNC
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FPBDIV
+	string "Peripheral Clock Divisor (FPBDIV)"
+	range DEVCFG_FPBDIV
+	default "DIV_8"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FCKSM
+	string "Clock Switching and Monitor Selection (FCKSM)"
+	range DEVCFG_FCKSM
+	default "CSDCMD"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config WDTPS
+	string "Watchdog Timer Postscaler (WDTPS)"
+	range DEVCFG_WDTPS
+	default "PS1048576"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config WDTSPGM
+	string "Watchdog Timer Stop During Flash Programming (WDTSPGM)"
+	range DEVCFG_WDTSPGM
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config WINDIS
+	string "Watchdog Timer Window Enable (WINDIS)"
+	range DEVCFG_WINDIS
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FWDTEN
+	string "Watchdog Timer Enable (FWDTEN)"
+	range DEVCFG_FWDTEN
+	default "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config FWDTWINSZ
+	string "Watchdog Timer Window Size (FWDTWINSZ)"
+	range DEVCFG_FWDTWINSZ
+	default "WINSZ_25"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+endmenu
+
+menu "DEVCFG0"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config DEBUG
+	string "Background Debugger Enable (DEBUG)"
+	range DEVCFG_DEBUG
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config JTAGEN
+	string "JTAG Enable (JTAGEN)"
+	range DEVCFG_JTAGEN
+	default "ON"
+	set SYS_DEVCON_USE_JTAG_NEEDED to "ON" if JTAGEN = "ON"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config ICESEL
+	string "ICE/ICD Comm Channel Select (ICESEL)"
+	range DEVCFG_ICESEL
+	default "ICS_PGx1"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config PWP
+	string "Program Flash Write Protect (PWP)"
+	range DEVCFG_PWP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config SMCLR
+	string "Soft Master Clear Enable (SMCLR)"
+	range DEVCFG_SMCLR
+	default "MCLR_NORM"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config BWP
+	string "Boot Flash Write Protect bit (BWP)"
+	range DEVCFG_BWP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+config CP
+	string "Code Protect (CP)"
+	range DEVCFG_CP
+	default "OFF"
+	---help---
+	IDH_HTML_Configuration_Bit_Settings_for_PIC32MX274F256B
+	---endhelp---
+
+endmenu
+
+
+config FMIIEN
+	string
+
+config FETHIO
+	string
+
+config BOOTSEL
+	string
+
+config HSUARTEN
+	string
+
+config SOSCSEL
+	string
+
+config INT_VECT_CORE_TIMER
+	string
+	default "0"
+config INT_VECT_CORE_SOFTWARE_0
+	string
+	default "1"
+config INT_VECT_CORE_SOFTWARE_1
+	string
+	default "2"
+config INT_VECT_EXTERNAL_0
+	string
+	default "3"
+config INT_VECT_TIMER_1
+	string
+	default "4"
+config INT_VECT_INPUT_CAPTURE_1
+	string
+	default "5"
+config INT_VECT_OUTPUT_COMPARE_1
+	string
+	default "6"
+config INT_VECT_EXTERNAL_1
+	string
+	default "7"
+config INT_VECT_TIMER_2
+	string
+	default "8"
+config INT_VECT_INPUT_CAPTURE_2
+	string
+	default "9"
+config INT_VECT_OUTPUT_COMPARE_2
+	string
+	default "10"
+config INT_VECT_EXTERNAL_2
+	string
+	default "11"
+config INT_VECT_TIMER_3
+	string
+	default "12"
+config INT_VECT_INPUT_CAPTURE_3
+	string
+	default "13"
+config INT_VECT_OUTPUT_COMPARE_3
+	string
+	default "14"
+config INT_VECT_EXTERNAL_3
+	string
+	default "15"
+config INT_VECT_TIMER_4
+	string
+	default "16"
+config INT_VECT_INPUT_CAPTURE_4
+	string
+	default "17"
+config INT_VECT_OUTPUT_COMPARE_4
+	string
+	default "18"
+config INT_VECT_EXTERNAL_4
+	string
+	default "19"
+config INT_VECT_TIMER_5
+	string
+	default "20"
+config INT_VECT_INPUT_CAPTURE_5
+	string
+	default "21"
+config INT_VECT_OUTPUT_COMPARE_5
+	string
+	default "22"
+config INT_VECT_ADC
+	string
+	default "23"
+config INT_VECT_FAIL_SAFE_MONITOR
+	string
+	default "24"
+config INT_VECT_RTCC
+	string
+	default "25"
+config INT_VECT_FCE
+	string
+	default "26"
+config INT_VECT_COMPARATOR_1
+	string
+	default "27"
+config INT_VECT_COMPARATOR_2
+	string
+	default "28"
+config INT_VECT_COMPARATOR_3
+	string
+	default "29"
+config INT_VECT_USB_1
+	string
+	default "30"
+config INT_VECT_SPI_1
+	string
+	default "31"
+config INT_VECT_UART_1
+	string
+	default "32"
+config INT_VECT_I2C_1
+	string
+	default "33"
+config INT_VECT_CHANGE_NOTICE
+	string
+	default "34"
+config INT_VECT_PMP
+	string
+	default "35"
+config INT_VECT_SPI_2
+	string
+	default "36"
+config INT_VECT_UART_2
+	string
+	default "37"
+config INT_VECT_I2C_2
+	string
+	default "38"
+config INT_VECT_CTMU
+	string
+	default "39"
+config INT_VECT_DMA_0
+	string
+	default "40"
+config INT_VECT_DMA_1
+	string
+	default "41"
+config INT_VECT_DMA_2
+	string
+	default "42"
+config INT_VECT_DMA_3
+	string
+	default "43"
+
+config PFM_ADDR_START
+	string
+	default "0x1d000000"
+config PFM_ADDR_END
+	string
+	default "0x1d040000"
+config PFM_ADDR_SIZE
+	string
+	default "0x40000"
+config SRAM_ADDR_START
+	string
+	default "0x0"
+config SRAM_ADDR_END
+	string
+	default "0x10000"
+config SRAM_ADDR_SIZE
+	string
+	default "0x10000"
+config BOOT_ADDR_START
+	string
+	default "0x1fc00000"
+config BOOT_ADDR_END
+	string
+	default "0x1fc02ff0"
+config BOOT_ADDR_SIZE
+	string
+	default "0x2ff0"

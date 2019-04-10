@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Single Compare Toggle Mode</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17830.html">Using the Library</a> &gt; <a href="17821.html">How the Library Works</a> &gt; <a href="17828.html">Single Compare Toggle Mode</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17827.html">Previous</a> | <a href="17821.html">Up</a> | <a href="17815.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC Single Compare Toggle Mode Topic Title: Single Compare Toggle Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Single Compare Toggle Mode</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+The Single Compare Toggle mode toggles the output of the Output Compare module at each compare match event. This section illustrates the steps required to configure the Output Compare module in Single Compare Toggle mode.&nbsp;</p>
+<p class="Element10">
+<strong>Example:</strong> &nbsp;</p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code02786');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code02786"><pre class="Element12"><i><span style="color: #008000">/* This example illustrates setting up Output Compare Module in Single Compare Toggle mode */</span></i>
+
+<i><span style="color: #008000">/* Configure Timer2 in 16-bit mode. Refer to Timer Peripheral Library for
+the API */</span></i>
+
+<i><span style="color: #008000">/* Disable OC module */</span></i>
+PLIB_OC_Disable(MY_OC_ID);
+
+<i><span style="color: #008000">/* Select Timer2 as time base */</span></i>
+PLIB_OC_TimerSelect(MY_OC_ID, OC_TIMER_16BIT_TMR2);
+
+<i><span style="color: #008000">/* Set period of time base. Refer to Timer Peripheral Library for the API */</span></i>
+
+<i><span style="color: #008000">/* Select compare mode */</span></i>
+PLIB_OC_ModeSelect(MY_OC_ID, OC_TOGGLE_CONTINOUS_PULSE_MODE);
+
+<i><span style="color: #008000">/* Set buffer size to 16-bits */</span></i>
+PLIB_OC_BufferSizeSelect(MY_OC_ID, OC_BUFFER_SIZE_16BIT);
+
+<i><span style="color: #008000">/* Set Buffer Value */</span></i>
+PLIB_OC_Buffer16BitSet(MY_OC_ID, 0x00FF);
+
+<i><span style="color: #008000">/* Configure interrupts associated with Output Compare module. Refer to
+Interrupts Peripheral Library for the API */</span></i>
+
+<i><span style="color: #008000">/* Enable Timer2. Refer to Timer Peripheral Library for the API */</span></i>
+
+<i><span style="color: #008000">/* Enable Output Compare module */</span></i>
+PLIB_OC_Enable(MY_OC_ID);</pre></div></div>
+</div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="17341.html">Output Compare Peripheral Library</a> &gt; <a href="17830.html">Using the Library</a> &gt; <a href="17821.html">How the Library Works</a> &gt; <a href="17828.html">Single Compare Toggle Mode</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB OC Single Compare Toggle Mode Topic Title: Single Compare Toggle Mode)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

@@ -1,0 +1,129 @@
+menu "Wi-Fi"
+
+enum DRV_WIFI_WK_MODE_LIST
+    "STA_MODE"
+    || "STA-AP_MODE"
+    || "AP_MODE"
+
+#enum DRV_WIFI_BOOT_MODE_LIST
+#   "STA"
+#   || "AP"
+
+enum DRV_WIFI_DEBUG_LEVEL_LIST
+	"ERROR"
+	|| "DEBUG"
+	|| "INFO"
+	|| "FUNCTION"
+	
+config USE_DRV_WIFI_WK_NEEDED
+#TODO: "depends on HAVE_WIFI", can this be decided by configuration?
+    bool
+    default n
+    ---help---
+    IDH_HTML_PIC32WK_Wi_Fi_Driver_Library
+    ---endhelp---
+
+config USE_DRV_WIFI_WK
+#TODO: "depends on HAVE_WIFI", can this be decided by configuration?
+    bool "Use Wi-Fi Driver?"
+    default n if !USE_DRV_WIFI_WK_NEEDED
+    default y if USE_DRV_WIFI_WK_NEEDED
+    select USE_SYS_INT_NEEDED
+    #select DRV_SPI_USE_DRIVER_NEEDED
+
+#comment "**** Wi-Fi driver  has the dependency on IPF,TCPIP,Timer and UART.Make sure these modules are enable along with Wi-Fi driver****"
+comment "**** Wi-Fi driver depends on IPF, TCPIP, Timer and UART modules. Enabling these modules is mandatory with Wi-Fi driver ****"
+		depends on USE_DRV_WIFI_WK
+    ---help---
+    IDH_HTML_PIC32WK_Wi_Fi_Driver_Library
+    ---endhelp---
+	
+config DRV_WIFI_WK_MODE
+    string "Wi-Fi MODE"
+    depends on USE_DRV_WIFI_WK
+    range DRV_WIFI_WK_MODE_LIST
+    default "STA-AP_MODE"
+    ---help---
+    IDH_HTML_PIC32WK_Wi_Fi_Driver_Library
+    ---endhelp---
+config DRV_WIFI_DEBUG_ENABLE
+	bool "Enable Debugging in WiFi"
+	default n
+	depends on USE_DRV_WIFI_WK
+	
+config DRV_WIFI_DEBUG_LEVEL
+	string "Debugging Prints level"
+	depends on USE_DRV_WIFI_WK && DRV_WIFI_DEBUG_ENABLE
+	range DRV_WIFI_DEBUG_LEVEL_LIST
+	default "ERROR"
+#comment "**** Higher level automatically includes lower level prints ****"
+	
+#config DRV_WIFI_WK_BOOT_MODE
+#   string "BOOT Device as"
+#   depends on USE_DRV_WIFI_WK && DRV_WIFI_WK_MODE = "STA-AP_MODE"
+#   range DRV_WIFI_BOOT_MODE_LIST
+#   default "AP"
+
+config DRV_WIFI_OTA_ENABLE
+    bool "Enable Over The Air(OTA)"
+    depends on USE_DRV_WIFI_WK && TCPIP_HTTP_FILE_UPLOAD_ENABLE && TCPIP_STACK_USE_HTTP_SERVER
+    default y if (USE_SYS_FS = y) && (SYS_FS_MPFS = y)
+    ---help---
+    IDH_HTML_PIC32WK_Wi_Fi_Driver_Library
+    ---endhelp---
+	
+#config DRV_WIFI_WK_SSID
+#    string "Wi-Fi SSID"
+#    depends on USE_DRV_WLAN
+#    default "MicrochipDemoApp"
+
+endmenu
+
+ifblock USE_DRV_WIFI_WK
+
+ifblock DRV_WIFI_WK_MODE = "STA_MODE" && DRV_WIFI_DEBUG_ENABLE = n
+library LIB_WIFI_WK_STAMODE "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/PIC32WK_WLAN_STAMAC.a"
+endif
+ifblock DRV_WIFI_WK_MODE = "STA_MODE" && DRV_WIFI_DEBUG_ENABLE = y
+library LIB_WIFI_WK_STAMODE_DEBUG "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/PIC32WK_WLAN_STAMAC_DEBUG.a"
+endif
+
+ifblock DRV_WIFI_WK_MODE = "STA-AP_MODE" && DRV_WIFI_DEBUG_ENABLE = n
+library LIB_WIFI_WK_STAAPMODE "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/PIC32WK_WLAN_STAAPMAC.a"
+endif
+ifblock DRV_WIFI_WK_MODE = "STA-AP_MODE" && DRV_WIFI_DEBUG_ENABLE = y
+library LIB_WIFI_WK_STAAPMODE_DEBUG "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/PIC32WK_WLAN_STAAPMAC_DEBUG.a"
+endif
+
+ifblock DRV_WIFI_WK_MODE = "AP_MODE" && DRV_WIFI_DEBUG_ENABLE = n
+library LIB_WIFI_WK_APMODE "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/PIC32WK_WLAN_APMAC.a"
+endif
+ifblock DRV_WIFI_WK_MODE = "AP_MODE" && DRV_WIFI_DEBUG_ENABLE = y
+library LIB_WIFI_WK_APMODE_DEBUG "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/PIC32WK_WLAN_APMAC_DEBUG.a"
+endif
+
+add "<#include \"/framework/driver/wifi/templates/drv_wifi.h.ftl\">"  to list SYSTEM_CONFIG_H_DRIVER_CONFIGURATION 
+add "<#include \"/framework/driver/wifi/templates/drv_wifi_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/wifi/templates/drv_wifi.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+
+file WIFI_CMD_C "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/WiFi_commands.c" to "$PROJECT_SOURCE_FILES/WiFiMW/WiFi_commands.c"
+file WIFI_CMD_H "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/WiFi_commands.h" to "$PROJECT_HEADER_FILES/WiFiMW/WiFi_commands.h"
+file WIFI_MW_C "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/WiFi_MW.c" to "$PROJECT_SOURCE_FILES/WiFiMW/WiFi_MW.c"
+file WIFI_MW_H "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/WiFi_MW.h" to "$PROJECT_HEADER_FILES/WiFiMW/WiFi_MW.h"
+file WIFI_FLASH_C "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/wifi_flash_use.c" to "$PROJECT_SOURCE_FILES/WiFiMW/wifi_flash_use.c"
+file WIFI_FLASH_H "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/wifi_flash_use.h" to "$PROJECT_HEADER_FILES/WiFiMW/wifi_flash_use.h"
+file WIFI_INIT_H "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/wifi_init.h" to "$PROJECT_HEADER_FILES/WiFiMW/wifi_init.h"
+file DRV_WIFI_WK_H "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/drv_mchpwlan.h" to "$PROJECT_HEADER_FILES/framework/driver/wifi/pic32WK/drv_mchpwlan.h"
+
+ifblock TCPIP_STACK_USE_HTTP_SERVER
+file WIFI_CONFIG_H "$HARMONY_VERSION_PATH/framework/driver/wifi/pic32wk/src/wifi_web_config.h" to "$PROJECT_HEADER_FILES/framework/driver/wifi/pic32WK/wifi_web_config.h"
+endif
+
+template WIFI_BSP_LED_H_FTL "$HARMONY_VERSION_PATH/framework/driver/wifi/templates/wifi_bsp_led.h.ftl" to "$PROJECT_HEADER_FILES/WiFiMW/wifi_bsp_led.h"
+
+ifblock DRV_WIFI_OTA_ENABLE
+file HTTP_HEX_PARSER_C "$HARMONY_VERSION_PATH/framework/utilities/hex_parser/hex_parser.c" to "$PROJECT_SOURCE_FILES/framework/utilities/hex_parser/hex_parser.h"
+file HTTP_HEX_PARSER_H "$HARMONY_VERSION_PATH/framework/utilities/hex_parser/hex_parser.h" to "$PROJECT_HEADER_FILES/framework/utilities/hex_parser/hex_parser.c"
+endif
+
+endif

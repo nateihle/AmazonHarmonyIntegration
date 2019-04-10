@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Library Overview</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11806.html">DSP Fixed-Point Math Library</a> &gt; <a href="16354.html">Using the Library</a> &gt; <a href="16349.html">Library Overview</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="16354.html">Previous</a> | <a href="16354.html">Up</a> | <a href="16352.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MATH DSP Library Overview Topic Title: Library Overview)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Library Overview</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+<span style="color: #000000">The library interface routines are divided into various sub-sections, which address one of the blocks or the overall operation of the DSP Fixed-Point Math Library.</span> </p><div class="Element63">
+<div class="TableDiv">
+<table cellspacing="0" class="Table2">
+<tr>
+<td class="Element65" valign="top" width="40%">
+<div class="Element66">
+Library Interface Section&nbsp;</div></td><td class="Element65" valign="top" width="60%">
+<div class="Element66">
+Description&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Complex Math Functions&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+General mathematical operations using a complex structure with the form (a + bi)&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Vector Math Functions&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+Mathematical operations on a array of numbers or vector&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Matrix Math Functions&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+Mathematical operations on a matrix&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Digital Filter Functions&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+FIR and IIR filtering functions with various architectures&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Transform Functions&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+FFT, Windows and related transform elements&nbsp;</div></td></tr><tr>
+<td class="Element67" valign="top" width="40%">
+<div class="Element68">
+Support Functions&nbsp;</div></td><td class="Element67" valign="top" width="60%">
+<div class="Element68">
+Quick support functions for numerical transform&nbsp;</div></td></tr></table></div></div>
+<p class="Element10">
+The DSP Fixed-Point Library uses fixed-point fractional functions to optimize execution speed. These functions limit the accuracy of the calculations to the bits specified for the function. Due to parallelism in some operations, the 16-bit version of the functions are more efficient than their 32-bit counterparts. In many cases both 16-bit and 32-bit functions are available to give the user the choice of balance between speed and functional resolution.&nbsp;</p>
+<p class="Element10">
+Fractional representation of a real number is given by:&nbsp;</p>
+<p class="Element10">
+Q<i>n.m</i>&nbsp;</p>
+<p class="Element10">
+where:
+<ul class="Element636">
+<li class="Element606"><i>n</i> is the number of data bits to the left of the radix point</li>
+<li class="Element606"><i>m</i> is the number of data bits to the right of the radix point</li>
+<li class="Element606">a signed bit is implied, and takes one bit of resolution</li>
+<li class="Element606">Shorthand may eliminate the leading 0, such as in Q0.15, which may be shortened to Q15, and similarly Q0.31, which is shortened to Q31</li>
+</ul><i>Qn.m</i> numerical values are used by the library processing data as integers. In this format the n represents the number of integer bits, and the m represents the number of fractional bits. All values assume a sign bit in the most significant bit. Therefore, the range of the numerical value is: </p><p class="Element10" style="text-align: center;">
+-2<sup>(n-1)</sup> to [2<sup>(n-1)</sup> - 2<sup>(-m)</sup>]; with a resolution of 2<sup>(-m)</sup>.</p><p class="Element10">
+A Q16 format number (Q15.16) would range from -32768.0 (0x8000 0000) to 32767.99998474 with a precision of 0.000015259 (or 2<sup>-16</sup>).&nbsp;</p>
+<p class="Element10">
+For example, a numerical representation of the number 3.14159 in Q2.13 notation would be: </p><p class="Element10" style="text-align: center;">
+3.14159 * 2<sup>13</sup> = 25735.9 =&gt; 0x6488</p><p class="Element10">
+And converting from the Q7.8 format with the value 0x1D89 would be: </p><p class="Element10" style="text-align: center;">
+0x1D89 / 2<sup>8</sup> = 7561 / 256 =&gt; 29.5316, accurate to 0.00391</p><p class="Element10">
+A majority of the DSP Fixed-Point Library uses functions with variables in Q15 or Q31 format. Representations of these numbers are given in <strong>Data Types and Constants</strong> in the <a href="16348.html">Library Interface</a> section, and generally are int16_t (for Q15 fractional representation) and int32_t (for Q31 fractional representation). This limits the equivalent numerical range to roughly -1.0 to 0.999999999. It is possible to represent other number ranges, but scaling before and after the function call are necessary.&nbsp;</p>
+<p class="Element10">
+All library functions will saturate the output if the value exceeds the maximum or is lower than the minimum allowable value for that resolution. Some prescaling may be necessary to prevent unwanted saturation in functions that may otherwise create calculation errors.</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="16384.html">Math Libraries Help</a> &gt; <a href="11806.html">DSP Fixed-Point Math Library</a> &gt; <a href="16354.html">Using the Library</a> &gt; <a href="16349.html">Library Overview</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: MATH DSP Library Overview Topic Title: Library Overview)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

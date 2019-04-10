@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Measuring Pulse Width</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="Doc-O-Matic" />
+    <meta name="save" content="history" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="STYLESHEET" href="default.css" type="text/css" />
+
+<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body class="Element700" onload="onBodyLoad();" onmousedown="onBodyMouseDown();">
+<div id="persistenceDiv" style="display:none; behavior:url(#default#userData);"></div>
+
+<!-- Begin Popups -->
+
+<!-- End Popups -->
+
+<!-- Begin Page Header -->
+<div class="Element710" id="areafixed">
+<div class="Element94">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07638.html">CTMU Peripheral Library</a> &gt; <a href="17554.html">Using the Library</a> &gt; <a href="17548.html">How the Library Works</a> &gt; <a href="17542.html">CTMU Setup</a> &gt; <a href="17552.html">Measuring Pulse Width</a></div>
+<div class="Element92">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="25%">
+<div class="Element1">
+MPLAB Harmony Help</div>
+</td><td width="25%">
+<div class="Element2">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td><td width="25%">
+<div class="Element90">
+<a href="17553.html">Previous</a> | <a href="17542.html">Up</a> | <a href="17539.html">Next</a></div>
+</td><td width="25%">
+<div class="Element96">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CTMU Measuring Pulse Width Topic Title: Measuring Pulse Width)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table><div class="Element5">
+Measuring Pulse Width</div>
+</div>
+</div>
+
+<!-- End Page Header -->
+
+<!-- Begin Client Area -->
+<div class="Element720" id="areascroll">
+<div class="Element721">
+
+<!-- Begin Page Content -->
+<div class="Element58">
+<a name="4465736372697074696F6E"></a><div class="Element11">
+<div class="Element10">
+<p class="Element10">
+Measuring the pulse width of a single input is similar to measuring the time between two pulses. The only difference is that the same signal is used for both edges and Edge 2 is triggered on a falling edge rather than a rising edge. </p><div class="Element170">
+<a href="#" onclick="CopyElementToClipboard('code01797');">Copy Code</a></div>
+<div class="Element13"><div class="Element12" id="code01797"><pre class="Element12"><i><span style="color: #008000">// 1. Reset CTMU back to POR defaults</span></i>
+    PLIB_CTMU_PORDefaultsRestore(CTMU_ID_1);  <i><span style="color: #008000">// POR defaults, turn CTMU off</span></i>
+
+<i><span style="color: #008000">// 2. Select the current source range.</span></i>
+    PLIB_CTMU_CurrentRangeSet(CTMU_ID_1,CTMU_CurrentRangeBase_Base);
+
+<i><span style="color: #008000">// 3. Adjust the current source trim.</span></i>
+    PLIB_CTMU_CurrentTrimSet(CTMU_ID_1,+10); <i><span style="color: #008000">// increase by 20% = +10 * 2%</span></i>
+
+<i><span style="color: #008000">// 4. Select the operating mode (Pulse Generation)</span></i>
+    PLIB_CTMU_TimePulseGenEnable(CTMU_ID_1); <i><span style="color: #008000">// Use Comparator Input/ANx pin</span></i>
+
+<i><span style="color: #008000">// 5. Clear the Edge Status bits</span></i>
+    PLIB_CTMU_EdgeStatusSetAllNoEdges(CTMU_ID_1);
+
+<i><span style="color: #008000">// 6. Use the same input source for both edges.</span></i>
+    PLIB_CTMU_EdgeSourceSelect(CTMU_ID_1,CTMU_Edge1,CTMU_EdgeSource_0);
+    PLIB_CTMU_EdgeSourceSelect(CTMU_ID_1,CTMU_Edge2,CTMU_EdgeSource_0);
+
+<i><span style="color: #008000">// 7. Configure the input polarities:</span></i>
+    PLIB_CTMU_EdgePolarityPositiveSet(CTMU_ID_1,CTMU_Edge1); <i><span style="color: #008000">// Trigger on Rising Edge</span></i>
+    PLIB_CTMU_EdgePolarityPositiveSet(CTMU_ID_1,CTMU_Edge2); <i><span style="color: #008000">// Trigger on falling Edge</span></i>
+
+<i><span style="color: #008000">// 8. Enable edge sequencing so Edge 1 (rising) occurs before Edge 2 (falling)</span></i>
+    PLIB_CTMU_EdgeSequenceEnable(CTMU_ID_1);
+
+<i><span style="color: #008000">// 9. Enable edges to control charge pump</span></i>
+    PLIB_CTMU_EdgeEnable(CTMU_ID_1);
+
+<i><span style="color: #008000">// 10. Turn on the CTMU module, wait 50 us for charge pump to stabilize</span></i>
+    PLIB_CTMU_Enable(CTMU_ID_1);
+    <i><span style="color: #008000">// TO DO: Wait 50 microseconds</span></i>
+
+<i><span style="color: #008000">// 11. Discharge the connected circuit by grounding the charge pump.</span></i>
+    PLIB_CTMU_CurrentSourceGrounded(CTMU_ID_1);
+    <i><span style="color: #008000">// TO DO: Enable ADC sampling</span></i>
+    <i><span style="color: #008000">// TO DO: Wait for discharge to occur</span></i></pre></div></div>
+<p class="Element10">
+Again, the time between the rising edge of the pulse and the falling edge is given by:&nbsp;</p>
+<p class="Element10">
+Time = ( Capacitance * (VDD * ADC_Count / MaxADCCount) ) / Current</p></div>
+</div>
+</div>
+<!-- End Page Content -->
+
+<!-- Begin Page Footer -->
+<div class="Element95">
+<a href="16811.html">Volume V: MPLAB Harmony Framework Reference</a> &gt; <a href="17367.html">Peripheral Libraries Help</a> &gt; <a href="07638.html">CTMU Peripheral Library</a> &gt; <a href="17554.html">Using the Library</a> &gt; <a href="17548.html">How the Library Works</a> &gt; <a href="17542.html">CTMU Setup</a> &gt; <a href="17552.html">Measuring Pulse Width</a></div>
+<div class="Element93">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tr><td width="100%">
+<div class="Element3">
+ MPLAB Harmony Help</div>
+</td></tr><tr><td width="100%">
+<div class="Element4">
+<a href="contents.htm">Contents</a> | <a href="idx.html">Index</a> | <a href="04300.html">Home</a></div>
+</td></tr><tr><td width="100%">
+<div class="Element97">
+<a href="mailto:docerrors@microchip.com&subject=MPLAB Harmony Documentation Feedback (Topic ID: PLIB CTMU Measuring Pulse Width Topic Title: Measuring Pulse Width)&body=Thank you for your feedback! Please include a description of your feedback, and indicate whether you are reporting an an error in the documentation or an enhancement.">Documentation Feedback</a><br> <a href="http://support.microchip.com">Microchip Support</a></div>
+</td></tr></table></div>
+
+<!-- End Page Footer -->
+</div>
+</div>
+
+<!-- End Client Area -->
+</body></html>

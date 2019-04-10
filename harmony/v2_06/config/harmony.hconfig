@@ -1,0 +1,187 @@
+# file: harmony.hconfig
+
+config MPLAB_HARMONY_VERSION_STRING
+  string
+  default "2.06"
+
+config MPLAB_HARMONY_VERSION_NUMBER
+  int
+  default 20600
+
+config DATASHEETID
+    string
+
+# The following are set by the project's .hconfig file:
+# (Indents imply dependency...)
+#   USE_EXCEPTION_HANDLER
+#       EXCEPTION_USE_SYS_DEBUG
+#           EXCEPTION_BREAKPOINT
+#
+
+menu "Advanced Exception and Error Handling"
+    comment "Using Compiler's Built-in Exception Handler"
+        depends on !USE_EXCEPTION_HANDLER
+
+    choice
+        prompt "Exception Handling (Pick One)"
+        default USE_HARMONY_EXCEPTION_HANDLER
+        depends on USE_EXCEPTION_HANDLER
+        ---help---
+        Select desired exception handler.
+        ---endhelp---
+
+        config USE_HARMONY_EXCEPTION_HANDLER
+            bool "Use MPLAB Harmony Exception Handler"
+
+        config USE_ADVANCED_EXCEPTION_HANDLER
+            bool "Use Advanced Harmony Exception Handler"
+
+        config USE_FILTERING_EXCEPTION_HANDLER
+            bool "Use Advanced Handler with Filtering Support"
+    endchoice
+
+    choice
+        prompt "Assert Handling (Pick One)"
+        default USE_COMPILER_ASSERT_HANDLER
+
+        config USE_COMPILER_ASSERT_HANDLER
+            bool "Use Compiler's Built-In Assert Handler"
+
+        config USE_HARMONY_ASSERT_HANDLER
+            bool "Use MPLAB Harmony Assert Handler"
+    endchoice
+
+    config ASSERT_BREAKPOINT
+        bool "Hit breakpoint when an assert occurs?"
+        depends on USE_HARMONY_ASSERT_HANDLER
+        default y
+        ---help---
+        Enter 'Y' if you want the assert handler to hit a breakpoint when
+        an assert occurs.  Enter 'N' if you do not.
+        Note:  Only works if debugging is enabled.
+        ---endhelp---
+
+    choice
+        prompt "Exception Handling and Assert Output (Pick One)"
+        default USE_SYS_DEBUG_PRINT
+        depends on USE_EXCEPTION_HANDLER || USE_HARMONY_ASSERT_HANDLER
+        ---help---
+        Choose output from the exception handler.
+        ---endhelp---
+
+        config NO_EXCEPTION_ASSERT_OUTPUT
+            bool "No diagnostic output"
+
+        config USE_SYS_DEBUG_PRINT
+            bool "Use SYS_DEBUG_PRINT for output"
+            depends on EXCEPTION_USE_SYS_DEBUG
+
+        config USE_SYS_CONSOLE_WRITE
+            bool "Use SYS_CONSOLE_Write for output"
+    endchoice
+
+    comment "IMPORTANT: Console System Service and Debug System Service *must* be enabled for a clean build."
+        depends on USE_SYS_CONSOLE_WRITE
+    comment "Console System Service and Debug System Service should be enabled for diagnostic output."
+        depends on USE_SYS_DEBUG_PRINT && ( USE_EXCEPTION_HANDLER || USE_HARMONY_ASSERT_HANDLER )
+    comment "Enable USART to USB Bridge if available. (Check under Select BSP Features)."
+        depends on !NO_EXCEPTION_ASSERT_OUTPUT && ( USE_EXCEPTION_HANDLER || USE_HARMONY_ASSERT_HANDLER )
+endmenu
+
+
+source "$HARMONY_VERSION_PATH/framework/config/framework.hconfig"
+source "$HARMONY_VERSION_PATH/bsp/config/bsp.hconfig"
+source "$HARMONY_VERSION_PATH/third_party/config/third_party.hconfig"
+
+menu "Device & Project Configuration"
+    menu "$DEVICE Device Configuration"
+
+        config DEVICE_CONFIGURATION
+            depends on (PIC32MX || PIC32MZ || PIC32WK || PIC32MK)
+            bool "Set Configuration Bits?"
+            default y
+            persistent
+
+        # Obtain device specific configuration for MIPS based devices.
+        source "$HARMONY_VERSION_PATH/utilities/mhc/config/$DEVICE.hconfig"
+
+    endmenu
+
+    menu "Project Configuration"
+        config PROJECT_STANDALONE
+            bool "Generate Standalone Project?"
+            default n
+            depends on !USE_GFX_STACK
+            depends on !USE_DRV_I2S
+            persistent if USE_GFX_STACK || USE_DRV_I2S
+            ---help---
+            Selecting this option will add all necessary files into MPLAB X project,
+            so it can be built and run without MPLAB Harmony framework installed.
+            ---endhelp---
+
+        ifblock USE_GFX_STACK || USE_DRV_I2S
+            config PROJECT_STANDALONE_GFX_AUDIO
+                default n
+                persistent
+                bool "Generate Standalone Project?"
+        endif
+
+        ifblock USE_GFX_STACK
+            comment "*** Note: Standalone Project generation not supported for graphics applications. ***"
+        endif
+
+        ifblock USE_DRV_I2S
+            comment "*** Note: Standalone Project generation not supported for audio applications. ***"
+        endif
+
+        source "$HARMONY_VERSION_PATH/utilities/mhc/config/project.hconfig"
+        source "$HARMONY_VERSION_PATH/utilities/mhc/config/isa.hconfig"
+    endmenu
+endmenu
+
+template SYSTEM_CONFIG_H      "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_config.h.ftl"      to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/system_config.h"
+template SYSTEM_DEFINITIONS_H "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_definitions.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/system_definitions.h"
+template SYSTEM_INIT_C        "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_init.c.ftl"        to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/system_init.c"
+template SYSTEM_INTERRUPT_C   "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_interrupt.c.ftl"   to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/system_interrupt.c"
+
+ifblock (USE_EXCEPTION_HANDLER && USE_HARMONY_EXCEPTION_HANDLER)
+    # PIC32M Exceptions
+    ifblock (PIC32MX || PIC32MZ || PIC32WK || PIC32MK)
+        template SYSTEM_EXCEPTIONS_C  "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_exceptions.c.ftl"  to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/system_exceptions.c"
+    endif
+endif
+
+ifblock (USE_EXCEPTION_HANDLER && USE_ADVANCED_EXCEPTION_HANDLER)
+    # PIC32M Exceptions
+    ifblock (PIC32MX || PIC32MZ || PIC32WK || PIC32MK)
+        template GENERAL_EXCEPTION_HANDLER_C  "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/general_exception_handler.c.ftl"  to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/general_exception_handler.c"
+        template EXCEPTIONS_CONTEXT1_C  "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/general-exception-context.S.ftl"  to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/general-exception-context.S"
+    endif
+endif
+
+ifblock (USE_EXCEPTION_HANDLER && USE_FILTERING_EXCEPTION_HANDLER)
+    # PIC32M Exceptions
+    ifblock (PIC32MX || PIC32MZ || PIC32WK || PIC32MK)
+        template FILTERING_EXCEPTION_HANDLER_C  "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/filtering_exception_handler.c.ftl"  to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/filtering_exception_handler.c"
+        template EXCEPTIONS_CONTEXT2_C  "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/general-exception-context.S.ftl"  to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/general-exception-context.S"
+    endif
+endif
+
+ifblock (USE_HARMONY_ASSERT_HANDLER)
+    # PIC32M Exceptions
+    ifblock (PIC32MX || PIC32MZ || PIC32WK || PIC32MK)
+        template FASSERT_C  "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/fassert.c.ftl"  to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/fassert.c"
+    endif
+endif
+
+template MAIN_C "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/main.c.ftl" to "$PROJECT_SOURCE_FILES/app/main.c"
+
+ifblock !USE_3RDPARTY_RTOS
+    template SYSTEM_TASKS_C       "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_tasks.c.ftl"       to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/system_tasks.c"
+endif
+
+ifblock USE_3RDPARTY_RTOS
+    template SYSTEM_RTOS_TASKS_C     "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_tasks_rtos.c.ftl"  to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/system_tasks.c"
+    template SYSTEM_RTOS_INTERRUPT_C "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/system_interrupt_a.S.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/system_interrupt_a.S"
+    template RTOS_HOOKS_C            "$HARMONY_VERSION_PATH/utilities/mhc/templates/app/system_config/rtos_hooks.c.ftl"         to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/rtos_hooks.c"
+endif
