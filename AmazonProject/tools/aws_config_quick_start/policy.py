@@ -11,7 +11,7 @@ class Policy():
         self.client = boto3.client('iot')
 
     def create(self):
-        assert self.exists() == False, "Policy already exists"
+        assert self.exists() == False, "Policy already exists ---- not"
         self.client.create_policy(policyName=self.name,
             policyDocument=self.policy)
 
